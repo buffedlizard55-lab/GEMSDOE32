@@ -1,40 +1,36 @@
-# --- big generated data (never in Git; hash-pinned in registry/data_manifest.json) ---
-data/
-*.tif
-*.tiff
-!docs/downloads/*.tif
-*.npy
-*.npz
-*.zip
-!docs/downloads/*.zip
-/tmp/
-
-# --- python ---
+# Python & build artifacts
 __pycache__/
 *.py[cod]
-*$py.class
-*.so
-.Python
-.pytest_cache/
-.ipynb_checkpoints/
 .venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
 *.egg-info/
-build/
-develop-eggs/
-dist/
-/downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-.installed.cfg
-*.egg
-.coverage
+.cache/
 
-# --- local scratch ---
-*.log
+# Large competition rasters and regenerable numpy caches are restored via
+# bash scripts/download_competition_data.sh and python scripts/prepare_data.py
+data/*
+!data/.gitkeep
+!data/README.md
+!data/restore_receipt.json
+!data/prepared_manifest.json
+!data/holdout_surrogate_log.json
+!data/holdout_surrogate_log.csv
+
+*.npy
+*.npz
+*.partial
+*.assembling
+
+# Keep audited submission deliverables and verification sidecars in docs/downloads/
+!docs/downloads/*.tif
+!docs/downloads/*.zip
+!docs/downloads/*.json
+
+# OS / Editor
+.vscode/
+.idea/
 .DS_Store
+Thumbs.db

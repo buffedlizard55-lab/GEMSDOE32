@@ -1,0 +1,116 @@
+{
+  "candidate_id": "H32-D",
+  "slug": "h32d-submodular-multipysics-46090",
+  "content_digest8": "4de30601",
+  "description": "H32-D Submodular Multi-Physics Prune-and-Augment (prune 500, add 1100 H32-B + 800 H32-C + 600 H32-A)",
+  "submission_note_zeros": "GEMSDOE32 Slot #1 Primary (H32-D): Submodular 300m-kernel prune-and-augment on D2.8 (-500 uncorroborated speckles, +2,500 off-catalogue dots across H32-B Kostrov transtensional/swarm, H32-C MT clay-cap breach, and H32-A dip-projected step ridges; 46090 px; 4/4 quadrants won on cat_hid=0.10122 and drift_cal=0.15188, sgmc_cal=0.06129; range [0,1] verified; file=gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif; sha256=f81e26d7).",
+  "submission_note_nan": "GEMSDOE32 Slot #1 Primary (H32-D): Submodular 300m-kernel prune-and-augment on D2.8 (-500 uncorroborated speckles, +2,500 off-catalogue dots across H32-B Kostrov transtensional/swarm, H32-C MT clay-cap breach, and H32-A dip-projected step ridges; 46090 px; 4/4 quadrants won on cat_hid=0.10122 and drift_cal=0.15188, sgmc_cal=0.06129; range [0,1] verified; file=gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif; sha256=c3a0cbb1).",
+  "zeros_tif": {
+    "filename": "gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+    "size_bytes": 250577,
+    "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 46090,
+    "footprint_fraction": 0.008919,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif",
+    "size_bytes": 385688,
+    "sha256": "c3a0cbb14ca60f66934223e4455b970481d0229d2b8095afb3f023233e607621",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 46090,
+    "footprint_fraction": 0.008919,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.10122068397378704,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.09874380807209987,
+      "NE": 0.1070313177714323,
+      "SW": 0.07292320087905664,
+      "SE": 0.12618440917255935
+    },
+    "sgmc_prevalence_calibrated_dti": 0.061294720121230446,
+    "drift_corrected_holdout_mean": 0.15188374789036435,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.1496853177079154,
+      "NE": 0.155290361717955,
+      "SW": 0.12545594676272484,
+      "SE": 0.1771033653728622
+    },
+    "predicted_leaderboard_dti": 0.2716,
+    "ei_drift_corrected": 0.003825,
+    "slot_decision": "SLOT_1_OF_3_ALLOCATED"
+  }
+}
