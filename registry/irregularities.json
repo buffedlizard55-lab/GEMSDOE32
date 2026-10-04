@@ -120,6 +120,12 @@
    "severity": "informational (RESOLVED 2026-10-04)",
    "statement": "The standing brief recorded 'the single remaining blocker to training is data placement'. Every hash-pinned competition raster is now fetched and digest-verified in this checkout: training_features.tif 418,912,844 bytes sha256 4371c82e...; labels.tif and existing_faults.tif 425,830 bytes 7ba308cc...; sample_submission.tif 1,599,597 bytes 2176d08e...; h19_5.tif 1,712,322 bytes ec1f9b56...; qfaults_v2_in_footprint.json 1,252,341 bytes 4d6efc7b... . All six match their manifest pins. The feature stack builds in 147 s on 2 vCPU.",
    "mitigation": "bash scripts/fetch_mirrors.sh reproduces the fetch with no DrivenData credentials; drivendata.org is never contacted by any script in this repository. The provenance caveat IR-32-DATA-01 still stands: these are owner mirrors, not organizer bytes, and only the sha256 pins make them usable."
+  },
+  {
+   "id": "IR-32-SCRIPT-01",
+   "severity": "low (FIXED 2026-10-04)",
+   "statement": "scripts/run_holdout.py used 'a' as the variable of its arm-logging loop, shadowing the argparse Namespace created earlier in the same function. The evidence JSON had already been written by then, so the 4-fold result is valid, but the closing print raised AttributeError: 'str' object has no attribute 'tag' and the process exited non-zero -- a successful run that reported itself as a failure. The observation log (registry/observations.jsonl, 38 entries) was also written before the crash, so no surrogate training data was lost.",
+   "mitigation": "loop variable renamed to 'arm'; comment records the defect in place; scripts/run_holdout.py compiles and the recorded evidence/holdout_run2.json is unaffected."
   }
  ]
 }

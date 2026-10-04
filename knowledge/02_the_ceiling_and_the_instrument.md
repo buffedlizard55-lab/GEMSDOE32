@@ -445,7 +445,56 @@ python3 -m pytest tests -q
 * §5's ceiling (~0.78) assumes perfect knowledge of the hidden traces and a dot every 3 px; it is
   arithmetic, not a forecast.
 
-## 11. Links for manual review
+## 11. The preregistered blocked holdout — run, and it passes
+
+`PYTHONPATH=src python3 scripts/run_holdout.py --tag 2 --prereg-id GEMSDOE32-PREREG-2 --prior-dti 0.26
+--budget 9000` → `evidence/holdout_run2.json` (591.7 s, 4 quadrant folds, 30 px buffer between train
+and held-out block). `[MEASURED]`
+
+| arm (mean official DTI on the held-out block, catalogue truth) | mean | n_px |
+| --- | ---: | ---: |
+| `A0_dot_thin_matched` — the incumbent's own raster-order rule | 0.179439 | 8,874 |
+| **`A1_greedy_fixed_budget`** — maximum-expected-coverage | **0.190031** | 9,000 |
+| `A2_greedy_live_bar` (bar = 0.052) | 0.190031 | 9,000 |
+| `A3_greedy_discovery_bar` (bar = 0.026) | 0.190031 | 9,000 |
+| `A5_nms_ridge_matched` | 0.167201 | 9,000 |
+| `A4_random_control` | 0.017743 | 9,000 |
+
+| contrast (matched emitted mass) | mean | folds positive |
+| --- | ---: | ---: |
+| **`A1 − A0` (the preregistered primary)** | **+0.010592** | **4/4** → `promotion_pass: true` |
+| `A1 − A5` | +0.022830 | 4/4 |
+| `A1 − A4` (random control) | +0.172288 | 4/4 |
+| **`A2 − A3`** | **+0.000000** | **0/4** |
+
+AUC range across folds: 0.6375 – 0.7457. `n_truth_mean` = 15,223.5.
+
+**Two readings, and the second is the more important one.**
+
+1. **The packing family passes the promotion rule.** `+0.0106` mean, 4/4 folds positive, against a
+   *mass-matched* control — so the gain is placement, not budget. Beaten decisively in the same run:
+   NMS-ridge selection (−0.0228) and uniform random (−0.1723). This is the same order of magnitude as
+   the `+0.0100` the repository previously claimed for the *superseded* rule, which is consistent:
+   the *family* was always sound; what shipped was a defective member of it (§7).
+2. **`A2 − A3` is exactly zero, on every fold.** Halving the credit bar from `0.052` to `0.026` changed
+   **nothing at all** — because, as proved in §4b, the bar cannot bind on an emission confined to its
+   own support. This is **independent empirical confirmation of a theoretical result**, from a
+   preregistered run that was launched before the theorem was noticed. It also means PREREG-2's
+   "amendment reason" — that PREREG-1's bar "was non-binding … so the bar could not discriminate" —
+   diagnosed the symptom correctly and the cause wrongly: the bar is non-binding at *every* price.
+
+**The instrument's own honesty clause still applies, and it is why nothing is promoted.** The proxy
+truth is the visible catalogue, and §8 measures that the catalogue proxy is *anti-monotone* against
+the live ladder on exactly these emission questions. So this pass **licenses packaging a candidate**
+— it does not license a submission, and it does not license raising the projected score. The
+identification experiment of §6 remains the first action.
+
+`IR-32-SCRIPT-01` was found while collecting this result: `scripts/run_holdout.py` used `a` as its
+arm-loop variable, shadowing the argparse `Namespace`, so the run raised
+`'str' object has no attribute 'tag'` on its closing print *after* writing the evidence file. The
+result was valid; the exit status lied. Fixed, and the loop variable renamed to `arm`.
+
+## 12. Links for manual review
 
 | Claim | Source |
 | --- | --- |

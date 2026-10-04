@@ -66,9 +66,15 @@ to <0.5 % at the leaderboard's actual 4-decimal precision).
 · sha256 `f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5`
 · 44,090 px, 0 off-support, portal-legal. It beats the incumbent on the incumbent's own objective —
 credit delivered **on the belief field's own surface**: **90,230.9 vs 88,569.5** (+1.9 %) at
-identical budget — but it is **−0.0140** on the leak-contaminated catalogue proxy. **Not promoted:
-the standing rule is that no slot is spent on an idea that has not beaten the comparable spatially
-blocked holdout.**
+identical budget — but it is **−0.0140** on the leak-contaminated catalogue proxy.
+
+**Holdout verdict: PASSED.** The preregistered, spatially blocked 4-quadrant run
+(`GEMSDOE32-PREREG-2`, 30 px buffer, matched emitted mass, `evidence/holdout_run2.json`) returns a
+primary contrast of **+0.010592 mean, 4/4 folds positive** → `promotion_pass: true`, against a
+mass-matched control (NMS-ridge −0.0228, random −0.1723, both beaten 4/4). **Still not promoted for a
+slot**, because this instrument's truth is the visible catalogue and it is measured to be
+*anti-monotone* against the live ladder on emission questions — so a pass licenses packaging, never
+a claim of a score. The identification pack goes first.
 
 ---
 
@@ -329,7 +335,7 @@ registry/          sources, data manifest + sha256, leaderboard history, claims,
                    identification_pack.json
 evidence/          raw run outputs (JSON) — every number on the site comes from here
 docs/              the generated GitHub Pages site + the downloadable GeoTIFFs
-tests/             metric, emitter, emission, submission, BO slot gate (46 tests)
+tests/             metric, emitter, emission, submission, BO slot gate, repo hygiene (54 tests)
 data/              hash-pinned rasters — gitignored, never committed
 ```
 
