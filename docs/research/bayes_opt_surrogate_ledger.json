@@ -1,0 +1,184 @@
+{
+  "updated_utc": "2026-10-04T02:36:15+00:00",
+  "total_evaluations": 9,
+  "records": [
+    {
+      "candidate_id": "h19-5",
+      "timestamp_utc": "2026-09-30T00:00:00Z",
+      "design_vector": {
+        "spacing_px": 1.0,
+        "prob_threshold": 0.9,
+        "scarp_weight": 0.2,
+        "vent_weight": 0.1,
+        "dilation_weight": 0.1,
+        "loss_boundary_weight": 0.0
+      },
+      "holdout_dti": 0.1922,
+      "live_score": 0.1922,
+      "submitted": true,
+      "surrogate_predicted_mean": null,
+      "surrogate_predicted_std": null,
+      "expected_improvement": null,
+      "notes": "Multiline corroborated baseline"
+    },
+    {
+      "candidate_id": "d1.5",
+      "timestamp_utc": "2026-10-02T00:00:00Z",
+      "design_vector": {
+        "spacing_px": 1.5,
+        "prob_threshold": 0.92,
+        "scarp_weight": 0.25,
+        "vent_weight": 0.15,
+        "dilation_weight": 0.15,
+        "loss_boundary_weight": 0.1
+      },
+      "holdout_dti": 0.2477,
+      "live_score": 0.2477,
+      "submitted": true,
+      "surrogate_predicted_mean": null,
+      "surrogate_predicted_std": null,
+      "expected_improvement": null,
+      "notes": "Poisson-disk thinning d=1.5 px (150m)"
+    },
+    {
+      "candidate_id": "d2.8",
+      "timestamp_utc": "2026-10-02T12:00:00Z",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.95,
+        "scarp_weight": 0.3,
+        "vent_weight": 0.2,
+        "dilation_weight": 0.25,
+        "loss_boundary_weight": 0.2
+      },
+      "holdout_dti": 0.26,
+      "live_score": 0.26,
+      "submitted": true,
+      "surrogate_predicted_mean": null,
+      "surrogate_predicted_std": null,
+      "expected_improvement": null,
+      "notes": "Poisson-disk thinning d=2.8 px (280m), 44k dots"
+    },
+    {
+      "candidate_id": "H32-1_Extensional_Dilation",
+      "timestamp_utc": "2026-10-04T02:35:39+00:00",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.95,
+        "scarp_weight": 0.35,
+        "vent_weight": 0.2,
+        "dilation_weight": 0.45,
+        "loss_boundary_weight": 0.25
+      },
+      "holdout_dti": 0.13292917404176696,
+      "live_score": null,
+      "submitted": false,
+      "surrogate_predicted_mean": 0.25902212460868507,
+      "surrogate_predicted_std": 0.007908508270606136,
+      "expected_improvement": 0.0002976685316543869,
+      "notes": "Anisotropic Extensional Dilation & Permeability Tendency"
+    },
+    {
+      "candidate_id": "H32-2_MultiScale_Scarp",
+      "timestamp_utc": "2026-10-04T02:35:47+00:00",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.94,
+        "scarp_weight": 0.5,
+        "vent_weight": 0.15,
+        "dilation_weight": 0.25,
+        "loss_boundary_weight": 0.25
+      },
+      "holdout_dti": 0.1372997330393487,
+      "live_score": null,
+      "submitted": false,
+      "surrogate_predicted_mean": 0.20820729351044173,
+      "surrogate_predicted_std": 0.05041125405321698,
+      "expected_improvement": 0.002681913735832421,
+      "notes": "Multi-Scale Topographic Knickpoint & Scarp Curvature"
+    },
+    {
+      "candidate_id": "H32-3_Vent_Corridor",
+      "timestamp_utc": "2026-10-04T02:35:54+00:00",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.94,
+        "scarp_weight": 0.25,
+        "vent_weight": 0.45,
+        "dilation_weight": 0.3,
+        "loss_boundary_weight": 0.2
+      },
+      "holdout_dti": 0.13782265624194698,
+      "live_score": null,
+      "submitted": false,
+      "surrogate_predicted_mean": 0.2598590889522255,
+      "surrogate_predicted_std": 0.003383976123800949,
+      "expected_improvement": 1.3081530913381362e-06,
+      "notes": "Quaternary Volcanic Vent Alignment & Geothermal Corridor Projection"
+    },
+    {
+      "candidate_id": "H32-4_Relay_Stepover",
+      "timestamp_utc": "2026-10-04T02:36:01+00:00",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.93,
+        "scarp_weight": 0.3,
+        "vent_weight": 0.25,
+        "dilation_weight": 0.35,
+        "loss_boundary_weight": 0.2
+      },
+      "holdout_dti": 0.1361688283363153,
+      "live_score": null,
+      "submitted": false,
+      "surrogate_predicted_mean": 0.2440136201794557,
+      "surrogate_predicted_std": 0.021294573054881773,
+      "expected_improvement": 0.001145712477239816,
+      "notes": "En-Echelon Relay Ramp & Fault Tip Step-Over Stress Concentration"
+    },
+    {
+      "candidate_id": "H32-5_Alteration_Composite",
+      "timestamp_utc": "2026-10-04T02:36:08+00:00",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.93,
+        "scarp_weight": 0.3,
+        "vent_weight": 0.3,
+        "dilation_weight": 0.3,
+        "loss_boundary_weight": 0.3
+      },
+      "holdout_dti": 0.13829535301301707,
+      "live_score": null,
+      "submitted": false,
+      "surrogate_predicted_mean": 0.13163974937842884,
+      "surrogate_predicted_std": 0.024357545222597872,
+      "expected_improvement": 2.7254863004804942e-11,
+      "notes": "GeoDAWN Radiometric Alteration & Magnetic Demagnetization"
+    },
+    {
+      "candidate_id": "H32-Top_BayesOpt_Hybrid",
+      "timestamp_utc": "2026-10-04T02:36:15+00:00",
+      "design_vector": {
+        "spacing_px": 2.85,
+        "prob_threshold": 0.955,
+        "scarp_weight": 0.4,
+        "vent_weight": 0.3,
+        "dilation_weight": 0.4,
+        "loss_boundary_weight": 0.3
+      },
+      "holdout_dti": 0.13471358316738574,
+      "live_score": null,
+      "submitted": false,
+      "surrogate_predicted_mean": 0.17515577021933967,
+      "surrogate_predicted_std": 0.03586613189236202,
+      "expected_improvement": 4.5543843694806124e-05,
+      "notes": "Surrogate-Optimized Multi-Physics Geothermal Discovery Hybrid"
+    }
+  ],
+  "drift_analysis": {
+    "drift_detected": false,
+    "sample_count": 3,
+    "mean_residual": 5.719674365523009e-07,
+    "std_residual": 4.501176406865172e-07,
+    "message": "Holdout predictions and live scores are aligned within expected surrogate uncertainty."
+  }
+}
