@@ -1,0 +1,35 @@
+{
+ "name": "gems32-h19-5-smoothmaxcov-44090",
+ "note": "gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score",
+ "status_line": "Format-validated, mass-matched candidate. Emission rule = greedy maximum-expected-coverage of the field blurred by the inferred truth scatter (1.85 px). Measured +0.0247 +/- 0.0005 (12/12 paired draws) better than the incumbent's raster-order dotting on the live-anchored truth model, and the packing rule itself is +0.0100 (4/4 folds) on the blocked catalogue holdout. NOT organizer-scored, NOT a proven improvement, and spending a slot still requires an approved bo.slot_gate record. sha256 2dc67f4bdb8d1bf2\u2026",
+ "file": {
+  "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
+  "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
+  "bytes": 199257,
+  "positive_px": 44090
+ },
+ "file_zeros": {
+  "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif",
+  "sha256": "5d881c82d9f66dc5593e2aa0a073d055c38b7a97802af71b737dcec2a7b5ee2e",
+  "bytes": 154757
+ },
+ "rule": "greedy maximum-expected-coverage of the truth-scatter-smoothed surface (sigma 1.85 px)",
+ "objective": "smooth",
+ "sigma_px": 1.85,
+ "field": "h19_5.tif",
+ "emitted_px": 44090,
+ "budget": 44090,
+ "support_px": 121131,
+ "footprint_px": 5167373,
+ "marginal_last": 0.5102909207344055,
+ "marginal_first": 4.298656940460205,
+ "coverage_of_field_surface": 72243.5074450341,
+ "catalogue_px_emitted": 0,
+ "seconds": 207.2,
+ "incumbent": {
+  "emitted_px": 44090,
+  "coverage_of_field_surface": 88569.47428542521,
+  "coverage_ratio_new_over_incumbent": 0.8157,
+  "overlap_px": 5628
+ }
+}

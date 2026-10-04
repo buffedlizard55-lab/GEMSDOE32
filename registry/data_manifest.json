@@ -1,0 +1,76 @@
+{
+ "schema": 1,
+ "provenance_warning": "Owner-supplied public GitHub mirrors, integrity-pinned but NOT organizer-authenticated. See registry/irregularities.json IR-32-DATA-01.",
+ "files": [
+  {
+   "id": "training_features",
+   "repo": "buffedlizard55-lab/GEMSDOE",
+   "ref": "c0c06ac82178f26b94fce3397036ef8f12a2f3a0",
+   "parts": [
+    "data/bridge/gems-geodawn-numerical-features.tif.part-000",
+    "data/bridge/gems-geodawn-numerical-features.tif.part-001",
+    "data/bridge/gems-geodawn-numerical-features.tif.part-002",
+    "data/bridge/gems-geodawn-numerical-features.tif.part-003",
+    "data/bridge/gems-geodawn-numerical-features.tif.part-004"
+   ],
+   "dest": "training_features.tif",
+   "bytes": 418912844,
+   "sha256": "4371c82e3b8339b807bdffcf4ef59a225520fe2988d521be208ae33743123bc5"
+  },
+  {
+   "id": "labels",
+   "repo": "buffedlizard55-lab/GEMSDOE24",
+   "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+   "path": "data/bridge/labels.tif",
+   "dest": "labels.tif",
+   "bytes": 425830,
+   "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+  },
+  {
+   "id": "existing_faults",
+   "repo": "buffedlizard55-lab/GEMSDOE24",
+   "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+   "path": "data/bridge/existing_faults.tif",
+   "dest": "existing_faults.tif",
+   "bytes": 425830,
+   "sha256": "7ba308ccdc4418b31a178f4f1ef21aaa6e152e4028f2f6f64b01f7eb25ae4093"
+  },
+  {
+   "id": "sample_submission",
+   "repo": "buffedlizard55-lab/GEMSDOE24",
+   "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+   "path": "data/bridge/sample_submission.tif",
+   "dest": "sample_submission.tif",
+   "bytes": 1599597,
+   "sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+   "note": "digest computed from the pinned mirror file; matches the group's manifest prefix 2176d08e485a"
+  },
+  {
+   "id": "h19_5_field",
+   "repo": "buffedlizard55-lab/GEMSDOE24",
+   "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+   "path": "inputs/gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
+   "dest": "h19_5.tif",
+   "bytes": 1712322,
+   "sha256": "ec1f9b56b83ce33cad781ceb9f104b18fb4f2ff785263a4e89616af4aabdee8d"
+  },
+  {
+   "id": "incumbent_dotted_d2_8",
+   "repo": "buffedlizard55-lab/GEMSDOE24",
+   "ref": "07345ea0604953d7efb858d9cfbc21e20c7aca0b",
+   "path": "docs/downloads/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "dest": "incumbent_d28.tif",
+   "bytes": 1603424,
+   "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8"
+  },
+  {
+   "id": "qfaults_ingenious_v2",
+   "repo": "buffedlizard55-lab/GEMSDOE24",
+   "ref": "ee5d7c65ede2d0b891f747619ac8da81e8e76a15",
+   "path": "data_external/qfaults_v2_in_footprint.json",
+   "dest": "qfaults_v2.json",
+   "bytes": 1252341,
+   "sha256": "4d6efc7bb3659ea2545353fcec574ef085b0acdb189c7590e4420a7c6c57b41c"
+  }
+ ]
+}

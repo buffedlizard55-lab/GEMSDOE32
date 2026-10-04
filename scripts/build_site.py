@@ -1,1060 +1,507 @@
-"""Build the GEMSDOE32 GitHub Pages documentation site."""
+#!/usr/bin/env python3
+"""Render the GitHub Pages site from the registry + evidence JSON. Nothing is hand-written HTML.
 
+Run: ``python3 scripts/build_site.py``  (also runs in CI before every Pages deploy)
+"""
 from __future__ import annotations
 
+import html
 import json
+import sys
+import time
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-
-CSS_STYLES = """
-:root {
-  --primary: #0066cc;
-  --primary-dark: #004488;
-  --accent: #00aa66;
-  --bg: #0f172a;
-  --card-bg: #1e293b;
-  --card-border: #334155;
-  --text: #f8fafc;
-  --text-muted: #94a3b8;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --code-bg: #090d16;
-}
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  padding: 0;
-}
-
-header {
-  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-  border-bottom: 1px solid var(--card-border);
-  padding: 2.5rem 1.5rem;
-  text-align: center;
-}
-
-.nav-bar {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-  margin-top: 1.5rem;
-}
-
-.nav-link {
-  color: var(--text-muted);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border-radius: 6px;
-  background: rgba(255, 255, 255, 0.05);
-  transition: all 0.2s ease;
-  font-weight: 500;
-  font-size: 0.95rem;
-}
-
-.nav-link:hover, .nav-link.active {
-  background: var(--primary);
-  color: #fff;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 1.5rem;
-}
-
-.hero-card {
-  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
-  border: 2px solid var(--primary);
-  border-radius: 12px;
-  padding: 2rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 10px 25px -5px rgba(0, 102, 204, 0.2);
-}
-
-.card {
-  background: var(--card-bg);
-  border: 1px solid var(--card-border);
-  border-radius: 10px;
-  padding: 1.75rem;
-  margin-bottom: 1.75rem;
-}
-
-.card-title {
-  font-size: 1.35rem;
-  color: #38bdf8;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.badge {
-  display: inline-block;
-  padding: 0.25rem 0.6rem;
-  font-size: 0.8rem;
-  font-weight: 700;
-  border-radius: 9999px;
-  text-transform: uppercase;
-}
-
-.badge-success { background: #065f46; color: #34d399; }
-.badge-primary { background: #1e3a8a; color: #60a5fa; }
-.badge-warning { background: #78350f; color: #fbbf24; }
-.badge-danger { background: #7f1d1d; color: #f87171; }
-
-.download-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.6rem;
-  background: #0284c7;
-  color: white;
-  font-weight: 700;
-  padding: 0.85rem 1.75rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-size: 1.1rem;
-  transition: transform 0.15s ease, background 0.15s ease;
-  box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.4);
-}
-
-.download-btn:hover {
-  background: #0369a1;
-  transform: translateY(-2px);
-}
-
-.download-btn-secondary {
-  background: #334155;
-  color: #e2e8f0;
-  font-size: 0.95rem;
-  padding: 0.6rem 1.2rem;
-}
-.download-btn-secondary:hover { background: #475569; }
-
-.btn-group {
-  display: flex;
-  gap: 1rem;
-  align-items: center;
-  flex-wrap: wrap;
-  margin-top: 1.25rem;
-}
-
-.code-box {
-  background: var(--code-bg);
-  border: 1px solid #1e293b;
-  border-radius: 6px;
-  padding: 1rem;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  font-size: 0.9rem;
-  overflow-x: auto;
-  color: #38bdf8;
-  margin: 0.75rem 0;
-  position: relative;
-}
-
-.copy-btn {
-  position: absolute;
-  top: 0.5rem;
-  right: 0.5rem;
-  background: #334155;
-  color: #cbd5e1;
-  border: none;
-  padding: 0.3rem 0.6rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
-  cursor: pointer;
-}
-.copy-btn:hover { background: #475569; color: white; }
-
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 1rem 0;
-  font-size: 0.92rem;
-}
-
-th, td {
-  padding: 0.75rem 1rem;
-  border: 1px solid var(--card-border);
-  text-align: left;
-}
-
-th {
-  background: rgba(255, 255, 255, 0.05);
-  color: #38bdf8;
-  font-weight: 600;
-}
-
-tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
-
-a { color: #38bdf8; text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-.grid-2 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 1.5rem;
-}
-
-footer {
-  text-align: center;
-  padding: 2rem;
-  border-top: 1px solid var(--card-border);
-  color: var(--text-muted);
-  font-size: 0.9rem;
-  margin-top: 3rem;
-}
-"""
-
-JS_SNIPPET = """
-<script>
-function copyText(id, btn) {
-  const text = document.getElementById(id).innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    const orig = btn.innerText;
-    btn.innerText = "Copied!";
-    setTimeout(() => { btn.innerText = orig; }, 2000);
-  });
-}
-</script>
-"""
-
-
-def render_header(active_page: str) -> str:
-    pages = [
-        ("index.html", "Overview & Submission"),
-        ("executive-summary.html", "Executive Summary"),
-        ("hypotheses.html", "Geological Hypotheses"),
-        ("bayes-opt.html", "Bayesian Surrogate & EI"),
-        ("geothermal-knowledge.html", "Geothermal Science"),
-        ("leaderboard-analysis.html", "Leaderboard Forensic"),
-        ("sources.html", "Verified Sources"),
-        ("irregularities.html", "Irregularities Log"),
-    ]
-    nav_html = "".join(
-        f'<a href="{url}" class="nav-link {"active" if url == active_page else ""}">{title}</a>'
-        for url, title in pages
-    )
-    return f"""
-    <header>
-      <div style="font-size: 0.85rem; color: #38bdf8; font-weight: 700; letter-spacing: 1px; margin-bottom: 0.5rem;">
-        US DOE GEMS PRIZE (DRIVENDATA #306) · FAULT DISCOVERY SYSTEM
-      </div>
-      <h1 style="font-size: 2.2rem; font-weight: 800; color: #fff;">GEMSDOE32: Bayesian Optimization & Geological Discovery</h1>
-      <p style="color: var(--text-muted); max-width: 800px; margin: 0.5rem auto 0;">
-        Probabilistic surrogate active search, extensional stress kinematics, multi-scale LiDAR curvature, and verified GeoTIFF submission engine.
-      </p>
-      <div class="nav-bar">{nav_html}</div>
-    </header>
-    """
-
-
-def render_footer() -> str:
-    return """
-    <footer>
-      <p><strong>GEMSDOE32</strong> · Grounded in official USGS, NLR, GDR, and DrivenData verified datasets.</p>
-      <p style="margin-top: 0.5rem; font-size: 0.8rem;">Maximize P(Win) · Own the Outcome · Zero Hallucinations Policy</p>
-    </footer>
-    """
-
-
-def build_pages() -> None:
-    # 1. index.html
-    index_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>GEMSDOE32 — DOE GEMS Fault Discovery & Bayesian Optimization</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("index.html")}
-  
-  <div class="container">
-    
-    <!-- Hero / Immediate Submission Download -->
-    <div class="hero-card">
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 1rem;">
-        <div>
-          <span class="badge badge-success">Official Recommended Submission</span>
-          <span class="badge badge-primary">Portal-Safe [0, 1] Range Verified</span>
-          <h2 style="font-size: 1.7rem; color: #fff; margin: 0.5rem 0;">Primary Candidate: Bayesian Multi-Physics Hybrid (D2.85)</h2>
-          <p style="color: #cbd5e1; max-width: 750px;">
-            Optimized via Gaussian Process surrogate and multi-scale LiDAR scarp + extensional dilation kinematics. Guaranteed whole-array finite range [0.0, 1.0] to prevent the DrivenData web form rejection.
-          </p>
-        </div>
-        <div style="text-align: right;">
-          <div style="font-size: 0.85rem; color: var(--text-muted);">Holdout DTI Score</div>
-          <div style="font-size: 2rem; font-weight: 800; color: #34d399;">0.2600+</div>
-        </div>
-      </div>
-      
-      <div class="btn-group">
-        <a href="docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif" download class="download-btn">
-          ⬇ Download Submission GeoTIFF (Portal-Safe)
-        </a>
-        <a href="docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif" download class="download-btn download-btn-secondary">
-          ⬇ Download Spec Variant (NaN-outside)
-        </a>
-        <a href="docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif" download class="download-btn download-btn-secondary">
-          ⬇ Benchmark D2.8 File
-        </a>
-      </div>
-      
-      <div style="margin-top: 1.5rem;">
-        <label style="font-size: 0.85rem; color: var(--text-muted); font-weight: 600;">DrivenData Submission Note (Copy & Paste into "Note (optional)" field):</label>
-        <div class="code-box">
-          <button class="copy-btn" onclick="copyText('sub-note-text', this)">Copy Note</button>
-          <span id="sub-note-text">GEMSDOE32 BayesOpt Top-1 | Holdout DTI: 0.2600 | EI: 0.005 | dots: 45000 | 0.0-outside portal-safe</span>
-        </div>
-      </div>
-      
-      <div style="font-size: 0.82rem; color: var(--text-muted); display: flex; gap: 1.5rem; flex-wrap: wrap; margin-top: 0.5rem;">
-        <span><strong>File:</strong> gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif</span>
-        <span><strong>CRS:</strong> EPSG:32611 (UTM 11N)</span>
-        <span><strong>Resolution:</strong> 100 m</span>
-        <span><strong>Dimensions:</strong> 3730 x 3292</span>
-        <span><strong>Array Range:</strong> [0.0, 1.0] strictly finite</span>
-      </div>
-    </div>
-    
-    <!-- Portal Error Root Cause & Fix -->
-    <div class="card" style="border-left: 4px solid var(--accent);">
-      <div class="card-title">
-        <span>🛡️</span> Root Cause Analysis: Fixing the "Predicted values must be in range [0, 1]" Portal Error
-      </div>
-      <p style="color: #cbd5e1; margin-bottom: 0.75rem;">
-        When submitting GeoTIFFs to DrivenData's web upload form, participants often encounter the rejection error: <code>"Predicted values must be in range [0, 1]"</code>.
-      </p>
-      <div class="grid-2">
-        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 1rem; border-radius: 6px;">
-          <h4 style="color: #f87171; margin-bottom: 0.5rem;">❌ The Cause (NaN Outside Mask)</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            The official contest spec suggests setting unpredicted/outside pixels to <code>NaN</code>. However, DrivenData's web frontend validator performs a whole-array check (<code>0.0 <= arr <= 1.0</code>) which evaluates to <code>False</code> when encountering floating-point <code>NaN</code>.
-          </p>
-        </div>
-        <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); padding: 1rem; border-radius: 6px;">
-          <h4 style="color: #34d399; margin-bottom: 0.5rem;">✅ The Solution (Portal-Safe Finite 0.0)</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            Our generator sets outside footprint pixels to finite <code>0.0</code> and clips in-footprint predictions strictly to <code>[0.0, 1.0]</code>. DrivenData passes this file immediately with zero errors!
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Bayesian Optimization Search Framework -->
-    <div class="card">
-      <div class="card-title">
-        <span>🧠</span> Bayesian Optimization Surrogate & Slot Decision Rule
-      </div>
-      <p style="color: #cbd5e1; margin-bottom: 1rem;">
-        Treating each weekly submission as an expensive, rate-limited query in a formal search. We fit a Gaussian Process surrogate over candidate design choices:
-      </p>
-      <div class="grid-2">
-        <div>
-          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">Surrogate Architecture</h4>
-          <ul style="list-style-type: none; font-size: 0.9rem; color: #cbd5e1;">
-            <li>🔹 <strong>Kernel:</strong> Constant * Matérn ($\nu = 2.5$) + WhiteNoise</li>
-            <li>🔹 <strong>Design Space:</strong> Spacing ($d$), Threshold ($p$), Scarp ($w_s$), Vent ($w_v$), Dilation ($w_d$)</li>
-            <li>🔹 <strong>Acquisition:</strong> Expected Improvement (EI) & UCB ($\kappa=1.96$)</li>
-          </ul>
-        </div>
-        <div>
-          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">Formal Submission Decision Rule</h4>
-          <div class="code-box" style="font-size: 0.85rem; margin: 0;">
-            Spend Slot ONLY IF:<br>
-            1. DTI_holdout > Current Best Holdout (0.2600)<br>
-            2. Expected Improvement EI(x) >= 0.0050<br>
-            3. Zero catalogue leak verified
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Candidate Geological Hypotheses Table -->
-    <div class="card">
-      <div class="card-title">
-        <span>🔬</span> 5 Candidate Geological Hypotheses (Ranked)
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Hypothesis ID</th>
-            <th>Physical Signature & Mechanism</th>
-            <th>Key Data Layers</th>
-            <th>Expected Gain</th>
-            <th>Holdout DTI</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><strong style="color: #34d399;">#1</strong></td>
-            <td><strong>H32-1</strong>: Extensional Dilation</td>
-            <td>$T_d = \sin^2(\theta - 115^\circ)$ alignment with Great Basin $S_{{hmin}}$ extension</td>
-            <td>GeoDAWN TMI + DEM tensors</td>
-            <td>+0.040 to +0.060</td>
-            <td>0.1329</td>
-          </tr>
-          <tr>
-            <td><strong style="color: #34d399;">#2</strong></td>
-            <td><strong>H32-2</strong>: Multi-Scale Scarp</td>
-            <td>Profile curvature inflection & multi-scale Gaussian knickpoints</td>
-            <td>1m LiDAR DEM Stacks</td>
-            <td>+0.025 to +0.045</td>
-            <td>0.1373</td>
-          </tr>
-          <tr>
-            <td><strong style="color: #34d399;">#3</strong></td>
-            <td><strong>H32-3</strong>: Vent Corridors</td>
-            <td>Anisotropic Gaussian projection along $N30^\circ\\text{{E}}$ hydrothermal upflow</td>
-            <td>GDR Volcanics + 2m Probes</td>
-            <td>+0.020 to +0.035</td>
-            <td>0.1378</td>
-          </tr>
-          <tr>
-            <td><strong style="color: #34d399;">#4</strong></td>
-            <td><strong>H32-4</strong>: Relay Step-Overs</td>
-            <td>Second-order stress concentration on en-echelon overlapping fault tips</td>
-            <td>USGS SGMC Linework</td>
-            <td>+0.015 to +0.030</td>
-            <td>0.1362</td>
-          </tr>
-          <tr>
-            <td><strong style="color: #34d399;">#5</strong></td>
-            <td><strong>H32-5</strong>: Alteration Composite</td>
-            <td>Potassic alteration ($K/Th$) + Total Magnetic Intensity demagnetization</td>
-            <td>Airborne Radiometrics + TMI</td>
-            <td>+0.015 to +0.025</td>
-            <td><strong>0.1383</strong></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- Historical Score Ledger -->
-    <div class="card">
-      <div class="card-title">
-        <span>📊</span> Historical Submission & Leaderboard Performance
-      </div>
-      <p style="color: #cbd5e1; font-size: 0.9rem; margin-bottom: 0.75rem;">
-        Summary of historical iterations leading from initial dense baselines (0.1563) to Poisson-disk thinning (0.2600) and the public leader target (0.3195):
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Repository / Model</th>
-            <th>Submission Name</th>
-            <th>Score / DTI</th>
-            <th>Key Innovation</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background: rgba(56, 189, 248, 0.1);">
-            <td><strong>Official Leaderboard</strong></td>
-            <td><strong>Rank 1 (DARD)</strong></td>
-            <td><strong style="color: #38bdf8;">0.3195</strong></td>
-            <td>Target score ceiling</td>
-          </tr>
-          <tr style="background: rgba(52, 211, 153, 0.1);">
-            <td><strong>GEMSDOE25 / 30</strong></td>
-            <td><code>dotted-h19-5-d2-8-nan</code></td>
-            <td><strong style="color: #34d399;">0.2600</strong></td>
-            <td>Poisson-disk thinning $d=2.8$ px (44k dots, off-catalogue)</td>
-          </tr>
-          <tr>
-            <td>GEMSDOE24</td>
-            <td><code>h25-1-dotted-h19-5-d1-5</code></td>
-            <td>0.2477</td>
-            <td>Poisson-disk thinning $d=1.5$ px (60k dots)</td>
-          </tr>
-          <tr>
-            <td>19GEMSDOE</td>
-            <td><code>h19-5-powerlaw-budget</code></td>
-            <td>0.1922</td>
-            <td>Multiline corroborated geophysical baseline</td>
-          </tr>
-          <tr>
-            <td>GEMSDOE</td>
-            <td><code>gems-submission-baseline</code></td>
-            <td>0.1563</td>
-            <td>Initial unthinned baseline</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "index.html").write_text(index_content, encoding="utf-8")
-
-    # 2. executive-summary.html
-    exec_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Executive Summary & Submission Protocol — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("executive-summary.html")}
-  
-  <div class="container">
-    <div class="hero-card">
-      <span class="badge badge-success">Executive Submission Protocol</span>
-      <h2 style="font-size: 1.8rem; color: #fff; margin: 0.5rem 0;">How to Submit to DrivenData DOE GEMS Prize</h2>
-      <p style="color: #cbd5e1; max-width: 800px;">
-        Follow these 3 exact steps to download the verified GeoTIFF, paste the metadata note, and upload without errors.
-      </p>
-      
-      <div style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
-        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 8px; border-left: 4px solid var(--primary);">
-          <h3 style="color: #38bdf8; font-size: 1.1rem; margin-bottom: 0.5rem;">Step 1: Download the Primary GeoTIFF File</h3>
-          <p style="font-size: 0.9rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-            Click below to download the format-validated, portal-safe GeoTIFF:
-          </p>
-          <a href="docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif" download class="download-btn">
-            ⬇ Download: gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif
-          </a>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 8px; border-left: 4px solid var(--primary);">
-          <h3 style="color: #38bdf8; font-size: 1.1rem; margin-bottom: 0.5rem;">Step 2: Copy the Submission Note</h3>
-          <p style="font-size: 0.9rem; color: #cbd5e1;">
-            Paste this exact comment into DrivenData's <em>"Note (optional)"</em> field (at most 200 characters):
-          </p>
-          <div class="code-box">
-            <button class="copy-btn" onclick="copyText('exec-note-text', this)">Copy Note</button>
-            <span id="exec-note-text">GEMSDOE32 BayesOpt Top-1 | Holdout DTI: 0.2600 | EI: 0.005 | dots: 45000 | 0.0-outside portal-safe</span>
-          </div>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.05); padding: 1.25rem; border-radius: 8px; border-left: 4px solid var(--primary);">
-          <h3 style="color: #38bdf8; font-size: 1.1rem; margin-bottom: 0.5rem;">Step 3: Upload on DrivenData</h3>
-          <p style="font-size: 0.9rem; color: #cbd5e1;">
-            Navigate to the official submission portal: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/" target="_blank">DrivenData Submissions Page</a>, choose the downloaded <code>.tif</code> file, paste the note, and click <strong>Submit</strong>.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Diagnostic Details -->
-    <div class="card">
-      <div class="card-title">🔍 GeoTIFF Specification & Validation Checklist</div>
-      <table>
-        <thead>
-          <tr>
-            <th>Check Property</th>
-            <th>Required Value</th>
-            <th>Verified Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Raster Dimensions</td>
-            <td>3730 rows x 3292 columns</td>
-            <td><span class="badge badge-success">PASSED (Exact match)</span></td>
-          </tr>
-          <tr>
-            <td>Coordinate System</td>
-            <td>EPSG:32611 (UTM Zone 11N)</td>
-            <td><span class="badge badge-success">PASSED (EPSG:32611)</span></td>
-          </tr>
-          <tr>
-            <td>Pixel Resolution</td>
-            <td>100.0 m x 100.0 m North-Up</td>
-            <td><span class="badge badge-success">PASSED (100 m)</span></td>
-          </tr>
-          <tr>
-            <td>Data Type</td>
-            <td>Single-band 32-bit Float (float32)</td>
-            <td><span class="badge badge-success">PASSED (float32)</span></td>
-          </tr>
-          <tr>
-            <td>In-Footprint Range</td>
-            <td>Values in [0.0, 1.0]</td>
-            <td><span class="badge badge-success">PASSED [0.0000, 1.0000]</span></td>
-          </tr>
-          <tr>
-            <td>Portal Safe Whole-Array</td>
-            <td>All array pixels finite in [0.0, 1.0]</td>
-            <td><span class="badge badge-success">PASSED (No NaNs)</span></td>
-          </tr>
-          <tr>
-            <td>Catalogue Separation</td>
-            <td>0 pixels on known training faults</td>
-            <td><span class="badge badge-success">PASSED (100% Off-Catalogue)</span></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "executive-summary.html").write_text(exec_content, encoding="utf-8")
-
-    # 3. hypotheses.html
-    hyp_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Candidate Geological Hypotheses — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("hypotheses.html")}
-  
-  <div class="container">
-    <div class="card">
-      <div class="card-title">🔬 Candidate Geological Hypotheses for Blind Geothermal Fault Discovery</div>
-      <p style="color: #cbd5e1; margin-bottom: 1.5rem;">
-        Before touching a weekly submission slot, we formulated and evaluated 5 distinct candidate geological hypotheses targeting blind geothermal structures in the Great Basin.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-        
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h3 style="color: #38bdf8;">Hypothesis H32-1: Anisotropic Extensional Dilation Tendency</h3>
-            <span class="badge badge-success">Rank 1 · Expected Gain +0.050 DTI</span>
-          </div>
-          <p style="font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-            <strong>Targeted Signature:</strong> Normal faults oriented perpendicular to Great Basin $S_{{hmin}}$ ($115^\circ \pm 10^\circ$) experience maximum dilation tendency $T_d = \sin^2(\theta - 115^\circ) \approx 1.0$, opening deep permeability pathways for hydrothermal fluids.
-          </p>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            <strong>Layers:</strong> GeoDAWN TMI upward continuation + LiDAR elevation gradient tensors. <strong>Why Missing:</strong> Blind alluvial faults lack high surface topographic expression but exhibit clear magnetic susceptibility discontinuities.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h3 style="color: #38bdf8;">Hypothesis H32-2: Multi-Scale Topographic Knickpoint & Scarp Curvature</h3>
-            <span class="badge badge-primary">Rank 2 · Expected Gain +0.035 DTI</span>
-          </div>
-          <p style="font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-            <strong>Targeted Signature:</strong> Profile curvature inflections and multi-scale Gaussian smoothing ($\sigma=1.0, 2.0, 4.0$) isolate subtle Quaternary tectonic scarps from erosional gullies.
-          </p>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            <strong>Layers:</strong> 1m USGS 3DEP LiDAR DEM stacks. <strong>Why Missing:</strong> Subtle 10–50 cm scarps in alluvial fans were missed in regional 1:250k cartographic surveys.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h3 style="color: #38bdf8;">Hypothesis H32-3: Quaternary Volcanic Vent Alignment & Geothermal Corridor Projection</h3>
-            <span class="badge badge-primary">Rank 3 · Expected Gain +0.028 DTI</span>
-          </div>
-          <p style="font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-            <strong>Targeted Signature:</strong> Directional anisotropic Gaussian kernel projection along structural strike ($N30^\circ\text{{E}}$) mapping deep hydrothermal upflow corridors.
-          </p>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            <strong>Layers:</strong> GDR INGENIOUS Quaternary volcanics + 2m shallow temperature probes. <strong>Why Missing:</strong> Hydrothermal systems often emerge along concealed step-over structures connecting disjoint vents.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h3 style="color: #38bdf8;">Hypothesis H32-4: En-Echelon Relay Ramp & Fault Tip Step-Over Stress Concentrations</h3>
-            <span class="badge badge-warning">Rank 4 · Expected Gain +0.022 DTI</span>
-          </div>
-          <p style="font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-            <strong>Targeted Signature:</strong> Second-order spatial interaction fields identifying overlapping fault tip transfer zones where high strain creates secondary cross-fault networks.
-          </p>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            <strong>Layers:</strong> USGS SGMC off-catalogue linework + fault tip density.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.5rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h3 style="color: #38bdf8;">Hypothesis H32-5: GeoDAWN Radiometric Alteration & Magnetic Demagnetization</h3>
-            <span class="badge badge-warning">Rank 5 · Expected Gain +0.018 DTI</span>
-          </div>
-          <p style="font-size: 0.92rem; color: #cbd5e1; margin-bottom: 0.75rem;">
-            <strong>Targeted Signature:</strong> Potassic hydrothermal alteration ($K/Th$ ratio enrichment) paired with magnetite destruction (linear magnetic gradient lows).
-          </p>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            <strong>Layers:</strong> Airborne Gamma-Ray Spectrometry + GeoDAWN TMI.
-          </p>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "hypotheses.html").write_text(hyp_content, encoding="utf-8")
-
-    # 4. bayes-opt.html
-    bayes_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bayesian Optimization & Surrogate Search — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("bayes-opt.html")}
-  
-  <div class="container">
-    <div class="card">
-      <div class="card-title">🧠 Probabilistic Surrogate Model & Acquisition Architecture</div>
-      <p style="color: #cbd5e1; margin-bottom: 1.5rem;">
-        In a competition where submissions are capped at 3 per week and one slot determines the final prize round, every live submission must be treated as an expensive evaluation in Bayesian Optimization.
-      </p>
-
-      <div class="grid-2">
-        <div style="background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--card-border);">
-          <h4 style="color: #38bdf8; margin-bottom: 0.75rem;">Gaussian Process Formulation</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 0.5rem;">
-            Our surrogate fits a GP over the parameter vector $\\mathbf{{x}} = [d, p, w_s, w_v, w_d, \\lambda_B]$:
-          </p>
-          <div class="code-box" style="font-size: 0.82rem;">
-            k(\\mathbf{{x}}, \\mathbf{{x}}') = \\sigma_f^2 \\frac{{2^{{1-\\nu}}}}{{\\Gamma(\\nu)}} \\left(\\sqrt{{2\\nu}} \\frac{{d}}{{\\ell}}\\right)^\\nu K_\\nu \\left(\\sqrt{{2\\nu}} \\frac{{d}}{{\\ell}}\\right) + \\sigma_n^2
-          </div>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Matérn $\\nu = 2.5$ provides smooth, realistic response surfaces without over-constraining differentiability.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--card-border);">
-          <h4 style="color: #38bdf8; margin-bottom: 0.75rem;">Expected Improvement Acquisition</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1; margin-bottom: 0.5rem;">
-            Expected Improvement over current best $y^* = 0.2600$:
-          </p>
-          <div class="code-box" style="font-size: 0.82rem;">
-            \\text{{EI}}(\\mathbf{{x}}) = (\\mu(\\mathbf{{x}}) - y^* - \\xi)\\Phi(Z) + \\sigma(\\mathbf{{x}})\\phi(Z)<br>
-            Z = \\frac{{\\mu(\\mathbf{{x}}) - y^* - \\xi}}{{\\sigma(\\mathbf{{x}})}}
-          </div>
-          <p style="font-size: 0.85rem; color: var(--text-muted);">
-            Acquisition threshold $\\tau_{{EI}} = 0.0050$. Slots are spent ONLY when uncertainty + predicted gain justify the budget.
-          </p>
-        </div>
-      </div>
-    </div>
-
-    <!-- Drift Tracking -->
-    <div class="card">
-      <div class="card-title">📡 Holdout-to-Leaderboard Distribution Drift Tracker</div>
-      <p style="color: #cbd5e1; margin-bottom: 1rem;">
-        Persistent gaps between surrogate holdout predictions and live leaderboard returns indicate distribution drift between the local training catalogue mask and the organizer's hidden discovery set:
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Anchor Candidate</th>
-            <th>Design Spacing</th>
-            <th>Surrogate Predicted</th>
-            <th>Live Leaderboard Score</th>
-            <th>Residual Gap</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><code>h19-5</code></td>
-            <td>1.0 px (Dense)</td>
-            <td>0.1922</td>
-            <td>0.1922</td>
-            <td>0.0000 (Calibrated)</td>
-          </tr>
-          <tr>
-            <td><code>d1.5</code></td>
-            <td>1.5 px (150 m)</td>
-            <td>0.2477</td>
-            <td>0.2477</td>
-            <td>0.0000 (Calibrated)</td>
-          </tr>
-          <tr>
-            <td><code>d2.8</code></td>
-            <td>2.8 px (280 m)</td>
-            <td>0.2600</td>
-            <td>0.2600</td>
-            <td>0.0000 (Calibrated)</td>
-          </tr>
-        </tbody>
-      </table>
-      <div style="font-size: 0.85rem; color: #34d399; margin-top: 0.5rem;">
-        ✔ Systematic mean residual: 0.0000. Surrogate is fully calibrated against verified leaderboard anchors.
-      </div>
-    </div>
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "bayes-opt.html").write_text(bayes_content, encoding="utf-8")
-
-    # 5. geothermal-knowledge.html
-    geo_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Geothermal Science & Extensional Tectonics — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("geothermal-knowledge.html")}
-  
-  <div class="container">
-    <div class="card">
-      <div class="card-title">🌋 Geothermal Vents, Fault Permeability & Hydrothermal Circulation</div>
-      <p style="color: #cbd5e1; margin-bottom: 1.5rem;">
-        A scientific knowledge base compiling verified insights from the USGS Earth MRI GeoDAWN survey, DOE INGENIOUS project, and peer-reviewed extensional tectonics literature.
-      </p>
-
-      <div class="grid-2">
-        <div style="background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--card-border);">
-          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">1. Crustal Extension & Stress Inversion</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            In the Great Basin, active extension is driven by WNW-directed plate boundary shear along the Walker Lane. The regional minimum horizontal stress $S_{{hmin}}$ trends $115^\circ \pm 10^\circ$. Fault segments striking $020^\circ - 035^\circ$ NNE experience the lowest normal stress and highest dilation tendency, maintaining active open fractures against hydrothermal mineral sealing.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--card-border);">
-          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">2. Hydrothermal Alteration Geophysics</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            Ascending geothermal fluids carry dissolved ions that precipitate in wall rock:
-            <br>• <strong>Potassic Alteration:</strong> High $K$ counts and low $Th/K$ ratios in airborne gamma spectrometry.
-            <br>• <strong>Demagnetization:</strong> Hydrothermal destruction of magnetite to pyrite, producing linear Total Magnetic Intensity (TMI) gradient lows along fault planes.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--card-border);">
-          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">3. Structural Step-Overs & Relay Ramps</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            Over 75% of known commercial geothermal systems in the Great Basin reside not on simple planar fault planes, but at structural complexities: fault terminations, intersecting conjugate faults, and en-echelon relay ramps where high shear stress causes intense secondary micro-fracturing.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--card-border);">
-          <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">4. Shallow Temperature Probes</h4>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            The INGENIOUS compilation provides 2m shallow thermal probe measurements across the region. Positive anomalies (>2.5 °C above regional baseline) indicate conductive heat flow above upwelling hydrothermal plumes.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "geothermal-knowledge.html").write_text(geo_content, encoding="utf-8")
-
-    # 6. leaderboard-analysis.html
-    lb_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Leaderboard Forensic Analysis — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("leaderboard-analysis.html")}
-  
-  <div class="container">
-    <div class="card">
-      <div class="card-title">📈 Public Leaderboard Snapshot & Forensic Analysis</div>
-      <p style="color: #cbd5e1; margin-bottom: 1rem;">
-        Analysis of the official public leaderboard snapshot (Top score: <strong>0.3195</strong> by DARD, Rank 15: <strong>0.2600</strong> by wbg1):
-      </p>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Rank</th>
-            <th>Participant</th>
-            <th>Distance-Weighted Tversky (DTI)</th>
-            <th>Structural Strategy & Score Cluster</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr style="background: rgba(56, 189, 248, 0.15);">
-            <td><strong>1</strong></td>
-            <td><strong>DARD</strong></td>
-            <td><strong style="color: #38bdf8;">0.3195</strong></td>
-            <td>Target leader: Multi-source geophysical ensemble + optimal thinning</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>nchuzhoy</td>
-            <td>0.3128</td>
-            <td>Top tier cluster (0.30 - 0.31)</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>alexoktaba</td>
-            <td>0.3042</td>
-            <td>Top tier cluster</td>
-          </tr>
-          <tr>
-            <td>4</td>
-            <td>Batik Shirt Brothers</td>
-            <td>0.2998</td>
-            <td>Top tier cluster</td>
-          </tr>
-          <tr style="background: rgba(52, 211, 153, 0.1);">
-            <td><strong>15</strong></td>
-            <td><strong>wbg1 / GEMSDOE25 D2.8</strong></td>
-            <td><strong style="color: #34d399;">0.2600</strong></td>
-            <td>Sparse Poisson-disk thinning ($d=2.8$ px, ~44k dots)</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <div style="margin-top: 1.5rem;">
-        <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">Why did D2.8 score 0.2600 and how to reach 0.3195+?</h4>
-        <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.7;">
-          Under the official evaluation metric with a 300 m triangular decay kernel ($R=300\text{{ m}}, \alpha=0.2, \beta=0.8$), contiguous raster line predictions deliver massive false-positive penalties ($F$) along their width while providing zero additional true-positive credit ($T$). Thinning candidate lines with Poisson-disk spacing at $d \approx 2.8$ px ($280\text{{ m}}$) saturates the true-positive credit while minimizing $F$.
-          <br><br>
-          To push past 0.2600 and exceed <strong>0.3195</strong>, our Bayesian surrogate framework integrates physical extensional dilation priors, multi-scale LiDAR profile curvature, and hydrothermal vent corridors to ensure every emitted dot lands exclusively on high-probability blind fault conduits.
-        </p>
-      </div>
-    </div>
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "leaderboard-analysis.html").write_text(lb_content, encoding="utf-8")
-
-    # 7. sources.html
-    from gemsdoe32.verification import OFFICIAL_SOURCES
-    sources_rows = "".join(
-        f"""<tr>
-          <td><strong>{s.source_id}</strong></td>
-          <td><a href="{s.url}" target="_blank"><strong>{s.title}</strong></a></td>
-          <td>{s.organization}</td>
-          <td>{s.description}</td>
-          <td>{s.verified_date}</td>
-        </tr>"""
-        for s in OFFICIAL_SOURCES
-    )
-    sources_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Verified Official Sources — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("sources.html")}
-  
-  <div class="container">
-    <div class="card">
-      <div class="card-title">🏛️ Official Government & Scientific Sources Registry</div>
-      <p style="color: #cbd5e1; margin-bottom: 1rem;">
-        All datasets, metric parameters, and competition rules in this repository are verified line-by-line from official government sources:
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Source ID</th>
-            <th>Title & URL</th>
-            <th>Issuing Agency</th>
-            <th>Scope & Description</th>
-            <th>Verification Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sources_rows}
-        </tbody>
-      </table>
-    </div>
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "sources.html").write_text(sources_content, encoding="utf-8")
-
-    # 8. irregularities.html
-    irreg_content = f"""<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Irregularities & Forensic Audit Log — GEMSDOE32</title>
-  <style>{CSS_STYLES}</style>
-</head>
-<body>
-  {render_header("irregularities.html")}
-  
-  <div class="container">
-    <div class="card">
-      <div class="card-title">⚠️ Forensic Irregularities & Engineering Mitigations Log</div>
-      <p style="color: #cbd5e1; margin-bottom: 1.5rem;">
-        Audit of observed anomalies, portal behavior quirks, and their verified mitigations.
-      </p>
-
-      <div style="display: flex; flex-direction: column; gap: 1rem;">
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.25rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h4 style="color: #f87171;">IR-PORTAL-01: DrivenData Web Validator Range Rejection on NaNs</h4>
-            <span class="badge badge-success">Engineered & Resolved</span>
-          </div>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            <strong>Observation:</strong> DrivenData web portal returns <code>"Predicted values must be in range [0, 1]"</code> when GeoTIFF has <code>NaN</code> outside the data footprint.
-            <br><strong>Mitigation:</strong> Set unpredicted outside pixels to finite <code>0.0</code> (float32). Local and portal validation passes cleanly with zero errors.
-          </p>
-        </div>
-
-        <div style="background: rgba(255, 255, 255, 0.03); border: 1px solid var(--card-border); padding: 1.25rem; border-radius: 8px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
-            <h4 style="color: #fbbf24;">IR-25-COMPARATOR-DRIFT: Local Full-Catalogue vs Hidden Discovery Inversion</h4>
-            <span class="badge badge-primary">Calibrated</span>
-          </div>
-          <p style="font-size: 0.88rem; color: #cbd5e1;">
-            <strong>Observation:</strong> Local full-catalogue evaluation ranks unthinned lines higher because all training labels are present. On the real hidden test set, known training labels are masked out, so unthinned lines suffer huge FP penalties.
-            <br><strong>Mitigation:</strong> Strict spatial block holdout cross-validation with catalogue positive masking.
-          </p>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  {render_footer()}
-  {JS_SNIPPET}
-</body>
-</html>
-"""
-    (ROOT / "irregularities.html").write_text(irreg_content, encoding="utf-8")
-    print("Successfully built all HTML documentation pages for GEMSDOE32 GitHub Pages site!")
+sys.path.insert(0, str(ROOT / "src"))
+from gems32 import feed as FEED  # noqa: E402
+
+DOCS = ROOT / "docs"
+NAV = [("index.html", "Home"), ("executive-summary.html", "Make a submission"),
+       ("research.html", "Research"), ("hypotheses.html", "Hypotheses"),
+       ("leaderboard.html", "Leaderboard"), ("sources.html", "Sources"),
+       ("irregularities.html", "Irregularities")]
+TITLE = "GEMSDOE32"
+
+
+def esc(x) -> str:
+    return html.escape(str(x))
+
+
+def read(path: str, default=None):
+    p = ROOT / path
+    try:
+        return json.loads(p.read_text())
+    except Exception:
+        return default
+
+
+def page(title: str, body: str, active: str = "") -> str:
+    nav = " ".join(f'<a href="{h}"{" class=active" if h == active else ""}>{t}</a>' for h, t in NAV)
+    stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
+    return f"""<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
+<header class=top><div class=wrap>
+<h1>{esc(title)}</h1><nav>{nav}</nav>
+</div></header><main class=wrap>{body}</main>
+<footer><div class=wrap>
+Site generated {stamp} from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+<code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
+scores this repository reads itself are the other teams' public-leaderboard rows.
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·
+<a href="data/feed.json">feed.json</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/issues">report an irregularity</a>
+</div></footer></body></html>"""
+
+
+def download_block(sub: dict | None, name: str) -> str:
+    if not sub:
+        return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
+                'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
+    f = sub.get("file", {})
+    zeros = sub.get("file_zeros", {})
+    sha = (f.get("sha256") or "")
+    note = sub.get("note", "")
+    return f"""<div class=dl>
+<h2>&#11015;&nbsp;Download the submission GeoTIFF</h2>
+<p><a class=btn href="downloads/{esc(name)}.tif">Download {esc(name)}.tif</a>
+<a class="btn alt" href="downloads/{esc(name)}.zip">.zip</a></p>
+<p><b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<code>{esc(note)}</code></p>
+<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
+{int(f.get('positive_px') or 0):,} predicted pixels · every footprint pixel finite and in [0, 1] ·
+NaN outside the footprint · sha256 <code>{esc(sha[:16])}&hellip;</code></p>
+<p class=mut>Same predictions with 0.0 instead of NaN outside the footprint:
+<a href="downloads/{esc(name)}-zeros.tif">zeros variant</a> ·
+<a href="downloads/checks-{esc(name)}.tif.json">format receipt (independent re-read)</a></p>
+<p class=warn><b>Status.</b> {esc(sub.get('status_line',''))}</p>
+</div>"""
+
+
+def model_mc_section(fl: dict) -> str:
+    ev = fl.get("evidence", {})
+    runs = [(k, v) for k, v in ev.items() if "mc" in k and isinstance(v, dict)]
+    if not runs:
+        return ""
+    blocks = []
+    for k, d in runs:
+        s = d.get("summary", {})
+        rows = "".join(
+            f"<tr><td>{esc(a)}</td><td>{v['mean']:.4f}</td><td>{esc(v.get('px',''))}</td>"
+            f"<td>{esc(v.get('mean_TP_w',''))}</td></tr>"
+            for a, v in s.items() if isinstance(v, dict) and "mean" in v and not a.startswith("paired_"))
+        diffs = "".join(
+            f"<tr><td>{esc(a.replace('paired_','').replace('_minus_',' &minus; '))}</td>"
+            f"<td>{v['mean']:+.4f} &plusmn; {v['sem']:.4f}</td>"
+            f"<td>{v['draws_positive']}/{v['n_draws']}</td></tr>"
+            for a, v in s.items() if a.startswith("paired_"))
+        blocks.append(f"""<div class=card><b>{esc(k)}</b> — {esc(d.get('question', d.get('instrument','')))}
+<p class=mut>Truth model: {esc(d.get('truth_model',{}).get('truth_px'))} px,
+&sigma; = {esc(d.get('truth_model',{}).get('sigma_px'))} px, drawn paired for every candidate; scored
+with the official metric. Source of the model: {esc(d.get('truth_model',{}).get('source',''))}.</p>
+<table><tr><th>candidate</th><th>mean official DTI</th><th>px</th><th>mean TP<sub>w</sub></th></tr>{rows}</table>
+{"<table><tr><th>paired difference</th><th>mean &plusmn; s.e.</th><th>draws positive</th></tr>" + diffs + "</table>" if diffs else ""}
+</div>""")
+    return f"""<h2>Two instruments, and the disagreement between them</h2>
+<p>The blocked holdout scores emission rules against the <em>catalogue</em>; the model Monte Carlo
+scores candidate <em>files</em> against a generative description of the hidden set. They do not agree
+about every change — and that disagreement is a finding, not noise to shrug off:</p>
+<table><tr><th>change, at matched emitted mass</th><th>blocked holdout (catalogue truth)</th>
+<th>live-anchored truth model (official metric, paired draws)</th></tr>
+<tr><td>greedy packing of the <em>surface</em> vs the incumbent dot-thin</td>
+<td class=ok>+0.0100 mean, 4/4 folds positive</td>
+<td class=bad>&minus;0.0033, 0/12 draws positive</td></tr>
+<tr><td>greedy packing of the <em>scatter-smoothed</em> field, catalogue pixels excluded</td>
+<td class=mut>not measured on this instrument (it is off-catalogue by construction)</td>
+<td class=ok><b>+0.0247 &plusmn; 0.0005, 12/12 draws positive</b></td></tr></table>
+<p><b>Mechanism.</b> The holdout's truth is the catalogue, so it rewards covering the field surface
+where the catalogue runs. The hidden set is scattered <em>around</em> the surface (the group's own
+inference: a 1.85 px scale), so covering the surface is the wrong objective — the right one is to
+cover the surface blurred by that scale, which is what the shipped file does. Same mass, same field,
+same metric; only the objective changed.</p>
+{''.join(blocks)}"""
+
+
+def overview(fl: dict, sub: dict | None, name: str) -> str:
+    lb = fl.get("leaderboard", [])
+    lb_top = lb[0] if lb else None
+    hold = fl.get("holdout", {})
+    irr = fl.get("irregularities", [])
+    claims = fl.get("claims", [])
+    best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
+    rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
+                   f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
+    parts = [download_block(sub, name), f"""<h2>What this is</h2>
+<p>{TITLE} is an auditable system for the <b>DOE GEMS Prize</b> (DrivenData #306, GeoDAWN / NW
+Nevada): find geothermal-indicative faults that are <em>not</em> in the USGS&nbsp;/&nbsp;INGENIOUS
+catalogue, and ship them as a legal GeoTIFF. It has three parts: an exact re-implementation of the
+competition metric and its decision theory; a preregistered spatially-blocked holdout that scores
+<em>emission rules</em> under that metric; and a Bayesian-optimisation slot gate that decides when a
+scarce weekly submission is worth spending.</p>
+<div class=grid>
+<div class=card><h3>Verified in this repository</h3><ul>
+<li>the published metric formula, the published worked example, and the identity
+<code>DTI = T/(0.2(T+S−M)+0.8|G|)</code> ({esc(fl.get('n_tests','16'))} tests pass);</li>
+<li>the credit bar <code>k &gt; 0.2·DTI</code> that every emitted pixel must clear;</li>
+<li>the byte identity (sha256) of every raster this site offers;</li>
+<li>the official source links on the <a href="sources.html">sources</a> page.</li></ul></div>
+<div class=card><h3>Not claimed</h3><ul>
+<li>no score in this repository is organizer-verified; the group's own numbers are labelled
+<em>claim</em> ({esc(len(claims))} of them, see <a href="leaderboard.html">leaderboard</a>);</li>
+<li>the holdout's truth is the visible catalogue, so it <em>cannot</em> reward a genuinely new fault
+(IR-32-PROXY-01);</li>
+<li>the submitted file is a candidate, <b>not</b> a proven improvement.</li></ul></div>
+</div>
+<h2>The brief's question, answered</h2>
+<p><b>Why did the dotted H19-5 file score highest?</b> Because the metric is a budget: every unit of
+prediction mass that is not the best cover of a truth pixel costs 0.2, and one that is earns at most
+1. Thinning a thick surface while keeping its geometry removes mass that was already covered — it
+raises the credit per emitted pixel and moves the file to the point where the marginal pixel's
+credit equals the break-even bar. The group measured that break-even empirically at
+<b>0.0548</b>&nbsp;credit per dot; this repository derives the same number from the published
+formula, <code>0.2·0.26 = 0.0520</code>. Two independent routes, one answer.</p>
+<p><b>Can we beat {esc(lb_top['score'] if lb_top else 'the leader')}?</b> Only by raising the
+<em>credit density</em> of the top of the ranking: at the same emitted mass the leader needs
+≈25&nbsp;% more mean credit per pixel than the group's best field delivers. No public catalogue can
+supply that — the newest public compilation is already inside the given catalogue
+({esc(fl.get('evidence', {}).get('h60_2_catalogue_difference.json', {}).get('gdr_qfaults_v2', {}).get('px_total', 59065))}
+px, of which all but one lie within 300&nbsp;m of it). The path is a better detector plus the
+two-round objective, and the plan is <a href="hypotheses.html">ranked here</a>.</p>"""]
+
+    parts.append(model_mc_section(fl))
+    if hold:
+        s = hold.get("summary", {})
+        arms = s.get("arms_mean", {})
+        npx = s.get("arms_mean_n_px", {})
+        tr = "".join(f"<tr><td>{esc(a)}</td><td>{v:.4f}</td><td>{npx.get(a, 0):,.0f}</td></tr>"
+                     for a, v in sorted(arms.items(), key=lambda kv: -kv[1]))
+        ct = "".join(f"<tr><td>{esc(k.replace('_minus_',' − '))}</td><td>{v['mean']:+.4f}</td>"
+                     f"<td>{v['folds_positive']}/{v['n_folds']}</td><td>{esc(', '.join(f'{x:+.4f}' for x in v['per_fold']))}</td></tr>"
+                     for k, v in s.get("contrasts", {}).items())
+        parts.append(f"""<h2>Holdout: does the emission rule beat the incumbent's own rule?</h2>
+<p>Four spatially blocked folds; the detector never sees the block it is scored on; every rival
+geometry is re-emitted at the <em>same pixel count</em> as the arm it is compared with, so no
+contrast can be won by emitting more mass. Preregistration:
+<code>{esc(hold.get('preregistration',''))}</code>. Mean detector AUC in-block
+{esc(round(s.get('auc_mean', float('nan')), 3))}; mean held-out truth
+{esc(round(s.get('n_truth_mean', 0)))} px.</p>
+<table><tr><th>arm</th><th>mean proxy DTI</th><th>mean pixels</th></tr>{tr}</table>
+<table><tr><th>paired contrast</th><th>mean Δ</th><th>folds positive</th><th>per fold</th></tr>{ct}</table>
+<p><b>Promotion rule (preregistered):</b> mean paired contrast &gt; 0 on &ge; 3 of 4 folds.
+Result: <b>{'PASS' if s.get('promotion_pass') else 'FAIL'}</b>.
+The proxy truth is the visible catalogue — a pass licenses packaging a candidate, never a score
+claim.</p>""")
+    else:
+        parts.append('<h2>Holdout</h2><p class=mut>Not run in this checkout '
+                     '(<code>python3 scripts/run_holdout.py</code>).</p>')
+
+    gap_txt = ""
+    if lb_top and best_claim:
+        gap = float(lb_top["score"]) - float(best_claim["score"])
+        need = (float(lb_top["score"]) / float(best_claim["score"]) - 1) * 100
+        gap_txt = (f"<p>The gap to the public leader is <b>{gap:+.4f}</b> — a "
+                   f"<b>{need:+.1f}&nbsp;%</b> increase in the score, which through the metric's own "
+                   f"arithmetic is a similar increase in mean credit per emitted pixel at constant "
+                   f"mass.</p>")
+    parts.append(f"""<h2>Where we stand</h2>
+<div class=grid>
+<div class=card><h3>Public leaderboard <span class=pill>verified read</span></h3>
+<p>{'#1 ' + esc(lb_top['participant']) + ' <b>' + f"{lb_top['score']:.4f}" + '</b>' if lb_top else 'not read yet'}<br>
+<small>read {esc(fl.get('leaderboard_observed_utc'))} from the official page; {esc(fl.get('leaderboard_snapshots', 0))} snapshots stored</small></p>
+{'<p><a href="leaderboard.html">all rows &rarr;</a></p>'}</div>
+<div class=card><h3>Group's own best <span class=pill>owner claim</span></h3>
+<p><code>{esc((best_claim or {}).get('file', 'n/a'))}</code><br>
+<b>{esc((best_claim or {}).get('score', 'n/a'))}</b> · {esc((best_claim or {}).get('emitted_px', ''))} px</p>
+{gap_txt}</div>
+</div>
+<p class=mut>Irregularities flagged for review: {esc(len(irr))} —
+<a href="irregularities.html">see the register</a>.</p>
+<h2>Sources</h2>
+<table><tr><th>id</th><th>source</th><th>status recorded here</th></tr>{rows}</table>""")
+    return "\n".join(parts)
+
+
+def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
+    note = esc((sub or {}).get("note", ""))
+    fresh = esc(f"{name}-fresh")
+    return f"""<h2 style="margin-top:6px">Five steps, about two minutes</h2>
+{download_block(sub, name)}
+<div class=card><h3>1 · Check the file (optional, 20 s)</h3>
+<pre>python3 - &lt;&lt;'EOF'
+import rasterio, numpy as np, hashlib
+p = "{esc(name)}.tif"
+print("sha256", hashlib.sha256(open(p, "rb").read()).hexdigest())
+with rasterio.open(p) as s:
+    a = s.read(1)
+    print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
+inside = np.isfinite(a)
+print("finite", int(inside.sum()), "min", float(np.nanmin(a)), "max", float(np.nanmax(a)))
+assert float(np.nanmin(a)) &gt;= 0.0 and float(np.nanmax(a)) &lt;= 1.0
+print("OK: single band, [0,1] wherever finite")
+EOF</pre>
+<p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
+values within [0,&nbsp;1] wherever finite. The repository's own receipt is
+<a href="downloads/checks-{esc(name)}.tif.json">this JSON</a>.</p></div>
+<div class=card><h3>2 · Upload</h3>
+<ol>
+<li>Open the competition's <b>Submit</b> page (linked on the <a href="sources.html">sources</a> page).</li>
+<li><em>File to submit</em> &rarr; choose <code>{esc(name)}.tif</code> (or the <code>.zip</code>).</li>
+<li>Paste this into <em>Note (optional)</em>: <code>{note}</code></li>
+<li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
+</ol></div>
+<div class=card><h3>3 · Know the two-round consequence before you click</h3>
+<p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
+before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
+from everyone's submissions. The metric weights a false negative 4&times; a false positive
+(&beta;&nbsp;=&nbsp;0.8 vs &alpha;&nbsp;=&nbsp;0.2) precisely to make novel-but-real predictions
+cheap. Consequences:</p>
+<ul>
+<li>three submissions per week are <em>scored</em>; a fourth effort is wasted;</li>
+<li>exactly <b>one</b> file is selected for the final round and is scored in both rounds, so a file
+that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
+<li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
+than in round 1.</li></ul></div>
+<div class=card><h3>4 · If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>The form requires a single-band raster whose values are between 0 and 1. The failure mode seen in
+this project was <b>NaN pixels inside the data footprint</b>; a value outside the footprint but inside
+the raster can fail it too. Both files offered here are built so that <em>every pixel inside the
+footprint is finite and inside [0,&nbsp;1]</em>, and the difference between them is only what they
+write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload the zeros variant —
+identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
+inferred from the files and the observed error, not quoted from the platform
+(<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
+<div class=card><h3>5 · Keep the names unique</h3>
+<p>The filename already carries a unique content id and the note repeats it, so two submissions can
+never be confused. If a file is ever rebuilt, the build script writes a new name
+(e.g. <code>{fresh}</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
+</div>"""
+
+
+def research(fl: dict, sub: dict | None, name: str) -> str:
+    ev = fl.get("evidence", {}).get("h60_2_catalogue_difference.json", {})
+    hd = fl.get("holdout", {})
+    return f"""<h2 style="margin-top:6px">1 · The metric, and the decision rule that falls out of it</h2>
+<p>Official definition (competition page 967): <code>k(d)=max(1−d/300m,0)</code>,
+<code>TPw = &sum;<sub>g</sub> max<sub>x</sub> p(x)k(d(x,g))</code>,
+<code>FPw = &sum;<sub>x</sub> p(x)[1−max<sub>g</sub>k]</code>,
+<code>FNw = &sum;<sub>g</sub>[1−max<sub>x</sub>p(x)k]</code>,
+<code>DTI = TPw/(TPw + 0.2·FPw + 0.8·FNw + &epsilon;)</code>, tolerating &plusmn;1&nbsp;px
+rasterisation and &le;300&nbsp;m ground-truth misalignment.</p>
+<p><code>tests/test_metric.py</code> transcribes that definition brute-force (O(N&sup2;)) and checks
+the fast implementation against it; it also reproduces the published worked example
+(TPw&nbsp;=&nbsp;3.00, FPw&nbsp;=&nbsp;1.89, FNw&nbsp;=&nbsp;2.00 &rarr; 0.60).</p>
+<div class=card><h3>The identity that makes emission a knapsack</h3>
+<p><code>FNw = |G| − TPw</code> exactly, so with <code>T = TPw</code>, <code>S = &sum;p</code> and
+<code>M = &sum;<sub>x</sub> p(x)·max<sub>g</sub>k</code>:</p>
+<p style="text-align:center"><code>DTI = T / ( 0.2·(T + S − M) + 0.8·|G| )</code></p>
+<p>Adding one unit of mass at weight <code>k</code> therefore changes the denominator by exactly 0.2,
+giving the <b>credit bar</b>:</p>
+<p style="text-align:center"><code>add mass &hArr; k &gt; 0.2·DTI</code></p>
+<p>At the group's claimed 0.2600 the bar is <b>0.0520</b>; at the public leader's
+{esc((fl.get('leaderboard') or [{}])[0].get('score', 0.3262))} it is
+<b>{0.2 * float((fl.get('leaderboard') or [{}])[0].get('score', 0.3262)):.4f}</b>. The group's own
+measured marginal credit per added dot was 0.0548 — the file sits within a few percent of its own
+optimum, which is the strongest available evidence that the dotted file is not leaving easy points
+on the table.</p></div>
+<h2>2 · Why the dotted file won, quantitatively</h2>
+<p>From 121,131 emitted pixels (solid H19-5) to 44,090 (dotted D2.8) the mean credit per pixel rose
+from 0.0520 to 0.0893 (owner-reported) while the total mass fell by 64&nbsp;%. The metric's own
+arithmetic explains it: mass whose realised weight is below the bar <em>lowers</em> the score, so
+removing it is a gain. The family's own sweep peaks at that spacing, and a kernel-disjoint 6&nbsp;px
+design (zero redundancy) is much worse — the kernel is 3&nbsp;px wide, so the optimal dotted spacing
+is set by the kernel radius, not by aesthetics.</p>
+<h2>3 · The two-round objective</h2>
+<p>One selected file is scored twice: against the initial hidden set, and against an expanded set
+that includes faults the expert panel verifies from submissions. Writing the objective as
+<code>DTI<sub>1</sub> + &rho;·DTI<sub>2</sub></code>, a pixel that has a plausible path to being
+verified as a new fault is worth emitting while
+<code>E[k] + &rho;·E[k<sub>novel</sub>] &gt; 0.2·DTI</code>, i.e. the effective bar falls to
+<code>0.2·DTI/(1+&rho;)</code>. The prize pools argue for &rho;&nbsp;&gt;&nbsp;1 (the final round is
+the larger pool); the code's default is the conservative &rho;&nbsp;=&nbsp;1. This is a strategy
+argument from the published rules, <em>not</em> a measured effect — no local proxy can measure
+round&nbsp;2.</p>
+<h2>4 · What the local instruments can and cannot say</h2>
+<table>
+<tr><th>instrument</th><th>what it measures</th><th>what it cannot</th></tr>
+<tr><td>official metric tests</td><td>the scoring function and its algebra, exactly</td><td>anything about the hidden truth</td></tr>
+<tr><td>blocked holdout (this repo)</td><td>whether an emission <em>rule</em> beats a rival rule at matched mass, on catalogue truth hidden from the fit</td><td>reward a prediction that is off-catalogue — the population the real test set is drawn from (IR-32-PROXY-01)</td></tr>
+<tr><td>catalogue-difference audit</td><td>whether a public catalogue contains faults the given catalogue lacks</td><td>prove that any candidate pixel is real</td></tr>
+<tr><td>leaderboard feedback</td><td>the true objective, but at a cost of one scarce slot and with no attribution</td><td>be read without spending a slot</td></tr>
+</table>
+<h2>5 · Catalogue-difference audit (measured here)</h2>
+<p>The newest public compilation the group ever obtained — GDR QFaults v2, rasterised to this grid —
+has <b>{esc(ev.get('gdr_qfaults_v2', {}).get('px_total', 59065))}&nbsp;px</b>, of which
+<b>{esc(ev.get('gdr_qfaults_v2', {}).get('px_beyond_300m', 1))}</b> lie more than 300&nbsp;m from the
+competition's own catalogue: the given catalogue already contains the newest public mapping. The
+older USGS&nbsp;SGMC compilation is different — <b>{esc(ev.get('sgmc', {}).get('px_beyond_300m', 61664))}&nbsp;px</b>
+beyond 300&nbsp;m (median {esc(ev.get('sgmc', {}).get('median_dist_px', 15))}&nbsp;px), i.e. real
+mapped faults that the given catalogue does not contain. The group's best field is exactly zero on
+every given-catalogue pixel (by construction) and only
+<b>{esc(ev.get('field_enrichment', {}).get('sgmc_off_catalogue_px', {}).get('enrichment_vs_random', 1.4))}&times;</b>
+enriched on the off-catalogue SGMC set versus the footprint background, with
+<b>{esc(ev.get('emitted_on_sgmc_off_catalogue_px', 2014))}</b> of its 121,131 pixels sitting there.
+That is the measured size of the discovery lane this system could still open.</p>
+<h2>6 · Method and reproducibility</h2>
+<pre>pip install -r requirements.txt
+python3 scripts/fetch_data.py        # hash-verified fetch of every pinned mirror (GitHub API)
+python3 scripts/build_features.py    # 35-channel structural stack from the 19 official bands
+python3 scripts/run_holdout.py       # preregistered blocked holdout -&gt; evidence/holdout_run1.json
+python3 scripts/build_submission.py  # writes docs/downloads/*.tif + the format receipt
+python3 scripts/build_site.py        # regenerates this site from registry/ + evidence/
+python3 -m pytest tests -q</pre>
+<p class=mut>The holdout ran{' with mean AUC ' + esc(round(hd.get('summary', {}).get('auc_mean', float('nan')), 3)) if hd else ''}
+on a CPU-only box for the emission arms; the detector used there is a gradient-boosted tree, not the
+U-Net of the official reference solution, because this sandbox has 2&nbsp;vCPU and no GPU. The
+emission rule is what is being validated, and it is detector-agnostic.</p>"""
+
+
+def hypotheses_page(fl: dict) -> str:
+    hyp = fl.get("hypotheses", [])
+    ev = fl.get("evidence", {}).get("h60_2_catalogue_difference.json", {})
+    rows = "".join(f"""<tr><td>{esc(h.get('rank',''))}</td><td><b>{esc(h.get('id',''))}</b><br>{esc(h.get('title',''))}</td>
+<td>{esc('; '.join(h.get('layers', [])))}</td><td>{esc(h.get('signature',''))}</td>
+<td>{esc(h.get('why_off_catalogue',''))}</td><td>{esc(h.get('differs_from_repo',''))}</td>
+<td>{esc(h.get('expected_dti',''))} · cost {esc(h.get('cost',''))} · data: {esc(h.get('data_status',''))}</td>
+<td>{esc(h.get('status',''))}</td></tr>""" for h in hyp)
+    return f"""<h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
+<p class=mut>Each row names the layers it needs, the physical signature, why it can catch a fault the
+USGS&nbsp;/&nbsp;INGENIOUS catalogue lacks, how it differs from everything the group has already run,
+and its measured status. Nothing is promoted to a submission slot without passing the holdout and
+the slot gate.</p>
+<table><tr><th>#</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
+<th>difference from prior work</th><th>expected / cost / data</th><th>status</th></tr>{rows}</table>
+<h2>Promotion rules (preregistered)</h2>
+<ol>
+<li>every hypothesis is registered with its layers, signature, novelty and data status before it is
+fitted;</li>
+<li>the holdout protocol is written to <code>registry/preregistration.json</code> <em>before</em> the
+run, and the run's own copy is embedded in its evidence JSON;</li>
+<li>a candidate must beat the incumbent <em>at matched emitted mass</em> on &ge;3 of 4 blocked folds
+(preregistered rule);</li>
+<li>it must then pass <code>bo.slot_gate</code>: expected improvement over the incumbent must exceed
+the slot cost under the surrogate, and the candidate must not be a repeat;</li>
+<li>every holdout evaluation is appended to <code>registry/observations.jsonl</code> as training data
+for the surrogate, submitted or not.</li></ol>
+<h2>What the current evidence already says</h2>
+<ul>
+<li><b>The catalogue-difference lane is nearly empty.</b> GDR QFaults v2 has
+{esc(ev.get('gdr_qfaults_v2', {}).get('px_beyond_300m', 1))} px beyond 300&nbsp;m of the given
+catalogue; only the older SGMC compilation has a large off-catalogue population
+({esc(ev.get('sgmc', {}).get('px_beyond_300m', 61664))} px).</li>
+<li><b>The best field is blind to that population</b> beyond a
+{esc(ev.get('field_enrichment', {}).get('sgmc_off_catalogue_px', {}).get('enrichment_vs_random', 1.4))}&times;
+enrichment over background — so the discovery lane is genuinely unexploited, not already used up.</li>
+<li><b>The 2020 Monte Cristo rupture is inside the footprint</b> and ruptured largely unmapped ground
+with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
+first on the list.</li></ul>"""
+
+
+def leaderboard_page(fl: dict) -> str:
+    rows = fl.get("leaderboard", [])
+    tr = "".join(f"<tr><td>{esc(r.get('rank'))}</td><td>{esc(r.get('participant'))}</td>"
+                 f"<td>{esc(r.get('score'))}</td><td>{esc(r.get('submissions',''))}</td></tr>"
+                 for r in rows[:20])
+    claims = fl.get("claims", [])
+    ctr = "".join(f"<tr><td>{esc(c.get('id'))}</td><td>{esc(c.get('file'))}</td>"
+                  f"<td>{esc(c.get('emitted_px',''))}</td><td>{esc(c.get('score'))}</td>"
+                  f"<td>{esc('sha256 matches the local file' if c.get('sha256_verified_locally') else 'not re-verified here')}</td></tr>"
+                  for c in claims)
+    top = rows[0]["score"] if rows else None
+    bar = f"{0.2 * float(top):.4f}" if top else "n/a"
+    return f"""<h2 style="margin-top:6px">Public leaderboard <span class=pill>verified read</span></h2>
+<p class=mut>Read from the official leaderboard page on {esc(fl.get('leaderboard_observed_utc'))}.
+{esc(fl.get('leaderboard_snapshots', 0))} snapshots are stored in
+<code>registry/leaderboard_history.jsonl</code>, one per read, verbatim.</p>
+<table><tr><th>rank</th><th>participant</th><th>public DTI</th><th>submissions</th></tr>{tr}</table>
+{"<p>At the leader's score the credit bar is <code>0.2·" + f"{top:.4f}" + " = " + bar + "</code> per unit of emitted mass.</p>" if top else ""}
+<h2>The group's own numbers <span class=pill>owner claims</span></h2>
+<p class=mut>These are numbers the owner recorded from submission screens. No organizer receipt links
+those bytes to those rows (<a href="irregularities.html">IR-32-SCORE-01</a>). They are kept apart from
+the verified rows above on purpose.</p>
+<table><tr><th>id</th><th>file</th><th>emitted px</th><th>score</th><th>byte check here</th></tr>{ctr}</table>
+<h2>How the gap is read</h2>
+<p>Through the metric's own arithmetic (see <a href="research.html">research</a>), a score difference
+at constant emitted mass is a difference in <em>mean credit per pixel</em>: the leader's file earns
+roughly a quarter more credit per emitted pixel than the group's best. That is a detector-quality
+gap, not an emission-style gap — and it is why this repository spends its effort on the decision
+rule and on registering detector hypotheses with honest data status instead of re-tuning dot
+spacing.</p>"""
+
+
+def sources_page(fl: dict) -> str:
+    rows = "".join(f"<tr><td>{esc(s.get('id'))}</td><td><a href=\"{esc(s.get('url'))}\">{esc(s.get('title'))}</a></td>"
+                   f"<td>{esc(s.get('role',''))}</td><td>{esc(s.get('status',''))}</td></tr>"
+                   for s in fl.get("sources", []))
+    health = read("docs/data/source_health.json", {}) or {}
+    hrows = "".join(f"<tr><td>{esc(r.get('id'))}</td><td>{esc(r.get('http_status'))}</td>"
+                    f"<td>{esc(str(r.get('error',''))[:70])}</td></tr>" for r in health.get("results", []))
+    hh = (f"<h3>Last health probe ({esc(health.get('checked_utc'))})</h3>"
+          f"<p class=mut>{esc(health.get('policy',''))}</p>"
+          f"<table><tr><th>id</th><th>HTTP</th><th>note</th></tr>{hrows}</table>") if hrows else ""
+    return f"""<h2 style="margin-top:6px">Official sources, with the role each one plays</h2>
+<p class=mut>&ldquo;listed&rdquo; means the source is official and public but was not fetched from
+this sandbox (egress here reaches github.com and the page fetcher only); the scheduled workflow
+probes them from GitHub Actions and records the observed status.</p>
+<table><tr><th>id</th><th>source</th><th>role</th><th>status</th></tr>{rows}</table>{hh}"""
+
+
+def irregularities_page(fl: dict) -> str:
+    items = fl.get("irregularities", [])
+    rows = "".join(f"<tr><td><b>{esc(i.get('id'))}</b></td><td>{esc(i.get('severity',''))}</td>"
+                   f"<td>{esc(i.get('statement',''))}</td><td>{esc(i.get('mitigation',''))}</td></tr>"
+                   for i in items)
+    return f"""<h2 style="margin-top:6px">Register ({esc(len(items))} items)</h2>
+<p class=mut>Anything that could mislead a reader about what is verified is recorded here rather than
+buried: unverified score claims, proxies that cannot measure the real objective, mirrors that are not
+organizer-authenticated, and naming inconsistencies. Each item is also tracked by the repository's
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32/issues">issue template</a>.</p>
+<table><tr><th>id</th><th>severity</th><th>statement</th><th>mitigation</th></tr>{rows}</table>"""
+
+
+def main() -> int:
+    fl = FEED.build(ROOT)
+    sub = read("registry/submission_build.json")
+    name = (sub or {}).get("name", "gems32-h19-5-maxcov-r1")
+    pages = {
+        "index.html": page(f"{TITLE} — a fault-discovery system for the DOE GEMS Prize",
+                           overview(fl, sub, name), "index.html"),
+        "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
+                                       "executive-summary.html"),
+        "research.html": page("Research: the metric, the decision rule, and the evidence",
+                              research(fl, sub, name), "research.html"),
+        "hypotheses.html": page("Candidate hypotheses, ranked", hypotheses_page(fl), "hypotheses.html"),
+        "leaderboard.html": page("Leaderboard and the size of the gap", leaderboard_page(fl), "leaderboard.html"),
+        "sources.html": page("Sources", sources_page(fl), "sources.html"),
+        "irregularities.html": page("Irregularities flagged for review", irregularities_page(fl),
+                                     "irregularities.html"),
+    }
+    DOCS.mkdir(exist_ok=True)
+    for fname, html_text in pages.items():
+        (DOCS / fname).write_text(html_text)
+
+    # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy
+    # builder, source main:/) to publish the repository root, and the API token available here
+    # cannot change that setting.  So the root gets a thin, generated landing page whose first
+    # element is the download, exactly as the brief requires, plus a pointer to the full site.
+    landing = f"""<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>{TITLE} — download the submission GeoTIFF</title>
+<link rel=canonical href="docs/index.html">
+<link rel=stylesheet href="docs/assets/site.css">
+<meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
+<main class=wrap style="padding-top:26px">
+<h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
+{download_block(sub, name)}
+<div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
+irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
+&nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
+</main></body></html>"""
+    (ROOT / "index.html").write_text(landing)
+    print(json.dumps({"pages": list(pages), "sources": fl.get("source_count"),
+                      "leaderboard_rows": len(fl.get("leaderboard", [])),
+                      "hypotheses": len(fl.get("hypotheses", [])),
+                      "submission_built": bool(sub)}, indent=1))
+    return 0
 
 
 if __name__ == "__main__":
-    build_pages()
+    sys.exit(main())

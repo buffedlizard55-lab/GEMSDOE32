@@ -1,0 +1,77 @@
+{
+ "schema": 1,
+ "items": [
+  {
+   "id": "IR-32-DATA-01",
+   "severity": "high",
+   "statement": "The competition rasters used here are owner-supplied public GitHub mirrors (buffedlizard55-lab/GEMSDOE ref c0c06ac..., GEMSDOE24 ref 07345ea...), integrity-pinned by sha256 (training_features 4371c82e..., labels/existing_faults 7ba308cc...) but NOT organizer-authenticated. All numbers computed from them are conditional on that provenance.",
+   "mitigation": "hash-pinned manifest + independent re-hash on every fetch (scripts/fetch_data.py, registry/data_manifest.json)"
+  },
+  {
+   "id": "IR-32-DATA-02",
+   "severity": "medium",
+   "statement": "Own footprint computation gives 5,165,852 finite pixels; the group's record says 5,167,373. A 0.03% difference in the footprint criterion (threshold on -3.4e38 vs isfinite).",
+   "mitigation": "both criteria are recorded; the submission writer uses the finite test and its receipt reports the count"
+  },
+  {
+   "id": "IR-32-SCORE-01",
+   "severity": "high",
+   "statement": "Every live score in the group's ledger (0.2477, 0.2600, 0.1922, ...) is an owner/leaderboard-row report, not an organizer receipt linking those bytes to that row. The public leaderboard rows verified today (nchuzhoy 0.3262, DARD 0.3195) are the only scores this repository treats as observed, and they are observed for *other* teams, not for our files.",
+   "mitigation": "registry/submissions.json keeps 'claim' and 'verified' fields separate; the site prints the distinction on every card"
+  },
+  {
+   "id": "IR-32-PROXY-01",
+   "severity": "medium",
+   "statement": "The blocked holdout scores the visible catalogue as truth (hide-and-recover). The competition's hidden truth is a set of faults NOT in that catalogue, so a proxy win is necessary but not sufficient for a live win.",
+   "mitigation": "the harness reports per-fold pairs and the site labels the result 'proxy'; no slot is spent on the proxy alone (bo.slot_gate)"
+  },
+  {
+   "id": "IR-32-LEAK-01",
+   "severity": "high",
+   "statement": "A 'distance to catalogue' feature makes a detector AUC exactly 1.0 on the visible labels (found by the group: GEMSDOE29 README). No such channel is used in this repository's feature stack.",
+   "mitigation": "features.CHANNELS excludes it; verified by tests/test_features.py"
+  },
+  {
+   "id": "IR-32-VERIFY-01",
+   "severity": "low",
+   "statement": "The DrivenData submission validator is not public; the prior '[0, 1]' rejection was explained by the group (NaN inside the footprint) and is consistent with the format text, but the exact validator behaviour cannot be reproduced locally.",
+   "mitigation": "two variants are shipped (outside=nan and outside=zero), both with every footprint pixel finite and in [0, 1]; the checks JSON proves it by independent re-read"
+  },
+  {
+   "id": "IR-32-FIELD-01",
+   "severity": "informational",
+   "statement": "The group's best-scoring field (H19-5) is identically ZERO on every pixel of the given catalogue: 0 of its 121,131 positive pixels touch the 60,988 catalogue pixels. Measured here two ways (evidence/h60_2_catalogue_difference.json, registry/submission_build.json -> catalogue_px_emitted = 0).",
+   "mitigation": "Round-1 hidden truth therefore excludes the given catalogue, and mass spent on a mapped line can never earn credit. The build script removes a 1 px buffer around the catalogue from the emission domain (the first smooth-field build wasted 994 px = 2.3 % of its mass there)."
+  },
+  {
+   "id": "IR-32-PROXY-02",
+   "severity": "high",
+   "statement": "The two local instruments DISAGREE about the same change, which is the drift the brief asks to chase rather than shrug off. Blocked holdout with catalogue truth: greedy surface-coverage packing beats the incumbent raster-order dot-thin at matched mass, +0.0100 mean over 4 folds (4/4 positive). Live-anchored generative truth model, official metric, paired draws: that same change is NEGATIVE, -0.0033 (0/12 draws positive).",
+   "mitigation": "Both are published. The disagreement has a mechanism, not noise: the holdout's truth is the catalogue, so it rewards covering the field surface where the catalogue is; the hidden set is scattered *around* the surface with a 1.85 px scale, so covering the surface is the wrong objective. The rule was re-derived from the second instrument (cover the scatter-smoothed density) and now measures +0.0247 (12/12 draws) over the incumbent on the catalogue-aware variant. The holdout keeps its role as a cheap screen; the model anchor decides."
+  },
+  {
+   "id": "IR-32-NAME-01",
+   "severity": "low",
+   "statement": "The group's file named 'dotted-h19-5-d2-8' corresponds to a thinning parameter of 2.4 px in the group's own density sweep (whose peak they report at d = 2.4 px / 44,090 px), not 2.8 px. Byte identity is unaffected (sha256 91eae1ca... re-verified here) but the name is misleading.",
+   "mitigation": "This repository names artifacts by rule and mass (gems32-h19-5-smoothmaxcov-44090) and records the sha256 in registry/submission_build.json; the claim ledger keeps the owner's original name verbatim."
+  },
+  {
+   "id": "IR-32-MASS-01",
+   "severity": "medium",
+   "statement": "An emission-rule comparison at unequal emitted mass is meaningless under this metric (the first ladder compared 8,000 greedy pixels against ~1,900 dot-thin pixels).",
+   "mitigation": "Every arm in the ladder is now re-emitted at the SAME pixel count as the arm it is compared with (holdout.run_fold), and the shipped build is mass-matched to the incumbent's 44,090 px, so no contrast is a mass effect."
+  },
+  {
+   "id": "IR-32-TOOLS-01",
+   "severity": "low",
+   "statement": "The sandbox has 2 vCPU / 3 GB RAM and no GPU, and two background runs were OOM-killed while a third was live.",
+   "mitigation": "Heavy jobs are serialised, the 35-channel stack is a disk-backed memmap, and the detector in the harness is a CPU gradient-boosted tree rather than the official reference solution's U-Net; the emission rule being validated is detector-agnostic."
+  },
+  {
+   "id": "IR-32-SESSION-01",
+   "severity": "medium",
+   "statement": "A parallel session's tree (merged to main as PR #1, package src/gemsdoe32/) advertises a note string reading 'Holdout DTI: 0.2600'. 0.2600 is the group's OWNER-REPORTED leaderboard score for a different artifact; no holdout in either tree has returned it, and the same tree's artifact (45,000 dots, sha256 2c1861f1...) carries no receipt linking those bytes to any score.",
+   "mitigation": "Its files are preserved, its download is listed with its own provenance, and the root README labels those numbers as that session's claims. This repository's own recommended download and its measured numbers are kept separate in registry/submission_build.json and evidence/."
+  }
+ ]
+}

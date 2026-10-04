@@ -1,0 +1,76 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Make a submission (executive summary) · GEMSDOE32</title><link rel=stylesheet href=assets/site.css></head><body>
+<header class=top><div class=wrap>
+<h1>Make a submission (executive summary)</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html" class=active>Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html">Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
+</div></header><main class=wrap><h2 style="margin-top:6px">Five steps, about two minutes</h2>
+<div class=dl>
+<h2>&#11015;&nbsp;Download the submission GeoTIFF</h2>
+<p><a class=btn href="downloads/gems32-h19-5-smoothmaxcov-44090.tif">Download gems32-h19-5-smoothmaxcov-44090.tif</a>
+<a class="btn alt" href="downloads/gems32-h19-5-smoothmaxcov-44090.zip">.zip</a></p>
+<p><b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<code>gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score</code></p>
+<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
+44,090 predicted pixels · every footprint pixel finite and in [0, 1] ·
+NaN outside the footprint · sha256 <code>2dc67f4bdb8d1bf2&hellip;</code></p>
+<p class=mut>Same predictions with 0.0 instead of NaN outside the footprint:
+<a href="downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif">zeros variant</a> ·
+<a href="downloads/checks-gems32-h19-5-smoothmaxcov-44090.tif.json">format receipt (independent re-read)</a></p>
+<p class=warn><b>Status.</b> Format-validated, mass-matched candidate. Emission rule = greedy maximum-expected-coverage of the field blurred by the inferred truth scatter (1.85 px). Measured +0.0247 +/- 0.0005 (12/12 paired draws) better than the incumbent&#x27;s raster-order dotting on the live-anchored truth model, and the packing rule itself is +0.0100 (4/4 folds) on the blocked catalogue holdout. NOT organizer-scored, NOT a proven improvement, and spending a slot still requires an approved bo.slot_gate record. sha256 2dc67f4bdb8d1bf2…</p>
+</div>
+<div class=card><h3>1 · Check the file (optional, 20 s)</h3>
+<pre>python3 - &lt;&lt;'EOF'
+import rasterio, numpy as np, hashlib
+p = "gems32-h19-5-smoothmaxcov-44090.tif"
+print("sha256", hashlib.sha256(open(p, "rb").read()).hexdigest())
+with rasterio.open(p) as s:
+    a = s.read(1)
+    print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
+inside = np.isfinite(a)
+print("finite", int(inside.sum()), "min", float(np.nanmin(a)), "max", float(np.nanmax(a)))
+assert float(np.nanmin(a)) &gt;= 0.0 and float(np.nanmax(a)) &lt;= 1.0
+print("OK: single band, [0,1] wherever finite")
+EOF</pre>
+<p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
+values within [0,&nbsp;1] wherever finite. The repository's own receipt is
+<a href="downloads/checks-gems32-h19-5-smoothmaxcov-44090.tif.json">this JSON</a>.</p></div>
+<div class=card><h3>2 · Upload</h3>
+<ol>
+<li>Open the competition's <b>Submit</b> page (linked on the <a href="sources.html">sources</a> page).</li>
+<li><em>File to submit</em> &rarr; choose <code>gems32-h19-5-smoothmaxcov-44090.tif</code> (or the <code>.zip</code>).</li>
+<li>Paste this into <em>Note (optional)</em>: <code>gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score</code></li>
+<li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
+</ol></div>
+<div class=card><h3>3 · Know the two-round consequence before you click</h3>
+<p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
+before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
+from everyone's submissions. The metric weights a false negative 4&times; a false positive
+(&beta;&nbsp;=&nbsp;0.8 vs &alpha;&nbsp;=&nbsp;0.2) precisely to make novel-but-real predictions
+cheap. Consequences:</p>
+<ul>
+<li>three submissions per week are <em>scored</em>; a fourth effort is wasted;</li>
+<li>exactly <b>one</b> file is selected for the final round and is scored in both rounds, so a file
+that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
+<li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
+than in round 1.</li></ul></div>
+<div class=card><h3>4 · If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>The form requires a single-band raster whose values are between 0 and 1. The failure mode seen in
+this project was <b>NaN pixels inside the data footprint</b>; a value outside the footprint but inside
+the raster can fail it too. Both files offered here are built so that <em>every pixel inside the
+footprint is finite and inside [0,&nbsp;1]</em>, and the difference between them is only what they
+write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload the zeros variant —
+identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
+inferred from the files and the observed error, not quoted from the platform
+(<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
+<div class=card><h3>5 · Keep the names unique</h3>
+<p>The filename already carries a unique content id and the note repeats it, so two submissions can
+never be confused. If a file is ever rebuilt, the build script writes a new name
+(e.g. <code>gems32-h19-5-smoothmaxcov-44090-fresh</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
+</div></main>
+<footer><div class=wrap>
+Site generated 2026-10-04 03:20 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+<code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
+scores this repository reads itself are the other teams' public-leaderboard rows.
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·
+<a href="data/feed.json">feed.json</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/issues">report an irregularity</a>
+</div></footer></body></html>

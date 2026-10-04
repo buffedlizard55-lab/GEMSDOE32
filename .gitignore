@@ -1,3 +1,27 @@
+<<<<<<< HEAD
+# --- big generated data (never in Git; hash-pinned in registry/data_manifest.json) ---
+data/
+*.tif
+*.tiff
+!docs/downloads/*.tif
+*.npy
+*.npz
+*.zip
+!docs/downloads/*.zip
+/tmp/
+
+# --- python ---
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ipynb_checkpoints/
+.venv/
+*.egg-info/
+
+# --- local scratch ---
+*.log
+.DS_Store
+=======
 # Python artifacts
 __pycache__/
 *.py[cod]
@@ -27,3 +51,7 @@ data/
 
 # Keep docs downloads deliverables
 !docs/downloads/
+>>>>>>> origin/main
+
+# --- from the parallel session branch (arena/01a104ba) ---
+

@@ -1,0 +1,92 @@
+{
+ "id": "H60-2",
+ "title": "catalogue-difference arm",
+ "kernel_radius_px": 3.0,
+ "bar_live": 0.052000000000000005,
+ "generated_utc": "2026-10-04T02:41:50Z",
+ "catalogue_px": {
+  "labels_given": 60988,
+  "qfaults_v2": 59065,
+  "sgmc": 82151
+ },
+ "gdr_qfaults_v2": {
+  "px_in_footprint": 59065,
+  "px_total": 59065,
+  "min_dist_px_to_given_catalogue": 0.0,
+  "px_beyond_300m": 1,
+  "frac_beyond_300m": 0.0,
+  "median_dist_px": 0.0,
+  "px_beyond_600m": 0
+ },
+ "sgmc": {
+  "px_in_footprint": 82151,
+  "px_total": 82151,
+  "min_dist_px_to_given_catalogue": 0.0,
+  "px_beyond_300m": 61664,
+  "frac_beyond_300m": 0.7506,
+  "median_dist_px": 15.0,
+  "px_beyond_600m": 54773
+ },
+ "field_enrichment": {
+  "random_footprint_background": {
+   "n": 5027952,
+   "field_mean": 0.0233,
+   "field_deciles": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "field_gt_bar_frac": 0.0233
+  },
+  "given_catalogue_px": {
+   "n": 60988,
+   "field_mean": 0.0,
+   "field_deciles": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "field_gt_bar_frac": 0.0,
+   "enrichment_vs_random": 0.0
+  },
+  "sgmc_off_catalogue_px": {
+   "n": 61664,
+   "field_mean": 0.03266,
+   "field_deciles": [
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "field_gt_bar_frac": 0.0327,
+   "enrichment_vs_random": 1.402
+  },
+  "qfaults_v2_off_catalogue_px": {
+   "n": 1,
+   "note": "too few pixels to characterise"
+  }
+ },
+ "emitted_px": 121131,
+ "emitted_on_given_catalogue_px": 0,
+ "emitted_on_sgmc_off_catalogue_px": 2014,
+ "emitted_on_qfaults_v2_off_catalogue_px": 0,
+ "verdict": "REFUTED as a source of new faults: the newest public catalogue considered (GDR QFaults v2) lies within 300 m of the given catalogue for all but 1 of its 59065 px, so the given catalogue already contains the newest public compilation (independently corroborating the sibling repository's IR-30-006). The only official catalogue with a large off-catalogue population is the older USGS SGMC (61664 px beyond 300 m, median 15 px away): it is pre-Quaternary-inclusive, so it can contain real faults absent from a Quaternary catalogue, but it is also where mapping later rejected. It is a candidate POOL for the two-round objective, not a validated win.",
+ "seconds": 3.2
+}

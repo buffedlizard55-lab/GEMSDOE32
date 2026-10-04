@@ -1,0 +1,49 @@
+{
+ "rule": "greedy maximum-expected-coverage of the truth-scatter-smoothed surface (sigma 1.85 px)",
+ "objective": "smooth",
+ "sigma_px": 1.85,
+ "field": "h19_5.tif",
+ "emitted_px": 44090,
+ "budget": 44090,
+ "support_px": 121131,
+ "footprint_px": 5167373,
+ "marginal_last": 0.5102909207344055,
+ "marginal_first": 4.298656940460205,
+ "coverage_of_field_surface": 72243.5074450341,
+ "catalogue_px_emitted": 0,
+ "credit_audit": {
+  "n_emitted": 44090,
+  "total_mass": 44090.0,
+  "redundancy_fraction": 0.4589702880471762,
+  "mean_self_kernel": 0.097339836493337
+ },
+ "seconds": 207.2,
+ "incumbent": {
+  "emitted_px": 44090,
+  "coverage_of_field_surface": 88569.47428542521,
+  "coverage_ratio_new_over_incumbent": 0.8157,
+  "overlap_px": 5628
+ },
+ "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif",
+ "sha256": "5d881c82d9f66dc5593e2aa0a073d055c38b7a97802af71b737dcec2a7b5ee2e",
+ "bytes": 154757,
+ "crs": "EPSG:32611",
+ "width": 3292,
+ "height": 3730,
+ "transform": [
+  100.0,
+  0.0,
+  243350.0,
+  0.0,
+  -100.0,
+  4508550.0
+ ],
+ "dtype": "float32",
+ "positive_px": 44090,
+ "finite_px": 12279160,
+ "min": 0.0,
+ "max": 1.0,
+ "outside_footprint_all": true,
+ "range_ok": true,
+ "finite_inside_footprint": true
+}
