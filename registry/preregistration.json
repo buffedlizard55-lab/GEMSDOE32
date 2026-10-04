@@ -20,18 +20,5 @@
  "promotion_rule": "mean paired contrast > 0 on >= 3 of 4 folds, else no promotion",
  "honesty": "The proxy truth is the visible catalogue, so this instrument CANNOT reward a prediction that is off-catalogue -- the population the real test set is drawn from. A pass licenses packaging a candidate, never a claim of a score.",
  "amended_from": "GEMSDOE32-PREREG-1",
- "amendment_reason": "PREREG-1's bar arm was non-binding on the first two folds (prior DTI 0.13 -> bar 0.026 while observed marginals were 1-4), so the bar could not discriminate; the amendment prices the bar at the live anchor (0.26) and adds a second mass-matched control. Fold-0/1 results of PREREG-1 are kept in git history.",
- "interrupted_runs": [
-  {
-   "id": "GEMSDOE32-PREREG-2",
-   "status": "launched, reached 2 of 4 folds, killed by resource contention (no second heavy job may run while a fold is fitting on a 2 vCPU / 3 GB box)",
-   "amendment": "prices the credit bar at the live anchor (prior DTI 0.26 -> bar 0.052) and budget 9,000 px, because PREREG-1's bar arm was non-binding at prior 0.13 (observed marginals 1-4)",
-   "partial_result": {
-    "fold_0_A1_minus_A0": 0.0053,
-    "fold_1_A1_minus_A0": 0.0149,
-    "note": "same sign as PREREG-1's 4-fold mean of +0.0100; not the record"
-   },
-   "record": "GEMSDOE32-PREREG-1 (evidence/holdout_run1.json) is the preregistered result that counts"
-  }
- ]
+ "amendment_reason": "PREREG-1's bar arm was non-binding on the first two folds (prior DTI 0.13 -> bar 0.026 while observed marginals were 1-4), so the bar could not discriminate; the amendment prices the bar at the live anchor (0.26) and adds a second mass-matched control. Fold-0/1 results of PREREG-1 are kept in git history."
 }

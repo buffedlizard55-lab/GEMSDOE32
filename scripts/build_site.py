@@ -60,21 +60,49 @@ def download_block(sub: dict | None, name: str) -> str:
         return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
                 'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
     f = sub.get("file", {})
-    zeros = sub.get("file_zeros", {})
     sha = (f.get("sha256") or "")
     note = sub.get("note", "")
+
+    def link(rel: str, label: str, cls: str = "") -> str:
+        """Render a download link only if the file is actually present -- never a dead button."""
+        p = ROOT / rel
+        if not p.exists():
+            return ""
+        c = f' class="{cls}"' if cls else ""
+        return f'<a{c} href="{esc(rel.replace("docs/", ""))}">{esc(label)}</a> '
+
+    primary = link(f.get("path", f"docs/downloads/{name}.tif"),
+                   f"Download {esc(name)}.tif", "btn")
+    zeros_p = (f.get("path") or "").replace(".tif", "-zeros.tif")
+    zeros = link(zeros_p, "0.0-outside variant", "btn alt")
+    zzip = link(f"docs/downloads/{name}.zip", ".zip", "btn alt")
+    receipt = link(f"docs/downloads/checks-{name}.tif.json", "format receipt (independent re-read)")
+
+    pack_rows = ""
+    if sub.get("pack"):
+        cells = []
+        for e in sub["pack"]:
+            rel = e.get("path", "")
+            a = link(rel, rel.split("/")[-1])
+            cells.append(
+                f"<tr><td><b>{esc(e.get('role',''))}</b></td><td>{a or '&mdash;'}</td>"
+                f"<td class=mut>{esc((e.get('sha256') or '')[:16])}&hellip;</td>"
+                f"<td class=mut>{esc(e.get('note',''))}</td></tr>")
+        pack_rows = ("<h3>Identification pack &mdash; the other two queries</h3>"
+                     "<table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr>"
+                     + "".join(cells) + "</table>")
+
     return f"""<div class=dl>
-<h2>&#11015;&nbsp;Download the submission GeoTIFF</h2>
-<p><a class=btn href="downloads/{esc(name)}.tif">Download {esc(name)}.tif</a>
-<a class="btn alt" href="downloads/{esc(name)}.zip">.zip</a></p>
-<p><b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<h2>&#11015;&nbsp;ONE-CLICK SUBMISSION FILE</h2>
+<p>{primary}{zzip}{zeros}</p>
+<p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
+<b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
 <code>{esc(note)}</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-{int(f.get('positive_px') or 0):,} predicted pixels · every footprint pixel finite and in [0, 1] ·
-NaN outside the footprint · sha256 <code>{esc(sha[:16])}&hellip;</code></p>
-<p class=mut>Same predictions with 0.0 instead of NaN outside the footprint:
-<a href="downloads/{esc(name)}-zeros.tif">zeros variant</a> ·
-<a href="downloads/checks-{esc(name)}.tif.json">format receipt (independent re-read)</a></p>
+{int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
+0 NaN anywhere · no nodata tag · sha256 <code>{esc(sha[:16])}&hellip;</code>
+{('· ' + receipt) if receipt else ''}</p>
+{pack_rows}
 <p class=warn><b>Status.</b> {esc(sub.get('status_line',''))}</p>
 </div>"""
 

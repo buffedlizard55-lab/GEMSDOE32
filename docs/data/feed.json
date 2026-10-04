@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-04T03:29:10Z",
+ "generated_utc": "2026-10-04T04:16:07Z",
  "sources": [
   {
    "id": "competition",
@@ -376,6 +376,88 @@
    "cost": "high (DEM tile download + hydrology)",
    "data_status": "the official link table is mirrored in the group's repo (`data/dem_links.json`, sha256 8804dbff8754...); tile fetch needs CI egress",
    "status": "registered; not run (cost), no slot"
+  },
+  {
+   "id": "H61-1",
+   "rank": 1,
+   "title": "Basement-step lineaments gated by surface quiescence",
+   "layers": [
+    "depth_to_base_surf (organizer: 'Depth to basement surface - thickness of sedimentary cover')",
+    "det_elev_slope, det_elev",
+    "iso_grav_anom + iso_grav_anom_hg / _vg / _slope"
+   ],
+   "signature": "multi-scale ridge extraction on the GRADIENT-MAGNITUDE RIDGE (Hessian ridge, 3 scales) of sediment-cover thickness, then skeletonised: a fault-block boundary is a STEP in cover thickness, so the boundary is the crest line of the gradient field, not the gradient blob. Gated by LOW surface expression (small det_elev_slope, small surface curvature).",
+   "why_off_catalogue": "a Quaternary surface-fault catalogue records what is exposed; a block boundary under thick basin fill has no surface trace and therefore cannot be in it. The quiescence gate is the discriminator: it removes exactly the population the catalogue already contains (faults with scarps).",
+   "differs_from_repo": "features.py has only depth_grad = smoothed |grad band15|, a first-derivative magnitude. It never extracts the ridge line of that gradient, never uses the cover-thickness VALUE as a concealment weight, never applies a surface-quiescence gate, and never works at more than one scale. The sibling repository's concealment prior used SGMC map-unit polygons, not the official cover-thickness raster.",
+   "expected_dti": "highest of the five: it changes WHERE mass goes rather than how it is packed",
+   "cost": "low (one official band, already on disk; no new data)",
+   "data_status": "band already fetched and hash-verified (registry/data_manifest.json)",
+   "status": "registered; NOT validated; no slot requested"
+  },
+  {
+   "id": "H61-2",
+   "rank": 2,
+   "title": "Seismicity lineament coupling",
+   "layers": [
+    "ieq_n100a15 (organizer: 'Earthquake intensity or density')",
+    "deq_n100a15 (organizer: 'Distance to earthquake')",
+    "det_elev, det_elev_slope as the corroborating surface witness"
+   ],
+   "signature": "anisotropic ridge / coherence maxima of the seismicity-density field (structure tensor -> coherence + orientation, then non-maximum suppression along the minor axis at two scales), required to coincide with a curvature inflection in the detrended surface. A line of hypocentres is a fault plane; a density blob is not.",
+   "why_off_catalogue": "instrumental seismicity is a DYNAMIC inventory. Blind faults, creeping faults, and faults whose slip rate is too low to have preserved a Quaternary scarp still rupture small earthquakes; a geomorphic catalogue records only the last of those three.",
+   "differs_from_repo": "features.py carries bands 10 and 16 ONLY as raw columns; no derived channel uses them, no registry arm uses seismicity, and there is no ridge, coherence or orientation transform on either band anywhere in the tree.",
+   "expected_dti": "moderate: coverage gain concentrated in basin interiors the field currently under-serves",
+   "cost": "low (bands on disk; free USGS ComCat API optional for hypocentral depths)",
+   "data_status": "bands on disk; ComCat obtainability untested",
+   "status": "registered; NOT validated; no slot requested"
+  },
+  {
+   "id": "H61-3",
+   "rank": 3,
+   "title": "Tilt-angle (TDR) zero-crossing magnetic edge lineaments",
+   "layers": [
+    "tc (organizer: 'Tilt angle or total curvature - magnetic field derivative FOR EDGE DETECTION')",
+    "tmi_vg, tmi_hg, rtp, tmi"
+   ],
+   "signature": "the ZERO-CROSSING CONTOUR of the tilt angle, not its magnitude: the tilt derivative is the standard depth-independent locator for a magnetic contact, whereas the magnitude peaks wander with source depth. Paired with tmi_vg as an independent witness, rejecting where the two disagree.",
+   "why_off_catalogue": "TDR edges respond to SUBSURFACE magnetisation contrasts irrespective of exposure, so they locate contacts under cover and contacts with no topographic expression.",
+   "differs_from_repo": "features.py derives tmi_edge = |grad band14| and rtp_edge = |grad band2| but never touches band 6 or band 9. Band 6 is the layer the organizers describe as being for edge detection and it has NO derived channel in this repo. Measured: tmi_edge correlates with official band 3 at rho = +0.9330 (IR-32-REDUND-01), so the repo spends a channel recomputing a supplied layer while leaving the purpose-built edge layer unused.",
+   "expected_dti": "moderate: strongest where magnetic coverage exists",
+   "cost": "low (bands on disk)",
+   "data_status": "bands on disk",
+   "status": "registered; NOT validated; no slot requested"
+  },
+  {
+   "id": "H61-4",
+   "rank": 4,
+   "title": "GNSS-derived full 2-D strain tensor -> principal-axis anisotropic matched filter",
+   "layers": [
+    "official bands INSUFFICIENT: geod_2ndinv, geod_shearrate and geod_dilaterate are three scalars of a tensor; orientation is not recoverable from them",
+    "external: Nevada Geodetic Laboratory MIDAS velocity field (http://geodesy.unr.edu/) and/or EarthScope/UNAVCO GNSS velocity products (https://www.unavco.org/)"
+   ],
+   "signature": "reconstruct the full 2-D strain-rate tensor from GNSS velocities, take its principal extensional axis, and use that azimuth as the orientation prior of an oriented matched filter (a fault strikes near-perpendicular to sigma_3), tuned per pixel rather than isotropically.",
+   "why_off_catalogue": "orientation predicts WHICH WAY a missing fault must run, so the search can be steered to the mechanically favoured strike where the topographic expression is ambiguous.",
+   "differs_from_repo": "no arm in this repo uses the orientation of the geodetic tensor, because it is not in the supplied data.",
+   "expected_dti": "indirect: sharpening rather than extension",
+   "cost": "medium",
+   "data_status": "NOT OBTAINED and NOT VERIFIED as obtainable from this sandbox; per the standing brief a candidate needing external data must have its source checked as obtainable BEFORE being proposed as viable, so this entry is ranked and explicitly NOT proposed as ready to run",
+   "status": "registered; data obtainability unverified; no slot requested"
+  },
+  {
+   "id": "H61-5",
+   "rank": 5,
+   "title": "Metre-scale scarp matched filter from the official 1 m DEM link table",
+   "layers": [
+    "external: 1 m / 10 m 3DEP DEM tiles from the official 1m_DEM_links.csv",
+    "det_elev, det_elev_slope for context"
+   ],
+   "signature": "anisotropic matched filter for metre-scale scarps; a fault with less than 1 m of throw averaged over a 100 m cell is invisible in the provided grid by construction.",
+   "why_off_catalogue": "below-grid-resolution scarps are precisely the class a 1:24,000-scale surface compilation omits.",
+   "differs_from_repo": "the repo has NO LiDAR arm at all. H60-5 (chi/knickpoint residuals) is registered but was never run; this variant is a matched filter on the scarp itself, which is a cheaper and different measurement.",
+   "expected_dti": "indirect, and the tile fetch plus hydrology is heavy on 2 vCPU",
+   "cost": "high",
+   "data_status": "the official link table is mirrored in a sibling repository (sha256 8804dbff8754...); the tiles themselves were NOT obtained and their obtainability from this sandbox is unverified",
+   "status": "registered; data obtainability unverified; no slot requested"
   }
  ],
  "claims": [
@@ -418,39 +500,46 @@
   }
  ],
  "submission": {
-  "name": "gems32-h19-5-smoothmaxcov-44090",
-  "note": "gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score",
-  "status_line": "Format-validated, mass-matched candidate. Emission rule = greedy maximum-expected-coverage of the field blurred by the inferred truth scatter (1.85 px). Measured +0.0247 +/- 0.0005 (12/12 paired draws) better than the incumbent's raster-order dotting on the live-anchored truth model, and the packing rule itself is +0.0100 (4/4 folds) on the blocked catalogue holdout. NOT organizer-scored, NOT a proven improvement, and spending a slot still requires an approved bo.slot_gate record. sha256 2dc67f4bdb8d1bf2\u2026",
+  "name": "gems32-probe-S1-ANCHOR-identical-to-live-02600",
+  "note": "GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061",
+  "status_line": "PRIMARY = the S1 anchor of the three-slot identification experiment. In-footprint values are BIT-IDENTICAL to the group's live-scored 0.2600 emission (owner report, not an organizer receipt). Uploading it re-validates the portal path and is the first of the three queries that measure the hidden-set recall T/K, the hidden label mass K and the wasted mass F exactly. NOT a claimed improvement.",
   "file": {
-   "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
-   "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
-   "bytes": 199257,
+   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+   "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+   "bytes": 806758,
    "positive_px": 44090
   },
-  "file_zeros": {
-   "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif",
-   "sha256": "5d881c82d9f66dc5593e2aa0a073d055c38b7a97802af71b737dcec2a7b5ee2e",
-   "bytes": 154757
-  },
-  "rule": "greedy maximum-expected-coverage of the truth-scatter-smoothed surface (sigma 1.85 px)",
-  "objective": "smooth",
-  "sigma_px": 1.85,
+  "file_zeros": null,
+  "pack": [
+   {
+    "role": "S2 SCALE",
+    "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
+    "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
+    "bytes": 799095,
+    "positive_px": 44090,
+    "note": "S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta."
+   },
+   {
+    "role": "S3 NULL-ADD",
+    "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
+    "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
+    "bytes": 810344,
+    "positive_px": 46090,
+    "note": "S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1)."
+   },
+   {
+    "role": "CANDIDATE 2 (held)",
+    "path": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
+    "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
+    "bytes": 806599,
+    "positive_px": 44090,
+    "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
+   }
+  ],
+  "rule": "identity (S1); scale 0.5 (S2); S1 + 2000 null dots (S3)",
   "field": "h19_5.tif",
   "emitted_px": 44090,
-  "budget": 44090,
-  "support_px": 121131,
-  "footprint_px": 5167373,
-  "marginal_last": 0.5102909207344055,
-  "marginal_first": 4.298656940460205,
-  "coverage_of_field_surface": 72243.5074450341,
-  "catalogue_px_emitted": 0,
-  "seconds": 207.2,
-  "incumbent": {
-   "emitted_px": 44090,
-   "coverage_of_field_surface": 88569.47428542521,
-   "coverage_ratio_new_over_incumbent": 0.8157,
-   "overlap_px": 5628
-  }
+  "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",
@@ -1009,9 +1098,9 @@
   },
   {
    "id": "IR-32-VERIFY-01",
-   "severity": "low",
-   "statement": "The DrivenData submission validator is not public; the prior '[0, 1]' rejection was explained by the group (NaN inside the footprint) and is consistent with the format text, but the exact validator behaviour cannot be reproduced locally.",
-   "mitigation": "two variants are shipped (outside=nan and outside=zero), both with every footprint pixel finite and in [0, 1]; the checks JSON proves it by independent re-read"
+   "severity": "open",
+   "statement": "The historical DrivenData rejection \"Predicted values must be in range [0, 1]\" CANNOT be reproduced from anything currently shipped. scripts/audit_shipped.py re-reads all six GeoTIFFs in docs/downloads/ from disk and finds every one portal-legal: EPSG:32611, 3730x3292, single-band float32, 12,279,160/12,279,160 cells finite, 0 NaN, and ZERO values outside [0, 1]. The specific file behind that one upload was never obtained, so the trigger remains inferred, not proven.",
+   "mitigation": "Two mechanisms that CAN produce the condition do exist in the competition's own inputs and are measured here: (1) training_features.tif declares its nodata as -3.4028234663852886e+38 (the float32 minimum, not NaN) and 3,061 cells per band inside the 5,167,373-cell scored footprint carry that sentinel; (2) a footprint mask derived from band 1 is 1,521 cells smaller than the template footprint, stranding those cells as NaN. Both are engineered out: every shipped file is written all-finite with no nodata tag, and the writer fails closed by re-reading the bytes it just wrote. Both the NaN-outside and zero-outside encodings are published."
   },
   {
    "id": "IR-32-FIELD-01",
@@ -1048,6 +1137,54 @@
    "severity": "medium",
    "statement": "A parallel session's tree (merged to main as PR #1, package src/gemsdoe32/) advertises a note string reading 'Holdout DTI: 0.2600'. 0.2600 is the group's OWNER-REPORTED leaderboard score for a different artifact; no holdout in either tree has returned it, and the same tree's artifact (45,000 dots, sha256 2c1861f1...) carries no receipt linking those bytes to any score.",
    "mitigation": "Its files are preserved, its download is listed with its own provenance, and the root README labels those numbers as that session's claims. This repository's own recommended download and its measured numbers are kept separate in registry/submission_build.json and evidence/."
+  },
+  {
+   "id": "IR-32-MERGE-01",
+   "severity": "blocking (FIXED 2026-10-04)",
+   "statement": "README.md and .gitignore were committed to main with UNRESOLVED MERGE-CONFLICT MARKERS: '<<<<<<< HEAD' on README line 1, '=======' line 300, '>>>>>>> origin/main' line 570; the same in .gitignore at lines 1/24/54. The repository's own front page was unreadable on GitHub, and the .gitignore rules that RE-INCLUDE the downloadable GeoTIFFs ('!docs/downloads/*.tif') sat inside the conflicted region next to a bare 'downloads/' pattern that would have excluded the docs/downloads/ directory entirely (git cannot re-include a file whose parent directory is excluded).",
+   "mitigation": "Both files rewritten on 2026-10-04: README combines both sides and leads with the one-click download; .gitignore keeps the data/large-artifact rules, anchors the Python template's 'downloads/' to '/downloads/' so docs/downloads/ stays trackable, and drops the duplicated blocks. tests/test_repo_hygiene.py now FAILS on any conflict marker in any tracked text file and asserts that the primary download is not git-ignored."
+  },
+  {
+   "id": "IR-32-SHIP-01",
+   "severity": "high (FIXED 2026-10-04)",
+   "statement": "The repository's previously-shipped PRIMARY download, docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif (sha256 2dc67f4bdb8d1bf2...), places 25,485 of its 44,090 emitted pixels (57.8%) OFF the belief field it is supposed to be packing, and scores 0.0163197 against the only real truth raster in this competition (labels.tif, 60,988 catalogue pixels) versus the incumbent's 0.1617720. That is a 10x collapse in credit per unit of emitted mass at IDENTICAL budget (0.0213 vs 0.2154). The README advertised +0.0100 (blocked holdout) and +0.0247 (live-anchored model) for this same artifact. Those two figures are a different frame and a model estimate respectively, so they are not the same measurement -- but neither was ever checked against the artifact's own internal consistency, and on that test it fails outright.",
+   "mitigation": "Root cause isolated and reproduced: the superseded rule smooths a 1-px binary ridge by sigma = 1.85 px and then runs a max-coverage greedy on the blur; smoothing lowers and SHIFTS the peak, so the sweep spreads mass over the blurred blob instead of locking onto the crest. Replaced by src/gems32/emitter.py: support-confined, lazy-greedy on the EXACT coverage-deducted marginal gain. Measured at matched 44,090-px budget: 0 off-support pixels, credit delivered on the field's own surface 90,230.9 vs the incumbent's 88,569.5 (+1.9%), and +0.1314 over the rule it replaces on the catalogue proxy. All six previously shipped files are demoted to comparators and the audit is reproducible with scripts/audit_shipped.py."
+  },
+  {
+   "id": "IR-32-BAR-01",
+   "severity": "medium",
+   "statement": "Two documents in this repository state DIFFERENT marginal bars for the same metric. src/gems32/metric.py and the passing test tests/test_metric.py::test_marginal_emission_rule_exact_single_truth_pixel say k > alpha*s = 0.0520 at s = 0.26. docs/research/score-ceiling-analysis.md section 1 states k > alpha*s/(1 - alpha*s) = 0.0549. The latter form does not follow from the metric: adding one unit of mass raises the denominator by EXACTLY alpha regardless of where it lands, giving k > alpha*s. A brute-force sweep over 300 random configurations agrees with the alpha*s form 300/300.",
+   "mitigation": "The exact theorem is stated, machine-verified in scripts/verify_theorems.py block (B), and used by src/gems32/emitter.py. NOTE the propagated consequence: the successor repository GEMSDOE28 uses tau_live = 0.05485 as its live break-even efficiency, which is 5.5% too high, biasing its pruning rule toward deleting dots that were still profitable."
+  },
+  {
+   "id": "IR-32-BAR-02",
+   "severity": "medium",
+   "statement": "The 'adaptive credit bar' that this project has repeatedly cited as its stopping rule CANNOT BIND on an emission confined to its own belief support. For a support pixel of a binary field, kbar(x) = sum_delta field(x+delta)k(delta) >= field(x)k(0) = 1, so the added false-positive mass 1 - kbar <= 0 and the acceptance inequality holds unconditionally for any s < 1/alpha = 5. Measured: emitter.emit(field, budget=None, prior_dti=0.26) consumes the ENTIRE 121,131-px H19-5 support and terminates with stopped_by='exhausted_support'.",
+   "mitigation": "Stated openly in knowledge/02 section 4b. The bar is still the correct rule for deciding whether a dot PAYS; it is simply not a constraint on an emission that never leaves its own support. Budget must therefore come from somewhere else -- which is exactly why the three-slot identification experiment that measures the hidden-set quantities is the next action rather than another budget sweep."
+  },
+  {
+   "id": "IR-32-FETCH-01",
+   "severity": "medium (FIXED 2026-10-04)",
+   "statement": "scripts/fetch_data.py's cache guard compared a file's sha256 TO ITSELF: 'hashlib.sha256(dest.read_bytes()).hexdigest() == _sha(dest)' is vacuously true, so any pre-existing file was accepted WITHOUT verification. A corrupted or truncated mirror would have been used silently.",
+   "mitigation": "The pinned digest is now passed into gh_raw(..., want_sha=...) so a stale file is re-fetched rather than trusted, and the post-fetch verification is unchanged. scripts/fetch_mirrors.sh is added as a fail-closed shell entry point that exits non-zero on any digest mismatch. All six mirrors were re-fetched and matched their pins on 2026-10-04."
+  },
+  {
+   "id": "IR-32-SCORE-02",
+   "severity": "high",
+   "statement": "The standing brief states that the highest score from the group's sites is 'h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-nan: 0.2708' on GEMSDOE28. That page itself prints 'NO GEMSDOE28 SCORE' and prices the same family as a PROJECTION to 0.2701, i.e. a model estimate, not a score. The live public leaderboard's 0.2708 is rank #13, participant smashi34 -- an unrelated team. The brief also states '0.3195 is the highest score right now'; the official leaderboard read on 2026-10-04 has 0.3262 at #1 (nchuzhoy), 0.3222 at #2 (kinghorton42), and 0.3195 at #3 (DARD).",
+   "mitigation": "Both corrections are printed at the top of README.md and in knowledge/02 section 1 with the leaderboard link and the read date. No projection or owner report is presented as an organizer-verified result anywhere in this repository."
+  },
+  {
+   "id": "IR-32-REDUND-01",
+   "severity": "low",
+   "statement": "src/gems32/features.py spends derived channels recomputing layers that the organizers already supply. MEASURED: tmi_edge (= gaussian-smoothed |grad tmi|) correlates with official band 3 'tmi_hg' at Spearman rho = +0.9330. The measured participation ratio of the 35-channel stack is 16.95 effective dimensions. Conversely, 13 of the 19 official bands receive NO derived transform, including band 6 'tc', which the organizers describe as a magnetic field derivative FOR EDGE DETECTION, and bands 10/16 (seismicity).",
+   "mitigation": "Recorded rather than silently changed: altering the feature stack would invalidate the stored holdout receipts. NOTE a claim in this session's own first draft was that grav_edge duplicates official band 18; that is FALSE and is retracted here -- measured Spearman rho = -0.0098. The redundancy finding is limited to tmi_edge and is the motivation for hypotheses H61-3 (use band 6) and H61-2 (use bands 10/16)."
+  },
+  {
+   "id": "IR-32-DATA-03",
+   "severity": "informational (RESOLVED 2026-10-04)",
+   "statement": "The standing brief recorded 'the single remaining blocker to training is data placement'. Every hash-pinned competition raster is now fetched and digest-verified in this checkout: training_features.tif 418,912,844 bytes sha256 4371c82e...; labels.tif and existing_faults.tif 425,830 bytes 7ba308cc...; sample_submission.tif 1,599,597 bytes 2176d08e...; h19_5.tif 1,712,322 bytes ec1f9b56...; qfaults_v2_in_footprint.json 1,252,341 bytes 4d6efc7b... . All six match their manifest pins. The feature stack builds in 147 s on 2 vCPU.",
+   "mitigation": "bash scripts/fetch_mirrors.sh reproduces the fetch with no DrivenData credentials; drivendata.org is never contacted by any script in this repository. The provenance caveat IR-32-DATA-01 still stands: these are owner mirrors, not organizer bytes, and only the sha256 pins make them usable."
   }
  ]
 }
