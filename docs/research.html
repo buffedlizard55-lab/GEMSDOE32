@@ -1,0 +1,61 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Research &amp;amp; method</title><link rel=stylesheet href=assets/site.css></head><body>
+<header><div class=wrap><h1>Research &amp;amp; method</h1><nav><a href="index.html" class=mut>Home</a> <a href="executive-summary.html" class=mut>Submit in 5 minutes</a> <a href="research.html">Research &amp; method</a> <a href="hypotheses.html" class=mut>Hypotheses</a> <a href="leaderboard.html" class=mut>Leaderboard</a> <a href="sources.html" class=mut>Sources</a> <a href="irregularities.html" class=mut>Irregularities</a></nav></div></header>
+<main class=wrap>
+<div class=card><h2 style="margin-top:0">The metric, verbatim, and what it implies</h2>
+<p>From the official problem description: <code>k(d)=max(1-d/300m,0)</code>,
+<code>TPw = &sum;_g max_x p(x)k(d(x,g))</code>, <code>FPw = &sum;_x p(x)[1-max_g k]</code>,
+<code>FNw = &sum;_g [1-max_x p k]</code>, <code>DTI = TPw/(TPw + 0.2&middot;FPw + 0.8&middot;FNw + &epsilon;)</code>.
+The published worked example (TPw=3.00, FPw=1.89, FNw=2.00 &rarr; 0.60) is reproduced by
+<code>tests/test_metric.py</code>.</p>
+<p><b>Identity 1 (norm).</b> <code>FNw = |G| - TPw</code> exactly, so
+<code>DTI = T / (0.2(T + S - M) + 0.8K)</code> with S the total prediction mass and M the mass whose
+kernel weight toward the nearest truth pixel is subtracted. Verified to 1e&minus;12 against the
+published form on random rasters.</p>
+<p><b>Identity 2 (the credit bar).</b> Adding one unit of prediction mass changes the denominator
+by exactly 0.2, so <code>dDTI &gt; 0 &hArr; k &gt; 0.2&middot;DTI</code>. At the group's best (0.26)
+the bar is <b>0.052</b>; at the leaderboard #1 (0.3262) it is <b>0.065</b>. The group's own
+independently measured &ldquo;live rate&rdquo; of credit per added dot is 0.0548 — the analytic bar
+and the empirical one agree to a few percent, which is the strongest single piece of evidence that
+the group's best file sits exactly at its own optimum.</p>
+<p><b>Consequence.</b> Emission is a knapsack: rank pixels by expected new credit, stop at the bar.
+The packing objective is the metric's own true-positive term, so the objective and the score are
+the same object (submodular &rarr; greedy is within 1&minus;1/e). What the field <em>is</em> matters
+more than the packing: a ribbon costs 0.2 per surplus pixel, a centreline costs nothing.</p></div>
+<div class=card><h2 style="margin-top:0">The two-round objective: a discovery option</h2>
+<p>One file is scored twice. Writing the objective as <code>DTI_1 + &rho;&middot;DTI_2</code>, the
+emission bar becomes <code>0.2&middot;DTI/(1+&rho;)</code> for a candidate whose pixels have a
+plausible path to being <em>verified</em> as a new fault, because round 2 pays for them and round 1
+only charges the (cheap) false-positive mass. The prize pools ($50k initial vs $250k final) argue
+for &rho;&nbsp;&gt;&nbsp;1; conservative reading &rho;=1 is what the code defaults to. This arm
+(<code>A3</code>) is measured in the holdout ladder, but its real value cannot be measured on a
+catalogue-derived proxy — it is a strategy argument from the published rules, and it is labelled as
+such.</p></div>
+<div class=card><h2 style="margin-top:0">What the previous 30+ sessions established (and why this one is different)</h2>
+<ul>
+<li>The group built a large, careful experiment registry (H16&hellip;H59 across
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE28">GEMSDOE28</a>,
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE29">GEMSDOE29</a>,
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE30">GEMSDOE30</a>): 2<sup>5-1</sup> factorial
+(catalogue geometry +0.0610, DEM curvature/scarp +0.0253 dominant; potential-field gradients,
+strain/seismicity and thermal families inert), packing ladders, Euler depth licences, drainage,
+slip-tendency and catalogue-difference arms. Almost every promotion decision ends in a veto by a
+secondary proxy, and the strongest artifact family remains an emission of the H19-5 surface.</li>
+<li><b>The leak they found and this repository excludes:</b> a &ldquo;distance to catalogue&rdquo;
+feature gives a detector AUC of exactly 1.0 on the visible labels and transfers nothing
+off-catalogue.</li>
+<li><b>What was missing:</b> an <em>acquisition function</em>. Their gates are fixed thresholds
+evaluated on cheap proxies; there is no model of the live score as an expensive, noisy observation
+and no explicit cost for spending a slot. <code>src/gems32/bo.py</code> adds exactly that, logs every
+holdout evaluation as training data for it, and reports surrogate-vs-live residuals as holdout
+drift.</li>
+</ul></div>
+<div class=card><h2 style="margin-top:0">Data provenance</h2>
+<p>All rasters are fetched from hash-pinned owner mirrors through the GitHub API
+(<code>registry/data_manifest.json</code>, verified again on every fetch; 6/7 files match, the
+seventh — <code>sample_submission.tif</code> — is pinned by a digest computed here). They are
+<b>not</b> organizer-authenticated bytes: see <a href="irregularities.html">IR-32-DATA-01</a>.</p></div></main>
+<footer><div class=wrap>GEMSDOE32 &middot; generated 2026-10-04T02:34Z from <code>registry/</code> + <code>evidence/</code> &middot;
+scores marked <em>claim</em> are owner-reported, not organizer receipts; the public leaderboard rows are read from the official page.
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div></footer></body></html>

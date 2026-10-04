@@ -1,0 +1,16 @@
+{
+ "id": "GEMSDOE32-PREREG-1",
+ "date": "2026-10-04",
+ "harness": "4 quadrant blocks x 1 draw; buffer 30 px removed from training around each block",
+ "detector": "HistGradientBoostingClassifier(max_iter=80, lr=0.1, leaves=31), 60k positives / 240k negatives sampled from the training region only",
+ "budget_px_per_block": 8000,
+ "prior_dti_for_bar": 0.13,
+ "rho_discovery": 1.0,
+ "primary_contrast": "A1/A2 greedy cover vs A0 dot_thin at MATCHED emitted count (paired per fold; pass = mean>0 and >=3/4 folds positive)",
+ "secondary_contrasts": [
+  "A3_greedy_bar_discovery vs A2_greedy_credit_bar",
+  "A5_nms_ridge_matched vs A0_dot_thin_matched"
+ ],
+ "proxy": "the visible catalogue (USGS/INGENIOUS) inside the hidden block; NOT the hidden new-fault labels",
+ "note": "no weekly submission slot is spent on the strength of this proxy alone"
+}

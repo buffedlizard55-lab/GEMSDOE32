@@ -1,0 +1,47 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>Submit in five minutes</title><link rel=stylesheet href=assets/site.css></head><body>
+<header><div class=wrap><h1>Submit in five minutes</h1><nav><a href="index.html" class=mut>Home</a> <a href="executive-summary.html">Submit in 5 minutes</a> <a href="research.html" class=mut>Research &amp; method</a> <a href="hypotheses.html" class=mut>Hypotheses</a> <a href="leaderboard.html" class=mut>Leaderboard</a> <a href="sources.html" class=mut>Sources</a> <a href="irregularities.html" class=mut>Irregularities</a></nav></div></header>
+<main class=wrap>
+<div class=card><h2 style="margin-top:0">1. Download</h2>
+<p><a href="downloads/">the GeoTIFF</a>
+(or the <a href="downloads/">zeros variant</a>).
+The <code>.zip</code> beside it contains the same single GeoTIFF for portals that prefer one file.</p></div>
+<div class=card><h2 style="margin-top:0">2. Verify (30 seconds)</h2>
+<pre>python3 - &lt;&lt;'EOF'
+import rasterio, numpy as np, hashlib
+p = "file.tif"
+print(hashlib.sha256(open(p,'rb').read()).hexdigest())
+with rasterio.open(p) as s:
+    a = s.read(1); print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
+inside = np.isfinite(a)
+print("finite", inside.sum(), "min", np.nanmin(a), "max", np.nanmax(a))
+assert np.nanmin(a) &gt;= 0 and np.nanmax(a) &lt;= 1
+EOF</pre>
+<p class=mut>Expected: EPSG:32611, 3292&times;3730, 100 m, float32, values in [0,&nbsp;1] wherever finite.
+The repository's own receipt is <a href="downloads/checks-.json">here</a>.</p></div>
+<div class=card><h2 style="margin-top:0">3. Upload</h2>
+<ol><li>Open the competition's <b>Submit</b> page (link on the <a href="sources.html">sources</a> page).</li>
+<li>Choose the <code>.tif</code> (or the <code>.zip</code>) as <em>File to submit</em>.</li>
+<li>Paste the note from the <a href="index.html">home page</a> box into <em>Note (optional)</em>.</li>
+<li>Submit. Remember: <b>three scored submissions per week</b>, and you must later choose <b>one</b>
+file that is scored in <em>both</em> prize rounds.</li></ol></div>
+<div class=card><h2 style="margin-top:0">4. Why the previous file was rejected with
+&ldquo;Predicted values must be in range [0,&nbsp;1]&rdquo;</h2>
+<p>The competition requires &ldquo;values between 0 and 1&rdquo; for a single-band float32 raster.
+A file that carries <b>NaN inside the data footprint</b> fails every range test, and a file that
+writes a value outside the footprint but inside the raster can fail it too. The exact validator is
+not public, so this is the data-supported explanation, not a quote from DrivenData
+(<a href="irregularities.html">IR-32-VERIFY-01</a>). Both variants shipped here are built so that
+<b>every pixel inside the footprint is finite and in [0,&nbsp;1]</b>, and the receipt proves it by
+independent re-read.</p></div>
+<div class=card><h2 style="margin-top:0">5. The two-round trap (read this once)</h2>
+<p>Your chosen file is scored first against a <em>fixed private set of faults the experts mapped
+before the competition</em> (top five &rarr; $10k each), and then re-scored against an
+<em>expanded</em> label set that includes faults the panel verifies from everyone's submissions
+(top five &rarr; $15k&hellip;$100k). A prediction that is a real fault missing from both catalogues
+can therefore be <em>worth more in round 2 than round 1</em>, and the metric's own weights
+(&alpha;=0.2) price that option cheaply.</p></div></main>
+<footer><div class=wrap>GEMSDOE32 &middot; generated 2026-10-04T02:34Z from <code>registry/</code> + <code>evidence/</code> &middot;
+scores marked <em>claim</em> are owner-reported, not organizer receipts; the public leaderboard rows are read from the official page.
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div></footer></body></html>

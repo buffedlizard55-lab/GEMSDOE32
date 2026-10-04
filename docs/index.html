@@ -1,0 +1,45 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize</title><link rel=stylesheet href=assets/site.css></head><body>
+<header><div class=wrap><h1>GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html" class=mut>Submit in 5 minutes</a> <a href="research.html" class=mut>Research &amp; method</a> <a href="hypotheses.html" class=mut>Hypotheses</a> <a href="leaderboard.html" class=mut>Leaderboard</a> <a href="sources.html" class=mut>Sources</a> <a href="irregularities.html" class=mut>Irregularities</a></nav></div></header>
+<main class=wrap>
+<div class=dl><h2 style="margin-top:0">Submission GeoTIFF</h2><p class=mut>The build has not been run in this checkout yet: <code>python3 scripts/fetch_data.py &amp;&amp; python3 scripts/build_features.py &amp;&amp; python3 scripts/build_submission.py</code>.</p></div>
+<div class=grid>
+<div class=card><h3>What this system is</h3>
+<ul>
+<li>A <b>verified implementation of the official metric</b> plus its algebra: the credit bar
+<code>k &gt; 0.2&middot;DTI</code> (0.052 at the group's best 0.26, 0.065 at the leaderboard #1 0.3262).</li>
+<li>A <b>spatially blocked holdout harness</b> that scores emission rules with the official
+metric on hidden catalogue blocks, preregistered before every run.</li>
+<li>A <b>Bayesian-optimisation slot gate</b> (<code>src/gems32/bo.py</code>): GP surrogate,
+expected improvement, explicit slot cost, and a drift report when live scores stop matching the
+proxy.</li>
+<li>A <b>live feed</b> of official sources and the public leaderboard (19 sources,
+leaderboard last read 2026-10-04).</li>
+</ul></div>
+<div class=card><h3>Where we stand (honest)</h3>
+<ul>
+<li>Public leaderboard #1 is <b>0.3262</b> (nchuzhoy), observed 2026-10-04.</li>
+<li>The group's best owner-reported score is <b>0.2600</b> (a dotted H19-5 emission; the row it is
+attributed to is unverified — <a href="irregularities.html">IR-32-SCORE-01</a>).</li>
+<li>Nothing in this repository has been scored. The download above is a <em>candidate</em>.</li>
+</ul></div>
+</div>
+<p class=mut>Holdout run not present in this checkout (see <code>scripts/run_holdout.py</code>).</p>
+<h2>The one-page case</h2>
+<blockquote>The metric is a <em>contract</em>: a false negative costs 4&times; a false positive
+(&alpha;=0.2, &beta;=0.8 on the official page), and 300 m of distance decay means an approximate
+line is still paid for. The system's job is therefore to place the <em>thinnest possible</em>
+prediction where the expected credit per unit mass exceeds <code>0.2&middot;DTI</code> — and to
+spend one of the three weekly slots only when a surrogate says the expected improvement justifies
+the cost. Full derivation: <a href="research.html">Research &amp; method</a>.</blockquote>
+<h2>Feed</h2>
+<div class=card><b>Checklist before a slot</b>
+<ol><li>Does the candidate beat the incumbent on the <em>same-run</em> blocked holdout? (see the ladder above)</li>
+<li>Is the expected improvement over the incumbent larger than the slot cost? (<code>bo.slot_gate</code>)</li>
+<li>Is the file format-validated by an independent re-read? (<code>checks-&hellip;.json</code>)</li>
+<li>Is the note field filled and the two-round consequence understood? (<a href="executive-summary.html">instructions</a>)</li></ol>
+</div></main>
+<footer><div class=wrap>GEMSDOE32 &middot; generated 2026-10-04T02:34Z from <code>registry/</code> + <code>evidence/</code> &middot;
+scores marked <em>claim</em> are owner-reported, not organizer receipts; the public leaderboard rows are read from the official page.
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div></footer></body></html>

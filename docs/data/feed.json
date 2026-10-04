@@ -1,0 +1,302 @@
+{
+ "schema": 1,
+ "generated_utc": "2026-10-04T02:34:47Z",
+ "sources": [
+  {
+   "id": "competition",
+   "title": "DOE GEMS Prize - overview",
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
+   "role": "competition home",
+   "status": "verified 2026-10-04"
+  },
+  {
+   "id": "problem",
+   "title": "Problem description, metric and submission format (verbatim source of metric.py)",
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
+   "role": "metric + format",
+   "status": "verified 2026-10-04 (fetched twice; worked example TP=3.00 FP=1.89 FN=2.00 -> 0.60 reproduced in tests)"
+  },
+  {
+   "id": "about",
+   "title": "About / additional resources",
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
+   "role": "rules and resources",
+   "status": "listed (not fetched)"
+  },
+  {
+   "id": "data",
+   "title": "Data download page (login-walled)",
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
+   "role": "competition data",
+   "status": "login required; not accessed from this repository"
+  },
+  {
+   "id": "leaderboard",
+   "title": "Public leaderboard",
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+   "role": "live score feed",
+   "status": "verified 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042"
+  },
+  {
+   "id": "rules_pdf",
+   "title": "GEMS rules PDF (NLR document 96647)",
+   "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
+   "role": "competition rules",
+   "status": "mirrored in the group's repos with sha256 50d854b1e0239fe6... (GEMSDOE28 docs/data/feed.json)"
+  },
+  {
+   "id": "reference_solution",
+   "title": "Official reference solution (U-Net, John Lipor, Portland State)",
+   "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+   "role": "baseline model",
+   "status": "cloned 2026-10-04; architecture and TverskyLoss(0.2, 0.8) read from the notebook"
+  },
+  {
+   "id": "geodawn",
+   "title": "GeoDAWN airborne magnetic and radiometric surveys, NW Great Basin",
+   "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
+   "role": "source of the magnetic/radiometric bands",
+   "status": "listed"
+  },
+  {
+   "id": "sciencebase_area",
+   "title": "GeoDAWN study-area item",
+   "url": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
+   "role": "survey extent",
+   "status": "listed"
+  },
+  {
+   "id": "gbcge",
+   "title": "Great Basin Center for Geothermal Energy - INGENIOUS project",
+   "url": "https://gbcge.org/current-projects/ingenious/",
+   "role": "source of the INGENIOUS fault catalogue",
+   "status": "listed"
+  },
+  {
+   "id": "mcre_srl",
+   "title": "Koehler et al. 2021, Field response and surface rupture of the 2020 M6.5 Monte Cristo Range earthquake, SRL 92(2A) 823-829",
+   "url": "https://doi.org/10.1785/0220200371",
+   "role": "H60-1 evidence: 28 km rupture on largely unmapped parts of the Candelaria fault",
+   "status": "verified 2026-10-04 via USGS Publications Warehouse record 70217872"
+  },
+  {
+   "id": "mcre_bssa",
+   "title": "Liu et al. 2021, Seismic and geodetic analysis of the 2020 Mw 6.5 MCRE, BSSA 111(6)",
+   "url": "https://doi.org/10.1785/0120200327",
+   "role": "H60-1 evidence: the causative faults had not been previously identified",
+   "status": "verified 2026-10-04"
+  },
+  {
+   "id": "mcre_nbmg",
+   "title": "NBMG Monte Cristo Range earthquake data (surface rupture maps)",
+   "url": "http://www.nbmg.unr.edu/Geohazards/Earthquakes/MonteCristoRangeEQData.html",
+   "role": "H60-1 vector source",
+   "status": "listed; not reachable from this sandbox (unknown host) - CI fetch step required"
+  },
+  {
+   "id": "mcre_reloc",
+   "title": "Ruhl et al. relocated Monte Cristo seismicity catalogue",
+   "url": "https://zenodo.org/records/5302368",
+   "role": "H60-1 corroboration (aftershock lineaments)",
+   "status": "listed"
+  },
+  {
+   "id": "usgs_qfaults",
+   "title": "USGS Quaternary Fault and Fold Database",
+   "url": "https://www.usgs.gov/natural-hazards/earthquake-hazards/faults",
+   "role": "the catalogue the competition labels come from",
+   "status": "listed"
+  },
+  {
+   "id": "nbmg_ingenious_rest",
+   "title": "NBMG Qfaults-INGENIOUS ArcGIS REST service (1,179 features in footprint)",
+   "url": "https://web2.nbmg.unr.edu/arcgis/rest/services/Qfaults/Qfaults_INGENIOUS/MapServer/0",
+   "role": "H60-2 newer catalogue",
+   "status": "verified by the group 2026-10-03 (docs/data/vector_faults_status.json, sha256 4d6efc7bb365...)"
+  },
+  {
+   "id": "gdr1391",
+   "title": "GDR submission 1391 - Nevada geothermal data",
+   "url": "https://gdr.openei.org/submissions/1391",
+   "role": "springs, wells, fault traces",
+   "status": "listed"
+  },
+  {
+   "id": "3dep",
+   "title": "USGS 3DEP / The National Map elevation (1 m DEM links given by the competition)",
+   "url": "https://apps.nationalmap.gov/downloader/",
+   "role": "H60-5 DEM source",
+   "status": "link table mirrored in the group's GEMSDOE repo (data/dem_links.json, sha256 8804dbff8754...)"
+  },
+  {
+   "id": "comcat",
+   "title": "USGS ANSS Comprehensive Earthquake Catalog (ComCat)",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+   "role": "seismicity lineaments (future arm)",
+   "status": "listed; not reachable from this sandbox"
+  }
+ ],
+ "source_count": 19,
+ "leaderboard": [
+  {
+   "rank": 1,
+   "participant": "nchuzhoy",
+   "score": 0.3262,
+   "submissions": 3,
+   "last_activity": "2h 55min ago"
+  },
+  {
+   "rank": 2,
+   "participant": "DARD",
+   "score": 0.3195,
+   "submissions": 12,
+   "last_activity": "2d 1h ago"
+  },
+  {
+   "rank": 3,
+   "participant": "alexoktaba",
+   "score": 0.3042,
+   "submissions": 21,
+   "last_activity": "4d 2h ago"
+  },
+  {
+   "rank": 4,
+   "participant": "Batik Shirt Brothers",
+   "score": 0.2998,
+   "submissions": 18,
+   "last_activity": "3d ago"
+  },
+  {
+   "rank": 5,
+   "participant": "xiaofanhu",
+   "score": 0.2941,
+   "submissions": 8,
+   "last_activity": "1d 11h ago"
+  },
+  {
+   "rank": 6,
+   "participant": "joeyfezster",
+   "score": 0.2919,
+   "submissions": 19,
+   "last_activity": "3d 8h ago"
+  },
+  {
+   "rank": 7,
+   "participant": "ndavis7",
+   "score": 0.2888,
+   "submissions": 7,
+   "last_activity": "1d 7h ago"
+  },
+  {
+   "rank": 8,
+   "participant": "mzoorob",
+   "score": 0.2884,
+   "submissions": 23,
+   "last_activity": "17h 51min ago"
+  },
+  {
+   "rank": 9,
+   "participant": "GrigorSargsyan",
+   "score": 0.2876,
+   "submissions": 9,
+   "last_activity": "1d 1h ago"
+  },
+  {
+   "rank": 10,
+   "participant": "HardcoreTechGod",
+   "score": 0.2854,
+   "submissions": 6,
+   "last_activity": "2w 1d ago"
+  },
+  {
+   "rank": 11,
+   "participant": "op01",
+   "score": 0.271,
+   "submissions": 5,
+   "last_activity": "4d 10h ago"
+  },
+  {
+   "rank": 12,
+   "participant": "kinghorton42",
+   "score": 0.2635,
+   "submissions": 5,
+   "last_activity": "1d 22h ago"
+  },
+  {
+   "rank": 13,
+   "participant": "ad3002",
+   "score": 0.2627,
+   "submissions": 19,
+   "last_activity": "2d 1h ago"
+  },
+  {
+   "rank": 14,
+   "participant": "No Fault of Our Own",
+   "score": 0.2624,
+   "submissions": 20,
+   "last_activity": "2d 2h ago"
+  },
+  {
+   "rank": 15,
+   "participant": "wbg1",
+   "score": 0.26,
+   "submissions": 10,
+   "last_activity": "19h 42min ago"
+  },
+  {
+   "rank": 16,
+   "participant": "SDCF9",
+   "score": 0.26,
+   "submissions": 9,
+   "last_activity": "9min ago"
+  },
+  {
+   "rank": 17,
+   "participant": "tchu",
+   "score": 0.2511,
+   "submissions": 17,
+   "last_activity": "4d 1h ago"
+  }
+ ],
+ "leaderboard_observed_utc": "2026-10-04",
+ "leaderboard_verified": true,
+ "hypotheses": [],
+ "irregularities": [
+  {
+   "id": "IR-32-DATA-01",
+   "severity": "high",
+   "statement": "The competition rasters used here are owner-supplied public GitHub mirrors (buffedlizard55-lab/GEMSDOE ref c0c06ac..., GEMSDOE24 ref 07345ea...), integrity-pinned by sha256 (training_features 4371c82e..., labels/existing_faults 7ba308cc...) but NOT organizer-authenticated. All numbers computed from them are conditional on that provenance.",
+   "mitigation": "hash-pinned manifest + independent re-hash on every fetch (scripts/fetch_data.py, registry/data_manifest.json)"
+  },
+  {
+   "id": "IR-32-DATA-02",
+   "severity": "medium",
+   "statement": "Own footprint computation gives 5,165,852 finite pixels; the group's record says 5,167,373. A 0.03% difference in the footprint criterion (threshold on -3.4e38 vs isfinite).",
+   "mitigation": "both criteria are recorded; the submission writer uses the finite test and its receipt reports the count"
+  },
+  {
+   "id": "IR-32-SCORE-01",
+   "severity": "high",
+   "statement": "Every live score in the group's ledger (0.2477, 0.2600, 0.1922, ...) is an owner/leaderboard-row report, not an organizer receipt linking those bytes to that row. The public leaderboard rows verified today (nchuzhoy 0.3262, DARD 0.3195) are the only scores this repository treats as observed, and they are observed for *other* teams, not for our files.",
+   "mitigation": "registry/submissions.json keeps 'claim' and 'verified' fields separate; the site prints the distinction on every card"
+  },
+  {
+   "id": "IR-32-PROXY-01",
+   "severity": "medium",
+   "statement": "The blocked holdout scores the visible catalogue as truth (hide-and-recover). The competition's hidden truth is a set of faults NOT in that catalogue, so a proxy win is necessary but not sufficient for a live win.",
+   "mitigation": "the harness reports per-fold pairs and the site labels the result 'proxy'; no slot is spent on the proxy alone (bo.slot_gate)"
+  },
+  {
+   "id": "IR-32-LEAK-01",
+   "severity": "high",
+   "statement": "A 'distance to catalogue' feature makes a detector AUC exactly 1.0 on the visible labels (found by the group: GEMSDOE29 README). No such channel is used in this repository's feature stack.",
+   "mitigation": "features.CHANNELS excludes it; verified by tests/test_features.py"
+  },
+  {
+   "id": "IR-32-VERIFY-01",
+   "severity": "low",
+   "statement": "The DrivenData submission validator is not public; the prior '[0, 1]' rejection was explained by the group (NaN inside the footprint) and is consistent with the format text, but the exact validator behaviour cannot be reproduced locally.",
+   "mitigation": "two variants are shipped (outside=nan and outside=zero), both with every footprint pixel finite and in [0, 1]; the checks JSON proves it by independent re-read"
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+# Verified working in this sandbox (Python 3.11): pip3 install --break-system-packages -r requirements.txt
+numpy>=1.26,<2.3
+rasterio>=1.3.9
+scikit-learn>=1.3
+scipy>=1.11
+pytest>=7.4
+# optional, for the GPU reference-solution path the official baseline uses (not required by this repo)
+# torch>=2.1
+# segmentation-models-pytorch>=0.3.3
