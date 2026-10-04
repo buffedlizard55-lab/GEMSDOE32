@@ -1,60 +1,60 @@
 {
- "name": "gems32-heatfield-44090-cv-supconfined-zeros",
- "note": "GEMSDOE32 CV-heatfield: 35-channel blocked-cross-validated field, top 44,090 px, cross-validated DTI +15% vs the best previous artifact at matched mass",
- "status_line": "PRIMARY = a cross-validated 35-channel field over the 19 official bands. Beat every previously shipped artifact at matched mass under two independent spatially blocked protocols (+15.0% whole-raster, +79.9% oracle-location vs dotted-d2.8). Every number is a proxy measurement against the visible catalogue: NO ORGANISER SCORE EXISTS for this or any artifact here.",
- "file": {
-  "path": "docs/downloads/gems32-heatfield-44090-cv-supconfined-zeros.tif",
-  "sha256": "a84734ab532fffde07e8ecd5ee55a702f776ee6a96c31a01e00f2c8509897210",
-  "bytes": 780107,
-  "positive_px": 44090
- },
- "file_zeros": null,
- "pack": [
-  {
-   "role": "S1 ANCHOR (identification pack)",
-   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-   "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
-   "bytes": 806758,
-   "positive_px": 44090,
-   "note": "the anchor of the three-slot identification experiment; bit-identical in-footprint to the group's live-scored 0.2600 emission. Uploading it re-validates the portal path."
+  "name": "gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros",
+  "note": "32GEMSDOE H32-D d2.8+2500 | holdout drift 0.15188 vs 0.14801, cat 0.10122 vs 0.09832, SGMC 0.06129 vs 0.06059 (all three better), 46,090 px, 0 on-catalogue | id 4de30601 | UNSCORED",
+  "status_line": "PRIMARY = the group's 0.2600 d2.8 emission with 500 uncorroborated speckles pruned and 2,500 priority-ordered H32 dots added (46,090 px, 0 on-catalogue). It is the only artifact in this checkout that beats the owner-reported 0.2600 incumbent on ALL THREE holdout instruments at once, and it is the artifact the site previously did not offer. NO ORGANISER SCORE EXISTS for it: every number here is a local proxy measurement.",
+  "file": {
+    "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+    "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+    "bytes": 250577,
+    "positive_px": 46090
   },
-  {
-   "role": "S2 SCALE",
-   "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
-   "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
-   "bytes": 799095,
-   "positive_px": 44090,
-   "note": "S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta."
+  "file_zeros": null,
+  "pack": [
+    {
+      "role": "S1 ANCHOR (identification pack)",
+      "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+      "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+      "bytes": 806758,
+      "positive_px": 44090,
+      "note": "the anchor of the three-slot identification experiment; bit-identical in-footprint to the group's live-scored 0.2600 emission. Uploading it re-validates the portal path."
+    },
+    {
+      "role": "S2 SCALE",
+      "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
+      "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
+      "bytes": 799095,
+      "positive_px": 44090,
+      "note": "S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta."
+    },
+    {
+      "role": "S3 NULL-ADD",
+      "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
+      "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
+      "bytes": 810344,
+      "positive_px": 46090,
+      "note": "S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1)."
+    },
+    {
+      "role": "CANDIDATE 2 (held)",
+      "path": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
+      "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
+      "bytes": 806599,
+      "positive_px": 44090,
+      "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
+    }
+  ],
+  "rule": "priority-ordered Poisson-disk packing with surgical pruning, validated on the blocked spatially-held-out quadrants",
+  "holdout": {
+    "catalogue_hidden_mean": 0.10122068397615705,
+    "sgmc_prevalence_calibrated_dti": 0.061294720121546874,
+    "drift_corrected_holdout_mean": 0.15188374789388925,
+    "on_catalogue_pixels": 0
   },
-  {
-   "role": "S3 NULL-ADD",
-   "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
-   "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
-   "bytes": 810344,
-   "positive_px": 46090,
-   "note": "S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1)."
-  },
-  {
-   "role": "CANDIDATE 2 (held)",
-   "path": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
-   "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
-   "bytes": 806599,
-   "positive_px": 44090,
-   "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
-  }
- ],
- "rule": "identity (S1); scale 0.5 (S2); S1 + 2000 null dots (S3)",
- "field": "h19_5.tif",
- "emitted_px": 44090,
- "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json",
- "superseded": [
-  {
-   "role": "SUPERSEDED (defective: 57.8% off-support, 0.0163 proxy)",
-   "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
-   "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
-   "bytes": 199257,
-   "positive_px": 44090,
-   "note": "kept on disk for the audit trail; it is no longer the recommended download"
-  }
- ]
+  "evidence": [
+    "evidence/h33_probe_controls.json",
+    "evidence/h33_holdout.json",
+    "evidence/h33_candidates.json",
+    "evidence/instrument_calibration.json",
+    "registry/slot_plan.json"
+  ]
 }
