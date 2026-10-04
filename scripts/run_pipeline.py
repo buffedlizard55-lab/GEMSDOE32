@@ -178,9 +178,13 @@ def build_historical_records(ddir: Path, ctx) -> list[dict]:
             "Intermediate thinned H19-5 (min_dist=1.5 px, 60,069 px, LB 0.2477).",
         ),
         (
-            "GEMS27-TGC-v2-on-D1.5",
+            # IR-33-DUP-01 (2026-10-04): this entry duplicated the GEMSDOE27 T-v2 raster and carried
+            # a wrong leaderboard value (0.2392).  The owner-reported score for 5512495c6bd1 is
+            # 0.2449 (standing brief and GEMSDOE28 docs/downloads/manifest.json).  The record is now
+            # kept exactly once, in build_group28_records(), at the corrected value.
+            "GEMS27-TGC-v2-on-D1.5-DUPLICATE-REMOVED",
             "GEMSDOE27",
-            0.2392,
+            None,
             "scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
             False,
             {
@@ -361,6 +365,8 @@ def build_historical_records(ddir: Path, ctx) -> list[dict]:
 
     records = []
     for cid, fam, lb, rel_path, leaked, dvec, notes in historical_specs:
+        if cid.endswith("DUPLICATE-REMOVED"):
+            continue                      # see IR-33-DUP-01 above
         m = read_binary(ddir / rel_path)
         ev = evaluate_candidate_holdout(m, ctx, cid)
         ev["family"] = fam
@@ -368,6 +374,166 @@ def build_historical_records(ddir: Path, ctx) -> list[dict]:
         ev["submitted_to_lb"] = True
         ev["leaderboard_dti"] = lb
         ev["retrospective_halo_leakage"] = leaked
+        ev["design_vector"] = dvec
+        ev["notes"] = notes
+        records.append(ev)
+    return records
+
+
+def build_group28_records(ddir: Path, ctx) -> list[dict]:
+    """Evaluate the GEMSDOE27/28/29/30 group artifacts on the same spatially blocked holdout.
+
+    Added 2026-10-04 (session 3).  Before this, `registry/data_manifest.json` did not contain a
+    single GEMSDOE27/28 artifact, so the repository could not reproduce -- or build on -- the
+    group's own best live-scored file (8acb75e1f2cc, owner-reported 0.2708).  Sixteen artifacts were
+    fetched, sha256-pinned and cross-checked against the published GEMSDOE28
+    docs/downloads/manifest.json digests.
+
+    Every `leaderboard_dti` below is an [OWNER-REPORT] read from the standing owner brief or from
+    GEMSDOE28's own manifest; `submitted_to_lb=False` means no organizer score is claimed.
+    """
+    specs = [
+        # (id, family, lb, path, submitted, design, note)
+        ("GEMS28-H27-4-R1-SOLO-D2.8",
+         "GEMSDOE28", 0.2708,
+         "scored/gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-nan.tif", True,
+         {"n_dots_norm": 40199 / 50000.0, "r_min_px_norm": 2.4 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 3891 / 44090.0,
+          "aug_fraction": 0.0},
+         "GROUP BEST LIVE SCORE (owner-reported 0.2708). Measured here: it is exactly D2.8 minus the "
+         "3,891 dots whose distance to the catalogue is exactly 1 px (100 m); nothing else changes. "
+         "The +0.0108 live gain is therefore a pure catalogue-flank mass removal."),
+        ("GEMS28-H36-1-RUNG30-BLIND-R1",
+         "GEMSDOE28", None,
+         "scored/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif", False,
+         {"n_dots_norm": 37660 / 50000.0, "r_min_px_norm": 3.0 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 3673 / 44090.0,
+          "aug_fraction": 0.0},
+         "Re-pack of the H19-5 surface at packing rung 3.0 (41,333 px) + the H27-4 blind r=1 flank "
+         "prune (37,660 px). UNSCORED. GEMSDOE28's own far-field (LOSFO) gate: +0.001713, 16/20 cells."),
+        ("GEMS28-H37-1-COVERPROB-H19-5-R1",
+         "GEMSDOE28", None,
+         "scored/gems28-h37-1-coverprob-h19-5-r1-20261003-0bbddf41eb6d-nan.tif", False,
+         {"n_dots_norm": 37447 / 50000.0, "r_min_px_norm": 3.0 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 3673 / 44090.0,
+          "aug_fraction": 0.0},
+         "Lazy-greedy maximum-expected-coverage packing of the detector probability field under the "
+         "official 300 m kernel. UNSCORED; GEMSDOE28's LOSFO far-field test FAILED F1 "
+         "(-0.000037 +/- 0.000832), so its 0.278-0.286 projection was withdrawn."),
+        ("GEMS28-H38-1-HF-EULER-R30-R1",
+         "GEMSDOE28", None,
+         "scored/gems28-h38-1-hf-euler-r30-r1-20261003-56a9f473edc7-nan.tif", False,
+         {"n_dots_norm": 37860 / 50000.0, "r_min_px_norm": 3.0 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.10, "w_lidar_3dep": 0.20, "prune_fraction": 3673 / 44090.0,
+          "aug_fraction": 200 / 44090.0},
+         "H36-1 + 200 multi-physics corroborated dots (DeAngelo et al. 2022 conductive heat-flow "
+         "residual >= 50 mW/m^2 within 1 km, or Reid et al. 1990 shallow SI=0 Euler cluster within "
+         "300 m of the 1-px ridge). UNSCORED; the group's FIRST addition arm to clear the live "
+         "break-even efficiency tau_live on LOSFO far-field truth (0.07724 / 0.06993 credit per dot)."),
+        ("GEMS28-H32-1-TIP-EULER-DEJITTER",
+         "GEMSDOE28", None,
+         "scored/gems28-h32-1-tip-euler-dejitter-d2-8-20261003-c3aeda1d31a3-nan.tif", False,
+         {"n_dots_norm": 41656 / 50000.0, "r_min_px_norm": 2.4 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 2434 / 44090.0,
+          "aug_fraction": 0.0},
+         "Tip- and Euler-depth-cluster-protected mid-segment flank-shadow de-jittering on D2.8 "
+         "(41,656 px). UNSCORED; GEMSDOE28 OOF +0.00127, 10/10 seeds, 4/4 folds."),
+        ("GEMS28-H32-1-PRETHIN-TIP-EULER",
+         "GEMSDOE28", None,
+         "scored/gems28-h32-1-prethin-tip-euler-d2-8-20261003-31e35eee884e-nan.tif", False,
+         {"n_dots_norm": 42294 / 50000.0, "r_min_px_norm": 2.4 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 0.0,
+          "aug_fraction": 0.0},
+         "Pre-thinning tip- and Euler-protected de-jittering before dot_thin(2.8) (42,294 px). "
+         "UNSCORED; re-emits 638 interior ridge dots blocked by flank shadow."),
+        ("GEMS28-H37-1-PROBE-UNION-POOL-R1",
+         "GEMSDOE28", None,
+         "scored/gems28-h37-1-probe-union-pool-r1-20261003-52a13184267e-nan.tif", False,
+         {"n_dots_norm": 38545 / 50000.0, "r_min_px_norm": 3.0 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 3673 / 44090.0,
+          "aug_fraction": 0.0},
+         "H37-1 rule over the union pool (H19-5 + the detector's own 1-px ridges). UNSCORED probe."),
+        ("GEMS27-T-V2-ON-D1.5",
+         "GEMSDOE27", 0.2449,
+         "scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif", True,
+         {"n_dots_norm": 61328 / 50000.0, "r_min_px_norm": 1.45 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.82, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.25, "prune_fraction": 0.0,
+          "aug_fraction": 1259 / 5000.0},
+         "Topographic gap-closure T-v2 on D1.5 (61,328 px). Owner-reported 0.2449 vs the 0.2477 "
+         "D1.5 base, i.e. -0.0028: straight-line gap closure is false-positive drag. NOTE: the value "
+         "0.2392 previously hard-coded for this file in this script was wrong and is corrected here."),
+        ("GEMS27-ALL-INCREMENTS-D2.8",
+         "GEMSDOE27", None,
+         "scored/gems27-all-increments-d2-8-h27-4-r1-t-v2-20261002-23ad46a4d7ba-nan.tif", False,
+         {"n_dots_norm": 41507 / 50000.0, "r_min_px_norm": 2.4 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.82, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.25, "prune_fraction": 3889 / 44090.0,
+          "aug_fraction": 1306 / 5000.0},
+         "All increments (T-v2 + H27-4 r1) on D2.8 (41,507 px). UNSCORED. Measured here: it still "
+         "carries 67 dots at exactly 1 px from the catalogue, so the flank prune was not complete."),
+        ("GEMS27-T-V2-ON-D2.8",
+         "GEMSDOE27", None,
+         "scored/gems27-topo-gap-closure-t-v2-on-d2-8-20261002-3ebd51534bb1-nan.tif", False,
+         {"n_dots_norm": 45374 / 50000.0, "r_min_px_norm": 2.4 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.82, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.25, "prune_fraction": 0.0,
+          "aug_fraction": 1284 / 5000.0},
+         "T-v2 gap closure applied directly on D2.8 (45,374 px). UNSCORED; 1,284 dots added on top "
+         "of the live 0.2600 emission, which the D1.5 ablation predicts should LOSE score."),
+        ("GEMS27-T-V2-PLUS-H27-4-ON-D1.5",
+         "GEMSDOE27", None,
+         "scored/gems27-topo-gap-closure-t-v2-plus-h27-4-r1-on-d1-5-20261002-d466b251f309-nan.tif", False,
+         {"n_dots_norm": 55992 / 50000.0, "r_min_px_norm": 1.45 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.82, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.25, "prune_fraction": 5413 / 60069.0,
+          "aug_fraction": 1259 / 5000.0},
+         "T-v2 + H27-4 r1 flank prune on D1.5 (55,992 px). UNSCORED."),
+        ("GEMS27-H28-1-EDGE-COHERENCE",
+         "GEMSDOE27", None,
+         "scored/gems27-h28-1-edge-coherence-plus-t-v2-h27-4-20261002-1113fba5f6cb-nan.tif", False,
+         {"n_dots_norm": 59075 / 50000.0, "r_min_px_norm": 1.45 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.82, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.25, "prune_fraction": 5413 / 60069.0,
+          "aug_fraction": 1259 / 5000.0},
+         "Edge-coherence + T-v2 + H27-4 (59,075 px). UNSCORED."),
+        ("GEMS27-FARFIELD-SWAP-PROBE",
+         "GEMSDOE27", None,
+         "scored/gems27-farfield-swap-augmented-detector-probe-20261002-a34b0799df59-nan.tif", False,
+         {"n_dots_norm": 60069 / 50000.0, "r_min_px_norm": 1.5 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.80, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.25, "prune_fraction": 0.0,
+          "aug_fraction": 0.0},
+         "Far-field swap augmented-detector probe (60,069 px). UNSCORED probe."),
+        ("GEMS27-H27-4-R1-PRUNED-D1.5",
+         "GEMSDOE27/28", None,
+         "scored/gems27-h27-4-r1-pruned-d1-5-20261003-450eb6859636-nan.tif", False,
+         {"n_dots_norm": 54714 / 50000.0, "r_min_px_norm": 1.5 / 3.0, "off_catalogue_purity": 1.0,
+          "corrob_multiline_weight": 0.85, "w_h32a_dip_step": 0.0, "w_h32b_transtensional_swarm": 0.0,
+          "w_h32c_mt_claycap": 0.0, "w_lidar_3dep": 0.20, "prune_fraction": 5355 / 60069.0,
+          "aug_fraction": 0.0},
+         "H27-4 r1 flank prune applied to D1.5 (54,714 px). UNSCORED."),
+    ]
+    records = []
+    for cid, fam, lb, rel_path, submitted, dvec, notes in specs:
+        p = ddir / rel_path
+        if not p.exists():
+            print(f"  [warn] missing group artifact {rel_path}; skipped")
+            continue
+        m = read_binary(p)
+        ev = evaluate_candidate_holdout(m, ctx, cid)
+        ev["family"] = fam
+        ev["is_historical"] = True
+        ev["submitted_to_lb"] = submitted
+        ev["leaderboard_dti"] = lb
+        ev["retrospective_halo_leakage"] = False
         ev["design_vector"] = dvec
         ev["notes"] = notes
         records.append(ev)
@@ -619,6 +785,9 @@ def main() -> int:
 
     print("[3/6] Evaluating 11 historical DrivenData-scored submissions on spatial holdout...")
     records = build_historical_records(ddir, ctx)
+
+    print("[3b/6] Evaluating 13 GEMSDOE27/28 group artifacts (incl. the 0.2708 live best)...")
+    records.extend(build_group28_records(ddir, ctx))
 
     print("[4/6] Computing H32-A..D geological surfaces and evaluating 8 candidate variants...")
     d28 = read_binary(ddir / "scored/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif")
