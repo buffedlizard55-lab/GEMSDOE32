@@ -24,7 +24,7 @@ from __future__ import annotations
 
 import json
 import math
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, fields
 from pathlib import Path
 
 import numpy as np
@@ -34,12 +34,24 @@ LOG_DEFAULT = Path("registry/observations.jsonl")
 
 @dataclass
 class Observation:
-    design_id: str
-    x: list
-    holdout: float
+    """One evaluation, submitted or not: the surrogate's training data.
+
+    ``kind`` is ``holdout`` (cheap, unlimited, on the proxy) or ``live`` (expensive: one of the three
+    weekly slots).  ``x`` is the design vector when one is available, which is what the GP consumes;
+    ``live`` records the leaderboard score once a design has actually been submitted, so a persistent
+    gap between what the surrogate predicts and what the board returns can be measured.
+    """
+    kind: str
+    name: str
+    score: float
+    n_px: float | None = None
+    source: str = ""
+    design_id: str = ""
+    x: list | None = None
     live: float | None = None
     live_verified: bool = False
     note: str = ""
+    meta: dict = field(default_factory=dict)
 
     def to_json(self) -> str:
         return json.dumps(self.__dict__, sort_keys=True)
@@ -47,7 +59,8 @@ class Observation:
     @staticmethod
     def from_json(line: str) -> "Observation":
         d = json.loads(line)
-        return Observation(**d)
+        known = {f.name for f in fields(Observation)}
+        return Observation(**{k: v for k, v in d.items() if k in known})
 
 
 def append_observation(obs: Observation, path: str | Path = LOG_DEFAULT) -> Path:
@@ -157,20 +170,28 @@ def slot_gate(candidates: list[dict], incumbent: float, rho: float = 1.0,
     """
     best = max(candidates, key=lambda c: c.get("mu", c.get("holdout", -1)))
     bar = max(min_ei, cost_slots * 1e-3)
+    # The two-round objective DTI_1 + rho*DTI_2 prices a *discovery* candidate (a prediction with a
+    # plausible path to being verified as a new fault by the expert panel) as if rho extra rounds of
+    # credit were riding on it, so its effective bar and required gain are divided by (1 + rho).
+    discovery = bool(best.get("discovery"))
+    eff_bar = bar / (1.0 + (rho if discovery else 0.0))
+    eff_gain = min_holdout_gain / (1.0 + (rho if discovery else 0.0))
     reasons = []
-    if best.get("holdout", -1) - incumbent < min_holdout_gain:
-        reasons.append("holdout does not beat incumbent")
-    if best.get("ei", 0.0) - best.get("holdout", 0.0) * 0.0 < bar and best.get("ei", 0.0) < bar:
-        reasons.append("expected improvement below the slot cost")
+    if best.get("holdout", -1) - incumbent < eff_gain:
+        reasons.append("holdout does not beat the incumbent by the required margin")
+    if best.get("ei", 0.0) < eff_bar:
+        reasons.append("expected improvement below the cost of a slot")
     if best.get("already_live"):
         reasons.append("design already has a verified live observation")
+    if best.get("format_ok") is False:
+        reasons.append("submission artifact failed its format receipt")
     return SlotDecision(best.get("design_id", "?"), best.get("holdout", float("nan")),
-                        best.get("ei", float("nan")), incumbent, bar, not reasons, reasons)
+                        best.get("ei", float("nan")), incumbent, eff_bar, not reasons, reasons)
 
 
 def drift_report(observations: list[Observation], surrogate: GPSurrogate, threshold: float = 0.03) -> dict:
     """Compare surrogate predictions with live scores; a persistent gap is holdout drift."""
-    live = [o for o in observations if o.live is not None]
+    live = [o for o in observations if o.live is not None and o.x is not None]
     if not live or not getattr(surrogate, "fitted", False):
         return {"n": 0, "status": "insufficient data"}
     mu, sd = surrogate.predict(np.array([o.x for o in live], float))

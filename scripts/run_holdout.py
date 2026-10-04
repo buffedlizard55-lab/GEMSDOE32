@@ -1,101 +1,131 @@
 #!/usr/bin/env python3
-"""Preregistered spatially blocked hide-and-recover run of the emission-arm ladder."""
-import argparse, json, sys, time
+"""Preregistered, spatially blocked holdout for the *emission ladder*.
+
+This measures one thing: how much of the official metric a *better placement of the same mass*
+buys, on a proxy truth that is hidden from the fit.  It does not measure the hidden new-fault set,
+and it cannot: the proxy truth is the visible catalogue (see IR-32-PROXY-01 on the site).
+
+Preregistration (written to registry/preregistration.json before any fold is run, and reproduced
+here verbatim): 4 quadrant blocks, 30 px buffer around the held-out block, detector
+HistGradientBoosting(max_iter=80, learning_rate=0.1, max_leaf_nodes=31) on the 31 structural
+channels, up to 60k positive / 240k negative training pixels sampled from the *other* three
+quadrants, emission budget 8,000 px per block, prior DTI 0.13 for the credit bar, rho 1.0 for the
+two-round arm.  Arms and contrasts are fixed in ``holdout.run_fold``.
+"""
+from __future__ import annotations
+
+import json
+import sys
+import time
 from pathlib import Path
 
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
-from gems32 import grid, holdout, detector  # noqa: E402
+from gems32 import bo, detector, grid, holdout  # noqa: E402
 
-PREREG = dict(
-    id="GEMSDOE32-PREREG-1",
-    date="2026-10-04",
-    harness="4 quadrant blocks x 1 draw; buffer 30 px removed from training around each block",
-    detector="HistGradientBoostingClassifier(max_iter=80, lr=0.1, leaves=31), 60k positives / 240k negatives sampled from the training region only",
-    budget_px_per_block=8000,
-    prior_dti_for_bar=0.13,
-    rho_discovery=1.0,
-    primary_contrast="A1/A2 greedy cover vs A0 dot_thin at MATCHED emitted count (paired per fold; pass = mean>0 and >=3/4 folds positive)",
-    secondary_contrasts=["A3_greedy_bar_discovery vs A2_greedy_credit_bar", "A5_nms_ridge_matched vs A0_dot_thin_matched"],
-    proxy="the visible catalogue (USGS/INGENIOUS) inside the hidden block; NOT the hidden new-fault labels",
-    note="no weekly submission slot is spent on the strength of this proxy alone",
-)
+DATA = Path("/tmp/gems32/data")
+STACK = Path("/tmp/gems32/work/feature_stack.npy")
+RECEIPT = ROOT / "registry" / "feature_receipt.json"
+
+PREREG = {
+    "id": "GEMSDOE32-PREREG-1",
+    "statement": ("Emission-ladder holdout: does greedy maximum-expected-coverage packing of the "
+                  "same field beat the incumbent raster-order thinning cascade at MATCHED emitted "
+                  "mass, under the official metric, on spatially blocked proxy truth?"),
+    "blocks": "4 quadrants of the footprint, 30 px buffer between train and held-out block",
+    "detector": "HistGradientBoosting(max_iter=80, learning_rate=0.1, max_leaf_nodes=31)",
+    "training_sample": "<=60k positive / 240k negative pixels drawn from the other three quadrants",
+    "channels": "all 35 structural channels (memory-mapped stack, registry/feature_receipt.json)",
+    "budget_px": 8000,
+    "prior_dti": 0.26,
+    "rho_two_round": 1.0,
+    "arms": {
+        "A1_greedy_fixed_budget": "greedy max-expected-coverage, exactly budget pixels",
+        "A2_greedy_credit_bar": "same greedy, stop when marginal expected credit < 0.2*prior_dti",
+        "A3_greedy_bar_discovery": "same greedy, bar = 0.2*prior_dti/(1+rho)  (two-round objective)",
+        "A0_dot_thin_matched": "incumbent's own rule: raster-order dot-thin, count matched to A1",
+        "A5_nms_ridge_matched": "non-max-suppressed ridge peaks, top-k to A1's count",
+        "A4_random_matched": "uniform random pixels, count matched to A1",
+    },
+    "primary_contrast": "A1 - A0 (matched mass); secondary: A2 - A0, A3 - A2, A5 - A0",
+    "promotion_rule": "mean paired contrast > 0 on >= 3 of 4 folds, else no promotion",
+    "honesty": ("The proxy truth is the visible catalogue, so this instrument CANNOT reward a "
+                "prediction that is off-catalogue -- the population the real test set is drawn from. "
+                "A pass licenses packaging a candidate, never a claim of a score."),
+}
 
 
-def main():
+def main() -> int:
+    import argparse
     ap = argparse.ArgumentParser()
-    ap.add_argument("--stack", default="/tmp/gems32/work/feature_stack.npy")
-    ap.add_argument("--labels", default="/tmp/gems32/data/labels.tif")
-    ap.add_argument("--features", default="/tmp/gems32/data/training_features.tif")
-    ap.add_argument("--out", default="evidence/holdout_run1.json")
-    ap.add_argument("--budget", type=int, default=8000)
-    ap.add_argument("--buffer", type=int, default=30)
-    ap.add_argument("--prior-dti", type=float, default=0.13)
-    ap.add_argument("--rho", type=float, default=1.0)
-    ap.add_argument("--limit-folds", type=int, default=0)
+    ap.add_argument("--tag", default="1")
+    ap.add_argument("--prereg-id", default=None)
+    ap.add_argument("--prior-dti", type=float, default=None)
+    ap.add_argument("--budget", type=int, default=None)
     a = ap.parse_args()
-
-    PREREG["budget_px_per_block"] = a.budget
-    PREREG["prior_dti_for_bar"] = a.prior_dti
-    (ROOT / "registry").mkdir(exist_ok=True)
+    if a.prereg_id:
+        PREREG["id"] = a.prereg_id
+        PREREG["amended_from"] = "GEMSDOE32-PREREG-1"
+        PREREG["amendment_reason"] = ("PREREG-1's bar arm was non-binding on the first two folds "
+                                      "(prior DTI 0.13 -> bar 0.026 while observed marginals were "
+                                      "1-4), so the bar could not discriminate; the amendment prices "
+                                      "the bar at the live anchor (0.26) and adds a second mass-matched "
+                                      "control. Fold-0/1 results of PREREG-1 are kept in git history.")
+    if a.prior_dti is not None:
+        PREREG["prior_dti"] = a.prior_dti
+    if a.budget is not None:
+        PREREG["budget_px"] = a.budget
+    t0 = time.time()
+    if not STACK.exists():
+        print(f"missing {STACK}: run scripts/build_features.py first", file=sys.stderr)
+        return 2
+    stack = np.load(STACK, mmap_mode="r")
+    footprint = grid.read_footprint(DATA / "training_features.tif")
+    labels = grid.read_labels(DATA / "labels.tif")
+    receipt = json.loads(RECEIPT.read_text()) if RECEIPT.exists() else {}
     (ROOT / "registry" / "preregistration.json").write_text(json.dumps(PREREG, indent=1) + "\n")
 
-    stack = np.load(a.stack, mmap_mode="r")
-    labels = grid.read_labels(a.labels)
-    footprint = grid.read_footprint(a.features)
-    blocks = holdout.quadrant_blocks(labels.shape)
-    if a.limit_folds:
-        blocks = blocks[:a.limit_folds]
-
-    results = []
-    t0 = time.time()
+    blocks = holdout.quadrant_blocks(footprint.shape, pad=0)
+    results, rng = [], np.random.default_rng(20261004)
+    print(f"stack {stack.shape} dtype {stack.dtype}; footprint {int(footprint.sum())} px; "
+          f"{len(blocks)} blocks; prereg {PREREG['id']}")
     for k, block in enumerate(blocks):
-        y0, y1, x0, x1 = block
-        train_mask = holdout.block_train_mask(labels.shape, block, a.buffer)
-        rng = np.random.default_rng(1000 + k)
-        spec = detector.DetectorSpec(seed=k)
-        X, y = detector.sample_training_rows(stack, labels, train_mask, spec, rng)
-        det = detector.Detector(spec).fit(X, y)
-        field = det.predict_field(stack, y0, y1)[:, x0:x1]   # block columns only
-        truth = labels[y0:y1, x0:x1]
-        fp = footprint[y0:y1, x0:x1]
-        from sklearn.metrics import roc_auc_score
-        auc = roc_auc_score(truth[fp].astype(int), field[fp]) if truth[fp].any() else float("nan")
-        res = holdout.run_fold(field, truth, fp, a.budget, a.prior_dti, a.rho, rng, seed=k)
-        res.update(block=[int(y0), int(y1), int(x0), int(x1)], auc=float(auc),
-                   n_pos_train=int((labels & train_mask).sum()), n_pos_test=int(truth.sum()),
-                   field_mean=float(field[fp].mean()), seconds=round(time.time() - t0, 1))
-        results.append(res)
-        print(f"fold {k} block={block} auc={auc:.4f} pos_test={int(truth.sum())} "
-              + " ".join(f"{x['name'].split('_')[0]}={x['dti']:.4f}" for x in res["arms"]), flush=True)
+        t1 = time.time()
+        train = holdout.block_train_mask(footprint.shape, block, buffer_px=30)
+        X, y = detector.sample_training_rows(stack, labels, train & footprint,
+                                             detector.DetectorSpec(), rng)
+        model = detector.Detector().fit(X, y)
+        field = model.predict_field(stack, block[0], block[1])[:, block[2]:block[3]]
+        truth = labels[block[0]:block[1], block[2]:block[3]] & footprint[block[0]:block[1], block[2]:block[3]]
+        fold = holdout.run_fold(field, truth, footprint[block[0]:block[1], block[2]:block[3]],
+                                budget=PREREG["budget_px"], prior_dti=PREREG["prior_dti"],
+                                rho=PREREG["rho_two_round"], rng=rng, seed=1000 + k)
+        fold["block"] = list(block)
+        fold["seconds"] = round(time.time() - t1, 1)
+        results.append(fold)
+        auc = fold.get("auc")
+        print(f"fold {k} block={tuple(block)} auc={fold['auc']:.4f} pos_test={fold['n_truth']} n1={fold['n1']} n2={fold['n2']} " +
+              " ".join(f"{a}={fold['arms'][a]['dti']:.4f}({fold['arms'][a]['n_px']})"
+                      for a in sorted(fold["arms"])), flush=True)
 
-    summary = summarize(results)
-    out = dict(preregistration=PREREG, folds=results, summary=summary,
-               seconds=round(time.time() - t0, 1))
-    p = ROOT / a.out
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps(out, indent=1))
+    summary = holdout.summarise(results)
+    out = {"preregistration": PREREG, "receipt": receipt, "footprint_px": int(footprint.sum()),
+           "folds": results, "summary": summary, "seconds": round(time.time() - t0, 1),
+           "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())}
+    (ROOT / "evidence").mkdir(exist_ok=True)
+    (ROOT / "evidence" / f"holdout_run{a.tag}.json").write_text(json.dumps(out, indent=1) + "\n")
+
+    # ---- every holdout evaluation is logged as data for the surrogate, submitted or not
+    for a, v in summary["arms_mean"].items():
+        bo.append_observation(bo.Observation(kind="holdout", name=f"{PREREG['id']}:{a}", score=float(v),
+                                             n_px=float(summary["arms_mean_n_px"].get(a, 0.0)),
+                                             source="run_holdout", meta={"prereg": PREREG["id"]}))
     print(json.dumps(summary, indent=1))
-
-
-def summarize(folds):
-    names = [x["name"] for x in folds[0]["arms"]]
-    by = {n: [f["arms"][i]["dti"] for f in folds for i, a in enumerate(f["arms"]) if a["name"] == n] for n in names}
-    mean = {n: float(np.mean(v)) for n, v in by.items()}
-    out = {"arms_mean": mean, "arms_mean_n_px": {n: float(np.mean([f["arms"][i]["n_px"] for f in folds for i, a in enumerate(f["arms"]) if a["name"] == n])) for n in names}}
-    for name, (a, b) in {"primary_A2_minus_A0": ("A2_greedy_credit_bar", "A0_dot_thin_2p8_topk"),
-                         "secondary_A1_minus_A0": ("A1_greedy_fixed_budget", "A0_dot_thin_2p8_topk"),
-                         "secondary_A3_minus_A2": ("A3_greedy_bar_discovery", "A2_greedy_credit_bar")}.items():
-        d = []
-        for f in folds:
-            m = {x["name"]: x["dti"] for x in f["arms"]}
-            if a in m and b in m:
-                d.append(m[a] - m[b])
-        out[name] = {"mean": float(np.mean(d)), "folds_positive": int(np.sum(np.array(d) > 0)), "n_folds": len(d), "per_fold": d}
-    return out
+    print(f"wrote evidence/holdout_run{a.tag}.json in {'%.1f' % out['seconds']}s")
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())

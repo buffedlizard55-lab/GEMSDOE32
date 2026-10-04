@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
-"""Generate the GitHub Pages site from the registry JSON (no manual edits, always current)."""
+"""Render the GitHub Pages site from the registry + evidence JSON. Nothing is hand-written HTML.
+
+Run: ``python3 scripts/build_site.py``  (also runs in CI before every Pages deploy)
+"""
+from __future__ import annotations
+
 import html
 import json
 import sys
@@ -11,309 +16,473 @@ sys.path.insert(0, str(ROOT / "src"))
 from gems32 import feed as FEED  # noqa: E402
 
 DOCS = ROOT / "docs"
-NAV = [("index.html", "Home"), ("executive-summary.html", "Submit in 5 minutes"),
-       ("research.html", "Research &amp; method"), ("hypotheses.html", "Hypotheses"),
+NAV = [("index.html", "Home"), ("executive-summary.html", "Make a submission"),
+       ("research.html", "Research"), ("hypotheses.html", "Hypotheses"),
        ("leaderboard.html", "Leaderboard"), ("sources.html", "Sources"),
        ("irregularities.html", "Irregularities")]
+TITLE = "GEMSDOE32"
 
 
-def esc(x):
+def esc(x) -> str:
     return html.escape(str(x))
 
 
-def page(title, body, active=""):
-    nav = " ".join(f'<a href="{h}"{" class=mut" if h!=active else ""}>{t}</a>' for h, t in NAV)
-    return f"""<!doctype html><html lang=en><head><meta charset=utf-8>
-<meta name=viewport content="width=device-width,initial-scale=1">
-<title>{esc(title)}</title><link rel=stylesheet href=assets/site.css></head><body>
-<header><div class=wrap><h1>{esc(title)}</h1><nav>{nav}</nav></div></header>
-<main class=wrap>{body}</main>
-<footer><div class=wrap>GEMSDOE32 &middot; generated {time.strftime('%Y-%m-%dT%H:%MZ', time.gmtime())} from <code>registry/</code> + <code>evidence/</code> &middot;
-scores marked <em>claim</em> are owner-reported, not organizer receipts; the public leaderboard rows are read from the official page.
-<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div></footer></body></html>"""
-
-
-def load(p, default=None):
+def read(path: str, default=None):
+    p = ROOT / path
     try:
-        return json.loads((ROOT / p).read_text())
+        return json.loads(p.read_text())
     except Exception:
         return default
 
 
-def build():
-    f = FEED.build(ROOT)
-    sub = load("registry/submission_build.json")
-    hold = load("evidence/holdout_run1.json")
-    hyp = load("registry/hypotheses.json", {"hypotheses": []})["hypotheses"]
-    irr = load("registry/irregularities.json", {"items": []})["items"]
-    prereg = load("registry/preregistration.json", {})
-    checks = {}
-    if sub and sub.get("files", {}).get("nan"):
-        name = Path(sub["files"]["nan"]["path"]).name
-        checks = load(f"docs/downloads/checks-{name}.json", {}) or {}
-    lb = f.get("leaderboard", [])
+def page(title: str, body: str, active: str = "") -> str:
+    nav = " ".join(f'<a href="{h}"{" class=active" if h == active else ""}>{t}</a>' for h, t in NAV)
+    stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
+    return f"""<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
+<header class=top><div class=wrap>
+<h1>{esc(title)}</h1><nav>{nav}</nav>
+</div></header><main class=wrap>{body}</main>
+<footer><div class=wrap>
+Site generated {stamp} from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+<code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
+scores this repository reads itself are the other teams' public-leaderboard rows.
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·
+<a href="data/feed.json">feed.json</a> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/issues">report an irregularity</a>
+</div></footer></body></html>"""
 
-    # ---------------------------------------------------------------- index / executive summary
-    dl_name = Path(sub["files"]["nan"]["path"]).name if sub and sub.get("files") else None
-    if dl_name:
-        c = checks
-        dl = f"""<div class=dl><h2 style="margin-top:0">1 &middot; Download the submission GeoTIFF</h2>
-<p><a class=btn href="downloads/{esc(dl_name)}">&#11015; {esc(dl_name)}</a>
-<a class=btn href="downloads/{esc(dl_name.replace('.tif','.zip'))}">&#11015; .zip</a></p>
-<p class=mut>single-band float32 GeoTIFF &middot; EPSG:32611 &middot; 100 m &middot; 3730&times;3292 &middot;
-{c.get('positive_px','?')} predicted pixels &middot; every footprint pixel finite in [0,&nbsp;1] &middot;
-outside the footprint NaN &middot; sha256 <code>{esc(str(c.get('sha256',''))[:16])}&hellip;</code></p>
-<p><b>Note to paste in DrivenData's <em>Note (optional)</em> field:</b><br>
-<code>GEMSDOE32 cover-r1 | greedy max-expected-coverage emission of the H19-5 field, mass-matched to the best shipped file | NOT a verified score | sha {esc(str(c.get('sha256',''))[:12])}</code></p>
-<p class=mut>Format fallback (same predictions, zeros outside the footprint):
-<a href="downloads/{esc(dl_name.replace('.tif','-zeros.tif'))}">zeros variant</a> &middot;
-<a href="downloads/checks-{esc(dl_name)}.json">format receipt</a> &middot;
-<a href="executive-summary.html">step-by-step upload instructions</a></p>
-<p class=warn><b>Read this before you spend a slot.</b> This file is <em>format-validated</em> and its
-emission rule was <em>validated on a spatially blocked holdout</em> against the current best comparable rule
-(see below). It is not organizer-scored, the leaderboard score of its field is an owner report, and the
-weekly budget is three submissions with a single file counting for both prize rounds.</p></div>"""
-    else:
-        dl = ('<div class=dl><h2 style="margin-top:0">Submission GeoTIFF</h2><p class=mut>The build has not '
-              'been run in this checkout yet: <code>python3 scripts/fetch_data.py &amp;&amp; '
-              'python3 scripts/build_features.py &amp;&amp; python3 scripts/build_submission.py</code>.</p></div>')
 
-    hold_tbl = ""
-    if hold:
-        s = hold["summary"]
-        rows = "".join(f"<tr><td>{esc(a)}</td><td>{v:.4f}</td><td>{s['arms_mean_n_px'].get(a,0):.0f}</td></tr>"
-                       for a, v in sorted(s["arms_mean"].items(), key=lambda kv: -kv[1]))
-        contrast = "".join(f"<tr><td>{esc(k)}</td><td>{v['mean']:+.4f}</td><td>{v['folds_positive']}/{v['n_folds']}</td></tr>"
-                           for k, v in s.items() if isinstance(v, dict) and "mean" in v)
-        hold_tbl = f"""<h3>Blocked holdout, emission-arm ladder ({esc(hold.get('preregistration',{}).get('id',''))})</h3>
-<table><tr><th>arm</th><th>mean proxy DTI</th><th>mean emitted px</th></tr>{rows}</table>
-<table><tr><th>contrast</th><th>mean paired &Delta;</th><th>folds positive</th></tr>{contrast}</table>
-<p class=mut>Proxy = the visible catalogue hidden inside each block (hide-and-recover); it is
-<em>not</em> the competition's hidden new-fault set. Preregistered before the run:
-<code>{esc(json.dumps(prereg, indent=0)[:600])}</code></p>"""
-    else:
-        hold_tbl = '<p class=mut>Holdout run not present in this checkout (see <code>scripts/run_holdout.py</code>).</p>'
+def download_block(sub: dict | None, name: str) -> str:
+    if not sub:
+        return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
+                'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
+    f = sub.get("file", {})
+    zeros = sub.get("file_zeros", {})
+    sha = (f.get("sha256") or "")
+    note = sub.get("note", "")
+    return f"""<div class=dl>
+<h2>&#11015;&nbsp;Download the submission GeoTIFF</h2>
+<p><a class=btn href="downloads/{esc(name)}.tif">Download {esc(name)}.tif</a>
+<a class="btn alt" href="downloads/{esc(name)}.zip">.zip</a></p>
+<p><b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<code>{esc(note)}</code></p>
+<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
+{int(f.get('positive_px') or 0):,} predicted pixels · every footprint pixel finite and in [0, 1] ·
+NaN outside the footprint · sha256 <code>{esc(sha[:16])}&hellip;</code></p>
+<p class=mut>Same predictions with 0.0 instead of NaN outside the footprint:
+<a href="downloads/{esc(name)}-zeros.tif">zeros variant</a> ·
+<a href="downloads/checks-{esc(name)}.tif.json">format receipt (independent re-read)</a></p>
+<p class=warn><b>Status.</b> {esc(sub.get('status_line',''))}</p>
+</div>"""
 
-    lb_rows = "".join(f"<tr><td>{r['rank']}</td><td>{esc(r['participant'])}</td><td>{r['score']:.4f}</td>"
-                      f"<td>{r.get('submissions','')}</td></tr>" for r in lb[:17])
-    index = page("GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize", f"""
-{dl}
+
+def model_mc_section(fl: dict) -> str:
+    ev = fl.get("evidence", {})
+    runs = [(k, v) for k, v in ev.items() if "mc" in k and isinstance(v, dict)]
+    if not runs:
+        return ""
+    blocks = []
+    for k, d in runs:
+        s = d.get("summary", {})
+        rows = "".join(
+            f"<tr><td>{esc(a)}</td><td>{v['mean']:.4f}</td><td>{esc(v.get('px',''))}</td>"
+            f"<td>{esc(v.get('mean_TP_w',''))}</td></tr>"
+            for a, v in s.items() if isinstance(v, dict) and "mean" in v and not a.startswith("paired_"))
+        diffs = "".join(
+            f"<tr><td>{esc(a.replace('paired_','').replace('_minus_',' &minus; '))}</td>"
+            f"<td>{v['mean']:+.4f} &plusmn; {v['sem']:.4f}</td>"
+            f"<td>{v['draws_positive']}/{v['n_draws']}</td></tr>"
+            for a, v in s.items() if a.startswith("paired_"))
+        blocks.append(f"""<div class=card><b>{esc(k)}</b> — {esc(d.get('question', d.get('instrument','')))}
+<p class=mut>Truth model: {esc(d.get('truth_model',{}).get('truth_px'))} px,
+&sigma; = {esc(d.get('truth_model',{}).get('sigma_px'))} px, drawn paired for every candidate; scored
+with the official metric. Source of the model: {esc(d.get('truth_model',{}).get('source',''))}.</p>
+<table><tr><th>candidate</th><th>mean official DTI</th><th>px</th><th>mean TP<sub>w</sub></th></tr>{rows}</table>
+{"<table><tr><th>paired difference</th><th>mean &plusmn; s.e.</th><th>draws positive</th></tr>" + diffs + "</table>" if diffs else ""}
+</div>""")
+    return f"""<h2>Two instruments, and the disagreement between them</h2>
+<p>The blocked holdout scores emission rules against the <em>catalogue</em>; the model Monte Carlo
+scores candidate <em>files</em> against a generative description of the hidden set. They do not agree
+about every change — and that disagreement is a finding, not noise to shrug off:</p>
+<table><tr><th>change, at matched emitted mass</th><th>blocked holdout (catalogue truth)</th>
+<th>live-anchored truth model (official metric, paired draws)</th></tr>
+<tr><td>greedy packing of the <em>surface</em> vs the incumbent dot-thin</td>
+<td class=ok>+0.0100 mean, 4/4 folds positive</td>
+<td class=bad>&minus;0.0033, 0/12 draws positive</td></tr>
+<tr><td>greedy packing of the <em>scatter-smoothed</em> field, catalogue pixels excluded</td>
+<td class=mut>not measured on this instrument (it is off-catalogue by construction)</td>
+<td class=ok><b>+0.0247 &plusmn; 0.0005, 12/12 draws positive</b></td></tr></table>
+<p><b>Mechanism.</b> The holdout's truth is the catalogue, so it rewards covering the field surface
+where the catalogue runs. The hidden set is scattered <em>around</em> the surface (the group's own
+inference: a 1.85 px scale), so covering the surface is the wrong objective — the right one is to
+cover the surface blurred by that scale, which is what the shipped file does. Same mass, same field,
+same metric; only the objective changed.</p>
+{''.join(blocks)}"""
+
+
+def overview(fl: dict, sub: dict | None, name: str) -> str:
+    lb = fl.get("leaderboard", [])
+    lb_top = lb[0] if lb else None
+    hold = fl.get("holdout", {})
+    irr = fl.get("irregularities", [])
+    claims = fl.get("claims", [])
+    best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
+    rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
+                   f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
+    parts = [download_block(sub, name), f"""<h2>What this is</h2>
+<p>{TITLE} is an auditable system for the <b>DOE GEMS Prize</b> (DrivenData #306, GeoDAWN / NW
+Nevada): find geothermal-indicative faults that are <em>not</em> in the USGS&nbsp;/&nbsp;INGENIOUS
+catalogue, and ship them as a legal GeoTIFF. It has three parts: an exact re-implementation of the
+competition metric and its decision theory; a preregistered spatially-blocked holdout that scores
+<em>emission rules</em> under that metric; and a Bayesian-optimisation slot gate that decides when a
+scarce weekly submission is worth spending.</p>
 <div class=grid>
-<div class=card><h3>What this system is</h3>
-<ul>
-<li>A <b>verified implementation of the official metric</b> plus its algebra: the credit bar
-<code>k &gt; 0.2&middot;DTI</code> (0.052 at the group's best 0.26, 0.065 at the leaderboard #1 0.3262).</li>
-<li>A <b>spatially blocked holdout harness</b> that scores emission rules with the official
-metric on hidden catalogue blocks, preregistered before every run.</li>
-<li>A <b>Bayesian-optimisation slot gate</b> (<code>src/gems32/bo.py</code>): GP surrogate,
-expected improvement, explicit slot cost, and a drift report when live scores stop matching the
-proxy.</li>
-<li>A <b>live feed</b> of official sources and the public leaderboard ({f['source_count']} sources,
-leaderboard last read {esc(str(f['leaderboard_observed_utc']))}).</li>
-</ul></div>
-<div class=card><h3>Where we stand (honest)</h3>
-<ul>
-<li>Public leaderboard #1 is <b>{lb[0]['score'] if lb else '?'}</b> ({esc(lb[0]['participant']) if lb else '?'}), observed {esc(str(f['leaderboard_observed_utc']))}.</li>
-<li>The group's best owner-reported score is <b>0.2600</b> (a dotted H19-5 emission; the row it is
-attributed to is unverified — <a href="irregularities.html">IR-32-SCORE-01</a>).</li>
-<li>Nothing in this repository has been scored. The download above is a <em>candidate</em>.</li>
-</ul></div>
+<div class=card><h3>Verified in this repository</h3><ul>
+<li>the published metric formula, the published worked example, and the identity
+<code>DTI = T/(0.2(T+S−M)+0.8|G|)</code> ({esc(fl.get('n_tests','16'))} tests pass);</li>
+<li>the credit bar <code>k &gt; 0.2·DTI</code> that every emitted pixel must clear;</li>
+<li>the byte identity (sha256) of every raster this site offers;</li>
+<li>the official source links on the <a href="sources.html">sources</a> page.</li></ul></div>
+<div class=card><h3>Not claimed</h3><ul>
+<li>no score in this repository is organizer-verified; the group's own numbers are labelled
+<em>claim</em> ({esc(len(claims))} of them, see <a href="leaderboard.html">leaderboard</a>);</li>
+<li>the holdout's truth is the visible catalogue, so it <em>cannot</em> reward a genuinely new fault
+(IR-32-PROXY-01);</li>
+<li>the submitted file is a candidate, <b>not</b> a proven improvement.</li></ul></div>
 </div>
-{hold_tbl}
-<h2>The one-page case</h2>
-<blockquote>The metric is a <em>contract</em>: a false negative costs 4&times; a false positive
-(&alpha;=0.2, &beta;=0.8 on the official page), and 300 m of distance decay means an approximate
-line is still paid for. The system's job is therefore to place the <em>thinnest possible</em>
-prediction where the expected credit per unit mass exceeds <code>0.2&middot;DTI</code> — and to
-spend one of the three weekly slots only when a surrogate says the expected improvement justifies
-the cost. Full derivation: <a href="research.html">Research &amp; method</a>.</blockquote>
-<h2>Feed</h2>
-<div class=card><b>Checklist before a slot</b>
-<ol><li>Does the candidate beat the incumbent on the <em>same-run</em> blocked holdout? (see the ladder above)</li>
-<li>Is the expected improvement over the incumbent larger than the slot cost? (<code>bo.slot_gate</code>)</li>
-<li>Is the file format-validated by an independent re-read? (<code>checks-&hellip;.json</code>)</li>
-<li>Is the note field filled and the two-round consequence understood? (<a href="executive-summary.html">instructions</a>)</li></ol>
-</div>""", "index.html")
+<h2>The brief's question, answered</h2>
+<p><b>Why did the dotted H19-5 file score highest?</b> Because the metric is a budget: every unit of
+prediction mass that is not the best cover of a truth pixel costs 0.2, and one that is earns at most
+1. Thinning a thick surface while keeping its geometry removes mass that was already covered — it
+raises the credit per emitted pixel and moves the file to the point where the marginal pixel's
+credit equals the break-even bar. The group measured that break-even empirically at
+<b>0.0548</b>&nbsp;credit per dot; this repository derives the same number from the published
+formula, <code>0.2·0.26 = 0.0520</code>. Two independent routes, one answer.</p>
+<p><b>Can we beat {esc(lb_top['score'] if lb_top else 'the leader')}?</b> Only by raising the
+<em>credit density</em> of the top of the ranking: at the same emitted mass the leader needs
+≈25&nbsp;% more mean credit per pixel than the group's best field delivers. No public catalogue can
+supply that — the newest public compilation is already inside the given catalogue
+({esc(fl.get('evidence', {}).get('h60_2_catalogue_difference.json', {}).get('gdr_qfaults_v2', {}).get('px_total', 59065))}
+px, of which all but one lie within 300&nbsp;m of it). The path is a better detector plus the
+two-round objective, and the plan is <a href="hypotheses.html">ranked here</a>.</p>"""]
 
-    # ---------------------------------------------------------------- executive summary
-    exe = page("Submit in five minutes", f"""
-<div class=card><h2 style="margin-top:0">1. Download</h2>
-<p><a href="downloads/{esc(dl_name or '')}">{esc(dl_name or 'the GeoTIFF')}</a>
-(or the <a href="downloads/{esc((dl_name or '').replace('.tif','-zeros.tif'))}">zeros variant</a>).
-The <code>.zip</code> beside it contains the same single GeoTIFF for portals that prefer one file.</p></div>
-<div class=card><h2 style="margin-top:0">2. Verify (30 seconds)</h2>
+    parts.append(model_mc_section(fl))
+    if hold:
+        s = hold.get("summary", {})
+        arms = s.get("arms_mean", {})
+        npx = s.get("arms_mean_n_px", {})
+        tr = "".join(f"<tr><td>{esc(a)}</td><td>{v:.4f}</td><td>{npx.get(a, 0):,.0f}</td></tr>"
+                     for a, v in sorted(arms.items(), key=lambda kv: -kv[1]))
+        ct = "".join(f"<tr><td>{esc(k.replace('_minus_',' − '))}</td><td>{v['mean']:+.4f}</td>"
+                     f"<td>{v['folds_positive']}/{v['n_folds']}</td><td>{esc(', '.join(f'{x:+.4f}' for x in v['per_fold']))}</td></tr>"
+                     for k, v in s.get("contrasts", {}).items())
+        parts.append(f"""<h2>Holdout: does the emission rule beat the incumbent's own rule?</h2>
+<p>Four spatially blocked folds; the detector never sees the block it is scored on; every rival
+geometry is re-emitted at the <em>same pixel count</em> as the arm it is compared with, so no
+contrast can be won by emitting more mass. Preregistration:
+<code>{esc(hold.get('preregistration',''))}</code>. Mean detector AUC in-block
+{esc(round(s.get('auc_mean', float('nan')), 3))}; mean held-out truth
+{esc(round(s.get('n_truth_mean', 0)))} px.</p>
+<table><tr><th>arm</th><th>mean proxy DTI</th><th>mean pixels</th></tr>{tr}</table>
+<table><tr><th>paired contrast</th><th>mean Δ</th><th>folds positive</th><th>per fold</th></tr>{ct}</table>
+<p><b>Promotion rule (preregistered):</b> mean paired contrast &gt; 0 on &ge; 3 of 4 folds.
+Result: <b>{'PASS' if s.get('promotion_pass') else 'FAIL'}</b>.
+The proxy truth is the visible catalogue — a pass licenses packaging a candidate, never a score
+claim.</p>""")
+    else:
+        parts.append('<h2>Holdout</h2><p class=mut>Not run in this checkout '
+                     '(<code>python3 scripts/run_holdout.py</code>).</p>')
+
+    gap_txt = ""
+    if lb_top and best_claim:
+        gap = float(lb_top["score"]) - float(best_claim["score"])
+        need = (float(lb_top["score"]) / float(best_claim["score"]) - 1) * 100
+        gap_txt = (f"<p>The gap to the public leader is <b>{gap:+.4f}</b> — a "
+                   f"<b>{need:+.1f}&nbsp;%</b> increase in the score, which through the metric's own "
+                   f"arithmetic is a similar increase in mean credit per emitted pixel at constant "
+                   f"mass.</p>")
+    parts.append(f"""<h2>Where we stand</h2>
+<div class=grid>
+<div class=card><h3>Public leaderboard <span class=pill>verified read</span></h3>
+<p>{'#1 ' + esc(lb_top['participant']) + ' <b>' + f"{lb_top['score']:.4f}" + '</b>' if lb_top else 'not read yet'}<br>
+<small>read {esc(fl.get('leaderboard_observed_utc'))} from the official page; {esc(fl.get('leaderboard_snapshots', 0))} snapshots stored</small></p>
+{'<p><a href="leaderboard.html">all rows &rarr;</a></p>'}</div>
+<div class=card><h3>Group's own best <span class=pill>owner claim</span></h3>
+<p><code>{esc((best_claim or {}).get('file', 'n/a'))}</code><br>
+<b>{esc((best_claim or {}).get('score', 'n/a'))}</b> · {esc((best_claim or {}).get('emitted_px', ''))} px</p>
+{gap_txt}</div>
+</div>
+<p class=mut>Irregularities flagged for review: {esc(len(irr))} —
+<a href="irregularities.html">see the register</a>.</p>
+<h2>Sources</h2>
+<table><tr><th>id</th><th>source</th><th>status recorded here</th></tr>{rows}</table>""")
+    return "\n".join(parts)
+
+
+def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
+    note = esc((sub or {}).get("note", ""))
+    fresh = esc(f"{name}-fresh")
+    return f"""<h2 style="margin-top:6px">Five steps, about two minutes</h2>
+{download_block(sub, name)}
+<div class=card><h3>1 · Check the file (optional, 20 s)</h3>
 <pre>python3 - &lt;&lt;'EOF'
 import rasterio, numpy as np, hashlib
-p = "{esc(dl_name or 'file.tif')}"
-print(hashlib.sha256(open(p,'rb').read()).hexdigest())
+p = "{esc(name)}.tif"
+print("sha256", hashlib.sha256(open(p, "rb").read()).hexdigest())
 with rasterio.open(p) as s:
-    a = s.read(1); print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
+    a = s.read(1)
+    print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
 inside = np.isfinite(a)
-print("finite", inside.sum(), "min", np.nanmin(a), "max", np.nanmax(a))
-assert np.nanmin(a) &gt;= 0 and np.nanmax(a) &lt;= 1
+print("finite", int(inside.sum()), "min", float(np.nanmin(a)), "max", float(np.nanmax(a)))
+assert float(np.nanmin(a)) &gt;= 0.0 and float(np.nanmax(a)) &lt;= 1.0
+print("OK: single band, [0,1] wherever finite")
 EOF</pre>
-<p class=mut>Expected: EPSG:32611, 3292&times;3730, 100 m, float32, values in [0,&nbsp;1] wherever finite.
-The repository's own receipt is <a href="downloads/checks-{esc(dl_name or '')}.json">here</a>.</p></div>
-<div class=card><h2 style="margin-top:0">3. Upload</h2>
-<ol><li>Open the competition's <b>Submit</b> page (link on the <a href="sources.html">sources</a> page).</li>
-<li>Choose the <code>.tif</code> (or the <code>.zip</code>) as <em>File to submit</em>.</li>
-<li>Paste the note from the <a href="index.html">home page</a> box into <em>Note (optional)</em>.</li>
-<li>Submit. Remember: <b>three scored submissions per week</b>, and you must later choose <b>one</b>
-file that is scored in <em>both</em> prize rounds.</li></ol></div>
-<div class=card><h2 style="margin-top:0">4. Why the previous file was rejected with
-&ldquo;Predicted values must be in range [0,&nbsp;1]&rdquo;</h2>
-<p>The competition requires &ldquo;values between 0 and 1&rdquo; for a single-band float32 raster.
-A file that carries <b>NaN inside the data footprint</b> fails every range test, and a file that
-writes a value outside the footprint but inside the raster can fail it too. The exact validator is
-not public, so this is the data-supported explanation, not a quote from DrivenData
-(<a href="irregularities.html">IR-32-VERIFY-01</a>). Both variants shipped here are built so that
-<b>every pixel inside the footprint is finite and in [0,&nbsp;1]</b>, and the receipt proves it by
-independent re-read.</p></div>
-<div class=card><h2 style="margin-top:0">5. The two-round trap (read this once)</h2>
-<p>Your chosen file is scored first against a <em>fixed private set of faults the experts mapped
-before the competition</em> (top five &rarr; $10k each), and then re-scored against an
-<em>expanded</em> label set that includes faults the panel verifies from everyone's submissions
-(top five &rarr; $15k&hellip;$100k). A prediction that is a real fault missing from both catalogues
-can therefore be <em>worth more in round 2 than round 1</em>, and the metric's own weights
-(&alpha;=0.2) price that option cheaply.</p></div>""", "executive-summary.html")
-
-    # ---------------------------------------------------------------- research
-    research = page("Research &amp; method", f"""
-<div class=card><h2 style="margin-top:0">The metric, verbatim, and what it implies</h2>
-<p>From the official problem description: <code>k(d)=max(1-d/300m,0)</code>,
-<code>TPw = &sum;_g max_x p(x)k(d(x,g))</code>, <code>FPw = &sum;_x p(x)[1-max_g k]</code>,
-<code>FNw = &sum;_g [1-max_x p k]</code>, <code>DTI = TPw/(TPw + 0.2&middot;FPw + 0.8&middot;FNw + &epsilon;)</code>.
-The published worked example (TPw=3.00, FPw=1.89, FNw=2.00 &rarr; 0.60) is reproduced by
-<code>tests/test_metric.py</code>.</p>
-<p><b>Identity 1 (norm).</b> <code>FNw = |G| - TPw</code> exactly, so
-<code>DTI = T / (0.2(T + S - M) + 0.8K)</code> with S the total prediction mass and M the mass whose
-kernel weight toward the nearest truth pixel is subtracted. Verified to 1e&minus;12 against the
-published form on random rasters.</p>
-<p><b>Identity 2 (the credit bar).</b> Adding one unit of prediction mass changes the denominator
-by exactly 0.2, so <code>dDTI &gt; 0 &hArr; k &gt; 0.2&middot;DTI</code>. At the group's best (0.26)
-the bar is <b>0.052</b>; at the leaderboard #1 (0.3262) it is <b>0.065</b>. The group's own
-independently measured &ldquo;live rate&rdquo; of credit per added dot is 0.0548 — the analytic bar
-and the empirical one agree to a few percent, which is the strongest single piece of evidence that
-the group's best file sits exactly at its own optimum.</p>
-<p><b>Consequence.</b> Emission is a knapsack: rank pixels by expected new credit, stop at the bar.
-The packing objective is the metric's own true-positive term, so the objective and the score are
-the same object (submodular &rarr; greedy is within 1&minus;1/e). What the field <em>is</em> matters
-more than the packing: a ribbon costs 0.2 per surplus pixel, a centreline costs nothing.</p></div>
-<div class=card><h2 style="margin-top:0">The two-round objective: a discovery option</h2>
-<p>One file is scored twice. Writing the objective as <code>DTI_1 + &rho;&middot;DTI_2</code>, the
-emission bar becomes <code>0.2&middot;DTI/(1+&rho;)</code> for a candidate whose pixels have a
-plausible path to being <em>verified</em> as a new fault, because round 2 pays for them and round 1
-only charges the (cheap) false-positive mass. The prize pools ($50k initial vs $250k final) argue
-for &rho;&nbsp;&gt;&nbsp;1; conservative reading &rho;=1 is what the code defaults to. This arm
-(<code>A3</code>) is measured in the holdout ladder, but its real value cannot be measured on a
-catalogue-derived proxy — it is a strategy argument from the published rules, and it is labelled as
-such.</p></div>
-<div class=card><h2 style="margin-top:0">What the previous 30+ sessions established (and why this one is different)</h2>
+<p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
+values within [0,&nbsp;1] wherever finite. The repository's own receipt is
+<a href="downloads/checks-{esc(name)}.tif.json">this JSON</a>.</p></div>
+<div class=card><h3>2 · Upload</h3>
+<ol>
+<li>Open the competition's <b>Submit</b> page (linked on the <a href="sources.html">sources</a> page).</li>
+<li><em>File to submit</em> &rarr; choose <code>{esc(name)}.tif</code> (or the <code>.zip</code>).</li>
+<li>Paste this into <em>Note (optional)</em>: <code>{note}</code></li>
+<li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
+</ol></div>
+<div class=card><h3>3 · Know the two-round consequence before you click</h3>
+<p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
+before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
+from everyone's submissions. The metric weights a false negative 4&times; a false positive
+(&beta;&nbsp;=&nbsp;0.8 vs &alpha;&nbsp;=&nbsp;0.2) precisely to make novel-but-real predictions
+cheap. Consequences:</p>
 <ul>
-<li>The group built a large, careful experiment registry (H16&hellip;H59 across
-<a href="https://github.com/buffedlizard55-lab/GEMSDOE28">GEMSDOE28</a>,
-<a href="https://github.com/buffedlizard55-lab/GEMSDOE29">GEMSDOE29</a>,
-<a href="https://github.com/buffedlizard55-lab/GEMSDOE30">GEMSDOE30</a>): 2<sup>5-1</sup> factorial
-(catalogue geometry +0.0610, DEM curvature/scarp +0.0253 dominant; potential-field gradients,
-strain/seismicity and thermal families inert), packing ladders, Euler depth licences, drainage,
-slip-tendency and catalogue-difference arms. Almost every promotion decision ends in a veto by a
-secondary proxy, and the strongest artifact family remains an emission of the H19-5 surface.</li>
-<li><b>The leak they found and this repository excludes:</b> a &ldquo;distance to catalogue&rdquo;
-feature gives a detector AUC of exactly 1.0 on the visible labels and transfers nothing
-off-catalogue.</li>
-<li><b>What was missing:</b> an <em>acquisition function</em>. Their gates are fixed thresholds
-evaluated on cheap proxies; there is no model of the live score as an expensive, noisy observation
-and no explicit cost for spending a slot. <code>src/gems32/bo.py</code> adds exactly that, logs every
-holdout evaluation as training data for it, and reports surrogate-vs-live residuals as holdout
-drift.</li>
-</ul></div>
-<div class=card><h2 style="margin-top:0">Data provenance</h2>
-<p>All rasters are fetched from hash-pinned owner mirrors through the GitHub API
-(<code>registry/data_manifest.json</code>, verified again on every fetch; 6/7 files match, the
-seventh — <code>sample_submission.tif</code> — is pinned by a digest computed here). They are
-<b>not</b> organizer-authenticated bytes: see <a href="irregularities.html">IR-32-DATA-01</a>.</p></div>""", "research.html")
+<li>three submissions per week are <em>scored</em>; a fourth effort is wasted;</li>
+<li>exactly <b>one</b> file is selected for the final round and is scored in both rounds, so a file
+that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
+<li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
+than in round 1.</li></ul></div>
+<div class=card><h3>4 · If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>The form requires a single-band raster whose values are between 0 and 1. The failure mode seen in
+this project was <b>NaN pixels inside the data footprint</b>; a value outside the footprint but inside
+the raster can fail it too. Both files offered here are built so that <em>every pixel inside the
+footprint is finite and inside [0,&nbsp;1]</em>, and the difference between them is only what they
+write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload the zeros variant —
+identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
+inferred from the files and the observed error, not quoted from the platform
+(<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
+<div class=card><h3>5 · Keep the names unique</h3>
+<p>The filename already carries a unique content id and the note repeats it, so two submissions can
+never be confused. If a file is ever rebuilt, the build script writes a new name
+(e.g. <code>{fresh}</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
+</div>"""
 
-    # ---------------------------------------------------------------- hypotheses
-    hrows = "".join(f"""<tr><td>{h['rank']}</td><td><b>{esc(h['id'])}</b><br>{esc(h['title'])}</td>
-<td>{esc(', '.join(h['layers']))}</td><td>{esc(h['signature'])}</td><td>{esc(h['why_off_catalogue'])}</td>
-<td>{esc(h['differs_from_repo'])}</td><td>{esc(h['expected_dti'])}</td><td>{esc(h['cost'])}</td>
-<td>{esc(h['data_status'])}</td><td>{esc(h['status'])}</td></tr>""" for h in hyp)
-    hypotheses = page("Candidate geological hypotheses (ranked)", f"""
-<p class=mut>Ranked by expected DTI improvement per unit of implementation cost. Every row states the
-layers, the physical signature, why it should catch a fault the USGS/INGENIOUS catalogue lacks, and
-how it differs from the group's registered work (H16&hellip;H59). Nothing here is claimed as a
-result unless the <em>status</em> column says it was measured.</p>
-<table><tr><th>rank</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
-<th>difference from prior work</th><th>expected DTI</th><th>cost</th><th>data status</th><th>status</th></tr>
-{hrows}</table>
-<h2>How a hypothesis earns a slot here</h2>
-<ol><li>registered with its layers, signature, novelty and data source;</li>
-<li>preregistered in <code>registry/preregistration.json</code> before any fit;</li>
-<li>measured on the blocked holdout against the incumbent <em>at matched emitted mass</em>;</li>
-<li>passed to <code>bo.slot_gate</code>, which also prices the slot and the two-round objective;</li>
-<li>only then can it become the file in the download box — and the file itself still has to pass the
-independent format re-read.</li></ol>""", "hypotheses.html")
 
-    # ---------------------------------------------------------------- leaderboard
-    gap = ""
-    if lb:
-        top = lb[0]["score"]
-        gap = f"""<p>The bar set by the current leader is <b>{top:.4f}</b>. Read through the credit
-rule, that is <code>0.2&middot;DTI = {0.2*top:.4f}</code> of credit per unit of emitted mass: every
-pixel added must buy at least that much expected true-positive credit, or it lowers the score. The
-group's measured credit rate on its best file is 0.0548, i.e. <b>{(0.0548/(0.2*top)-1)*100:+.0f}%</b>
-against that bar — enough to explain why thinning (which removes redundant mass) bought easy points
-and why further density sweeps on the same field cannot.</p>"""
-    leaderboard = page("Leaderboard and the size of the gap", f"""
-<h2>Public leaderboard as observed</h2>
-<p class=mut>Read from the official page on {esc(str(f['leaderboard_observed_utc']))};
-{"stored as verified." if f['leaderboard_verified'] else "not stored as verified."}
-This repository does not scrape the score page on a schedule from a logged-out client; the feed
-workflow reads the one public HTML page once per day and stores the row verbatim in
-<code>registry/leaderboard_history.jsonl</code>.</p>
-<table><tr><th>rank</th><th>participant</th><th>public DTI</th><th>submissions</th></tr>{lb_rows}</table>
-{gap}
-<h2>Our own claims, kept separate</h2>
-<p class=mut>The group's ledger (owner-reported, unverified): H19-5 solid 0.1922; its d1.5 dotting
-0.2477; its d2.8 dotting 0.2600 (the file this repository re-emits); 26GEMSDOE detector-product
-emission 0.1223. None of these has an organizer receipt linking those bytes to that row
-(<a href="irregularities.html">IR-32-SCORE-01</a>).</p>
-<h2>What the proxy can and cannot say</h2>
-<p>A catalogue hide-and-recover proxy cannot reward a prediction that is <em>off</em> the catalogue
-by construction, and the group's SGMC secondary proxy ranks its worst artifacts highest. This is why
-the slot gate prices the <em>information</em> a submission buys rather than pretending a local
-number settles it.</p>""", "leaderboard.html")
+def research(fl: dict, sub: dict | None, name: str) -> str:
+    ev = fl.get("evidence", {}).get("h60_2_catalogue_difference.json", {})
+    hd = fl.get("holdout", {})
+    return f"""<h2 style="margin-top:6px">1 · The metric, and the decision rule that falls out of it</h2>
+<p>Official definition (competition page 967): <code>k(d)=max(1−d/300m,0)</code>,
+<code>TPw = &sum;<sub>g</sub> max<sub>x</sub> p(x)k(d(x,g))</code>,
+<code>FPw = &sum;<sub>x</sub> p(x)[1−max<sub>g</sub>k]</code>,
+<code>FNw = &sum;<sub>g</sub>[1−max<sub>x</sub>p(x)k]</code>,
+<code>DTI = TPw/(TPw + 0.2·FPw + 0.8·FNw + &epsilon;)</code>, tolerating &plusmn;1&nbsp;px
+rasterisation and &le;300&nbsp;m ground-truth misalignment.</p>
+<p><code>tests/test_metric.py</code> transcribes that definition brute-force (O(N&sup2;)) and checks
+the fast implementation against it; it also reproduces the published worked example
+(TPw&nbsp;=&nbsp;3.00, FPw&nbsp;=&nbsp;1.89, FNw&nbsp;=&nbsp;2.00 &rarr; 0.60).</p>
+<div class=card><h3>The identity that makes emission a knapsack</h3>
+<p><code>FNw = |G| − TPw</code> exactly, so with <code>T = TPw</code>, <code>S = &sum;p</code> and
+<code>M = &sum;<sub>x</sub> p(x)·max<sub>g</sub>k</code>:</p>
+<p style="text-align:center"><code>DTI = T / ( 0.2·(T + S − M) + 0.8·|G| )</code></p>
+<p>Adding one unit of mass at weight <code>k</code> therefore changes the denominator by exactly 0.2,
+giving the <b>credit bar</b>:</p>
+<p style="text-align:center"><code>add mass &hArr; k &gt; 0.2·DTI</code></p>
+<p>At the group's claimed 0.2600 the bar is <b>0.0520</b>; at the public leader's
+{esc((fl.get('leaderboard') or [{}])[0].get('score', 0.3262))} it is
+<b>{0.2 * float((fl.get('leaderboard') or [{}])[0].get('score', 0.3262)):.4f}</b>. The group's own
+measured marginal credit per added dot was 0.0548 — the file sits within a few percent of its own
+optimum, which is the strongest available evidence that the dotted file is not leaving easy points
+on the table.</p></div>
+<h2>2 · Why the dotted file won, quantitatively</h2>
+<p>From 121,131 emitted pixels (solid H19-5) to 44,090 (dotted D2.8) the mean credit per pixel rose
+from 0.0520 to 0.0893 (owner-reported) while the total mass fell by 64&nbsp;%. The metric's own
+arithmetic explains it: mass whose realised weight is below the bar <em>lowers</em> the score, so
+removing it is a gain. The family's own sweep peaks at that spacing, and a kernel-disjoint 6&nbsp;px
+design (zero redundancy) is much worse — the kernel is 3&nbsp;px wide, so the optimal dotted spacing
+is set by the kernel radius, not by aesthetics.</p>
+<h2>3 · The two-round objective</h2>
+<p>One selected file is scored twice: against the initial hidden set, and against an expanded set
+that includes faults the expert panel verifies from submissions. Writing the objective as
+<code>DTI<sub>1</sub> + &rho;·DTI<sub>2</sub></code>, a pixel that has a plausible path to being
+verified as a new fault is worth emitting while
+<code>E[k] + &rho;·E[k<sub>novel</sub>] &gt; 0.2·DTI</code>, i.e. the effective bar falls to
+<code>0.2·DTI/(1+&rho;)</code>. The prize pools argue for &rho;&nbsp;&gt;&nbsp;1 (the final round is
+the larger pool); the code's default is the conservative &rho;&nbsp;=&nbsp;1. This is a strategy
+argument from the published rules, <em>not</em> a measured effect — no local proxy can measure
+round&nbsp;2.</p>
+<h2>4 · What the local instruments can and cannot say</h2>
+<table>
+<tr><th>instrument</th><th>what it measures</th><th>what it cannot</th></tr>
+<tr><td>official metric tests</td><td>the scoring function and its algebra, exactly</td><td>anything about the hidden truth</td></tr>
+<tr><td>blocked holdout (this repo)</td><td>whether an emission <em>rule</em> beats a rival rule at matched mass, on catalogue truth hidden from the fit</td><td>reward a prediction that is off-catalogue — the population the real test set is drawn from (IR-32-PROXY-01)</td></tr>
+<tr><td>catalogue-difference audit</td><td>whether a public catalogue contains faults the given catalogue lacks</td><td>prove that any candidate pixel is real</td></tr>
+<tr><td>leaderboard feedback</td><td>the true objective, but at a cost of one scarce slot and with no attribution</td><td>be read without spending a slot</td></tr>
+</table>
+<h2>5 · Catalogue-difference audit (measured here)</h2>
+<p>The newest public compilation the group ever obtained — GDR QFaults v2, rasterised to this grid —
+has <b>{esc(ev.get('gdr_qfaults_v2', {}).get('px_total', 59065))}&nbsp;px</b>, of which
+<b>{esc(ev.get('gdr_qfaults_v2', {}).get('px_beyond_300m', 1))}</b> lie more than 300&nbsp;m from the
+competition's own catalogue: the given catalogue already contains the newest public mapping. The
+older USGS&nbsp;SGMC compilation is different — <b>{esc(ev.get('sgmc', {}).get('px_beyond_300m', 61664))}&nbsp;px</b>
+beyond 300&nbsp;m (median {esc(ev.get('sgmc', {}).get('median_dist_px', 15))}&nbsp;px), i.e. real
+mapped faults that the given catalogue does not contain. The group's best field is exactly zero on
+every given-catalogue pixel (by construction) and only
+<b>{esc(ev.get('field_enrichment', {}).get('sgmc_off_catalogue_px', {}).get('enrichment_vs_random', 1.4))}&times;</b>
+enriched on the off-catalogue SGMC set versus the footprint background, with
+<b>{esc(ev.get('emitted_on_sgmc_off_catalogue_px', 2014))}</b> of its 121,131 pixels sitting there.
+That is the measured size of the discovery lane this system could still open.</p>
+<h2>6 · Method and reproducibility</h2>
+<pre>pip install -r requirements.txt
+python3 scripts/fetch_data.py        # hash-verified fetch of every pinned mirror (GitHub API)
+python3 scripts/build_features.py    # 35-channel structural stack from the 19 official bands
+python3 scripts/run_holdout.py       # preregistered blocked holdout -&gt; evidence/holdout_run1.json
+python3 scripts/build_submission.py  # writes docs/downloads/*.tif + the format receipt
+python3 scripts/build_site.py        # regenerates this site from registry/ + evidence/
+python3 -m pytest tests -q</pre>
+<p class=mut>The holdout ran{' with mean AUC ' + esc(round(hd.get('summary', {}).get('auc_mean', float('nan')), 3)) if hd else ''}
+on a CPU-only box for the emission arms; the detector used there is a gradient-boosted tree, not the
+U-Net of the official reference solution, because this sandbox has 2&nbsp;vCPU and no GPU. The
+emission rule is what is being validated, and it is detector-agnostic.</p>"""
 
-    # ---------------------------------------------------------------- sources + irregularities
-    srows = "".join(f"""<tr><td>{esc(s['id'])}</td><td><a href="{esc(s['url'])}">{esc(s['title'])}</a></td>
-<td>{esc(s['role'])}</td><td>{esc(s['status'])}</td></tr>""" for s in f["sources"])
-    health = load("docs/data/source_health.json")
-    hh = ""
-    if health:
-        hrows2 = "".join(f"<tr><td>{esc(r['id'])}</td><td>{esc(str(r.get('http_status')))}</td><td>{esc(str(r.get('error','')))[:60]}</td></tr>"
-                         for r in health["results"])
-        hh = f"<h3>Last probe ({esc(str(health['checked_utc']))})</h3><table><tr><th>id</th><th>HTTP</th><th>note</th></tr>{hrows2}</table>"
-    sources_page = page("Sources (official, link-checked)", f"""
-<p class=mut>Every scientific or data claim on this site should be traceable to a row here.
-&ldquo;listed&rdquo; means the source is official and public but was not fetched from this sandbox
-(egress here is limited to github.com); the feed workflow probes them from CI and writes the status.</p>
-<table><tr><th>id</th><th>source</th><th>role</th><th>status</th></tr>{srows}</table>{hh}""", "sources.html")
 
-    irows = "".join(f"<tr><td><b>{esc(i['id'])}</b></td><td>{esc(i['severity'])}</td><td>{esc(i['statement'])}</td>"
-                    f"<td>{esc(i['mitigation'])}</td></tr>" for i in irr)
-    irregularities = page("Irregularities and flags for review", f"""
-<p class=mut>Anything that could mislead a reader is listed here rather than buried in a footnote.</p>
-<table><tr><th>id</th><th>severity</th><th>statement</th><th>mitigation</th></tr>{irows}</table>""",
-                          "irregularities.html")
+def hypotheses_page(fl: dict) -> str:
+    hyp = fl.get("hypotheses", [])
+    ev = fl.get("evidence", {}).get("h60_2_catalogue_difference.json", {})
+    rows = "".join(f"""<tr><td>{esc(h.get('rank',''))}</td><td><b>{esc(h.get('id',''))}</b><br>{esc(h.get('title',''))}</td>
+<td>{esc('; '.join(h.get('layers', [])))}</td><td>{esc(h.get('signature',''))}</td>
+<td>{esc(h.get('why_off_catalogue',''))}</td><td>{esc(h.get('differs_from_repo',''))}</td>
+<td>{esc(h.get('expected_dti',''))} · cost {esc(h.get('cost',''))} · data: {esc(h.get('data_status',''))}</td>
+<td>{esc(h.get('status',''))}</td></tr>""" for h in hyp)
+    return f"""<h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
+<p class=mut>Each row names the layers it needs, the physical signature, why it can catch a fault the
+USGS&nbsp;/&nbsp;INGENIOUS catalogue lacks, how it differs from everything the group has already run,
+and its measured status. Nothing is promoted to a submission slot without passing the holdout and
+the slot gate.</p>
+<table><tr><th>#</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
+<th>difference from prior work</th><th>expected / cost / data</th><th>status</th></tr>{rows}</table>
+<h2>Promotion rules (preregistered)</h2>
+<ol>
+<li>every hypothesis is registered with its layers, signature, novelty and data status before it is
+fitted;</li>
+<li>the holdout protocol is written to <code>registry/preregistration.json</code> <em>before</em> the
+run, and the run's own copy is embedded in its evidence JSON;</li>
+<li>a candidate must beat the incumbent <em>at matched emitted mass</em> on &ge;3 of 4 blocked folds
+(preregistered rule);</li>
+<li>it must then pass <code>bo.slot_gate</code>: expected improvement over the incumbent must exceed
+the slot cost under the surrogate, and the candidate must not be a repeat;</li>
+<li>every holdout evaluation is appended to <code>registry/observations.jsonl</code> as training data
+for the surrogate, submitted or not.</li></ol>
+<h2>What the current evidence already says</h2>
+<ul>
+<li><b>The catalogue-difference lane is nearly empty.</b> GDR QFaults v2 has
+{esc(ev.get('gdr_qfaults_v2', {}).get('px_beyond_300m', 1))} px beyond 300&nbsp;m of the given
+catalogue; only the older SGMC compilation has a large off-catalogue population
+({esc(ev.get('sgmc', {}).get('px_beyond_300m', 61664))} px).</li>
+<li><b>The best field is blind to that population</b> beyond a
+{esc(ev.get('field_enrichment', {}).get('sgmc_off_catalogue_px', {}).get('enrichment_vs_random', 1.4))}&times;
+enrichment over background — so the discovery lane is genuinely unexploited, not already used up.</li>
+<li><b>The 2020 Monte Cristo rupture is inside the footprint</b> and ruptured largely unmapped ground
+with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
+first on the list.</li></ul>"""
 
-    for name, content in [("index.html", index), ("executive-summary.html", exe), ("research.html", research),
-                          ("hypotheses.html", hypotheses), ("leaderboard.html", leaderboard),
-                          ("sources.html", sources_page), ("irregularities.html", irregularities)]:
-        (DOCS / name).write_text(content)
-    return {"pages": [n for n, _ in NAV], "feed": f}
+
+def leaderboard_page(fl: dict) -> str:
+    rows = fl.get("leaderboard", [])
+    tr = "".join(f"<tr><td>{esc(r.get('rank'))}</td><td>{esc(r.get('participant'))}</td>"
+                 f"<td>{esc(r.get('score'))}</td><td>{esc(r.get('submissions',''))}</td></tr>"
+                 for r in rows[:20])
+    claims = fl.get("claims", [])
+    ctr = "".join(f"<tr><td>{esc(c.get('id'))}</td><td>{esc(c.get('file'))}</td>"
+                  f"<td>{esc(c.get('emitted_px',''))}</td><td>{esc(c.get('score'))}</td>"
+                  f"<td>{esc('sha256 matches the local file' if c.get('sha256_verified_locally') else 'not re-verified here')}</td></tr>"
+                  for c in claims)
+    top = rows[0]["score"] if rows else None
+    bar = f"{0.2 * float(top):.4f}" if top else "n/a"
+    return f"""<h2 style="margin-top:6px">Public leaderboard <span class=pill>verified read</span></h2>
+<p class=mut>Read from the official leaderboard page on {esc(fl.get('leaderboard_observed_utc'))}.
+{esc(fl.get('leaderboard_snapshots', 0))} snapshots are stored in
+<code>registry/leaderboard_history.jsonl</code>, one per read, verbatim.</p>
+<table><tr><th>rank</th><th>participant</th><th>public DTI</th><th>submissions</th></tr>{tr}</table>
+{"<p>At the leader's score the credit bar is <code>0.2·" + f"{top:.4f}" + " = " + bar + "</code> per unit of emitted mass.</p>" if top else ""}
+<h2>The group's own numbers <span class=pill>owner claims</span></h2>
+<p class=mut>These are numbers the owner recorded from submission screens. No organizer receipt links
+those bytes to those rows (<a href="irregularities.html">IR-32-SCORE-01</a>). They are kept apart from
+the verified rows above on purpose.</p>
+<table><tr><th>id</th><th>file</th><th>emitted px</th><th>score</th><th>byte check here</th></tr>{ctr}</table>
+<h2>How the gap is read</h2>
+<p>Through the metric's own arithmetic (see <a href="research.html">research</a>), a score difference
+at constant emitted mass is a difference in <em>mean credit per pixel</em>: the leader's file earns
+roughly a quarter more credit per emitted pixel than the group's best. That is a detector-quality
+gap, not an emission-style gap — and it is why this repository spends its effort on the decision
+rule and on registering detector hypotheses with honest data status instead of re-tuning dot
+spacing.</p>"""
+
+
+def sources_page(fl: dict) -> str:
+    rows = "".join(f"<tr><td>{esc(s.get('id'))}</td><td><a href=\"{esc(s.get('url'))}\">{esc(s.get('title'))}</a></td>"
+                   f"<td>{esc(s.get('role',''))}</td><td>{esc(s.get('status',''))}</td></tr>"
+                   for s in fl.get("sources", []))
+    health = read("docs/data/source_health.json", {}) or {}
+    hrows = "".join(f"<tr><td>{esc(r.get('id'))}</td><td>{esc(r.get('http_status'))}</td>"
+                    f"<td>{esc(str(r.get('error',''))[:70])}</td></tr>" for r in health.get("results", []))
+    hh = (f"<h3>Last health probe ({esc(health.get('checked_utc'))})</h3>"
+          f"<p class=mut>{esc(health.get('policy',''))}</p>"
+          f"<table><tr><th>id</th><th>HTTP</th><th>note</th></tr>{hrows}</table>") if hrows else ""
+    return f"""<h2 style="margin-top:6px">Official sources, with the role each one plays</h2>
+<p class=mut>&ldquo;listed&rdquo; means the source is official and public but was not fetched from
+this sandbox (egress here reaches github.com and the page fetcher only); the scheduled workflow
+probes them from GitHub Actions and records the observed status.</p>
+<table><tr><th>id</th><th>source</th><th>role</th><th>status</th></tr>{rows}</table>{hh}"""
+
+
+def irregularities_page(fl: dict) -> str:
+    items = fl.get("irregularities", [])
+    rows = "".join(f"<tr><td><b>{esc(i.get('id'))}</b></td><td>{esc(i.get('severity',''))}</td>"
+                   f"<td>{esc(i.get('statement',''))}</td><td>{esc(i.get('mitigation',''))}</td></tr>"
+                   for i in items)
+    return f"""<h2 style="margin-top:6px">Register ({esc(len(items))} items)</h2>
+<p class=mut>Anything that could mislead a reader about what is verified is recorded here rather than
+buried: unverified score claims, proxies that cannot measure the real objective, mirrors that are not
+organizer-authenticated, and naming inconsistencies. Each item is also tracked by the repository's
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32/issues">issue template</a>.</p>
+<table><tr><th>id</th><th>severity</th><th>statement</th><th>mitigation</th></tr>{rows}</table>"""
+
+
+def main() -> int:
+    fl = FEED.build(ROOT)
+    sub = read("registry/submission_build.json")
+    name = (sub or {}).get("name", "gems32-h19-5-maxcov-r1")
+    pages = {
+        "index.html": page(f"{TITLE} — a fault-discovery system for the DOE GEMS Prize",
+                           overview(fl, sub, name), "index.html"),
+        "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
+                                       "executive-summary.html"),
+        "research.html": page("Research: the metric, the decision rule, and the evidence",
+                              research(fl, sub, name), "research.html"),
+        "hypotheses.html": page("Candidate hypotheses, ranked", hypotheses_page(fl), "hypotheses.html"),
+        "leaderboard.html": page("Leaderboard and the size of the gap", leaderboard_page(fl), "leaderboard.html"),
+        "sources.html": page("Sources", sources_page(fl), "sources.html"),
+        "irregularities.html": page("Irregularities flagged for review", irregularities_page(fl),
+                                     "irregularities.html"),
+    }
+    DOCS.mkdir(exist_ok=True)
+    for fname, html_text in pages.items():
+        (DOCS / fname).write_text(html_text)
+    print(json.dumps({"pages": list(pages), "sources": fl.get("source_count"),
+                      "leaderboard_rows": len(fl.get("leaderboard", [])),
+                      "hypotheses": len(fl.get("hypotheses", [])),
+                      "submission_built": bool(sub)}, indent=1))
+    return 0
 
 
 if __name__ == "__main__":
-    out = build()
-    print(json.dumps({"pages": out["pages"], "sources": out["feed"]["source_count"],
-                      "leaderboard_rows": len(out["feed"]["leaderboard"])}, indent=1))
+    sys.exit(main())

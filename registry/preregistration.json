@@ -1,16 +1,24 @@
 {
- "id": "GEMSDOE32-PREREG-1",
- "date": "2026-10-04",
- "harness": "4 quadrant blocks x 1 draw; buffer 30 px removed from training around each block",
- "detector": "HistGradientBoostingClassifier(max_iter=80, lr=0.1, leaves=31), 60k positives / 240k negatives sampled from the training region only",
- "budget_px_per_block": 8000,
- "prior_dti_for_bar": 0.13,
- "rho_discovery": 1.0,
- "primary_contrast": "A1/A2 greedy cover vs A0 dot_thin at MATCHED emitted count (paired per fold; pass = mean>0 and >=3/4 folds positive)",
- "secondary_contrasts": [
-  "A3_greedy_bar_discovery vs A2_greedy_credit_bar",
-  "A5_nms_ridge_matched vs A0_dot_thin_matched"
- ],
- "proxy": "the visible catalogue (USGS/INGENIOUS) inside the hidden block; NOT the hidden new-fault labels",
- "note": "no weekly submission slot is spent on the strength of this proxy alone"
+ "id": "GEMSDOE32-PREREG-2",
+ "statement": "Emission-ladder holdout: does greedy maximum-expected-coverage packing of the same field beat the incumbent raster-order thinning cascade at MATCHED emitted mass, under the official metric, on spatially blocked proxy truth?",
+ "blocks": "4 quadrants of the footprint, 30 px buffer between train and held-out block",
+ "detector": "HistGradientBoosting(max_iter=80, learning_rate=0.1, max_leaf_nodes=31)",
+ "training_sample": "<=60k positive / 240k negative pixels drawn from the other three quadrants",
+ "channels": "all 35 structural channels (memory-mapped stack, registry/feature_receipt.json)",
+ "budget_px": 9000,
+ "prior_dti": 0.26,
+ "rho_two_round": 1.0,
+ "arms": {
+  "A1_greedy_fixed_budget": "greedy max-expected-coverage, exactly budget pixels",
+  "A2_greedy_credit_bar": "same greedy, stop when marginal expected credit < 0.2*prior_dti",
+  "A3_greedy_bar_discovery": "same greedy, bar = 0.2*prior_dti/(1+rho)  (two-round objective)",
+  "A0_dot_thin_matched": "incumbent's own rule: raster-order dot-thin, count matched to A1",
+  "A5_nms_ridge_matched": "non-max-suppressed ridge peaks, top-k to A1's count",
+  "A4_random_matched": "uniform random pixels, count matched to A1"
+ },
+ "primary_contrast": "A1 - A0 (matched mass); secondary: A2 - A0, A3 - A2, A5 - A0",
+ "promotion_rule": "mean paired contrast > 0 on >= 3 of 4 folds, else no promotion",
+ "honesty": "The proxy truth is the visible catalogue, so this instrument CANNOT reward a prediction that is off-catalogue -- the population the real test set is drawn from. A pass licenses packaging a candidate, never a claim of a score.",
+ "amended_from": "GEMSDOE32-PREREG-1",
+ "amendment_reason": "PREREG-1's bar arm was non-binding on the first two folds (prior DTI 0.13 -> bar 0.026 while observed marginals were 1-4), so the bar could not discriminate; the amendment prices the bar at the live anchor (0.26) and adds a second mass-matched control. Fold-0/1 results of PREREG-1 are kept in git history."
 }

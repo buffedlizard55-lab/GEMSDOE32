@@ -3,9 +3,9 @@
 All geometry is taken from the competition rasters themselves (byte-verified against the
 owner-mirror manifest in ``registry/data_manifest.json``), never invented:
 
-    EPSG:32611 (UTM 11N), 100 m, 3292 x 3730, origin (243350, 4508550), nodata -3.4e38
-    footprint 5,167,373 px ; total raster 12,278,  3292*3730 = 12,278,  (3292*3730 = 12,278,  let
-    the code compute it) ; everything outside the footprint is NaN in a legal submission.
+    EPSG:32611 (UTM 11N), 100 m, width 3292 x height 3730, origin (243350, 4508550),
+    feature nodata -3.4e38, footprint 5,165,852 px (measured, ``registry/feature_receipt.json``).
+    Everything outside the footprint is NaN in a legal submission.
 """
 from __future__ import annotations
 
@@ -66,6 +66,8 @@ def write_submission(mask: np.ndarray, template_path: str | Path, out_path: str 
     if outside_vals is not None and outside == "nan":
         assert np.isnan(outside_vals).all()
     meta["nodata"] = np.nan
+    meta["compress"] = "deflate"      # keeps the published artifact small; readers are unaffected
+    meta["tiled"] = True
     out_path = Path(out_path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with rasterio.open(out_path, "w", **meta) as dst:
@@ -101,3 +103,13 @@ def check_submission(path: str | Path, footprint: np.ndarray) -> dict:
         ok_range=bool(in_range_in.sum() == finite_in.sum() == int(footprint.sum())),
         ok_outside=bool(np.isnan(outside).all() or (outside == 0).all()),
     )
+
+
+def sha256(path: str | Path) -> str:
+    """sha256 of a file, streamed (used for every artifact this repository publishes)."""
+    import hashlib
+    h = hashlib.sha256()
+    with Path(path).open("rb") as fh:
+        for chunk in iter(lambda: fh.read(1 << 20), b""):
+            h.update(chunk)
+    return h.hexdigest()

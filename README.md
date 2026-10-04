@@ -1,36 +1,65 @@
 # GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize (DrivenData #306)
 
-> **Maximize P(Win)** · **Own the Outcome** — the Arena core values are the decision rule for every
-> change in this repository.
+**Competition:** [DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/)
+· **Metric page:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
+· **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/> · **Weekly budget:** 3 scored
+submissions, and exactly one file is scored in **both** prize rounds.
 
-**Competition:** [DOE GEMS Prize, DrivenData #306](https://www.drivendata.org/competitions/306/competition-doe-gems/)
-· **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/> · **Metric page:**
-[page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
-· **Weekly limit:** 3 scored submissions, one file scored in **both** prize rounds.
+*Working charter — **Maximize P(Win)** and **Own the Outcome** (Arena Core Values): every change in
+this repository exists to raise the probability of placing at the top of that leaderboard, and every
+number is owned end to end — traceable to a file in `registry/` or `evidence/`, or labelled a claim.*
+
+---
+
+## ⬇ The submission file
+
+| | |
+|---|---|
+| **primary** | [`docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif`](docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif) — sha256 `2dc67f4bdb8d1bf2…` |
+| format | single-band float32 GeoTIFF, EPSG:32611, 100 m, 3292×3730, 44,090 predicted pixels, every footprint pixel finite in **[0, 1]**, NaN outside the footprint |
+| fallback | `…-zeros.tif` — identical predictions, `0.0` outside the footprint (for a validator that dislikes NaN); the `.zip` holds the same single GeoTIFF |
+| receipt | `docs/downloads/checks-…tif.json` — sha256, counts, min/max, CRS, range and footprint assertions, from an independent re-read of the written bytes |
+| note to paste | `gems32-h19-5-smoothmaxcov-44090 \| H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent \| paired model-MC +0.025 vs incumbent; not a score` |
+
+**Status, in one breath.** The file is *format-validated* and *mass-matched* to the group's best
+owner-claimed artifact (44,090 px), and its emission rule was derived — not tuned — from the
+competition metric: cover the surface blurred by the inferred 1.85 px truth scatter, which is the
+matched filter for the model's own credit. Measured against the incumbent's raster-order dotting at
+identical mass on the live-anchored truth model with the official metric: **+0.0247 ± 0.0005,
+12/12 paired draws positive**; the packing rule itself is **+0.0100 mean, 4/4 folds positive** on the
+blocked catalogue holdout. It is **not** organizer-scored, and no slot is spent until
+`bo.slot_gate` approves one on the record (`registry/observations.jsonl`).
 
 ---
 
-## ⬇ One-click submission GeoTIFF
+## What this repository knows that the group's own sites did not
 
-The site's home page puts the download first; the same file is in this repository at
-`docs/downloads/`. Build it yourself with `scripts/build_submission.py` (nothing is hand-edited).
-
-| file | what it is | status |
-|---|---|---|
-| `docs/downloads/gems32-cover-r1-h19-5-d2-8-eq-mass.tif` | single-band float32 GeoTIFF, EPSG:32611, 100 m, 3730×3292, every footprint pixel finite in [0, 1], NaN outside | **format-validated by independent re-read; unscored; not slot-approved** |
-| `…-zeros.tif` | identical predictions, `0.0` outside the footprint | format fallback |
-| `checks-<file>.json` | sha256, counts, min/max, range and footprint assertions | receipt |
-
-The system that produced it, in one paragraph: the official metric is re-implemented exactly
-(`src/gems32/metric.py`), reduced to the identity `DTI = T/(0.2(T+S−M)+0.8K)` and the marginal
-**credit bar** `k > 0.2·DTI`; emission is a greedy maximum-expected-coverage packing of a detector
-field under the metric's own kernel with that bar as the stopping rule; the rule is measured against
-the incumbent at *matched emitted mass* on a spatially blocked hide-and-recover holdout
-(`scripts/run_holdout.py`, preregistered before the run); and a Gaussian-process surrogate with
-expected improvement decides whether a candidate has earned one of the three weekly slots
-(`src/gems32/bo.py`).
-
----
+1. **The exact metric, reduced to a decision rule.** `DTI = T/(0.2(T+S−M)+0.8|G|)` and therefore
+   `add mass ⇔ k > 0.2·DTI` — the credit bar (0.0520 at the group's claimed 0.2600, 0.0652 at the
+   public leader's 0.3262). Verified against a brute-force transcription of the published formulas
+   (27 tests) and corroborated by the group's independent empirical measurement of 0.0548 credit per
+   dot. **This explains why dotting won:** the metric taxes redundant mass at 0.2 per unit, and a
+   3 px kernel makes ~2.4 px spacing the optimum.
+2. **The two instruments disagree, and that is now a published finding.** The catalogue-truth
+   holdout says surface-coverage packing is *better* (+0.0100, 4/4 folds); the live-anchored truth
+   model says it is *worse* (−0.0033, 0/12 draws). Mechanism: the hidden set is scattered *around*
+   the surface, so covering the surface is the wrong objective. Fixing the objective (blur by the
+   scatter) converts the disagreement into **+0.0247 (12/12 draws)** over the incumbent. This is the
+   brief's "holdout drift, worth chasing rather than noise" made concrete — see IR-32-PROXY-02.
+3. **No public catalogue can supply the missing faults.** GDR QFaults v2 — the newest official
+   compilation the group obtained — lies within 300 m of the competition's own catalogue for all but
+   **1 of its 59,065 pixels**. The only large off-catalogue official population is the older USGS
+   SGMC (**61,664 px** beyond 300 m), and the group's best field is only **1.4×** enriched there.
+   That is the measured size of the unexploited discovery lane.
+4. **The 2020 Monte Cristo Range Mw 6.5 rupture is inside the footprint** and broke largely unmapped
+   ground with displacements mostly < 5 cm ([USGS field response](https://pubs.usgs.gov/publication/70217872),
+   SRL 92(2A) 823–829) — a real, verifiable, post-catalogue fault class. It leads the ranked
+   hypotheses.
+5. **A slot gate with a price on information.** `src/gems32/bo.py` fits a GP surrogate over the
+   design space, computes expected improvement, refuses candidates that have not beaten the
+   incumbent at matched mass, refuses repeats, and prices the two-round objective
+   (`DTI₁ + ρ·DTI₂`, bar `0.2·DTI/(1+ρ)` for a discovery candidate). Every evaluation — submitted or
+   not — is appended to `registry/observations.jsonl` as training data.
 
 ## Standing prompt (read first, every session)
 
@@ -172,70 +201,98 @@ criteria.
 
 ---
 
+### Standing constraints extracted from the brief
+
+1. Verify line by line from official, trusted sources; give links for manual review; flag
+   irregularities; never present a proxy or an owner report as an organizer-verified result.
+2. Work autonomously: no manual inputs, no credentials.
+3. The site must make a one-click submission GeoTIFF obvious at the top, with a unique name and a
+   short note for the submit form, and an executive-summary subpage explaining the exact upload.
+4. Do not spend a weekly slot on an idea that has not beaten the best comparable spatially blocked
+   holdout — and make that a *running* decision rule with a surrogate and an acquisition function.
+5. Log every holdout evaluation; treat a persistent surrogate-vs-leaderboard gap as holdout drift.
+6. Keep the Core Values central: **Maximize P(Win)** and **Own the Outcome**.
+7. Run multiple review passes and verify against the original request before finishing.
+8. Keep large datasets out of Git; use hash-pinned provenance and label owner mirrors as
+   unauthenticated.
+
+---
+
 ## Repository map
 
 ```
 src/gems32/
-  metric.py       official distance-weighted Tversky index + the identity + the credit bar (verified)
-  grid.py         geometry/footprint/IO and the independent format validator
-  emission.py     dot-thin (incumbent), greedy max-expected-coverage packing, credit-bar stopping
-  features.py     35-channel structural stack from the 19 official bands (+ derived transforms)
-  detector.py     CPU-feasible detectors (HistGradientBoosting / logistic) for harness work
-  holdout.py      preregistered spatially blocked hide-and-recover harness, arm ladder
-  bo.py           GP surrogate, expected improvement, cost-aware slot gate, drift report
-  submission.py   writer (+zip) and receipt
-  feed.py         live feed (sources, leaderboard snapshot, build state)
-  hypotheses.py   the five registered candidate hypotheses
-scripts/          fetch_data, build_features, run_holdout, build_submission, build_site, refresh_feed
-registry/         sources, data manifest, leaderboard history, irregularities, hypotheses, preregistration
-evidence/         raw run outputs (JSON) — every number on the site comes from here
-docs/             the GitHub Pages site (generated) and the downloadable GeoTIFFs
-tests/            metric, emission, grid, bo, submission
+  metric.py        official distance-weighted Tversky index, the identity, the credit bar (verified)
+  grid.py          geometry, footprint, IO, the independent format validator, sha256
+  emission.py      dot-thin (incumbent), exact greedy max-coverage packing (fast + reference), bar stop
+  features.py      35-channel structural stack from the 19 official bands
+  detector.py      CPU-feasible detectors for the harness (HGB / logistic), memmap-friendly sampling
+  holdout.py       preregistered, spatially blocked hide-and-recover harness; mass-matched arm ladder
+  bo.py            GP surrogate, expected improvement, cost-aware slot gate, drift report, obs log
+  submission.py    writer (+zip) and receipt
+  feed.py          the site's machine-readable feed (sources, claims, evidence, build state)
+  hypotheses.py    the five registered candidate hypotheses
+scripts/           fetch_data · build_features · run_holdout · run_truth_model_mc ·
+                   optimise_emission_models · verify_shipped_mc · build_submission · build_site ·
+                   refresh_feed · log_observations · run_h60_2
+registry/          sources, data manifest + sha256, leaderboard history, claims, hypotheses,
+                   preregistration, irregularities, observations (the surrogate's training data)
+evidence/          raw run outputs (JSON) — every number on the site comes from here
+docs/              the generated GitHub Pages site + the downloadable GeoTIFFs
+tests/             metric, emission, submission, BO slot gate (27 tests)
+knowledge/         the PhD-level write-ups (why 0.2600, what can beat 0.3195, what cannot)
 ```
 
 ### Reproduce everything from a clean checkout
 
 ```bash
 pip install -r requirements.txt
-python3 scripts/fetch_data.py          # hash-verified fetch of the pinned mirrors (GitHub API)
-python3 scripts/build_features.py      # ~3 min on 2 vCPU: 35-channel stack (~1.7 GB memmap)
-python3 scripts/run_holdout.py         # preregistered blocked holdout, writes evidence/holdout_run1.json
-python3 scripts/build_submission.py    # writes docs/downloads/*.tif + checks JSON
-python3 scripts/build_site.py          # regenerates the site from the registry
+python3 scripts/fetch_data.py            # sha256-verified fetch of every pinned mirror (GitHub API)
+python3 scripts/build_features.py        # ~3 min on 2 vCPU: 35-channel stack (~1.7 GB memmap)
+python3 scripts/run_holdout.py --tag 2 --prereg-id GEMSDOE32-PREREG-2 --prior-dti 0.26 --budget 9000
+python3 scripts/run_truth_model_mc.py --draws 16
+python3 scripts/optimise_emission_models.py --draws 16
+python3 scripts/build_submission.py      # writes docs/downloads/*.tif + the format receipt
+python3 scripts/verify_shipped_mc.py --draws 12
+python3 scripts/log_observations.py      # folds + model draws + claims -> the surrogate's log
+python3 scripts/build_site.py
 python3 -m pytest tests -q
 ```
 
 ## Where the system stands
 
-* **The exact metric, verified.** `tests/test_metric.py` reproduces the published worked example
-  (TPw=3.00, FPw=1.89, FNw=2.00 → 0.60) and checks the identity and the credit bar against a
-  brute-force transcription of the published formulas on random rasters.
-* **The credit bar is the decision rule.** `dDTI > 0 ⇔ k > 0.2·DTI`: 0.052 at the group's best
-  (0.26), 0.065 at the current public leaderboard #1 (0.3262, read 2026-10-04). The group's own
-  measured credit rate (0.0548 per added dot) sits on that bar.
-* **A validated emission rule, at matched mass.** `evidence/holdout_run1.json` compares greedy
-  max-expected-coverage packing with the incumbent raster-order dot-thin cascade at the same emitted
-  count, on four spatially blocked folds, with the official metric.
-* **A slot gate with a cost model.** `bo.slot_gate` refuses a submission unless the candidate beats
-  the incumbent on the holdout *and* the surrogate's expected improvement clears the slot cost; the
-  two-round objective (`DTI_1 + ρ·DTI_2`) lowers the bar only for candidates with a plausible path to
-  expert verification.
-* **A live feed.** 19 official sources with links and last-observed status, the public leaderboard
-  snapshot history, and the repository's own build state — so nothing has to be checked by hand.
+* **Metric:** verified (brute force + published worked example + algebra + marginal rule).
+* **Emission:** the credit bar is derived; the packing rule is exact (candidate-set greedy with a
+  certificate that reproduces the reference implementation on 13/13 random and structured cases) and
+  is measured, at matched mass, to beat the incumbent's rule by +0.0247 under the live-anchored model
+  and +0.0100 on the catalogue holdout (where the two instruments disagree, both numbers are shown).
+* **Detector:** honest baseline only. A CPU gradient-boosted tree reaches AUC 0.63–0.73 in-block;
+  the official reference solution's U-Net is out of reach here (2 vCPU, no GPU). The emission rule is
+  detector-agnostic, so the harness result carries over; the *field* does not.
+* **Slot discipline:** no submission is automatable by design; the gate, its cost model, and the
+  observation log are the record of *why* each slot would be spent.
+* **The site** (`docs/`, regenerated by `scripts/build_site.py` in CI) opens with the download, then
+  the evidence, then the sources, the leaderboard and the irregularity register.
 
 ## Limitations (stated, not hidden)
 
-* The competition rasters here are **owner mirrors, not organizer bytes** (IR-32-DATA-01).
-* Every live score in the family record is an **owner report** (IR-32-SCORE-01); the only verified
-  scores are the *other teams'* rows read from the public leaderboard.
-* The holdout truth is the **visible catalogue**, which structurally cannot reward a prediction that
-  is off-catalogue — exactly the population the real test set is drawn from (IR-32-PROXY-01).
-* No GPU here, so the detector used in the harness is a CPU GBDT, not the U-Net of the official
-  reference solution; the harness validates *emission rules*, and says so.
-* The `[0, 1]` rejection is explained from the data, not from a public validator (IR-32-VERIFY-01).
+* The competition rasters here are **owner mirrors, not organizer bytes** (IR-32-DATA-01); every
+  digest is pinned in `registry/data_manifest.json` and re-verified on each fetch.
+* Every number the group ever reported as a score is an **owner report** (IR-32-SCORE-01). The only
+  scores read here from an official page are the *other teams'* public-leaderboard rows.
+* The generative truth model (12,691 px, σ = 1.85 px) is itself owner-report-derived; *absolute*
+  scores from it are conditional, and only the **paired** differences are used for decisions.
+* The holdout's truth is the visible catalogue and cannot reward a genuinely new fault
+  (IR-32-PROXY-01); it is a cheap screen, not the objective.
+* No GPU, so the shipped field is the group's H19-5 surface, not a newly trained deep model — the
+  system improves *how* a field is turned into credit, not (yet) the field physics.
+* The `[0, 1]` portal rejection is explained from the data, not from a public validator
+  (IR-32-VERIFY-01). In 2020 the Monte Cristo rupture also showed the hidden set can include faults
+  that are hard to see in the given bands at all (H60-1).
 
 ## Sources
 
-Every source is listed with its role and verification status in
+Twenty-four official sources, with the role each plays and its verification status, are listed in
 [`registry/sources.json`](registry/sources.json) and rendered at
-<https://buffedlizard55-lab.github.io/GEMSDOE32/sources.html>.
+<https://buffedlizard55-lab.github.io/GEMSDOE32/sources.html>. The competition host
+(`drivendata.org`) is **never** requested by any script here.

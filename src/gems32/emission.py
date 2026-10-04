@@ -218,3 +218,97 @@ def masked_along_support(field: np.ndarray, support: np.ndarray, keep_frac: floa
 
 def as_float(mask: np.ndarray) -> np.ndarray:
     return np.asarray(mask, dtype=np.float32)
+
+
+def greedy_cover_fast(field: np.ndarray, footprint: np.ndarray, max_n: int,
+                      stop_bar: float | None = None, min_dist: float = 0.0,
+                      exact: bool = True, headroom: int = 8):
+    """Same result as ``holdout.greedy_cover_adaptive`` but with a candidate-set restriction.
+
+    Why this is exact.  The marginal gain ``gain[x]`` is non-increasing in the number of chosen
+    pixels.  If, at the end of a restricted run, ``max(gain)`` over the *excluded* pixels is
+    ``<=`` the smallest marginal actually taken (``v_last``), then at every earlier step no
+    excluded pixel could have been the argmax either (its gain was then >= its final gain), so the
+    restricted run is a valid exact-greedy run.  The certificate is checked once and the whole run
+    is repeated from scratch with a larger candidate set if it fails.
+
+    Returns ``(mask, trace)`` with the same semantics as ``greedy_cover_adaptive``.
+    """
+    from . import holdout as _H  # local import: holdout imports emission
+    if not exact:
+        return _H.greedy_cover_adaptive(field, footprint, max_n, stop_bar, min_dist)
+    base = np.asarray(field, dtype=np.float32) * footprint
+    H, W = base.shape
+    dy, dx, kw = _OFF
+    n = int(min(max_n, int(footprint.sum())))
+    flat_fp = footprint.reshape(-1)
+    fp_idx = np.flatnonzero(flat_fp)
+    k_seed = min(int(headroom) * max(n, 1), int(footprint.sum()))
+    g0 = np.zeros(base.shape, np.float32)
+    for d, e, k in zip(dy, dx, kw):
+        g0 += k * _cover_update(base, d, e)
+    g0 *= footprint
+    flat_g0 = g0.reshape(-1)
+    tau = float(np.partition(flat_g0[fp_idx], -k_seed)[-k_seed]) if fp_idx.size > k_seed else -np.inf
+
+    while True:
+        # ---- fresh state for every attempt (a retry must not inherit the previous run)
+        f = base.copy()
+        C = np.zeros((H, W), np.float32)
+        chosen = np.zeros((H, W), bool)
+        blocked = np.zeros((H, W), bool)
+        gain = g0.copy()
+        idx = fp_idx if not np.isfinite(tau) else fp_idx[flat_g0[fp_idx] >= tau]
+        pos = np.full(H * W, -1, np.int32)
+        pos[idx] = np.arange(idx.size, dtype=np.int32)
+        g = flat_g0[idx].copy()
+        trace: list = []
+        taken, v_last, ok = 0, 0.0, True
+        for _ in range(n):
+            i = int(np.argmax(g))
+            v = float(g[i])
+            if not np.isfinite(v) or v <= 0.0:
+                ok = (v_last > 0.0) or (v > 0.0)
+                break
+            if stop_bar is not None and v < stop_bar:
+                trace.append({"stopped": True, "marginal": v, "bar": stop_bar, "n": taken})
+                ok = True
+                break
+            trace.append({"stopped": False, "marginal": v})
+            v_last, taken = v, taken + 1
+            y, x = divmod(int(idx[i]), W)
+            chosen[y, x] = True
+            for d, e, k in zip(dy, dx, kw):
+                qy, qx = y + d, x + e
+                if not (0 <= qy < H and 0 <= qx < W):
+                    continue
+                old = C[qy, qx]
+                if k <= old:
+                    continue
+                C[qy, qx] = k
+                wq = f[qy, qx]
+                if wq == 0:
+                    continue
+                for d2, e2, k2 in zip(dy, dx, kw):
+                    xy, xx = qy + d2, qx + e2
+                    if 0 <= xy < H and 0 <= xx < W:
+                        dgw = wq * (max(0.0, k2 - k) - max(0.0, k2 - old))
+                        if dgw:
+                            flat = xy * W + xx
+                            gain.reshape(-1)[flat] += dgw
+                            p = pos[flat]
+                            if p >= 0:
+                                g[p] += dgw
+            # --- invalidate *after* the neighbourhood update: the update writes the selected
+            #     pixel's own entry back (it is inside its own update neighbourhood), which would
+            #     otherwise resurrect it and let argmax pick it twice.
+            g[i] = -np.inf
+            if min_dist > 0:
+                r = int(np.ceil(min_dist))
+                blocked[max(0, y - r):min(H, y + r + 1), max(0, x - r):min(W, x + r + 1)] = True
+        # Certificate: every excluded pixel has *initial* gain <= tau, and its gain is
+        # non-increasing, so requiring ``tau <= v_last`` rules it out at every step.
+        if (not ok) or taken == 0 or (not np.isfinite(tau)) or tau <= v_last + 1e-6:
+            break
+        tau *= 0.5
+    return chosen, trace

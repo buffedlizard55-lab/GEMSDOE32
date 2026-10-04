@@ -27,19 +27,32 @@ class DetectorSpec:
 
 def sample_training_rows(stack: np.ndarray, labels: np.ndarray, train_mask: np.ndarray,
                          spec: DetectorSpec, rng: np.random.Generator):
-    """Sample (X, y) from a *training region only* (blocks are removed by ``train_mask``)."""
+    """Sample (X, y) from a *training region only* (blocks are removed by ``train_mask``).
+
+    Negatives are drawn by rejection sampling on flat indices rather than ``setdiff1d``, because
+    sorting 12 M indices was the dominant cost of a fold on this CPU-only box.
+    """
     h, w, f = stack.shape
-    lab = labels & train_mask
-    pos = np.flatnonzero(lab.ravel())
+    flat_lab = labels.reshape(-1)
+    flat_tr = train_mask.reshape(-1)
+    pos = np.flatnonzero(labels & train_mask)
     if pos.size > spec.sample_pos:
         pos = rng.choice(pos, spec.sample_pos, replace=False)
-    cand = np.flatnonzero(train_mask.ravel())
-    neg_pool = np.setdiff1d(cand, np.flatnonzero(labels.ravel()), assume_unique=False)
-    neg = rng.choice(neg_pool, min(spec.sample_neg, neg_pool.size), replace=False)
+    neg_parts, got = [], 0
+    while got < spec.sample_neg:
+        need = int((spec.sample_neg - got) * 1.35) + 4096
+        idx = rng.integers(0, h * w, size=need, dtype=np.int64)
+        idx = idx[flat_tr[idx] & ~flat_lab[idx]]
+        if idx.size:
+            neg_parts.append(idx)
+            got += idx.size
+    neg = np.concatenate(neg_parts)[:spec.sample_neg]
     idx = np.concatenate([pos, neg])
     y = np.concatenate([np.ones(pos.size, np.int8), np.zeros(neg.size, np.int8)])
     flat = stack.reshape(-1, f)                      # memmap-friendly: no full materialisation
-    X = np.asarray(flat[idx], dtype=np.float32)      # bounded: <= ~40 MB for the default caps
+    X = np.asarray(flat[np.sort(idx)], dtype=np.float32)
+    order = np.argsort(idx)                          # keep X and y aligned after the sort
+    y = y[order] if order.size == y.size else y
     return X, y
 
 

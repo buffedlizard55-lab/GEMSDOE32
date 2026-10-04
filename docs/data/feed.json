@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-04T02:34:47Z",
+ "generated_utc": "2026-10-04T03:16:50Z",
  "sources": [
   {
    "id": "competition",
@@ -134,9 +134,44 @@
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
    "role": "seismicity lineaments (future arm)",
    "status": "listed; not reachable from this sandbox"
+  },
+  {
+   "id": "nbmg_ingenious_service",
+   "title": "NBMG QFaults (INGENIOUS 6-27-2023) ArcGIS REST layer",
+   "url": "https://web2.nbmg.unr.edu/arcgis/rest/services/Qfaults/QFaults_INGENIOUS/MapServer/0",
+   "role": "authoritative newer fault vectors; NOT reachable from this sandbox (egress), fetched by the sibling repositories' GitHub runners",
+   "status": "listed, not fetched here"
+  },
+  {
+   "id": "gdr_qfaults_v2_raster",
+   "title": "GDR QFaults v2 traces rasterised to the competition grid (owner mirror, sha256-pinned)",
+   "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/main/data/external/derived_gdr_qfaults_v2_100m_u8.tif",
+   "role": "catalogue-difference audit: 59,065 px, of which only 1 lies beyond 300 m of the given catalogue",
+   "status": "verified locally 2026-10-04"
+  },
+  {
+   "id": "usgs_sgmc_raster",
+   "title": "USGS SGMC faults rasterised to the competition grid (owner mirror, sha256-pinned)",
+   "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/main/data/external/derived_sgmc_faults_100m_u8.tif",
+   "role": "off-catalogue fault population: 61,664 px beyond 300 m of the given catalogue (median 15 px)",
+   "status": "verified locally 2026-10-04"
+  },
+  {
+   "id": "gemsdoe25_site",
+   "title": "Owner site for the dotted H19-5 artifact (source of the 0.2600 owner claim and the H28 truth-model parameters)",
+   "url": "https://buffedlizard55-lab.github.io/GEMSDOE25/",
+   "role": "owner report / prior; every number taken from it is labelled a claim",
+   "status": "read 2026-10-04, sha256 of its download re-verified here"
+  },
+  {
+   "id": "sibling_repos",
+   "title": "Sibling experiment repositories GEMSDOE19/24/25/27/28/29/30/31/33",
+   "url": "https://github.com/buffedlizard55-lab",
+   "role": "prior experiments, mirrors and evidence; used as priors, never as verification",
+   "status": "listed"
   }
  ],
- "source_count": 19,
+ "source_count": 24,
  "leaderboard": [
   {
    "rank": 1,
@@ -260,7 +295,687 @@
  ],
  "leaderboard_observed_utc": "2026-10-04",
  "leaderboard_verified": true,
- "hypotheses": [],
+ "leaderboard_snapshots": 1,
+ "hypotheses": [
+  {
+   "id": "H60-1",
+   "rank": 1,
+   "title": "Post-catalogue coseismic surface ruptures (Monte Cristo Range 2020 Mw 6.5 and the pre-2020 historical rupture set) as high-precision line targets",
+   "layers": [
+    "USGS/NBMG 2020 MCRE surface-rupture traces (Dee et al., NBMG TR-190; SRL 92(2A))",
+    "19 official bands only as a corroboration filter"
+   ],
+   "signature": "exact mapped rupture polylines rasterised on the 100 m grid (no transform, no detection: the geometry is the measurement)",
+   "why_off_catalogue": "the competition labels are the pre-2020 USGS/INGENIOUS catalogue; the MCRE rupture occurred on 2020-05-15 in *largely unmapped parts of the Candelaria fault* and is by construction absent from a pre-2020 catalogue, while being real, published and trivially verifiable by the expert panel",
+   "differs_from_repo": "the group has emission, packing, Euler, slip-tendency, hydrothermal and catalogue-difference families, but no arm built on post-catalogue coseismic ruptures; H41/SGMC arms used *catalogue* vectors, which cannot contain a fault that post-dates the catalogue",
+   "expected_dti": "0.000 to +0.02 on the public split (single 28 km trace, ~2 % of the group's emitted mass); unbounded on the final round because the expert panel can verify the fault and add it to the expanded label set",
+   "cost": "low (one vector download + rasterise + geometric thinning)",
+   "data_status": "source located and documented (see registry/sources.json); obtainability from this sandbox is blocked (sciencebase.gov unknown-host), so the arm ships as a registered hypothesis with a CI fetch step, not as a claimed result",
+   "status": "registered; not yet measured; no slot"
+  },
+  {
+   "id": "H60-2",
+   "rank": 2,
+   "title": "Catalogue-difference emission: faults mapped in newer state datasets but absent from the competition labels, gated by a geophysical corroboration filter",
+   "layers": [
+    "NBMG Qfaults-INGENIOUS v2 vectors (1,179 features in footprint)",
+    "GDR 1391 trace table",
+    "USGS SGMC 1:24,000 faults",
+    "19 bands for the gate"
+   ],
+   "signature": "distance-to-nearest-newer-catalogue-trace < 2 px AND ridge/curvature corroboration on the detrended DEM",
+   "why_off_catalogue": "the hidden test set is *newly identified* faults: a newer state mapping that post-dates the national catalogue is, by construction, a sample of exactly that population",
+   "differs_from_repo": "the group's H41/SGMC arms emitted catalogue vectors *without* a geophysical gate and both lost their secondary proxy; here the gate is the corroboration filter inside `emission.py` (credit bar), and the arm is scored at matched mass",
+   "expected_dti": "0 to +0.01 proxy",
+   "cost": "medium (vector download + rasterisation + gate)",
+   "data_status": "vectors are hash-pinned in the group's own mirrors (GEMSDOE24) and reachable from this sandbox via the GitHub API",
+   "status": "registered; partially measured (see evidence/)"
+  },
+  {
+   "id": "H60-3",
+   "rank": 3,
+   "title": "Adaptive credit-bar emission: stop the emission where the marginal expected credit per unit mass falls below 0.2 x DTI (the metric's own break-even)",
+   "layers": [
+    "any detector field"
+   ],
+   "signature": "greedy maximum-expected-coverage packing of the field under the official triangular kernel with an *adaptive* stopping rule",
+   "why_off_catalogue": "not a geological hypothesis but the decision rule for every other one: it removes the fixed-count budget that the group's sweeps showed to be family-limited and replaces it with the metric's analytic bar",
+   "differs_from_repo": "H37-1 fixed the packing objective but kept a matched *count*; here the count is an output, and the same rule gives the discovery-weighted variant used for the two-round objective",
+   "expected_dti": "measured on the blocked holdout (see evidence/holdout_run1.json)",
+   "cost": "low (already implemented)",
+   "data_status": "n/a (no new data)",
+   "status": "measured on the blocked holdout"
+  },
+  {
+   "id": "H60-4",
+   "rank": 4,
+   "title": "Two-round discovery option value: lower the emission bar for candidates whose verification is likely, because the same file is re-scored against the expanded label set",
+   "layers": [
+    "any field",
+    "published fault evidence for the verification prior"
+   ],
+   "signature": "objective DTI_1 + rho * DTI_2 with rho set by the prize structure ($50k initial round vs $250k final round); the effective bar becomes 0.2 x DTI / (1 + rho)",
+   "why_off_catalogue": "the initial-round label set is deliberately incomplete, so public-LB maximisation under-prices true-but-unlabelled faults; the metric's alpha = 0.2 (false positives four times cheaper than false negatives) is the organisers' own statement that they want such predictions",
+   "differs_from_repo": "no prior arm, gate or budget in the group's record uses the two-round structure; every promotion bar to date is round-1 only",
+   "expected_dti": "raises the *expected* final-round score; cannot be measured on any local holdout and must be reasoned about from the published prize structure",
+   "cost": "none (a change in the decision rule)",
+   "data_status": "n/a",
+   "status": "implemented as A3 in the holdout ladder and as `rho` in `bo.slot_gate`"
+  },
+  {
+   "id": "H60-5",
+   "rank": 5,
+   "title": "Cross-scale drainage-network organisation (stream-power / knickpoint residuals) as an independent lineament family",
+   "layers": [
+    "1 m / 10 m 3DEP DEM from the official link table (1m_DEM_links.csv)"
+   ],
+   "signature": "chi-profile and knickpoint residuals along the channel network; aligned knickpoints across a basin trace a fault that displaces the network but has no preserved scarp",
+   "why_off_catalogue": "targets faults in alluvium/valley fill with no topographic scarp, i.e. exactly the class a surface-mapping catalogue lacks",
+   "differs_from_repo": "the group ran a drainage arm (H43) that *passed* its primary screen and was withheld on a secondary proxy; it was built on the 100 m detrended surface, and a 1 m/10 m channel network with a chi transform is a different measurement",
+   "expected_dti": "0 to +0.01",
+   "cost": "high (DEM tile download + hydrology)",
+   "data_status": "the official link table is mirrored in the group's repo (`data/dem_links.json`, sha256 8804dbff8754...); tile fetch needs CI egress",
+   "status": "registered; not run (cost), no slot"
+  }
+ ],
+ "claims": [
+  {
+   "id": "claim-d28-0260",
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+   "score": 0.26,
+   "kind": "owner_report",
+   "emitted_px": 44090,
+   "reported_by": "owner ledger (GEMSDOE25 site, research download section)",
+   "note": "group best; deterministic dot-thin of the H19-5 mask, verified here to be a strict subset of the H19-5 raster"
+  },
+  {
+   "id": "claim-d15-02477",
+   "file": "d1-5 variant of H19-5 (owner mirror)",
+   "score": 0.2477,
+   "kind": "owner_report",
+   "emitted_px": 60069,
+   "reported_by": "owner ledger",
+   "note": "same family, denser"
+  },
+  {
+   "id": "claim-h195-01922",
+   "file": "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
+   "sha256": "ec1f9b56b83ce33cad781ceb9f104b18fb4f2ff785263a4e89616af4aabdee8d",
+   "score": 0.1922,
+   "kind": "owner_report",
+   "emitted_px": 121131,
+   "reported_by": "owner ledger",
+   "note": "same family, densest"
+  },
+  {
+   "id": "claim-doe26-01223",
+   "file": "26GEMSDOE detector-product emission",
+   "score": 0.1223,
+   "kind": "owner_report",
+   "reported_by": "owner ledger",
+   "note": "different detector family"
+  }
+ ],
+ "submission": {
+  "name": "gems32-h19-5-smoothmaxcov-44090",
+  "note": "gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score",
+  "status_line": "Format-validated, mass-matched candidate. Emission rule = greedy maximum-expected-coverage of the field blurred by the inferred truth scatter (1.85 px). Measured +0.0247 +/- 0.0005 (12/12 paired draws) better than the incumbent's raster-order dotting on the live-anchored truth model, and the packing rule itself is +0.0100 (4/4 folds) on the blocked catalogue holdout. NOT organizer-scored, NOT a proven improvement, and spending a slot still requires an approved bo.slot_gate record. sha256 2dc67f4bdb8d1bf2\u2026",
+  "file": {
+   "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
+   "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
+   "bytes": 199257,
+   "positive_px": 44090
+  },
+  "file_zeros": {
+   "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif",
+   "sha256": "5d881c82d9f66dc5593e2aa0a073d055c38b7a97802af71b737dcec2a7b5ee2e",
+   "bytes": 154757
+  },
+  "rule": "greedy maximum-expected-coverage of the truth-scatter-smoothed surface (sigma 1.85 px)",
+  "objective": "smooth",
+  "sigma_px": 1.85,
+  "field": "h19_5.tif",
+  "emitted_px": 44090,
+  "budget": 44090,
+  "support_px": 121131,
+  "footprint_px": 5167373,
+  "marginal_last": 0.5102909207344055,
+  "marginal_first": 4.298656940460205,
+  "coverage_of_field_surface": 72243.5074450341,
+  "catalogue_px_emitted": 0,
+  "seconds": 207.2,
+  "incumbent": {
+   "emitted_px": 44090,
+   "coverage_of_field_surface": 88569.47428542521,
+   "coverage_ratio_new_over_incumbent": 0.8157,
+   "overlap_px": 5628
+  }
+ },
+ "holdout": {
+  "preregistration": "GEMSDOE32-PREREG-1",
+  "summary": {
+   "arms_mean": {
+    "A1_greedy_fixed_budget": 0.1793285882397547,
+    "A2_greedy_credit_bar": 0.1793285882397547,
+    "A3_greedy_bar_discovery": 0.1793285882397547,
+    "A0_dot_thin_matched": 0.1693042610711033,
+    "A5_nms_ridge_matched": 0.15568018990119906,
+    "A4_random_control": 0.017420240578214924
+   },
+   "arms_mean_n_px": {
+    "A1_greedy_fixed_budget": 8000.0,
+    "A2_greedy_credit_bar": 8000.0,
+    "A3_greedy_bar_discovery": 8000.0,
+    "A0_dot_thin_matched": 8066.75,
+    "A5_nms_ridge_matched": 8000.0,
+    "A4_random_control": 8000.0
+   },
+   "primary_A2_minus_A0": {
+    "mean": NaN,
+    "folds_positive": 0,
+    "n_folds": 0,
+    "per_fold": []
+   },
+   "secondary_A1_minus_A0": {
+    "mean": NaN,
+    "folds_positive": 0,
+    "n_folds": 0,
+    "per_fold": []
+   },
+   "secondary_A3_minus_A2": {
+    "mean": 0.0,
+    "folds_positive": 0,
+    "n_folds": 4,
+    "per_fold": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ]
+   }
+  },
+  "generated_utc": null,
+  "folds": [
+   {
+    "block": [
+     0,
+     1865,
+     0,
+     1646
+    ],
+    "auc": 0.6299981337475851,
+    "n_truth": 0,
+    "arms": {
+     "A1_greedy_fixed_budget": {
+      "dti": 0.09332430444336137,
+      "n_px": 8000
+     },
+     "A2_greedy_credit_bar": {
+      "dti": 0.09332430444336137,
+      "n_px": 8000
+     },
+     "A3_greedy_bar_discovery": {
+      "dti": 0.09332430444336137,
+      "n_px": 8000
+     },
+     "A0_dot_thin_matched": {
+      "dti": 0.08326929964064363,
+      "n_px": 7584
+     },
+     "A5_nms_ridge_matched": {
+      "dti": 0.08332937553893478,
+      "n_px": 8000
+     },
+     "A4_random_control": {
+      "dti": 0.004703999069221741,
+      "n_px": 8000
+     }
+    }
+   },
+   {
+    "block": [
+     1865,
+     3730,
+     0,
+     1646
+    ],
+    "auc": 0.6577933042023588,
+    "n_truth": 0,
+    "arms": {
+     "A1_greedy_fixed_budget": {
+      "dti": 0.2157498244771567,
+      "n_px": 8000
+     },
+     "A2_greedy_credit_bar": {
+      "dti": 0.2157498244771567,
+      "n_px": 8000
+     },
+     "A3_greedy_bar_discovery": {
+      "dti": 0.2157498244771567,
+      "n_px": 8000
+     },
+     "A0_dot_thin_matched": {
+      "dti": 0.20626483600807705,
+      "n_px": 8538
+     },
+     "A5_nms_ridge_matched": {
+      "dti": 0.1775309874958142,
+      "n_px": 8000
+     },
+     "A4_random_control": {
+      "dti": 0.04188384432219096,
+      "n_px": 8000
+     }
+    }
+   },
+   {
+    "block": [
+     0,
+     1865,
+     1646,
+     3292
+    ],
+    "auc": 0.7342912760912779,
+    "n_truth": 0,
+    "arms": {
+     "A1_greedy_fixed_budget": {
+      "dti": 0.2015293487985005,
+      "n_px": 8000
+     },
+     "A2_greedy_credit_bar": {
+      "dti": 0.2015293487985005,
+      "n_px": 8000
+     },
+     "A3_greedy_bar_discovery": {
+      "dti": 0.2015293487985005,
+      "n_px": 8000
+     },
+     "A0_dot_thin_matched": {
+      "dti": 0.19212027886131422,
+      "n_px": 7420
+     },
+     "A5_nms_ridge_matched": {
+      "dti": 0.18473721005663216,
+      "n_px": 8000
+     },
+     "A4_random_control": {
+      "dti": 0.006951851904835024,
+      "n_px": 8000
+     }
+    }
+   },
+   {
+    "block": [
+     1865,
+     3730,
+     1646,
+     3292
+    ],
+    "auc": 0.7036880435626732,
+    "n_truth": 0,
+    "arms": {
+     "A1_greedy_fixed_budget": {
+      "dti": 0.20671087524000017,
+      "n_px": 8000
+     },
+     "A2_greedy_credit_bar": {
+      "dti": 0.20671087524000017,
+      "n_px": 8000
+     },
+     "A3_greedy_bar_discovery": {
+      "dti": 0.20671087524000017,
+      "n_px": 8000
+     },
+     "A0_dot_thin_matched": {
+      "dti": 0.19556262977437833,
+      "n_px": 8725
+     },
+     "A5_nms_ridge_matched": {
+      "dti": 0.17712318651341508,
+      "n_px": 8000
+     },
+     "A4_random_control": {
+      "dti": 0.01614126701661198,
+      "n_px": 8000
+     }
+    }
+   }
+  ]
+ },
+ "evidence": {
+  "h60_2_catalogue_difference.json": {
+   "id": "H60-2",
+   "title": "catalogue-difference arm",
+   "kernel_radius_px": 3.0,
+   "bar_live": 0.052000000000000005,
+   "generated_utc": "2026-10-04T02:41:50Z",
+   "catalogue_px": {
+    "labels_given": 60988,
+    "qfaults_v2": 59065,
+    "sgmc": 82151
+   },
+   "gdr_qfaults_v2": {
+    "px_in_footprint": 59065,
+    "px_total": 59065,
+    "min_dist_px_to_given_catalogue": 0.0,
+    "px_beyond_300m": 1,
+    "frac_beyond_300m": 0.0,
+    "median_dist_px": 0.0,
+    "px_beyond_600m": 0
+   },
+   "sgmc": {
+    "px_in_footprint": 82151,
+    "px_total": 82151,
+    "min_dist_px_to_given_catalogue": 0.0,
+    "px_beyond_300m": 61664,
+    "frac_beyond_300m": 0.7506,
+    "median_dist_px": 15.0,
+    "px_beyond_600m": 54773
+   },
+   "field_enrichment": {
+    "random_footprint_background": {
+     "n": 5027952,
+     "field_mean": 0.0233,
+     "field_deciles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "field_gt_bar_frac": 0.0233
+    },
+    "given_catalogue_px": {
+     "n": 60988,
+     "field_mean": 0.0,
+     "field_deciles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "field_gt_bar_frac": 0.0,
+     "enrichment_vs_random": 0.0
+    },
+    "sgmc_off_catalogue_px": {
+     "n": 61664,
+     "field_mean": 0.03266,
+     "field_deciles": [
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0,
+      0.0
+     ],
+     "field_gt_bar_frac": 0.0327,
+     "enrichment_vs_random": 1.402
+    },
+    "qfaults_v2_off_catalogue_px": {
+     "n": 1,
+     "note": "too few pixels to characterise"
+    }
+   },
+   "emitted_px": 121131,
+   "emitted_on_given_catalogue_px": 0,
+   "emitted_on_sgmc_off_catalogue_px": 2014,
+   "emitted_on_qfaults_v2_off_catalogue_px": 0,
+   "verdict": "REFUTED as a source of new faults: the newest public catalogue considered (GDR QFaults v2) lies within 300 m of the given catalogue for all but 1 of its 59065 px, so the given catalogue already contains the newest public compilation (independently corroborating the sibling repository's IR-30-006). The only official catalogue with a large off-catalogue population is the older USGS SGMC (61664 px beyond 300 m, median 15 px away): it is pre-Quaternary-inclusive, so it can contain real faults absent from a Quaternary catalogue, but it is also where mapping later rejected. It is a candidate POOL for the two-round objective, not a validated win.",
+   "seconds": 3.2
+  },
+  "truth_model_mc.json": {
+   "instrument": "generative truth model + official metric, paired draws",
+   "truth_model": {
+    "source": "GEMSDOE25 H28 inference (owner-report-derived)",
+    "truth_px": 12691,
+    "sigma_px": 1.85,
+    "note": "pi ~ exp(-d(H19-5)/1.85 px); the size 12,691 px is the group's fitted latent parameter and reproduces their four anchors to <=0.004"
+   },
+   "draws": 12,
+   "reference": "incumbent_dotted_44090",
+   "summary": {
+    "ours_maxcov_44090": {
+     "mean": 0.27926068791167097,
+     "sd": 0.002255607355659868,
+     "sem": 0.0006511377569881625,
+     "n_draws": 12,
+     "px": 44090,
+     "mean_TP_w": 5215.020811448044,
+     "mean_FP_w": 37832.25631248913
+    },
+    "incumbent_dotted_44090": {
+     "mean": 0.28353985603221404,
+     "sd": 0.0016684823165025115,
+     "sem": 0.0004816493572854277,
+     "n_draws": 12,
+     "px": 44090,
+     "mean_TP_w": 5322.319695151823,
+     "mean_FP_w": 38207.70770364405
+    },
+    "surface_solid_121131": {
+     "mean": 0.22221858595354163,
+     "sd": 0.0013934731281532795,
+     "sem": 0.00040226104282390296,
+     "n_draws": 12,
+     "px": 121131,
+     "mean_TP_w": 7104.062247104946,
+     "mean_FP_w": 102415.69191623846
+    },
+    "paired_ours_maxcov_44090_minus_incumbent_dotted_44090": {
+     "mean": -0.004279168120543117,
+     "sd": 0.0010103750965022647,
+     "sem": 0.00029167016697403833,
+     "draws_positive": 0,
+     "n_draws": 12,
+     "per_draw": [
+      -0.005395,
+      -0.003852,
+      -0.005301,
+      -0.003828,
+      -0.005002,
+      -0.004071,
+      -0.004326,
+      -0.003424,
+      -0.002912,
+      -0.002911,
+      -0.00615,
+      -0.004179
+     ]
+    },
+    "paired_surface_solid_121131_minus_incumbent_dotted_44090": {
+     "mean": -0.06132127007867246,
+     "sd": 0.0008448496249669882,
+     "sem": 0.0002438870791997225,
+     "draws_positive": 0,
+     "n_draws": 12,
+     "per_draw": [
+      -0.062189,
+      -0.060526,
+      -0.060482,
+      -0.062924,
+      -0.060868,
+      -0.061992,
+      -0.061016,
+      -0.060488,
+      -0.061001,
+      -0.060426,
+      -0.061966,
+      -0.061977
+     ]
+    }
+   },
+   "seconds": 112.8,
+   "generated_utc": "2026-10-04T02:54:13Z"
+  },
+  "emission_models_mc.json": {
+   "question": "which layout of the same mass is best under the live-anchored truth model?",
+   "budget_px": 44090,
+   "draws": 16,
+   "truth_model": {
+    "truth_px": 12691,
+    "sigma_px": 1.85,
+    "source": "GEMSDOE25 H28 (owner-report-derived prior)"
+   },
+   "reference": "incumbent_dot_thin_44090",
+   "summary": {
+    "incumbent_dot_thin_44090": {
+     "mean": 0.28325557203298446,
+     "sd": 0.0013241016947601089,
+     "sem": 0.0003310254236900272,
+     "px": 44090
+    },
+    "greedy_surface_44090": {
+     "mean": 0.27871699553974727,
+     "sd": 0.0008260896624159303,
+     "sem": 0.00020652241560398257,
+     "px": 44090
+    },
+    "greedy_smoothfield_44090": {
+     "mean": 0.29721248501880604,
+     "sd": 0.0016654012210961552,
+     "sem": 0.0004163503052740388,
+     "px": 44090
+    },
+    "paired_greedy_surface_44090_minus_incumbent_dot_thin_44090": {
+     "mean": -0.004538576493237176,
+     "sem": 0.000267199564256717,
+     "draws_positive": 0,
+     "n_draws": 16,
+     "per_draw": [
+      -0.003764,
+      -0.005046,
+      -0.004535,
+      -0.004379,
+      -0.006305,
+      -0.005266,
+      -0.003711,
+      -0.002969,
+      -0.005436,
+      -0.005285,
+      -0.003632,
+      -0.004176,
+      -0.005345,
+      -0.00222,
+      -0.005401,
+      -0.005148
+     ]
+    },
+    "paired_greedy_smoothfield_44090_minus_incumbent_dot_thin_44090": {
+     "mean": 0.013956912985821579,
+     "sem": 0.00031412743856242095,
+     "draws_positive": 16,
+     "n_draws": 16,
+     "per_draw": [
+      0.014,
+      0.013043,
+      0.012316,
+      0.012596,
+      0.012067,
+      0.013613,
+      0.014304,
+      0.014419,
+      0.013295,
+      0.016485,
+      0.015377,
+      0.015169,
+      0.01331,
+      0.015793,
+      0.013975,
+      0.013547
+     ]
+    }
+   },
+   "best_arm": "greedy_smoothfield_44090",
+   "verdict": "greedy_smoothfield_44090 has the highest mean official DTI on paired draws from the truth model (0.2972 vs incumbent 0.2833); paired difference +0.0140 \u00b1 0.0003 with 16/16 draws positive.",
+   "seconds": 396.1,
+   "generated_utc": "2026-10-04T03:02:01Z"
+  },
+  "shipped_vs_incumbent_mc.json": {
+   "instrument": "catalogue-aware generative truth model + official metric, paired draws",
+   "truth_model": {
+    "truth_px": 12691,
+    "sigma_px": 1.85,
+    "pool": "field surface at least 1 px from the given catalogue",
+    "source": "GEMSDOE25 H28 inference (owner-report-derived prior)"
+   },
+   "draws": 12,
+   "summary": {
+    "shipped": {
+     "mean": 0.3038010557564133,
+     "sem": 0.0005061378603935395,
+     "px": 44090,
+     "mean_TP_w": 5531.275525437785
+    },
+    "incumbent": {
+     "mean": 0.27905426642145237,
+     "sem": 0.0007158531603710692,
+     "px": 44090,
+     "mean_TP_w": 5119.976827302436
+    },
+    "surface_greedy": {
+     "mean": 0.27580288966022287,
+     "sem": 0.0006277043883563872,
+     "px": 44090,
+     "mean_TP_w": 5033.161873457625
+    },
+    "paired_shipped_minus_incumbent": {
+     "mean": 0.024746789334960977,
+     "sem": 0.0005361943271261892,
+     "draws_positive": 12,
+     "n_draws": 12,
+     "per_draw": [
+      0.022702,
+      0.026233,
+      0.025393,
+      0.022086,
+      0.027279,
+      0.025482,
+      0.024677,
+      0.027683,
+      0.024687,
+      0.025284,
+      0.0226,
+      0.022855
+     ]
+    },
+    "paired_surface_greedy_minus_incumbent": {
+     "mean": -0.0032513767612294825,
+     "sem": 0.0003785471151731023,
+     "draws_positive": 0,
+     "n_draws": 12,
+     "per_draw": [
+      -0.003228,
+      -0.001871,
+      -0.002993,
+      -0.004192,
+      -0.00225,
+      -0.00292,
+      -0.00147,
+      -0.002474,
+      -0.003883,
+      -0.0036,
+      -0.00649,
+      -0.003647
+     ]
+    }
+   },
+   "seconds": 137.7,
+   "generated_utc": "2026-10-04T03:12:16Z"
+  }
+ },
  "irregularities": [
   {
    "id": "IR-32-DATA-01",
@@ -297,6 +1012,36 @@
    "severity": "low",
    "statement": "The DrivenData submission validator is not public; the prior '[0, 1]' rejection was explained by the group (NaN inside the footprint) and is consistent with the format text, but the exact validator behaviour cannot be reproduced locally.",
    "mitigation": "two variants are shipped (outside=nan and outside=zero), both with every footprint pixel finite and in [0, 1]; the checks JSON proves it by independent re-read"
+  },
+  {
+   "id": "IR-32-FIELD-01",
+   "severity": "informational",
+   "statement": "The group's best-scoring field (H19-5) is identically ZERO on every pixel of the given catalogue: 0 of its 121,131 positive pixels touch the 60,988 catalogue pixels. Measured here two ways (evidence/h60_2_catalogue_difference.json, registry/submission_build.json -> catalogue_px_emitted = 0).",
+   "mitigation": "Round-1 hidden truth therefore excludes the given catalogue, and mass spent on a mapped line can never earn credit. The build script removes a 1 px buffer around the catalogue from the emission domain (the first smooth-field build wasted 994 px = 2.3 % of its mass there)."
+  },
+  {
+   "id": "IR-32-PROXY-02",
+   "severity": "high",
+   "statement": "The two local instruments DISAGREE about the same change, which is the drift the brief asks to chase rather than shrug off. Blocked holdout with catalogue truth: greedy surface-coverage packing beats the incumbent raster-order dot-thin at matched mass, +0.0100 mean over 4 folds (4/4 positive). Live-anchored generative truth model, official metric, paired draws: that same change is NEGATIVE, -0.0033 (0/12 draws positive).",
+   "mitigation": "Both are published. The disagreement has a mechanism, not noise: the holdout's truth is the catalogue, so it rewards covering the field surface where the catalogue is; the hidden set is scattered *around* the surface with a 1.85 px scale, so covering the surface is the wrong objective. The rule was re-derived from the second instrument (cover the scatter-smoothed density) and now measures +0.0247 (12/12 draws) over the incumbent on the catalogue-aware variant. The holdout keeps its role as a cheap screen; the model anchor decides."
+  },
+  {
+   "id": "IR-32-NAME-01",
+   "severity": "low",
+   "statement": "The group's file named 'dotted-h19-5-d2-8' corresponds to a thinning parameter of 2.4 px in the group's own density sweep (whose peak they report at d = 2.4 px / 44,090 px), not 2.8 px. Byte identity is unaffected (sha256 91eae1ca... re-verified here) but the name is misleading.",
+   "mitigation": "This repository names artifacts by rule and mass (gems32-h19-5-smoothmaxcov-44090) and records the sha256 in registry/submission_build.json; the claim ledger keeps the owner's original name verbatim."
+  },
+  {
+   "id": "IR-32-MASS-01",
+   "severity": "medium",
+   "statement": "An emission-rule comparison at unequal emitted mass is meaningless under this metric (the first ladder compared 8,000 greedy pixels against ~1,900 dot-thin pixels).",
+   "mitigation": "Every arm in the ladder is now re-emitted at the SAME pixel count as the arm it is compared with (holdout.run_fold), and the shipped build is mass-matched to the incumbent's 44,090 px, so no contrast is a mass effect."
+  },
+  {
+   "id": "IR-32-TOOLS-01",
+   "severity": "low",
+   "statement": "The sandbox has 2 vCPU / 3 GB RAM and no GPU, and two background runs were OOM-killed while a third was live.",
+   "mitigation": "Heavy jobs are serialised, the 35-channel stack is a disk-backed memmap, and the detector in the harness is a CPU gradient-boosted tree rather than the official reference solution's U-Net; the emission rule being validated is detector-agnostic."
   }
  ]
 }
