@@ -455,7 +455,31 @@ def research(fl: dict, sub: dict | None, name: str) -> str:
     research_rows = "".join(
         f'<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/'
         f'{esc(fn)}">{esc(fn)}</a></td><td>{esc(desc)}</td></tr>' for fn, desc in RESEARCH_NOTES)
-    return f"""<h2 style="margin-top:6px">1 · The metric, and the decision rule that falls out of it</h2>
+    return f"""<div class=card><h3>Session findings (2026-10-04) &mdash; read these three first</h3>
+<ul>
+<li><a href="research/instrument-calibration.md"><b>Which local instrument tracks the leaderboard?</b></a>
+&mdash; 12 stored artifacts with owner-reported live scores, re-scored here: <code>catalogue_hidden</code>
+&rho; = +0.140, SGMC-calibrated +0.537, drift-corrected +0.529 (LOO MAE 0.053). The historical headline
+proxy does <i>not</i> rank live scores; the promotion instrument is the best available and is still not
+significant at n = 12 (p &asymp; 0.09). Includes the measured discontinuity: <b>one</b> dot on a mapped
+fault moves the drift instrument 0.14801 &rarr; 0.07831 (&minus;47 %) while both other instruments are
+unchanged.</li>
+<li><a href="research/h33-hypotheses.md"><b>Five untried hypotheses (H33-A&hellip;E)</b></a> &mdash; each with
+layers, physical signature, the reason it should catch a fault the catalogue lacks, and the novelty
+statement. Measured verdict: all four label-free surfaces scored <b>below</b> a uniform-random control on
+the catalogue-hidden instrument (random 0.03438 at 44,090 px), while the aligned-drainage-chain field
+scored <b>0.09072</b> on the off-catalogue SGMC instrument against the incumbent's <b>0.06059</b>. The two
+instruments disagree in <b>sign</b> about every new hypothesis &mdash; the holdout drift this repository
+exists to measure. Nothing was promoted.</li>
+<li><a href="research/h34-positional-error-emission.md"><b>Positional-error-calibrated emission</b></a>
+&mdash; `DTI = T/(&alpha;S + &beta;K)` means every added dot costs exactly &alpha;; the belief field's
+measured localisation error (median 4.12 px for the 0.2600 base) is the quantity that should set the
+packing density. Honest mixed result, no promotion.</li>
+</ul>
+<p class=mut>The four new label-free surfaces are implemented in <code>src/gems32/h33.py</code>; the
+selection rule that picks the one-click file is <code>scripts/build_slot_plan.py</code> and its receipt is
+<code>registry/slot_plan.json</code>.</p></div>
+<h2 style="margin-top:6px">1 · The metric, and the decision rule that falls out of it</h2>
 <p>Official definition (competition page 967): <code>k(d)=max(1−d/300m,0)</code>,
 <code>TPw = &sum;<sub>g</sub> max<sub>x</sub> p(x)k(d(x,g))</code>,
 <code>FPw = &sum;<sub>x</sub> p(x)[1−max<sub>g</sub>k]</code>,

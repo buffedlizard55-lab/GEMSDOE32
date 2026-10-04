@@ -72,7 +72,27 @@ the slot gate.</p>
 <td>external: 1 m / 10 m 3DEP DEM tiles from the official 1m_DEM_links.csv; det_elev, det_elev_slope for context</td><td>anisotropic matched filter for metre-scale scarps; a fault with less than 1 m of throw averaged over a 100 m cell is invisible in the provided grid by construction.</td>
 <td>below-grid-resolution scarps are precisely the class a 1:24,000-scale surface compilation omits.</td><td>the repo has NO LiDAR arm at all. H60-5 (chi/knickpoint residuals) is registered but was never run; this variant is a matched filter on the scarp itself, which is a cheaper and different measurement.</td>
 <td>indirect, and the tile fetch plus hydrology is heavy on 2 vCPU · cost high · data: the official link table is mirrored in a sibling repository (sha256 8804dbff8754...); the tiles themselves were NOT obtained and their obtainability from this sandbox is unverified</td>
-<td>registered; data obtainability unverified; no slot requested</td></tr></table>
+<td>registered; data obtainability unverified; no slot requested</td></tr><tr><td>1</td><td><b>H33-A</b><br>Multi-physics oriented-lineament consensus</td>
+<td>rtp(2); tmi(14); mag_anom(1); iso_grav_anom(13); det_elev(12); cond_surf(17); depth_to_base_surf(15); geodawn_rad K/Th/TC; lidar_scarp_features (ex_max/step_max/downface_max)</td><td>scale-normalised Hessian line response per physics x 2nd-order orientation order parameter (do independent physics agree on the strike?)</td>
+<td>the catalogue is dominated by faults that were mappable in one dataset (usually topography or the existing maps); requiring multi-physics strike agreement selects the class of curvilinear structure an expert can only accept when several fields agree</td><td>no channel or H32 surface requires *independent* physics to agree on an orientation; features.py has per-band ridges and H32-A/C have pixel products</td>
+<td> · cost  · data: </td>
+<td>measured (not promoted)</td></tr><tr><td>2</td><td><b>H33-B</b><br>Aligned drainage-valley chains</td>
+<td>det_elev(12); det_elev_slope(19)</td><td>valley skeleton (NMS ridge of -det_elev) x 9-px 16-direction collinearity vote, de-emphasised where det_elev_slope is high</td>
+<td>faults that lack a preserved scarp still deflect and align drainage; a collinear chain of valley segments across several drainages is structural, which a single scarp-height map cannot see</td><td>the repo&#x27;s DEM channels are all local; nothing aggregates evidence *along* a line</td>
+<td> · cost  · data: </td>
+<td>measured (not promoted)</td></tr><tr><td>3</td><td><b>H33-C</b><br>En-echelon scarplet chain vote on the 1 m LiDAR scarp product</td>
+<td>lidar_scarp_features_u8 (ex_max, step_max, downface_max)</td><td>scarplet skeleton x 11-px collinearity vote requiring contrast vs the local minimum (a scarp, not a slope break)</td>
+<td>a single 1 m scarplet is noise; en-echelon collinear scarplets are what expert mappers accept as a fault, and they are below the 100 m grid</td><td>the repo uses the LiDAR product only as a per-pixel corroboration weight</td>
+<td> · cost  · data: </td>
+<td>measured (not promoted)</td></tr><tr><td>4</td><td><b>H33-D</b><br>Long-straight conductive / basement structural boundary</td>
+<td>cond_surf(17); depth_to_base_surf(15)</td><td>gradient magnitude x directional coherence of the gradient direction over a 3x3 window (a straight boundary, not a blobby anomaly)</td>
+<td>MT conductivity and basement depth image the *subsurface*; a straight conductivity step locates a fault under cover, where a surface catalogue has nothing</td><td>cond_surf/depth are used as scalars or plain gradient magnitudes in features.py</td>
+<td> · cost  · data: </td>
+<td>measured (not promoted)</td></tr><tr><td>5</td><td><b>H33-E</b><br>Sub-kilometre seismicity lineaments and nodal-plane traces from the raw earthquake catalogue</td>
+<td>ieq_n100a15 (16) and deq_n100a15 (10) would be replaced/augmented by a raw epicentre catalogue (USGS FDSN event web service) plus moment tensors</td><td>epicentre density lineaments + focal-mechanism nodal-plane strikes as fault-plane proxies at the epicentre</td>
+<td>instrumental seismicity is a dynamic inventory: blind, low-slip-rate faults light up seismically while leaving no scarp for a geomorphic map</td><td>the supplied seismic bands are computed on a 100 km radius; measured here, ieq is 0.9935-correlated with itself at a 3 km lag, i.e. constant at the metric&#x27;s 300 m resolution</td>
+<td> · cost  · data: </td>
+<td>DATA-BLOCKED (source named, obtainability not verified here)</td></tr></table>
 <h2>Promotion rules (preregistered)</h2>
 <ol>
 <li>every hypothesis is registered with its layers, signature, novelty and data status before it is
@@ -98,7 +118,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-04 15:05 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-04 15:27 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

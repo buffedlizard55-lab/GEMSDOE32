@@ -1,0 +1,66 @@
+{
+  "generated_utc": "2026-10-04T13:44:01Z",
+  "rule": "beat the owner-reported 0.2600 incumbent on ALL THREE instruments (drift, catalogue-hidden, SGMC off-catalogue) AND carry 0 on-catalogue dots, because the drift estimator switches branch when a single dot lands on a mapped fault (measured 0.14801 -> 0.07831)",
+  "incumbent": {
+    "label": "D2.8-Poisson300m-Ref (owner-reported live 0.2600)",
+    "file": "scored/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+    "catalogue_hidden_mean": 0.09832,
+    "sgmc_prevalence_calibrated_dti": 0.06059,
+    "drift_corrected_holdout_mean": 0.14801
+  },
+  "candidates": [
+    {
+      "label": "H32-D-46090",
+      "role": "primary",
+      "status": "measured",
+      "file": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+      "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+      "bytes": 250577,
+      "positive_px": 46090,
+      "on_catalogue_pixels": 0,
+      "catalogue_hidden_mean": 0.10122068397615705,
+      "sgmc_prevalence_calibrated_dti": 0.061294720121546874,
+      "drift_corrected_holdout_mean": 0.15188374789388925,
+      "catalogue_hidden_per_quadrant": {
+        "NW": 0.09874380807484787,
+        "NE": 0.10703131777403851,
+        "SW": 0.07292320088038474,
+        "SE": 0.12618440917535706
+      },
+      "passes_vs_incumbent": {
+        "drift": true,
+        "cat": true,
+        "sgmc": true,
+        "no_catalogue_dots": true
+      },
+      "promoted": true,
+      "description": "d2.8 emission (44,090 px) with 500 uncorroborated speckles pruned and 2,500 priority-ordered H32 dots added on the dip-projected step, transtensional swarm and MT clay-cap surfaces; 46,090 px; 0 on-catalogue",
+      "zeros_receipt": {
+        "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+        "size_bytes": 250577,
+        "emitted_positive_pixels": 46090,
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_min": 0.0,
+        "in_footprint_max": 1.0,
+        "all_checks_passed": true
+      },
+      "nan_receipt": {
+        "sha256": "c3a0cbb14ca60f66934223e4455b970481d0229d2b8095afb3f023233e607621",
+        "size_bytes": 385688,
+        "emitted_positive_pixels": 46090,
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_min": 0.0,
+        "in_footprint_max": 1.0,
+        "all_checks_passed": true
+      }
+    },
+    {
+      "label": "H33-U-aug-2000",
+      "role": "research",
+      "status": "file-absent",
+      "note": "H32-D plus 2,000 priority-ordered dots from the H33 multi-physics oriented-lineament consensus at >= 2.35 px spacing. Improves the only off-catalogue instrument (SGMC +7.6%) but carries 29 dots on the mapped catalogue, which switches the drift estimator's branch; NOT promoted, and the drift number for it is not comparable to the incumbent's."
+    }
+  ],
+  "promoted": "H32-D-46090",
+  "note": "No candidate built in this session clears the rule: the H33 multi-physics surfaces score below a uniform-random control on the catalogue-hidden instrument (0.0187-0.0241 vs 0.0344 random at 44,090 px) while the H33 drainage-valley chain field scores 0.09072 on the off-catalogue SGMC instrument versus the incumbent's 0.06059 -- the two instruments disagree in sign about the new hypotheses, which is the holdout drift this repository exists to measure."
+}

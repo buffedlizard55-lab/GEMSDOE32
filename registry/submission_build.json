@@ -1,7 +1,7 @@
 {
  "name": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
  "note": "GEMSDOE32 H33-2-B2 | flank B=2 prune on the 0.2708 base: 37,654 dots, 0 within 200 m of the catalogue; live-mirror +0.00487 in 4/4 folds, safety 2.08, projected 0.2747; UNSCORED",
- "status_line": "PRIMARY = H33-2-B2 (0.2708 base with every dot at d(catalogue) <= 2 px deleted (37,654 dots)). 37,654 dots; live-mirror (spatially blocked, off-catalogue truth, validated on the known live orderings) +0.004870 in 4/4 quadrants over the 0.2708 base; live-anchored safety factor 2.08; projected live DTI 0.2747 (a MODEL, not a score). NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
+ "status_line": "PRIMARY = H33-2-B2 (Tier 1: live-anchored gate). 0.2708 base with every dot at d(catalogue) <= 2 px deleted (37,654 dots). 37,654 dots, 0 on the catalogue. Live mirror (spatially blocked, off-catalogue truth, validated on the known live orderings) +0.004870 in 4 quadrants over the 0.2708 base; live-anchored safety factor 2.08; projected live DTI 0.2747 (a MODEL, not a score). NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
  "file": {
   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
@@ -15,12 +15,22 @@
  },
  "zip": {
   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip",
-  "sha256": "17ef2043bced4198cc3301b80a4ef3151ccc2758b6feec91f9adae0e2f6c277f",
-  "bytes": 186378
+  "sha256": "0322d0b413530b9fb445a366ca1ad234c5180868c2f89cdc70fe2ce80bd4439f",
+  "bytes": 216
  },
  "candidate_id": "H33-2-B2",
+ "tier": 1,
  "hypothesis": "H33-2",
- "selection_rule": "highest live-anchored projected DTI among slot-eligible candidates, ties broken toward the pure removal arm",
+ "selection_rule": {
+  "tier_1": "slot-eligible under the live-anchored gate (LM-cal +margin in 4/4 quadrants over a live-scored base, safety factor >= 2.0) AND on_catalogue_pixels == 0; highest projected live DTI wins",
+  "tier_2": "scripts/build_slot_plan.py's frozen holdout rule: beats the owner-reported 0.2600 incumbent on all three holdout instruments AND 0 on-catalogue dots",
+  "precedence": "Tier 1 outranks Tier 2 because its instrument was validated against six known live orderings (it reproduces 0.2708 > 0.2600 at +0.011458 against live +0.0108), while Tier 2's best instrument is Spearman +0.53 at n=12 and is measured anti-monotone with live on emission questions"
+ },
+ "lm": {
+  "mean": 0.2679205315698004,
+  "margin_vs_base": 0.004869544019442784,
+  "folds_beat_base": 4
+ },
  "live_anchor": {
   "dn": 2545,
   "d_credit": 65.09227269807448,
@@ -31,31 +41,31 @@
   "gain": true,
   "denominator_after": 18233.289656199096
  },
- "lm": {
-  "mean": 0.2679205315698004,
-  "margin_vs_base": 0.004869544019442784,
-  "folds_beat_base": 4,
-  "per_fold": {
-   "foldNW": 0.17845441391493597,
-   "foldNE": 0.4228785103505033,
-   "foldSW": 0.21382513739633008,
-   "foldSE": 0.25652406461743227
-  }
- },
  "catalogue_hidden_mean": 0.004600104084398947,
+ "drift_corrected_holdout_mean": 0.04504333270394367,
+ "sgmc_prevalence_calibrated_dti": 0.06412093764176459,
+ "on_catalogue_pixels": 0,
  "anchor": {
   "role": "ANCHOR -- the group's best live-scored emission",
   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-  "note": "bit-identical in-footprint to the owner-reported 0.2708 / 0.2600 emissions; upload this if you want a file whose leaderboard behaviour is already known"
+  "note": "in-footprint bit-identical to the owner-reported 0.2708 / 0.2600 emissions; upload this if you want a file whose leaderboard behaviour is already known"
  },
  "pack": [
   {
-   "role": "SECONDARY (slot-eligible)",
+   "role": "SECONDARY (Tier 2)",
+   "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+   "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+   "bytes": 250577,
+   "positive_px": 46090,
+   "note": "Tier 2 candidate: d2.8 emission (44,090 px) with 500 uncorroborated speckles pruned and 2,500 priority-ordered H32 dots added on the dip-projected step, transtensional swarm and MT clay-cap surfaces; 46,090 px; 0 on-catalogue"
+  },
+  {
+   "role": "NaN-outside twin of the primary",
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif",
    "sha256": "baeae3219bba6a19bc8cfe79224e28555c50184b7c1ca65c2a822f54807c77dd",
    "bytes": 355443,
    "positive_px": 37654,
-   "note": "NaN-outside twin in the competition's own format (identical values inside the footprint)"
+   "note": "the competition's own format (identical values inside the footprint)"
   },
   {
    "role": "AVAILABLE DOWNLOAD",
@@ -234,6 +244,6 @@
    "note": "kept for the audit trail; see docs/research/ for its status"
   }
  ],
- "rule": "0.2708 base (gems28-h27-4-r1-solo-d2-8, 40,199 dots) minus every dot within 2 px (200 m) of the published catalogue",
- "provenance": "built by scripts/run_h33_validation.py; every digest re-read from the written bytes; receipt evidence/h33_validation.json and docs/research/hypotheses-round4.md"
+ "rule": "0.2708 base (GEMS28-H27-4-R1-SOLO-D2.8, 40,199 dots) minus every dot within 2 px (200 m) of the published catalogue",
+ "provenance": "built by scripts/build_submission_build.py from evidence/h33_validation.json + registry/slot_plan.json; every digest re-read from the written bytes; receipts evidence/h33_submission_bundles.json and docs/research/hypotheses-round4.md"
 }

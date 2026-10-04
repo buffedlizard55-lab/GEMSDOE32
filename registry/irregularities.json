@@ -176,40 +176,53 @@
    "mitigation": "The artifact-dependent audit now SKIPS with an explicit reason when its manifest is absent (a silent pass would be worse than a failure); build_site.py now emits the Core Values strip on every page and a dedicated portal-error block on the home page; scripts/build_site.py data_dir() resolution fixed. All 60 tests pass in a clean checkout with only the hash-pinned inputs restored. This merge is what turns main green."
   },
   {
-   "id": "IR-33-DUP-01",
-   "severity": "medium",
-   "statement": "The legacy leaderboard row `GEMS27-TGC-v2-on-D1.5` carried 0.2392 while the corrected record for the same artifact carries 0.2449, so one artifact appeared twice in the group's own ledger with two different scores.",
-   "mitigation": "`scripts/run_pipeline.py` now suffixes the legacy row `-DUPLICATE-REMOVED` and skips it, leaving exactly one row per artifact. `tests/test_gems32.py` asserts the slot log has no duplicate `candidate_id` and no `DUPLICATE-REMOVED` rows. The underlying discrepancy (0.2392 vs 0.2449 for the same file) is unresolved and both numbers are owner reports, not organiser receipts.",
-   "status": "mitigated; root cause unresolved (owner reports differ)"
-  },
-  {
-   "id": "IR-33-LM-01",
+   "id": "IR-32-MANIFEST-01",
    "severity": "high",
-   "statement": "The live mirror (LM-cal), outside its validated regime, ranks a 7,943-dot 'safe-mass-pruned' variant of the 0.2708 emission at 0.4413 -- 1.35x the top of the entire public leaderboard. The live record refutes this. For the pruned file not to exceed 0.3262, at least 16% of the 0.2708 emission's weighted credit must sit on dots the off-catalogue truth model calls credit-neutral.",
-   "mitigation": "LM-cal is licensed only for small, mechanism-matched perturbations of a live-scored base (40k-62k dots). Every submission decision additionally requires the live-anchored safety factor >= 2.0 (src/gems32/live_anchor.py). `tests/test_h33.py::test_lm_validity_report_flags_the_drift_finding` encodes the 0.4413 > 0.3262 fact so the drift cannot be silently forgotten.",
-   "status": "open by design: a documented instrument limit, not a bug to fix"
+   "status": "fixed 2026-10-04",
+   "statement": "scripts/run_pipeline.py requires scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif, which was absent from registry/data_manifest.json and therefore never restored; the documented reproduce command (and step [3/6]) aborted with rasterio CPLE_OpenFailedError.",
+   "evidence": "traceback reproduced twice this session; the file was then pinned from the GEMSDOE27 manifest (sha256 33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d, 1,635,084 bytes) and fetch_mirrors.sh now reports 23/23 PASS.",
+   "mitigation": "manifest entry added (group 'scored'); fetch_mirrors.sh fails closed on digest mismatch."
   },
   {
-   "id": "IR-33-DRIFT-01",
-   "severity": "medium",
-   "statement": "The holdout-to-leaderboard co-kriging surrogate under-predicts the group's best live-scored artifact. Adding the 13 GEMSDOE27/28 group artifacts to the slot log moved the drift-corrected Spearman/Pearson correlations from >0.80/>0.92 to 0.697/0.835, i.e. the honest model got worse when more live-scored data was added.",
-   "mitigation": "`tests/test_gems32.py` now asserts the ordering (drift-corrected beats the raw catalogue proxy) and the sign of the residual, rather than a threshold that would have to be loosened every time data is added. The gap is treated as evidence of holdout drift, per the standing brief.",
-   "status": "open; being chased as instructed"
-  },
-  {
-   "id": "IR-34-ROOT-01",
+   "id": "IR-32-INSTR-01",
    "severity": "high",
-   "statement": "GitHub Pages for this repository is configured server-side (source main:/) to publish the repository ROOT, not docs/. The root landing page's one-click download buttons were rendered with docs/-relative paths (`downloads/...`) from a page that lives at the root, so they resolved to /GEMSDOE32/downloads/... which does not exist -- the 'obvious one-click download at the very top of the site' was a dead button on the live site. Three further root pages (bayes-opt.html, geothermal-knowledge.html, leaderboard-analysis.html) were stale hand-written pages that still headlined the superseded H32-D primary.",
-   "mitigation": "`scripts/build_site.py` now takes a `prefix` argument on `download_block`, renders the root landing page and every root stub with prefix='docs/', and rewrites all ten root .html files as generated canonical redirects to their docs/ counterparts. `tests/test_site.py::test_root_pages_link_to_the_primary` re-reads the written bytes and fails if any root page links at a file that is not on disk.",
-   "status": "fixed"
+   "status": "open (instrument defect, quantified)",
+   "statement": "The repository's promotion instrument drift_corrected_holdout_mean is discontinuous in the number of dots placed on the visible catalogue: holdout.py sets debiased_folds = dti and sym_factor = 1/(1+(n/60000)^2) whenever n_on_cat > 0. Adding ONE dot on a mapped fault to the 0.2600 emission moves drift 0.14801 -> 0.07831 (-47%) while catalogue_hidden_mean (0.09832) and SGMC (0.06059) are unchanged.",
+   "evidence": "controlled experiment this session: base mask + 1 catalogue pixel at (yy[0], xx[0]); outputs recorded in the session log and reproducible from src/gems32/holdout.py lines ~200-215.",
+   "consequence": "every cross-candidate drift comparison that straddles this branch is invalid, and every artifact in this repository that was 'promoted' happens to carry 0 on-catalogue dots.",
+   "mitigation": "slot decisions this session require on_catalogue_pixels == 0 AND agreement with the catalogue-hidden and SGMC instruments (registry/slot_plan.json); a branch-free estimator is proposed as next work."
   },
   {
-   "id": "IR-34-NODATA-01",
+   "id": "IR-32-INSTR-02",
    "severity": "medium",
-   "statement": "`gems32-h19-5-smoothmaxcov-44090-zeros.tif` carried `nodata = NaN` in its GeoTIFF tag on a raster that contains no NaN at all and writes 0.0 outside the footprint. A tag/content mismatch of exactly this shape is one of the two configurations that produce the portal's \"Predicted values must be in range [0, 1]\" rejection, so a non-candidate file was carrying avoidable portal risk.",
-   "mitigation": "The file and its NaN-tagged twin are quarantined in `docs/research/quarantine/`. `tests/test_gems32.py` now infers each artifact's outside-footprint convention from the *bytes* rather than from the filename or the nodata tag, and raises if any shipped file carries a nodata tag that contradicts its own content.",
-   "status": "fixed"
+   "status": "open (cross-repository contradiction)",
+   "statement": "Over the 12 stored artifacts with owner-reported live scores the rank correlation with the live board is: catalogue_hidden Spearman +0.140, catalogue_hidden_strict +0.140, SGMC-calibrated +0.537, drift-corrected +0.529 (LOO MAE 0.053). The sibling repository GEMSDOE29 reports +0.709 for the catalogue-hidden proxy on a set of ten stored artifacts. The two measurements disagree about the same instrument.",
+   "evidence": "evidence/instrument_calibration.json (this checkout, n=12, scripts/calibrate_instrument.py).",
+   "mitigation": "only the drift/SGMC pair is used for promotion here, and both are labelled as weak rankers (n=12, p approx 0.09); the contradiction is disclosed rather than resolved."
+  },
+  {
+   "id": "IR-32-SITE-01",
+   "severity": "high",
+   "status": "fixed 2026-10-04",
+   "statement": "The published site's one-click file (gems32-heatfield-44090-cv-supconfined-zeros.tif) measures catalogue_hidden 0.11549 but SGMC-calibrated 0.01124 and drift 0.07789 -- below the owner-reported 0.2600 incumbent on two of the three instruments -- while the README's slot table advertised the H32-D family that the site never offered. The obvious download was therefore not the best-validated artifact.",
+   "evidence": "evidence/h33_probe_controls.json; registry/submission_build.json before/after this session.",
+   "mitigation": "scripts/build_slot_plan.py selects the headline artifact by the frozen rule and rewrites registry/submission_build.json; the site is regenerated from it."
+  },
+  {
+   "id": "IR-32-DUP-01",
+   "severity": "low",
+   "status": "flagged",
+   "statement": "registry/irregularities.json contains the id IR-32-FIELD-01 twice, so an id-based lookup silently returns the first entry only.",
+   "evidence": "python3 -c \"import json;print([x['id'] for x in json.load(open('registry/irregularities.json'))['items']])\"",
+   "mitigation": "flagged for a deduplicating pass; ids are stable and referenced from the site, so the rename is deferred to avoid breaking links."
+  },
+  {
+   "id": "IR-32-H33-01",
+   "severity": "medium",
+   "status": "open (instrument power)",
+   "statement": "All four label-free H33 surfaces score BELOW a uniform-random control on the catalogue-hidden instrument at 44,090 px (H33-A 0.01874, H33-B 0.02177, H33-C 0.02407, H33-D 0.00394, union 0.02006, random 0.03438), while H33-B scores 0.09072 on the off-catalogue SGMC instrument against the incumbent's 0.06059. The catalogue-hidden instrument therefore has no power to rank hypotheses whose purpose is to find faults the catalogue lacks.",
+   "evidence": "evidence/h33_holdout.json; evidence/h33_candidates.json.",
+   "mitigation": "the sign disagreement is reported as the session's central finding; promotion stays gated on the identification experiment (measuring T, K and F live) rather than on this instrument."
   }
- ],
- "updated_utc": "2026-10-04T14:38:09Z"
+ ]
 }

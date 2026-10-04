@@ -48,3 +48,10 @@ def evidence_dir() -> Path:
     d = ROOT / "evidence"
     d.mkdir(parents=True, exist_ok=True)
     return d
+
+
+def registry_dir() -> Path:
+    """Directory holding the auditable registries (sources, manifests, slot plan, irregularities)."""
+    d = ROOT / "registry"
+    d.mkdir(parents=True, exist_ok=True)
+    return d
