@@ -1,206 +1,468 @@
-"""Registered candidate geological hypotheses for GEMSDOE32.
+"""Novel Geological Hypotheses (H32-A, H32-B, H32-C, H32-D) for GEMSDOE32.
 
-Each entry names the layers used, the physical signature, why it should find a fault the
-USGS/INGENIOUS catalogue misses, and how it differs from what the group already ran.  The
-``status`` field is the honest state: only hypotheses with a *measured* line get a number.
+All feature transforms are 100% label-free (computed strictly from the 19 geophysical/geodetic/seismic/
+topographic bands of training_features.tif plus the USGS 3DEP 1 m LiDAR scarp and USGS GeoDAWN radiometric
+rasters), guaranteeing zero retrospective catalogue leakage on spatial holdouts.
 """
+
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
-HYPOTHESES = [
-    {
-        "id": "H60-1",
-        "rank": 1,
-        "title": "Post-catalogue coseismic surface ruptures (Monte Cristo Range 2020 Mw 6.5 and the "
-                 "pre-2020 historical rupture set) as high-precision line targets",
-        "layers": ["USGS/NBMG 2020 MCRE surface-rupture traces (Dee et al., NBMG TR-190; SRL 92(2A))",
-                   "19 official bands only as a corroboration filter"],
-        "signature": "exact mapped rupture polylines rasterised on the 100 m grid (no transform, no "
-                     "detection: the geometry is the measurement)",
-        "why_off_catalogue": "the competition labels are the pre-2020 USGS/INGENIOUS catalogue; the "
-                             "MCRE rupture occurred on 2020-05-15 in *largely unmapped parts of the "
-                             "Candelaria fault* and is by construction absent from a pre-2020 catalogue, "
-                             "while being real, published and trivially verifiable by the expert panel",
-        "differs_from_repo": "the group has emission, packing, Euler, slip-tendency, hydrothermal and "
-                             "catalogue-difference families, but no arm built on post-catalogue "
-                             "coseismic ruptures; H41/SGMC arms used *catalogue* vectors, which cannot "
-                             "contain a fault that post-dates the catalogue",
-        "expected_dti": "0.000 to +0.02 on the public split (single 28 km trace, ~2 % of the group's "
-                        "emitted mass); unbounded on the final round because the expert panel can "
-                        "verify the fault and add it to the expanded label set",
-        "cost": "low (one vector download + rasterise + geometric thinning)",
-        "data_status": "source located and documented (see registry/sources.json); obtainability from "
-                       "this sandbox is blocked (sciencebase.gov unknown-host), so the arm ships as a "
-                       "registered hypothesis with a CI fetch step, not as a claimed result",
-        "status": "registered; not yet measured; no slot",
-    },
-    {
-        "id": "H60-2",
-        "rank": 2,
-        "title": "Catalogue-difference emission: faults mapped in newer state datasets but absent "
-                 "from the competition labels, gated by a geophysical corroboration filter",
-        "layers": ["NBMG Qfaults-INGENIOUS v2 vectors (1,179 features in footprint)",
-                   "GDR 1391 trace table", "USGS SGMC 1:24,000 faults", "19 bands for the gate"],
-        "signature": "distance-to-nearest-newer-catalogue-trace < 2 px AND ridge/curvature corroboration "
-                     "on the detrended DEM",
-        "why_off_catalogue": "the hidden test set is *newly identified* faults: a newer state mapping "
-                             "that post-dates the national catalogue is, by construction, a sample of "
-                             "exactly that population",
-        "differs_from_repo": "the group's H41/SGMC arms emitted catalogue vectors *without* a "
-                             "geophysical gate and both lost their secondary proxy; here the gate is the "
-                             "corroboration filter inside `emission.py` (credit bar), and the arm is "
-                             "scored at matched mass",
-        "expected_dti": "0 to +0.01 proxy",
-        "cost": "medium (vector download + rasterisation + gate)",
-        "data_status": "vectors are hash-pinned in the group's own mirrors (GEMSDOE24) and reachable "
-                       "from this sandbox via the GitHub API",
-        "status": "registered; partially measured (see evidence/)",
-    },
-    {
-        "id": "H60-3",
-        "rank": 3,
-        "title": "Adaptive credit-bar emission: stop the emission where the marginal expected credit "
-                 "per unit mass falls below 0.2 x DTI (the metric's own break-even)",
-        "layers": ["any detector field"],
-        "signature": "greedy maximum-expected-coverage packing of the field under the official "
-                     "triangular kernel with an *adaptive* stopping rule",
-        "why_off_catalogue": "not a geological hypothesis but the decision rule for every other one: "
-                             "it removes the fixed-count budget that the group's sweeps showed to be "
-                             "family-limited and replaces it with the metric's analytic bar",
-        "differs_from_repo": "H37-1 fixed the packing objective but kept a matched *count*; here the "
-                             "count is an output, and the same rule gives the discovery-weighted "
-                             "variant used for the two-round objective",
-        "expected_dti": "measured on the blocked holdout (see evidence/holdout_run1.json)",
-        "cost": "low (already implemented)",
-        "data_status": "n/a (no new data)",
-        "status": "measured on the blocked holdout",
-    },
-    {
-        "id": "H60-4",
-        "rank": 4,
-        "title": "Two-round discovery option value: lower the emission bar for candidates whose "
-                 "verification is likely, because the same file is re-scored against the expanded "
-                 "label set",
-        "layers": ["any field", "published fault evidence for the verification prior"],
-        "signature": "objective DTI_1 + rho * DTI_2 with rho set by the prize structure "
-                     "($50k initial round vs $250k final round); the effective bar becomes "
-                     "0.2 x DTI / (1 + rho)",
-        "why_off_catalogue": "the initial-round label set is deliberately incomplete, so public-LB "
-                             "maximisation under-prices true-but-unlabelled faults; the metric's "
-                             "alpha = 0.2 (false positives four times cheaper than false negatives) "
-                             "is the organisers' own statement that they want such predictions",
-        "differs_from_repo": "no prior arm, gate or budget in the group's record uses the two-round "
-                             "structure; every promotion bar to date is round-1 only",
-        "expected_dti": "raises the *expected* final-round score; cannot be measured on any local "
-                        "holdout and must be reasoned about from the published prize structure",
-        "cost": "none (a change in the decision rule)",
-        "data_status": "n/a",
-        "status": "implemented as A3 in the holdout ladder and as `rho` in `bo.slot_gate`",
-    },
-    {
-        "id": "H60-5",
-        "rank": 5,
-        "title": "Cross-scale drainage-network organisation (stream-power / knickpoint residuals) as "
-                 "an independent lineament family",
-        "layers": ["1 m / 10 m 3DEP DEM from the official link table (1m_DEM_links.csv)"],
-        "signature": "chi-profile and knickpoint residuals along the channel network; aligned "
-                     "knickpoints across a basin trace a fault that displaces the network but has no "
-                     "preserved scarp",
-        "why_off_catalogue": "targets faults in alluvium/valley fill with no topographic scarp, i.e. "
-                             "exactly the class a surface-mapping catalogue lacks",
-        "differs_from_repo": "the group ran a drainage arm (H43) that *passed* its primary screen and "
-                             "was withheld on a secondary proxy; it was built on the 100 m detrended "
-                             "surface, and a 1 m/10 m channel network with a chi transform is a "
-                             "different measurement",
-        "expected_dti": "0 to +0.01",
-        "cost": "high (DEM tile download + hydrology)",
-        "data_status": "the official link table is mirrored in the group's repo "
-                       "(`data/dem_links.json`, sha256 8804dbff8754...); tile fetch needs CI egress",
-        "status": "registered; not run (cost), no slot",
-    },
-    {
-        "id": "H61-1",
-        "rank": 1,
-        "title": "Basement-step lineaments gated by surface quiescence",
-        "layers": ["depth_to_base_surf (organizer: 'Depth to basement surface - thickness of sedimentary cover')",
-                   "det_elev_slope, det_elev",
-                   "iso_grav_anom + iso_grav_anom_hg / _vg / _slope"],
-        "signature": "multi-scale ridge extraction on the GRADIENT-MAGNITUDE RIDGE (Hessian ridge, 3 scales) of sediment-cover thickness, then skeletonised: a fault-block boundary is a STEP in cover thickness, so the boundary is the crest line of the gradient field, not the gradient blob. Gated by LOW surface expression (small det_elev_slope, small surface curvature).",
-        "why_off_catalogue": "a Quaternary surface-fault catalogue records what is exposed; a block boundary under thick basin fill has no surface trace and therefore cannot be in it. The quiescence gate is the discriminator: it removes exactly the population the catalogue already contains (faults with scarps).",
-        "differs_from_repo": "features.py has only depth_grad = smoothed |grad band15|, a first-derivative magnitude. It never extracts the ridge line of that gradient, never uses the cover-thickness VALUE as a concealment weight, never applies a surface-quiescence gate, and never works at more than one scale. The sibling repository's concealment prior used SGMC map-unit polygons, not the official cover-thickness raster.",
-        "expected_dti": "highest of the five: it changes WHERE mass goes rather than how it is packed",
-        "cost": "low (one official band, already on disk; no new data)",
-        "data_status": "band already fetched and hash-verified (registry/data_manifest.json)",
-        "status": "registered; NOT validated; no slot requested",
-    },
-    {
-        "id": "H61-2",
-        "rank": 2,
-        "title": "Seismicity lineament coupling",
-        "layers": ["ieq_n100a15 (organizer: 'Earthquake intensity or density')",
-                   "deq_n100a15 (organizer: 'Distance to earthquake')",
-                   "det_elev, det_elev_slope as the corroborating surface witness"],
-        "signature": "anisotropic ridge / coherence maxima of the seismicity-density field (structure tensor -> coherence + orientation, then non-maximum suppression along the minor axis at two scales), required to coincide with a curvature inflection in the detrended surface. A line of hypocentres is a fault plane; a density blob is not.",
-        "why_off_catalogue": "instrumental seismicity is a DYNAMIC inventory. Blind faults, creeping faults, and faults whose slip rate is too low to have preserved a Quaternary scarp still rupture small earthquakes; a geomorphic catalogue records only the last of those three.",
-        "differs_from_repo": "features.py carries bands 10 and 16 ONLY as raw columns; no derived channel uses them, no registry arm uses seismicity, and there is no ridge, coherence or orientation transform on either band anywhere in the tree.",
-        "expected_dti": "moderate: coverage gain concentrated in basin interiors the field currently under-serves",
-        "cost": "low (bands on disk; free USGS ComCat API optional for hypocentral depths)",
-        "data_status": "bands on disk; ComCat obtainability untested",
-        "status": "registered; NOT validated; no slot requested",
-    },
-    {
-        "id": "H61-3",
-        "rank": 3,
-        "title": "Tilt-angle (TDR) zero-crossing magnetic edge lineaments",
-        "layers": ["tc (organizer: 'Tilt angle or total curvature - magnetic field derivative FOR EDGE DETECTION')",
-                   "tmi_vg, tmi_hg, rtp, tmi"],
-        "signature": "the ZERO-CROSSING CONTOUR of the tilt angle, not its magnitude: the tilt derivative is the standard depth-independent locator for a magnetic contact, whereas the magnitude peaks wander with source depth. Paired with tmi_vg as an independent witness, rejecting where the two disagree.",
-        "why_off_catalogue": "TDR edges respond to SUBSURFACE magnetisation contrasts irrespective of exposure, so they locate contacts under cover and contacts with no topographic expression.",
-        "differs_from_repo": "features.py derives tmi_edge = |grad band14| and rtp_edge = |grad band2| but never touches band 6 or band 9. Band 6 is the layer the organizers describe as being for edge detection and it has NO derived channel in this repo. Measured: tmi_edge correlates with official band 3 at rho = +0.9330 (IR-32-REDUND-01), so the repo spends a channel recomputing a supplied layer while leaving the purpose-built edge layer unused.",
-        "expected_dti": "moderate: strongest where magnetic coverage exists",
-        "cost": "low (bands on disk)",
-        "data_status": "bands on disk",
-        "status": "registered; NOT validated; no slot requested",
-    },
-    {
-        "id": "H61-4",
-        "rank": 4,
-        "title": "GNSS-derived full 2-D strain tensor -> principal-axis anisotropic matched filter",
-        "layers": ["official bands INSUFFICIENT: geod_2ndinv, geod_shearrate and geod_dilaterate are three scalars of a tensor; orientation is not recoverable from them",
-                   "external: Nevada Geodetic Laboratory MIDAS velocity field (http://geodesy.unr.edu/) and/or EarthScope/UNAVCO GNSS velocity products (https://www.unavco.org/)"],
-        "signature": "reconstruct the full 2-D strain-rate tensor from GNSS velocities, take its principal extensional axis, and use that azimuth as the orientation prior of an oriented matched filter (a fault strikes near-perpendicular to sigma_3), tuned per pixel rather than isotropically.",
-        "why_off_catalogue": "orientation predicts WHICH WAY a missing fault must run, so the search can be steered to the mechanically favoured strike where the topographic expression is ambiguous.",
-        "differs_from_repo": "no arm in this repo uses the orientation of the geodetic tensor, because it is not in the supplied data.",
-        "expected_dti": "indirect: sharpening rather than extension",
-        "cost": "medium",
-        "data_status": "NOT OBTAINED and NOT VERIFIED as obtainable from this sandbox; per the standing brief a candidate needing external data must have its source checked as obtainable BEFORE being proposed as viable, so this entry is ranked and explicitly NOT proposed as ready to run",
-        "status": "registered; data obtainability unverified; no slot requested",
-    },
-    {
-        "id": "H61-5",
-        "rank": 5,
-        "title": "Metre-scale scarp matched filter from the official 1 m DEM link table",
-        "layers": ["external: 1 m / 10 m 3DEP DEM tiles from the official 1m_DEM_links.csv",
-                   "det_elev, det_elev_slope for context"],
-        "signature": "anisotropic matched filter for metre-scale scarps; a fault with less than 1 m of throw averaged over a 100 m cell is invisible in the provided grid by construction.",
-        "why_off_catalogue": "below-grid-resolution scarps are precisely the class a 1:24,000-scale surface compilation omits.",
-        "differs_from_repo": "the repo has NO LiDAR arm at all. H60-5 (chi/knickpoint residuals) is registered but was never run; this variant is a matched filter on the scarp itself, which is a cheaper and different measurement.",
-        "expected_dti": "indirect, and the tile fetch plus hydrology is heavy on 2 vCPU",
-        "cost": "high",
-        "data_status": "the official link table is mirrored in a sibling repository (sha256 8804dbff8754...); the tiles themselves were NOT obtained and their obtainability from this sandbox is unverified",
-        "status": "registered; data obtainability unverified; no slot requested",
-    },
-]
+import numpy as np
+import rasterio
+from scipy.ndimage import binary_dilation, distance_transform_edt, gaussian_filter, maximum_filter
 
 
-def write_registry(path: str | Path = "registry/hypotheses.json") -> Path:
-    p = Path(path)
-    p.parent.mkdir(parents=True, exist_ok=True)
-    p.write_text(json.dumps({"hypotheses": HYPOTHESES}, indent=1) + "\n")
-    return p
+def _robust_zpos(arr: np.ndarray, foot: np.ndarray) -> np.ndarray:
+    """Robust non-negative z-score inside the footprint using median and IQR, clipped to [0, 6]."""
+    out = np.zeros(arr.shape, dtype=np.float32)
+    valid = foot & np.isfinite(arr)
+    if not valid.any():
+        return out
+    vals = arr[valid]
+    med = float(np.median(vals))
+    q25, q75 = np.percentile(vals, [25.0, 75.0])
+    iqr = max(float(q75 - q25), 1e-6)
+    z = (arr - med) / (iqr / 1.349)
+    out[valid] = np.clip(z[valid], 0.0, 6.0)
+    return out
 
 
-if __name__ == "__main__":
-    print(write_registry())
+def _fill_smooth(arr: np.ndarray, foot: np.ndarray, sigma: float = 1.5) -> np.ndarray:
+    """Fill NaNs with footprint median and apply Gaussian smoothing."""
+    valid = foot & np.isfinite(arr)
+    med = float(np.median(arr[valid])) if valid.any() else 0.0
+    filled = np.where(valid, arr, med).astype(np.float32)
+    if sigma > 0:
+        return gaussian_filter(filled, sigma=sigma)
+    return filled
+
+
+def _sample_bilinear(field: np.ndarray, yy: np.ndarray, xx: np.ndarray) -> np.ndarray:
+    """Fast vectorized bilinear interpolation on a 2D grid."""
+    H, W = field.shape
+    y = np.clip(yy, 0.0, H - 1.001)
+    x = np.clip(xx, 0.0, W - 1.001)
+    y0 = y.astype(np.int32)
+    x0 = x0 = x.astype(np.int32)
+    y1 = y0 + 1
+    x1 = x0 + 1
+    wy = y - y0
+    wx = x - x0
+    return (
+        (1.0 - wy) * (1.0 - wx) * field[y0, x0]
+        + (1.0 - wy) * wx * field[y0, x1]
+        + wy * (1.0 - wx) * field[y1, x0]
+        + wy * wx * field[y1, x1]
+    ).astype(np.float32)
+
+
+def ridge_nms_2d(score: np.ndarray, foot: np.ndarray) -> np.ndarray:
+    """1-pixel oriented ridge crest extraction via 4-direction non-maximum suppression."""
+    s = np.where(foot, score, -1e9).astype(np.float32)
+    gy, gx = np.gradient(s)
+    theta = (np.rad2deg(np.arctan2(gy, gx)) + 180.0) % 180.0
+    p0 = np.roll(s, 1, axis=1)
+    n0 = np.roll(s, -1, axis=1)
+    p90 = np.roll(s, 1, axis=0)
+    n90 = np.roll(s, -1, axis=0)
+    p45 = np.roll(np.roll(s, 1, axis=0), 1, axis=1)
+    n45 = np.roll(np.roll(s, -1, axis=0), -1, axis=1)
+    p135 = np.roll(np.roll(s, 1, axis=0), -1, axis=1)
+    n135 = np.roll(np.roll(s, -1, axis=0), 1, axis=1)
+    b0 = (theta < 22.5) | (theta >= 157.5)
+    b45 = (theta >= 22.5) & (theta < 67.5)
+    b90 = (theta >= 67.5) & (theta < 112.5)
+    b135 = (theta >= 112.5) & (theta < 157.5)
+    is_max = (
+        (b0 & (s >= p0) & (s > n0))
+        | (b45 & (s >= p45) & (s > n45))
+        | (b90 & (s >= p90) & (s > n90))
+        | (b135 & (s >= p135) & (s > n135))
+    )
+    return is_max & foot
+
+
+def load_band(bands_dir: Path, idx: int, name: str) -> np.ndarray:
+    return np.load(bands_dir / f"{idx:02d}_{name}.npy")
+
+
+def load_lidar_scarp_ridge(ddir: Path, foot: np.ndarray) -> np.ndarray:
+    """Load USGS 3DEP 1m DEM derived scarp amplitude & orientation coherence composite."""
+    p = ddir / "external" / "lidar_scarp_features_u8.tif"
+    if not p.exists():
+        return np.zeros(foot.shape, dtype=np.float32)
+    with rasterio.open(p) as src:
+        b1 = src.read(1).astype(np.float32) / 255.0
+        b2 = src.read(2).astype(np.float32) / 255.0
+        b5 = src.read(5).astype(np.float32) / 255.0 if src.count >= 5 else b1
+    comp = (0.45 * b1 + 0.35 * b2 + 0.20 * b5) * foot.astype(np.float32)
+    return _robust_zpos(comp, foot) / 6.0
+
+
+def compute_h32a_dip_projected_step(bands_dir: Path, ddir: Path, foot: np.ndarray) -> np.ndarray:
+    """Hypothesis 1 (H32-A): Dip-Projected Subsurface-to-Surface Fault Trace De-Aliasing & Step Asymmetry.
+
+    Targets concealed normal faults dipping at 45-60 deg beneath basin fill where the gravity/magnetic
+    gradient peak (`iso_grav_anom_hg`, `tmi_hg`) is shifted down-dip (basin-ward) by 150-350 m relative
+    to the surface fault trace. Decomposes cross-strike potential-field profiles into Odd (step) vs Even
+    (symmetric intrusion/ridge) components and back-projects the odd step up-dip toward the footwall
+    range front / MT conductive boundary.
+    """
+    iso_g = _fill_smooth(load_band(bands_dir, 13, "iso_grav_anom"), foot, sigma=1.5)
+    iso_hg = _robust_zpos(load_band(bands_dir, 18, "iso_grav_anom_hg"), foot)
+    rtp = _fill_smooth(load_band(bands_dir, 2, "rtp"), foot, sigma=1.5)
+    tmi_hg = _robust_zpos(load_band(bands_dir, 3, "tmi_hg"), foot)
+    d_base = _fill_smooth(load_band(bands_dir, 15, "depth_to_base_surf"), foot, sigma=2.0)
+    cond = _robust_zpos(load_band(bands_dir, 17, "cond_surf"), foot)
+    elev = _fill_smooth(load_band(bands_dir, 12, "det_elev"), foot, sigma=1.5)
+    elev_sl = _robust_zpos(load_band(bands_dir, 19, "det_elev_slope"), foot)
+    lidar = load_lidar_scarp_ridge(ddir, foot)
+
+    gy_g, gx_g = np.gradient(gaussian_filter(iso_g, sigma=2.0))
+    ng = np.hypot(gy_g, gx_g) + 1e-6
+    gy_z, gx_z = np.gradient(gaussian_filter(elev, sigma=2.0))
+    nz = np.hypot(gy_z, gx_z) + 1e-6
+    gy_b, gx_b = np.gradient(gaussian_filter(d_base, sigma=2.5))
+    nb = np.hypot(gy_b, gx_b) + 1e-6
+
+    uy = 0.50 * (gy_g / ng) + 0.30 * (gy_z / nz) - 0.20 * (gy_b / nb)
+    ux = 0.50 * (gx_g / ng) + 0.30 * (gx_z / nz) - 0.20 * (gx_b / nb)
+    unorm = np.hypot(uy, ux) + 1e-6
+    uy = (uy / unorm).astype(np.float32)
+    ux = (ux / unorm).astype(np.float32)
+
+    H, W = foot.shape
+    grid_y, grid_x = np.meshgrid(np.arange(H, dtype=np.float32), np.arange(W, dtype=np.float32), indexing="ij")
+
+    s = 2.5
+    g_plus = _sample_bilinear(iso_g, grid_y + s * uy, grid_x + s * ux)
+    g_minus = _sample_bilinear(iso_g, grid_y - s * uy, grid_x - s * ux)
+    odd_g = 0.5 * np.abs(g_plus - g_minus)
+    even_g = 0.5 * np.abs(g_plus + g_minus - 2.0 * iso_g)
+
+    r_plus = _sample_bilinear(rtp, grid_y + s * uy, grid_x + s * ux)
+    r_minus = _sample_bilinear(rtp, grid_y - s * uy, grid_x - s * ux)
+    odd_r = 0.5 * np.abs(r_plus - r_minus)
+    even_r = 0.5 * np.abs(r_plus + r_minus - 2.0 * rtp)
+
+    parity_g = odd_g / (odd_g + even_g + 1e-4)
+    parity_r = odd_r / (odd_r + even_r + 1e-4)
+    step_purity = (0.60 * parity_g + 0.40 * parity_r).astype(np.float32)
+
+    sub_step = step_purity * (0.55 * (iso_hg / 6.0) + 0.45 * (tmi_hg / 6.0))
+
+    z_norm = _robust_zpos(d_base, foot) / 6.0
+    delta_s = np.clip(1.2 + 1.8 * z_norm, 1.2, 3.0).astype(np.float32)
+    advected_step = _sample_bilinear(sub_step, grid_y - delta_s * uy, grid_x - delta_s * ux)
+
+    surf_corrob = 0.45 * lidar + 0.35 * (elev_sl / 6.0) + 0.20 * (cond / 6.0)
+    score = (0.55 * advected_step + 0.25 * sub_step + 0.20 * surf_corrob) * (0.50 + 0.50 * surf_corrob)
+    score[~foot] = 0.0
+    return (_robust_zpos(score, foot) / 6.0).astype(np.float32)
+
+
+def compute_h32b_transtensional_swarm_tensor(bands_dir: Path, ddir: Path, foot: np.ndarray) -> np.ndarray:
+    """Hypothesis 2 (H32-B): Geodetic Kostrov Transtensional Coupling & Microseismic Swarm Permeability Tensor.
+
+    Targets active Walker Lane / Great Basin releasing steps and unmapped transtensional fault splays where
+    positive crust-thinning dilatation (`geod_dilaterate > 0`) couples with shear strain (`geod_shearrate`)
+    and elevated swarm/dependent-to-independent microseismicity (`deq_n100a15` vs `ieq_n100a15`).
+    """
+    dil_raw = load_band(bands_dir, 8, "geod_dilaterate")
+    valid = foot & np.isfinite(dil_raw)
+    dil_pos = np.where(valid & (dil_raw > 0), dil_raw, 0.0).astype(np.float32)
+    z_dil = _robust_zpos(dil_pos, foot) / 6.0
+    z_shear = _robust_zpos(load_band(bands_dir, 7, "geod_shearrate"), foot) / 6.0
+    z_inv2 = _robust_zpos(load_band(bands_dir, 4, "geod_2ndinv"), foot) / 6.0
+
+    psi_transt = (z_dil * z_shear) / (z_inv2 + 0.35)
+
+    deq = np.maximum(_fill_smooth(load_band(bands_dir, 10, "deq_n100a15"), foot, sigma=1.0), 0.0)
+    ieq = np.maximum(_fill_smooth(load_band(bands_dir, 16, "ieq_n100a15"), foot, sigma=1.0), 0.0)
+    swarm_diff = np.log1p(deq) - 0.75 * np.log1p(ieq)
+    gy_ieq, gx_ieq = np.gradient(gaussian_filter(ieq, sigma=2.0))
+    ieq_grad = _robust_zpos(np.hypot(gy_ieq, gx_ieq), foot) / 6.0
+    r_swarm = 0.65 * (_robust_zpos(swarm_diff, foot) / 6.0) + 0.35 * ieq_grad
+
+    elev_sl = _robust_zpos(load_band(bands_dir, 19, "det_elev_slope"), foot) / 6.0
+    tmi_hg = _robust_zpos(load_band(bands_dir, 3, "tmi_hg"), foot) / 6.0
+    lidar = load_lidar_scarp_ridge(ddir, foot)
+
+    struct_edge = 0.45 * lidar + 0.30 * elev_sl + 0.25 * tmi_hg
+    score = (0.45 * psi_transt + 0.35 * r_swarm + 0.20 * struct_edge) * (0.40 + 0.60 * struct_edge)
+    score[~foot] = 0.0
+    return (_robust_zpos(score, foot) / 6.0).astype(np.float32)
+
+
+def compute_h32c_mt_claycap_breach(bands_dir: Path, ddir: Path, foot: np.ndarray) -> np.ndarray:
+    """Hypothesis 3 (H32-C): Magnetotelluric (MT) Conductive Clay-Cap Breaching & Basal Relief Strike Alignment.
+
+    Targets blind hydrothermal upflow fault conduits where a steep lateral step in `depth_to_base_surf`
+    strikes parallel to the local structural/magnetic lineament and coincides with elevated surface
+    electrical conductivity (`cond_surf`) and radiometric alteration gradients (`tc`, GeoDAWN Th/K & U/K).
+    """
+    d_base = _fill_smooth(load_band(bands_dir, 15, "depth_to_base_surf"), foot, sigma=2.0)
+    cond = _robust_zpos(load_band(bands_dir, 17, "cond_surf"), foot) / 6.0
+    tc = _fill_smooth(load_band(bands_dir, 6, "tc"), foot, sigma=1.5)
+    rtp = _fill_smooth(load_band(bands_dir, 2, "rtp"), foot, sigma=1.5)
+    elev = _fill_smooth(load_band(bands_dir, 12, "det_elev"), foot, sigma=1.5)
+    lidar = load_lidar_scarp_ridge(ddir, foot)
+
+    gy_b, gx_b = np.gradient(d_base)
+    grad_b_mag = _robust_zpos(np.hypot(gy_b, gx_b), foot) / 6.0
+
+    gy_s, gx_s = np.gradient(0.6 * elev + 0.4 * rtp)
+    dot = gy_b * gy_s + gx_b * gx_s
+    norms = (np.hypot(gy_b, gx_b) * np.hypot(gy_s, gx_s)) + 1e-6
+    cos2_align = np.square(dot / norms).astype(np.float32)
+
+    gy_tc, gx_tc = np.gradient(tc)
+    tc_edge = _robust_zpos(np.hypot(gy_tc, gx_tc), foot) / 6.0
+
+    rad_ext_path = ddir / "external" / "geodawn_extensions_u8.tif"
+    if rad_ext_path.exists():
+        with rasterio.open(rad_ext_path) as src:
+            th_k = src.read(1).astype(np.float32)
+            u_k = src.read(2).astype(np.float32)
+        gy_tk, gx_tk = np.gradient(gaussian_filter(th_k, sigma=1.5))
+        gy_uk, gx_uk = np.gradient(gaussian_filter(u_k, sigma=1.5))
+        rad_ratio_edge = 0.5 * (_robust_zpos(np.hypot(gy_tk, gx_tk), foot) / 6.0) + 0.5 * (
+            _robust_zpos(np.hypot(gy_uk, gx_uk), foot) / 6.0
+        )
+    else:
+        rad_ratio_edge = tc_edge
+
+    alteration = 0.50 * cond + 0.25 * tc_edge + 0.25 * rad_ratio_edge
+    score = (0.45 * grad_b_mag * cos2_align + 0.35 * alteration + 0.20 * lidar) * (0.45 + 0.55 * lidar)
+    score[~foot] = 0.0
+    return (_robust_zpos(score, foot) / 6.0).astype(np.float32)
+
+
+def poisson_disk_thin_priority(
+    candidates_mask: np.ndarray,
+    priority: np.ndarray,
+    min_dist_px: float = 2.8,
+    existing_dots: np.ndarray | None = None,
+    max_add: int | None = None,
+) -> np.ndarray:
+    """Greedy priority-ordered Poisson-disk selector enforcing Euclidean distance >= min_dist_px."""
+    H, W = candidates_mask.shape
+    selected = np.zeros((H, W), dtype=bool)
+    blocked = np.zeros((H, W), dtype=bool)
+
+    r_int = int(np.ceil(min_dist_px))
+    dy_grid, dx_grid = np.mgrid[-r_int : r_int + 1, -r_int : r_int + 1]
+    disk_offs = np.argwhere((dy_grid * dy_grid + dx_grid * dx_grid) < (min_dist_px * min_dist_px - 1e-6)) - r_int
+
+    if existing_dots is not None and existing_dots.any():
+        dist_ex = distance_transform_edt(~existing_dots)
+        blocked |= dist_ex < (min_dist_px - 1e-6)
+
+    elig = candidates_mask & ~blocked
+    yy, xx = np.nonzero(elig)
+    if yy.size == 0:
+        return selected
+
+    scores = priority[yy, xx]
+    order = np.argsort(-scores, kind="mergesort")
+    yy = yy[order]
+    xx = xx[order]
+
+    added = 0
+    dy_off = disk_offs[:, 0]
+    dx_off = disk_offs[:, 1]
+    for r, c in zip(yy, xx):
+        if blocked[r, c]:
+            continue
+        selected[r, c] = True
+        added += 1
+        if max_add is not None and added >= max_add:
+            break
+        nr = r + dy_off
+        nc = c + dx_off
+        ok = (nr >= 0) & (nr < H) & (nc >= 0) & (nc < W)
+        blocked[nr[ok], nc[ok]] = True
+
+    return selected
+
+
+def build_h32_suite(
+    bands_dir: Path,
+    ddir: Path,
+    foot: np.ndarray,
+    labels: np.ndarray,
+    d28: np.ndarray,
+    d15: np.ndarray,
+    h19_5: np.ndarray,
+    h19_4: np.ndarray,
+    h16_1: np.ndarray,
+    tgc: np.ndarray,
+    ens12: np.ndarray,
+) -> dict[str, dict]:
+    """Compute all H32 surfaces and construct the candidate suite (both wholesale dotting ablations and
+    surgical prune-and-augment candidates H32-A, H32-B, H32-C, H32-D-Eq44090, and H32-D)."""
+    h32a = compute_h32a_dip_projected_step(bands_dir, ddir, foot)
+    h32b = compute_h32b_transtensional_swarm_tensor(bands_dir, ddir, foot)
+    h32c = compute_h32c_mt_claycap_breach(bands_dir, ddir, foot)
+    lidar = load_lidar_scarp_ridge(ddir, foot)
+
+    corrob_count = h19_4.astype(int) + h16_1.astype(int) + tgc.astype(int) + d15.astype(int) + ens12.astype(int)
+    ridge_a = ridge_nms_2d(h32a, foot) & (h32a > np.quantile(h32a[foot], 0.90)) & foot & ~labels
+    ridge_b = ridge_nms_2d(h32b, foot) & (h32b > np.quantile(h32b[foot], 0.90)) & foot & ~labels
+    ridge_c = ridge_nms_2d(h32c, foot) & (h32c > np.quantile(h32c[foot], 0.90)) & foot & ~labels
+
+    cand_base = (h19_5 | h19_4 | h16_1 | tgc | ens12 | (lidar > 0.35)) & foot & ~labels
+    cand_ridges_only = (h19_5 | h19_4 | h16_1 | tgc) & foot & ~labels
+    p_h32d = (0.35 * h32a + 0.40 * h32b + 0.25 * h32c).astype(np.float32)
+
+    weak_d28 = d28 & (h19_4 == 0) & (h16_1 == 0) & (ens12 == 0) & (lidar < 0.05)
+    wy, wx = np.nonzero(weak_d28)
+    base_mult = (
+        1.0
+        + 0.45 * corrob_count.astype(np.float32)
+        + 0.70 * ens12.astype(np.float32)
+        + 0.50 * d15.astype(np.float32)
+        + 0.35 * lidar
+    )
+
+    suite: dict[str, dict] = {}
+
+    # 1. Wholesale dotting ablations on H19-5 (demonstrating why wholesale replacement loses multi-line recall)
+    off_cat_halo = foot & ~binary_dilation(labels, iterations=1)
+    for w_id, surf, desc in [
+        ("H32-A-Wholesale", h32a, "Wholesale score-ordered dotting of H19-5 by H32-A (ablation: no D2.8 anchor)"),
+        ("H32-B-Wholesale", h32b, "Wholesale score-ordered dotting of H19-5 by H32-B (ablation: no D2.8 anchor)"),
+        ("H32-C-Wholesale", h32c, "Wholesale score-ordered dotting of H19-5 by H32-C (ablation: no D2.8 anchor)"),
+    ]:
+        m_w = poisson_disk_thin_priority(
+            candidates_mask=(h19_5 | ridge_nms_2d(surf, foot)) & off_cat_halo,
+            priority=surf + 0.35 * h19_5.astype(np.float32),
+            min_dist_px=2.5,
+            existing_dots=None,
+            max_add=44850,
+        )
+        suite[w_id] = {
+            "mask": m_w & foot & ~labels,
+            "surface": surf,
+            "description": desc,
+            "prune_count": 44090,
+            "add_count": int(m_w.sum()),
+            "min_dist_px": 2.5,
+        }
+
+    # 2. H32-A: Dip-Projected Step Asymmetry Prune-and-Augment (p=500, a=2500 -> 46,090 dots)
+    ret_a = d28.copy()
+    ord_a = np.argsort(h32a[wy, wx])
+    ret_a[wy[ord_a[:500]], wx[ord_a[:500]]] = False
+    add_a = poisson_disk_thin_priority(
+        (cand_base | ridge_a) & ~ret_a,
+        h32a * base_mult,
+        min_dist_px=2.35,
+        existing_dots=ret_a,
+        max_add=2500,
+    )
+    suite["H32-A"] = {
+        "mask": (ret_a | add_a) & foot & ~labels,
+        "surface": h32a,
+        "description": "H32-A Dip-Projected Subsurface-to-Surface Fault Step Asymmetry (prune 500, add 2500)",
+        "prune_count": 500,
+        "add_count": int(add_a.sum()),
+        "min_dist_px": 2.35,
+    }
+
+    # 3. H32-B: Geodetic Kostrov Transtensional & Microseismic Swarm Tensor (p=400, a=2200 -> 45,890 dots)
+    ret_b = d28.copy()
+    ord_b = np.argsort(h32b[wy, wx])
+    ret_b[wy[ord_b[:400]], wx[ord_b[:400]]] = False
+    corrob_r = h19_4.astype(int) + h16_1.astype(int) + tgc.astype(int) + d15.astype(int)
+    prio_b1 = h32b * (1.0 + 0.45 * corrob_r.astype(np.float32) + 0.50 * d15.astype(np.float32) + 0.35 * lidar)
+    add_b1 = poisson_disk_thin_priority(
+        cand_ridges_only & ~ret_b, prio_b1, min_dist_px=2.35, existing_dots=ret_b, max_add=1400
+    )
+    ret_b2 = ret_b | add_b1
+    add_b2 = poisson_disk_thin_priority(
+        ((ens12 | ridge_b) & foot & ~labels) & ~ret_b2,
+        h32b * (1.0 + 0.35 * lidar),
+        min_dist_px=2.35,
+        existing_dots=ret_b2,
+        max_add=800,
+    )
+    suite["H32-B"] = {
+        "mask": (ret_b2 | add_b2) & foot & ~labels,
+        "surface": h32b,
+        "description": "H32-B Kostrov Transtensional Strain & Microseismic Swarm Tensor (prune 400, add 2200)",
+        "prune_count": 400,
+        "add_count": int(add_b1.sum() + add_b2.sum()),
+        "min_dist_px": 2.35,
+    }
+
+    # 4. H32-C: Magnetotelluric (MT) Conductive Clay-Cap Breach & Strike Alignment (p=400, a=2200 -> 45,890 dots)
+    ret_c = d28.copy()
+    ord_c = np.argsort(h32c[wy, wx])
+    ret_c[wy[ord_c[:400]], wx[ord_c[:400]]] = False
+    add_c = poisson_disk_thin_priority(
+        (cand_base | ridge_c) & ~ret_c,
+        h32c * base_mult,
+        min_dist_px=2.35,
+        existing_dots=ret_c,
+        max_add=2200,
+    )
+    suite["H32-C"] = {
+        "mask": (ret_c | add_c) & foot & ~labels,
+        "surface": h32c,
+        "description": "H32-C MT Conductive Clay-Cap Breach & Basal Relief Strike Alignment (prune 400, add 2200)",
+        "prune_count": 400,
+        "add_count": int(add_c.sum()),
+        "min_dist_px": 2.35,
+    }
+
+    # 5. H32-D-Eq44090: Equal-Budget (44,090 dots) Stratified Submodular Prune-and-Augment (p=1200, a=1200)
+    ord_d = np.argsort(p_h32d[wy, wx])
+    ret_eq = d28.copy()
+    ret_eq[wy[ord_d[:1200]], wx[ord_d[:1200]]] = False
+    eq_b = poisson_disk_thin_priority(
+        (cand_base | ridge_b) & ~ret_eq, h32b * base_mult, min_dist_px=2.35, existing_dots=ret_eq, max_add=500
+    )
+    ret_eq = ret_eq | eq_b
+    eq_c = poisson_disk_thin_priority(
+        (cand_base | ridge_c) & ~ret_eq, h32c * base_mult, min_dist_px=2.35, existing_dots=ret_eq, max_add=400
+    )
+    ret_eq = ret_eq | eq_c
+    eq_a = poisson_disk_thin_priority(
+        (cand_base | ridge_a) & ~ret_eq, h32a * base_mult, min_dist_px=2.35, existing_dots=ret_eq, max_add=300
+    )
+    suite["H32-D-Eq44090"] = {
+        "mask": (ret_eq | eq_a) & foot & ~labels,
+        "surface": p_h32d,
+        "description": "H32-D Equal-Budget (44,090 dots) Submodular Prune-and-Augment (prune 1200, add 1200)",
+        "prune_count": 1200,
+        "add_count": int(eq_b.sum() + eq_c.sum() + eq_a.sum()),
+        "min_dist_px": 2.35,
+    }
+
+    # 6. H32-D: Top-Ranked Stratified Submodular Multi-Physics Prune-and-Augment (p=500, a=2500 -> 46,090 dots)
+    ret_d = d28.copy()
+    ret_d[wy[ord_d[:500]], wx[ord_d[:500]]] = False
+    d_b = poisson_disk_thin_priority(
+        (cand_base | ridge_b) & ~ret_d, h32b * base_mult, min_dist_px=2.35, existing_dots=ret_d, max_add=1100
+    )
+    ret_d = ret_d | d_b
+    d_c = poisson_disk_thin_priority(
+        (cand_base | ridge_c) & ~ret_d, h32c * base_mult, min_dist_px=2.35, existing_dots=ret_d, max_add=800
+    )
+    ret_d = ret_d | d_c
+    d_a = poisson_disk_thin_priority(
+        (cand_base | ridge_a) & ~ret_d, h32a * base_mult, min_dist_px=2.35, existing_dots=ret_d, max_add=600
+    )
+    suite["H32-D"] = {
+        "mask": (ret_d | d_a) & foot & ~labels,
+        "surface": p_h32d,
+        "description": "H32-D Submodular Multi-Physics Prune-and-Augment (prune 500, add 1100 H32-B + 800 H32-C + 600 H32-A)",
+        "prune_count": 500,
+        "add_count": int(d_b.sum() + d_c.sum() + d_a.sum()),
+        "min_dist_px": 2.35,
+    }
+
+    return suite

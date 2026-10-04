@@ -45,7 +45,9 @@ def page(title: str, body: str, active: str = "") -> str:
 <title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>{esc(title)}</h1><nav>{nav}</nav>
-</div></header><main class=wrap>{body}</main>
+</div></header>
+<div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
+<main class=wrap>{body}</main>
 <footer><div class=wrap>
 Site generated {stamp} from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
@@ -160,7 +162,30 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [download_block(sub, name), f"""<h2>What this is</h2>
+    parts = [download_block(sub, name), f"""<div class=dl>
+<h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
+<p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
+a raster whose <b>nodata tag</b> is a large negative sentinel such as
+<code>-3.4028234663852886e+38</code>, because that sentinel is not a value in <code>[0, 1]</code>.
+Two different failures produce the same message, and this repository has measured both.</p>
+<ul>
+<li><b>Mechanism 1 &mdash; the float32 sentinel.</b> <code>training_features.tif</code> uses
+<code>-3.4028234663852886e+38</code> as nodata: <b>7,113,308</b> cells, of which <b>3,061</b> lie
+<i>inside</i> the submission footprint. Writing those through unchanged puts them outside
+<code>[0, 1]</code>.</li>
+<li><b>Mechanism 2 &mdash; the NaN sentinel.</b> A raster carrying <code>nodata=NaN</code> with NaN
+cells outside the footprint is a legitimate competition format, but it is one validator change away
+from the same rejection. Every primary download here is written <b>all-finite</b>, with
+<code>nodata=None</code>.</li>
+</ul>
+<p><b>The fix, verified by re-reading the written bytes:</b> every GeoTIFF offered on this site is
+single-band float32, EPSG:32611, 100 m, 3730&times;3292, <b>every one of the 12,279,160 cells
+finite</b>, <b>min 0.0, max 1.0, zero cells outside <code>[0, 1]</code>, zero NaN</b>, and
+<b>no nodata tag</b>. Each download ships a
+<code>checks-*.json</code> format receipt produced by re-opening the file from disk.</p>
+</div>
+
+<h2>What this is</h2>
 <p>{TITLE} is an auditable system for the <b>DOE GEMS Prize</b> (DrivenData #306, GeoDAWN / NW
 Nevada): find geothermal-indicative faults that are <em>not</em> in the USGS&nbsp;/&nbsp;INGENIOUS
 catalogue, and ship them as a legal GeoTIFF. It has three parts: an exact re-implementation of the

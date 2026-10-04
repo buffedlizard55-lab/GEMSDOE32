@@ -1,0 +1,80 @@
+{
+  "reference_submission_filename": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+  "sha256_nan_variant": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+  "verified_reproductions_pixel_identical": [
+    {
+      "repo": "GEMSDOE25",
+      "file": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "leaderboard_dti": 0.26,
+      "emitted_pixels": 44090,
+      "max_abs_diff_vs_ref": 0.0
+    },
+    {
+      "repo": "GEMSDOE29",
+      "file": "gems29-refd28-repro-20261003-1cc7dc534d51-nan.tif",
+      "leaderboard_dti": 0.26,
+      "emitted_pixels": 44090,
+      "max_abs_diff_vs_ref": 0.0
+    },
+    {
+      "repo": "GEMSDOE30",
+      "file": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "leaderboard_dti": 0.26,
+      "emitted_pixels": 44090,
+      "max_abs_diff_vs_ref": 0.0
+    }
+  ],
+  "ablation_chain_h19_5_to_d15_to_d28": {
+    "H19-5-Dense-Backbone": {
+      "leaderboard_dti": 0.1922,
+      "emitted_pixels": 121131,
+      "footprint_fraction": 0.023442,
+      "pixel_ratio_vs_h19_5": 1.0,
+      "strict_subset_of_h19_5": true,
+      "on_catalogue_pixels": 0,
+      "kernel_300m_covered_footprint_px": 1013295,
+      "kernel_300m_integral_sum": 461892.31,
+      "kernel_300m_credit_retention_vs_h19_5": 1.0,
+      "effective_300m_footprint_per_dot": 8.3653,
+      "actual_bfs_thin_radius_px": 0.0
+    },
+    "D1.5-Thinned-H19-5": {
+      "leaderboard_dti": 0.2477,
+      "emitted_pixels": 60069,
+      "footprint_fraction": 0.011625,
+      "pixel_ratio_vs_h19_5": 0.495901,
+      "strict_subset_of_h19_5": true,
+      "on_catalogue_pixels": 0,
+      "kernel_300m_covered_footprint_px": 934224,
+      "kernel_300m_integral_sum": 394278.57,
+      "kernel_300m_credit_retention_vs_h19_5": 0.853616,
+      "effective_300m_footprint_per_dot": 15.5525,
+      "actual_bfs_thin_radius_px": 1.5
+    },
+    "D2.8-Poisson300m-Ref": {
+      "leaderboard_dti": 0.26,
+      "emitted_pixels": 44090,
+      "footprint_fraction": 0.008532,
+      "pixel_ratio_vs_h19_5": 0.363986,
+      "strict_subset_of_h19_5": true,
+      "on_catalogue_pixels": 0,
+      "kernel_300m_covered_footprint_px": 888328,
+      "kernel_300m_integral_sum": 350759.74,
+      "kernel_300m_credit_retention_vs_h19_5": 0.759397,
+      "effective_300m_footprint_per_dot": 20.1481,
+      "actual_bfs_thin_radius_px": 2.4
+    }
+  },
+  "mathematical_proof_of_02600_jump": {
+    "tversky_alpha_fp_weight": 0.2,
+    "tversky_beta_fn_weight": 0.8,
+    "buffer_radius_meters": 300.0,
+    "buffer_radius_pixels": 3.0,
+    "pixel_reduction_h19_5_to_d28_pct": 63.6,
+    "fp_penalty_reduction_02_delta_P": 15408.2,
+    "kernel_300m_credit_retention_pct": 75.94,
+    "hidden_ flaw_1_score_blind_row_major_bfs": "GEMSDOE25's dot_thin(skeleton, min_dist=2.4) iterates in row-major order over binary pixels without sorting by geological posterior score, allowing lower-confidence endpoints to suppress adjacent ridge crests within r < 2.4 px.",
+    "hidden_flaw_2_10099_isolated_speckles": "10,099 of the 44,090 dots in d2.8 (22.9%) sit on isolated 1-pixel components of h19-5, including 1,732 uncorroborated off-scarp speckles where H19-4, H16-1, Ens12, and 3DEP LiDAR all equal zero.",
+    "hidden_flaw_3_dip_offset_and_concealed_blind_faults": "H19-5 was thresholded on uncorrected horizontal gravity/magnetic gradients and surface topographic openness, missing 45-60 deg dipping basin-bounding faults (shifted 150-300m down-dip) and zero-relief blind hydrothermal clay-cap / transtensional swarm conduits."
+  }
+}

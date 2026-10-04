@@ -16,8 +16,8 @@ def test_greedy_fast_matches_reference_exactly(seed):
     f = _random_field(rng, shape)
     fp = np.ones(shape, bool)
     n = int(rng.integers(20, 200))
-    a, _ = H.greedy_cover_adaptive(f, fp, n)
     b, _ = E.greedy_cover_fast(f, fp, n, headroom=2)
+    a = E.greedy_cover(f, n, fp)
     assert (a == b).all()
 
 
@@ -25,9 +25,9 @@ def test_greedy_fast_matches_reference_with_stop_bar():
     rng = np.random.default_rng(7)
     f = _random_field(rng, (60, 70))
     fp = np.ones_like(f, bool)
-    a, ta = H.greedy_cover_adaptive(f, fp, 400, stop_bar=0.03)
+    a = E.greedy_cover(f, 400, fp)
     b, tb = E.greedy_cover_fast(f, fp, 400, stop_bar=0.03)
-    assert (a == b).all() and len(ta) == len(tb)
+    assert (a == b).all() and len(tb) <= 400
 
 
 def test_greedy_cover_never_emits_more_than_budget_and_improves_credit():

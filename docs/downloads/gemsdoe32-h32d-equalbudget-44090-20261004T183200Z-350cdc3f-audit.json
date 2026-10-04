@@ -1,0 +1,116 @@
+{
+  "candidate_id": "H32-D-Eq44090",
+  "slug": "h32d-equalbudget-44090",
+  "content_digest8": "350cdc3f",
+  "description": "H32-D Equal-Budget (44,090 dots) Submodular Prune-and-Augment (prune 1200, add 1200)",
+  "submission_note_zeros": "GEMSDOE32 Reserve #1 Equal-Budget Ablation (H32-D-Eq44090): Exact 44,090-dot parity with D2.8 (-1,200 uncorroborated D2.8 speckles replaced by +1,200 H32-B/C/A multi-physics dots; 44090 px; cat_hid=0.10004 vs 0.09832, sgmc_cal=0.06066 vs 0.06059, drift_cal=0.15053 vs 0.14801; range [0,1] verified; file=gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-zeros.tif; sha256=133bacd0).",
+  "submission_note_nan": "GEMSDOE32 Reserve #1 Equal-Budget Ablation (H32-D-Eq44090): Exact 44,090-dot parity with D2.8 (-1,200 uncorroborated D2.8 speckles replaced by +1,200 H32-B/C/A multi-physics dots; 44090 px; cat_hid=0.10004 vs 0.09832, sgmc_cal=0.06066 vs 0.06059, drift_cal=0.15053 vs 0.14801; range [0,1] verified; file=gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-nan.tif; sha256=cc03eb84).",
+  "zeros_tif": {
+    "filename": "gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-zeros.tif",
+    "size_bytes": 243967,
+    "sha256": "133bacd0031f865a9df2888de71abeba863118458d37d61ab08c388f415b3b96",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 44090,
+    "footprint_fraction": 0.008532,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-nan.tif",
+    "size_bytes": 379319,
+    "sha256": "cc03eb8472e3c08dc7eea3e67a1d943191be78561fa850e7a0fd4225843f77be",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 44090,
+    "footprint_fraction": 0.008532,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.10004360265718955,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.09893451719628826,
+      "NE": 0.10630820926076674,
+      "SW": 0.0703388482326141,
+      "SE": 0.12459283593908912
+    },
+    "sgmc_prevalence_calibrated_dti": 0.06065670858885931,
+    "drift_corrected_holdout_mean": 0.15052842578521194,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.14986404050365196,
+      "NE": 0.1551453711630943,
+      "SW": 0.12204887845846835,
+      "SE": 0.17505541301563324
+    },
+    "predicted_leaderboard_dti": 0.2692,
+    "ei_drift_corrected": 0.002611,
+    "slot_decision": "RESERVE_VERIFIED_BEATS_D28"
+  }
+}

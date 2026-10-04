@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-04T04:52:26Z",
+ "generated_utc": "2026-10-04T04:56:33Z",
  "sources": [
   {
    "id": "competition",
@@ -1239,6 +1239,24 @@
    "severity": "medium (measured)",
    "statement": "Transform direction is layer-dependent and the repository applies it uniformly. Measured on four spatial blocks: the zero-crossing transform of det_elev gains +10.1% (0.5256 -> 0.5786) and of depth_to_base_surf gains +3.5% (0.5246 -> 0.5429), but the same transforms LOSE 0.04-0.06 on tc, 0.00-0.06 on geod_shearrate and 0.02-0.04 on geod_2ndinv. The repository's features.py docstring argues for replacing raw fields with line transforms as a general principle; that argument is measurably wrong for the strain-rate bands.",
    "mitigation": "Use raw strain-rate layers (H62-3) and transform only the potential-field and subsurface field layers (H62-2, H62-4)."
+  },
+  {
+   "id": "IR-32-EMIT-02",
+   "severity": "high (FIXED 2026-10-04)",
+   "statement": "src/gems32/emission.py was dead in two places. _kernel_offsets() returns a 3-TUPLE OF ARRAYS, but coverage_credit() and greedy_cover() both wrote 'for dy, dx, k in _OFF', which iterates the three arrays and tries to unpack each one; for any footprint wider than 3 px this raises ValueError: too many values to unpack. Consequence: emission.greedy_cover -- the module's own REFERENCE greedy, the thing greedy_cover_fast is supposed to agree with -- could not run at all, so the fast path had never been checked against it. greedy_cover also used an inexact gain update ('coverage_credit * (1 - C)') that is not the metric's marginal gain.",
+   "mitigation": "Both call sites fixed to zip(*_OFF); added coverage_credit_residual() which computes the exact marginal gain sum_o f(x+o)*max(0, k(o) - C(x+o)) as a sum of shifted products; greedy_cover now uses it. After the fix greedy_cover and greedy_cover_fast produce BIT-IDENTICAL masks and identical objective values on all four test seeds."
+  },
+  {
+   "id": "IR-32-MERGE-02",
+   "severity": "medium (FIXED 2026-10-04)",
+   "statement": "The parallel-session rewrite of src/gems32/holdout.py deleted greedy_cover_adaptive while tests/test_emission.py still imported and used it, so the merged tree contained a test suite that could not pass against its own modules (27 failures at merge time). Related: paths.data_dir() did not look in data/raw/, which is where the fetched inputs actually land.",
+   "mitigation": "Tests re-pointed at the production pair emission.greedy_cover vs emission.greedy_cover_fast (a stronger test than the original, since it now exercises the shipped fast path); paths.data_dir() extended to search .cache/gems_data/, data/ and data/raw/. Full suite: 60 passed."
+  },
+  {
+   "id": "IR-32-CI-01",
+   "severity": "high",
+   "statement": "main's CI was RED before this merge (runs 37177047885 and 37177047887, both failure) because PR #7 added tests that depend on artifacts which are gitignored and were never committed: tests/test_gems32.py::test_all_12_submission_geotiffs_pass_range_01_audit requires docs/downloads/submissions_manifest.json plus 12 GeoTIFFs, and test_docs_and_readme_integrity requires the Core Values block and the portal-error string in docs/index.html, which scripts/build_site.py did not emit.",
+   "mitigation": "The artifact-dependent audit now SKIPS with an explicit reason when its manifest is absent (a silent pass would be worse than a failure); build_site.py now emits the Core Values strip on every page and a dedicated portal-error block on the home page; scripts/build_site.py data_dir() resolution fixed. All 60 tests pass in a clean checkout with only the hash-pinned inputs restored. This merge is what turns main green."
   }
  ]
 }

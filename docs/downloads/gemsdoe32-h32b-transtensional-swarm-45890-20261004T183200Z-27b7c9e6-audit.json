@@ -1,0 +1,116 @@
+{
+  "candidate_id": "H32-B",
+  "slug": "h32b-transtensional-swarm-45890",
+  "content_digest8": "27b7c9e6",
+  "description": "H32-B Kostrov Transtensional Strain & Microseismic Swarm Tensor (prune 400, add 2200)",
+  "submission_note_zeros": "GEMSDOE32 Reserve #2 (H32-B): Geodetic Kostrov transtensional coupling & microseismic swarm permeability tensor prune-and-augment (-400 weak dots, +2,200 off-catalogue dots; 45890 px; cat_hid=0.09894, sgmc_cal=0.06174, drift_cal=0.14928, 4/4 drift quadrants won; range [0,1] verified; file=gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-zeros.tif; sha256=fe0b5114).",
+  "submission_note_nan": "GEMSDOE32 Reserve #2 (H32-B): Geodetic Kostrov transtensional coupling & microseismic swarm permeability tensor prune-and-augment (-400 weak dots, +2,200 off-catalogue dots; 45890 px; cat_hid=0.09894, sgmc_cal=0.06174, drift_cal=0.14928, 4/4 drift quadrants won; range [0,1] verified; file=gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-nan.tif; sha256=1a3b1d63).",
+  "zeros_tif": {
+    "filename": "gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-zeros.tif",
+    "size_bytes": 249551,
+    "sha256": "fe0b511435cf80eb55a78b36555a0650fa9d626822f08a3d3221615a9bf12a68",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 45890,
+    "footprint_fraction": 0.008881,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-nan.tif",
+    "size_bytes": 384916,
+    "sha256": "1a3b1d63e1759ac71b7a187b893bad93abe09273178c8e64dcbb327c37f2a035",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 45890,
+    "footprint_fraction": 0.008881,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.09893526263810026,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.09868613761612563,
+      "NE": 0.10668482475557839,
+      "SW": 0.070136437779344,
+      "SE": 0.12023365040135303
+    },
+    "sgmc_prevalence_calibrated_dti": 0.061738989834761664,
+    "drift_corrected_holdout_mean": 0.14927676187012,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.14940398468209595,
+      "NE": 0.15520122610225312,
+      "SW": 0.12259888589464889,
+      "SE": 0.16990295080148207
+    },
+    "predicted_leaderboard_dti": 0.2645,
+    "ei_drift_corrected": 0.001564,
+    "slot_decision": "RESERVE_VERIFIED_BEATS_D28"
+  }
+}
