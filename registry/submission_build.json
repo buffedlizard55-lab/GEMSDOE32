@@ -1,35 +1,42 @@
 {
- "name": "gems32-h19-5-smoothmaxcov-44090",
- "note": "gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score",
- "status_line": "Format-validated, mass-matched candidate. Emission rule = greedy maximum-expected-coverage of the field blurred by the inferred truth scatter (1.85 px). Measured +0.0247 +/- 0.0005 (12/12 paired draws) better than the incumbent's raster-order dotting on the live-anchored truth model, and the packing rule itself is +0.0100 (4/4 folds) on the blocked catalogue holdout. NOT organizer-scored, NOT a proven improvement, and spending a slot still requires an approved bo.slot_gate record. sha256 2dc67f4bdb8d1bf2\u2026",
+ "name": "gems32-probe-S1-ANCHOR-identical-to-live-02600",
+ "note": "GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061",
+ "status_line": "PRIMARY = the S1 anchor of the three-slot identification experiment. In-footprint values are BIT-IDENTICAL to the group's live-scored 0.2600 emission (owner report, not an organizer receipt). Uploading it re-validates the portal path and is the first of the three queries that measure the hidden-set recall T/K, the hidden label mass K and the wasted mass F exactly. NOT a claimed improvement.",
  "file": {
-  "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
-  "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
-  "bytes": 199257,
+  "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+  "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+  "bytes": 806758,
   "positive_px": 44090
  },
- "file_zeros": {
-  "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif",
-  "sha256": "5d881c82d9f66dc5593e2aa0a073d055c38b7a97802af71b737dcec2a7b5ee2e",
-  "bytes": 154757
- },
- "rule": "greedy maximum-expected-coverage of the truth-scatter-smoothed surface (sigma 1.85 px)",
- "objective": "smooth",
- "sigma_px": 1.85,
+ "file_zeros": null,
+ "pack": [
+  {
+   "role": "S2 SCALE",
+   "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
+   "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
+   "bytes": 799095,
+   "positive_px": 44090,
+   "note": "S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta."
+  },
+  {
+   "role": "S3 NULL-ADD",
+   "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
+   "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
+   "bytes": 810344,
+   "positive_px": 46090,
+   "note": "S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1)."
+  },
+  {
+   "role": "CANDIDATE 2 (held)",
+   "path": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
+   "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
+   "bytes": 806599,
+   "positive_px": 44090,
+   "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
+  }
+ ],
+ "rule": "identity (S1); scale 0.5 (S2); S1 + 2000 null dots (S3)",
  "field": "h19_5.tif",
  "emitted_px": 44090,
- "budget": 44090,
- "support_px": 121131,
- "footprint_px": 5167373,
- "marginal_last": 0.5102909207344055,
- "marginal_first": 4.298656940460205,
- "coverage_of_field_surface": 72243.5074450341,
- "catalogue_px_emitted": 0,
- "seconds": 207.2,
- "incumbent": {
-  "emitted_px": 44090,
-  "coverage_of_field_surface": 88569.47428542521,
-  "coverage_ratio_new_over_incumbent": 0.8157,
-  "overlap_px": 5628
- }
+ "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json"
 }

@@ -7,9 +7,16 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = json.loads((ROOT / "registry" / "data_manifest.json").read_text())
 
 
-def gh_raw(repo, ref, path, dest):
+def gh_raw(repo, ref, path, dest, want_sha=None):
+    """Fetch ``repo@ref:path`` into ``dest`` unless ``dest`` already has the pinned digest.
+
+    BUGFIX 2026-10-04: this guard used to compare the file's digest to *itself*
+    (``== _sha(dest)``), which is vacuously true, so any pre-existing file was accepted
+    **without verification**.  It now compares against the manifest's pinned ``want_sha``
+    and re-fetches on mismatch.  See registry/irregularities.json IR-32-FETCH-01.
+    """
     dest = Path(dest)
-    if dest.exists() and hashlib.sha256(dest.read_bytes()).hexdigest() == _sha(dest):
+    if want_sha and dest.exists() and hashlib.sha256(dest.read_bytes()).hexdigest() == want_sha:
         return dest
     dest.parent.mkdir(parents=True, exist_ok=True)
     with dest.open("wb") as fh:
@@ -38,7 +45,9 @@ def main():
                 for c in chunks:
                     out.write(c.read_bytes())
         else:
-            gh_raw(f["repo"], f["ref"], f["path"], target)
+            # the pinned digest is passed in, so a stale local file is re-fetched rather than
+            # silently trusted (IR-32-FETCH-01)
+            gh_raw(f["repo"], f["ref"], f["path"], target, want_sha=f["sha256"])
         digest = _sha(target)
         (ok if digest == f["sha256"] else bad).append((f["id"], digest))
         print(("OK   " if digest == f["sha256"] else "FAIL ") + f"{f['id']:26s} {digest[:16]}...")

@@ -1,0 +1,280 @@
+{
+ "generated_by": "scripts/audit_shipped.py",
+ "template": {
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "res": [
+   100.0,
+   100.0
+  ],
+  "dtype": "float32"
+ },
+ "footprint_px": 5167373,
+ "catalogue_px": 60988,
+ "evidence_class": "catalogue-proxy columns are [MEASURED, leak-contaminated]: the organizers mask known USGS/INGENIOUS pixels out of scoring, so this frame screens artifacts against each other and is never a score",
+ "artifacts": [
+  {
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "bytes": 1603424,
+   "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 44090,
+   "total_mass": 44090.0,
+   "off_h19_5_px": 0,
+   "off_h19_5_frac": 0.0,
+   "catalogue_proxy_T": 9498.79813730125,
+   "catalogue_proxy_F": 40135.21887627244,
+   "credit_per_unit_mass": 0.21544110086870605,
+   "catalogue_proxy_DTI": 0.1617719780036745,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+   "bytes": 836982,
+   "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 44090,
+   "total_mass": 44090.0,
+   "off_h19_5_px": 0,
+   "off_h19_5_frac": 0.0,
+   "catalogue_proxy_T": 9498.79813730125,
+   "catalogue_proxy_F": 40135.21887627244,
+   "credit_per_unit_mass": 0.21544110086870605,
+   "catalogue_proxy_DTI": 0.1617719780036745,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+   "bytes": 355310,
+   "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 45000,
+   "total_mass": 45000.0,
+   "off_h19_5_px": 43334,
+   "off_h19_5_frac": 0.9629777777777778,
+   "catalogue_proxy_T": 6319.741049664767,
+   "catalogue_proxy_F": 42493.64260423317,
+   "credit_per_unit_mass": 0.14043868999255038,
+   "catalogue_proxy_DTI": 0.1079318355672789,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+   "bytes": 302357,
+   "sha256": "2c1861f1dbf5bfe7e594db93cf2fedb5708e345b150c4ab58538a1fd1391047d",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 45000,
+   "total_mass": 45000.0,
+   "off_h19_5_px": 43334,
+   "off_h19_5_frac": 0.9629777777777778,
+   "catalogue_proxy_T": 6319.741049664767,
+   "catalogue_proxy_F": 42493.64260423317,
+   "credit_per_unit_mass": 0.14043868999255038,
+   "catalogue_proxy_DTI": 0.1079318355672789,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gems32-h19-5-smoothmaxcov-44090-zeros.tif",
+   "bytes": 154757,
+   "sha256": "5d881c82d9f66dc5593e2aa0a073d055c38b7a97802af71b737dcec2a7b5ee2e",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 44090,
+   "total_mass": 44090.0,
+   "off_h19_5_px": 25485,
+   "off_h19_5_frac": 0.5780222272624178,
+   "catalogue_proxy_T": 941.1261899146314,
+   "catalogue_proxy_F": 43447.37720921793,
+   "credit_per_unit_mass": 0.02134557019538742,
+   "catalogue_proxy_DTI": 0.016319701512969312,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gems32-h19-5-smoothmaxcov-44090.tif",
+   "bytes": 199257,
+   "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 44090,
+   "total_mass": 44090.0,
+   "off_h19_5_px": 25485,
+   "off_h19_5_frac": 0.5780222272624178,
+   "catalogue_proxy_T": 941.1261899146314,
+   "catalogue_proxy_F": 43447.37720921793,
+   "credit_per_unit_mass": 0.02134557019538742,
+   "catalogue_proxy_DTI": 0.016319701512969312,
+   "dots_on_catalogue": 0
+  }
+ ]
+}

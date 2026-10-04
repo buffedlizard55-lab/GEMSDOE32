@@ -5,23 +5,22 @@
 <h1>Make a submission (executive summary)</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html" class=active>Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html">Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 </div></header><main class=wrap><h2 style="margin-top:6px">Five steps, about two minutes</h2>
 <div class=dl>
-<h2>&#11015;&nbsp;Download the submission GeoTIFF</h2>
-<p><a class=btn href="downloads/gems32-h19-5-smoothmaxcov-44090.tif">Download gems32-h19-5-smoothmaxcov-44090.tif</a>
-<a class="btn alt" href="downloads/gems32-h19-5-smoothmaxcov-44090.zip">.zip</a></p>
-<p><b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
-<code>gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score</code></p>
+<h2>&#11015;&nbsp;ONE-CLICK SUBMISSION FILE</h2>
+<p><a class="btn" href="downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif">Download gems32-probe-S1-ANCHOR-identical-to-live-02600.tif</a> </p>
+<p><b>Filename:</b> <code>gems32-probe-S1-ANCHOR-identical-to-live-02600.tif</code><br>
+<b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<code>GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-44,090 predicted pixels · every footprint pixel finite and in [0, 1] ·
-NaN outside the footprint · sha256 <code>2dc67f4bdb8d1bf2&hellip;</code></p>
-<p class=mut>Same predictions with 0.0 instead of NaN outside the footprint:
-<a href="downloads/gems32-h19-5-smoothmaxcov-44090-zeros.tif">zeros variant</a> ·
-<a href="downloads/checks-gems32-h19-5-smoothmaxcov-44090.tif.json">format receipt (independent re-read)</a></p>
-<p class=warn><b>Status.</b> Format-validated, mass-matched candidate. Emission rule = greedy maximum-expected-coverage of the field blurred by the inferred truth scatter (1.85 px). Measured +0.0247 +/- 0.0005 (12/12 paired draws) better than the incumbent&#x27;s raster-order dotting on the live-anchored truth model, and the packing rule itself is +0.0100 (4/4 folds) on the blocked catalogue holdout. NOT organizer-scored, NOT a proven improvement, and spending a slot still requires an approved bo.slot_gate record. sha256 2dc67f4bdb8d1bf2…</p>
+44,090 predicted pixels · every cell finite · every value in [0, 1] ·
+0 NaN anywhere · no nodata tag · sha256 <code>4dc4cc54b061cb45&hellip;</code>
+· <a href="downloads/checks-gems32-probe-S1-ANCHOR-identical-to-live-02600.tif.json">format receipt (independent re-read)</a> </p>
+<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>S2 SCALE</b></td><td><a href="downloads/gems32-probe-S2-SCALE-lambda-0.5.tif">gems32-probe-S2-SCALE-lambda-0.5.tif</a> </td><td class=mut>d6462b76bce1a549&hellip;</td><td class=mut>S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta.</td></tr><tr><td><b>S3 NULL-ADD</b></td><td><a href="downloads/gems32-probe-S3-NULLADD-2000px.tif">gems32-probe-S3-NULLADD-2000px.tif</a> </td><td class=mut>da4193e3a2e04709&hellip;</td><td class=mut>S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1).</td></tr><tr><td><b>CANDIDATE 2 (held)</b></td><td><a href="downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif">gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif</a> </td><td class=mut>f43ea85e2b7f2010&hellip;</td><td class=mut>Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field&#x27;s own surface 90,230.9 vs the incumbent&#x27;s 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout.</td></tr></table>
+<p class=warn><b>Status.</b> PRIMARY = the S1 anchor of the three-slot identification experiment. In-footprint values are BIT-IDENTICAL to the group&#x27;s live-scored 0.2600 emission (owner report, not an organizer receipt). Uploading it re-validates the portal path and is the first of the three queries that measure the hidden-set recall T/K, the hidden label mass K and the wasted mass F exactly. NOT a claimed improvement.</p>
 </div>
 <div class=card><h3>1 · Check the file (optional, 20 s)</h3>
 <pre>python3 - &lt;&lt;'EOF'
 import rasterio, numpy as np, hashlib
-p = "gems32-h19-5-smoothmaxcov-44090.tif"
+p = "gems32-probe-S1-ANCHOR-identical-to-live-02600.tif"
 print("sha256", hashlib.sha256(open(p, "rb").read()).hexdigest())
 with rasterio.open(p) as s:
     a = s.read(1)
@@ -33,12 +32,12 @@ print("OK: single band, [0,1] wherever finite")
 EOF</pre>
 <p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
 values within [0,&nbsp;1] wherever finite. The repository's own receipt is
-<a href="downloads/checks-gems32-h19-5-smoothmaxcov-44090.tif.json">this JSON</a>.</p></div>
+<a href="downloads/checks-gems32-probe-S1-ANCHOR-identical-to-live-02600.tif.json">this JSON</a>.</p></div>
 <div class=card><h3>2 · Upload</h3>
 <ol>
 <li>Open the competition's <b>Submit</b> page (linked on the <a href="sources.html">sources</a> page).</li>
-<li><em>File to submit</em> &rarr; choose <code>gems32-h19-5-smoothmaxcov-44090.tif</code> (or the <code>.zip</code>).</li>
-<li>Paste this into <em>Note (optional)</em>: <code>gems32-h19-5-smoothmaxcov-44090 | H19-5 field, smoothed-density max-coverage emission, 44,090 px mass-matched to the incumbent | paired model-MC +0.025 vs incumbent; not a score</code></li>
+<li><em>File to submit</em> &rarr; choose <code>gems32-probe-S1-ANCHOR-identical-to-live-02600.tif</code> (or the <code>.zip</code>).</li>
+<li>Paste this into <em>Note (optional)</em>: <code>GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061</code></li>
 <li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
 </ol></div>
 <div class=card><h3>3 · Know the two-round consequence before you click</h3>
@@ -65,10 +64,10 @@ inferred from the files and the observed error, not quoted from the platform
 <div class=card><h3>5 · Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
-(e.g. <code>gems32-h19-5-smoothmaxcov-44090-fresh</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
+(e.g. <code>gems32-probe-S1-ANCHOR-identical-to-live-02600-fresh</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
 </div></main>
 <footer><div class=wrap>
-Site generated 2026-10-04 03:29 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-04 04:16 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·
