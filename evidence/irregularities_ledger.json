@@ -1,0 +1,30 @@
+[
+  {
+    "id": "IR-32-01-SENTINEL-FLOAT32-OVERFLOW",
+    "severity": "CRITICAL_VALIDATOR_BLOCKER",
+    "status": "RESOLVED_AND_VERIFIED",
+    "summary": "training_features.tif encodes missing values inside the 5,167,373-pixel footprint as float32 -3.4028235e+38 (3,061 pixels in bands 1-5/7-19 and 3,073 pixels in band 6 tc; 58,171 band-pixel instances total). Unsanitized feature transforms propagate -3.4e38 or NaN into predictions, triggering DrivenData's 'Predicted values must be in range [0, 1]' error.",
+    "resolution": "scripts/prepare_data.py converts all abs(v) > 1e30 sentinels to NaN prior to robust median-IQR z-scoring, and src/gems32/submission.py enforces np.clip(pred, 0.0, 1.0) with paired -zeros.tif (12,279,160 / 12,279,160 finite in [0,1]) and -nan.tif twins."
+  },
+  {
+    "id": "IR-32-02-RETROSPECTIVE-HALO-LEAK",
+    "severity": "HIGH_SURROGATE_BIAS",
+    "status": "ISOLATED_AND_CORRECTED",
+    "summary": "Pre-built historical rasters gems10-h28-dotted-ridge (LB 0.1753) and gems10-h25-ctx-ridge (LB 0.1303) used full labels.tif proximity halos at build time (emitting 4,045 and 12,866 on-catalogue pixels, plus 5,730 and 18,612 1-px halo pixels), inflating retrospective catalogue_hidden_mean to 0.20575 and 0.15725.",
+    "resolution": "src/gems32/holdout.py audits on_catalogue_emitted_px and halo_1px_emitted_px for every raster and flags retrospective_halo_leakage=True when a pre-built historical raster used full labels.tif. All GEMSDOE32 H32-A..D transforms are 100% label-free."
+  },
+  {
+    "id": "IR-32-03-SGMC-PREVALENCE-DRIFT",
+    "severity": "HIGH_HOLDOUT_DRIFT",
+    "status": "CALIBRATED_IN_CO_KRIGING_SURROGATE",
+    "summary": "Raw sgmc_off_catalogue has |G_SGMC| = 62,703 positive pixels (4.94x denser than estimated hidden test truth |G_LB| ~ 12,691 px), causing raw SGMC DTI to under-penalize false positives by 4.94x and rank 182,192-px Lattice-s5 (LB 0.0904) at 0.20415.",
+    "resolution": "src/gems32/holdout.py computes sgmc_prevalence_calibrated_dti at |G_LB| = 12,691 px, which predicts Lattice-s5 at 0.09361 (vs true LB 0.0904) and yields Spearman rho = +0.8333 / Pearson r = +0.9363 across all 9 non-leaking scored submissions."
+  },
+  {
+    "id": "IR-32-04-D28-MISLABELED-RADIUS-AND-SPECKLES",
+    "severity": "MEDIUM_ALGORITHMIC_SUBOPTIMALITY",
+    "status": "FIXED_BY_H32D_PRUNE_AND_AUGMENT",
+    "summary": "Forensic inspection of GEMSDOE25/29/30 shows that dotted-h19-5-d2-8 (LB 0.2600) was generated with dot_thin(h19_5, min_dist=2.4) (not 2.8 px) using row-major score-blind BFS, and retains 10,099 dots on 1-pixel components of h19-5 (including 1,732 uncorroborated speckles).",
+    "resolution": "H32-D prunes weak uncorroborated speckles and uses priority-ordered Poisson-disk thinning across H32-B, H32-C, and H32-A multi-physics surfaces, winning 4/4 quadrants on both catalogue_hidden_mean (0.10163 vs 0.09832) and drift_corrected_holdout_mean (0.15219 vs 0.14801)."
+  }
+]
