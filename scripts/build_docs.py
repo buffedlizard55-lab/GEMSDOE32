@@ -1099,7 +1099,19 @@ Basal Relief Strike Alignment with Structural / Magnetic Gradient S = 0.6 * det_
 </html>
 """
     (ROOT / "docs" / "executive-summary.html").write_text(exec_html, encoding="utf-8")
-    print("Successfully generated docs/index.html and docs/executive-summary.html.")
+    root_index = (
+        index_html.replace('href="downloads/', 'href="docs/downloads/')
+        .replace('src="assets/', 'src="docs/assets/')
+        .replace('href="executive-summary.html"', 'href="docs/executive-summary.html"')
+    )
+    root_exec = (
+        exec_html.replace('href="downloads/', 'href="docs/downloads/')
+        .replace('src="assets/', 'src="docs/assets/')
+        .replace('href="index.html"', 'href="docs/index.html"')
+    )
+    (ROOT / "index.html").write_text(root_index, encoding="utf-8")
+    (ROOT / "executive-summary.html").write_text(root_exec, encoding="utf-8")
+    print("Successfully generated docs/index.html, docs/executive-summary.html, index.html, and executive-summary.html.")
     return 0
 
 
