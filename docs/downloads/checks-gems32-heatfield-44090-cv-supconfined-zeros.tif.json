@@ -1,0 +1,41 @@
+{
+ "file": "gems32-heatfield-44090-cv-supconfined-zeros.tif",
+ "sha256": "a84734ab532fffde07e8ecd5ee55a702f776ee6a96c31a01e00f2c8509897210",
+ "bytes": 780107,
+ "profile": {
+  "shape": [
+   3730,
+   3292
+  ],
+  "crs": "EPSG:32611",
+  "res": [
+   100.0,
+   100.0
+  ],
+  "dtype": "float32",
+  "count": 1,
+  "nodata": "None"
+ },
+ "checks": {
+  "single_band_float32": true,
+  "grid_matches_template": true,
+  "nodata_tag_is_none": true,
+  "all_cells_finite": true,
+  "nan_cells": 0,
+  "min_value": 0.0,
+  "max_value": 1.0,
+  "values_outside_[0,1]": 0,
+  "positive_px": 44090,
+  "portal_legal": true
+ },
+ "evidence_class": "format checks MEASURED on the written bytes; the DTI below is a cross-validated estimate against the visible catalogue, which is a proxy, never an organiser receipt",
+ "cross_validated_dti": {
+  "protocol_whole_raster_vs_withheld_quadrant_at_44090": 0.125,
+  "protocol_whole_raster_peak": 0.133,
+  "protocol_whole_raster_peak_n": 88000,
+  "protocol_oracle_location_at_44090": 0.3042,
+  "incumbent_dotted_d2_8_same_protocol_at_44090": 0.1087,
+  "uniform_random_same_protocol_at_44090": 0.0498
+ },
+ "note": "top-44,090 pixels of a 35-channel gradient-boosted field, cross-validated on four spatially blocked quadrants with a 30 px buffer"
+}

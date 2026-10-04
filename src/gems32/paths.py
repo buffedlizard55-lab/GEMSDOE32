@@ -14,11 +14,10 @@ def data_dir() -> Path:
     if env:
         return Path(env).expanduser()
     cache = ROOT / ".cache" / "gems_data"
-    primary = ROOT / "data"
-    if (cache / "core" / "training_features.tif").exists() or (cache / "training_features.tif").exists():
-        return cache
-    if (primary / "core" / "training_features.tif").exists() or (primary / "training_features.tif").exists():
-        return primary
+    for cand in (cache, ROOT / "data", ROOT / "data" / "raw"):
+        for stem in ("core", ""):
+            if (cand / stem / "training_features.tif").exists():
+                return (cand / stem) if stem else cand
     return cache
 
 

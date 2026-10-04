@@ -146,8 +146,24 @@ def coverage_credit(field: np.ndarray, footprint: np.ndarray) -> np.ndarray:
     """
     f = np.asarray(field, dtype=np.float32) * footprint
     gain = np.zeros_like(f)
-    for dy, dx, k in _OFF:
+    for dy, dx, k in zip(*_OFF):
         gain += k * _cover_update(f, dy, dx)
+    return gain * footprint
+
+
+def coverage_credit_residual(field: np.ndarray, footprint: np.ndarray,
+                             C: np.ndarray) -> np.ndarray:
+    """EXACT marginal gain with the coverage already delivered deducted.
+
+    ``gain(x) = sum_o f(x+o) * max(0, k(o) - C(x+o))`` -- the objective emitter.py maximises.
+    Computing it as a sum of shifted products is exact and costs the same 29 shifts as the
+    un-deducted ``coverage_credit``.
+    """
+    f = np.asarray(field, dtype=np.float32) * footprint
+    gain = np.zeros_like(f)
+    for dy, dx, k in zip(*_OFF):
+        w = f * np.maximum(0.0, np.float32(k) - C)
+        gain += _cover_update(w, dy, dx)
     return gain * footprint
 
 
@@ -173,8 +189,8 @@ def greedy_cover(field: np.ndarray, n: int, footprint: np.ndarray, min_dist: flo
             break
         y, x = divmod(i, f.shape[1])
         chosen[y, x] = True
-        # update coverage and the gain of the neighbourhood only (cheap because R = 3 px)
-        for dy, dx, k in _OFF:
+        # update the coverage map only in the neighbourhood (cheap because R = 3 px)
+        for dy, dx, k in zip(*_OFF):
             yy, xx = y + dy, x + dx
             if 0 <= yy < f.shape[0] and 0 <= xx < f.shape[1]:
                 newC = max(C[yy, xx], k)
@@ -185,7 +201,7 @@ def greedy_cover(field: np.ndarray, n: int, footprint: np.ndarray, min_dist: flo
             y0, y1 = max(0, y - r), min(f.shape[0], y + r + 1)
             x0, x1 = max(0, x - r), min(f.shape[1], x + r + 1)
             blocked[y0:y1, x0:x1] = True
-        gain = coverage_credit(f, footprint) * (1.0 - C)     # full recompute: exact and simple
+        gain = coverage_credit_residual(f, footprint, C)     # exact, recomputed each step
     return chosen
 
 

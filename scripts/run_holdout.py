@@ -118,9 +118,13 @@ def main() -> int:
     (ROOT / "evidence" / f"holdout_run{a.tag}.json").write_text(json.dumps(out, indent=1) + "\n")
 
     # ---- every holdout evaluation is logged as data for the surrogate, submitted or not
-    for a, v in summary["arms_mean"].items():
-        bo.append_observation(bo.Observation(kind="holdout", name=f"{PREREG['id']}:{a}", score=float(v),
-                                             n_px=float(summary["arms_mean_n_px"].get(a, 0.0)),
+    # BUGFIX 2026-10-04 (IR-32-SCRIPT-01): this loop used the name ``a``, which shadowed the
+    # argparse Namespace built at the top of this function.  The evidence JSON was written before
+    # the loop, but the closing print raised ``'str' object has no attribute 'tag'``, so the run
+    # appeared to fail even though it had succeeded.  The loop variable is now ``arm``.
+    for arm, v in summary["arms_mean"].items():
+        bo.append_observation(bo.Observation(kind="holdout", name=f"{PREREG['id']}:{arm}", score=float(v),
+                                             n_px=float(summary["arms_mean_n_px"].get(arm, 0.0)),
                                              source="run_holdout", meta={"prereg": PREREG["id"]}))
     print(json.dumps(summary, indent=1))
     print(f"wrote evidence/holdout_run{a.tag}.json in {'%.1f' % out['seconds']}s")

@@ -1,0 +1,429 @@
+{
+ "preregistration": {
+  "id": "GEMSDOE32-PREREG-2",
+  "statement": "Emission-ladder holdout: does greedy maximum-expected-coverage packing of the same field beat the incumbent raster-order thinning cascade at MATCHED emitted mass, under the official metric, on spatially blocked proxy truth?",
+  "blocks": "4 quadrants of the footprint, 30 px buffer between train and held-out block",
+  "detector": "HistGradientBoosting(max_iter=80, learning_rate=0.1, max_leaf_nodes=31)",
+  "training_sample": "<=60k positive / 240k negative pixels drawn from the other three quadrants",
+  "channels": "all 35 structural channels (memory-mapped stack, registry/feature_receipt.json)",
+  "budget_px": 9000,
+  "prior_dti": 0.26,
+  "rho_two_round": 1.0,
+  "arms": {
+   "A1_greedy_fixed_budget": "greedy max-expected-coverage, exactly budget pixels",
+   "A2_greedy_credit_bar": "same greedy, stop when marginal expected credit < 0.2*prior_dti",
+   "A3_greedy_bar_discovery": "same greedy, bar = 0.2*prior_dti/(1+rho)  (two-round objective)",
+   "A0_dot_thin_matched": "incumbent's own rule: raster-order dot-thin, count matched to A1",
+   "A5_nms_ridge_matched": "non-max-suppressed ridge peaks, top-k to A1's count",
+   "A4_random_matched": "uniform random pixels, count matched to A1"
+  },
+  "primary_contrast": "A1 - A0 (matched mass); secondary: A2 - A0, A3 - A2, A5 - A0",
+  "promotion_rule": "mean paired contrast > 0 on >= 3 of 4 folds, else no promotion",
+  "honesty": "The proxy truth is the visible catalogue, so this instrument CANNOT reward a prediction that is off-catalogue -- the population the real test set is drawn from. A pass licenses packaging a candidate, never a claim of a score.",
+  "amended_from": "GEMSDOE32-PREREG-1",
+  "amendment_reason": "PREREG-1's bar arm was non-binding on the first two folds (prior DTI 0.13 -> bar 0.026 while observed marginals were 1-4), so the bar could not discriminate; the amendment prices the bar at the live anchor (0.26) and adds a second mass-matched control. Fold-0/1 results of PREREG-1 are kept in git history."
+ },
+ "receipt": {
+  "channels": [
+   "band01",
+   "band02",
+   "band03",
+   "band04",
+   "band05",
+   "band06",
+   "band07",
+   "band08",
+   "band09",
+   "band10",
+   "band11",
+   "band12",
+   "band13",
+   "band14",
+   "band15",
+   "band16",
+   "band17",
+   "band18",
+   "band19",
+   "curv_s1",
+   "curv_s2",
+   "ridge_s1",
+   "ridge_s2",
+   "ridge_s3",
+   "relief5",
+   "tophat2",
+   "tmi_edge",
+   "rtp_edge",
+   "grav_edge",
+   "cond_edge",
+   "depth_grad",
+   "coherence_s2",
+   "strike_cos",
+   "strike_sin",
+   "footprint"
+  ],
+  "n_channels": 35,
+  "shape": [
+   3730,
+   3292
+  ],
+  "footprint_px": 5165852,
+  "path": "/tmp/gems32/work/feature_stack.npy",
+  "seconds": 146.8
+ },
+ "footprint_px": 5165852,
+ "folds": [
+  {
+   "arms": {
+    "A1_greedy_fixed_budget": {
+     "dti": 0.10213080404604617,
+     "n_px": 9000,
+     "credit": 2609.700942448725,
+     "marginal_last": 1.7621947526931763
+    },
+    "A2_greedy_live_bar": {
+     "dti": 0.10213080404604617,
+     "n_px": 9000,
+     "credit": 2609.700942448725,
+     "bar": 0.052000000000000005,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 1.7621947526931763
+     }
+    },
+    "A3_greedy_discovery_bar": {
+     "dti": 0.10213080404604617,
+     "n_px": 9000,
+     "credit": 2609.700942448725,
+     "bar": 0.026000000000000002,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 1.7621947526931763
+     }
+    },
+    "A0_dot_thin_matched_n1": {
+     "dti": 0.0967922212995152,
+     "n_px": 9220,
+     "credit": 2471.0601725809847
+    },
+    "A0_dot_thin_matched_n2": {
+     "dti": 0.0967922212995152,
+     "n_px": 9220,
+     "credit": 2471.0601725809847
+    },
+    "A5_nms_ridge_matched_n1": {
+     "dti": 0.09031907233239773,
+     "n_px": 9000,
+     "credit": 2301.306125966653
+    },
+    "A4_random_control_n1": {
+     "dti": 0.0051209877755843064,
+     "n_px": 9000,
+     "credit": 129.0
+    }
+   },
+   "bar": 0.052000000000000005,
+   "budget": 9000,
+   "auc": 0.6375125318897072,
+   "n_truth": 29297,
+   "n1": 9000,
+   "n2": 9000,
+   "seed": 1000,
+   "block": [
+    0,
+    1865,
+    0,
+    1646
+   ],
+   "seconds": 158.2
+  },
+  {
+   "arms": {
+    "A1_greedy_fixed_budget": {
+     "dti": 0.22255239291776463,
+     "n_px": 9000,
+     "credit": 2136.7308152060277,
+     "marginal_last": 1.4809119701385498
+    },
+    "A2_greedy_live_bar": {
+     "dti": 0.22255239291776463,
+     "n_px": 9000,
+     "credit": 2136.7308152060277,
+     "bar": 0.052000000000000005,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 1.4809119701385498
+     }
+    },
+    "A3_greedy_discovery_bar": {
+     "dti": 0.22255239291776463,
+     "n_px": 9000,
+     "credit": 2136.7308152060277,
+     "bar": 0.026000000000000002,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 1.4809119701385498
+     }
+    },
+    "A0_dot_thin_matched_n1": {
+     "dti": 0.2077212907877567,
+     "n_px": 8530,
+     "credit": 1962.3934409533567
+    },
+    "A0_dot_thin_matched_n2": {
+     "dti": 0.2077212907877567,
+     "n_px": 8530,
+     "credit": 1962.3934409533567
+    },
+    "A5_nms_ridge_matched_n1": {
+     "dti": 0.18786180421771978,
+     "n_px": 9000,
+     "credit": 1792.0428570644808
+    },
+    "A4_random_control_n1": {
+     "dti": 0.041725814904447926,
+     "n_px": 9000,
+     "credit": 386.92131067416676
+    }
+   },
+   "bar": 0.052000000000000005,
+   "budget": 9000,
+   "auc": 0.638267078104197,
+   "n_truth": 9433,
+   "n1": 9000,
+   "n2": 9000,
+   "seed": 1001,
+   "block": [
+    1865,
+    3730,
+    0,
+    1646
+   ],
+   "seconds": 136.2
+  },
+  {
+   "arms": {
+    "A1_greedy_fixed_budget": {
+     "dti": 0.22062065690741403,
+     "n_px": 9000,
+     "credit": 2685.3703242812726,
+     "marginal_last": 1.5561586618423462
+    },
+    "A2_greedy_live_bar": {
+     "dti": 0.22062065690741403,
+     "n_px": 9000,
+     "credit": 2685.3703242812726,
+     "bar": 0.052000000000000005,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 1.5561586618423462
+     }
+    },
+    "A3_greedy_discovery_bar": {
+     "dti": 0.22062065690741403,
+     "n_px": 9000,
+     "credit": 2685.3703242812726,
+     "bar": 0.026000000000000002,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 1.5561586618423462
+     }
+    },
+    "A0_dot_thin_matched_n1": {
+     "dti": 0.21902619507687393,
+     "n_px": 9237,
+     "credit": 2664.3343412364857
+    },
+    "A0_dot_thin_matched_n2": {
+     "dti": 0.21902619507687393,
+     "n_px": 9237,
+     "credit": 2664.3343412364857
+    },
+    "A5_nms_ridge_matched_n1": {
+     "dti": 0.19477231191162667,
+     "n_px": 9000,
+     "credit": 2357.1331869169117
+    },
+    "A4_random_control_n1": {
+     "dti": 0.007943499793802229,
+     "n_px": 9000,
+     "credit": 93.99999999999999
+    }
+   },
+   "bar": 0.052000000000000005,
+   "budget": 9000,
+   "auc": 0.7456972962526702,
+   "n_truth": 12579,
+   "n1": 9000,
+   "n2": 9000,
+   "seed": 1002,
+   "block": [
+    0,
+    1865,
+    1646,
+    3292
+   ],
+   "seconds": 144.6
+  },
+  {
+   "arms": {
+    "A1_greedy_fixed_budget": {
+     "dti": 0.2148206917776651,
+     "n_px": 9000,
+     "credit": 2090.660626792585,
+     "marginal_last": 2.09934139251709
+    },
+    "A2_greedy_live_bar": {
+     "dti": 0.2148206917776651,
+     "n_px": 9000,
+     "credit": 2090.660626792585,
+     "bar": 0.052000000000000005,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 2.09934139251709
+     }
+    },
+    "A3_greedy_discovery_bar": {
+     "dti": 0.2148206917776651,
+     "n_px": 9000,
+     "credit": 2090.660626792585,
+     "bar": 0.026000000000000002,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 2.09934139251709
+     }
+    },
+    "A0_dot_thin_matched_n1": {
+     "dti": 0.19421634654003753,
+     "n_px": 8511,
+     "credit": 1856.7456574885723
+    },
+    "A0_dot_thin_matched_n2": {
+     "dti": 0.19421634654003753,
+     "n_px": 8511,
+     "credit": 1856.7456574885723
+    },
+    "A5_nms_ridge_matched_n1": {
+     "dti": 0.19584937232157226,
+     "n_px": 9000,
+     "credit": 1894.3004268088148
+    },
+    "A4_random_control_n1": {
+     "dti": 0.016183456619364097,
+     "n_px": 9000,
+     "credit": 152.33333333333334
+    }
+   },
+   "bar": 0.052000000000000005,
+   "budget": 9000,
+   "auc": 0.7050585135797747,
+   "n_truth": 9585,
+   "n1": 9000,
+   "n2": 9000,
+   "seed": 1003,
+   "block": [
+    1865,
+    3730,
+    1646,
+    3292
+   ],
+   "seconds": 150.1
+  }
+ ],
+ "summary": {
+  "arms_mean": {
+   "A0_dot_thin_matched_n1": 0.17943901342604585,
+   "A0_dot_thin_matched_n2": 0.17943901342604585,
+   "A1_greedy_fixed_budget": 0.19003113641222247,
+   "A2_greedy_live_bar": 0.19003113641222247,
+   "A3_greedy_discovery_bar": 0.19003113641222247,
+   "A4_random_control_n1": 0.01774343977329964,
+   "A5_nms_ridge_matched_n1": 0.16720064019582911
+  },
+  "arms_mean_n_px": {
+   "A0_dot_thin_matched_n1": 8874.5,
+   "A0_dot_thin_matched_n2": 8874.5,
+   "A1_greedy_fixed_budget": 9000.0,
+   "A2_greedy_live_bar": 9000.0,
+   "A3_greedy_discovery_bar": 9000.0,
+   "A4_random_control_n1": 9000.0,
+   "A5_nms_ridge_matched_n1": 9000.0
+  },
+  "contrasts": {
+   "A1_greedy_fixed_budget_minus_A0_dot_thin_matched_n1": {
+    "mean": 0.010592122986176646,
+    "per_fold": [
+     0.005339,
+     0.014831,
+     0.001594,
+     0.020604
+    ],
+    "folds_positive": 4,
+    "n_folds": 4
+   },
+   "A2_greedy_live_bar_minus_A0_dot_thin_matched_n2": {
+    "mean": 0.010592122986176646,
+    "per_fold": [
+     0.005339,
+     0.014831,
+     0.001594,
+     0.020604
+    ],
+    "folds_positive": 4,
+    "n_folds": 4
+   },
+   "A1_greedy_fixed_budget_minus_A5_nms_ridge_matched_n1": {
+    "mean": 0.022830496216393374,
+    "per_fold": [
+     0.011812,
+     0.034691,
+     0.025848,
+     0.018971
+    ],
+    "folds_positive": 4,
+    "n_folds": 4
+   },
+   "A2_greedy_live_bar_minus_A3_greedy_discovery_bar": {
+    "mean": 0.0,
+    "per_fold": [
+     0.0,
+     0.0,
+     0.0,
+     0.0
+    ],
+    "folds_positive": 0,
+    "n_folds": 4
+   },
+   "A1_greedy_fixed_budget_minus_A4_random_control_n1": {
+    "mean": 0.17228769663892285,
+    "per_fold": [
+     0.09701,
+     0.180827,
+     0.212677,
+     0.198637
+    ],
+    "folds_positive": 4,
+    "n_folds": 4
+   }
+  },
+  "primary": {
+   "mean": 0.010592122986176646,
+   "per_fold": [
+    0.005339,
+    0.014831,
+    0.001594,
+    0.020604
+   ],
+   "folds_positive": 4,
+   "n_folds": 4
+  },
+  "promotion_pass": true,
+  "auc_mean": 0.6816338549565872,
+  "n_truth_mean": 15223.5
+ },
+ "seconds": 591.7,
+ "generated_utc": "2026-10-04T04:17:45Z"
+}
