@@ -14,6 +14,21 @@ from gems32.paths import ROOT, data_dir, docs_dir, downloads_dir, evidence_dir
 from gems32.submission import audit_geotiff, sha256_file
 
 
+def _require_inputs(*names):
+    """Skip (never silently pass) when a gitignored competition input is absent.
+
+    ``data/`` is gitignored by design, so a fresh clone and CI have no rasters until
+    ``bash scripts/download_competition_data.sh`` has run.  A test that needs one must say so
+    explicitly rather than fail the build or, worse, pass vacuously.  IR-32-CI-01.
+    """
+    import pytest
+    d = data_dir()
+    missing = [n for n in names if not (d / n).exists()]
+    if missing:
+        pytest.skip(f"competition input(s) absent from {d}: {', '.join(missing)} — run "
+                    f"bash scripts/download_competition_data.sh first")
+
+
 def test_dti_exact_matches_bruteforce():
     rng = np.random.default_rng(32)
     foot = np.ones((48, 48), dtype=bool)
@@ -32,6 +47,7 @@ def test_dti_exact_matches_bruteforce():
 
 
 def test_data_restore_and_sentinel_sanitization_manifests():
+    _require_inputs("training_features.tif")
     restore = json.loads((ROOT / "data" / "restore_receipt.json").read_text())
     assert restore["verified_files_count"] == 22
     assert all(f["status"] == "present" for f in restore["files"])
@@ -63,6 +79,7 @@ def test_d28_forensic_autopsy_verified():
 
 
 def test_bo_surrogate_and_holdout_improvements():
+    _require_inputs("training_features.tif")
     log_json = json.loads((ROOT / "data" / "holdout_surrogate_log.json").read_text())
     records = log_json["evaluations"]
     diag = log_json["diagnostics"]
@@ -95,6 +112,7 @@ def test_bo_surrogate_and_holdout_improvements():
 
 
 def test_all_12_submission_geotiffs_pass_range_01_audit():
+    _require_inputs("sample_submission.tif", "labels.tif")
     ddir = data_dir()
     with rasterio.open(ddir / "sample_submission.tif") as src:
         foot = np.isfinite(src.read(1))
