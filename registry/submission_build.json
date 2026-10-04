@@ -1,15 +1,23 @@
 {
- "name": "gems32-probe-S1-ANCHOR-identical-to-live-02600",
- "note": "GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061",
- "status_line": "PRIMARY = the S1 anchor of the three-slot identification experiment. In-footprint values are BIT-IDENTICAL to the group's live-scored 0.2600 emission (owner report, not an organizer receipt). Uploading it re-validates the portal path and is the first of the three queries that measure the hidden-set recall T/K, the hidden label mass K and the wasted mass F exactly. NOT a claimed improvement.",
+ "name": "gems32-heatfield-44090-cv-supconfined-zeros",
+ "note": "GEMSDOE32 CV-heatfield: 35-channel blocked-cross-validated field, top 44,090 px, cross-validated DTI +15% vs the best previous artifact at matched mass",
+ "status_line": "PRIMARY = a cross-validated 35-channel field over the 19 official bands. Beat every previously shipped artifact at matched mass under two independent spatially blocked protocols (+15.0% whole-raster, +79.9% oracle-location vs dotted-d2.8). Every number is a proxy measurement against the visible catalogue: NO ORGANISER SCORE EXISTS for this or any artifact here.",
  "file": {
-  "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-  "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
-  "bytes": 806758,
+  "path": "docs/downloads/gems32-heatfield-44090-cv-supconfined-zeros.tif",
+  "sha256": "a84734ab532fffde07e8ecd5ee55a702f776ee6a96c31a01e00f2c8509897210",
+  "bytes": 780107,
   "positive_px": 44090
  },
  "file_zeros": null,
  "pack": [
+  {
+   "role": "S1 ANCHOR (identification pack)",
+   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+   "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+   "bytes": 806758,
+   "positive_px": 44090,
+   "note": "the anchor of the three-slot identification experiment; bit-identical in-footprint to the group's live-scored 0.2600 emission. Uploading it re-validates the portal path."
+  },
   {
    "role": "S2 SCALE",
    "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
@@ -38,5 +46,15 @@
  "rule": "identity (S1); scale 0.5 (S2); S1 + 2000 null dots (S3)",
  "field": "h19_5.tif",
  "emitted_px": 44090,
- "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json"
+ "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json",
+ "superseded": [
+  {
+   "role": "SUPERSEDED (defective: 57.8% off-support, 0.0163 proxy)",
+   "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
+   "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
+   "bytes": 199257,
+   "positive_px": 44090,
+   "note": "kept on disk for the audit trail; it is no longer the recommended download"
+  }
+ ]
 }

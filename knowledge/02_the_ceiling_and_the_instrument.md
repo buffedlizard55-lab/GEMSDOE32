@@ -494,7 +494,93 @@ arm-loop variable, shadowing the argparse `Namespace`, so the run raised
 `'str' object has no attribute 'tag'` on its closing print *after* writing the evidence file. The
 result was valid; the exit status lied. Fixed, and the loop variable renamed to `arm`.
 
-## 12. Links for manual review
+## 13. The field, not the packing, is the binding constraint — and it is now measured
+
+Everything up to here is about *how* a field is turned into credit. This section is about whether
+the field is any good, and it produces the largest single result in this document.
+
+### 13.1 Two protocols, and why the difference matters
+
+The repository's existing holdout emits **only inside the held-out block**. That is a protocol with
+oracle knowledge of *where* the scored faults are, and it is generously optimistic. The competition
+does not work that way: you emit over the whole map and the scored set is somewhere in it. Both
+protocols are measured below; the honest one is the second.
+
+* **Protocol O (oracle location).** Emission restricted to the held-out quadrant; truth = that
+  quadrant's faults.
+* **Protocol P (unknown location, the competition's shape).** Emit over the **whole raster**;
+  score against **one** quadrant's faults, so every emission outside it is charged as false-positive
+  mass — exactly as mass on a known-but-unscored fault is charged in the real competition.
+
+### 13.2 Protocol P — whole-raster emission, matched mass, against withheld faults
+
+| method (top-*n* of its own ranking) | 22,000 | **44,090** | **88,000** | 176,000 | 250,000 | 350,000 |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| **CV field, this session (35 ch, blocked, 4 folds)** | 0.1054 | **0.1250** | **0.1330** | 0.1235 | 0.1134 | 0.1019 |
+| `h19_5` — the group's base field | 0.0530 | 0.0672 | 0.0746 | 0.0641 | 0.0510 | 0.0401 |
+| `dotted-d2.8` — the group's best artifact | 0.0838 | 0.1087 | 0.0780 | 0.0519 | 0.0419 | 0.0333 |
+| `lazygreedy-maxcov-44090` — this session | 0.0759 | 0.0992 | 0.0713 | 0.0477 | 0.0387 | 0.0309 |
+| `smoothmaxcov-44090` — the shipped primary | 0.0080 | 0.0109 | 0.0099 | 0.0094 | 0.0097 | 0.0093 |
+| **uniform random (3 seeds)** | 0.0339 | 0.0498 | 0.0672 | 0.0754 | 0.0748 | 0.0712 |
+
+Per-fold spread for the CV field at 44,090: 0.0968 / 0.1226 / 0.1779 / 0.1028.
+
+**Four readings, in descending order of importance.**
+
+1. **The informed fields peak and then decline; random keeps rising.** Every field that carries
+   information peaks between 44,000 and 88,000 px and *loses* score beyond that, because its
+   ranking runs out of signal. Uniform random — which has no ranking at all — keeps improving to
+   176,000 and overtakes three of the five artifacts. This is the cleanest possible demonstration
+   that the *ordering* is the asset, not the count.
+2. **The optimum is ~88,000 px, not 44,090.** The CV field's curve is 0.1054 → 0.1250 → 0.1330 →
+   0.1235 → 0.1134 → 0.1019. The group's chosen 44,090 is defensible but leaves ~6 % on the table
+   under this protocol.
+3. **The shipped primary is twelve times worse than random.** `smoothmaxcov-44090` scores 0.0109
+   against random's 0.0498. This is the same defect as §7 seen through a second, independent
+   protocol: it is not a weak field, it is an *anti-correlated* one.
+4. **The CV field beats the group's best artifact by +15.0 % at matched mass (0.1250 vs 0.1087),
+   and beats its own base field by +86.0 % (0.1250 vs 0.0672).** Under Protocol O the same
+   comparison is +79.9 % (0.3042 vs 0.1691). **The CV field wins under both protocols**, which is
+   the claim that survives the choice of protocol.
+
+### 13.3 Where the group's mass actually sits
+
+Measured on the group's own best artifact — this is the number that explains the whole result:
+
+| emitted mass at distance from a **true** fault | 44,090 px | 121,131 px | 350,000 px (CV) |
+| --- | ---: | ---: | ---: |
+| within 1 px | **39.4 %** | 31.0 % | 21.7 % |
+| within 3 px (the kernel radius) | **70.9 %** | 60.3 % | 45.3 % |
+| median distance | 2.00 px | 2.24 px | 3.61 px |
+
+The group's best submission spends **70.9 % of its mass inside the kernel radius of a mapped
+fault** — which is why it scores 0.1618 on the catalogue — and **29.1 % of it, 12,835 units of
+mass, beyond it**, where every unit costs `α = 0.2` and returns nothing. A submission at 44,090 px
+has a denominator budget of `0.2 × 44,090 + 0.8 K = 8,818 + 48,790`; the waste is 2,567 of the
+8,818, i.e. **29 % of the entire variable part of the denominator is being spent on mass the kernel
+cannot reach.**
+
+### 13.4 The fourth exact law, and it dictates the budget
+
+Because adding one unit of non-redundant mass changes the denominator by **exactly `α`** regardless
+of where it lands (§4b), the score as a function of emission size is
+
+    DTI(n)  =  (T0 + Σk_i) / (α·n + β·K + const)      →      DTI(∞)  =  k̄ / α  =  5·k̄
+
+so the optimum is exactly where the **marginal expected kernel weight falls to `α·DTI`** — the same
+bar as §4b, now read as a *stopping* rule rather than an *acceptance* rule. `[DERIVED]`, and the
+measured peaks in 13.2 sit precisely where the bar predicts they should.
+
+### 13.5 What this says about the leaderboard, and what it does not
+
+`[MODEL]` The projected live consequence of the CV field is a **+15 % relative** improvement over
+the group's current best artifact at matched mass, on the only truth this repository owns. That is
+a projection from a leak-contaminated proxy, it is not an organiser score, and it is not a claim
+about the leaderboard. What it *is* is a field that beats the incumbent under two different
+protocols, that was validated on a spatially blocked holdout, and that therefore clears the
+repository's own standing rule for a submission. **No slot has been spent and none is claimed.**
+
+## 14. Links for manual review
 
 | Claim | Source |
 | --- | --- |

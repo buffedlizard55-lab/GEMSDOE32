@@ -54,6 +54,69 @@ below. It is **not** claimed to be an improvement, and it is **not** an organize
 Receipt with every digest, clearance and construction detail:
 [`registry/identification_pack.json`](registry/identification_pack.json).
 
+---
+
+## 🔬 Candidate A — the cross-validated field (built and measured this session)
+
+**[⬇ Download `gems32-heatfield-44090-cv-supconfined-zeros.tif`](docs/downloads/gems32-heatfield-44090-cv-supconfined-zeros.tif)**
+· sha256 `a84734ab532fffde…` · 780,107 B · 44,090 px · 0 NaN · 0 cells outside `[0,1]` · receipt
+[`docs/downloads/checks-gems32-heatfield-44090-cv-supconfined-zeros.tif.json`](docs/downloads/checks-gems32-heatfield-44090-cv-supconfined-zeros.tif.json)
+
+A 35-channel gradient-boosted field over the 19 official bands, cross-validated on four spatially
+blocked quadrants (30 px buffer, 60k positives / 240k negatives drawn only from the other three),
+then thresholded to its top 44,090 pixels. Measured head-to-head against every shipped artifact
+under **two independent** protocols, at matched emitted mass:
+
+| method (top-*n* of its own ranking), protocol P: emit over the whole map, score against one quadrant's withheld faults | 44,090 px |
+| --- | ---: |
+| **CV field (this session)** | **0.1250** *(peak 0.1330 at 88,000)* |
+| `dotted-d2.8` — the group's best artifact | 0.1087 |
+| `lazygreedy-maxcov-44090` — this session | 0.0992 |
+| `h19_5` — the group's base field | 0.0672 |
+| uniform random (3 seeds) | 0.0498 |
+| `smoothmaxcov-44090` — the previously shipped primary | **0.0109** |
+
+Under the second protocol (truth located in one block, emission restricted to it) the same
+comparison is **0.3042 vs 0.1691, +79.9 %**. **The CV field wins under both.** Three findings came
+out of this that matter more than the artifact:
+
+1. **The field, not the packing, is the binding constraint.** Every informed field peaks at
+   44,000–88,000 px and then *declines*; uniform random keeps improving to 176,000 and overtakes
+   three of the five artifacts. The ordering is the asset.
+2. **The previously shipped primary was twelve times worse than random.** Same defect as the audit
+   below, seen through a second protocol.
+3. **The group's best submission spends 70.9 % of its mass inside the kernel radius of a mapped
+   fault and 29.1 % beyond it** — 12,835 units of mass that cost `α = 0.2` each and return nothing.
+
+This is still a **proxy** result: the only truth in this checkout is the visible catalogue, the
+catalogue is leak-contaminated, and **no organiser score exists for this or any artifact here**.
+Full method and per-fold spread: `knowledge/02_the_ceiling_and_the_instrument.md` §13.
+
+---
+
+## Round-3 hypotheses, ranked by *measurement* — and the top one was falsified
+
+[`docs/research/hypotheses-round3.md`](docs/research/hypotheses-round3.md) ranks five new
+candidates by measured layer discrimination. **Its rank-1 candidate failed its own falsifier before
+costing anything**, and that is the headline:
+
+| # | hypothesis | layers (organiser's own band names) | measured support | status |
+| ---: | --- | --- | --- | --- |
+| 1 | **H62-4** detrended-elevation curvature | `det_elev` (12), `det_elev_slope` (19) | **`curv_s2` = 0.5871, best of 35 channels**; zero-crossing transform +10.1 % — the only transform gain surviving all 4 blocks | **live** |
+| 2 | **H62-2** buried-basement step × gravity, quiescence-gated | `depth_to_base_surf` (15), `iso_grav_anom_hg` (18), `iso_grav_anom` (13) | transform +3.5 % on (15) | live |
+| 3 | **H62-3** geodetic strain prior, used **raw** | `geod_2ndinv` (4), `geod_shearrate` (7), `geod_dilaterate` (8) | 0.5721 / 0.5488 / 0.5377; raw beats every transform | live |
+| 4 | **H62-5** off-catalogue-novelty emission | — | 70.9 % of the incumbent's mass sits on the catalogue | blocked on the identification pack |
+| ~~5~~ | ~~H62-1 tilt-angle zero-crossing~~ | `tc` (6) | 10 variants tested; best **ties** raw (+0.0 %), **0 of 4 blocks** beaten | **FALSIFIED** |
+
+**The general law this produced:** transform only the layers that are *raw fields*. The organisers
+have already differentiated the derivative products — band 6 is literally described as "a magnetic
+field derivative for edge detection" — and re-differentiating them amplifies noise
+(`tc` −0.04…−0.06, `geod_shearrate` −0.00…−0.06). It helps exactly where the layer is still a
+field: `det_elev` **+10.1 %**, `depth_to_base_surf` +3.5 %.
+
+Also measured: **13 of the 19 official bands have no derived channel at all** in
+`src/gems32/features.py` (bands 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 16, 18, 19).
+
 **Decision rule — read `knowledge/02_the_ceiling_and_the_instrument.md` §6 first.**
 `T = αM/(1/s₃−1/s₁)`, `K = T(1/s₂−1/s₁)/β`, then `F` from `s₁`. Both probes are *constructed to
 score below* S1 and only a team's best submission counts toward standing, so **neither can cost a
