@@ -21,26 +21,44 @@ from __future__ import annotations
 from pathlib import Path
 
 import numpy as np
-import pandas as pd
 import rasterio
 from scipy.ndimage import binary_closing, binary_dilation, distance_transform_edt, gaussian_filter, label
 from scipy.spatial import cKDTree
 
 from .hypotheses import _robust_zpos, load_band, ridge_nms_2d
 
+def _pd():
+    """Import pandas lazily.
+
+    ``gems32.hypotheses33`` is imported by the test suite and by ``scripts/run_h33_validation.py``;
+    only ``load_gdr_thermal_tables`` and the two geothermometry readers actually need pandas. Making
+    the import lazy means a bare checkout (or a CI job that has not installed pandas yet) can still
+    import the module and run everything that does not touch the GDR tables -- a missing optional
+    dependency must never turn into a whole-module ImportError.
+    """
+    try:
+        import pandas as pd
+    except ImportError as exc:                      # pragma: no cover - exercised only without pandas
+        raise RuntimeError(
+            "pandas is required to read the GDR 1391 well/spring tables "
+            "(pip install -r requirements.txt)") from exc
+    return pd
+
+
 # --------------------------------------------------------------------------------------------
 # GDR 1391 measured thermal evidence (already on disk, sha256-pinned in registry/data_manifest.json)
 # --------------------------------------------------------------------------------------------
 
 
-def load_gdr_thermal_tables(ddir: Path) -> dict[str, pd.DataFrame]:
+def load_gdr_thermal_tables(ddir: Path) -> dict:
     """Read the GDR 1391 INGENIOUS well/spring tables that were raster-clipped to this footprint.
 
     Source: https://gdr.openei.org/submissions/1391 (DOI 10.15121/1881483, CC BY 4.0),
     resource "Well and Spring Temperature and Chemistry.zip" (wellspringdata.gdb).
     """
+    pd = _pd()
     base = ddir / "external"
-    out: dict[str, pd.DataFrame] = {}
+    out: dict = {}
     for name in ("gdr_wellspring_in_footprint.csv", "gdr_volcanic_vents_in_footprint.csv",
                  "gdr_qfaults_traces.csv"):
         p = base / name
@@ -94,6 +112,7 @@ def compute_gdr_thermal_prior(ddir: Path, foot: np.ndarray) -> dict[str, np.ndar
     magmatic/hydrothermal heat source, while disagreement between estimators is the signature of
     shallow mixing or conduction, which is what we want to down-weight.
     """
+    pd = _pd()
     tables = load_gdr_thermal_tables(ddir)
     spring = tables.get("gdr_wellspring_in_footprint.csv")
     shape = foot.shape
@@ -206,7 +225,7 @@ def compute_h33_1_thermal_conduit(bands_dir: Path, ddir: Path, foot: np.ndarray)
         "T_reservoir": t_res,
         "z_T": z_t,
         "z_L": z_l,
-        "thermal_stats": {k: v for k, v in thermal.items() if not isinstance(v, (np.ndarray, pd.DataFrame))},
+        "thermal_stats": {k: v for k, v in thermal.items() if not isinstance(v, np.ndarray)},
     }
 
 
