@@ -1,0 +1,166 @@
+{
+ "hypotheses": [
+  {
+   "id": "H60-1",
+   "rank": 1,
+   "title": "Post-catalogue coseismic surface ruptures (Monte Cristo Range 2020 Mw 6.5 and the pre-2020 historical rupture set) as high-precision line targets",
+   "layers": [
+    "USGS/NBMG 2020 MCRE surface-rupture traces (Dee et al., NBMG TR-190; SRL 92(2A))",
+    "19 official bands only as a corroboration filter"
+   ],
+   "signature": "exact mapped rupture polylines rasterised on the 100 m grid (no transform, no detection: the geometry is the measurement)",
+   "why_off_catalogue": "the competition labels are the pre-2020 USGS/INGENIOUS catalogue; the MCRE rupture occurred on 2020-05-15 in *largely unmapped parts of the Candelaria fault* and is by construction absent from a pre-2020 catalogue, while being real, published and trivially verifiable by the expert panel",
+   "differs_from_repo": "the group has emission, packing, Euler, slip-tendency, hydrothermal and catalogue-difference families, but no arm built on post-catalogue coseismic ruptures; H41/SGMC arms used *catalogue* vectors, which cannot contain a fault that post-dates the catalogue",
+   "expected_dti": "0.000 to +0.02 on the public split (single 28 km trace, ~2 % of the group's emitted mass); unbounded on the final round because the expert panel can verify the fault and add it to the expanded label set",
+   "cost": "low (one vector download + rasterise + geometric thinning)",
+   "data_status": "source located and documented (see registry/sources.json); obtainability from this sandbox is blocked (sciencebase.gov unknown-host), so the arm ships as a registered hypothesis with a CI fetch step, not as a claimed result",
+   "status": "registered; not yet measured; no slot"
+  },
+  {
+   "id": "H60-2",
+   "rank": 2,
+   "title": "Catalogue-difference emission: faults mapped in newer state datasets but absent from the competition labels, gated by a geophysical corroboration filter",
+   "layers": [
+    "NBMG Qfaults-INGENIOUS v2 vectors (1,179 features in footprint)",
+    "GDR 1391 trace table",
+    "USGS SGMC 1:24,000 faults",
+    "19 bands for the gate"
+   ],
+   "signature": "distance-to-nearest-newer-catalogue-trace < 2 px AND ridge/curvature corroboration on the detrended DEM",
+   "why_off_catalogue": "the hidden test set is *newly identified* faults: a newer state mapping that post-dates the national catalogue is, by construction, a sample of exactly that population",
+   "differs_from_repo": "the group's H41/SGMC arms emitted catalogue vectors *without* a geophysical gate and both lost their secondary proxy; here the gate is the corroboration filter inside `emission.py` (credit bar), and the arm is scored at matched mass",
+   "expected_dti": "0 to +0.01 proxy",
+   "cost": "medium (vector download + rasterisation + gate)",
+   "data_status": "vectors are hash-pinned in the group's own mirrors (GEMSDOE24) and reachable from this sandbox via the GitHub API",
+   "status": "registered; partially measured (see evidence/)"
+  },
+  {
+   "id": "H60-3",
+   "rank": 3,
+   "title": "Adaptive credit-bar emission: stop the emission where the marginal expected credit per unit mass falls below 0.2 x DTI (the metric's own break-even)",
+   "layers": [
+    "any detector field"
+   ],
+   "signature": "greedy maximum-expected-coverage packing of the field under the official triangular kernel with an *adaptive* stopping rule",
+   "why_off_catalogue": "not a geological hypothesis but the decision rule for every other one: it removes the fixed-count budget that the group's sweeps showed to be family-limited and replaces it with the metric's analytic bar",
+   "differs_from_repo": "H37-1 fixed the packing objective but kept a matched *count*; here the count is an output, and the same rule gives the discovery-weighted variant used for the two-round objective",
+   "expected_dti": "measured on the blocked holdout (see evidence/holdout_run1.json)",
+   "cost": "low (already implemented)",
+   "data_status": "n/a (no new data)",
+   "status": "measured on the blocked holdout"
+  },
+  {
+   "id": "H60-4",
+   "rank": 4,
+   "title": "Two-round discovery option value: lower the emission bar for candidates whose verification is likely, because the same file is re-scored against the expanded label set",
+   "layers": [
+    "any field",
+    "published fault evidence for the verification prior"
+   ],
+   "signature": "objective DTI_1 + rho * DTI_2 with rho set by the prize structure ($50k initial round vs $250k final round); the effective bar becomes 0.2 x DTI / (1 + rho)",
+   "why_off_catalogue": "the initial-round label set is deliberately incomplete, so public-LB maximisation under-prices true-but-unlabelled faults; the metric's alpha = 0.2 (false positives four times cheaper than false negatives) is the organisers' own statement that they want such predictions",
+   "differs_from_repo": "no prior arm, gate or budget in the group's record uses the two-round structure; every promotion bar to date is round-1 only",
+   "expected_dti": "raises the *expected* final-round score; cannot be measured on any local holdout and must be reasoned about from the published prize structure",
+   "cost": "none (a change in the decision rule)",
+   "data_status": "n/a",
+   "status": "implemented as A3 in the holdout ladder and as `rho` in `bo.slot_gate`"
+  },
+  {
+   "id": "H60-5",
+   "rank": 5,
+   "title": "Cross-scale drainage-network organisation (stream-power / knickpoint residuals) as an independent lineament family",
+   "layers": [
+    "1 m / 10 m 3DEP DEM from the official link table (1m_DEM_links.csv)"
+   ],
+   "signature": "chi-profile and knickpoint residuals along the channel network; aligned knickpoints across a basin trace a fault that displaces the network but has no preserved scarp",
+   "why_off_catalogue": "targets faults in alluvium/valley fill with no topographic scarp, i.e. exactly the class a surface-mapping catalogue lacks",
+   "differs_from_repo": "the group ran a drainage arm (H43) that *passed* its primary screen and was withheld on a secondary proxy; it was built on the 100 m detrended surface, and a 1 m/10 m channel network with a chi transform is a different measurement",
+   "expected_dti": "0 to +0.01",
+   "cost": "high (DEM tile download + hydrology)",
+   "data_status": "the official link table is mirrored in the group's repo (`data/dem_links.json`, sha256 8804dbff8754...); tile fetch needs CI egress",
+   "status": "registered; not run (cost), no slot"
+  },
+  {
+   "id": "H61-1",
+   "rank": 1,
+   "title": "Basement-step lineaments gated by surface quiescence",
+   "layers": [
+    "depth_to_base_surf (organizer: 'Depth to basement surface - thickness of sedimentary cover')",
+    "det_elev_slope, det_elev",
+    "iso_grav_anom + iso_grav_anom_hg / _vg / _slope"
+   ],
+   "signature": "multi-scale ridge extraction on the GRADIENT-MAGNITUDE RIDGE (Hessian ridge, 3 scales) of sediment-cover thickness, then skeletonised: a fault-block boundary is a STEP in cover thickness, so the boundary is the crest line of the gradient field, not the gradient blob. Gated by LOW surface expression (small det_elev_slope, small surface curvature).",
+   "why_off_catalogue": "a Quaternary surface-fault catalogue records what is exposed; a block boundary under thick basin fill has no surface trace and therefore cannot be in it. The quiescence gate is the discriminator: it removes exactly the population the catalogue already contains (faults with scarps).",
+   "differs_from_repo": "features.py has only depth_grad = smoothed |grad band15|, a first-derivative magnitude. It never extracts the ridge line of that gradient, never uses the cover-thickness VALUE as a concealment weight, never applies a surface-quiescence gate, and never works at more than one scale. The sibling repository's concealment prior used SGMC map-unit polygons, not the official cover-thickness raster.",
+   "expected_dti": "highest of the five: it changes WHERE mass goes rather than how it is packed",
+   "cost": "low (one official band, already on disk; no new data)",
+   "data_status": "band already fetched and hash-verified (registry/data_manifest.json)",
+   "status": "registered; NOT validated; no slot requested"
+  },
+  {
+   "id": "H61-2",
+   "rank": 2,
+   "title": "Seismicity lineament coupling",
+   "layers": [
+    "ieq_n100a15 (organizer: 'Earthquake intensity or density')",
+    "deq_n100a15 (organizer: 'Distance to earthquake')",
+    "det_elev, det_elev_slope as the corroborating surface witness"
+   ],
+   "signature": "anisotropic ridge / coherence maxima of the seismicity-density field (structure tensor -> coherence + orientation, then non-maximum suppression along the minor axis at two scales), required to coincide with a curvature inflection in the detrended surface. A line of hypocentres is a fault plane; a density blob is not.",
+   "why_off_catalogue": "instrumental seismicity is a DYNAMIC inventory. Blind faults, creeping faults, and faults whose slip rate is too low to have preserved a Quaternary scarp still rupture small earthquakes; a geomorphic catalogue records only the last of those three.",
+   "differs_from_repo": "features.py carries bands 10 and 16 ONLY as raw columns; no derived channel uses them, no registry arm uses seismicity, and there is no ridge, coherence or orientation transform on either band anywhere in the tree.",
+   "expected_dti": "moderate: coverage gain concentrated in basin interiors the field currently under-serves",
+   "cost": "low (bands on disk; free USGS ComCat API optional for hypocentral depths)",
+   "data_status": "bands on disk; ComCat obtainability untested",
+   "status": "registered; NOT validated; no slot requested"
+  },
+  {
+   "id": "H61-3",
+   "rank": 3,
+   "title": "Tilt-angle (TDR) zero-crossing magnetic edge lineaments",
+   "layers": [
+    "tc (organizer: 'Tilt angle or total curvature - magnetic field derivative FOR EDGE DETECTION')",
+    "tmi_vg, tmi_hg, rtp, tmi"
+   ],
+   "signature": "the ZERO-CROSSING CONTOUR of the tilt angle, not its magnitude: the tilt derivative is the standard depth-independent locator for a magnetic contact, whereas the magnitude peaks wander with source depth. Paired with tmi_vg as an independent witness, rejecting where the two disagree.",
+   "why_off_catalogue": "TDR edges respond to SUBSURFACE magnetisation contrasts irrespective of exposure, so they locate contacts under cover and contacts with no topographic expression.",
+   "differs_from_repo": "features.py derives tmi_edge = |grad band14| and rtp_edge = |grad band2| but never touches band 6 or band 9. Band 6 is the layer the organizers describe as being for edge detection and it has NO derived channel in this repo. Measured: tmi_edge correlates with official band 3 at rho = +0.9330 (IR-32-REDUND-01), so the repo spends a channel recomputing a supplied layer while leaving the purpose-built edge layer unused.",
+   "expected_dti": "moderate: strongest where magnetic coverage exists",
+   "cost": "low (bands on disk)",
+   "data_status": "bands on disk",
+   "status": "registered; NOT validated; no slot requested"
+  },
+  {
+   "id": "H61-4",
+   "rank": 4,
+   "title": "GNSS-derived full 2-D strain tensor -> principal-axis anisotropic matched filter",
+   "layers": [
+    "official bands INSUFFICIENT: geod_2ndinv, geod_shearrate and geod_dilaterate are three scalars of a tensor; orientation is not recoverable from them",
+    "external: Nevada Geodetic Laboratory MIDAS velocity field (http://geodesy.unr.edu/) and/or EarthScope/UNAVCO GNSS velocity products (https://www.unavco.org/)"
+   ],
+   "signature": "reconstruct the full 2-D strain-rate tensor from GNSS velocities, take its principal extensional axis, and use that azimuth as the orientation prior of an oriented matched filter (a fault strikes near-perpendicular to sigma_3), tuned per pixel rather than isotropically.",
+   "why_off_catalogue": "orientation predicts WHICH WAY a missing fault must run, so the search can be steered to the mechanically favoured strike where the topographic expression is ambiguous.",
+   "differs_from_repo": "no arm in this repo uses the orientation of the geodetic tensor, because it is not in the supplied data.",
+   "expected_dti": "indirect: sharpening rather than extension",
+   "cost": "medium",
+   "data_status": "NOT OBTAINED and NOT VERIFIED as obtainable from this sandbox; per the standing brief a candidate needing external data must have its source checked as obtainable BEFORE being proposed as viable, so this entry is ranked and explicitly NOT proposed as ready to run",
+   "status": "registered; data obtainability unverified; no slot requested"
+  },
+  {
+   "id": "H61-5",
+   "rank": 5,
+   "title": "Metre-scale scarp matched filter from the official 1 m DEM link table",
+   "layers": [
+    "external: 1 m / 10 m 3DEP DEM tiles from the official 1m_DEM_links.csv",
+    "det_elev, det_elev_slope for context"
+   ],
+   "signature": "anisotropic matched filter for metre-scale scarps; a fault with less than 1 m of throw averaged over a 100 m cell is invisible in the provided grid by construction.",
+   "why_off_catalogue": "below-grid-resolution scarps are precisely the class a 1:24,000-scale surface compilation omits.",
+   "differs_from_repo": "the repo has NO LiDAR arm at all. H60-5 (chi/knickpoint residuals) is registered but was never run; this variant is a matched filter on the scarp itself, which is a cheaper and different measurement.",
+   "expected_dti": "indirect, and the tile fetch plus hydrology is heavy on 2 vCPU",
+   "cost": "high",
+   "data_status": "the official link table is mirrored in a sibling repository (sha256 8804dbff8754...); the tiles themselves were NOT obtained and their obtainability from this sandbox is unverified",
+   "status": "registered; data obtainability unverified; no slot requested"
+  }
+ ]
+}

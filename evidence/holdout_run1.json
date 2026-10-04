@@ -1,0 +1,286 @@
+{
+ "preregistration": {
+  "id": "GEMSDOE32-PREREG-1",
+  "date": "2026-10-04",
+  "harness": "4 quadrant blocks x 1 draw; buffer 30 px removed from training around each block",
+  "detector": "HistGradientBoostingClassifier(max_iter=80, lr=0.1, leaves=31), 60k positives / 240k negatives sampled from the training region only",
+  "budget_px_per_block": 8000,
+  "prior_dti_for_bar": 0.13,
+  "rho_discovery": 1.0,
+  "primary_contrast": "A1/A2 greedy cover vs A0 dot_thin at MATCHED emitted count (paired per fold; pass = mean>0 and >=3/4 folds positive)",
+  "secondary_contrasts": [
+   "A3_greedy_bar_discovery vs A2_greedy_credit_bar",
+   "A5_nms_ridge_matched vs A0_dot_thin_matched"
+  ],
+  "proxy": "the visible catalogue (USGS/INGENIOUS) inside the hidden block; NOT the hidden new-fault labels",
+  "note": "no weekly submission slot is spent on the strength of this proxy alone"
+ },
+ "folds": [
+  {
+   "arms": [
+    {
+     "name": "A1_greedy_fixed_budget",
+     "dti": 0.09332430444336137,
+     "n_px": 8000
+    },
+    {
+     "name": "A2_greedy_credit_bar",
+     "dti": 0.09332430444336137,
+     "n_px": 8000,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 3.9096338748931885
+     }
+    },
+    {
+     "name": "A3_greedy_bar_discovery",
+     "dti": 0.09332430444336137,
+     "n_px": 8000,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 3.9096338748931885
+     }
+    },
+    {
+     "name": "A0_dot_thin_matched",
+     "dti": 0.08326929964064363,
+     "n_px": 7584
+    },
+    {
+     "name": "A5_nms_ridge_matched",
+     "dti": 0.08332937553893478,
+     "n_px": 8000
+    },
+    {
+     "name": "A4_random_control",
+     "dti": 0.004703999069221741,
+     "n_px": 8000
+    }
+   ],
+   "bar": 0.026000000000000002,
+   "budget": 8000,
+   "block": [
+    0,
+    1865,
+    0,
+    1646
+   ],
+   "auc": 0.6299981337475851,
+   "n_pos_train": 30749,
+   "n_pos_test": 29319,
+   "field_mean": 0.1769535094499588,
+   "seconds": 277.0
+  },
+  {
+   "arms": [
+    {
+     "name": "A1_greedy_fixed_budget",
+     "dti": 0.2157498244771567,
+     "n_px": 8000
+    },
+    {
+     "name": "A2_greedy_credit_bar",
+     "dti": 0.2157498244771567,
+     "n_px": 8000,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 2.3751425743103027
+     }
+    },
+    {
+     "name": "A3_greedy_bar_discovery",
+     "dti": 0.2157498244771567,
+     "n_px": 8000,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 2.3751425743103027
+     }
+    },
+    {
+     "name": "A0_dot_thin_matched",
+     "dti": 0.20626483600807705,
+     "n_px": 8538
+    },
+    {
+     "name": "A5_nms_ridge_matched",
+     "dti": 0.1775309874958142,
+     "n_px": 8000
+    },
+    {
+     "name": "A4_random_control",
+     "dti": 0.04188384432219096,
+     "n_px": 8000
+    }
+   ],
+   "bar": 0.026000000000000002,
+   "budget": 8000,
+   "block": [
+    1865,
+    3730,
+    0,
+    1646
+   ],
+   "auc": 0.6577933042023588,
+   "n_pos_train": 50424,
+   "n_pos_test": 9473,
+   "field_mean": 0.21637992560863495,
+   "seconds": 504.8
+  },
+  {
+   "arms": [
+    {
+     "name": "A1_greedy_fixed_budget",
+     "dti": 0.2015293487985005,
+     "n_px": 8000
+    },
+    {
+     "name": "A2_greedy_credit_bar",
+     "dti": 0.2015293487985005,
+     "n_px": 8000,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 3.2445976734161377
+     }
+    },
+    {
+     "name": "A3_greedy_bar_discovery",
+     "dti": 0.2015293487985005,
+     "n_px": 8000,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 3.2445976734161377
+     }
+    },
+    {
+     "name": "A0_dot_thin_matched",
+     "dti": 0.19212027886131422,
+     "n_px": 7420
+    },
+    {
+     "name": "A5_nms_ridge_matched",
+     "dti": 0.18473721005663216,
+     "n_px": 8000
+    },
+    {
+     "name": "A4_random_control",
+     "dti": 0.006951851904835024,
+     "n_px": 8000
+    }
+   ],
+   "bar": 0.026000000000000002,
+   "budget": 8000,
+   "block": [
+    0,
+    1865,
+    1646,
+    3292
+   ],
+   "auc": 0.7342912760912779,
+   "n_pos_train": 47386,
+   "n_pos_test": 12596,
+   "field_mean": 0.17263257503509521,
+   "seconds": 733.3
+  },
+  {
+   "arms": [
+    {
+     "name": "A1_greedy_fixed_budget",
+     "dti": 0.20671087524000017,
+     "n_px": 8000
+    },
+    {
+     "name": "A2_greedy_credit_bar",
+     "dti": 0.20671087524000017,
+     "n_px": 8000,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 3.388190984725952
+     }
+    },
+    {
+     "name": "A3_greedy_bar_discovery",
+     "dti": 0.20671087524000017,
+     "n_px": 8000,
+     "rho": 1.0,
+     "trace_tail": {
+      "stopped": false,
+      "marginal": 3.388190984725952
+     }
+    },
+    {
+     "name": "A0_dot_thin_matched",
+     "dti": 0.19556262977437833,
+     "n_px": 8725
+    },
+    {
+     "name": "A5_nms_ridge_matched",
+     "dti": 0.17712318651341508,
+     "n_px": 8000
+    },
+    {
+     "name": "A4_random_control",
+     "dti": 0.01614126701661198,
+     "n_px": 8000
+    }
+   ],
+   "bar": 0.026000000000000002,
+   "budget": 8000,
+   "block": [
+    1865,
+    3730,
+    1646,
+    3292
+   ],
+   "auc": 0.7036880435626732,
+   "n_pos_train": 50610,
+   "n_pos_test": 9600,
+   "field_mean": 0.26535359025001526,
+   "seconds": 935.9
+  }
+ ],
+ "summary": {
+  "arms_mean": {
+   "A1_greedy_fixed_budget": 0.1793285882397547,
+   "A2_greedy_credit_bar": 0.1793285882397547,
+   "A3_greedy_bar_discovery": 0.1793285882397547,
+   "A0_dot_thin_matched": 0.1693042610711033,
+   "A5_nms_ridge_matched": 0.15568018990119906,
+   "A4_random_control": 0.017420240578214924
+  },
+  "arms_mean_n_px": {
+   "A1_greedy_fixed_budget": 8000.0,
+   "A2_greedy_credit_bar": 8000.0,
+   "A3_greedy_bar_discovery": 8000.0,
+   "A0_dot_thin_matched": 8066.75,
+   "A5_nms_ridge_matched": 8000.0,
+   "A4_random_control": 8000.0
+  },
+  "primary_A2_minus_A0": {
+   "mean": NaN,
+   "folds_positive": 0,
+   "n_folds": 0,
+   "per_fold": []
+  },
+  "secondary_A1_minus_A0": {
+   "mean": NaN,
+   "folds_positive": 0,
+   "n_folds": 0,
+   "per_fold": []
+  },
+  "secondary_A3_minus_A2": {
+   "mean": 0.0,
+   "folds_positive": 0,
+   "n_folds": 4,
+   "per_fold": [
+    0.0,
+    0.0,
+    0.0,
+    0.0
+   ]
+  }
+ },
+ "seconds": 935.9
+}

@@ -1,0 +1,83 @@
+{
+ "question": "which layout of the same mass is best under the live-anchored truth model?",
+ "budget_px": 44090,
+ "draws": 16,
+ "truth_model": {
+  "truth_px": 12691,
+  "sigma_px": 1.85,
+  "source": "GEMSDOE25 H28 (owner-report-derived prior)"
+ },
+ "reference": "incumbent_dot_thin_44090",
+ "summary": {
+  "incumbent_dot_thin_44090": {
+   "mean": 0.28325557203298446,
+   "sd": 0.0013241016947601089,
+   "sem": 0.0003310254236900272,
+   "px": 44090
+  },
+  "greedy_surface_44090": {
+   "mean": 0.27871699553974727,
+   "sd": 0.0008260896624159303,
+   "sem": 0.00020652241560398257,
+   "px": 44090
+  },
+  "greedy_smoothfield_44090": {
+   "mean": 0.29721248501880604,
+   "sd": 0.0016654012210961552,
+   "sem": 0.0004163503052740388,
+   "px": 44090
+  },
+  "paired_greedy_surface_44090_minus_incumbent_dot_thin_44090": {
+   "mean": -0.004538576493237176,
+   "sem": 0.000267199564256717,
+   "draws_positive": 0,
+   "n_draws": 16,
+   "per_draw": [
+    -0.003764,
+    -0.005046,
+    -0.004535,
+    -0.004379,
+    -0.006305,
+    -0.005266,
+    -0.003711,
+    -0.002969,
+    -0.005436,
+    -0.005285,
+    -0.003632,
+    -0.004176,
+    -0.005345,
+    -0.00222,
+    -0.005401,
+    -0.005148
+   ]
+  },
+  "paired_greedy_smoothfield_44090_minus_incumbent_dot_thin_44090": {
+   "mean": 0.013956912985821579,
+   "sem": 0.00031412743856242095,
+   "draws_positive": 16,
+   "n_draws": 16,
+   "per_draw": [
+    0.014,
+    0.013043,
+    0.012316,
+    0.012596,
+    0.012067,
+    0.013613,
+    0.014304,
+    0.014419,
+    0.013295,
+    0.016485,
+    0.015377,
+    0.015169,
+    0.01331,
+    0.015793,
+    0.013975,
+    0.013547
+   ]
+  }
+ },
+ "best_arm": "greedy_smoothfield_44090",
+ "verdict": "greedy_smoothfield_44090 has the highest mean official DTI on paired draws from the truth model (0.2972 vs incumbent 0.2833); paired difference +0.0140 \u00b1 0.0003 with 16/16 draws positive.",
+ "seconds": 396.1,
+ "generated_utc": "2026-10-04T03:02:01Z"
+}

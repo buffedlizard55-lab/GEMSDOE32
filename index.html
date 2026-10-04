@@ -1,0 +1,25 @@
+<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>GEMSDOE32 — download the submission GeoTIFF</title>
+<link rel=canonical href="docs/index.html">
+<link rel=stylesheet href="docs/assets/site.css">
+<meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
+<main class=wrap style="padding-top:26px">
+<h1>GEMSDOE32 — DOE GEMS Prize (DrivenData #306)</h1>
+<div class=dl>
+<h2>&#11015;&nbsp;ONE-CLICK SUBMISSION FILE</h2>
+<p><a class="btn" href="downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif">Download gems32-probe-S1-ANCHOR-identical-to-live-02600.tif</a> </p>
+<p><b>Filename:</b> <code>gems32-probe-S1-ANCHOR-identical-to-live-02600.tif</code><br>
+<b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<code>GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061</code></p>
+<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
+44,090 predicted pixels · every cell finite · every value in [0, 1] ·
+0 NaN anywhere · no nodata tag · sha256 <code>4dc4cc54b061cb45&hellip;</code>
+· <a href="downloads/checks-gems32-probe-S1-ANCHOR-identical-to-live-02600.tif.json">format receipt (independent re-read)</a> </p>
+<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>S2 SCALE</b></td><td><a href="downloads/gems32-probe-S2-SCALE-lambda-0.5.tif">gems32-probe-S2-SCALE-lambda-0.5.tif</a> </td><td class=mut>d6462b76bce1a549&hellip;</td><td class=mut>S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta.</td></tr><tr><td><b>S3 NULL-ADD</b></td><td><a href="downloads/gems32-probe-S3-NULLADD-2000px.tif">gems32-probe-S3-NULLADD-2000px.tif</a> </td><td class=mut>da4193e3a2e04709&hellip;</td><td class=mut>S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1).</td></tr><tr><td><b>CANDIDATE 2 (held)</b></td><td><a href="downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif">gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif</a> </td><td class=mut>f43ea85e2b7f2010&hellip;</td><td class=mut>Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field&#x27;s own surface 90,230.9 vs the incumbent&#x27;s 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout.</td></tr></table>
+<p class=warn><b>Status.</b> PRIMARY = the S1 anchor of the three-slot identification experiment. In-footprint values are BIT-IDENTICAL to the group&#x27;s live-scored 0.2600 emission (owner report, not an organizer receipt). Uploading it re-validates the portal path and is the first of the three queries that measure the hidden-set recall T/K, the hidden label mass K and the wasted mass F exactly. NOT a claimed improvement.</p>
+</div>
+<div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
+irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
+&nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
+</main></body></html>

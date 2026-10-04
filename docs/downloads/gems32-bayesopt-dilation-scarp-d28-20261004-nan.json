@@ -1,0 +1,49 @@
+{
+  "file_path": "/home/user/GEMSDOE32/docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+  "file_name": "gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+  "unique_id": "1e404763feb3",
+  "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+  "timestamp_utc": "20261004T023618Z",
+  "outside_mode": "nan",
+  "portal_compliant_range": false,
+  "emitted_dots_count": 45000,
+  "note": "GEMSDOE32 BayesOpt Top-1 | Holdout DTI: 0.1383 | EI: 0.0000 | dots: 45000 | nan-outside spec",
+  "validation_passed": true,
+  "validation_report": {
+    "file_path": "/home/user/GEMSDOE32/docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+    "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+    "passed": true,
+    "checks": [
+      {
+        "name": "dimensions",
+        "passed": true,
+        "detail": "shape (3730, 3292) (expected (3730, 3292))"
+      },
+      {
+        "name": "band_count",
+        "passed": true,
+        "detail": "bands: 1 (expected 1)"
+      },
+      {
+        "name": "crs",
+        "passed": true,
+        "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+      },
+      {
+        "name": "transform",
+        "passed": true,
+        "detail": "transform matched template"
+      },
+      {
+        "name": "dtype",
+        "passed": true,
+        "detail": "dtype: float32 (expected float32)"
+      },
+      {
+        "name": "in_footprint_range",
+        "passed": true,
+        "detail": "in-footprint range [0.0000, 1.0000], all finite"
+      }
+    ]
+  }
+}

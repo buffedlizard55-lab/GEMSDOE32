@@ -1,0 +1,42 @@
+{
+ "name": "gems32-probe-S1-ANCHOR-identical-to-live-02600",
+ "note": "GEMSDOE32 S1-ANCHOR: identification pack, 3 returns measure T,K,F; bit-identical to live 0.2600; id 4dc4cc54b061",
+ "status_line": "PRIMARY = the S1 anchor of the three-slot identification experiment. In-footprint values are BIT-IDENTICAL to the group's live-scored 0.2600 emission (owner report, not an organizer receipt). Uploading it re-validates the portal path and is the first of the three queries that measure the hidden-set recall T/K, the hidden label mass K and the wasted mass F exactly. NOT a claimed improvement.",
+ "file": {
+  "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+  "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+  "bytes": 806758,
+  "positive_px": 44090
+ },
+ "file_zeros": null,
+ "pack": [
+  {
+   "role": "S2 SCALE",
+   "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
+   "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
+   "bytes": 799095,
+   "positive_px": 44090,
+   "note": "S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta."
+  },
+  {
+   "role": "S3 NULL-ADD",
+   "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
+   "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
+   "bytes": 810344,
+   "positive_px": 46090,
+   "note": "S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1)."
+  },
+  {
+   "role": "CANDIDATE 2 (held)",
+   "path": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
+   "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
+   "bytes": 806599,
+   "positive_px": 44090,
+   "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
+  }
+ ],
+ "rule": "identity (S1); scale 0.5 (S2); S1 + 2000 null dots (S3)",
+ "field": "h19_5.tif",
+ "emitted_px": 44090,
+ "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json"
+}

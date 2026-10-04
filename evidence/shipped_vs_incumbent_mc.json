@@ -1,0 +1,72 @@
+{
+ "instrument": "catalogue-aware generative truth model + official metric, paired draws",
+ "truth_model": {
+  "truth_px": 12691,
+  "sigma_px": 1.85,
+  "pool": "field surface at least 1 px from the given catalogue",
+  "source": "GEMSDOE25 H28 inference (owner-report-derived prior)"
+ },
+ "draws": 12,
+ "summary": {
+  "shipped": {
+   "mean": 0.3038010557564133,
+   "sem": 0.0005061378603935395,
+   "px": 44090,
+   "mean_TP_w": 5531.275525437785
+  },
+  "incumbent": {
+   "mean": 0.27905426642145237,
+   "sem": 0.0007158531603710692,
+   "px": 44090,
+   "mean_TP_w": 5119.976827302436
+  },
+  "surface_greedy": {
+   "mean": 0.27580288966022287,
+   "sem": 0.0006277043883563872,
+   "px": 44090,
+   "mean_TP_w": 5033.161873457625
+  },
+  "paired_shipped_minus_incumbent": {
+   "mean": 0.024746789334960977,
+   "sem": 0.0005361943271261892,
+   "draws_positive": 12,
+   "n_draws": 12,
+   "per_draw": [
+    0.022702,
+    0.026233,
+    0.025393,
+    0.022086,
+    0.027279,
+    0.025482,
+    0.024677,
+    0.027683,
+    0.024687,
+    0.025284,
+    0.0226,
+    0.022855
+   ]
+  },
+  "paired_surface_greedy_minus_incumbent": {
+   "mean": -0.0032513767612294825,
+   "sem": 0.0003785471151731023,
+   "draws_positive": 0,
+   "n_draws": 12,
+   "per_draw": [
+    -0.003228,
+    -0.001871,
+    -0.002993,
+    -0.004192,
+    -0.00225,
+    -0.00292,
+    -0.00147,
+    -0.002474,
+    -0.003883,
+    -0.0036,
+    -0.00649,
+    -0.003647
+   ]
+  }
+ },
+ "seconds": 137.7,
+ "generated_utc": "2026-10-04T03:12:16Z"
+}

@@ -1,0 +1,306 @@
+{
+  "timestamp_utc": "2026-10-04T02:36:18+00:00",
+  "top_candidate": {
+    "id": "H32-5_Alteration_Composite",
+    "name": "GeoDAWN Radiometric Alteration & Magnetic Demagnetization",
+    "layers": "Airborne Radiometric K/Th ratio + TMI gradient",
+    "design_vector": {
+      "spacing_px": 2.8,
+      "prob_threshold": 0.93,
+      "scarp_weight": 0.3,
+      "vent_weight": 0.3,
+      "dilation_weight": 0.3,
+      "loss_boundary_weight": 0.3
+    },
+    "mean_holdout_dti": 0.13829535301301707,
+    "surrogate_mean": 0.13163974937842884,
+    "surrogate_std": 0.024357545222597872,
+    "expected_improvement": 2.7254863004804942e-11,
+    "decision": {
+      "spend_slot_recommendation": false,
+      "candidate_id": "H32-5_Alteration_Composite",
+      "holdout_dti": 0.13829535301301707,
+      "current_best_holdout": 0.26,
+      "expected_improvement": 0.0,
+      "surrogate_mean": 0.13829527747807557,
+      "surrogate_std": 8.702545998449494e-05,
+      "justification": "Holdout DTI (0.1383) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+    }
+  },
+  "all_candidates": [
+    {
+      "id": "H32-1_Extensional_Dilation",
+      "name": "Anisotropic Extensional Dilation & Permeability Tendency",
+      "layers": "GeoDAWN TMI + LiDAR scarp strike orientation",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.95,
+        "scarp_weight": 0.35,
+        "vent_weight": 0.2,
+        "dilation_weight": 0.45,
+        "loss_boundary_weight": 0.25
+      },
+      "mean_holdout_dti": 0.13292917404176696,
+      "surrogate_mean": 0.25902212460868507,
+      "surrogate_std": 0.007908508270606136,
+      "expected_improvement": 0.0002976685316543869,
+      "decision": {
+        "spend_slot_recommendation": false,
+        "candidate_id": "H32-1_Extensional_Dilation",
+        "holdout_dti": 0.13292917404176696,
+        "current_best_holdout": 0.26,
+        "expected_improvement": 0.0,
+        "surrogate_mean": 0.13293735128062428,
+        "surrogate_std": 0.0007413068495584564,
+        "justification": "Holdout DTI (0.1329) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+      }
+    },
+    {
+      "id": "H32-2_MultiScale_Scarp",
+      "name": "Multi-Scale Topographic Knickpoint & Scarp Curvature",
+      "layers": "1m LiDAR DEM profile curvature & step gradients",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.94,
+        "scarp_weight": 0.5,
+        "vent_weight": 0.15,
+        "dilation_weight": 0.25,
+        "loss_boundary_weight": 0.25
+      },
+      "mean_holdout_dti": 0.1372997330393487,
+      "surrogate_mean": 0.20820729351044173,
+      "surrogate_std": 0.05041125405321698,
+      "expected_improvement": 0.002681913735832421,
+      "decision": {
+        "spend_slot_recommendation": false,
+        "candidate_id": "H32-2_MultiScale_Scarp",
+        "holdout_dti": 0.1372997330393487,
+        "current_best_holdout": 0.26,
+        "expected_improvement": 0.0,
+        "surrogate_mean": 0.13729401895436122,
+        "surrogate_std": 0.00022264979992934165,
+        "justification": "Holdout DTI (0.1373) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+      }
+    },
+    {
+      "id": "H32-3_Vent_Corridor",
+      "name": "Quaternary Volcanic Vent Alignment & Geothermal Corridor Projection",
+      "layers": "GDR Quaternary volcanic vents + 2m temperature probes",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.94,
+        "scarp_weight": 0.25,
+        "vent_weight": 0.45,
+        "dilation_weight": 0.3,
+        "loss_boundary_weight": 0.2
+      },
+      "mean_holdout_dti": 0.13782265624194698,
+      "surrogate_mean": 0.2598590889522255,
+      "surrogate_std": 0.003383976123800949,
+      "expected_improvement": 1.3081530913381362e-06,
+      "decision": {
+        "spend_slot_recommendation": false,
+        "candidate_id": "H32-3_Vent_Corridor",
+        "holdout_dti": 0.13782265624194698,
+        "current_best_holdout": 0.26,
+        "expected_improvement": 0.0,
+        "surrogate_mean": 0.13782278613632404,
+        "surrogate_std": 9.17054924120839e-05,
+        "justification": "Holdout DTI (0.1378) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+      }
+    },
+    {
+      "id": "H32-4_Relay_Stepover",
+      "name": "En-Echelon Relay Ramp & Fault Tip Step-Over Stress Concentration",
+      "layers": "USGS SGMC fault tip interaction & secondary stress zones",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.93,
+        "scarp_weight": 0.3,
+        "vent_weight": 0.25,
+        "dilation_weight": 0.35,
+        "loss_boundary_weight": 0.2
+      },
+      "mean_holdout_dti": 0.1361688283363153,
+      "surrogate_mean": 0.2440136201794557,
+      "surrogate_std": 0.021294573054881773,
+      "expected_improvement": 0.001145712477239816,
+      "decision": {
+        "spend_slot_recommendation": false,
+        "candidate_id": "H32-4_Relay_Stepover",
+        "holdout_dti": 0.1361688283363153,
+        "current_best_holdout": 0.26,
+        "expected_improvement": 0.0,
+        "surrogate_mean": 0.13616890696859274,
+        "surrogate_std": 0.00020970007661956454,
+        "justification": "Holdout DTI (0.1362) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+      }
+    },
+    {
+      "id": "H32-5_Alteration_Composite",
+      "name": "GeoDAWN Radiometric Alteration & Magnetic Demagnetization",
+      "layers": "Airborne Radiometric K/Th ratio + TMI gradient",
+      "design_vector": {
+        "spacing_px": 2.8,
+        "prob_threshold": 0.93,
+        "scarp_weight": 0.3,
+        "vent_weight": 0.3,
+        "dilation_weight": 0.3,
+        "loss_boundary_weight": 0.3
+      },
+      "mean_holdout_dti": 0.13829535301301707,
+      "surrogate_mean": 0.13163974937842884,
+      "surrogate_std": 0.024357545222597872,
+      "expected_improvement": 2.7254863004804942e-11,
+      "decision": {
+        "spend_slot_recommendation": false,
+        "candidate_id": "H32-5_Alteration_Composite",
+        "holdout_dti": 0.13829535301301707,
+        "current_best_holdout": 0.26,
+        "expected_improvement": 0.0,
+        "surrogate_mean": 0.13829527747807557,
+        "surrogate_std": 8.702545998449494e-05,
+        "justification": "Holdout DTI (0.1383) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+      }
+    },
+    {
+      "id": "H32-Top_BayesOpt_Hybrid",
+      "name": "Surrogate-Optimized Multi-Physics Geothermal Discovery Hybrid",
+      "layers": "Multi-scale LiDAR scarp + Dilation + Vent Corridors + SGMC Off-catalogue + Boundary Loss",
+      "design_vector": {
+        "spacing_px": 2.85,
+        "prob_threshold": 0.955,
+        "scarp_weight": 0.4,
+        "vent_weight": 0.3,
+        "dilation_weight": 0.4,
+        "loss_boundary_weight": 0.3
+      },
+      "mean_holdout_dti": 0.13471358316738574,
+      "surrogate_mean": 0.17515577021933967,
+      "surrogate_std": 0.03586613189236202,
+      "expected_improvement": 4.5543843694806124e-05,
+      "decision": {
+        "spend_slot_recommendation": false,
+        "candidate_id": "H32-Top_BayesOpt_Hybrid",
+        "holdout_dti": 0.13471358316738574,
+        "current_best_holdout": 0.26,
+        "expected_improvement": 0.0,
+        "surrogate_mean": 0.1347141869898238,
+        "surrogate_std": 0.00019861570353902773,
+        "justification": "Holdout DTI (0.1347) did not beat best holdout (0.2600); Expected Improvement (0.00000) is below threshold (0.00500)"
+      }
+    }
+  ],
+  "deliverables": {
+    "portal_safe": {
+      "file_path": "/home/user/GEMSDOE32/docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+      "file_name": "gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+      "unique_id": "2c1861f1dbf5",
+      "sha256": "2c1861f1dbf5bfe7e594db93cf2fedb5708e345b150c4ab58538a1fd1391047d",
+      "timestamp_utc": "20261004T023618Z",
+      "outside_mode": "zeros",
+      "portal_compliant_range": true,
+      "emitted_dots_count": 45000,
+      "note": "GEMSDOE32 BayesOpt Top-1 | Holdout DTI: 0.1383 | EI: 0.0000 | dots: 45000 | 0.0-outside portal-safe",
+      "validation_passed": true,
+      "validation_report": {
+        "file_path": "/home/user/GEMSDOE32/docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+        "sha256": "2c1861f1dbf5bfe7e594db93cf2fedb5708e345b150c4ab58538a1fd1391047d",
+        "passed": true,
+        "checks": [
+          {
+            "name": "dimensions",
+            "passed": true,
+            "detail": "shape (3730, 3292) (expected (3730, 3292))"
+          },
+          {
+            "name": "band_count",
+            "passed": true,
+            "detail": "bands: 1 (expected 1)"
+          },
+          {
+            "name": "crs",
+            "passed": true,
+            "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+          },
+          {
+            "name": "transform",
+            "passed": true,
+            "detail": "transform matched template"
+          },
+          {
+            "name": "dtype",
+            "passed": true,
+            "detail": "dtype: float32 (expected float32)"
+          },
+          {
+            "name": "in_footprint_range",
+            "passed": true,
+            "detail": "in-footprint range [0.0000, 1.0000], all finite"
+          },
+          {
+            "name": "portal_safe_whole_array",
+            "passed": true,
+            "detail": "whole-array range [0.0000, 1.0000], finite=True"
+          }
+        ]
+      }
+    },
+    "nan_outside": {
+      "file_path": "/home/user/GEMSDOE32/docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+      "file_name": "gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+      "unique_id": "1e404763feb3",
+      "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+      "timestamp_utc": "20261004T023618Z",
+      "outside_mode": "nan",
+      "portal_compliant_range": false,
+      "emitted_dots_count": 45000,
+      "note": "GEMSDOE32 BayesOpt Top-1 | Holdout DTI: 0.1383 | EI: 0.0000 | dots: 45000 | nan-outside spec",
+      "validation_passed": true,
+      "validation_report": {
+        "file_path": "/home/user/GEMSDOE32/docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+        "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+        "passed": true,
+        "checks": [
+          {
+            "name": "dimensions",
+            "passed": true,
+            "detail": "shape (3730, 3292) (expected (3730, 3292))"
+          },
+          {
+            "name": "band_count",
+            "passed": true,
+            "detail": "bands: 1 (expected 1)"
+          },
+          {
+            "name": "crs",
+            "passed": true,
+            "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+          },
+          {
+            "name": "transform",
+            "passed": true,
+            "detail": "transform matched template"
+          },
+          {
+            "name": "dtype",
+            "passed": true,
+            "detail": "dtype: float32 (expected float32)"
+          },
+          {
+            "name": "in_footprint_range",
+            "passed": true,
+            "detail": "in-footprint range [0.0000, 1.0000], all finite"
+          }
+        ]
+      }
+    }
+  },
+  "drift_analysis": {
+    "drift_detected": false,
+    "sample_count": 3,
+    "mean_residual": 5.719674365523009e-07,
+    "std_residual": 4.501176406865172e-07,
+    "message": "Holdout predictions and live scores are aligned within expected surrogate uncertainty."
+  }
+}
