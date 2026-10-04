@@ -477,6 +477,25 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     for fname, html_text in pages.items():
         (DOCS / fname).write_text(html_text)
+
+    # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy
+    # builder, source main:/) to publish the repository root, and the API token available here
+    # cannot change that setting.  So the root gets a thin, generated landing page whose first
+    # element is the download, exactly as the brief requires, plus a pointer to the full site.
+    landing = f"""<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>{TITLE} — download the submission GeoTIFF</title>
+<link rel=canonical href="docs/index.html">
+<link rel=stylesheet href="docs/assets/site.css">
+<meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
+<main class=wrap style="padding-top:26px">
+<h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
+{download_block(sub, name)}
+<div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
+irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
+&nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
+</main></body></html>"""
+    (ROOT / "index.html").write_text(landing)
     print(json.dumps({"pages": list(pages), "sources": fl.get("source_count"),
                       "leaderboard_rows": len(fl.get("leaderboard", [])),
                       "hypotheses": len(fl.get("hypotheses", [])),
