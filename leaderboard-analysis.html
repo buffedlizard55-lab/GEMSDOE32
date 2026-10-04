@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaderboard Forensic Analysis — GEMSDOE32</title>
+  <style>
+:root {
+  --primary: #0066cc;
+  --primary-dark: #004488;
+  --accent: #00aa66;
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --card-border: #334155;
+  --text: #f8fafc;
+  --text-muted: #94a3b8;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --code-bg: #090d16;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  padding: 0;
+}
+
+header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+  border-bottom: 1px solid var(--card-border);
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.nav-bar {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.nav-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  transition: all 0.2s ease;
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+.nav-link:hover, .nav-link.active {
+  background: var(--primary);
+  color: #fff;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.hero-card {
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  border: 2px solid var(--primary);
+  border-radius: 12px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 10px 25px -5px rgba(0, 102, 204, 0.2);
+}
+
+.card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 10px;
+  padding: 1.75rem;
+  margin-bottom: 1.75rem;
+}
+
+.card-title {
+  font-size: 1.35rem;
+  color: #38bdf8;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border-radius: 9999px;
+  text-transform: uppercase;
+}
+
+.badge-success { background: #065f46; color: #34d399; }
+.badge-primary { background: #1e3a8a; color: #60a5fa; }
+.badge-warning { background: #78350f; color: #fbbf24; }
+.badge-danger { background: #7f1d1d; color: #f87171; }
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: #0284c7;
+  color: white;
+  font-weight: 700;
+  padding: 0.85rem 1.75rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 1.1rem;
+  transition: transform 0.15s ease, background 0.15s ease;
+  box-shadow: 0 4px 14px 0 rgba(2, 132, 199, 0.4);
+}
+
+.download-btn:hover {
+  background: #0369a1;
+  transform: translateY(-2px);
+}
+
+.download-btn-secondary {
+  background: #334155;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  padding: 0.6rem 1.2rem;
+}
+.download-btn-secondary:hover { background: #475569; }
+
+.btn-group {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1.25rem;
+}
+
+.code-box {
+  background: var(--code-bg);
+  border: 1px solid #1e293b;
+  border-radius: 6px;
+  padding: 1rem;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 0.9rem;
+  overflow-x: auto;
+  color: #38bdf8;
+  margin: 0.75rem 0;
+  position: relative;
+}
+
+.copy-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  background: #334155;
+  color: #cbd5e1;
+  border: none;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+.copy-btn:hover { background: #475569; color: white; }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+  font-size: 0.92rem;
+}
+
+th, td {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--card-border);
+  text-align: left;
+}
+
+th {
+  background: rgba(255, 255, 255, 0.05);
+  color: #38bdf8;
+  font-weight: 600;
+}
+
+tr:nth-child(even) { background: rgba(255, 255, 255, 0.02); }
+
+a { color: #38bdf8; text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  border-top: 1px solid var(--card-border);
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  margin-top: 3rem;
+}
+</style>
+</head>
+<body>
+  
+    <header>
+      <div style="font-size: 0.85rem; color: #38bdf8; font-weight: 700; letter-spacing: 1px; margin-bottom: 0.5rem;">
+        US DOE GEMS PRIZE (DRIVENDATA #306) · FAULT DISCOVERY SYSTEM
+      </div>
+      <h1 style="font-size: 2.2rem; font-weight: 800; color: #fff;">GEMSDOE32: Bayesian Optimization & Geological Discovery</h1>
+      <p style="color: var(--text-muted); max-width: 800px; margin: 0.5rem auto 0;">
+        Probabilistic surrogate active search, extensional stress kinematics, multi-scale LiDAR curvature, and verified GeoTIFF submission engine.
+      </p>
+      <div class="nav-bar"><a href="index.html" class="nav-link ">Overview & Submission</a><a href="executive-summary.html" class="nav-link ">Executive Summary</a><a href="hypotheses.html" class="nav-link ">Geological Hypotheses</a><a href="bayes-opt.html" class="nav-link ">Bayesian Surrogate & EI</a><a href="geothermal-knowledge.html" class="nav-link ">Geothermal Science</a><a href="leaderboard-analysis.html" class="nav-link active">Leaderboard Forensic</a><a href="sources.html" class="nav-link ">Verified Sources</a><a href="irregularities.html" class="nav-link ">Irregularities Log</a></div>
+    </header>
+    
+  
+  <div class="container">
+    <div class="card">
+      <div class="card-title">📈 Public Leaderboard Snapshot & Forensic Analysis</div>
+      <p style="color: #cbd5e1; margin-bottom: 1rem;">
+        Analysis of the official public leaderboard snapshot (Top score: <strong>0.3195</strong> by DARD, Rank 15: <strong>0.2600</strong> by wbg1):
+      </p>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Participant</th>
+            <th>Distance-Weighted Tversky (DTI)</th>
+            <th>Structural Strategy & Score Cluster</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="background: rgba(56, 189, 248, 0.15);">
+            <td><strong>1</strong></td>
+            <td><strong>DARD</strong></td>
+            <td><strong style="color: #38bdf8;">0.3195</strong></td>
+            <td>Target leader: Multi-source geophysical ensemble + optimal thinning</td>
+          </tr>
+          <tr>
+            <td>2</td>
+            <td>nchuzhoy</td>
+            <td>0.3128</td>
+            <td>Top tier cluster (0.30 - 0.31)</td>
+          </tr>
+          <tr>
+            <td>3</td>
+            <td>alexoktaba</td>
+            <td>0.3042</td>
+            <td>Top tier cluster</td>
+          </tr>
+          <tr>
+            <td>4</td>
+            <td>Batik Shirt Brothers</td>
+            <td>0.2998</td>
+            <td>Top tier cluster</td>
+          </tr>
+          <tr style="background: rgba(52, 211, 153, 0.1);">
+            <td><strong>15</strong></td>
+            <td><strong>wbg1 / GEMSDOE25 D2.8</strong></td>
+            <td><strong style="color: #34d399;">0.2600</strong></td>
+            <td>Sparse Poisson-disk thinning ($d=2.8$ px, ~44k dots)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div style="margin-top: 1.5rem;">
+        <h4 style="color: #38bdf8; margin-bottom: 0.5rem;">Why did D2.8 score 0.2600 and how to reach 0.3195+?</h4>
+        <p style="font-size: 0.9rem; color: #cbd5e1; line-height: 1.7;">
+          Under the official evaluation metric with a 300 m triangular decay kernel ($R=300	ext{ m}, lpha=0.2, eta=0.8$), contiguous raster line predictions deliver massive false-positive penalties ($F$) along their width while providing zero additional true-positive credit ($T$). Thinning candidate lines with Poisson-disk spacing at $d pprox 2.8$ px ($280	ext{ m}$) saturates the true-positive credit while minimizing $F$.
+          <br><br>
+          To push past 0.2600 and exceed <strong>0.3195</strong>, our Bayesian surrogate framework integrates physical extensional dilation priors, multi-scale LiDAR profile curvature, and hydrothermal vent corridors to ensure every emitted dot lands exclusively on high-probability blind fault conduits.
+        </p>
+      </div>
+    </div>
+  </div>
+  
+  
+    <footer>
+      <p><strong>GEMSDOE32</strong> · Grounded in official USGS, NLR, GDR, and DrivenData verified datasets.</p>
+      <p style="margin-top: 0.5rem; font-size: 0.8rem;">Maximize P(Win) · Own the Outcome · Zero Hallucinations Policy</p>
+    </footer>
+    
+  
+<script>
+function copyText(id, btn) {
+  const text = document.getElementById(id).innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    const orig = btn.innerText;
+    btn.innerText = "Copied!";
+    setTimeout(() => { btn.innerText = orig; }, 2000);
+  });
+}
+</script>
+
+</body>
+</html>

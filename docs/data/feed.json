@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-04T03:18:36Z",
+ "generated_utc": "2026-10-04T03:20:33Z",
  "sources": [
   {
    "id": "competition",
@@ -1042,6 +1042,12 @@
    "severity": "low",
    "statement": "The sandbox has 2 vCPU / 3 GB RAM and no GPU, and two background runs were OOM-killed while a third was live.",
    "mitigation": "Heavy jobs are serialised, the 35-channel stack is a disk-backed memmap, and the detector in the harness is a CPU gradient-boosted tree rather than the official reference solution's U-Net; the emission rule being validated is detector-agnostic."
+  },
+  {
+   "id": "IR-32-SESSION-01",
+   "severity": "medium",
+   "statement": "A parallel session's tree (merged to main as PR #1, package src/gemsdoe32/) advertises a note string reading 'Holdout DTI: 0.2600'. 0.2600 is the group's OWNER-REPORTED leaderboard score for a different artifact; no holdout in either tree has returned it, and the same tree's artifact (45,000 dots, sha256 2c1861f1...) carries no receipt linking those bytes to any score.",
+   "mitigation": "Its files are preserved, its download is listed with its own provenance, and the root README labels those numbers as that session's claims. This repository's own recommended download and its measured numbers are kept separate in registry/submission_build.json and evidence/."
   }
  ]
 }
