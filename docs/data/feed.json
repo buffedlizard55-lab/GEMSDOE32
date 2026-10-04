@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-04T13:45:26Z",
+ "generated_utc": "2026-10-04T15:27:18Z",
  "sources": [
   {
    "id": "competition",
@@ -323,8 +323,91 @@
  "leaderboard_snapshots": 2,
  "hypotheses": [
   {
-   "id": "H60-1",
+   "id": "H33-1",
    "rank": 1,
+   "title": "GDR measured geothermometry (wellspring chemistry, T >= 150/180/200 C) as a *removal prior* on the 0.2708 base emission",
+   "layers": [
+    "external: gdr.openei.org files/1391/wellspringdata.gdb.zip (1,014 chemistry rows, 184 geothermometer sites)",
+    "external: gdr_wellspring_in_footprint.csv (27,092 rows)",
+    "19 official bands only as a corroboration filter"
+   ],
+   "signature": "each spring's Na-K-Ca / silica geothermometer temperature placed on the 100 m grid, blurred by the 300 m kernel, and used to *delete* dots from the base emission",
+   "why_off_catalogue": "15 of the 53 sites above 150 C lie >3 km from any mapped trace, so a geothermometer anomaly is evidence of a fault the catalogue has not mapped",
+   "differs_from_repo": "H18-5 'thermal-anchor linking' was registered by the 16GEMSDOE operator with the same premise and was never built; this arm builds it. No arm in this repo has ever used measured geochemistry.",
+   "expected_dti": "as an ADDITION arm: FALSIFIED - measured credit/dot 0.0022-0.0054 against the live break-even bar tau_live = 0.05416 (10-25x too expensive)",
+   "cost": "low (one CSV + IDW surface + a threshold)",
+   "data_status": "VERIFIED OBTAINABLE: gdr.openei.org/submissions/1391, official, CC BY 4.0, DOI 10.15121/1881483, file wellspringdata.gdb.zip; already materialised in data/raw/external/",
+   "status": "FALSIFIED as an addition arm (H33-1-P600A1800: +0.002639 LM, 2/4 folds, 0.00541 credit/dot). Retained only as a possible pruning prior; NOT slot-eligible."
+  },
+  {
+   "id": "H33-2",
+   "rank": 2,
+   "title": "Catalogue-flank buffer B = 2 (200 m) on the 0.2708 base: a pure removal arm with a live-anchored credit-loss budget",
+   "layers": [
+    "existing_faults.tif (byte-identical to labels.tif, sha256 7ba308ccdc...)",
+    "the group's best live-scored emission (GEMS28-H27-4-R1-SOLO-D2.8, 40,199 dots)"
+   ],
+   "signature": "delete every dot within B pixels of the published catalogue; no transform, no new data, no geometry change - one mechanism only",
+   "why_off_catalogue": "the hidden truth is drawn from faults *not* in the catalogue, so mass spent within 100-200 m of a mapped line can never earn round-2 credit; B = 1 was the only value the group ever tested live and it produced the 0.2708 record",
+   "differs_from_repo": "the group tested B = 1 live (0.2600 -> 0.2708) and never anything else; B = 2 is a new, non-obvious operating point that the live-anchored inversion shows is still inside the credit-loss budget",
+   "expected_dti": "+0.004870 live-mirror, 4/4 folds, safety factor 2.08, projected live 0.2747 (a MODEL, not a score)",
+   "cost": "very low (one distance transform + a threshold)",
+   "data_status": "all inputs already in the repository; no external data needed",
+   "status": "WINNER. H33-2-B2 is the shipped primary: 37,654 dots, LM-cal 0.267921 vs base 0.263051, off-catalogue credit 58.6 units against a budget of 125.1. Slot-eligible."
+  },
+  {
+   "id": "H33-3",
+   "rank": 3,
+   "title": "2 m temperature-probe thermal grid (GDR 1391 resource '2m Temperature Probes') as a *thin* anomaly mask, added only where it is corroborated by at least two independent official layers",
+   "layers": [
+    "external: gdr.openei.org/files/1391/2m_temperature_probe_INGENIOUS_regional_data.zip (1.03 MB)",
+    "official bands 1-19 as the corroboration filter",
+    "catalogue buffer B = 2 as the domain restriction"
+   ],
+   "signature": "a shallow thermal anomaly map; only cells where the probe temperature and an independent geophysical layer agree are eligible for emission",
+   "why_off_catalogue": "shallow conductive heat is the physical driver of hydrothermal alteration and fault permeability, and the 2 m probe network samples ground the geophysical grid cannot resolve",
+   "differs_from_repo": "features.py has 35 channels and NO thermal channel; no arm has ever used a measured temperature field. Requires the external download, so it is a registered-but-unbuilt arm.",
+   "expected_dti": "unmeasured. Expected to be cheaper than H33-1 (a *mask*, not an IDW surface) but still subject to the same tau_live bar",
+   "cost": "medium (one download + a join + a two-layer corroboration rule)",
+   "data_status": "VERIFIED OBTAINABLE and OFFICIAL: gdr.openei.org/submissions/1391, CC BY 4.0, DOI 10.15121/1881483, resource 2m_temperature_probe_INGENIOUS_regional_data.zip (1.03 MB). Not yet downloaded to this checkout.",
+   "status": "registered; not yet built; no slot"
+  },
+  {
+   "id": "H33-4",
+   "rank": 4,
+   "title": "Paleo geothermal features (GDR 1391 resource 'Paleo Geothermal Features') as a *geological prior* for the tip and step-over neighbourhoods of range-front faults",
+   "layers": [
+    "external: gdr.openei.org/files/1391/paleo_geothermal_regional.zip (82.04 kB)",
+    "official bands 1-19",
+    "catalogue buffer B = 2"
+   ],
+   "signature": "a Quaternary/paleo geothermal feature layer (silica sinter, travertine, tufa, spring mounds) marking where the crust has already leaked fluid; these sit on active structures and are largely absent from the fault catalogue",
+   "why_off_catalogue": "a paleo-geothermal feature is evidence of a *present-day* permeable structure; the INGENIOUS fault compilation does not carry that attribute, so the layer points at faults the catalogue has not mapped",
+   "differs_from_repo": "no arm has used any geothermal-feature vector. It is a *prior over where to emit*, not a detector, so it cannot be confused with the detector-field family (H33-5).",
+   "expected_dti": "unmeasured; expected small on the public split, unbounded on the final round if the expert panel verifies a new fault",
+   "cost": "medium (one download + rasterise + neighbourhood emission rule)",
+   "data_status": "VERIFIED OBTAINABLE and OFFICIAL: gdr.openei.org/submissions/1391, CC BY 4.0, DOI 10.15121/1881483, resource paleo_geothermal_regional.zip (82.04 kB). Not yet downloaded.",
+   "status": "registered; not yet built; no slot"
+  },
+  {
+   "id": "H33-5",
+   "rank": 5,
+   "title": "Detector-field tip / step-over extension: grow the existing ridge field at the propagation tip and at releasing-bend step-overs of detected structures",
+   "layers": [
+    "the 35-channel detector field built from the 19 official bands",
+    "existing_faults.tif for the catalogue-flank buffer"
+   ],
+   "signature": "skeletonise the ridge field, find its endpoints and its releasing/ restraining bends, and extend a short arm at each; the physical target is fault-tip damage zones and step-over relay ramps",
+   "why_off_catalogue": "a fault tip is by definition the *end* of a mapped trace, so anything predicted there is off-catalogue by construction",
+   "differs_from_repo": "the repo has ridge NMS (H32-A..D) and Poisson thinning, but no tip/step-over geometry operator at all",
+   "expected_dti": "FALSIFIED as an addition arm: +0.001870 LM, 3/4 folds, 0.00767 credit/dot vs tau_live = 0.05416 (7x too expensive)",
+   "cost": "medium (skeleton + Hessian ridge response + a short-extension rule)",
+   "data_status": "no external data needed",
+   "status": "FALSIFIED as an addition arm (H33-5-P300A900). Not slot-eligible. Do not re-propose as an addition arm."
+  },
+  {
+   "id": "H60-1",
+   "rank": 6,
    "title": "Post-catalogue coseismic surface ruptures (Monte Cristo Range 2020 Mw 6.5 and the pre-2020 historical rupture set) as high-precision line targets",
    "layers": [
     "USGS/NBMG 2020 MCRE surface-rupture traces (Dee et al., NBMG TR-190; SRL 92(2A))",
@@ -340,7 +423,7 @@
   },
   {
    "id": "H60-2",
-   "rank": 2,
+   "rank": 7,
    "title": "Catalogue-difference emission: faults mapped in newer state datasets but absent from the competition labels, gated by a geophysical corroboration filter",
    "layers": [
     "NBMG Qfaults-INGENIOUS v2 vectors (1,179 features in footprint)",
@@ -358,7 +441,7 @@
   },
   {
    "id": "H60-3",
-   "rank": 3,
+   "rank": 8,
    "title": "Adaptive credit-bar emission: stop the emission where the marginal expected credit per unit mass falls below 0.2 x DTI (the metric's own break-even)",
    "layers": [
     "any detector field"
@@ -373,7 +456,7 @@
   },
   {
    "id": "H60-4",
-   "rank": 4,
+   "rank": 9,
    "title": "Two-round discovery option value: lower the emission bar for candidates whose verification is likely, because the same file is re-scored against the expanded label set",
    "layers": [
     "any field",
@@ -389,7 +472,7 @@
   },
   {
    "id": "H60-5",
-   "rank": 5,
+   "rank": 10,
    "title": "Cross-scale drainage-network organisation (stream-power / knickpoint residuals) as an independent lineament family",
    "layers": [
     "1 m / 10 m 3DEP DEM from the official link table (1m_DEM_links.csv)"
@@ -404,7 +487,7 @@
   },
   {
    "id": "H61-1",
-   "rank": 1,
+   "rank": 11,
    "title": "Basement-step lineaments gated by surface quiescence",
    "layers": [
     "depth_to_base_surf (organizer: 'Depth to basement surface - thickness of sedimentary cover')",
@@ -421,7 +504,7 @@
   },
   {
    "id": "H61-2",
-   "rank": 2,
+   "rank": 12,
    "title": "Seismicity lineament coupling",
    "layers": [
     "ieq_n100a15 (organizer: 'Earthquake intensity or density')",
@@ -438,7 +521,7 @@
   },
   {
    "id": "H61-3",
-   "rank": 3,
+   "rank": 13,
    "title": "Tilt-angle (TDR) zero-crossing magnetic edge lineaments",
    "layers": [
     "tc (organizer: 'Tilt angle or total curvature - magnetic field derivative FOR EDGE DETECTION')",
@@ -454,7 +537,7 @@
   },
   {
    "id": "H61-4",
-   "rank": 4,
+   "rank": 14,
    "title": "GNSS-derived full 2-D strain tensor -> principal-axis anisotropic matched filter",
    "layers": [
     "official bands INSUFFICIENT: geod_2ndinv, geod_shearrate and geod_dilaterate are three scalars of a tensor; orientation is not recoverable from them",
@@ -470,7 +553,7 @@
   },
   {
    "id": "H61-5",
-   "rank": 5,
+   "rank": 15,
    "title": "Metre-scale scarp matched filter from the official 1 m DEM link table",
    "layers": [
     "external: 1 m / 10 m 3DEP DEM tiles from the official 1m_DEM_links.csv",
@@ -629,64 +712,253 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros",
-  "note": "32GEMSDOE H32-D d2.8+2500 | holdout drift 0.15188 vs 0.14801, cat 0.10122 vs 0.09832, SGMC 0.06129 vs 0.06059 (all three better), 46,090 px, 0 on-catalogue | id 4de30601 | UNSCORED",
-  "status_line": "PRIMARY = the group's 0.2600 d2.8 emission with 500 uncorroborated speckles pruned and 2,500 priority-ordered H32 dots added (46,090 px, 0 on-catalogue). It is the only artifact in this checkout that beats the owner-reported 0.2600 incumbent on ALL THREE holdout instruments at once, and it is the artifact the site previously did not offer. NO ORGANISER SCORE EXISTS for it: every number here is a local proxy measurement.",
+  "name": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
+  "note": "GEMSDOE32 H33-2-B2 | flank B=2 prune on the 0.2708 base: 37,654 dots, 0 within 200 m of the catalogue; live-mirror +0.00487 in 4/4 folds, safety 2.08, projected 0.2747; UNSCORED",
+  "status_line": "PRIMARY = H33-2-B2 (Tier 1: live-anchored gate). 0.2708 base with every dot at d(catalogue) <= 2 px deleted (37,654 dots). 37,654 dots, 0 on the catalogue. Live mirror (spatially blocked, off-catalogue truth, validated on the known live orderings) +0.004870 in 4 quadrants over the 0.2708 base; live-anchored safety factor 2.08; projected live DTI 0.2747 (a MODEL, not a score). NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
   "file": {
-   "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
-   "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
-   "bytes": 250577,
-   "positive_px": 46090
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+   "bytes": 219065,
+   "positive_px": 37654
   },
-  "file_zeros": null,
+  "file_zeros": {
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+   "bytes": 219065
+  },
+  "zip": {
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip",
+   "sha256": "0322d0b413530b9fb445a366ca1ad234c5180868c2f89cdc70fe2ce80bd4439f",
+   "bytes": 216
+  },
+  "candidate_id": "H33-2-B2",
+  "tier": 1,
+  "hypothesis": "H33-2",
+  "selection_rule": {
+   "tier_1": "slot-eligible under the live-anchored gate (LM-cal +margin in 4/4 quadrants over a live-scored base, safety factor >= 2.0) AND on_catalogue_pixels == 0; highest projected live DTI wins",
+   "tier_2": "scripts/build_slot_plan.py's frozen holdout rule: beats the owner-reported 0.2600 incumbent on all three holdout instruments AND 0 on-catalogue dots",
+   "precedence": "Tier 1 outranks Tier 2 because its instrument was validated against six known live orderings (it reproduces 0.2708 > 0.2600 at +0.011458 against live +0.0108), while Tier 2's best instrument is Spearman +0.53 at n=12 and is measured anti-monotone with live on emission questions"
+  },
+  "lm": {
+   "mean": 0.2679205315698004,
+   "margin_vs_base": 0.004869544019442784,
+   "folds_beat_base": 4
+  },
+  "live_anchor": {
+   "dn": 2545,
+   "d_credit": 65.09227269807448,
+   "d_tp_g": 55.28575800481242,
+   "max_allowed_credit_loss": 135.7127166568517,
+   "safety_factor": 2.0849282262173383,
+   "projected_dti_if_live_credit_matches": 0.27467315976932155,
+   "gain": true,
+   "denominator_after": 18233.289656199096
+  },
+  "catalogue_hidden_mean": 0.004600104084398947,
+  "drift_corrected_holdout_mean": 0.04504333270394367,
+  "sgmc_prevalence_calibrated_dti": 0.06412093764176459,
+  "on_catalogue_pixels": 0,
+  "anchor": {
+   "role": "ANCHOR -- the group's best live-scored emission",
+   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+   "note": "in-footprint bit-identical to the owner-reported 0.2708 / 0.2600 emissions; upload this if you want a file whose leaderboard behaviour is already known"
+  },
   "pack": [
    {
-    "role": "S1 ANCHOR (identification pack)",
-    "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-    "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
-    "bytes": 806758,
-    "positive_px": 44090,
-    "note": "the anchor of the three-slot identification experiment; bit-identical in-footprint to the group's live-scored 0.2600 emission. Uploading it re-validates the portal path."
-   },
-   {
-    "role": "S2 SCALE",
-    "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
-    "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
-    "bytes": 799095,
-    "positive_px": 44090,
-    "note": "S1 with every positive value halved. Gives K = T(1/s2-1/s1)/beta."
-   },
-   {
-    "role": "S3 NULL-ADD",
-    "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
-    "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
-    "bytes": 810344,
+    "role": "SECONDARY (Tier 2)",
+    "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+    "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+    "bytes": 250577,
     "positive_px": 46090,
-    "note": "S1 plus 2,000 unit-mass pixels, min 49.2 px from every catalogue pixel. Gives T = 0.2*2000/(1/s3-1/s1)."
+    "note": "Tier 2 candidate: d2.8 emission (44,090 px) with 500 uncorroborated speckles pruned and 2,500 priority-ordered H32 dots added on the dip-projected step, transtensional swarm and MT clay-cap surfaces; 46,090 px; 0 on-catalogue"
    },
    {
-    "role": "CANDIDATE 2 (held)",
+    "role": "NaN-outside twin of the primary",
+    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif",
+    "sha256": "baeae3219bba6a19bc8cfe79224e28555c50184b7c1ca65c2a822f54807c77dd",
+    "bytes": 355443,
+    "positive_px": 37654,
+    "note": "the competition's own format (identical values inside the footprint)"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+    "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+    "bytes": 1603424,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+    "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+    "bytes": 836982,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+    "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+    "bytes": 355310,
+    "positive_px": 45000,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+    "sha256": "2c1861f1dbf5bfe7e594db93cf2fedb5708e345b150c4ab58538a1fd1391047d",
+    "bytes": 302357,
+    "positive_px": 45000,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
     "path": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
     "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
     "bytes": 806599,
     "positive_px": 44090,
-    "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+    "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+    "bytes": 806758,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems32-probe-S2-SCALE-lambda-0.5.tif",
+    "sha256": "d6462b76bce1a54920bd4e9d61700f3a1cc2f8dedf89d93651f74d10144c0243",
+    "bytes": 799095,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
+    "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
+    "bytes": 810344,
+    "positive_px": 46090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-nan.tif",
+    "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",
+    "bytes": 379333,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-zeros.tif",
+    "sha256": "e4985b78c4d99e185686de639dffb16084a71cf5b673b1e7474f7c898493c2c3",
+    "bytes": 243828,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-nan.tif",
+    "sha256": "564d569b8500e3c615457d0325f063c25f827ebb0703f249d7a043b2b25cdba9",
+    "bytes": 385762,
+    "positive_px": 46090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-zeros.tif",
+    "sha256": "dee5c5c6bc390ed39638f1638819c10d4e1ae52537c4a900930651dfd19754b7",
+    "bytes": 250381,
+    "positive_px": 46090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-nan.tif",
+    "sha256": "1a3b1d63e1759ac71b7a187b893bad93abe09273178c8e64dcbb327c37f2a035",
+    "bytes": 384916,
+    "positive_px": 45890,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-zeros.tif",
+    "sha256": "fe0b511435cf80eb55a78b36555a0650fa9d626822f08a3d3221615a9bf12a68",
+    "bytes": 249551,
+    "positive_px": 45890,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-nan.tif",
+    "sha256": "c09ebb73c49ef8553bf4834ef93856c870cdea72551e4268769299c2a4d31d4d",
+    "bytes": 385772,
+    "positive_px": 45890,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-zeros.tif",
+    "sha256": "fe96521c3ef3b9cb728792ebe943717976680d9511239aac601f632946bdce9a",
+    "bytes": 250718,
+    "positive_px": 45890,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-nan.tif",
+    "sha256": "cc03eb8472e3c08dc7eea3e67a1d943191be78561fa850e7a0fd4225843f77be",
+    "bytes": 379319,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-zeros.tif",
+    "sha256": "133bacd0031f865a9df2888de71abeba863118458d37d61ab08c388f415b3b96",
+    "bytes": 243967,
+    "positive_px": 44090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif",
+    "sha256": "c3a0cbb14ca60f66934223e4455b970481d0229d2b8095afb3f023233e607621",
+    "bytes": 385688,
+    "positive_px": 46090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+    "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+    "bytes": 250577,
+    "positive_px": 46090,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h33-h33-2b2-plus-h33-1-20261004T220000Z-31588dc7-nan.tif",
+    "sha256": "a99f68ea3de6a8e464a73a819429486ac619d9b94d725a393d2e0e5d911ab60d",
+    "bytes": 358154,
+    "positive_px": 38554,
+    "note": "kept for the audit trail; see docs/research/ for its status"
+   },
+   {
+    "role": "AVAILABLE DOWNLOAD",
+    "path": "docs/downloads/gemsdoe32-h33-h33-2b2-plus-h33-1-20261004T220000Z-31588dc7-zeros.tif",
+    "sha256": "91c2e7764beada782e1f2d8f0d5c940f078d0e328de6f5868e6d552dbc50832e",
+    "bytes": 221921,
+    "positive_px": 38554,
+    "note": "kept for the audit trail; see docs/research/ for its status"
    }
   ],
-  "rule": "priority-ordered Poisson-disk packing with surgical pruning, validated on the blocked spatially-held-out quadrants",
-  "holdout": {
-   "catalogue_hidden_mean": 0.10122068397615705,
-   "sgmc_prevalence_calibrated_dti": 0.061294720121546874,
-   "drift_corrected_holdout_mean": 0.15188374789388925,
-   "on_catalogue_pixels": 0
-  },
-  "evidence": [
-   "evidence/h33_probe_controls.json",
-   "evidence/h33_holdout.json",
-   "evidence/h33_candidates.json",
-   "evidence/instrument_calibration.json",
-   "registry/slot_plan.json"
-  ]
+  "rule": "0.2708 base (GEMS28-H27-4-R1-SOLO-D2.8, 40,199 dots) minus every dot within 2 px (200 m) of the published catalogue",
+  "provenance": "built by scripts/build_submission_build.py from evidence/h33_validation.json + registry/slot_plan.json; every digest re-read from the written bytes; receipts evidence/h33_submission_bundles.json and docs/research/hypotheses-round4.md"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",

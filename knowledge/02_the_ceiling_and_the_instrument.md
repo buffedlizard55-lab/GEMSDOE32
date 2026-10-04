@@ -344,7 +344,7 @@ score.
 | artifact (in `docs/downloads/`) | dots | dots **off** the field it packs | credit / unit mass | catalogue-proxy DTI |
 | --- | ---: | ---: | ---: | ---: |
 | `gems25-dotted-h19-5-d2-8-…-nan.tif` (live **0.2600** [OWNER-REPORT]) | 44,090 | **0** | **0.2154** | **0.1617720** |
-| `gems32-h19-5-smoothmaxcov-44090.tif` (**the site's primary**) | 44,090 | **25,485 (57.8 %)** | 0.0213 | **0.0163197** |
+| `gems32-h19-5-smoothmaxcov-44090.tif` (**previously the site's primary; now quarantined**) | 44,090 | **25,485 (57.8 %)** | 0.0213 | **0.0163197** |
 | `gems32-bayesopt-dilation-scarp-d28-…-nan.tif` | 45,000 | **43,334 (96.3 %)** | 0.1404 | 0.1079318 |
 | `data/raw/h19_5.tif` (parent field) | 121,131 | 0 | 0.1007 | 0.1663512 |
 
@@ -520,7 +520,7 @@ protocols are measured below; the honest one is the second.
 | `h19_5` — the group's base field | 0.0530 | 0.0672 | 0.0746 | 0.0641 | 0.0510 | 0.0401 |
 | `dotted-d2.8` — the group's best artifact | 0.0838 | 0.1087 | 0.0780 | 0.0519 | 0.0419 | 0.0333 |
 | `lazygreedy-maxcov-44090` — this session | 0.0759 | 0.0992 | 0.0713 | 0.0477 | 0.0387 | 0.0309 |
-| `smoothmaxcov-44090` — the shipped primary | 0.0080 | 0.0109 | 0.0099 | 0.0094 | 0.0097 | 0.0093 |
+| `smoothmaxcov-44090` — the *previously* shipped primary (quarantined 2026-10-04) | 0.0080 | 0.0109 | 0.0099 | 0.0094 | 0.0097 | 0.0093 |
 | **uniform random (3 seeds)** | 0.0339 | 0.0498 | 0.0672 | 0.0754 | 0.0748 | 0.0712 |
 
 Per-fold spread for the CV field at 44,090: 0.0968 / 0.1226 / 0.1779 / 0.1028.
@@ -535,7 +535,7 @@ Per-fold spread for the CV field at 44,090: 0.0968 / 0.1226 / 0.1779 / 0.1028.
 2. **The optimum is ~88,000 px, not 44,090.** The CV field's curve is 0.1054 → 0.1250 → 0.1330 →
    0.1235 → 0.1134 → 0.1019. The group's chosen 44,090 is defensible but leaves ~6 % on the table
    under this protocol.
-3. **The shipped primary is twelve times worse than random.** `smoothmaxcov-44090` scores 0.0109
+3. **The previously shipped primary was twelve times worse than random.** `smoothmaxcov-44090` scores 0.0109
    against random's 0.0498. This is the same defect as §7 seen through a second, independent
    protocol: it is not a weak field, it is an *anti-correlated* one.
 4. **The CV field beats the group's best artifact by +15.0 % at matched mass (0.1250 vs 0.1087),

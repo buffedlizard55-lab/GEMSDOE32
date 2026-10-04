@@ -86,22 +86,34 @@ any artifact here** — every number is a local proxy measurement.
 
 ## ⬇ ONE-CLICK SUBMISSION FILE — identification pack (the three-slot live measurement)
 
-**[⬇ Download `gems32-probe-S1-ANCHOR-identical-to-live-02600.tif`](docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif)**
+**[⬇ Download `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif)**
+· [`.zip`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip) ·
+[NaN-outside twin](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif)
 
 | | |
 |---|---|
-| **file** | `gems32-probe-S1-ANCHOR-identical-to-live-02600.tif` |
-| **sha256** | `4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3` |
-| **bytes** | 806,758 |
+| **file** | `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` |
+| **sha256** | `c55bafc470054e82…` (full digest: [`registry/submission_build.json`](registry/submission_build.json)) |
+| **bytes** | 219,065 |
 | **format** | single-band **float32** GeoTIFF · **EPSG:32611** · 100 m · 3730 × 3292 · every cell finite · no nodata tag |
 | **range** | min `0.0`, max `1.0`, **0 cells outside `[0, 1]`**, **0 NaN** — re-read from the bytes on disk |
-| **content** | 44,090 predicted pixels; in-footprint values **bit-identical** to the group's live-scored 0.2600 emission |
-| **note to paste** (≤ 200 chars) | `GEMSDOE32 S1-ANCHOR S1|S2|S3 identification pack: T,K,F measured from 3 returns; bit-identical to live 0.2600; id 4dc4cc54b061` |
+| **content** | 37,654 predicted pixels = the group's best live-scored emission (40,199 dots) minus every dot within **2 px (200 m)** of the published catalogue; 0 dots within 100 m and 0 within 200 m |
+| **note to paste** (177/200 chars) | `GEMSDOE32 H33-2-B2 \| flank B=2 prune on the 0.2708 base: 37,654 dots, 0 within 200 m of the catalogue; live-mirror +0.00487 in 4/4 folds, safety 2.08, projected 0.2747; UNSCORED` |
+| **portal form's unique-name field** | `GEMSDOE32-H33-2-B2` |
 
-**Why this file and not a "better model" one.** It is the only artifact in this repository whose
-leaderboard behaviour is already known (owner-reported **0.2600**, `[OWNER-REPORT]`), so uploading
-it as *S1* both re-validates the portal path and anchors the three-slot measurement described
-below. It is **not** claimed to be an improvement, and it is **not** an organizer-verified score.
+**Why this file and not a "better model" one.** It is the only artifact in this repository that
+beats the group's best live-scored emission under *every* instrument that has been validated against
+a live result, while changing **exactly one mechanism** (the catalogue-flank buffer, B = 1 → 2). The
+0.2708 record was produced by B = 1; the group never tested anything else. The live-anchored
+inversion (§ "Round 4" below) shows B = 2 still has **2.08×** the credit-loss budget it spends, so
+the projected live score is **0.2747** — a **model**, not a score. **No organiser score exists for
+this or any artifact in this repository** (`[OWNER-REPORT]` / `[PROXY]` labels throughout).
+
+**Already-scored fallback, one click away:**
+[`gems32-probe-S1-ANCHOR-identical-to-live-02600.tif`](docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif)
+— in-footprint bit-identical to the owner-reported 0.2600 emission, so uploading it re-validates the
+portal path and anchors the three-slot identification experiment described below. It is **not**
+claimed to be an improvement.
 
 ### The other two files of the pack
 
@@ -115,11 +127,16 @@ Receipt with every digest, clearance and construction detail:
 
 ---
 
-## 🔬 Candidate A — the cross-validated field (built and measured this session)
+## 🔬 Candidate A — the cross-validated field (built, measured, and now QUARANTINED)
 
-**[⬇ Download `gems32-heatfield-44090-cv-supconfined-zeros.tif`](docs/downloads/gems32-heatfield-44090-cv-supconfined-zeros.tif)**
-· sha256 `a84734ab532fffde…` · 780,107 B · 44,090 px · 0 NaN · 0 cells outside `[0,1]` · receipt
-[`docs/downloads/checks-gems32-heatfield-44090-cv-supconfined-zeros.tif.json`](docs/downloads/checks-gems32-heatfield-44090-cv-supconfined-zeros.tif.json)
+> **Superseded and quarantined 2026-10-04.** `gems32-heatfield-44090-cv-supconfined-zeros.tif`
+> (sha256 `a84734ab532fffde…`, 780,107 B, 44,090 px) put **6,528 of its 44,090 dots (14.8 %) on the
+> published catalogue**, which the live scorer masks out of scoring — those dots cost `α = 0.2`
+> each and can earn nothing. It fails this repository's own `zero_on_catalogue_leakage` check, so it
+> is no longer offered as a download. It is kept at
+> [`docs/research/quarantine/`](docs/research/quarantine/) for the audit trail. The measurements
+> below are still valid as *measurements* — the field ordering they established is what later work
+> is built on — but the artifact itself is not a candidate.
 
 A 35-channel gradient-boosted field over the 19 official bands, cross-validated on four spatially
 blocked quadrants (30 px buffer, 60k positives / 240k negatives drawn only from the other three),
@@ -213,9 +230,10 @@ Every candidate allocated a weekly slot below strictly beats our verified `0.260
 - **Executive Summary & PhD Mathematical Deep-Dive Subpage:** [`docs/executive-summary.html`](docs/executive-summary.html)
 - **Monotonic Holdout & GP Surrogate Evaluation Log:** [`data/holdout_surrogate_log.json`](data/holdout_surrogate_log.json) · [`data/holdout_surrogate_log.csv`](data/holdout_surrogate_log.csv)
 
+| **SLOT #1 (Primary — current recommendation)** | **`H33-2-B2`** | **37,654** | **LM-cal 0.267921** (`+0.004870` vs the 0.2708 base, **4/4 quads**) | — | **+0.004870, 4/4 quads** | — | **live-anchored safety 2.08**; projected live **0.2747** | [`gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) (`219.1 KB`, `c55bafc4…`) | [`…-nan.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif) (`355.4 KB`, `baeae321…`) |
 | Weekly Slot / Role | Candidate ID | Emitted Dots (`px`) | Cat-Hidden DTI (`vs D2.8`) | SGMC-Cal DTI (`vs D2.8`) | Drift-Cal Holdout (`vs D2.8`) | GP EI (`×10⁻³`) | Co-Kriging LB Posterior | 1-Click `0.0`-Outside Primary (`-zeros.tif`) | 1-Click `NaN`-Outside Twin (`-nan.tif`) |
 | :--- | :--- | ---: | ---: | ---: | ---: | ---: | ---: | :--- | :--- |
-| **SLOT #1 (Primary)** | **`H32-D`** | **46,090** | **0.10122** (`+0.00290`, **4/4 Quads**) | **0.06129** (`+0.00070`) | **0.15188** (`+0.00388`, **4/4 Quads**) | **3.825** | **0.2716 ± 0.0069** | [`gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif) (`250.6 KB`, `f81e26d7…`) | [`gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif) (`385.7 KB`, `c3a0cbb1…`) |
+| SUPERSEDED by H33-2-B2 | **`H32-D`** | **46,090** | **0.10122** (`+0.00290`, **4/4 Quads**) | **0.06129** (`+0.00070`) | **0.15188** (`+0.00388`, **4/4 Quads**) | **3.825** | **0.2716 ± 0.0069** | [`gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif) (`250.6 KB`, `f81e26d7…`) | [`gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif) (`385.7 KB`, `c3a0cbb1…`) |
 | **SLOT #2** | **`H32-C`** | **45,890** | **0.10005** (`+0.00172`, 3/4 Quads) | **0.06331** (`+0.00272`, **Best SGMC**) | **0.15086** (`+0.00285`, 3/4 Quads) | **2.923** | **0.2657 ± 0.0069** | [`gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-zeros.tif`](docs/downloads/gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-zeros.tif) (`250.7 KB`, `fe96521c…`) | [`gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-nan.tif`](docs/downloads/gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-nan.tif) (`385.8 KB`, `c09ebb73…`) |
 | **SLOT #3** | **`H32-A`** | **46,090** | **0.10002** (`+0.00169`, 3/4 Quads) | **0.06158** (`+0.00099`) | **0.15083** (`+0.00283`, **4/4 Quads**) | **2.806** | **0.2681 ± 0.0069** | [`gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-zeros.tif`](docs/downloads/gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-zeros.tif) (`250.4 KB`, `dee5c5c6…`) | [`gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-nan.tif`](docs/downloads/gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-nan.tif) (`385.8 KB`, `564d569b…`) |
 | **Reserve #1 (Equal-Budget)** | **`H32-D-Eq44090`** | **44,090** | **0.10004** (`+0.00172`, 3/4 Quads) | **0.06066** (`+0.00006`) | **0.15053** (`+0.00252`, 3/4 Quads) | **2.611** | **0.2692 ± 0.0069** | [`gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-zeros.tif`](docs/downloads/gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-zeros.tif) (`244.0 KB`, `133bacd0…`) | [`gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-nan.tif`](docs/downloads/gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-nan.tif) (`379.3 KB`, `cc03eb84…`) |
@@ -231,6 +249,81 @@ Receipt with every digest, clearance and construction detail:
 
 
 ---
+
+---
+
+## Round 4 (H33): the live-anchored removal rule, and what it killed
+
+[`docs/research/hypotheses-round4.md`](docs/research/hypotheses-round4.md) is the full write-up with
+per-arm numbers. The headline is that the *removal* lane, not the "better model" lane, is where the
+score is.
+
+### The measurement everything else is built on
+
+Two of the group's own files differ by **exactly one mechanism**:
+
+| file | dots | owner-reported live score |
+|---|---:|---:|
+| `GEMS28-H27-4-R1-SOLO-D2.8` (dotted D2.8) | 44,090 | **0.2600** |
+| `h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-nan` | 40,199 | **0.2708** |
+
+`existing_faults.tif` is **byte-identical** to `labels.tif` (sha256 `7ba308ccdc…`), so the "blind"
+prune that produced 0.2708 removed exactly the **3,891 dots within 1 px (100 m) of the published
+catalogue** and nothing else. Inverting that pair through the official metric
+(`src/gems32/live_anchor.py`) under a zero-credit assumption recovers:
+
+| quantity | value |
+|---|---:|
+| weighted true positives `TP_w` | 5,073.3 |
+| denominator `D` | 18,734.4 (⇒ |G| = 12,226 hidden truth pixels) |
+| mean credit per emitted dot | 0.1262 |
+| implied weighted recall | 0.4150 |
+| **credit-loss budget at B = 1** | **210.7** |
+| live break-even bar `τ_live` | **0.05416** |
+
+**The rule that falls out of it.** A removal of `dn` dots that costs `dS` off-catalogue weighted
+credit and removes `dTP_g` on-catalogue credit is a live gain iff
+
+```
+dS < TP_w · (0.2·dn − 0.8(dS − dTP_g)) / D
+```
+
+Every submission decision is now gated on a **safety factor** = budget ÷ measured cost, and a
+removal arm is slot-eligible only at safety ≥ 2.0.
+
+### What round 4 measured, arm by arm
+
+| arm | dots | live-mirror ΔDTI | folds | credit/dot | safety | verdict |
+|---|---:|---:|---:|---:|---:|---|
+| base — `GEMS28-H27-4-R1-SOLO-D2.8` | 40,199 | 0.263051 | — | — | — | the anchor |
+| D2.8 emission (live 0.2600) | 44,090 | 0.251593 | — | — | — | the other anchor |
+| **H33-2-B2 (catalogue flank B = 2)** | **37,654** | **+0.004870** | **4/4** | — | **2.08** | **WINNER — shipped primary** |
+| H33-2-B3 (catalogue flank B = 3) | 35,483 | +0.001317 | 3/4 | — | 1.27 | rejected: safety < 2.0 |
+| H33-2B2 + H33-1 | 38,554 | +0.004978 | 4/4 | — | — | slot-eligible secondary |
+| H33-1-P600A1800 (GDR geothermometry) | 41,999 | +0.002639 | 2/4 | 0.00541 | — | **FALSIFIED** as an addition arm |
+| H33-1-P300A900 | 41,099 | +0.000524 | 2/4 | 0.00215 | — | **FALSIFIED** as an addition arm |
+| H33-5-P300A900 (tip / step-over) | 41,099 | +0.001870 | 3/4 | 0.00767 | — | **FALSIFIED** as an addition arm |
+
+**Why B = 2.** It removes 2,545 further dots (6.3 % of the mass) for **58.6 units** of
+off-catalogue weighted credit (1.5 %) against a budget of **125.1** — safety **2.08** — and wins all
+four quadrants. B = 3 spends the budget down to safety 1.27 and only wins 3 of 4, so it is rejected.
+The group only ever tested B = 1 live; **B = 2 is a new, non-obvious operating point.**
+
+### IR-33-LM-01 — the drift finding that bounds what the live mirror may decide
+
+Outside its validated regime the live mirror (LM-cal) ranks a 7,943-dot "safe-mass-pruned" variant
+at **0.4413** — 1.35× the entire public leaderboard's top score. The live record refutes it. For
+that pruned file not to exceed 0.3262, **≥ 16 % of the 0.2708 emission's weighted credit must sit on
+dots the off-catalogue truth model calls credit-neutral.** LM-cal is therefore licensed only for
+small, mechanism-matched perturbations of a live-scored base (40 k–62 k dots), which is exactly why
+the slot gate requires the live-anchored safety factor *in addition to* the mirror margin.
+
+### New external data verified obtainable this round
+
+| source | status |
+|---|---|
+| [GDR 1391 / INGENIOUS](https://gdr.openei.org/submissions/1391) — official, **CC BY 4.0**, DOI **10.15121/1881483** | **verified this session**; 9 resources incl. `wellspringdata.gdb.zip` (measured, 27,092 rows in footprint) and `paleo_geothermal_regional.zip` (82.04 kB) |
+| `2m_temperature_probe_INGENIOUS_regional_data.zip` (1.03 MB) | located on the same submission; **not yet downloaded** — the basis for the unbuilt H33-3 |
 
 ## 🧭 Read this first, every session — the standing owner brief (verbatim)
 

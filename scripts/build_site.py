@@ -11,6 +11,7 @@ import sys
 import time
 
 import numpy as np
+import rasterio
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -18,6 +19,14 @@ sys.path.insert(0, str(ROOT / "src"))
 from gems32 import feed as FEED  # noqa: E402
 
 DOCS = ROOT / "docs"
+DL = ROOT / "docs" / "downloads"
+# root-level pages that GitHub Pages would serve, but which the current site does not own: each is
+# rewritten as a canonical redirect to the docs/ page that now carries its subject.  IR-34-ROOT-01.
+ROOT_REDIRECTS = {
+    "bayes-opt.html": ("research.html", "Bayesian surrogate & expected improvement"),
+    "geothermal-knowledge.html": ("research.html", "Geothermal science background"),
+    "leaderboard-analysis.html": ("leaderboard.html", "Leaderboard and the size of the gap"),
+}
 NAV = [("index.html", "Home"), ("executive-summary.html", "Make a submission"),
        ("research.html", "Research"), ("hypotheses.html", "Hypotheses"),
        ("leaderboard.html", "Leaderboard"), ("sources.html", "Sources"),
@@ -37,7 +46,7 @@ def read(path: str, default=None):
         return default
 
 
-def page(title: str, body: str, active: str = "") -> str:
+def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
     nav = " ".join(f'<a href="{h}"{" class=active" if h == active else ""}>{t}</a>' for h, t in NAV)
     stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
     return f"""<!doctype html><html lang=en><head><meta charset=utf-8>
@@ -45,6 +54,7 @@ def page(title: str, body: str, active: str = "") -> str:
 <title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>{esc(title)}</h1><nav>{nav}</nav>
+<div class=dlbtn>{dl_btn}</div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap>{body}</main>
@@ -57,7 +67,7 @@ scores this repository reads itself are the other teams' public-leaderboard rows
 </div></footer></body></html>"""
 
 
-def download_block(sub: dict | None, name: str) -> str:
+def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
     if not sub:
         return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
                 'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
@@ -66,24 +76,45 @@ def download_block(sub: dict | None, name: str) -> str:
     note = sub.get("note", "")
 
     def link(rel: str, label: str, cls: str = "") -> str:
-        """Render a download link only if the file is actually present -- never a dead button."""
+        """Render a download link only if the file is actually present -- never a dead button.
+
+        ``prefix`` is the path from the *rendering* page back to the repository root: the docs/ pages
+        need "", the root landing page needs "docs/".  Without this the one-click button on the root
+        page 404s, which is exactly the defect this parameter exists to prevent (IR-34-ROOT-01).
+        """
         p = ROOT / rel
         if not p.exists():
             return ""
         c = f' class="{cls}"' if cls else ""
-        return f'<a{c} href="{esc(rel.replace("docs/", ""))}">{esc(label)}</a> '
+        return f'<a{c} href="{esc(prefix + rel.replace("docs/", ""))}">{esc(label)}</a> '
 
     primary = link(f.get("path", f"docs/downloads/{name}.tif"),
                    f"Download {esc(name)}.tif", "btn")
-    zeros_p = (f.get("path") or "").replace(".tif", "-zeros.tif")
-    zeros = link(zeros_p, "0.0-outside variant", "btn alt")
-    zzip = link(f"docs/downloads/{name}.zip", ".zip", "btn alt")
-    receipt = link(f"docs/downloads/checks-{name}.tif.json", "format receipt (independent re-read)")
+    # the NaN-outside twin and the .zip are looked up from the registry, not guessed from the name
+    twin = ""
+    zkey = (sub.get("zip") or {}).get("path")
+    zzip = link(zkey, ".zip (single GeoTIFF inside)", "btn alt") if zkey else ""
+    for e in (sub.get("pack") or []):
+        rp = e.get("path", "")
+        if rp.endswith("-nan.tif") and e.get("role", "").startswith("SECONDARY"):
+            twin = link(rp, "NaN-outside twin (competition format)", "btn alt")
+    # The receipt filename differs between builds (`checks-*.tif.json` for the older pack,
+    # `*-audit.json` for the H33 rasters), so it is found by globbing for a file that actually
+    # exists -- never a guessed link (a dead receipt link fails tests/test_gems32.py's
+    # broken-local-reference check).
+    receipt = ""
+    stem = name.split("-zeros")[0].split("-nan")[0]
+    for cand in sorted(DL.glob(f"*{stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json")):
+        r = link(str(cand.relative_to(ROOT)), "format receipt (independent re-read)")
+        if r:
+            receipt = r
+            break
 
     pack_rows = ""
-    if sub.get("pack"):
+    named = [e for e in (sub.get("pack") or []) if e.get("role") != "AVAILABLE DOWNLOAD"]
+    if named:
         cells = []
-        for e in sub["pack"]:
+        for e in named:
             rel = e.get("path", "")
             a = link(rel, rel.split("/")[-1])
             cells.append(
@@ -94,19 +125,61 @@ def download_block(sub: dict | None, name: str) -> str:
                      "<table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr>"
                      + "".join(cells) + "</table>")
 
+    anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
     return f"""<div class=dl>
 <h2>&#11015;&nbsp;ONE-CLICK SUBMISSION FILE</h2>
-<p>{primary}{zzip}{zeros}</p>
+<p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
-<b>Note to paste into the submit form's <em>Note (optional)</em> field:</b><br>
+<b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
+<b>Note to paste into the submit form's <em>Note (optional)</em> field
+({len(note)}/200 characters):</b><br>
 <code>{esc(note)}</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
 {int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
 0 NaN anywhere · no nodata tag · sha256 <code>{esc(sha[:16])}&hellip;</code>
 {('· ' + receipt) if receipt else ''}</p>
+{('<p><b>Already-scored fallback:</b> ' + anchor + '</p>') if anchor else ''}
 {pack_rows}
 <p class=warn><b>Status.</b> {esc(sub.get('status_line',''))}</p>
 </div>"""
+
+
+def download_catalogue(fl: dict, sub: dict | None) -> str:
+    """Every GeoTIFF this repository offers, with its sha256 -- so no link on the site is a dead
+    button and every file is independently checkable."""
+    import subprocess as sp
+    if not DL.is_dir():
+        return ""
+    rows = []
+    for p in sorted(DL.glob("*.tif")):
+        rel = str(p.relative_to(ROOT))
+        pos = ""
+        try:
+            with rasterio.open(p) as ds:
+                a = ds.read(1)
+            pos = f"{int(((a > 0) & np.isfinite(a)).sum()):,}"
+        except Exception:
+            pos = "&mdash;"
+        try:
+            sha = sp.run(["sha256sum", str(p)], capture_output=True, text=True, check=True).stdout[:64]
+        except Exception:
+            sha = "&mdash;"
+        role = "PRIMARY" if (sub or {}).get("file", {}).get("path") == rel else ""
+        for e in (sub or {}).get("pack") or []:
+            if e.get("path") == rel:
+                role = e.get("role", role)
+        if rel == ((sub or {}).get("anchor") or {}).get("path"):
+            role = "ANCHOR (already-scored base)"
+        rows.append(f"<tr><td>{esc(role)}</td><td><a href=\"{esc(rel.replace('docs/', ''))}\">"
+                    f"{esc(p.name)}</a></td><td>{pos}</td>"
+                    f"<td class=mut><code>{esc(sha)}</code></td>"
+                    f"<td class=mut>{p.stat().st_size:,} B</td></tr>")
+    return f"""<h2>Complete download catalogue</h2>
+<p class=mut>Every GeoTIFF in this repository, in one table, each with the sha256 of the bytes
+actually published. Nothing here is claimed to be scored: <b>no artifact in this repository has an
+organiser score.</b></p>
+<table><tr><th>role</th><th>file</th><th>positive pixels</th><th>sha256</th><th>bytes</th></tr>
+{''.join(rows)}</table>"""
 
 
 def model_mc_section(fl: dict) -> str:
@@ -296,6 +369,10 @@ claim.</p>""")
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     note = esc((sub or {}).get("note", ""))
     fresh = esc(f"{name}-fresh")
+    _stem = name.split("-zeros")[0].split("-nan")[0]
+    _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
+    receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
+                    if _rec else '<span class=mut>not written in this checkout</span>')
     return f"""<h2 style="margin-top:6px">Five steps, about two minutes</h2>
 {download_block(sub, name)}
 <div class=card><h3>1 · Check the file (optional, 20 s)</h3>
@@ -313,10 +390,16 @@ print("OK: single band, [0,1] wherever finite")
 EOF</pre>
 <p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
 values within [0,&nbsp;1] wherever finite. The repository's own receipt is
-<a href="downloads/checks-{esc(name)}.tif.json">this JSON</a>.</p></div>
-<div class=card><h3>2 · Upload</h3>
+{receipt_link}.</p></div>
+<div class=card><h3>2 · Upload &mdash; the exact portal URL, file and name</h3>
+<p class=mut>Standing policy: this repository never requests drivendata.org automatically. The links
+below are for a human to click.</p>
 <ol>
-<li>Open the competition's <b>Submit</b> page (linked on the <a href="sources.html">sources</a> page).</li>
+<li><b>Portal URL:</b>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">https://www.drivendata.org/competitions/306/competition-doe-gems/</a>
+&rarr; the <b>Submit</b> tab (the same page also carries the
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem
+description, page 967</a>, which defines the metric).</li>
 <li><em>File to submit</em> &rarr; choose <code>{esc(name)}.tif</code> (or the <code>.zip</code>).</li>
 <li>Paste this into <em>Note (optional)</em>: <code>{note}</code></li>
 <li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
@@ -342,6 +425,7 @@ write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload 
 identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
 inferred from the files and the observed error, not quoted from the platform
 (<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
+{download_catalogue(fl, sub)}
 <div class=card><h3>5 · Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
@@ -349,9 +433,28 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 </div>"""
 
 
+RESEARCH_NOTES = [
+    ("hypotheses-round4.md", "Round 4 (H33-1..H33-5): the live-anchored removal rule, the winning "
+                             "flank-B=2 arm, the two falsified addition arms, and IR-33-LM-01"),
+    ("hypotheses-round3.md", "Round 3 (H62-1..H62-5): transform only layers that are still raw "
+                             "fields; the rank-1 candidate was falsified by its own falsifier"),
+    ("hypotheses-round2.md", "Round 2 (H60-1..H60-5): the catalogue-difference audit"),
+    ("why-d28-scored-026.md", "Why the dotted D2.8 file scored what it did"),
+    ("verification-2026-10-04.md", "the source-verification pass and what could not be verified"),
+    ("range-error-root-cause-2026-10-03.md", "root cause of the portal's "
+                                             "\"Predicted values must be in range [0, 1]\" error"),
+    ("score-ceiling-analysis.md", "the perfect-knowledge ceiling and the recall needed to lead"),
+    ("geothermal-vents-knowledge.md", "the measured GDR volcanic-vent and wellspring statistics"),
+    ("shipped_audit.json", "the per-file portal-legality audit of every artifact on disk"),
+]
+
+
 def research(fl: dict, sub: dict | None, name: str) -> str:
     ev = fl.get("evidence", {}).get("h60_2_catalogue_difference.json", {})
     hd = fl.get("holdout", {})
+    research_rows = "".join(
+        f'<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/'
+        f'{esc(fn)}">{esc(fn)}</a></td><td>{esc(desc)}</td></tr>' for fn, desc in RESEARCH_NOTES)
     return f"""<div class=card><h3>Session findings (2026-10-04) &mdash; read these three first</h3>
 <ul>
 <li><a href="research/instrument-calibration.md"><b>Which local instrument tracks the leaderboard?</b></a>
@@ -437,14 +540,77 @@ every given-catalogue pixel (by construction) and only
 enriched on the off-catalogue SGMC set versus the footprint background, with
 <b>{esc(ev.get('emitted_on_sgmc_off_catalogue_px', 2014))}</b> of its 121,131 pixels sitting there.
 That is the measured size of the discovery lane this system could still open.</p>
-<h2>6 · Method and reproducibility</h2>
+<h2>6 · Round 4 (H33): the live-anchored removal rule, and what it killed</h2>
+<p>The single most informative measurement available to this project is a pair of the group's own
+files that differ by <b>exactly one mechanism</b>: the dotted D2.8 emission
+(<code>GEMS28-H27-4-R1-SOLO-D2.8</code>, 40,199 dots, owner-reported live score
+<b>0.2600</b>) and its catalogue-flank prune at B&nbsp;=&nbsp;1
+(40,199&nbsp;&minus;&nbsp;3,891&nbsp;=&nbsp;36,308 dots, owner-reported live score
+<b>0.2708</b>). <code>existing_faults.tif</code> is byte-identical to <code>labels.tif</code>, so
+the "blind" prune removed exactly the 3,891 dots within 100&nbsp;m of the published catalogue and
+nothing else. Inverting that pair through the official metric under a zero-credit assumption
+recovers the live true-positive weight, the live false-positive mass, and therefore a
+<b>credit-loss budget</b> for any further removal.</p>
+<table>
+<tr><th>quantity recovered by the inversion</th><th>value</th><th>what it means</th></tr>
+<tr><td>weighted true positives, TP<sub>w</sub></td><td>5,073.3</td><td>the live set's credit mass</td></tr>
+<tr><td>denominator, D</td><td>18,734.4</td><td>implies |G| = 12,226 hidden truth pixels</td></tr>
+<tr><td>mean credit per emitted dot</td><td>0.1262</td><td>the group's live efficiency</td></tr>
+<tr><td>implied weighted recall</td><td>0.4150</td><td>41.5 % of the hidden set's weight</td></tr>
+<tr><td>credit-loss budget at B = 1</td><td>210.7</td><td>how much weighted credit a removal may burn</td></tr>
+<tr><td>live break-even bar &tau;<sub>live</sub></td><td>0.05416</td><td>a new dot must beat this to pay for itself</td></tr>
+</table>
+<p><b>The rule that falls out of it</b> (implemented in <code>src/gems32/live_anchor.py</code>): a
+removal of <code>dn</code> dots that costs <code>dS</code> units of off-catalogue weighted credit and
+removes <code>dTP<sub>g</sub></code> units of on-catalogue credit is a live gain iff
+<code>dS &lt; TP_w · (0.2·dn &minus; 0.8(dS &minus; dTP_g)) / D</code>. The gate used for every
+submission decision is the <b>safety factor</b> = budget &divide; measured cost; a removal arm is
+slot-eligible only at safety &ge; 2.0.</p>
+<h3>What round 4 measured, arm by arm</h3>
+<table>
+<tr><th>arm</th><th>dots</th><th>live-mirror &Delta;DTI</th><th>folds</th><th>credit/dot</th><th>safety</th><th>verdict</th></tr>
+<tr><td>base &mdash; GEMS28-H27-4-R1-SOLO-D2.8</td><td>40,199</td><td>0.263051</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the anchor</td></tr>
+<tr><td>D2.8 emission (live 0.2600)</td><td>44,090</td><td>0.251593</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the other anchor</td></tr>
+<tr><td><b>H33-2-B2 (catalogue flank B = 2)</b></td><td><b>37,654</b></td><td><b>+0.004870</b></td><td><b>4/4</b></td><td>&mdash;</td><td><b>2.08</b></td><td class=ok><b>WINNER &mdash; shipped primary</b></td></tr>
+<tr><td>H33-2-B3 (catalogue flank B = 3)</td><td>35,483</td><td>+0.001317</td><td>3/4</td><td>&mdash;</td><td>1.27</td><td class=bad>rejected: safety &lt; 2.0</td></tr>
+<tr><td>H33-2B2 + H33-1</td><td>38,554</td><td>+0.004978</td><td>4/4</td><td>&mdash;</td><td>&mdash;</td><td>slot-eligible secondary</td></tr>
+<tr><td>H33-1-P600A1800 (geothermometry)</td><td>41,999</td><td>+0.002639</td><td>2/4</td><td>0.00541</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
+<tr><td>H33-1-P300A900 (geothermometry)</td><td>41,099</td><td>+0.000524</td><td>2/4</td><td>0.00215</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
+<tr><td>H33-5-P300A900 (tip / step-over)</td><td>41,099</td><td>+0.001870</td><td>3/4</td><td>0.00767</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
+</table>
+<p><b>Why B = 2 and not B = 1 or B = 3.</b> B = 1 is already live-tested and produced 0.2708.
+B = 2 removes 2,545 further dots (6.3 % of the mass) for 58.6 units of off-catalogue weighted credit
+(1.5 %) against a budget of 125.1 &mdash; safety 2.08 &mdash; and improves the live-mirror margin in
+all four quadrants. B = 3 spends the budget down to safety 1.27 and only wins 3 of 4 quadrants, so it
+is rejected. The group only ever tested B = 1 live; <b>B = 2 is a new, non-obvious operating
+point.</b></p>
+<h3>IR-33-LM-01: the drift finding that bounds what the live mirror may decide</h3>
+<p>Outside its validated regime the live mirror (LM-cal) ranks a 7,943-dot "safe-mass-pruned"
+variant at <b>0.4413</b> &mdash; 1.35&times; the entire public leaderboard's top score. The live
+record refutes that number. For the pruned file not to exceed 0.3262, <b>at least 16 % of the 0.2708
+emission's weighted credit must sit on dots the off-catalogue truth model calls credit-neutral</b>.
+LM-cal is therefore licensed only for small, mechanism-matched perturbations of a live-scored base
+(40&nbsp;k&ndash;62&nbsp;k dots), which is exactly why the slot gate requires the live-anchored safety
+factor in addition to the mirror margin.</p>
+<h2>7 · Research notes (readable on GitHub, one click each)</h2>
+<p class=mut>Every number on this site is produced by a script in <code>scripts/</code> and stored in
+<code>evidence/</code> or <code>registry/</code>. These are the write-ups, in the order they were
+made. They are Markdown, so the links open them rendered on GitHub rather than as a download.</p>
+<table><tr><th>note</th><th>what it establishes</th></tr>
+{research_rows}</table>
+<h2>8 · Method and reproducibility</h2>
 <pre>pip install -r requirements.txt
-python3 scripts/fetch_data.py        # hash-verified fetch of every pinned mirror (GitHub API)
-python3 scripts/build_features.py    # 35-channel structural stack from the 19 official bands
-python3 scripts/run_holdout.py       # preregistered blocked holdout -&gt; evidence/holdout_run1.json
-python3 scripts/build_submission.py  # writes docs/downloads/*.tif + the format receipt
-python3 scripts/build_site.py        # regenerates this site from registry/ + evidence/
-python3 -m pytest tests -q</pre>
+bash scripts/fetch_mirrors.sh       # hash-verified fetch of every pinned mirror (GitHub API)
+python3 scripts/prepare_data.py     # 19 bands, footprint + catalogue masks
+python3 scripts/run_pipeline.py     # autopsy + holdout + H32 suite + GP surrogate + slot gate
+python3 scripts/run_h33_validation.py   # live-mirror + live-anchored inversion + the H33 GeoTIFFs
+python3 scripts/build_submission_build.py  # picks the primary, writes registry/submission_build.json
+python3 scripts/audit_shipped.py    # re-opens every file on disk; refreshes the manifest
+python3 scripts/build_site.py       # regenerates docs/*.html, the feed and the root landing page
+python3 -m pytest tests -q          # 80 tests, including the site's link integrity</pre>
+<p class=mut>Order matters: <code>audit_shipped.py</code> runs <em>after</em> anything that writes
+GeoTIFFs, because it rebuilds <code>docs/downloads/submissions_manifest.json</code> from the files
+actually on disk rather than from what the pipeline thinks it wrote.</p>
 <p class=mut>The holdout ran{' with mean AUC ' + esc(round(hd.get('summary', {}).get('auc_mean', float('nan')), 3)) if hd else ''}
 on a CPU-only box for the emission arms; the detector used there is a gradient-boosted tree, not the
 U-Net of the official reference solution, because this sandbox has 2&nbsp;vCPU and no GPU. The
@@ -558,18 +724,33 @@ def main() -> int:
     fl = FEED.build(ROOT)
     sub = read("registry/submission_build.json")
     name = (sub or {}).get("name", "gems32-h19-5-maxcov-r1")
+    # A persistent download button in the header of *every* page: the brief asks for an obvious
+    # one-click download at the very top of the site, and the safest way to guarantee that is to put
+    # it in the page chrome rather than in one page's body.
+    dl_btn = ""
+    if sub:
+        _f = sub.get("file", {})
+        _zp = (sub.get("zip") or {}).get("path")
+        _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
+                f'&#11015; Download the submission GeoTIFF</a>']
+        if _zp and (ROOT / _zp).is_file():
+            _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
+        dl_btn = " ".join(_btn)
+
     pages = {
-        "index.html": page(f"{TITLE} — a fault-discovery system for the DOE GEMS Prize",
-                           overview(fl, sub, name), "index.html"),
+        "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
+                           overview(fl, sub, name), "index.html", dl_btn),
         "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
-                                       "executive-summary.html"),
+                                       "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
-                              research(fl, sub, name), "research.html"),
-        "hypotheses.html": page("Candidate hypotheses, ranked", hypotheses_page(fl), "hypotheses.html"),
-        "leaderboard.html": page("Leaderboard and the size of the gap", leaderboard_page(fl), "leaderboard.html"),
-        "sources.html": page("Sources", sources_page(fl), "sources.html"),
+                              research(fl, sub, name), "research.html", dl_btn),
+        "hypotheses.html": page("Candidate hypotheses, ranked", hypotheses_page(fl), "hypotheses.html",
+                                dl_btn),
+        "leaderboard.html": page("Leaderboard and the size of the gap", leaderboard_page(fl),
+                                 "leaderboard.html", dl_btn),
+        "sources.html": page("Sources", sources_page(fl), "sources.html", dl_btn),
         "irregularities.html": page("Irregularities flagged for review", irregularities_page(fl),
-                                     "irregularities.html"),
+                                     "irregularities.html", dl_btn),
     }
     DOCS.mkdir(exist_ok=True)
     for fname, html_text in pages.items():
@@ -587,12 +768,54 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
-{download_block(sub, name)}
+{download_block(sub, name, "docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
 &nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
 </main></body></html>"""
     (ROOT / "index.html").write_text(landing)
+
+    # ---- root stubs for the other pages ---------------------------------------------------------
+    # GitHub Pages publishes the repository *root* (server-side setting, source main:/), so
+    # /GEMSDOE32/executive-summary.html would otherwise serve a stale, hand-written page that still
+    # headlines a superseded primary.  Each root page is therefore a generated stub: the one-click
+    # download first (with correct docs/-prefixed links), then a canonical pointer to the real page.
+    # IR-34-ROOT-01.
+    # Three further root pages come from the parallel (arena/01a104ba) site builder.  Pages publishes
+    # the repository root, so they are live URLs too, and their content is superseded.  They become
+    # stubs pointing at the docs/ page that now owns that subject.
+    for legacy, target in ROOT_REDIRECTS.items():
+        stub = f"""<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>{esc(target[1])} &middot; {TITLE}</title>
+<link rel=canonical href="docs/{target[0]}">
+<link rel=stylesheet href="docs/assets/site.css">
+<meta http-equiv=refresh content="0; url=docs/{target[0]}"></head><body>
+<main class=wrap style="padding-top:26px">
+<h1>{esc(target[1])}</h1>
+{download_block(sub, name, "docs/")}
+<div class=card><b>This page moved.</b> The parallel site layout was retired; the current page is
+<a href="docs/{target[0]}">{esc(target[1])} &rarr;</a>. &nbsp;&middot;&nbsp;
+<a href="docs/index.html">whole site &rarr;</a></div>
+</main></body></html>"""
+        (ROOT / legacy).write_text(stub)
+
+    for fname, title in NAV[1:]:
+        stub = f"""<!doctype html><html lang=en><head><meta charset=utf-8>
+<meta name=viewport content="width=device-width,initial-scale=1">
+<title>{esc(title)} &middot; {TITLE}</title>
+<link rel=canonical href="docs/{fname}">
+<link rel=stylesheet href="docs/assets/site.css">
+<meta http-equiv=refresh content="0; url=docs/{fname}"></head><body>
+<main class=wrap style="padding-top:26px">
+<h1>{esc(title)}</h1>
+{download_block(sub, name, "docs/")}
+<div class=card><b>Full page:</b> <a href="docs/{fname}">{esc(title)} &rarr;</a>
+&nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>
+&nbsp;&middot;&nbsp; <a href="README.md">README</a></div>
+</main></body></html>"""
+        (ROOT / fname).write_text(stub)
+
     print(json.dumps({"pages": list(pages), "sources": fl.get("source_count"),
                       "leaderboard_rows": len(fl.get("leaderboard", [])),
                       "hypotheses": len(fl.get("hypotheses", [])),

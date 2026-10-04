@@ -1,8 +1,91 @@
 {
  "hypotheses": [
   {
-   "id": "H60-1",
+   "id": "H33-1",
    "rank": 1,
+   "title": "GDR measured geothermometry (wellspring chemistry, T >= 150/180/200 C) as a *removal prior* on the 0.2708 base emission",
+   "layers": [
+    "external: gdr.openei.org files/1391/wellspringdata.gdb.zip (1,014 chemistry rows, 184 geothermometer sites)",
+    "external: gdr_wellspring_in_footprint.csv (27,092 rows)",
+    "19 official bands only as a corroboration filter"
+   ],
+   "signature": "each spring's Na-K-Ca / silica geothermometer temperature placed on the 100 m grid, blurred by the 300 m kernel, and used to *delete* dots from the base emission",
+   "why_off_catalogue": "15 of the 53 sites above 150 C lie >3 km from any mapped trace, so a geothermometer anomaly is evidence of a fault the catalogue has not mapped",
+   "differs_from_repo": "H18-5 'thermal-anchor linking' was registered by the 16GEMSDOE operator with the same premise and was never built; this arm builds it. No arm in this repo has ever used measured geochemistry.",
+   "expected_dti": "as an ADDITION arm: FALSIFIED - measured credit/dot 0.0022-0.0054 against the live break-even bar tau_live = 0.05416 (10-25x too expensive)",
+   "cost": "low (one CSV + IDW surface + a threshold)",
+   "data_status": "VERIFIED OBTAINABLE: gdr.openei.org/submissions/1391, official, CC BY 4.0, DOI 10.15121/1881483, file wellspringdata.gdb.zip; already materialised in data/raw/external/",
+   "status": "FALSIFIED as an addition arm (H33-1-P600A1800: +0.002639 LM, 2/4 folds, 0.00541 credit/dot). Retained only as a possible pruning prior; NOT slot-eligible."
+  },
+  {
+   "id": "H33-2",
+   "rank": 2,
+   "title": "Catalogue-flank buffer B = 2 (200 m) on the 0.2708 base: a pure removal arm with a live-anchored credit-loss budget",
+   "layers": [
+    "existing_faults.tif (byte-identical to labels.tif, sha256 7ba308ccdc...)",
+    "the group's best live-scored emission (GEMS28-H27-4-R1-SOLO-D2.8, 40,199 dots)"
+   ],
+   "signature": "delete every dot within B pixels of the published catalogue; no transform, no new data, no geometry change - one mechanism only",
+   "why_off_catalogue": "the hidden truth is drawn from faults *not* in the catalogue, so mass spent within 100-200 m of a mapped line can never earn round-2 credit; B = 1 was the only value the group ever tested live and it produced the 0.2708 record",
+   "differs_from_repo": "the group tested B = 1 live (0.2600 -> 0.2708) and never anything else; B = 2 is a new, non-obvious operating point that the live-anchored inversion shows is still inside the credit-loss budget",
+   "expected_dti": "+0.004870 live-mirror, 4/4 folds, safety factor 2.08, projected live 0.2747 (a MODEL, not a score)",
+   "cost": "very low (one distance transform + a threshold)",
+   "data_status": "all inputs already in the repository; no external data needed",
+   "status": "WINNER. H33-2-B2 is the shipped primary: 37,654 dots, LM-cal 0.267921 vs base 0.263051, off-catalogue credit 58.6 units against a budget of 125.1. Slot-eligible."
+  },
+  {
+   "id": "H33-3",
+   "rank": 3,
+   "title": "2 m temperature-probe thermal grid (GDR 1391 resource '2m Temperature Probes') as a *thin* anomaly mask, added only where it is corroborated by at least two independent official layers",
+   "layers": [
+    "external: gdr.openei.org/files/1391/2m_temperature_probe_INGENIOUS_regional_data.zip (1.03 MB)",
+    "official bands 1-19 as the corroboration filter",
+    "catalogue buffer B = 2 as the domain restriction"
+   ],
+   "signature": "a shallow thermal anomaly map; only cells where the probe temperature and an independent geophysical layer agree are eligible for emission",
+   "why_off_catalogue": "shallow conductive heat is the physical driver of hydrothermal alteration and fault permeability, and the 2 m probe network samples ground the geophysical grid cannot resolve",
+   "differs_from_repo": "features.py has 35 channels and NO thermal channel; no arm has ever used a measured temperature field. Requires the external download, so it is a registered-but-unbuilt arm.",
+   "expected_dti": "unmeasured. Expected to be cheaper than H33-1 (a *mask*, not an IDW surface) but still subject to the same tau_live bar",
+   "cost": "medium (one download + a join + a two-layer corroboration rule)",
+   "data_status": "VERIFIED OBTAINABLE and OFFICIAL: gdr.openei.org/submissions/1391, CC BY 4.0, DOI 10.15121/1881483, resource 2m_temperature_probe_INGENIOUS_regional_data.zip (1.03 MB). Not yet downloaded to this checkout.",
+   "status": "registered; not yet built; no slot"
+  },
+  {
+   "id": "H33-4",
+   "rank": 4,
+   "title": "Paleo geothermal features (GDR 1391 resource 'Paleo Geothermal Features') as a *geological prior* for the tip and step-over neighbourhoods of range-front faults",
+   "layers": [
+    "external: gdr.openei.org/files/1391/paleo_geothermal_regional.zip (82.04 kB)",
+    "official bands 1-19",
+    "catalogue buffer B = 2"
+   ],
+   "signature": "a Quaternary/paleo geothermal feature layer (silica sinter, travertine, tufa, spring mounds) marking where the crust has already leaked fluid; these sit on active structures and are largely absent from the fault catalogue",
+   "why_off_catalogue": "a paleo-geothermal feature is evidence of a *present-day* permeable structure; the INGENIOUS fault compilation does not carry that attribute, so the layer points at faults the catalogue has not mapped",
+   "differs_from_repo": "no arm has used any geothermal-feature vector. It is a *prior over where to emit*, not a detector, so it cannot be confused with the detector-field family (H33-5).",
+   "expected_dti": "unmeasured; expected small on the public split, unbounded on the final round if the expert panel verifies a new fault",
+   "cost": "medium (one download + rasterise + neighbourhood emission rule)",
+   "data_status": "VERIFIED OBTAINABLE and OFFICIAL: gdr.openei.org/submissions/1391, CC BY 4.0, DOI 10.15121/1881483, resource paleo_geothermal_regional.zip (82.04 kB). Not yet downloaded.",
+   "status": "registered; not yet built; no slot"
+  },
+  {
+   "id": "H33-5",
+   "rank": 5,
+   "title": "Detector-field tip / step-over extension: grow the existing ridge field at the propagation tip and at releasing-bend step-overs of detected structures",
+   "layers": [
+    "the 35-channel detector field built from the 19 official bands",
+    "existing_faults.tif for the catalogue-flank buffer"
+   ],
+   "signature": "skeletonise the ridge field, find its endpoints and its releasing/ restraining bends, and extend a short arm at each; the physical target is fault-tip damage zones and step-over relay ramps",
+   "why_off_catalogue": "a fault tip is by definition the *end* of a mapped trace, so anything predicted there is off-catalogue by construction",
+   "differs_from_repo": "the repo has ridge NMS (H32-A..D) and Poisson thinning, but no tip/step-over geometry operator at all",
+   "expected_dti": "FALSIFIED as an addition arm: +0.001870 LM, 3/4 folds, 0.00767 credit/dot vs tau_live = 0.05416 (7x too expensive)",
+   "cost": "medium (skeleton + Hessian ridge response + a short-extension rule)",
+   "data_status": "no external data needed",
+   "status": "FALSIFIED as an addition arm (H33-5-P300A900). Not slot-eligible. Do not re-propose as an addition arm."
+  },
+  {
+   "id": "H60-1",
+   "rank": 6,
    "title": "Post-catalogue coseismic surface ruptures (Monte Cristo Range 2020 Mw 6.5 and the pre-2020 historical rupture set) as high-precision line targets",
    "layers": [
     "USGS/NBMG 2020 MCRE surface-rupture traces (Dee et al., NBMG TR-190; SRL 92(2A))",
@@ -18,7 +101,7 @@
   },
   {
    "id": "H60-2",
-   "rank": 2,
+   "rank": 7,
    "title": "Catalogue-difference emission: faults mapped in newer state datasets but absent from the competition labels, gated by a geophysical corroboration filter",
    "layers": [
     "NBMG Qfaults-INGENIOUS v2 vectors (1,179 features in footprint)",
@@ -36,7 +119,7 @@
   },
   {
    "id": "H60-3",
-   "rank": 3,
+   "rank": 8,
    "title": "Adaptive credit-bar emission: stop the emission where the marginal expected credit per unit mass falls below 0.2 x DTI (the metric's own break-even)",
    "layers": [
     "any detector field"
@@ -51,7 +134,7 @@
   },
   {
    "id": "H60-4",
-   "rank": 4,
+   "rank": 9,
    "title": "Two-round discovery option value: lower the emission bar for candidates whose verification is likely, because the same file is re-scored against the expanded label set",
    "layers": [
     "any field",
@@ -67,7 +150,7 @@
   },
   {
    "id": "H60-5",
-   "rank": 5,
+   "rank": 10,
    "title": "Cross-scale drainage-network organisation (stream-power / knickpoint residuals) as an independent lineament family",
    "layers": [
     "1 m / 10 m 3DEP DEM from the official link table (1m_DEM_links.csv)"
@@ -82,7 +165,7 @@
   },
   {
    "id": "H61-1",
-   "rank": 1,
+   "rank": 11,
    "title": "Basement-step lineaments gated by surface quiescence",
    "layers": [
     "depth_to_base_surf (organizer: 'Depth to basement surface - thickness of sedimentary cover')",
@@ -99,7 +182,7 @@
   },
   {
    "id": "H61-2",
-   "rank": 2,
+   "rank": 12,
    "title": "Seismicity lineament coupling",
    "layers": [
     "ieq_n100a15 (organizer: 'Earthquake intensity or density')",
@@ -116,7 +199,7 @@
   },
   {
    "id": "H61-3",
-   "rank": 3,
+   "rank": 13,
    "title": "Tilt-angle (TDR) zero-crossing magnetic edge lineaments",
    "layers": [
     "tc (organizer: 'Tilt angle or total curvature - magnetic field derivative FOR EDGE DETECTION')",
@@ -132,7 +215,7 @@
   },
   {
    "id": "H61-4",
-   "rank": 4,
+   "rank": 14,
    "title": "GNSS-derived full 2-D strain tensor -> principal-axis anisotropic matched filter",
    "layers": [
     "official bands INSUFFICIENT: geod_2ndinv, geod_shearrate and geod_dilaterate are three scalars of a tensor; orientation is not recoverable from them",
@@ -148,7 +231,7 @@
   },
   {
    "id": "H61-5",
-   "rank": 5,
+   "rank": 15,
    "title": "Metre-scale scarp matched filter from the official 1 m DEM link table",
    "layers": [
     "external: 1 m / 10 m 3DEP DEM tiles from the official 1m_DEM_links.csv",
@@ -266,5 +349,6 @@
    },
    "verdict": "NAMED SOURCE, obtainability NOT verified from this environment; ranked and NOT proposed as ready, per the brief's rule for externally-dependent candidates."
   }
- ]
+ ],
+ "updated_utc": "2026-10-04T14:30:19Z"
 }

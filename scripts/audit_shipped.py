@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import time
 import sys
 from pathlib import Path
 
@@ -121,6 +122,49 @@ def main() -> int:
     }
     (ROOT / "docs" / "research").mkdir(parents=True, exist_ok=True)
     (ROOT / "docs" / "research" / "shipped_audit.json").write_text(json.dumps(out, indent=1) + "\n")
+
+    # ---- refresh the site's manifest so it lists EVERY artifact on disk, not only the ones the
+    # pipeline's own step 6 wrote (the H33 pair was emitted by scripts/run_h33_validation.py).
+    sub = json.loads((ROOT / "registry" / "submission_build.json").read_text()) \
+        if (ROOT / "registry" / "submission_build.json").exists() else {}
+    primary = (sub.get("file") or {}).get("path", "")
+    bundles = []
+    for r in rows:
+        fn = r["file"]
+        stem = fn[:-4] if fn.endswith(".tif") else fn
+        role = "PRIMARY" if fn == Path(primary).name else "AVAILABLE"
+        if fn == Path((sub.get("anchor") or {}).get("path", "")).name:
+            role = "ANCHOR (already-scored base)"
+        bundles.append({
+            "role": role,
+            "file": fn,
+            "sha256": r["sha256"],
+            "bytes": r["bytes"],
+            "emitted_px": r["positive_px"],
+            "portal_legal": bool(r["portal_legal"]),
+            "finite_cells": r["finite_cells"],
+            "range_violations": r["range_violations"],
+            "nan_cells": r["nan_cells"],
+            "min": r["min"], "max": r["max"],
+            "nodata": r["profile"]["nodata"],
+            "crs": r["profile"]["crs"],
+            "dtype": r["profile"]["dtype"],
+            "credit_per_unit_mass": r["credit_per_unit_mass"],
+            "catalogue_proxy_DTI": r["catalogue_proxy_DTI"],
+            "dots_on_catalogue": r["dots_on_catalogue"],
+            "receipt": f"downloads/{stem}-audit.json" if (ROOT / "docs" / "downloads" / f"{stem}-audit.json").exists() else None,
+        })
+    man = {"generated_at_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
+           "generated_by": "scripts/audit_shipped.py (refreshed from the files on disk)",
+           "validator_range_fix_verified": all(r["range_violations"] == 0 for r in rows),
+           "portal_illegal": [r["file"] for r in rows if not r["portal_legal"]],
+           "primary": sub.get("name"),
+           "note": sub.get("note"),
+           "submissions": bundles}
+    (ROOT / "docs" / "downloads" / "submissions_manifest.json").write_text(
+        json.dumps(man, indent=2) + "\n", encoding="utf-8")
+    (ROOT / "evidence" / "submissions_manifest.json").write_text(
+        json.dumps(man, indent=2) + "\n", encoding="utf-8")
 
     hdr = (f"{'artifact':52s} {'dots':>7} {'off-field':>10} {'credit/mass':>11} "
            f"{'proxyDTI':>11}  legal")

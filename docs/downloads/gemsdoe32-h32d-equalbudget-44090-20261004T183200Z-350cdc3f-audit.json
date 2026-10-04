@@ -94,23 +94,23 @@
     "all_checks_passed": true
   },
   "holdout_metrics": {
-    "catalogue_hidden_mean": 0.10004360265718955,
+    "catalogue_hidden_mean": 0.10004360265957968,
     "catalogue_hidden_per_quadrant": {
-      "NW": 0.09893451719628826,
-      "NE": 0.10630820926076674,
-      "SW": 0.0703388482326141,
-      "SE": 0.12459283593908912
+      "NW": 0.09893451719908117,
+      "NE": 0.10630820926339529,
+      "SW": 0.07033884823393552,
+      "SE": 0.12459283594190673
     },
-    "sgmc_prevalence_calibrated_dti": 0.06065670858885931,
-    "drift_corrected_holdout_mean": 0.15052842578521194,
+    "sgmc_prevalence_calibrated_dti": 0.060656708589179056,
+    "drift_corrected_holdout_mean": 0.15052842578877695,
     "drift_corrected_per_quadrant": {
-      "NW": 0.14986404050365196,
-      "NE": 0.1551453711630943,
-      "SW": 0.12204887845846835,
-      "SE": 0.17505541301563324
+      "NW": 0.1498640405078096,
+      "NE": 0.15514537116686486,
+      "SW": 0.12204887846077067,
+      "SE": 0.17505541301966274
     },
-    "predicted_leaderboard_dti": 0.2692,
-    "ei_drift_corrected": 0.002611,
+    "predicted_leaderboard_dti": 0.2747,
+    "ei_drift_corrected": 0.00723,
     "slot_decision": "RESERVE_VERIFIED_BEATS_D28"
   }
 }

@@ -30,3 +30,7 @@ blockquote{border-left:3px solid var(--acc2);background:#121a16;margin:14px 0;pa
 footer{border-top:1px solid var(--line);color:var(--mut);font-size:13.5px;padding:26px 20px;margin-top:40px}
 .tag{font-size:12px;border:1px solid var(--line);border-radius:6px;padding:1px 7px;color:var(--mut)}
 small{color:var(--mut)}
+/* the persistent one-click download button in the page chrome (every page, top of the site) */
+header.top .dlbtn{margin-top:12px}
+header.top .dlbtn .btn{margin:0 8px 0 0;font-size:14px;padding:10px 16px}
+header.top .dlbtn .btn.alt{background:#12261c;color:#8fe3b4;border:1px solid #1f6feb}

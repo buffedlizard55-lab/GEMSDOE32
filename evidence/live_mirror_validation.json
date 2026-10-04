@@ -1,0 +1,225 @@
+{
+  "instrument": "LM: spatially blocked official DTI against SGMC off-catalogue truth",
+  "n_references_scored": 8,
+  "n_orderings_checked": 6,
+  "n_orderings_reproduced": 2,
+  "all_reproduced": false,
+  "n_orderings_reproduced_calibrated": 3,
+  "all_reproduced_calibrated": false,
+  "orderings": [
+    {
+      "ordering": "H27-4-R1-SOLO > D2.8",
+      "live": "0.2708 > 0.2600",
+      "lm": "0.074410 vs 0.073675",
+      "reproduced": true,
+      "lm_margin": 0.0007358088166996152,
+      "lm_calibrated": "0.263051 vs 0.251593",
+      "reproduced_calibrated": true,
+      "lm_calibrated_margin": 0.011458035134056244
+    },
+    {
+      "ordering": "D2.8 > D1.5",
+      "live": "0.2600 > 0.2477",
+      "lm": "0.073675 vs 0.082329",
+      "reproduced": false,
+      "lm_margin": -0.008654016848922377,
+      "lm_calibrated": "0.251593 vs 0.248393",
+      "reproduced_calibrated": true,
+      "lm_calibrated_margin": 0.0032000529830877866
+    },
+    {
+      "ordering": "D1.5 > T-V2-ON-D1.5",
+      "live": "0.2477 > 0.2449",
+      "lm": "0.082329 vs 0.083344",
+      "reproduced": false,
+      "lm_margin": -0.001015877295782286,
+      "lm_calibrated": "0.248393 vs 0.250190",
+      "reproduced_calibrated": false,
+      "lm_calibrated_margin": -0.0017968478765205687
+    },
+    {
+      "ordering": "H19-5 > H16-1",
+      "live": "0.1922 > 0.1911",
+      "lm": "0.098500 vs 0.108802",
+      "reproduced": false,
+      "lm_margin": -0.010301058943601255,
+      "lm_calibrated": "0.215168 vs 0.237605",
+      "reproduced_calibrated": false,
+      "lm_calibrated_margin": -0.022436536410600477
+    },
+    {
+      "ordering": "H16-1 > LATTICE-S5",
+      "live": "0.1911 > 0.0904",
+      "lm": "0.108802 vs 0.195250",
+      "reproduced": false,
+      "lm_margin": -0.08644831352091062,
+      "lm_calibrated": "0.237605 vs 0.436622",
+      "reproduced_calibrated": false,
+      "lm_calibrated_margin": -0.19901740712866456
+    },
+    {
+      "ordering": "LATTICE-S5 > PLACEHOLDER",
+      "live": "0.0904 > 0.0445",
+      "lm": "0.195250 vs 0.050093",
+      "reproduced": true,
+      "lm_margin": 0.14515697388417553,
+      "lm_calibrated": "0.436622 vs 0.097651",
+      "reproduced_calibrated": true,
+      "lm_calibrated_margin": 0.33897175088073495
+    }
+  ],
+  "scores": {
+    "D2.8": {
+      "lm_mean": 0.07367456223396258,
+      "lm_per_fold": {
+        "foldNW": 0.07341564446144694,
+        "foldNE": 0.07396171136630868,
+        "foldSW": 0.09102256952948048,
+        "foldSE": 0.05629832357861424
+      },
+      "lm_calibrated_mean": 0.25159295241630136,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.17054582054033207,
+        "foldNE": 0.3952971986077826,
+        "foldSW": 0.2032266716912924,
+        "foldSE": 0.2373021188257983
+      },
+      "emitted_pixels": 44090,
+      "on_catalogue_pixels": 0,
+      "leaderboard_dti": 0.26
+    },
+    "H27-4-R1-SOLO": {
+      "lm_mean": 0.0744103710506622,
+      "lm_per_fold": {
+        "foldNW": 0.0743393863041329,
+        "foldNE": 0.07437061869314239,
+        "foldSW": 0.09224642340665347,
+        "foldSE": 0.05668505579872002
+      },
+      "lm_calibrated_mean": 0.2630509875503576,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.17665016033478298,
+        "foldNE": 0.4143017742765064,
+        "foldSW": 0.2100528899583625,
+        "foldSE": 0.25119912563177865
+      },
+      "emitted_pixels": 40199,
+      "on_catalogue_pixels": 0,
+      "leaderboard_dti": 0.2708
+    },
+    "D1.5": {
+      "lm_mean": 0.08232857908288496,
+      "lm_per_fold": {
+        "foldNW": 0.07955440297063719,
+        "foldNE": 0.08480839804448405,
+        "foldSW": 0.09955997884807967,
+        "foldSE": 0.06539153646833894
+      },
+      "lm_calibrated_mean": 0.24839289943321358,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.1674035355770307,
+        "foldNE": 0.3830752667479314,
+        "foldSW": 0.2023845884218752,
+        "foldSE": 0.24070820698601705
+      },
+      "emitted_pixels": 60069,
+      "on_catalogue_pixels": 0,
+      "leaderboard_dti": 0.2477
+    },
+    "T-V2-ON-D1.5": {
+      "lm_mean": 0.08334445637866725,
+      "lm_per_fold": {
+        "foldNW": 0.07979668754690632,
+        "foldNE": 0.08631304590898385,
+        "foldSW": 0.1006308041414934,
+        "foldSE": 0.0666372879172854
+      },
+      "lm_calibrated_mean": 0.25018974730973415,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.16740047872554656,
+        "foldNE": 0.38716304055533934,
+        "foldSW": 0.2030702839299499,
+        "foldSE": 0.24312518602810065
+      },
+      "emitted_pixels": 61328,
+      "on_catalogue_pixels": 0,
+      "leaderboard_dti": 0.2449
+    },
+    "H19-5": {
+      "lm_mean": 0.09850046465288276,
+      "lm_per_fold": {
+        "foldNW": 0.09132719053268978,
+        "foldNE": 0.10736956542940455,
+        "foldSW": 0.11193185744931794,
+        "foldSE": 0.08337324520011871
+      },
+      "lm_calibrated_mean": 0.21516842902957625,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.15251445385187537,
+        "foldNE": 0.31381528058834685,
+        "foldSW": 0.1805584069697925,
+        "foldSE": 0.21378557470829027
+      },
+      "emitted_pixels": 121131,
+      "on_catalogue_pixels": 0,
+      "leaderboard_dti": 0.1922
+    },
+    "H16-1": {
+      "lm_mean": 0.10880152359648401,
+      "lm_per_fold": {
+        "foldNW": 0.1011049617155433,
+        "foldNE": 0.11379916953414136,
+        "foldSW": 0.12096605506615023,
+        "foldSE": 0.0993359080701012
+      },
+      "lm_calibrated_mean": 0.23760496544017673,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.16811675170741425,
+        "foldNE": 0.33302190246698044,
+        "foldSW": 0.19424952112026922,
+        "foldSE": 0.25503168646604285
+      },
+      "emitted_pixels": 123939,
+      "on_catalogue_pixels": 0,
+      "leaderboard_dti": 0.1911
+    },
+    "LATTICE-S5": {
+      "lm_mean": 0.19524983711739463,
+      "lm_per_fold": {
+        "foldNW": 0.15894970822352955,
+        "foldNE": 0.24472489734200864,
+        "foldSW": 0.15321830526341235,
+        "foldSE": 0.22410643764062804
+      },
+      "lm_calibrated_mean": 0.4366223725688413,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.24377355273748083,
+        "foldNE": 0.7290992142468634,
+        "foldSW": 0.22537991908224905,
+        "foldSE": 0.5482368042087721
+      },
+      "emitted_pixels": 206895,
+      "on_catalogue_pixels": 2391,
+      "leaderboard_dti": 0.0904
+    },
+    "PLACEHOLDER": {
+      "lm_mean": 0.05009286323321911,
+      "lm_per_fold": {
+        "foldNW": 0.06301806791349547,
+        "foldNE": 0.05413038503803772,
+        "foldSW": 0.04358655993087411,
+        "foldSE": 0.03963644005046914
+      },
+      "lm_calibrated_mean": 0.09765062168810633,
+      "lm_calibrated_per_fold": {
+        "foldNW": 0.09916900246122426,
+        "foldNE": 0.13559693977316772,
+        "foldSW": 0.06561062806049843,
+        "foldSE": 0.09022591645753493
+      },
+      "emitted_pixels": 147684,
+      "on_catalogue_pixels": 2074,
+      "leaderboard_dti": 0.0445
+    }
+  }
+}
