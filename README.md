@@ -25,7 +25,66 @@
 
 ---
 
-## ⬇ ONE-CLICK SUBMISSION FILE
+## ⬇ ONE-CLICK SUBMISSION FILE (best-validated artifact — selected by measurement, not by hand)
+
+**[⬇ Download `gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif)**
+· sha256 `f81e26d7712d1a4a…` · 250,577 B · **46,090 px** · 0 on-catalogue · all 12 portal checks PASS
+([receipt](docs/downloads/checks-gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif.json))
+
+| instrument (blocked 4-quadrant holdout, draws 20/21) | this file | owner-reported 0.2600 incumbent | verdict |
+| --- | ---: | ---: | --- |
+| `catalogue_hidden_mean` | **0.10122** | 0.09832 | +0.00290 |
+| `sgmc_prevalence_calibrated_dti` (off-catalogue truth) | **0.06129** | 0.06059 | +0.00070 |
+| `drift_corrected_holdout_mean` (the only instrument that ranks live scores above chance) | **0.15188** | 0.14801 | +0.00388 |
+
+**Selection rule, frozen before the choice and applied by [`scripts/build_slot_plan.py`](scripts/build_slot_plan.py):**
+beat the incumbent on **all three** instruments **and** carry **0** on-catalogue dots (the estimator
+switches branch when one dot lands on a mapped fault — measured 0.14801 → 0.07831, `IR-32-INSTR-01`).
+Receipt: [`registry/slot_plan.json`](registry/slot_plan.json). **No organizer score exists for this or
+any artifact here** — every number is a local proxy measurement.
+
+**New this session (2026-10-04, branch `arena/01a10714-gemsdoe32`)**
+
+* **The instrument was calibrated against the live board** — 12 stored artifacts with owner-reported
+  scores: `catalogue_hidden` ρ = **+0.14**, SGMC-calibrated ρ = **+0.54**, drift-corrected ρ = **+0.53**
+  (LOO MAE 0.053). The historically-headline proxy does **not** rank live scores; the promotion metric
+  used everywhere here is the best available and is *still* not significant at n = 12 (p ≈ 0.09).
+  [Method + table](docs/research/instrument-calibration.md) ·
+  [`evidence/instrument_calibration.json`](evidence/instrument_calibration.json).
+* **A 47 % discontinuity was found in that instrument and quantified**: adding **one** dot on a mapped
+  fault to the 0.2600 emission moves `drift_corrected_holdout_mean` from **0.14801 to 0.07831** while
+  both other instruments are unchanged. Registered as `IR-32-INSTR-01`; the fix is next work.
+* **Five untried hypotheses (H33-A…E) were specified, ranked and measured** — layers, physical
+  signature, why each should catch a fault the catalogue lacks, and how each differs from everything
+  already in this repo: [docs/research/h33-hypotheses.md](docs/research/h33-hypotheses.md). The four
+  label-free surfaces are in [`src/gems32/h33.py`](src/gems32/h33.py).
+  **Result: none promoted.** All four score *below* a uniform-random control on the catalogue-hidden
+  instrument (0.0187–0.0241 vs 0.0344 random at 44,090 px) while the drainage-valley-chain field
+  scores **0.09072** on the off-catalogue SGMC instrument against the incumbent's **0.06059**. The two
+  instruments disagree in **sign** about the new hypotheses — that disagreement is the session's
+  central finding and is why promotion stays gated on the three-slot identification experiment.
+* **H33-E is named and data-blocked, not faked**: the supplied seismic bands carry no fault-scale
+  information (measured autocorrelation of `ieq_n100a15`: 0.9986 at 1 km, 0.9935 at 3 km), so the raw
+  USGS FDSN catalogue is the fix; the source is official and free, but `earthquake.usgs.gov` returns
+  HTTP 000 from this sandbox, so obtainability is **not** claimed here and a ready-to-run fetcher ships
+  instead ([`scripts/fetch_earthquake_catalog.sh`](scripts/fetch_earthquake_catalog.sh)).
+* **The emission rule was re-derived from the organizer's equations** (`DTI = T/(αS + βK)`, so every
+  added dot costs exactly α) and the positional-error hypothesis was swept and reported as **mixed**
+  ([docs/research/h34-positional-error-emission.md](docs/research/h34-positional-error-emission.md)):
+  blurring the belief field raises the catalogue reading by up to +5.8 % but the drift reading is not
+  comparable across the branch, and neither setting beats the incumbent at equal mass.
+* **A reproducibility defect was found and fixed**: `scripts/run_pipeline.py` required a scored raster
+  that was absent from `registry/data_manifest.json`, so the documented reproduce command aborted at
+  step [3/6]. The file is now hash-pinned (sha256 `33003374…`, 1,635,084 B) and
+  `bash scripts/fetch_mirrors.sh` reports **23/23 PASS** (`IR-32-MANIFEST-01`).
+* **The published site's one-click file was the wrong file** (it offered an artifact measuring
+  0.07789 drift / 0.01124 SGMC — below the incumbent on two of three instruments — while the README's
+  slot table advertised H32-D, which the site never offered). Fixed by generating the download block
+  from the measured slot plan (`IR-32-SITE-01`).
+
+---
+
+## ⬇ ONE-CLICK SUBMISSION FILE — identification pack (the three-slot live measurement)
 
 **[⬇ Download `gems32-probe-S1-ANCHOR-identical-to-live-02600.tif`](docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif)**
 
@@ -445,6 +504,11 @@ python3 scripts/verify_theorems.py         # the metric algebra, the marginal ba
 python3 scripts/audit_shipped.py           # portal legality + off-support + catalogue proxy, per artifact
 python3 scripts/build_identification_pack.py --m 2000    # the S1 / S2 / S3 upload pack
 python3 scripts/build_features.py          # ~147 s on 2 vCPU (1.7 GB memmap)
+python3 scripts/calibrate_instrument.py    # 12-artifact rank calibration vs the live board
+PYTHONPATH=src python3 scripts/run_h33.py --budgets 44090      # the five H33 hypotheses, measured
+PYTHONPATH=src python3 scripts/run_h34.py --sigmas 0,0.75,1.25 --budget 44090   # emission calibration
+PYTHONPATH=src python3 scripts/build_slot_plan.py              # pick + receipt the one-click file
+python3 scripts/build_site.py              # regenerate the GitHub Pages site from the registries
 PYTHONPATH=src python3 scripts/run_holdout.py --tag 2 --prereg-id GEMSDOE32-PREREG-2 \
         --prior-dti 0.26 --budget 9000     # the preregistered, spatially blocked holdout
 python3 -m pytest tests -q

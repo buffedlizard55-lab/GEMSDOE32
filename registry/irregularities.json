@@ -174,6 +174,55 @@
    "severity": "high",
    "statement": "main's CI was RED before this merge (runs 37177047885 and 37177047887, both failure) because PR #7 added tests that depend on artifacts which are gitignored and were never committed: tests/test_gems32.py::test_all_12_submission_geotiffs_pass_range_01_audit requires docs/downloads/submissions_manifest.json plus 12 GeoTIFFs, and test_docs_and_readme_integrity requires the Core Values block and the portal-error string in docs/index.html, which scripts/build_site.py did not emit.",
    "mitigation": "The artifact-dependent audit now SKIPS with an explicit reason when its manifest is absent (a silent pass would be worse than a failure); build_site.py now emits the Core Values strip on every page and a dedicated portal-error block on the home page; scripts/build_site.py data_dir() resolution fixed. All 60 tests pass in a clean checkout with only the hash-pinned inputs restored. This merge is what turns main green."
+  },
+  {
+   "id": "IR-32-MANIFEST-01",
+   "severity": "high",
+   "status": "fixed 2026-10-04",
+   "statement": "scripts/run_pipeline.py requires scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif, which was absent from registry/data_manifest.json and therefore never restored; the documented reproduce command (and step [3/6]) aborted with rasterio CPLE_OpenFailedError.",
+   "evidence": "traceback reproduced twice this session; the file was then pinned from the GEMSDOE27 manifest (sha256 33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d, 1,635,084 bytes) and fetch_mirrors.sh now reports 23/23 PASS.",
+   "mitigation": "manifest entry added (group 'scored'); fetch_mirrors.sh fails closed on digest mismatch."
+  },
+  {
+   "id": "IR-32-INSTR-01",
+   "severity": "high",
+   "status": "open (instrument defect, quantified)",
+   "statement": "The repository's promotion instrument drift_corrected_holdout_mean is discontinuous in the number of dots placed on the visible catalogue: holdout.py sets debiased_folds = dti and sym_factor = 1/(1+(n/60000)^2) whenever n_on_cat > 0. Adding ONE dot on a mapped fault to the 0.2600 emission moves drift 0.14801 -> 0.07831 (-47%) while catalogue_hidden_mean (0.09832) and SGMC (0.06059) are unchanged.",
+   "evidence": "controlled experiment this session: base mask + 1 catalogue pixel at (yy[0], xx[0]); outputs recorded in the session log and reproducible from src/gems32/holdout.py lines ~200-215.",
+   "consequence": "every cross-candidate drift comparison that straddles this branch is invalid, and every artifact in this repository that was 'promoted' happens to carry 0 on-catalogue dots.",
+   "mitigation": "slot decisions this session require on_catalogue_pixels == 0 AND agreement with the catalogue-hidden and SGMC instruments (registry/slot_plan.json); a branch-free estimator is proposed as next work."
+  },
+  {
+   "id": "IR-32-INSTR-02",
+   "severity": "medium",
+   "status": "open (cross-repository contradiction)",
+   "statement": "Over the 12 stored artifacts with owner-reported live scores the rank correlation with the live board is: catalogue_hidden Spearman +0.140, catalogue_hidden_strict +0.140, SGMC-calibrated +0.537, drift-corrected +0.529 (LOO MAE 0.053). The sibling repository GEMSDOE29 reports +0.709 for the catalogue-hidden proxy on a set of ten stored artifacts. The two measurements disagree about the same instrument.",
+   "evidence": "evidence/instrument_calibration.json (this checkout, n=12, scripts/calibrate_instrument.py).",
+   "mitigation": "only the drift/SGMC pair is used for promotion here, and both are labelled as weak rankers (n=12, p approx 0.09); the contradiction is disclosed rather than resolved."
+  },
+  {
+   "id": "IR-32-SITE-01",
+   "severity": "high",
+   "status": "fixed 2026-10-04",
+   "statement": "The published site's one-click file (gems32-heatfield-44090-cv-supconfined-zeros.tif) measures catalogue_hidden 0.11549 but SGMC-calibrated 0.01124 and drift 0.07789 -- below the owner-reported 0.2600 incumbent on two of the three instruments -- while the README's slot table advertised the H32-D family that the site never offered. The obvious download was therefore not the best-validated artifact.",
+   "evidence": "evidence/h33_probe_controls.json; registry/submission_build.json before/after this session.",
+   "mitigation": "scripts/build_slot_plan.py selects the headline artifact by the frozen rule and rewrites registry/submission_build.json; the site is regenerated from it."
+  },
+  {
+   "id": "IR-32-DUP-01",
+   "severity": "low",
+   "status": "flagged",
+   "statement": "registry/irregularities.json contains the id IR-32-FIELD-01 twice, so an id-based lookup silently returns the first entry only.",
+   "evidence": "python3 -c \"import json;print([x['id'] for x in json.load(open('registry/irregularities.json'))['items']])\"",
+   "mitigation": "flagged for a deduplicating pass; ids are stable and referenced from the site, so the rename is deferred to avoid breaking links."
+  },
+  {
+   "id": "IR-32-H33-01",
+   "severity": "medium",
+   "status": "open (instrument power)",
+   "statement": "All four label-free H33 surfaces score BELOW a uniform-random control on the catalogue-hidden instrument at 44,090 px (H33-A 0.01874, H33-B 0.02177, H33-C 0.02407, H33-D 0.00394, union 0.02006, random 0.03438), while H33-B scores 0.09072 on the off-catalogue SGMC instrument against the incumbent's 0.06059. The catalogue-hidden instrument therefore has no power to rank hypotheses whose purpose is to find faults the catalogue lacks.",
+   "evidence": "evidence/h33_holdout.json; evidence/h33_candidates.json.",
+   "mitigation": "the sign disagreement is reported as the session's central finding; promotion stays gated on the identification experiment (measuring T, K and F live) rather than on this instrument."
   }
  ]
 }

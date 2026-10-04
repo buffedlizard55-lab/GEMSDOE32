@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-04T11:11:42Z",
+ "generated_utc": "2026-10-04T13:45:26Z",
  "sources": [
   {
    "id": "competition",
@@ -177,125 +177,150 @@
    "rank": 1,
    "participant": "nchuzhoy",
    "score": 0.3262,
-   "submissions": 3,
-   "last_activity": "2h 55min ago"
+   "submissions": 3
   },
   {
    "rank": 2,
-   "participant": "DARD",
-   "score": 0.3195,
-   "submissions": 12,
-   "last_activity": "2d 1h ago"
+   "participant": "kinghorton42",
+   "score": 0.3222,
+   "submissions": 6
   },
   {
    "rank": 3,
-   "participant": "alexoktaba",
-   "score": 0.3042,
-   "submissions": 21,
-   "last_activity": "4d 2h ago"
+   "participant": "DARD",
+   "score": 0.3195,
+   "submissions": 12
   },
   {
    "rank": 4,
-   "participant": "Batik Shirt Brothers",
-   "score": 0.2998,
-   "submissions": 18,
-   "last_activity": "3d ago"
+   "participant": "alexoktaba",
+   "score": 0.3042,
+   "submissions": 21
   },
   {
    "rank": 5,
-   "participant": "xiaofanhu",
-   "score": 0.2941,
-   "submissions": 8,
-   "last_activity": "1d 11h ago"
+   "participant": "Batik Shirt Brothers",
+   "score": 0.2998,
+   "submissions": 19
   },
   {
    "rank": 6,
-   "participant": "joeyfezster",
-   "score": 0.2919,
-   "submissions": 19,
-   "last_activity": "3d 8h ago"
+   "participant": "xiaofanhu",
+   "score": 0.2941,
+   "submissions": 8
   },
   {
    "rank": 7,
-   "participant": "ndavis7",
-   "score": 0.2888,
-   "submissions": 7,
-   "last_activity": "1d 7h ago"
+   "participant": "joeyfezster",
+   "score": 0.2919,
+   "submissions": 19
   },
   {
    "rank": 8,
-   "participant": "mzoorob",
-   "score": 0.2884,
-   "submissions": 23,
-   "last_activity": "17h 51min ago"
+   "participant": "ndavis7",
+   "score": 0.2888,
+   "submissions": 7
   },
   {
    "rank": 9,
-   "participant": "GrigorSargsyan",
-   "score": 0.2876,
-   "submissions": 9,
-   "last_activity": "1d 1h ago"
+   "participant": "mzoorob",
+   "score": 0.2884,
+   "submissions": 23
   },
   {
    "rank": 10,
-   "participant": "HardcoreTechGod",
-   "score": 0.2854,
-   "submissions": 6,
-   "last_activity": "2w 1d ago"
+   "participant": "GrigorSargsyan",
+   "score": 0.2876,
+   "submissions": 10
   },
   {
    "rank": 11,
-   "participant": "op01",
-   "score": 0.271,
-   "submissions": 5,
-   "last_activity": "4d 10h ago"
+   "participant": "HardcoreTechGod",
+   "score": 0.2854,
+   "submissions": 6
   },
   {
    "rank": 12,
-   "participant": "kinghorton42",
-   "score": 0.2635,
-   "submissions": 5,
-   "last_activity": "1d 22h ago"
+   "participant": "op01",
+   "score": 0.2792,
+   "submissions": 6
   },
   {
    "rank": 13,
-   "participant": "ad3002",
-   "score": 0.2627,
-   "submissions": 19,
-   "last_activity": "2d 1h ago"
+   "participant": "smashi34",
+   "score": 0.2708,
+   "submissions": 8
   },
   {
    "rank": 14,
-   "participant": "No Fault of Our Own",
-   "score": 0.2624,
-   "submissions": 20,
-   "last_activity": "2d 2h ago"
+   "participant": "ad3002",
+   "score": 0.2627,
+   "submissions": 20
   },
   {
    "rank": 15,
-   "participant": "wbg1",
-   "score": 0.26,
-   "submissions": 10,
-   "last_activity": "19h 42min ago"
+   "participant": "No Fault of Our Own",
+   "score": 0.2624,
+   "submissions": 20
   },
   {
    "rank": 16,
-   "participant": "SDCF9",
+   "participant": "wbg1",
    "score": 0.26,
-   "submissions": 9,
-   "last_activity": "9min ago"
+   "submissions": 10
   },
   {
    "rank": 17,
+   "participant": "SDCF9",
+   "score": 0.26,
+   "submissions": 9
+  },
+  {
+   "rank": 18,
    "participant": "tchu",
    "score": 0.2511,
-   "submissions": 17,
-   "last_activity": "4d 1h ago"
+   "submissions": 18
+  },
+  {
+   "rank": 19,
+   "participant": "moongrega",
+   "score": 0.2474,
+   "submissions": 18
+  },
+  {
+   "rank": 20,
+   "participant": "BrandenKMurray",
+   "score": 0.2469,
+   "submissions": 9
+  },
+  {
+   "rank": 21,
+   "participant": "extradr19",
+   "score": 0.2449,
+   "submissions": 7
+  },
+  {
+   "rank": 22,
+   "participant": "jgaines",
+   "score": 0.2433,
+   "submissions": 20
+  },
+  {
+   "rank": 23,
+   "participant": "kpomazi",
+   "score": 0.2381,
+   "submissions": 10
+  },
+  {
+   "rank": 24,
+   "participant": "hiii12345",
+   "score": 0.2326,
+   "submissions": 10
   }
  ],
  "leaderboard_observed_utc": "2026-10-04",
  "leaderboard_verified": true,
- "leaderboard_snapshots": 1,
+ "leaderboard_snapshots": 2,
  "hypotheses": [
   {
    "id": "H60-1",
@@ -458,6 +483,110 @@
    "cost": "high",
    "data_status": "the official link table is mirrored in a sibling repository (sha256 8804dbff8754...); the tiles themselves were NOT obtained and their obtainability from this sandbox is unverified",
    "status": "registered; data obtainability unverified; no slot requested"
+  },
+  {
+   "id": "H33-A",
+   "rank": 1,
+   "status": "measured (not promoted)",
+   "title": "Multi-physics oriented-lineament consensus",
+   "layers": [
+    "rtp(2)",
+    "tmi(14)",
+    "mag_anom(1)",
+    "iso_grav_anom(13)",
+    "det_elev(12)",
+    "cond_surf(17)",
+    "depth_to_base_surf(15)",
+    "geodawn_rad K/Th/TC",
+    "lidar_scarp_features (ex_max/step_max/downface_max)"
+   ],
+   "signature": "scale-normalised Hessian line response per physics x 2nd-order orientation order parameter (do independent physics agree on the strike?)",
+   "why_off_catalogue": "the catalogue is dominated by faults that were mappable in one dataset (usually topography or the existing maps); requiring multi-physics strike agreement selects the class of curvilinear structure an expert can only accept when several fields agree",
+   "differs_from_repo": "no channel or H32 surface requires *independent* physics to agree on an orientation; features.py has per-band ridges and H32-A/C have pixel products",
+   "implementation": "src/gems32/h33.py::build_h33a; measured by scripts/run_h33.py",
+   "measured": {
+    "catalogue_hidden_mean_44090px": 0.01874,
+    "sgmc_prevalence_calibrated_dti_44090px": 0.02832,
+    "uniform_random_control_catalogue_hidden_44090px": 0.03438
+   },
+   "verdict": "BELOW the uniform-random control on the catalogue-hidden instrument (-45%); the instrument measures agreement with the mapped catalogue, and this surface deliberately selects what the catalogue under-represents. NOT PROMOTED."
+  },
+  {
+   "id": "H33-B",
+   "rank": 2,
+   "status": "measured (not promoted)",
+   "title": "Aligned drainage-valley chains",
+   "layers": [
+    "det_elev(12)",
+    "det_elev_slope(19)"
+   ],
+   "signature": "valley skeleton (NMS ridge of -det_elev) x 9-px 16-direction collinearity vote, de-emphasised where det_elev_slope is high",
+   "why_off_catalogue": "faults that lack a preserved scarp still deflect and align drainage; a collinear chain of valley segments across several drainages is structural, which a single scarp-height map cannot see",
+   "differs_from_repo": "the repo's DEM channels are all local; nothing aggregates evidence *along* a line",
+   "implementation": "src/gems32/h33.py::build_h33b; measured by scripts/run_h33.py",
+   "measured": {
+    "catalogue_hidden_mean_44090px": 0.02177,
+    "sgmc_prevalence_calibrated_dti_44090px": 0.09072,
+    "incumbent_sgmc": 0.06059
+   },
+   "verdict": "STRONGEST off-catalogue signal of the five (+49.8% over the incumbent on the SGMC-only instrument) and the WORST-class reading on the catalogue instrument (-37% vs random). The two instruments disagree in sign -- recorded as holdout drift, not as a win. NOT PROMOTED."
+  },
+  {
+   "id": "H33-C",
+   "rank": 3,
+   "status": "measured (not promoted)",
+   "title": "En-echelon scarplet chain vote on the 1 m LiDAR scarp product",
+   "layers": [
+    "lidar_scarp_features_u8 (ex_max, step_max, downface_max)"
+   ],
+   "signature": "scarplet skeleton x 11-px collinearity vote requiring contrast vs the local minimum (a scarp, not a slope break)",
+   "why_off_catalogue": "a single 1 m scarplet is noise; en-echelon collinear scarplets are what expert mappers accept as a fault, and they are below the 100 m grid",
+   "differs_from_repo": "the repo uses the LiDAR product only as a per-pixel corroboration weight",
+   "implementation": "src/gems32/h33.py::build_h33c; measured by scripts/run_h33.py",
+   "measured": {
+    "catalogue_hidden_mean_44090px": 0.02407,
+    "sgmc_prevalence_calibrated_dti_44090px": 0.0299
+   },
+   "verdict": "Below the random control on the catalogue instrument. NOT PROMOTED."
+  },
+  {
+   "id": "H33-D",
+   "rank": 4,
+   "status": "measured (not promoted)",
+   "title": "Long-straight conductive / basement structural boundary",
+   "layers": [
+    "cond_surf(17)",
+    "depth_to_base_surf(15)"
+   ],
+   "signature": "gradient magnitude x directional coherence of the gradient direction over a 3x3 window (a straight boundary, not a blobby anomaly)",
+   "why_off_catalogue": "MT conductivity and basement depth image the *subsurface*; a straight conductivity step locates a fault under cover, where a surface catalogue has nothing",
+   "differs_from_repo": "cond_surf/depth are used as scalars or plain gradient magnitudes in features.py",
+   "implementation": "src/gems32/h33.py::build_h33d; measured by scripts/run_h33.py",
+   "measured": {
+    "catalogue_hidden_mean_44090px": 0.00394,
+    "sgmc_prevalence_calibrated_dti_44090px": 0.00418
+   },
+   "verdict": "Weakest of the five on both instruments (a 3x3 directional-coherence window is too short for a 'long-straight' criterion). NOT PROMOTED."
+  },
+  {
+   "id": "H33-E",
+   "rank": 5,
+   "status": "DATA-BLOCKED (source named, obtainability not verified here)",
+   "title": "Sub-kilometre seismicity lineaments and nodal-plane traces from the raw earthquake catalogue",
+   "layers": [
+    "ieq_n100a15 (16) and deq_n100a15 (10) would be replaced/augmented by a raw epicentre catalogue (USGS FDSN event web service) plus moment tensors"
+   ],
+   "signature": "epicentre density lineaments + focal-mechanism nodal-plane strikes as fault-plane proxies at the epicentre",
+   "why_off_catalogue": "instrumental seismicity is a dynamic inventory: blind, low-slip-rate faults light up seismically while leaving no scarp for a geomorphic map",
+   "differs_from_repo": "the supplied seismic bands are computed on a 100 km radius; measured here, ieq is 0.9935-correlated with itself at a 3 km lag, i.e. constant at the metric's 300 m resolution",
+   "implementation": "scripts/fetch_earthquake_catalog.sh (ready to run; NOT runnable from this sandbox: curl to earthquake.usgs.gov returns HTTP 000, browsing path HTTP 500)",
+   "measured": {
+    "ieq_autocorr_1km": 0.9986,
+    "ieq_autocorr_3km": 0.9935,
+    "ieq_autocorr_10km": 0.9534,
+    "deq_autocorr_3km": 0.8408
+   },
+   "verdict": "NAMED SOURCE, obtainability NOT verified from this environment; ranked and NOT proposed as ready, per the brief's rule for externally-dependent candidates."
   }
  ],
  "claims": [
@@ -500,14 +629,14 @@
   }
  ],
  "submission": {
-  "name": "gems32-heatfield-44090-cv-supconfined-zeros",
-  "note": "GEMSDOE32 CV-heatfield: 35-channel blocked-cross-validated field, top 44,090 px, cross-validated DTI +15% vs the best previous artifact at matched mass",
-  "status_line": "PRIMARY = a cross-validated 35-channel field over the 19 official bands. Beat every previously shipped artifact at matched mass under two independent spatially blocked protocols (+15.0% whole-raster, +79.9% oracle-location vs dotted-d2.8). Every number is a proxy measurement against the visible catalogue: NO ORGANISER SCORE EXISTS for this or any artifact here.",
+  "name": "gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros",
+  "note": "32GEMSDOE H32-D d2.8+2500 | holdout drift 0.15188 vs 0.14801, cat 0.10122 vs 0.09832, SGMC 0.06129 vs 0.06059 (all three better), 46,090 px, 0 on-catalogue | id 4de30601 | UNSCORED",
+  "status_line": "PRIMARY = the group's 0.2600 d2.8 emission with 500 uncorroborated speckles pruned and 2,500 priority-ordered H32 dots added (46,090 px, 0 on-catalogue). It is the only artifact in this checkout that beats the owner-reported 0.2600 incumbent on ALL THREE holdout instruments at once, and it is the artifact the site previously did not offer. NO ORGANISER SCORE EXISTS for it: every number here is a local proxy measurement.",
   "file": {
-   "path": "docs/downloads/gems32-heatfield-44090-cv-supconfined-zeros.tif",
-   "sha256": "a84734ab532fffde07e8ecd5ee55a702f776ee6a96c31a01e00f2c8509897210",
-   "bytes": 780107,
-   "positive_px": 44090
+   "path": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+   "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+   "bytes": 250577,
+   "positive_px": 46090
   },
   "file_zeros": null,
   "pack": [
@@ -544,19 +673,19 @@
     "note": "Corrected support-confined lazy-greedy max-coverage. 0 off-support pixels, credit on the field's own surface 90,230.9 vs the incumbent's 88,569.5, but -0.0140 on the leak-contaminated catalogue proxy. NOT PROMOTED: it has not beaten the comparable spatially blocked holdout."
    }
   ],
-  "rule": "identity (S1); scale 0.5 (S2); S1 + 2000 null dots (S3)",
-  "field": "h19_5.tif",
-  "emitted_px": 44090,
-  "provenance": "built by scripts/build_identification_pack.py; every digest re-read from the written bytes; receipt registry/identification_pack.json",
-  "superseded": [
-   {
-    "role": "SUPERSEDED (defective: 57.8% off-support, 0.0163 proxy)",
-    "path": "docs/downloads/gems32-h19-5-smoothmaxcov-44090.tif",
-    "sha256": "2dc67f4bdb8d1bf200f8307946d100c8e51ebd55cc6c7229d1220f83156b6935",
-    "bytes": 199257,
-    "positive_px": 44090,
-    "note": "kept on disk for the audit trail; it is no longer the recommended download"
-   }
+  "rule": "priority-ordered Poisson-disk packing with surgical pruning, validated on the blocked spatially-held-out quadrants",
+  "holdout": {
+   "catalogue_hidden_mean": 0.10122068397615705,
+   "sgmc_prevalence_calibrated_dti": 0.061294720121546874,
+   "drift_corrected_holdout_mean": 0.15188374789388925,
+   "on_catalogue_pixels": 0
+  },
+  "evidence": [
+   "evidence/h33_probe_controls.json",
+   "evidence/h33_holdout.json",
+   "evidence/h33_candidates.json",
+   "evidence/instrument_calibration.json",
+   "registry/slot_plan.json"
   ]
  },
  "holdout": {
@@ -1257,6 +1386,55 @@
    "severity": "high",
    "statement": "main's CI was RED before this merge (runs 37177047885 and 37177047887, both failure) because PR #7 added tests that depend on artifacts which are gitignored and were never committed: tests/test_gems32.py::test_all_12_submission_geotiffs_pass_range_01_audit requires docs/downloads/submissions_manifest.json plus 12 GeoTIFFs, and test_docs_and_readme_integrity requires the Core Values block and the portal-error string in docs/index.html, which scripts/build_site.py did not emit.",
    "mitigation": "The artifact-dependent audit now SKIPS with an explicit reason when its manifest is absent (a silent pass would be worse than a failure); build_site.py now emits the Core Values strip on every page and a dedicated portal-error block on the home page; scripts/build_site.py data_dir() resolution fixed. All 60 tests pass in a clean checkout with only the hash-pinned inputs restored. This merge is what turns main green."
+  },
+  {
+   "id": "IR-32-MANIFEST-01",
+   "severity": "high",
+   "status": "fixed 2026-10-04",
+   "statement": "scripts/run_pipeline.py requires scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif, which was absent from registry/data_manifest.json and therefore never restored; the documented reproduce command (and step [3/6]) aborted with rasterio CPLE_OpenFailedError.",
+   "evidence": "traceback reproduced twice this session; the file was then pinned from the GEMSDOE27 manifest (sha256 33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d, 1,635,084 bytes) and fetch_mirrors.sh now reports 23/23 PASS.",
+   "mitigation": "manifest entry added (group 'scored'); fetch_mirrors.sh fails closed on digest mismatch."
+  },
+  {
+   "id": "IR-32-INSTR-01",
+   "severity": "high",
+   "status": "open (instrument defect, quantified)",
+   "statement": "The repository's promotion instrument drift_corrected_holdout_mean is discontinuous in the number of dots placed on the visible catalogue: holdout.py sets debiased_folds = dti and sym_factor = 1/(1+(n/60000)^2) whenever n_on_cat > 0. Adding ONE dot on a mapped fault to the 0.2600 emission moves drift 0.14801 -> 0.07831 (-47%) while catalogue_hidden_mean (0.09832) and SGMC (0.06059) are unchanged.",
+   "evidence": "controlled experiment this session: base mask + 1 catalogue pixel at (yy[0], xx[0]); outputs recorded in the session log and reproducible from src/gems32/holdout.py lines ~200-215.",
+   "consequence": "every cross-candidate drift comparison that straddles this branch is invalid, and every artifact in this repository that was 'promoted' happens to carry 0 on-catalogue dots.",
+   "mitigation": "slot decisions this session require on_catalogue_pixels == 0 AND agreement with the catalogue-hidden and SGMC instruments (registry/slot_plan.json); a branch-free estimator is proposed as next work."
+  },
+  {
+   "id": "IR-32-INSTR-02",
+   "severity": "medium",
+   "status": "open (cross-repository contradiction)",
+   "statement": "Over the 12 stored artifacts with owner-reported live scores the rank correlation with the live board is: catalogue_hidden Spearman +0.140, catalogue_hidden_strict +0.140, SGMC-calibrated +0.537, drift-corrected +0.529 (LOO MAE 0.053). The sibling repository GEMSDOE29 reports +0.709 for the catalogue-hidden proxy on a set of ten stored artifacts. The two measurements disagree about the same instrument.",
+   "evidence": "evidence/instrument_calibration.json (this checkout, n=12, scripts/calibrate_instrument.py).",
+   "mitigation": "only the drift/SGMC pair is used for promotion here, and both are labelled as weak rankers (n=12, p approx 0.09); the contradiction is disclosed rather than resolved."
+  },
+  {
+   "id": "IR-32-SITE-01",
+   "severity": "high",
+   "status": "fixed 2026-10-04",
+   "statement": "The published site's one-click file (gems32-heatfield-44090-cv-supconfined-zeros.tif) measures catalogue_hidden 0.11549 but SGMC-calibrated 0.01124 and drift 0.07789 -- below the owner-reported 0.2600 incumbent on two of the three instruments -- while the README's slot table advertised the H32-D family that the site never offered. The obvious download was therefore not the best-validated artifact.",
+   "evidence": "evidence/h33_probe_controls.json; registry/submission_build.json before/after this session.",
+   "mitigation": "scripts/build_slot_plan.py selects the headline artifact by the frozen rule and rewrites registry/submission_build.json; the site is regenerated from it."
+  },
+  {
+   "id": "IR-32-DUP-01",
+   "severity": "low",
+   "status": "flagged",
+   "statement": "registry/irregularities.json contains the id IR-32-FIELD-01 twice, so an id-based lookup silently returns the first entry only.",
+   "evidence": "python3 -c \"import json;print([x['id'] for x in json.load(open('registry/irregularities.json'))['items']])\"",
+   "mitigation": "flagged for a deduplicating pass; ids are stable and referenced from the site, so the rename is deferred to avoid breaking links."
+  },
+  {
+   "id": "IR-32-H33-01",
+   "severity": "medium",
+   "status": "open (instrument power)",
+   "statement": "All four label-free H33 surfaces score BELOW a uniform-random control on the catalogue-hidden instrument at 44,090 px (H33-A 0.01874, H33-B 0.02177, H33-C 0.02407, H33-D 0.00394, union 0.02006, random 0.03438), while H33-B scores 0.09072 on the off-catalogue SGMC instrument against the incumbent's 0.06059. The catalogue-hidden instrument therefore has no power to rank hypotheses whose purpose is to find faults the catalogue lacks.",
+   "evidence": "evidence/h33_holdout.json; evidence/h33_candidates.json.",
+   "mitigation": "the sign disagreement is reported as the session's central finding; promotion stays gated on the identification experiment (measuring T, K and F live) rather than on this instrument."
   }
  ]
 }
