@@ -1,171 +1,171 @@
 {
- "checked_utc": "2026-10-06T12:07:22Z",
+ "checked_utc": "2026-10-07T11:52:51Z",
  "results": [
   {
    "id": "competition",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "problem",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "about",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "data",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "leaderboard",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "rules_pdf",
    "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "application/pdf"
   },
   {
    "id": "reference_solution",
    "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "geodawn",
    "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "sciencebase_area",
    "url": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
-   "checked_utc": "2026-10-06T12:07:22Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=UTF-8"
+   "checked_utc": "2026-10-07T11:52:51Z",
+   "http_status": null,
+   "error": "HTTPError: HTTP Error 500: Internal Server Error"
   },
   {
    "id": "gbcge",
    "url": "https://gbcge.org/current-projects/ingenious/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=UTF-8"
   },
   {
    "id": "mcre_srl",
    "url": "https://doi.org/10.1785/0220200371",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": null,
    "error": "HTTPError: HTTP Error 403: Forbidden"
   },
   {
    "id": "mcre_bssa",
    "url": "https://doi.org/10.1785/0120200327",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": null,
    "error": "HTTPError: HTTP Error 403: Forbidden"
   },
   {
    "id": "mcre_nbmg",
    "url": "http://www.nbmg.unr.edu/Geohazards/Earthquakes/MonteCristoRangeEQData.html",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html"
   },
   {
    "id": "mcre_reloc",
    "url": "https://zenodo.org/records/5302368",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "usgs_qfaults",
    "url": "https://www.usgs.gov/natural-hazards/earthquake-hazards/faults",
-   "checked_utc": "2026-10-06T12:07:22Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-07T11:52:51Z",
+   "http_status": null,
+   "error": "TimeoutError: The read operation timed out"
   },
   {
    "id": "nbmg_ingenious_rest",
    "url": "https://web2.nbmg.unr.edu/arcgis/rest/services/Qfaults/Qfaults_INGENIOUS/MapServer/0",
-   "checked_utc": "2026-10-06T12:07:22Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-07T11:52:51Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)>"
   },
   {
    "id": "gdr1391",
    "url": "https://gdr.openei.org/submissions/1391",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=UTF-8"
   },
   {
    "id": "3dep",
    "url": "https://apps.nationalmap.gov/downloader/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html"
   },
   {
    "id": "comcat",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=UTF-8"
   },
   {
    "id": "nbmg_ingenious_service",
    "url": "https://web2.nbmg.unr.edu/arcgis/rest/services/Qfaults/QFaults_INGENIOUS/MapServer/0",
-   "checked_utc": "2026-10-06T12:07:22Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-07T11:52:51Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error [SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: certificate has expired (_ssl.c:1016)>"
   },
   {
    "id": "gdr_qfaults_v2_raster",
    "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/main/data/external/derived_gdr_qfaults_v2_100m_u8.tif",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "usgs_sgmc_raster",
    "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/main/data/external/derived_sgmc_faults_100m_u8.tif",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "gemsdoe25_site",
    "url": "https://buffedlizard55-lab.github.io/GEMSDOE25/",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "sibling_repos",
    "url": "https://github.com/buffedlizard55-lab",
-   "checked_utc": "2026-10-06T12:07:22Z",
+   "checked_utc": "2026-10-07T11:52:51Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   }
