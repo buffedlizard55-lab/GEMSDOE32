@@ -49,8 +49,10 @@ def test_dti_exact_matches_bruteforce():
 def test_data_restore_and_sentinel_sanitization_manifests():
     _require_inputs("training_features.tif")
     restore = json.loads((ROOT / "data" / "restore_receipt.json").read_text())
-    assert restore["verified_files_count"] == 22
-    assert all(f["status"] == "present" for f in restore["files"])
+    manifest = json.loads((ROOT / "registry" / "data_manifest.json").read_text())
+    # derive the count from the manifest: a hardcoded 22 went stale when the manifest grew to 23 (Arena41 IR-A41-DATA-01)
+    assert restore["verified_files_count"] == len(manifest["files"])
+    assert all(f["status"] in ("present", "restored") for f in restore["files"])
 
     prep = json.loads((ROOT / "data" / "prepared_manifest.json").read_text())
     assert prep["grid"]["epsg"] == 32611

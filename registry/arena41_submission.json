@@ -1,0 +1,19 @@
+{
+  "candidate_id": "ARENA41-PFONLY",
+  "file": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+  "zip": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.zip",
+  "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+  "bytes": 277724,
+  "dots": 37654,
+  "note_le140": "Arena41 PF-only blind-basin 37654d B2 zeros | HOLDOUT gates G2/G3 FAIL vs surf-ctrl | DO NOT SUBMIT",
+  "unique_submission_name": "GEMSDOE32-ARENA41-PFONLY",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "gates": {
+    "G1_auc_le_0.90": true,
+    "G2_pooled_gt_3x_random": false,
+    "G3_lane_offcat_beats_ctrl_and_retains70": false,
+    "G4_uniqueness": false,
+    "G5_format": true
+  }
+}

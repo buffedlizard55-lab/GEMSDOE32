@@ -1,0 +1,286 @@
+{
+  "generated": "2026-10-25T20:12:47Z",
+  "results": {
+    "H35-A@37654": {
+      "hid": "H35-A",
+      "budget": 37654,
+      "on_catalogue": 52,
+      "max_overlap": 0.4180963509852871,
+      "leakage_auc2": 0.5214963439353297,
+      "catalogue_hidden_mean": 0.0014004378737181018,
+      "drift_corrected_holdout_mean": 0.004961738359321582,
+      "sgmc_prevalence_calibrated_dti": 0.021548021853359998,
+      "emitted_pixels": 37654
+    },
+    "H35-A@44090": {
+      "hid": "H35-A",
+      "budget": 44090,
+      "on_catalogue": 70,
+      "max_overlap": 0.41540031753232026,
+      "leakage_auc2": 0.5214963439353297,
+      "catalogue_hidden_mean": 0.0015612075102923561,
+      "drift_corrected_holdout_mean": 0.005066776323988676,
+      "sgmc_prevalence_calibrated_dti": 0.0236428392716326,
+      "emitted_pixels": 44090
+    },
+    "H35-A@46090": {
+      "hid": "H35-A",
+      "budget": 46090,
+      "on_catalogue": 78,
+      "max_overlap": 0.41455847255369926,
+      "leakage_auc2": 0.5214963439353297,
+      "catalogue_hidden_mean": 0.0015295753872688134,
+      "drift_corrected_holdout_mean": 0.005000772963405836,
+      "sgmc_prevalence_calibrated_dti": 0.024133425527455194,
+      "emitted_pixels": 46090
+    },
+    "H35-A": {
+      "spec": {
+        "name": "Multi-scale curvature persistence (detrended elevation)",
+        "layers": [
+          "det_elev(12)",
+          "det_elev_slope(19)"
+        ],
+        "signature": "Product of Laplacian-derived curvature magnitudes at 1.5, 2.5, 4.0 px scales, gated by moderate slope (subtle scarp persistence)",
+        "why_off_catalogue": "USGS catalogue records scarps visible at single scale; degraded/subtle scarps under alluvial cover persist only as weak curvature across scales, invisible to single-scale ridge",
+        "novelty": "No prior channel computes multi-scale persistence product; features.py has single-scale curvature at 2 scales but never requires consistency across 3 scales",
+        "cost": "~12s CPU",
+        "expected_gain": "+0.0025 to +0.0045 DTI"
+      },
+      "surface_stats": {
+        "min": 0.0,
+        "max": 1.0,
+        "auc2": 0.5214963439353297
+      }
+    },
+    "H35-B@37654": {
+      "hid": "H35-B",
+      "budget": 37654,
+      "on_catalogue": 537,
+      "max_overlap": 0.38548361395867636,
+      "leakage_auc2": 0.5341456107213792,
+      "catalogue_hidden_mean": 0.008242882410141514,
+      "drift_corrected_holdout_mean": 0.008728953334673271,
+      "sgmc_prevalence_calibrated_dti": 0.011741662351596809,
+      "emitted_pixels": 37654
+    },
+    "H35-B@44090": {
+      "hid": "H35-B",
+      "budget": 44090,
+      "on_catalogue": 635,
+      "max_overlap": 0.38271716942617373,
+      "leakage_auc2": 0.5341456107213792,
+      "catalogue_hidden_mean": 0.008816929486094909,
+      "drift_corrected_holdout_mean": 0.009013850768384273,
+      "sgmc_prevalence_calibrated_dti": 0.012822479754407,
+      "emitted_pixels": 44090
+    },
+    "H35-B@46090": {
+      "hid": "H35-B",
+      "budget": 46090,
+      "on_catalogue": 672,
+      "max_overlap": 0.382208722065524,
+      "leakage_auc2": 0.5341456107213792,
+      "catalogue_hidden_mean": 0.009095585612987938,
+      "drift_corrected_holdout_mean": 0.009128784263894442,
+      "sgmc_prevalence_calibrated_dti": 0.01303784440967595,
+      "emitted_pixels": 46090
+    },
+    "H35-B": {
+      "spec": {
+        "name": "Tilt-angle edge \u00d7 magnetic gradient amplitude coupling",
+        "layers": [
+          "tc(6)",
+          "tmi_hg(3)",
+          "rtp(2)"
+        ],
+        "signature": "Proximity to TC zero (1/(1+|TC|)) multiplied by TMI_HG gradient magnitude and RTP line response",
+        "why_off_catalogue": "Magnetic contacts under basin fill have no topographic expression; TC marks contact location depth-independently while amplitude filters noise\u2014catalogue lacks blind contacts",
+        "novelty": "H32/H33 never coupled TC zero-crossing with amplitude gating; features.py recomputes hg as tmi_edge but never gates TC by hg",
+        "cost": "~20s CPU",
+        "expected_gain": "+0.0015 to +0.0030"
+      },
+      "surface_stats": {
+        "min": 0.0,
+        "max": 1.0,
+        "auc2": 0.5341456107213792
+      }
+    },
+    "H35-C@37654": {
+      "hid": "H35-C",
+      "budget": 37654,
+      "on_catalogue": 640,
+      "max_overlap": 0.20746799808785255,
+      "leakage_auc2": 0.5111654407755418,
+      "catalogue_hidden_mean": 0.0030128026087785026,
+      "drift_corrected_holdout_mean": 0.002987972275933668,
+      "sgmc_prevalence_calibrated_dti": 0.004218757099157733,
+      "emitted_pixels": 37654
+    },
+    "H35-C@44090": {
+      "hid": "H35-C",
+      "budget": 44090,
+      "on_catalogue": 716,
+      "max_overlap": 0.19925153095940124,
+      "leakage_auc2": 0.5111654407755418,
+      "catalogue_hidden_mean": 0.003515749318359978,
+      "drift_corrected_holdout_mean": 0.003275673675053472,
+      "sgmc_prevalence_calibrated_dti": 0.004443008572975649,
+      "emitted_pixels": 44090
+    },
+    "H35-C@46090": {
+      "hid": "H35-C",
+      "budget": 46090,
+      "on_catalogue": 737,
+      "max_overlap": 0.19702755478411804,
+      "leakage_auc2": 0.5111654407755418,
+      "catalogue_hidden_mean": 0.003755584200986599,
+      "drift_corrected_holdout_mean": 0.0034142291936311445,
+      "sgmc_prevalence_calibrated_dti": 0.004479171010555195,
+      "emitted_pixels": 46090
+    },
+    "H35-C": {
+      "spec": {
+        "name": "Conductivity-basement co-gradient alignment",
+        "layers": [
+          "cond_surf(17)",
+          "depth_to_base_surf(15)"
+        ],
+        "signature": "Product of gradient magnitudes \u00d7 absolute cosine of gradient direction alignment (requires >0.5 alignment)",
+        "why_off_catalogue": "Fault under cover juxtaposes both conductive clay cap and basement step with same strike; surface catalogue has nothing where cover is thick",
+        "novelty": "Prior uses cond/depth as scalars or plain gradient magnitude; none requires gradient directions to align",
+        "cost": "~15s CPU",
+        "expected_gain": "+0.0020 to +0.0040"
+      },
+      "surface_stats": {
+        "min": 0.0,
+        "max": 1.0,
+        "auc2": 0.5111654407755418
+      }
+    },
+    "H35-D@37654": {
+      "hid": "H35-D",
+      "budget": 37654,
+      "on_catalogue": 605,
+      "max_overlap": 0.3450363839167154,
+      "leakage_auc2": 0.5171508499672667,
+      "catalogue_hidden_mean": 0.016879503552384427,
+      "drift_corrected_holdout_mean": 0.015996715920989547,
+      "sgmc_prevalence_calibrated_dti": 0.020140736604337673,
+      "emitted_pixels": 37654
+    },
+    "H35-D@44090": {
+      "hid": "H35-D",
+      "budget": 44090,
+      "on_catalogue": 714,
+      "max_overlap": 0.34320707643456566,
+      "leakage_auc2": 0.5171508499672667,
+      "catalogue_hidden_mean": 0.017534480597203084,
+      "drift_corrected_holdout_mean": 0.016279298030425507,
+      "sgmc_prevalence_calibrated_dti": 0.021692462199215504,
+      "emitted_pixels": 44090
+    },
+    "H35-D@46090": {
+      "hid": "H35-D",
+      "budget": 46090,
+      "on_catalogue": 751,
+      "max_overlap": 0.3420264699500976,
+      "leakage_auc2": 0.5171508499672667,
+      "catalogue_hidden_mean": 0.017981924577893056,
+      "drift_corrected_holdout_mean": 0.016510955510462184,
+      "sgmc_prevalence_calibrated_dti": 0.022088449348301932,
+      "emitted_pixels": 46090
+    },
+    "H35-D": {
+      "spec": {
+        "name": "Radiometric Th/K alteration edge \u00d7 gravity gradient",
+        "layers": [
+          "geodawn_rad Th/K ratio (external)",
+          "iso_grav_anom_hg(18)",
+          "lidar_scarp"
+        ],
+        "signature": "Th/K ratio gradient magnitude \u00d7 gravity HG amplitude, weighted by lidar (alteration above conduits)",
+        "why_off_catalogue": "Argillic alteration above geothermal conduits changes Th/K without creating scarp; catalogue is geomorphic, not geochemical",
+        "novelty": "H32-C used rad as generic per-pixel weight, never alteration-ratio edge detection",
+        "cost": "~18s CPU",
+        "expected_gain": "+0.0010 to +0.0025"
+      },
+      "surface_stats": {
+        "min": 0.0,
+        "max": 0.4218919277191162,
+        "auc2": 0.5171508499672667
+      }
+    },
+    "H35-E@37654": {
+      "hid": "H35-E",
+      "budget": 37654,
+      "on_catalogue": 1754,
+      "max_overlap": 0.4839592075211133,
+      "leakage_auc2": 0.5376351581540059,
+      "catalogue_hidden_mean": 0.008246076191513166,
+      "drift_corrected_holdout_mean": 0.006063759100557879,
+      "sgmc_prevalence_calibrated_dti": 0.004015646331185593,
+      "emitted_pixels": 37654
+    },
+    "H35-E@44090": {
+      "hid": "H35-E",
+      "budget": 44090,
+      "on_catalogue": 1848,
+      "max_overlap": 0.47448400997958723,
+      "leakage_auc2": 0.5376351581540059,
+      "catalogue_hidden_mean": 0.007413191065225507,
+      "drift_corrected_holdout_mean": 0.005528380844134832,
+      "sgmc_prevalence_calibrated_dti": 0.004698486200012503,
+      "emitted_pixels": 44090
+    },
+    "H35-E@46090": {
+      "hid": "H35-E",
+      "budget": 46090,
+      "on_catalogue": 1863,
+      "max_overlap": 0.4712518984595357,
+      "leakage_auc2": 0.5376351581540059,
+      "catalogue_hidden_mean": 0.007223052550912266,
+      "drift_corrected_holdout_mean": 0.005373377968638399,
+      "sgmc_prevalence_calibrated_dti": 0.004699918916464393,
+      "emitted_pixels": 46090
+    },
+    "H35-E": {
+      "spec": {
+        "name": "Transtensional invariant (geodetic opening \u00d7 shear)",
+        "layers": [
+          "geod_2ndinv(4)",
+          "geod_shearrate(7)",
+          "geod_dilaterate(8)",
+          "ieq_n100a15(16)"
+        ],
+        "signature": "z+(dilatation)*|shear|/(I2+0.35) \u00d7 microseismic density, ridge-filtered",
+        "why_off_catalogue": "Active Walker Lane releasing step-overs drive current permeability but haven't accumulated enough offset for quaternary map; seismic swarm marks active blind faults",
+        "novelty": "H32-B used similar Kostrov invariant but without ridge lineament filtering and without ieq gating as multiplicative",
+        "cost": "~8s CPU",
+        "expected_gain": "+0.0015 to +0.0030"
+      },
+      "surface_stats": {
+        "min": 0.0,
+        "max": 0.832092821598053,
+        "auc2": 0.5376351581540059
+      }
+    }
+  },
+  "ranked": [
+    "H35-D@46090",
+    "H35-D@44090",
+    "H35-D@37654",
+    "H35-B@46090",
+    "H35-B@44090",
+    "H35-B@37654",
+    "H35-E@37654",
+    "H35-E@44090",
+    "H35-E@46090",
+    "H35-A@44090",
+    "H35-A@46090",
+    "H35-A@37654",
+    "H35-C@46090",
+    "H35-C@44090",
+    "H35-C@37654"
+  ]
+}

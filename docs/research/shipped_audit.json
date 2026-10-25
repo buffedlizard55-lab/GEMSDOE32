@@ -361,6 +361,48 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+   "bytes": 277724,
+   "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 35949,
+   "off_h19_5_frac": 0.9547192861316195,
+   "catalogue_proxy_T": 1649.5307690315826,
+   "catalogue_proxy_F": 36432.878969399535,
+   "credit_per_unit_mass": 0.04380758402909605,
+   "catalogue_proxy_DTI": 0.02924343115723746,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-nan.tif",
    "bytes": 379333,
    "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",
@@ -442,6 +484,174 @@
    "catalogue_proxy_F": 40135.21887627244,
    "credit_per_unit_mass": 0.21544110086870605,
    "catalogue_proxy_DTI": 0.1617719780036745,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-nan.tif",
+   "bytes": 377371,
+   "sha256": "d4a4496f12b0f29f3d9f43c700cbd5a30a229b75a6ecc005be59fed0e7a3797c",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 43590,
+   "total_mass": 43590.0,
+   "off_h19_5_px": 0,
+   "off_h19_5_frac": 0.0,
+   "catalogue_proxy_T": 9422.856159787225,
+   "catalogue_proxy_F": 39668.06400589412,
+   "credit_per_unit_mass": 0.21617013442962205,
+   "catalogue_proxy_DTI": 0.1607760418586415,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-zeros.tif",
+   "bytes": 241911,
+   "sha256": "e077da38c88075e4c2d3dcd15e734fd37ebdf14911fff5057d4a735c4e594a3c",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 43590,
+   "total_mass": 43590.0,
+   "off_h19_5_px": 0,
+   "off_h19_5_frac": 0.0,
+   "catalogue_proxy_T": 9422.856159787225,
+   "catalogue_proxy_F": 39668.06400589412,
+   "credit_per_unit_mass": 0.21617013442962205,
+   "catalogue_proxy_DTI": 0.1607760418586415,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
+   "bytes": 385181,
+   "sha256": "c3339375ccb4075f63fec017ceaec89426ac5a9bb316f8626e88f3a6de10c600",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 46090,
+   "total_mass": 46090.0,
+   "off_h19_5_px": 2400,
+   "off_h19_5_frac": 0.05207203297895422,
+   "catalogue_proxy_T": 9691.936763625152,
+   "catalogue_proxy_F": 42039.047817554616,
+   "credit_per_unit_mass": 0.21028285449392822,
+   "catalogue_proxy_DTI": 0.1638906746249416,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+   "bytes": 250142,
+   "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 46090,
+   "total_mass": 46090.0,
+   "off_h19_5_px": 2400,
+   "off_h19_5_frac": 0.05207203297895422,
+   "catalogue_proxy_T": 9691.936763625152,
+   "catalogue_proxy_F": 42039.047817554616,
+   "credit_per_unit_mass": 0.21028285449392822,
+   "catalogue_proxy_DTI": 0.1638906746249416,
    "dots_on_catalogue": 0
   },
   {
@@ -1030,6 +1240,90 @@
    "catalogue_proxy_F": 38256.45736696465,
    "credit_per_unit_mass": 0.010958568773912639,
    "catalogue_proxy_DTI": 0.00747435223369691,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-nan.tif",
+   "bytes": 351697,
+   "sha256": "8fa6b4cd1622359e18fb3cce1555fd2e722faa5a68ce2a3bfd386a5755c8f1cf",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 42600,
+   "total_mass": 42600.0,
+   "off_h19_5_px": 37682,
+   "off_h19_5_frac": 0.8845539906103287,
+   "catalogue_proxy_T": 927.0662604745619,
+   "catalogue_proxy_F": 41894.41480054699,
+   "credit_per_unit_mass": 0.021762118790482673,
+   "catalogue_proxy_DTI": 0.016163737613473655,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-zeros.tif",
+   "bytes": 215651,
+   "sha256": "6e048db2dc1b39995c8024cd7492f2f4e5acaa83acece4717cbc525765394c68",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 42600,
+   "total_mass": 42600.0,
+   "off_h19_5_px": 37682,
+   "off_h19_5_frac": 0.8845539906103287,
+   "catalogue_proxy_T": 927.0662604745619,
+   "catalogue_proxy_F": 41894.41480054699,
+   "credit_per_unit_mass": 0.021762118790482673,
+   "catalogue_proxy_DTI": 0.016163737613473655,
    "dots_on_catalogue": 0
   },
   {

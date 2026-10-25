@@ -1,0 +1,45 @@
+{
+  "G4_literal_preregistered": false,
+  "G4_defect": "One-directional within-3px fraction is vacuously failed by dense covering rasters in the registry (lattice-s5 206,895 dots: 98.7% of ANY footprint dot set lies within 3px; phi vs final = 0.00012). It measures the other raster's coverage, not duplication.",
+  "G4_amended_rule": "spearman<0.90 (build) AND frac_final_within3<=0.70 vs every registry raster with <=2x final dots AND symmetric min(within3 both directions)<=0.70 vs all",
+  "G4_amended_pass": true,
+  "worst_sparse": {
+    "file": "gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+    "dots": 69281,
+    "frac_final_within3": 0.5624900408987094,
+    "frac_other_within3": 0.2583536611769461,
+    "sym_overlap_min": 0.2583536611769461,
+    "covering_set_gt100k_dots": false
+  },
+  "vs_champion": [
+    {
+      "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "dots": 37654,
+      "frac_final_within3": 0.258485154299676,
+      "frac_other_within3": 0.20053646358952568,
+      "sym_overlap_min": 0.20053646358952568,
+      "covering_set_gt100k_dots": false
+    }
+  ],
+  "champion_zip_repair": {
+    "before": {
+      "bytes": 216,
+      "sha256": "0322d0b413530b9fb445a366ca1ad234c5180868c2f89cdc70fe2ce80bd4439f",
+      "entries": [
+        "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip"
+      ]
+    },
+    "after": {
+      "bytes": 186378,
+      "sha256": "5a6f3ee02e6392089d53361976dbc9d5dec43ef4205001097c6806fe487bef11",
+      "entries": [
+        "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif"
+      ],
+      "entry_uncompressed_bytes": 219065,
+      "champion_tif_sha256_unchanged": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9"
+    }
+  },
+  "verdict_unchanged": "negative",
+  "reason": "G2 and G3 fail independently of G4",
+  "max_frac_final_within3_sparse": 0.5624900408987094
+}

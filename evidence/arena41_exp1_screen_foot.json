@@ -1,0 +1,152 @@
+{
+  "experiment": "EXP1_screen",
+  "evaluator": "gems32.holdout.evaluate_candidate_holdout v(repo HEAD 012e17b): hide 20% whole catalogue components per quadrant, draws 20/21, 15px collar, visible masked in scoring domain; pooled DTI alpha0.2 beta0.8 R=3px computed from per-cell TP/FP/FN",
+  "budget": 37654,
+  "screen_mask": "foot",
+  "leakage_canary": "AUC>0.90 => leakage until proven otherwise",
+  "results": {
+    "CHAMPION_B2_prebuilt": {
+      "emitted": 37654,
+      "pooled": {
+        "pooled_dti": 0.00451537871535044,
+        "ci95_cluster_bootstrap": [
+          0.003943270699615557,
+          0.005250104404946791
+        ],
+        "tp": 144.17670556019365,
+        "fp": 70578.55765039964,
+        "fn": 22087.823294439804,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.004600104084398947,
+      "sgmc_prevalence_calibrated_dti": 0.06412093764176459,
+      "drift_corrected_holdout_mean": 0.04504333270394367
+    },
+    "C2_worm_scale_persist_proxy": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5370437875061486,
+        0.48116993012815384,
+        0.5361110459076004,
+        0.5140372892995088
+      ],
+      "auc_mean": 0.5170905132103529,
+      "pooled": {
+        "pooled_dti": 0.04094838818884957,
+        "ci95_cluster_bootstrap": [
+          0.0241146394443604,
+          0.05357802019321141
+        ],
+        "tp": 1310.577677009399,
+        "fp": 69789.41548418113,
+        "fn": 20921.422322990602,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.034290263197019444,
+      "sgmc_prevalence_calibrated_dti": 0.03676674517237,
+      "drift_corrected_holdout_mean": 0.033183034813219235
+    },
+    "C3_curv_abs_s2p5": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5717747372520084,
+        0.49939708323342125,
+        0.5371308808967242,
+        0.5126242486031424
+      ],
+      "auc_mean": 0.530231737496324,
+      "pooled": {
+        "pooled_dti": 0.015996709338935947,
+        "ci95_cluster_bootstrap": [
+          0.010660578231516145,
+          0.02297015486841104
+        ],
+        "tp": 495.50309763648175,
+        "fp": 65453.067807614796,
+        "fn": 21736.496902363517,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.017379909151245723,
+      "sgmc_prevalence_calibrated_dti": 0.09396334066190465,
+      "drift_corrected_holdout_mean": 0.033171620171785175
+    },
+    "C_basement_step": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5147054312182325,
+        0.5347081471638291,
+        0.491458102415506,
+        0.5296860393932575
+      ],
+      "auc_mean": 0.5176394300477063,
+      "pooled": {
+        "pooled_dti": 0.024016939556668577,
+        "ci95_cluster_bootstrap": [
+          0.010320002424726712,
+          0.04001107251991256
+        ],
+        "tp": 742.8762049011873,
+        "fp": 64985.84080692959,
+        "fn": 21489.12379509881,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.02176475566226386,
+      "sgmc_prevalence_calibrated_dti": 0.009442737371720892,
+      "drift_corrected_holdout_mean": 0.016492256569410283
+    },
+    "C1_pf_edge_mean": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5259958489096573,
+        0.5404632936349346,
+        0.5157564723953768,
+        0.5435063280458994
+      ],
+      "auc_mean": 0.5314304857464671,
+      "pooled": {
+        "pooled_dti": 0.032945162773145305,
+        "ci95_cluster_bootstrap": [
+          0.02159893728811644,
+          0.0448842785634656
+        ],
+        "tp": 987.5674163479654,
+        "fp": 59964.920828342714,
+        "fn": 21244.432583652037,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.03126246041426267,
+      "sgmc_prevalence_calibrated_dti": 0.02032130670836707,
+      "drift_corrected_holdout_mean": 0.026298312883677913
+    },
+    "C4_radalt_x_demag": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.48192324848335794,
+        0.49900109503636797,
+        0.4830042874013831,
+        0.5237774201259984
+      ],
+      "auc_mean": 0.49692651276177685,
+      "pooled": {
+        "pooled_dti": 0.02939491304156899,
+        "ci95_cluster_bootstrap": [
+          0.020681486115391716,
+          0.03503558547540477
+        ],
+        "tp": 935.3507526216029,
+        "fp": 69237.43503621047,
+        "fn": 21296.649247378395,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.02569099202426918,
+      "sgmc_prevalence_calibrated_dti": 0.030703264854308788,
+      "drift_corrected_holdout_mean": 0.025917277439504338
+    }
+  }
+}
