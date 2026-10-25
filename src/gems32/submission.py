@@ -38,9 +38,24 @@ def audit_geotiff(
     foot: np.ndarray,
     labels: np.ndarray,
     mode: str = "zeros",
+    template_tif: Path | None = None,
 ) -> dict:
     """Strict 12-point DrivenData submission validator audit."""
+    if mode not in {"zeros", "nan"}:
+        raise ValueError("mode must be zeros or nan")
+    # Legacy callers use the documented historical grid. Writers must use the actual template.
+    expected_crs = rasterio.crs.CRS.from_epsg(32611)
+    expected_shape = (EXPECTED_HEIGHT, EXPECTED_WIDTH)
+    expected_transform = rasterio.transform.from_origin(243350, 4508550, 100, 100)
+    if template_tif is not None:
+        with rasterio.open(template_tif) as tpl:
+            expected_crs, expected_shape, expected_transform = tpl.crs, tpl.shape, tpl.transform
     with rasterio.open(tif_path) as src:
+        if (src.crs != expected_crs or src.shape != expected_shape
+                or src.transform != expected_transform):
+            raise ValueError("Submission CRS/shape/transform mismatch against reference grid")
+        if foot.shape != src.shape or labels.shape != src.shape or not foot.any():
+            raise ValueError("Invalid footprint or labels shape")
         arr = src.read(1)
         crs_str = str(src.crs)
         transform_tuple = tuple(round(float(x), 4) for x in src.transform)[:6]
@@ -74,9 +89,10 @@ def audit_geotiff(
         out_foot_ok = bool(np.all(np.isnan(out_foot)))
 
     emitted_dots = int((in_foot > 0.5).sum())
-    on_catalogue_dots = int(((arr > 0.5) & labels).sum())
+    on_catalogue_dots = int(((arr > 0) & labels).sum())
 
     checks = {
+        "exact_reference_grid_match": True,
         "single_band": count == 1,
         "dtype_float32": dtypes[0] == "float32",
         "dimensions_3730x3292": (height == EXPECTED_HEIGHT and width == EXPECTED_WIDTH),
@@ -100,6 +116,7 @@ def audit_geotiff(
         "size_bytes": tif_path.stat().st_size,
         "sha256": sha256_file(tif_path),
         "mode": mode,
+        "geometry_reference": str(template_tif) if template_tif else "documented historical grid (not freshly authenticated)",
         "crs": crs_str,
         "transform": list(transform_tuple),
         "shape": [height, width],
@@ -165,8 +182,8 @@ def write_submission_pair(
     with rasterio.open(nan_path, "w", **profile_nan) as dst:
         dst.write(arr_nan, 1)
 
-    audit_zeros = audit_geotiff(zeros_path, foot, labels, mode="zeros")
-    audit_nan = audit_geotiff(nan_path, foot, labels, mode="nan")
+    audit_zeros = audit_geotiff(zeros_path, foot, labels, mode="zeros", template_tif=template_tif)
+    audit_nan = audit_geotiff(nan_path, foot, labels, mode="nan", template_tif=template_tif)
 
     fmt_kwargs = dict(
         dots=audit_zeros["emitted_positive_pixels"],
