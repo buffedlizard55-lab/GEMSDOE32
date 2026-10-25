@@ -1,0 +1,116 @@
+{
+  "candidate_id": "h32-winning-46090-prune400",
+  "slug": "h32-winning-46090-prune400",
+  "content_digest8": "c3459dcd",
+  "description": "H32 winning variant: D2.8 minus 400 weakest speckles (corroboration<0.2) plus 2400 H32-B/C/A dots w0.5-C w0.3-A, 46090 total, 0 on catalogue, sorted Poisson 2.35px",
+  "submission_note_zeros": "H32-WIN 46090dots 0onCat prune400+add H32B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480",
+  "submission_note_nan": "H32-WIN 46090dots HOLDOUT 0.1484",
+  "zeros_tif": {
+    "filename": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+    "size_bytes": 250142,
+    "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 46090,
+    "footprint_fraction": 0.008919,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
+    "size_bytes": 385181,
+    "sha256": "c3339375ccb4075f63fec017ceaec89426ac5a9bb316f8626e88f3a6de10c600",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 46090,
+    "footprint_fraction": 0.008919,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.09847015183645208,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.09861224113340611,
+      "NE": 0.10695376647227489,
+      "SW": 0.06958772904073855,
+      "SE": 0.11872687069938875
+    },
+    "sgmc_prevalence_calibrated_dti": 0.06061200769577,
+    "drift_corrected_holdout_mean": 0.14840079268764622,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.14916030297633373,
+      "NE": 0.15545019052380532,
+      "SW": 0.12126784388345277,
+      "SE": 0.16772483336699312
+    },
+    "predicted_leaderboard_dti": 0.14840079268764622,
+    "ei_drift_corrected": 0.002,
+    "slot_decision": "promote"
+  }
+}

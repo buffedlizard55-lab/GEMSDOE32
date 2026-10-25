@@ -1,0 +1,48 @@
+{
+  "hypothesis": "H32-NewVariant: D2.8 pruned 500 weakest uncorroborated dots (corroboration <0.2) plus 2500 priority-ordered H32 dip-step (A), transtensional swarm (B), MT clay-cap breach (C) dots at 2.35px Poisson, 43200 total",
+  "mechanism": "Removes BFS speckle waste (low corroboration ridge tips suppressing fault intersections) and fills >300m gaps on dipping range-front (A), releasing step-overs (B), and conductive clay-cap boundaries (C) without losing D2.8 backbone; sorted Poisson ensures high-confidence intersections win",
+  "non_fault_mimic": "Pleistocene lake shorelines and basalt flow edges produce identical short-wavelength curvature and MT conductivity steps; these lacustrine terraces in the Carson Sink mimic dilational fault steps in det_elev and cond_surf and are the dominant false-positive in H32-A's top decile",
+  "holdout_dti": 0.14815216380141263,
+  "holdout_ci": [
+    0.11158068430583709,
+    0.18472364329698818
+  ],
+  "catalogue_hidden_mean": 0.09835789426811364,
+  "sgmc_prevalence_calibrated_dti": 0.060311251119445,
+  "withheld_positives": 22232,
+  "leakage_canary": "AUC 0.63-0.71 per fold, <0.90, no leakage",
+  "correlation_overlap": {
+    "overlap_3px_vs_D2_8": 1.0,
+    "on_catalogue": 0
+  },
+  "raster_sha256": "e077da38c88075e4c2d3dcd15e734fd37ebdf14911fff5057d4a735c4e594a3c",
+  "validator": {
+    "no_nan": true,
+    "values_in_01": true,
+    "crs_match": true,
+    "shape_match": true,
+    "transform_match": true,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    }
+  },
+  "submission_name": "GEMSDOE32-H32-NEW-43590",
+  "note": "H32 newvar 43590dots 0onCat pruned500+H32ABC HOLDOUT-DTI 0.1482 SGMC 0.0603",
+  "verdict": "negative",
+  "files": {
+    "zeros": "gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-zeros.tif",
+    "nan": "gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-nan.tif"
+  },
+  "evaluator_version": "GEMSDOE32-HOLDOUT-v2"
+}

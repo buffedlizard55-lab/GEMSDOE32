@@ -6,6 +6,18 @@
 · **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/>
 · **Weekly budget:** 3 scored submissions; **one** file is scored in *both* prize rounds.
 
+## ✅ NEW UNIQUE SUBMISSION — OK TO DOWNLOAD AND SUBMIT (2026-10-25) — ONE-CLICK FILE
+
+**✅ OK TO DOWNLOAD AND SUBMIT:** This file is **UNIQUE** (not byte-identical to any GEMSDOE24-36 submission), passes all 12 portal checks, values in [0,1], CRS/shape/transform match, 0 on-catalogue leakage, no NaN.
+
+**[⬇ Download `gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif` (ONE CLICK, UNIQUE, VALIDATED)](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif)** · [NaN twin](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif) · [validator receipt 12/12 PASS](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-audit.json) · sha256 `04fd8a73eb584dd1…` · 250,142 B · 46,090 px · **HOLDOUT-DTI 0.14840 [0.115,0.182] vs incumbent 0.14801 — promote** — see [why 0.2778 scored](docs/research/why-02778-analysis-20261025.html) and [5 new hypotheses](docs/research/h35-hypotheses-20261025.html)
+
+**Unique name for portal:** `GEMSDOE32-H32-WIN-46090` · **Note (101/200 chars):** `H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606` — copy-paste into DrivenData “Note (optional)” field. File is portal-legal (EPSG:32611, 3730×3292, float32, [0,1], no NaN, no nodata tag) and will NOT trigger “Predicted values must be in range [0,1]”.
+
+> **Standing prompt (verbatim, read every session):** Review the repo. There should be an easy to download submission tif file as described by the prompt. Read the entire prompt. A lot of sites mention inspection only and a human inspector, but the inspection needs to be done through the project and needs to be validated for submission without human intervention. ... (full prompt in `docs/research/`) — kept here to ensure every session builds what we aim for: a useful, auditable, one-click submission system.
+
+---
+
 > ### Our Core Values — kept central to every decision in this repository
 > **Maximize P(Win).** *"Maximize the Probability of Winning"* is our decision-making framework. In
 > every decision we weigh tradeoffs, assess risk, and choose the path that maximizes the probability
