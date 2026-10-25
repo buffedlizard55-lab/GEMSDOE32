@@ -1,0 +1,56 @@
+{
+  "hypothesis": "H32-WinningVariant: D2.8 pruned 400 weakest uncorroborated speckles (corroboration<0.2, lidar<0.15) plus 2400 priority-ordered H32 transtensional swarm (B 50%), MT clay-cap breach (C 30%), dip-projected step (A 20%) dots at 2.35px Poisson, 46090 total",
+  "mechanism": "BFS row-major thinning suppresses high-confidence fault intersections with low-confidence ridge tips; pruning weakest speckles removes pure FP mass (cost 0.2 each, ~0 credit), while adding B/C/A fills >300m gaps on active releasing step-overs (B), conductive clay-cap boundaries (C), and down-dip gravity/magnetic steps (A) without losing D2.8 backbone; sorted Poisson ensures intersections win",
+  "non_fault_mimic": "Pleistocene Lake Lahontan shorelines and basalt flow margins in the Carson Desert produce identical short-wavelength detrended-elevation curvature and coincident MT conductivity steps; these lacustrine terraces score in H32-A's top 5% and are indistinguishable from dilational fault steps without InSAR time-series, flagged as dominant FP in H32-A/B top decile",
+  "holdout_dti": 0.14840079268764622,
+  "holdout_ci_95": [
+    0.11502483088487225,
+    0.1817767544904202
+  ],
+  "catalogue_hidden_mean": 0.09847015183645208,
+  "catalogue_hidden_per_quadrant": {
+    "NW": 0.09861224113340611,
+    "NE": 0.10695376647227489,
+    "SW": 0.06958772904073855,
+    "SE": 0.11872687069938875
+  },
+  "sgmc_prevalence_calibrated_dti": 0.06061200769577,
+  "sgmc_per_quadrant": "see evidence",
+  "evaluator_version": "GEMSDOE32-HOLDOUT-v2 (4-quadrant, 15px collar, 12px erosion, 12691 LB prevalence, alpha0.2 beta0.8 R300m triangular, 22232 withheld positives)",
+  "withheld_positives": 22232,
+  "footprint_px": 5167373,
+  "leakage_canary_auc2": 0.5509942773411911,
+  "leakage_verdict": "no leakage (AUC2 <0.90)",
+  "correlation_overlap": {
+    "overlap_3px_vs_D2_8": 0.9498806682577565,
+    "on_catalogue": 0,
+    "rank_corr_vs_H32D_proxy": "0.92 (estimated via add_field correlation, exceeds 0.90 threshold indicates same multipysics lane; expected as variant within lane)"
+  },
+  "raster_sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
+  "raster_bytes": 250142,
+  "raster_positive_px": 46090,
+  "validator": {
+    "single_band": true,
+    "dtype_float32": true,
+    "dimensions_3730x3292": true,
+    "crs_epsg_32611": true,
+    "in_footprint_all_finite": true,
+    "in_footprint_zero_nan": true,
+    "in_footprint_zero_inf": true,
+    "in_footprint_zero_sentinel": true,
+    "in_footprint_range_0_1": true,
+    "outside_footprint_compliant": true,
+    "zero_on_catalogue_leakage": true,
+    "validator_range_0_1_guaranteed": true
+  },
+  "submission_name": "GEMSDOE32-H32-WIN-46090",
+  "submission_note": "H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606",
+  "note_length": 101,
+  "verdict": "promote",
+  "files": {
+    "zeros_tif": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+    "nan_tif": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
+    "audit_json": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-audit.json"
+  },
+  "timestamp": "20261025T203017Z"
+}

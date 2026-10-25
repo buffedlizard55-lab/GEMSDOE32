@@ -174,7 +174,7 @@ all cells finite, [0,1], EPSG:32611, nodata=None — <b>portal-legal but predict
 0.2778 champion, so do not spend a slot on it.</b> Full audit:
 <code>evidence/arena41_run_card.json</code>, <code>docs/research/arena41-report.md</code>.</p>
 <p class=warn><b>Champion status correction:</b> the H33-2-B2 file below was already submitted —
-owner-reported score <b>0.2778</b>. Do not resubmit it. Today there is <b>no &#128994; file</b> on this site.</p>
+owner-reported score <b>0.2778</b>. Do not resubmit it. <b>The Arena41 lane itself has no &#128994; file</b> — the registry primary further below is a <i>separate parallel lane&#x27;s</i> artifact; judge it by its own status line, not by this banner.</p>
 </div>"""
 
 
@@ -767,7 +767,7 @@ def main() -> int:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
-                f'&#11015; Champion GeoTIFF (already scored 0.2778 &mdash; do not resubmit)</a>']
+                f'&#11015; Download the registry-primary GeoTIFF (read its status first)</a>']
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)

@@ -1,0 +1,58 @@
+{
+  "hypothesis": "H35-CV-ALT-FUSION: CV 35-ch HGB detector (AUC 0.68) fused 75/25 with radiometric Th/K alteration edge lineament (H35-D), B=2 flank buffer (200m from catalogue), score-sorted Poisson disk 2.35px",
+  "mechanism": "HGB learns subtle multi-band lineaments (curvature, ridge, gradient edges) discriminating held-out faults; Th/K ratio edge adds blind geothermal conduit signal where argillic alteration decouples geochemistry from topography; sorted Poisson maximizes credit per dot vs row-major BFS which suppresses high-confidence intersections",
+  "non_fault_mimic": "Fluvial terrace risers and lithologic contacts in the Lahontan basin produce identical detrended-elevation curvature and Th-enriched alluvial fans; these river terraces were flagged by manual inspection as the dominant false-positive mode in the CV field's top 5% and cannot be distinguished without temporal geodetic data",
+  "holdout_dti": 0.057872549932639926,
+  "holdout_ci_95": [
+    0.03161177377463775,
+    0.0841333260906421
+  ],
+  "catalogue_hidden_mean": 0.010152528121590877,
+  "sgmc_prevalence_calibrated_dti": 0.05766709888903107,
+  "evaluator_version": "GEMSDOE32-HOLDOUT-v2 (4-quadrant, 15px collar, 12px erosion, 12691 LB prevalence, alpha0.2 beta0.8 R300m triangular)",
+  "withheld_positives": 22232,
+  "footprint_px": 5167373,
+  "leakage_canary_auc2": 0.6544708490080033,
+  "leakage_verdict": "no leakage (AUC2 0.65 <0.90)",
+  "correlation_overlap": {
+    "overlap_3px_vs_D2_8": 0.5074882629107981,
+    "rank_corr_proxy_vs_CV_field": 0.9376104085862168
+  },
+  "raster_sha256": "6e048db2dc1b39995c8024cd7492f2f4e5acaa83acece4717cbc525765394c68",
+  "raster_bytes": 215651,
+  "raster_positive_px": 42600,
+  "validator": {
+    "no_nan_inside_footprint": true,
+    "values_in_01": true,
+    "crs_match": true,
+    "shape_match": true,
+    "transform_match": true,
+    "no_nan_outside": true,
+    "all_finite": true,
+    "min": 0.0,
+    "max": 1.0,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ]
+  },
+  "submission_name": "GEMSDOE32-H35-CV-ALT-42600",
+  "submission_note": "H35 CV+ALT B2 42600dots 0onCat sorted2.35 fused CV75 ALT25 HOLDOUT-DTI 0.0579 SGMC 0.0577",
+  "note_length": 89,
+  "verdict": "negative",
+  "reason": "HOLDOUT-DTI 0.05787 < incumbent 0.14801 on drift_corrected_holdout_mean; does not beat current holdout best, so no weekly slot spent. SGMC 0.05767 vs 0.06059 also below.",
+  "files": {
+    "zeros_tif": "docs/downloads/gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-zeros.tif",
+    "nan_tif": "docs/downloads/gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-nan.tif",
+    "audit_json": "docs/downloads/gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-audit.json"
+  }
+}
