@@ -3,8 +3,8 @@
 Preserved verbatim from that branch during the merge so nothing another session produced is lost.
 It builds the repository-root HTML pages that are still served; this branch's generator is
 scripts/build_site.py (it writes docs/ plus the root landing page). Run one or the other, not both.
+Builds the GEMSDOE32 GitHub Pages documentation site.
 """
-"""Build the GEMSDOE32 GitHub Pages documentation site."""
 
 from __future__ import annotations
 
