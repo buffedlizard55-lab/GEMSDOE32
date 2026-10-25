@@ -1,0 +1,75 @@
+{
+  "file": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+  "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+  "bytes": 277724,
+  "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": "None"
+  },
+  "checks": {
+    "validator_passed": true,
+    "checks": [
+      {
+        "name": "dimensions",
+        "passed": true,
+        "detail": "shape (3730, 3292) (expected (3730, 3292))"
+      },
+      {
+        "name": "band_count",
+        "passed": true,
+        "detail": "bands: 1 (expected 1)"
+      },
+      {
+        "name": "crs",
+        "passed": true,
+        "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+      },
+      {
+        "name": "transform",
+        "passed": true,
+        "detail": "transform matched template"
+      },
+      {
+        "name": "dtype",
+        "passed": true,
+        "detail": "dtype: float32 (expected float32)"
+      },
+      {
+        "name": "in_footprint_range",
+        "passed": true,
+        "detail": "in-footprint range [0.0000, 1.0000], all finite"
+      },
+      {
+        "name": "portal_safe_whole_array",
+        "passed": true,
+        "detail": "whole-array range [0.0000, 1.0000], finite=True"
+      }
+    ],
+    "all_cells_finite": true,
+    "nan_cells": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "values_outside_0_1": 0,
+    "nodata_is_none": true,
+    "dots": 37654,
+    "mask_roundtrip_exact": true,
+    "dots_on_catalogue": 0,
+    "dots_within_200m_catalogue": 0,
+    "min_dist_to_catalogue_px": 2.23606797749979,
+    "portal_legal": true
+  }
+}

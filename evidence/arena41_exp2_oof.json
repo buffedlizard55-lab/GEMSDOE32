@@ -1,0 +1,180 @@
+{
+  "experiment": "EXP2_OOF",
+  "channels": [
+    "raw01_mag_anom",
+    "raw02_rtp",
+    "raw03_tmi_hg",
+    "raw05_iso_grav_anom_slope",
+    "raw06_tc",
+    "raw09_tmi_vg",
+    "raw11_iso_grav_anom_vg",
+    "raw13_iso_grav_anom",
+    "raw14_tmi",
+    "raw15_depth_to_base_surf",
+    "raw17_cond_surf",
+    "raw18_iso_grav_anom_hg",
+    "rtp_hgm_s1",
+    "rtp_hgm_up300",
+    "rtp_hgm_up600",
+    "worm_persist",
+    "grav_hgm_s15",
+    "grav_hgm_up300",
+    "depth_grad",
+    "cond_grad",
+    "rtp_ridge_s12",
+    "rtp_ridge_s25",
+    "grav_ridge_s25",
+    "rtp_shallow_resid",
+    "dem_raw",
+    "dem_slope_raw",
+    "dem_curv_s1",
+    "dem_curv_s25",
+    "dem_ridge_s1",
+    "dem_ridge_s2",
+    "dem_ridge_s35",
+    "dem_relief5",
+    "dem_tophat",
+    "dem_coherence"
+  ],
+  "pf_cols": [
+    "raw01_mag_anom",
+    "raw02_rtp",
+    "raw03_tmi_hg",
+    "raw05_iso_grav_anom_slope",
+    "raw06_tc",
+    "raw09_tmi_vg",
+    "raw11_iso_grav_anom_vg",
+    "raw13_iso_grav_anom",
+    "raw14_tmi",
+    "raw15_depth_to_base_surf",
+    "raw17_cond_surf",
+    "raw18_iso_grav_anom_hg",
+    "rtp_hgm_s1",
+    "rtp_hgm_up300",
+    "rtp_hgm_up600",
+    "worm_persist",
+    "grav_hgm_s15",
+    "grav_hgm_up300",
+    "depth_grad",
+    "cond_grad",
+    "rtp_ridge_s12",
+    "rtp_ridge_s25",
+    "grav_ridge_s25",
+    "rtp_shallow_resid"
+  ],
+  "arms": {
+    "PF_ONLY": {
+      "auc_by_quadrant": {
+        "Q0": 0.5727867092966059,
+        "Q1": 0.6122465333839554,
+        "Q2": 0.5214839254407325,
+        "Q3": 0.5560872923463457
+      },
+      "budgets": {
+        "25000": {
+          "emitted": 25000,
+          "pooled": {
+            "pooled_dti": 0.10557206603779516,
+            "ci95_cluster_bootstrap": [
+              0.0593715189419749,
+              0.14859000707001938
+            ],
+            "tp": 2802.726321690815,
+            "fp": 41009.231646330256,
+            "fn": 19429.273678309186,
+            "n_withheld_positives": 22232,
+            "n_cells": 8
+          },
+          "catalogue_hidden_mean": 0.10167656914905092,
+          "sgmc_prevalence_calibrated_dti": 0.030670057279608073,
+          "drift_corrected_holdout_mean": 0.07536722055969124,
+          "sgmc_off_catalogue_raw_dti": 0.04091976512816402
+        },
+        "37654": {
+          "emitted": 37654,
+          "pooled": {
+            "pooled_dti": 0.1204747570871602,
+            "ci95_cluster_bootstrap": [
+              0.07480080353354288,
+              0.16418942159520739
+            ],
+            "tp": 3755.329316845759,
+            "fp": 63172.11325229262,
+            "fn": 18476.67068315424,
+            "n_withheld_positives": 22232,
+            "n_cells": 8
+          },
+          "catalogue_hidden_mean": 0.1169964627194245,
+          "sgmc_prevalence_calibrated_dti": 0.04097138156368391,
+          "drift_corrected_holdout_mean": 0.08657492525406607,
+          "sgmc_off_catalogue_raw_dti": 0.06082439529110657
+        },
+        "50000": {
+          "emitted": 50000,
+          "pooled": {
+            "pooled_dti": 0.12459544987206213,
+            "ci95_cluster_bootstrap": [
+              0.08104993396267451,
+              0.1650930538770957
+            ],
+            "tp": 4451.42925203683,
+            "fp": 85255.87631520796,
+            "fn": 17780.57074796317,
+            "n_withheld_positives": 22232,
+            "n_cells": 8
+          },
+          "catalogue_hidden_mean": 0.12117355720082564,
+          "sgmc_prevalence_calibrated_dti": 0.04791303353385089,
+          "drift_corrected_holdout_mean": 0.08889801556796363,
+          "sgmc_off_catalogue_raw_dti": 0.077598928556621
+        }
+      }
+    },
+    "CTRL_SURF": {
+      "auc_by_quadrant": {
+        "Q0": 0.6786676516642073,
+        "Q1": 0.7397363819838542,
+        "Q2": 0.6207041321710334,
+        "Q3": 0.6713280130873364
+      },
+      "budgets": {
+        "37654": {
+          "emitted": 37654,
+          "pooled": {
+            "pooled_dti": 0.15707711998751303,
+            "ci95_cluster_bootstrap": [
+              0.12462428019335803,
+              0.18497032931652535
+            ],
+            "tp": 4930.321283714945,
+            "fp": 63081.189833718505,
+            "fn": 17301.678716285052,
+            "n_withheld_positives": 22232,
+            "n_cells": 8
+          },
+          "catalogue_hidden_mean": 0.15586635935868245,
+          "sgmc_prevalence_calibrated_dti": 0.051489872351063413,
+          "drift_corrected_holdout_mean": 0.11470386521765932,
+          "sgmc_off_catalogue_raw_dti": 0.07596651183460038
+        }
+      }
+    }
+  },
+  "random_37654": {
+    "pooled": {
+      "pooled_dti": 0.04743847386483431,
+      "ci95_cluster_bootstrap": [
+        0.04208085188825636,
+        0.052610198874427354
+      ],
+      "tp": 1521.35399486938,
+      "fp": 69900.87135219277,
+      "fn": 20710.64600513062,
+      "n_withheld_positives": 22232,
+      "n_cells": 8
+    },
+    "sgmc_prevalence_calibrated_dti": 0.04772146671390418
+  },
+  "full_train_feature_importance_permutation": "skipped (HGB has no native importances; not fabricated)",
+  "evaluator": "gems32.holdout.evaluate_candidate_holdout (repo HEAD 012e17b) + pooled DTI from per-cell TP/FP/FN"
+}

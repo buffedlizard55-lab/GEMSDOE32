@@ -127,7 +127,7 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 
     anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
     return f"""<div class=dl>
-<h2>&#11015;&nbsp;ONE-CLICK SUBMISSION FILE</h2>
+<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
 <b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
@@ -141,6 +141,40 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 {('<p><b>Already-scored fallback:</b> ' + anchor + '</p>') if anchor else ''}
 {pack_rows}
 <p class=warn><b>Status.</b> {esc(sub.get('status_line',''))}</p>
+</div>"""
+
+
+def arena41_block(prefix: str = "") -> str:
+    """Arena41 (2026-10-25) verdict banner: unique new TIF, automated gates, traffic light.
+
+    Data-driven from registry/arena41_submission.json + evidence/arena41_run_card.json;
+    renders nothing if that build is absent, so older checkouts keep working.
+    """
+    try:
+        a = json.loads((ROOT / "registry" / "arena41_submission.json").read_text())
+        rc = json.loads((ROOT / "evidence" / "arena41_run_card.json").read_text())
+    except Exception:
+        return ""
+    f = a.get("file", ""); ok = bool(a.get("ok_to_submit"))
+    light = "&#128994; OK TO SUBMIT" if ok else "&#128308; DO NOT SUBMIT — automated gates FAILED (download for audit only)"
+    h = rc.get("holdout", {}); pf = (h.get("PF_ONLY_37654") or {}); ct = (h.get("CTRL_SURF_37654") or {})
+    return f"""<div class=dl style="border:3px solid {'#1a7f37' if ok else '#b91c1c'}">
+<h2>{light}</h2>
+<p><b>New unique file (Arena41, 2026-10-25):</b> <code>{esc(f)}</code><br>
+<b>Unique submission name:</b> <code>{esc(a.get('unique_submission_name',''))}</code> ·
+<b>Note (&le;140 chars):</b> <code>{esc(a.get('note_le140',''))}</code><br>
+<b>sha256:</b> <code>{esc(a.get('sha256','')[:16])}&hellip;</code> · {int(a.get('dots') or 0):,} dots · verdict <b>{esc(a.get('verdict',''))}</b></p>
+<p><a class="btn" href="{esc(prefix)}downloads/{esc(f)}">Download the Arena41 GeoTIFF (audit only — see gates)</a>
+<a class="btn alt" href="{esc(prefix)}downloads/{esc(a.get('zip',''))}">.zip</a>
+<a href="{esc(prefix)}downloads/checks-{esc(f)}.json">automated format receipt</a></p>
+<p><b>Why red:</b> pre-registered gates G2/G3 failed — HOLDOUT-DTI (pooled, 22,232 withheld px)
+PF-ONLY <b>{pf.get('pooled_dti',0):.4f}</b> [95% CI {pf.get('ci95_cluster_bootstrap',['?','?'])[0]:.4f}–{pf.get('ci95_cluster_bootstrap',['?','?'])[1]:.4f}]
+vs surface-control {ct.get('pooled_dti',0):.4f} and off-catalogue SGMC also loses. Format (G5) passes:
+all cells finite, [0,1], EPSG:32611, nodata=None — <b>portal-legal but predicted to score below the
+0.2778 champion, so do not spend a slot on it.</b> Full audit:
+<code>evidence/arena41_run_card.json</code>, <code>docs/research/arena41-report.md</code>.</p>
+<p class=warn><b>Champion status correction:</b> the H33-2-B2 file below was already submitted —
+owner-reported score <b>0.2778</b>. Do not resubmit it. <b>The Arena41 lane itself has no &#128994; file</b> — the registry primary further below is a <i>separate parallel lane&#x27;s</i> artifact; judge it by its own status line, not by this banner.</p>
 </div>"""
 
 
@@ -235,7 +269,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [download_block(sub, name), f"""<div class=dl>
+    parts = [arena41_block(), download_block(sub, name), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -373,7 +407,8 @@ def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
     receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
                     if _rec else '<span class=mut>not written in this checkout</span>')
-    return f"""<h2 style="margin-top:6px">Five steps, about two minutes</h2>
+    return f"""<h2 style="margin-top:6px">Submission instructions — read the Arena41 traffic light first</h2>
+{arena41_block()}
 {download_block(sub, name)}
 <div class=card><h3>1 · Check the file (optional, 20 s)</h3>
 <pre>python3 - &lt;&lt;'EOF'
@@ -732,7 +767,7 @@ def main() -> int:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
-                f'&#11015; Download the submission GeoTIFF</a>']
+                f'&#11015; Download the registry-primary GeoTIFF (read its status first)</a>']
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)
@@ -768,6 +803,7 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
+{arena41_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>

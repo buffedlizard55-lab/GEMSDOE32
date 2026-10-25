@@ -1,0 +1,94 @@
+{
+  "hypothesis": "PF-ONLY blind-basin: subsurface potential-field-only HGB recovers buried faults missed by DEM/LiDAR-trained (catalogue-selection-biased) fields",
+  "mechanism": "Bands 1,2,3,5,6,9,11,13,14,15,17,18 + HGM/FFT-upward-continuation worm persistence/Hessian/basement+conductivity gradients; HGB quadrant-OOF; dot_thin 2.8px; final B2",
+  "named_nonfault_mimic": "Basement lithologic contacts and intrusion/volcanic margins (persistent potential-field edges with no fault)",
+  "holdout": {
+    "label": "HOLDOUT-DTI (NOT an organizer score)",
+    "evaluator": "gems32.holdout.evaluate_candidate_holdout @012e17b pooled from per-cell TP/FP/FN; hide 20% whole components x 4 quadrants x draws20/21; alpha0.2 beta0.8 R3px",
+    "PF_ONLY_37654": {
+      "pooled_dti": 0.1204747570871602,
+      "ci95_cluster_bootstrap": [
+        0.07480080353354288,
+        0.16418942159520739
+      ],
+      "tp": 3755.329316845759,
+      "fp": 63172.11325229262,
+      "fn": 18476.67068315424,
+      "n_withheld_positives": 22232,
+      "n_cells": 8
+    },
+    "CTRL_SURF_37654": {
+      "pooled_dti": 0.15707711998751303,
+      "ci95_cluster_bootstrap": [
+        0.12462428019335803,
+        0.18497032931652535
+      ],
+      "tp": 4930.321283714945,
+      "fp": 63081.189833718505,
+      "fn": 17301.678716285052,
+      "n_withheld_positives": 22232,
+      "n_cells": 8
+    },
+    "RANDOM_37654": {
+      "pooled_dti": 0.04743847386483431,
+      "ci95_cluster_bootstrap": [
+        0.04208085188825636,
+        0.052610198874427354
+      ],
+      "tp": 1521.35399486938,
+      "fp": 69900.87135219277,
+      "fn": 20710.64600513062,
+      "n_withheld_positives": 22232,
+      "n_cells": 8
+    },
+    "sgmc_prev_cal_PF_vs_CTRL": [
+      0.04097138156368391,
+      0.051489872351063413
+    ],
+    "auc_by_quadrant_PF": {
+      "Q0": 0.5727867092966059,
+      "Q1": 0.6122465333839554,
+      "Q2": 0.5214839254407325,
+      "Q3": 0.5560872923463457
+    }
+  },
+  "correlation_overlap_vs_registry": {
+    "max_abs_spearman_surface_sampled": 0.15014885538975006,
+    "max_frac_final_within3px": 0.9866415254687417,
+    "worst_registry": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "vs_champion": [
+      {
+        "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+        "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+        "spearman_surface_sampled": 0.03873678566352663,
+        "dots": 37654,
+        "phi_binary_final": 0.007560804974775952,
+        "frac_final_within3px_of_other": 0.258485154299676,
+        "frac_other_within3px_of_final": 0.20053646358952568
+      }
+    ]
+  },
+  "raster_sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+  "validator_output": {
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match": true,
+    "nodata": "None",
+    "portal_legal": true
+  },
+  "submission_name": "GEMSDOE32-ARENA41-PFONLY",
+  "note_le140": "Arena41 PF-only blind-basin 37654d B2 zeros | HOLDOUT gates G2/G3 FAIL vs surf-ctrl | DO NOT SUBMIT",
+  "verdict": "negative",
+  "scores_cited_by_evidence_class": {
+    "ORGANIZER-CONFIRMED (leaderboard page read 2026-10-25)": {
+      "rank1_xiaofanhu": 0.4413
+    },
+    "OWNER-REPORTED (standing brief 2026-10-25; no receipt in checkout)": {
+      "H33-2-B2_champion": 0.2778,
+      "H27-4-R1-SOLO": 0.2708,
+      "D2.8": 0.26
+    }
+  },
+  "pass2_G4_amended_pass": true,
+  "pass2_G4_literal": false
+}
