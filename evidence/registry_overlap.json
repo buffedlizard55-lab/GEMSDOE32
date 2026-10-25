@@ -1,0 +1,316 @@
+{
+ "generated_by": "scripts/analyze_registry_overlap.py",
+ "grid": {
+  "shape": [
+   3730,
+   3292
+  ],
+  "footprint_px": 5167373,
+  "catalogue_px": 60988
+ },
+ "rasters": {
+  "CHAMPION_h33-2-b2_0.2778": {
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+   "dots": 37654,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 0,
+   "within_2px_of_catalogue": 0,
+   "within_3px_of_catalogue": 2171,
+   "beyond_3px_of_catalogue": 35483,
+   "median_dist_to_catalogue_px": 19.6468827043885
+  },
+  "ANDERSON36_0.2750": {
+   "path": ".cache/gems_data/scored/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+   "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+   "dots": 38854,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 0,
+   "within_2px_of_catalogue": 0,
+   "within_3px_of_catalogue": 2281,
+   "beyond_3px_of_catalogue": 36573,
+   "median_dist_to_catalogue_px": 19.235384061671343
+  },
+  "SOLO28_h27-4_0.2708": {
+   "path": ".cache/gems_data/scored/gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif",
+   "sha256": "2fc94a38d77f74d4f4ed1a97a83e7bb71a1ceea090515ec641e6681cc47c44c8",
+   "dots": 40199,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 0,
+   "within_2px_of_catalogue": 2545,
+   "within_3px_of_catalogue": 4716,
+   "beyond_3px_of_catalogue": 35483,
+   "median_dist_to_catalogue_px": 17.69180601295413
+  },
+  "RUNG30_h36-1_0.2710": {
+   "path": ".cache/gems_data/scored/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+   "sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+   "dots": 37660,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 0,
+   "within_2px_of_catalogue": 2353,
+   "within_3px_of_catalogue": 4377,
+   "beyond_3px_of_catalogue": 33283,
+   "median_dist_to_catalogue_px": 17.72004514666935
+  },
+  "EULER28_h38-1_0.2707": {
+   "path": ".cache/gems_data/scored/gems28-h38-1-hf-euler-r30-r1-20261003-56a9f473edc7-allfinite.tif",
+   "sha256": "529d9e1bd80b54957ca16398e47bfc51b1e32eaee8fc89d6dfbddbd7036c5ffc",
+   "dots": 37860,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 0,
+   "within_2px_of_catalogue": 2353,
+   "within_3px_of_catalogue": 4396,
+   "beyond_3px_of_catalogue": 33464,
+   "median_dist_to_catalogue_px": 17.69180601295413
+  },
+  "H33D33_0.2632": {
+   "path": ".cache/gems_data/scored/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+   "sha256": "87f857d505e23247e991ccfab2cbe9f49a04df4f9c8028dce7ea261554690757",
+   "dots": 41865,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 1377,
+   "within_2px_of_catalogue": 3894,
+   "within_3px_of_catalogue": 6024,
+   "beyond_3px_of_catalogue": 35841,
+   "median_dist_to_catalogue_px": 16.64331697709324
+  },
+  "POISSON30_d28_0.2600": {
+   "path": ".cache/gems_data/scored/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+   "sha256": "8cf893ead5667df21d3288a9968c35fd5385c425b029d82ee71d311715b129fd",
+   "dots": 44090,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 3891,
+   "within_2px_of_catalogue": 6436,
+   "within_3px_of_catalogue": 8607,
+   "beyond_3px_of_catalogue": 35483,
+   "median_dist_to_catalogue_px": 15.0
+  },
+  "D28_d2-8_0.2600": {
+   "path": ".cache/gems_data/scored/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+   "dots": 44090,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 3891,
+   "within_2px_of_catalogue": 6436,
+   "within_3px_of_catalogue": 8607,
+   "beyond_3px_of_catalogue": 35483,
+   "median_dist_to_catalogue_px": 15.0
+  },
+  "D15_0.2477": {
+   "path": ".cache/gems_data/scored/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+   "sha256": "68d0e2e4fcc594f9a23f56c44b885fee733d026d39be55e18ad2a07289525310",
+   "dots": 60069,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 5355,
+   "within_2px_of_catalogue": 8769,
+   "within_3px_of_catalogue": 11938,
+   "beyond_3px_of_catalogue": 48131,
+   "median_dist_to_catalogue_px": 14.866068747318506
+  },
+  "TGC27_0.2449": {
+   "path": ".cache/gems_data/scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+   "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
+   "dots": 61328,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 5413,
+   "within_2px_of_catalogue": 8875,
+   "within_3px_of_catalogue": 12187,
+   "beyond_3px_of_catalogue": 49141,
+   "median_dist_to_catalogue_px": 14.142135623730951
+  },
+  "H19-5_0.1922": {
+   "path": ".cache/gems_data/scored/gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
+   "sha256": "ec1f9b56b83ce33cad781ceb9f104b18fb4f2ff785263a4e89616af4aabdee8d",
+   "dots": 121131,
+   "on_catalogue": 0,
+   "within_1px_of_catalogue": 9651,
+   "within_2px_of_catalogue": 17326,
+   "within_3px_of_catalogue": 24167,
+   "beyond_3px_of_catalogue": 96964,
+   "median_dist_to_catalogue_px": 14.560219778561036
+  }
+ },
+ "construction_checks": {
+  "champion_subset_of_solo": true,
+  "champion_equals_solo_and_dist_gt_2px": true,
+  "dots_removed_by_b2": 2545,
+  "removed_dots_all_within_2px": true,
+  "solo_equals_d28_and_dist_gt_1px": true,
+  "champion_subset_of_anderson": true,
+  "anderson_extra_dots_vs_champion": 1200,
+  "poisson30_equals_d28_dot_for_dot": true,
+  "champion_subset_of_h19_5": true,
+  "d28_subset_of_h19_5": true
+ },
+ "frac_row_dots_within_3px_of_col_dots": {
+  "CHAMPION_h33-2-b2_0.2778": {
+   "CHAMPION_h33-2-b2_0.2778": 1.0,
+   "ANDERSON36_0.2750": 1.0,
+   "SOLO28_h27-4_0.2708": 1.0,
+   "RUNG30_h36-1_0.2710": 0.9987517926382323,
+   "EULER28_h38-1_0.2707": 0.9987517926382323,
+   "H33D33_0.2632": 0.9998406543793488,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  },
+  "ANDERSON36_0.2750": {
+   "CHAMPION_h33-2-b2_0.2778": 0.9740309878004839,
+   "ANDERSON36_0.2750": 1.0,
+   "SOLO28_h27-4_0.2708": 0.9745714726926442,
+   "RUNG30_h36-1_0.2710": 0.9731301796468832,
+   "EULER28_h38-1_0.2707": 0.9731559170227003,
+   "H33D33_0.2632": 0.9750347454573531,
+   "POISSON30_d28_0.2600": 0.9749832707057189,
+   "D28_d2-8_0.2600": 0.9749832707057189,
+   "D15_0.2477": 0.9756781798527822,
+   "TGC27_0.2449": 0.9757811293560509,
+   "H19-5_0.1922": 0.9775055335358007
+  },
+  "SOLO28_h27-4_0.2708": {
+   "CHAMPION_h33-2-b2_0.2778": 0.9539043259782581,
+   "ANDERSON36_0.2750": 0.9544018507923082,
+   "SOLO28_h27-4_0.2708": 1.0,
+   "RUNG30_h36-1_0.2710": 0.9956217816363591,
+   "EULER28_h38-1_0.2707": 0.9956466578770616,
+   "H33D33_0.2632": 0.9990547028533048,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  },
+  "RUNG30_h36-1_0.2710": {
+   "CHAMPION_h33-2-b2_0.2778": 0.9547265002655337,
+   "ANDERSON36_0.2750": 0.9552044609665428,
+   "SOLO28_h27-4_0.2708": 0.9975570897503983,
+   "RUNG30_h36-1_0.2710": 1.0,
+   "EULER28_h38-1_0.2707": 1.0,
+   "H33D33_0.2632": 0.9984067976633032,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  },
+  "EULER28_h38-1_0.2707": {
+   "CHAMPION_h33-2-b2_0.2778": 0.9501320655044903,
+   "ANDERSON36_0.2750": 0.9506339144215531,
+   "SOLO28_h27-4_0.2708": 0.9928156365557317,
+   "RUNG30_h36-1_0.2710": 0.9951928156365557,
+   "EULER28_h38-1_0.2707": 1.0,
+   "H33D33_0.2632": 0.9936872688853672,
+   "POISSON30_d28_0.2600": 0.995351294241944,
+   "D28_d2-8_0.2600": 0.995351294241944,
+   "D15_0.2477": 0.99540412044374,
+   "TGC27_0.2449": 0.9957739038563127,
+   "H19-5_0.1922": 0.9955097728473323
+  },
+  "H33D33_0.2632": {
+   "CHAMPION_h33-2-b2_0.2778": 0.9264301922847247,
+   "ANDERSON36_0.2750": 0.9271228950197062,
+   "SOLO28_h27-4_0.2708": 0.9747999522273976,
+   "RUNG30_h36-1_0.2710": 0.9705004180102711,
+   "EULER28_h38-1_0.2707": 0.9705243043114774,
+   "H33D33_0.2632": 1.0,
+   "POISSON30_d28_0.2600": 0.997038098650424,
+   "D28_d2-8_0.2600": 0.997038098650424,
+   "D15_0.2477": 0.9970619849516302,
+   "TGC27_0.2449": 0.9970858712528365,
+   "H19-5_0.1922": 0.9971097575540427
+  },
+  "POISSON30_d28_0.2600": {
+   "CHAMPION_h33-2-b2_0.2778": 0.8817192107053754,
+   "ANDERSON36_0.2750": 0.8826491267861193,
+   "SOLO28_h27-4_0.2708": 0.937151281469721,
+   "RUNG30_h36-1_0.2710": 0.9318212746654571,
+   "EULER28_h38-1_0.2707": 0.9319119981855296,
+   "H33D33_0.2632": 0.9605806305284645,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  },
+  "D28_d2-8_0.2600": {
+   "CHAMPION_h33-2-b2_0.2778": 0.8817192107053754,
+   "ANDERSON36_0.2750": 0.8826491267861193,
+   "SOLO28_h27-4_0.2708": 0.937151281469721,
+   "RUNG30_h36-1_0.2710": 0.9318212746654571,
+   "EULER28_h38-1_0.2707": 0.9319119981855296,
+   "H33D33_0.2632": 0.9605806305284645,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  },
+  "D15_0.2477": {
+   "CHAMPION_h33-2-b2_0.2778": 0.88476585260284,
+   "ANDERSON36_0.2750": 0.8856148762256738,
+   "SOLO28_h27-4_0.2708": 0.9407847641878506,
+   "RUNG30_h36-1_0.2710": 0.9347916562619654,
+   "EULER28_h38-1_0.2707": 0.9349248364380962,
+   "H33D33_0.2632": 0.9623932477650702,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  },
+  "TGC27_0.2449": {
+   "CHAMPION_h33-2-b2_0.2778": 0.8671895382207149,
+   "ANDERSON36_0.2750": 0.8680374380380903,
+   "SOLO28_h27-4_0.2708": 0.9220910513957735,
+   "RUNG30_h36-1_0.2710": 0.9161557526741456,
+   "EULER28_h38-1_0.2707": 0.916596008348552,
+   "H33D33_0.2632": 0.9432885468301592,
+   "POISSON30_d28_0.2600": 0.9801558831202714,
+   "D28_d2-8_0.2600": 0.9801558831202714,
+   "D15_0.2477": 0.9801884946517089,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 0.980645056091834
+  },
+  "H19-5_0.1922": {
+   "CHAMPION_h33-2-b2_0.2778": 0.8924635312182678,
+   "ANDERSON36_0.2750": 0.8932312950442083,
+   "SOLO28_h27-4_0.2708": 0.9497568747884522,
+   "RUNG30_h36-1_0.2710": 0.9447457711073136,
+   "EULER28_h38-1_0.2707": 0.9448943705574956,
+   "H33D33_0.2632": 0.9684143613113076,
+   "POISSON30_d28_0.2600": 1.0,
+   "D28_d2-8_0.2600": 1.0,
+   "D15_0.2477": 1.0,
+   "TGC27_0.2449": 1.0,
+   "H19-5_0.1922": 1.0
+  }
+ },
+ "exact_dot_jaccard_vs_champion": {
+  "CHAMPION_h33-2-b2_0.2778": 1.0,
+  "ANDERSON36_0.2750": 0.969115149019406,
+  "SOLO28_h27-4_0.2708": 0.9366899674121246,
+  "RUNG30_h36-1_0.2710": 0.5349529205559859,
+  "EULER28_h38-1_0.2707": 0.5328434556674245,
+  "H33D33_0.2632": 0.6599311136624569,
+  "POISSON30_d28_0.2600": 0.8540258562032207,
+  "D28_d2-8_0.2600": 0.8540258562032207,
+  "D15_0.2477": 0.3533916849015317,
+  "TGC27_0.2449": 0.34733546586810043,
+  "H19-5_0.1922": 0.3108535387307956
+ },
+ "champion_vs_anderson_shifted_null": {
+  "real_frac_within_3px": 1.0,
+  "null_fracs": [
+   0.1313539066234663,
+   0.09990970414829765,
+   0.08684336325489987,
+   0.11525999893769587,
+   0.10022839538960004
+  ],
+  "null_mean": 0.10671907367079195,
+  "ratio": 9.370396177583117
+ }
+}

@@ -1,0 +1,116 @@
+{
+  "candidate_id": "H-CVF2",
+  "slug": "hcvf2-cvgbm35-b2-greedy37654",
+  "content_digest8": "f9b36c7e",
+  "description": "Round-5 lane H-CVF2: 4-quadrant spatial-CV HistGB field over the 35-channel structural stack, B=2 catalogue gate, exact lazy-greedy 300m-kernel max-coverage emission at the champion's 37,654-dot budget. No organizer score exists; all numbers are HOLDOUT-DTI proxies.",
+  "submission_note_zeros": "GEMSDOE32 H-CVF2 | CV-GBM 35ch B=2 greedy 37654 dots; HOLDOUT cat 0.0008 sgmc 0.0588; UNSCORED DO-NOT-SUBMIT",
+  "submission_note_nan": "GEMSDOE32 H-CVF2 (nan-outside twin) | CV-GBM 35ch B=2 greedy 37654 dots; HOLDOUT cat 0.0008 sgmc 0.0588; UNSCORED DO-NOT-SUBMIT",
+  "zeros_tif": {
+    "filename": "gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-zeros.tif",
+    "size_bytes": 202608,
+    "sha256": "5d65591a23df0f46e61a5cf429d85811891a602ad5f5abb4a66059a93205d5f3",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif",
+    "size_bytes": 339092,
+    "sha256": "7a588bbe44c51c865790f010f0c2883d05aa2373d5983093850020d6c0ec5946",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.0008306394413406125,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.0009642315888616181,
+      "NE": 0.001392202926323694,
+      "SW": 0.0004097703468266216,
+      "SE": 0.0005563529033505159
+    },
+    "sgmc_prevalence_calibrated_dti": 0.05876255974712932,
+    "drift_corrected_holdout_mean": 0.033718245446742595,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.04402452894303891,
+      "NE": 0.03485786283478387,
+      "SW": 0.021042288441746104,
+      "SE": 0.03494830156740151
+    },
+    "predicted_leaderboard_dti": null,
+    "ei_drift_corrected": null,
+    "slot_decision": "DO-NOT-SUBMIT"
+  }
+}

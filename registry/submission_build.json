@@ -245,5 +245,15 @@
   }
  ],
  "rule": "0.2708 base (GEMS28-H27-4-R1-SOLO-D2.8, 40,199 dots) minus every dot within 2 px (200 m) of the published catalogue",
- "provenance": "built by scripts/build_submission_build.py from evidence/h33_validation.json + registry/slot_plan.json; every digest re-read from the written bytes; receipts evidence/h33_submission_bundles.json and docs/research/hypotheses-round4.md"
+ "provenance": "built by scripts/build_submission_build.py from evidence/h33_validation.json + registry/slot_plan.json; every digest re-read from the written bytes; receipts evidence/h33_submission_bundles.json and docs/research/hypotheses-round4.md",
+ "organizer_score": {
+  "value": 0.2778,
+  "label": "ORGANIZER-CONFIRMED (owner-reported from the DrivenData submission page)",
+  "reported_utc": "2026-10-25",
+  "independently_authenticated": false,
+  "projected_was": 0.2747,
+  "projection_error": 0.0031,
+  "construction_verified_2026_10_25": "champion == solo(0.2708) & (dist_to_catalogue > 2px) exactly; evidence/registry_overlap.json"
+ },
+ "status_line_2026_10_25": "SCORED 0.2778 (ORGANIZER-CONFIRMED, owner-reported 2026-10-25) \u2014 the group's best. This file has ALREADY been submitted; downloading it again does not require resubmission. Construction re-verified byte-exactly 2026-10-25: the 0.2708 base minus its 2,545 dots within 200 m of the catalogue (37,654 dots, 0 on-catalogue). The pre-submission live-mirror projection was 0.2747 (error +0.0031). Two new unique round-5 candidates exist below \u2014 both measured WORSE than this file on the fair local instrument and are labelled DO NOT SUBMIT."
 }

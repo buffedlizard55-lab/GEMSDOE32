@@ -223,6 +223,30 @@
    "statement": "All four label-free H33 surfaces score BELOW a uniform-random control on the catalogue-hidden instrument at 44,090 px (H33-A 0.01874, H33-B 0.02177, H33-C 0.02407, H33-D 0.00394, union 0.02006, random 0.03438), while H33-B scores 0.09072 on the off-catalogue SGMC instrument against the incumbent's 0.06059. The catalogue-hidden instrument therefore has no power to rank hypotheses whose purpose is to find faults the catalogue lacks.",
    "evidence": "evidence/h33_holdout.json; evidence/h33_candidates.json.",
    "mitigation": "the sign disagreement is reported as the session's central finding; promotion stays gated on the identification experiment (measuring T, K and F live) rather than on this instrument."
+  },
+  {
+   "id": "IR-32-INSTR-03",
+   "severity": "high",
+   "statement": "The catalogue_hidden holdout instrument is PERVERSE for B-gated candidates (emissions that forbid dots within B px of the full catalogue): the hidden segments the instrument asks the candidate to recover are inside the candidate's own exclusion zone, because the gate was derived from the full catalogue including the hidden components. Proof with ORGANIZER-CONFIRMED points: live order champion(B=2) 0.2778 > solo(B=1) 0.2708 > d2.8(B=0) 0.2600 is exactly reversed by catalogue_hidden (0.00460 < 0.03104 < 0.09832). Extends IR-32-INSTR-01/02; the root cause is a protocol violation by the candidate's gate, not by the evaluator, but evaluate_candidate_holdout does not correct for it (its 1-px debias shift does not reach B=2). Measured 2026-10-25 (evidence/hcvf2_run.json).",
+   "mitigation": "for B-gated candidates use only instruments whose truth is off-catalogue by construction (SGMC), or re-derive the candidate's gate from visible-only faults per draw; hypotheses-round5.md \u00a72b documents the mechanism"
+  },
+  {
+   "id": "IR-32-FAM-01",
+   "severity": "medium",
+   "statement": "The GEMSDOE36 'anderson-geothermal-pinn' artifact (ORGANIZER-CONFIRMED 0.2750) is not an independent method at the dot level: its 38,854 dots contain ALL 37,654 dots of the GEMSDOE32 champion h33-2-b2 (exact-dot Jaccard 0.969; champion subset relation verified pixel-exactly, evidence/registry_overlap.json). Cross-method consensus arguments built on these two artifacts would be circular.",
+   "mitigation": "recorded here and in observations.jsonl; any future ensemble claim must first pass a subset/overlap audit (scripts/analyze_registry_overlap.py)"
+  },
+  {
+   "id": "IR-32-FAM-02",
+   "severity": "low",
+   "statement": "GEMSDOE30 'd28-poisson300m-offcat-44090' and GEMSDOE25 'dotted-h19-5-d2-8' are the identical 44,090-dot set (symmetric difference 0) published under two names in two repositories; both are reported 0.2600, consistent with a deterministic scorer. Ledger entries that treat them as two results double-count one artifact.",
+   "mitigation": "recorded here; score-ledger notes updated to cross-reference the identity"
+  },
+  {
+   "id": "IR-32-SCORE-03",
+   "severity": "medium",
+   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
+   "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
   }
  ]
 }
