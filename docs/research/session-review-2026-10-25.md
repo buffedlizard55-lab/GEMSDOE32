@@ -8,7 +8,7 @@ The local evidence does not establish an organizer-confirmed score for any check
 
 ## What was inspected
 
-- Repository status and current branch (`arena/dad50778-gemsdoe32`); working tree was clean at review start.
+- Repository status and current branch (`arena/fb6cbb57-gemsdoe32`); working tree was clean at review start.
 - `README.md`, `scripts/run_holdout.py`, `scripts/build_submission.py`, `scripts/check_submission.py`, `src/gems32/features.py`, the holdout/validation/slot-plan evidence and available GeoTIFFs.
 - The tracked `data/` directory has only manifests/logs, not source TIFs. `data/restore_receipt.json` records files at the ignored path `/home/user/GEMSDOE32/.cache/gems_data`, but that cache is not present in this checkout. `/tmp/gems32/data` and `/tmp/gems32/work/feature_stack.npy`, the paths hard-coded by the legacy scripts, are also absent.
 - Python 3.11 exists, but NumPy, Rasterio, SciPy, scikit-learn and pytest are not installed. Thus neither raster-level checks nor the test suite can run in this environment without dependencies and data.
@@ -48,6 +48,18 @@ The repo already implements curvature, DEM Hessian ridges, relief, top-hat, scal
 ## Submission usability and known inconsistencies
 
 The repository already has one-click TIFs and detailed claims in `README.md`, but there is no trustworthy newly validated download to feature from this run. The README also contains multiple historical one-click sections and stale session/branch dates; treat it as an evidence archive, not a real-time official score feed. In particular, numerous recorded values are labelled owner-reported, proxy, model, or projected and must remain distinct from organizer-confirmed values. No evidence in this review verifies a current live leaderboard feed.
+
+## Current-turn follow-up: ranking and next experiment
+
+The project records already cover the obvious DEM curvature, multi-physics fusion, conductivity/basement gradients, magnetic/tilt coupling, and geodetic-invariant ideas (`docs/research/h35-hypotheses-20261025.md`, H33/H32 evidence). Re-running those would not be a genuinely new hypothesis. The following shortlist is deliberately narrower and explicitly **untested**; ranking is prospective, not a score estimate. All use the competition-provided bands and therefore need no external data source. Exact band availability/names are enumerated in `data/prepared_manifest.json`; these are not independent geological evidence.
+
+| Rank | Untested hypothesis | Layers and targeted signature | Rationale for off-catalogue targets | Difference from recorded work | Cost / principal mimic |
+|---:|---|---|---|---|---|
+| 1 | Paired magnetic edge geometry | RTP (2), TMI (14), tilt derivative (6): detect two nearby, parallel, opposite-polarity edge ridges with stable separation across scales | A buried fault-zone boundary may produce a paired magnetic response while lacking a mapped scarp; geometry can suppress isolated contacts | Tests signed, paired edge topology; existing feature inventory predominantly uses single-band edge/ridge magnitudes and weighted fusion | Medium; lithologic contacts and dikes can mimic it |
+| 2 | Cross-drainage channel-deflection statistic | detrended elevation (12), slope (19): channel-network skeleton with change in bearing across adjacent reaches, conditioned on local relief | A concealed structure may perturb drainage without a continuous scarp, so the signal is a network-scale discontinuity rather than a lineament ridge | Existing DEM work includes local curvature/relief and aligned-valley proposals; this requires explicit channel extraction and reach-to-reach bearing change | High; lithologic control, incision, and stream capture mimic it |
+| 3 | Scale-persistent geophysical contact discontinuity | conductivity (17), basement depth (15), gravity high-gradient (18): independently detect edge position and strike agreement at multiple smoothing scales | Buried structural boundaries could persist in subsurface properties under cover and be absent from surface-fault catalogues | Differs from simple co-gradient fusion by requiring edge persistence and spatially consistent offset topology across scale | Medium; basement lithology and intrusive margins mimic it |
+
+**Validation decision:** do not implement/run these yet. The files needed for the shared hide-and-recover evaluator (`training_features.tif`, `labels.tif`, `sample_submission.tif`, catalogue inputs, and cached features) are absent. The top-ranked candidate therefore **cannot be validated in this checkout**; reporting a HOLDOUT-DTI or projected leaderboard value would be fabricated. No TIF has been produced this turn, and no weekly slot is recommended. Candidate 1 needs no new external data, so there is no external-source download to claim as a blocker.
 
 ## Run card (this review; no experiment was run)
 
