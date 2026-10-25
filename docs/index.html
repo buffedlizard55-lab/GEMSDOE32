@@ -26,6 +26,7 @@ owner-reported score <b>0.2778</b>. Do not resubmit it. <b>The Arena41 lane itse
 </div>
 <div class=dl>
 <h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
+
 <p><a class="btn" href="downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif">Download gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</a> <a class="btn alt" href="downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip">.zip (single GeoTIFF inside)</a> </p>
 <p><b>Filename:</b> <code>gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</code><br>
 <b>Unique submission name to use:</b> <code>GEMSDOE32-H32-WIN-46090</code><br>
@@ -39,6 +40,40 @@ owner-reported score <b>0.2778</b>. Do not resubmit it. <b>The Arena41 lane itse
 <p><b>Already-scored fallback:</b> <a href="downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif">0.2708 anchor (already-scored base)</a> </p>
 <h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>SECONDARY (Tier 2 - previous primary)</b></td><td><a href="downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> </td><td class=mut>c55bafc470054e82&hellip;</td><td class=mut>Previous primary: 0.2708 base minus 2px flank (B=2), 37654 dots, 0 within 200m of catalogue, live-mirror +0.00487 safety 2.08 projected 0.2747</td></tr><tr><td><b>NaN-outside twin of the primary</b></td><td><a href="downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif">gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif</a> </td><td class=mut>fe01ebd3961d6911&hellip;</td><td class=mut>the competition&#x27;s own format (identical values inside footprint)</td></tr></table>
 <p class=warn><b>Status.</b> PRIMARY = H32-WIN-46090 (2026-10-25): D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 dots, 0 on catalogue. HOLDOUT-DTI 0.14840 vs incumbent 0.14801, cat_hidden 0.09847 vs 0.09832, SGMC 0.06061 vs 0.06059 — beats all three holdout instruments. NO ORGANISER SCORE EXISTS for this or any artifact in this repository.</p>
+</div>
+<div class=dl>
+<h2>&#128300;&nbsp;ROUND 5 (2026-10-25) &mdash; why the champion scored 0.2778, and two new unique files</h2>
+<p><b>Round-5 verdict:</b> the champion file <code>h33-2-b2-…-e5eb6e7e-zeros.tif</code> is already
+submitted and scored <b>0.2778</b> (ORGANIZER-CONFIRMED, owner-reported) — do not resubmit it. The
+two round-5 files below are <b>unique and format-valid</b> but both measured <b>worse than the
+champion</b> on the fair local instrument, so both are labelled
+<b style="color:#b00020">DO NOT SUBMIT</b>. The one-click primary elsewhere on this page is a
+<i>separate parallel lane's</i> artifact (promoted on the drift instrument, IR-32-INSTR-01/03
+caveats apply) — round 5 neither promotes nor blocks it; promotion to a weekly slot is the
+selector's step, and this section never spends one.</p>
+<h3>Why h33-2-b2 got the group's highest score (measured from the bytes)</h3>
+<ul>
+<li>The whole top cluster is <b>one nested family</b>: H19-5 (121,131 dots, 0.1922) &sup; d2.8 (44,090,
+0.2600) &sup; solo (40,199, 0.2708) &sup; champion (37,654, <b>0.2778</b>). Every gain came from
+<i>removing</i> dots. The champion's construction is verified pixel-exactly: the 0.2708 base minus its
+2,545 dots within 200&nbsp;m of the catalogue.</li>
+<li>Mechanism: the scorer masks known faults, so near-catalogue dots almost never earn (implied
+&approx;0.006&ndash;0.016 credit/dot) but always pay &alpha;=0.2 in the denominator; the break-even bar at
+0.2778 is <code>k &gt; 0.2&middot;DTI = 0.0556</code>. B=2 was the first file with <b>zero</b> dots inside 200&nbsp;m.</li>
+<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750) <b>contains all 37,654 champion dots</b>
++ 1,200 more &mdash; those extras cost &minus;0.0028 (IR-32-FAM-01).</li>
+<li>Beating 0.2778 therefore needs <b>better-placed mass, not more or less of the same mass</b>: at the
+same 37,654 dots, +8% mean credit reaches 0.30; the public #1 (0.4413, read 2026-10-25) needs &approx;+59%.</li>
+</ul>
+<h3>The two unique round-5 candidates (new lanes, honestly measured)</h3>
+<table><tr><th>candidate</th><th>validation gates (all numbers HOLDOUT-DTI unless labelled)</th></tr>
+<tr><td><b>H-CVF2 — CV-GBM 35-channel field, B=2, greedy max-coverage</b><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b></td><td>HOLDOUT-DTI @37,654 dots: SGMC-cal 0.05876 vs champion 0.06412; catalogue-hidden pooled 0.00075 (instrument perverse for B-gated files, IR-32-INSTR-03). Unique lane: 49.7% of dots within 3 px of the champion (champion family: &amp;ge;92.6%). Format: 12/12 audit checks pass.<br><span class=mut><a href="downloads/gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-zeros.tif">download .tif</a> · sha256 <code>5d65591a23df&hellip;</code> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/hcvf2_run.json">full receipt</a></span></td></tr>
+<tr><td><b>H-SUP-SGMC — CV-GBM + SGMC-north supervision</b><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b></td><td>Held-out SOUTH SGMC DTI 0.07517 vs champion 0.09289 (paired diff 95% CI [-0.03453560633425292, 0.0032577945996472924]). Unique lane + format-valid, but worse where it matters.<br><span class=mut><a href="downloads/gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-zeros.tif">download .tif</a> · sha256 <code>e20d00b8d600&hellip;</code> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/hsupsgmc_run.json">full receipt</a></span></td></tr>
+</table>
+<p class=mut>Method, frozen gates and falsifiers: <a href="research/hypotheses-round5.md">hypotheses-round5.md</a>.
+Forensic overlap anatomy: <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/registry_overlap.json">registry_overlap.json</a>
+(reproduce: <code>scripts/analyze_registry_overlap.py</code>). Instrument warning: the catalogue-hidden
+holdout scores the live B-ladder <i>backwards</i> (IR-32-INSTR-03) &mdash; do not gate B-pruned files on it.</p>
 </div>
 <div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
@@ -92,7 +127,7 @@ raises the credit per emitted pixel and moves the file to the point where the ma
 credit equals the break-even bar. The group measured that break-even empirically at
 <b>0.0548</b>&nbsp;credit per dot; this repository derives the same number from the published
 formula, <code>0.2·0.26 = 0.0520</code>. Two independent routes, one answer.</p>
-<p><b>Can we beat 0.3262?</b> Only by raising the
+<p><b>Can we beat 0.4413?</b> Only by raising the
 <em>credit density</em> of the top of the ranking: at the same emitted mass the leader needs
 ≈25&nbsp;% more mean credit per pixel than the group's best field delivers. No public catalogue can
 supply that — the newest public compilation is already inside the given catalogue
@@ -150,20 +185,20 @@ claim.</p>
 <h2>Where we stand</h2>
 <div class=grid>
 <div class=card><h3>Public leaderboard <span class=pill>verified read</span></h3>
-<p>#1 nchuzhoy <b>0.3262</b><br>
-<small>read 2026-10-04 from the official page; 2 snapshots stored</small></p>
+<p>#1 xiaofanhu <b>0.4413</b><br>
+<small>read 2026-10-25 from the official page; 3 snapshots stored</small></p>
 <p><a href="leaderboard.html">all rows &rarr;</a></p></div>
 <div class=card><h3>Group's own best <span class=pill>owner claim</span></h3>
 <p><code>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</code><br>
 <b>0.26</b> · 44090 px</p>
-<p>The gap to the public leader is <b>+0.0662</b> — a <b>+25.5&nbsp;%</b> increase in the score, which through the metric's own arithmetic is a similar increase in mean credit per emitted pixel at constant mass.</p></div>
+<p>The gap to the public leader is <b>+0.1813</b> — a <b>+69.7&nbsp;%</b> increase in the score, which through the metric's own arithmetic is a similar increase in mean credit per emitted pixel at constant mass.</p></div>
 </div>
-<p class=mut>Irregularities flagged for review: 35 —
+<p class=mut>Irregularities flagged for review: 39 —
 <a href="irregularities.html">see the register</a>.</p>
 <h2>Sources</h2>
 <table><tr><th>id</th><th>source</th><th>status recorded here</th></tr><tr><td>competition</td><td>DOE GEMS Prize - overview</td><td>verified 2026-10-04</td></tr><tr><td>problem</td><td>Problem description, metric and submission format (verbatim source of metric.py)</td><td>verified 2026-10-04 (fetched twice; worked example TP=3.00 FP=1.89 FN=2.00 -&gt; 0.60 reproduced in tests)</td></tr><tr><td>about</td><td>About / additional resources</td><td>listed (not fetched)</td></tr><tr><td>data</td><td>Data download page (login-walled)</td><td>login required; not accessed from this repository</td></tr><tr><td>leaderboard</td><td>Public leaderboard</td><td>verified 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042</td></tr><tr><td>rules_pdf</td><td>GEMS rules PDF (NLR document 96647)</td><td>mirrored in the group&#x27;s repos with sha256 50d854b1e0239fe6... (GEMSDOE28 docs/data/feed.json)</td></tr><tr><td>reference_solution</td><td>Official reference solution (U-Net, John Lipor, Portland State)</td><td>cloned 2026-10-04; architecture and TverskyLoss(0.2, 0.8) read from the notebook</td></tr><tr><td>geodawn</td><td>GeoDAWN airborne magnetic and radiometric surveys, NW Great Basin</td><td>listed</td></tr><tr><td>sciencebase_area</td><td>GeoDAWN study-area item</td><td>listed</td></tr><tr><td>gbcge</td><td>Great Basin Center for Geothermal Energy - INGENIOUS project</td><td>listed</td></tr><tr><td>mcre_srl</td><td>Koehler et al. 2021, Field response and surface rupture of the 2020 M6.5 Monte Cristo Range earthquake, SRL 92(2A) 823-829</td><td>verified 2026-10-04 via USGS Publications Warehouse record 70217872</td></tr><tr><td>mcre_bssa</td><td>Liu et al. 2021, Seismic and geodetic analysis of the 2020 Mw 6.5 MCRE, BSSA 111(6)</td><td>verified 2026-10-04</td></tr><tr><td>mcre_nbmg</td><td>NBMG Monte Cristo Range earthquake data (surface rupture maps)</td><td>listed; not reachable from this sandbox (unknown host) - CI fetch step required</td></tr><tr><td>mcre_reloc</td><td>Ruhl et al. relocated Monte Cristo seismicity catalogue</td><td>listed</td></tr><tr><td>usgs_qfaults</td><td>USGS Quaternary Fault and Fold Database</td><td>listed</td></tr><tr><td>nbmg_ingenious_rest</td><td>NBMG Qfaults-INGENIOUS ArcGIS REST service (1,179 features in footprint)</td><td>verified by the group 2026-10-03 (docs/data/vector_faults_status.json, sha256 4d6efc7bb365...)</td></tr><tr><td>gdr1391</td><td>GDR submission 1391 - Nevada geothermal data</td><td>listed</td></tr><tr><td>3dep</td><td>USGS 3DEP / The National Map elevation (1 m DEM links given by the competition)</td><td>link table mirrored in the group&#x27;s GEMSDOE repo (data/dem_links.json, sha256 8804dbff8754...)</td></tr><tr><td>comcat</td><td>USGS ANSS Comprehensive Earthquake Catalog (ComCat)</td><td>listed; not reachable from this sandbox</td></tr><tr><td>nbmg_ingenious_service</td><td>NBMG QFaults (INGENIOUS 6-27-2023) ArcGIS REST layer</td><td>listed, not fetched here</td></tr><tr><td>gdr_qfaults_v2_raster</td><td>GDR QFaults v2 traces rasterised to the competition grid (owner mirror, sha256-pinned)</td><td>verified locally 2026-10-04</td></tr><tr><td>usgs_sgmc_raster</td><td>USGS SGMC faults rasterised to the competition grid (owner mirror, sha256-pinned)</td><td>verified locally 2026-10-04</td></tr><tr><td>gemsdoe25_site</td><td>Owner site for the dotted H19-5 artifact (source of the 0.2600 owner claim and the H28 truth-model parameters)</td><td>read 2026-10-04, sha256 of its download re-verified here</td></tr><tr><td>sibling_repos</td><td>Sibling experiment repositories GEMSDOE19/24/25/27/28/29/30/31/33</td><td>listed</td></tr></table></main>
 <footer><div class=wrap>
-Site generated 2026-10-25 20:40 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-25 20:48 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

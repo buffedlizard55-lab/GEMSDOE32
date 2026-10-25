@@ -348,7 +348,50 @@
     "deq_autocorr_3km": 0.8408
    },
    "verdict": "NAMED SOURCE, obtainability NOT verified from this environment; ranked and NOT proposed as ready, per the brief's rule for externally-dependent candidates."
+  },
+  {
+   "id": "H-CVF2",
+   "rank": 1,
+   "status": "measured (NEGATIVE \u2014 not promoted)",
+   "title": "Spatially-CV 35-channel GBM field under the champion's emission law (round 5, experiment 1)",
+   "layers": [
+    "19 official bands via src/gems32/features.py (det_elev, tmi, rtp, iso_grav_anom, cond_surf, depth_to_base_surf drive derived channels)"
+   ],
+   "signature": "per-pixel HistGB ranking over Hessian-ridge/curvature/top-hat/gradient/structure-tensor transforms; 4-quadrant spatial CV; B=2 catalogue gate; exact lazy-greedy 300m-kernel max-coverage at 37,654 dots",
+   "why_off_catalogue": "ranking generalises by appearance; B=2 gate forbids re-describing the catalogue",
+   "differs_from_repo": "first clean (zero on-catalogue, kernel-spaced) emission of the Candidate-A CV field; its only prior artifact was quarantined unscored",
+   "implementation": "scripts/run_hcvf2.py; evidence/hcvf2_run.json",
+   "measured": {
+    "sgmc_prevalence_calibrated_dti": 0.05876,
+    "champion_same_instrument": 0.06412,
+    "canary_worst_auc": 0.6217,
+    "frac_dots_within_3px_of_champion": 0.4967
+   },
+   "verdict": "NEGATIVE: loses to the champion on the fair (SGMC) instrument at matched mass; unique lane and format-valid, not submittable"
+  },
+  {
+   "id": "H-SUP-SGMC",
+   "rank": 2,
+   "status": "measured (NEGATIVE \u2014 not promoted)",
+   "title": "Same CV-GBM field with SGMC-north-augmented supervision (round 5, experiment 2)",
+   "layers": [
+    "19 official bands",
+    "USGS SGMC faults raster (hash-pinned) as extra positives, north quadrants only"
+   ],
+   "signature": "appearance learning from catalogue + SGMC-off-catalogue (north); validated on held-out south SGMC",
+   "why_off_catalogue": "SGMC is pre-Quaternary-inclusive \u2014 real faults the Quaternary catalogue omits",
+   "differs_from_repo": "first use of SGMC as supervision (vs the two failed live SGMC-tracing attempts, 0.0512/0.0492)",
+   "implementation": "scripts/run_hsupsgmc.py; evidence/hsupsgmc_run.json",
+   "measured": {
+    "south_sgmc_dti": 0.07517,
+    "champion_south_sgmc_dti": 0.09289,
+    "paired_diff_ci95": [
+     -0.0345,
+     0.0033
+    ]
+   },
+   "verdict": "NEGATIVE: SGMC supervision pulled mass north and under-covered held-out south SGMC truth; not submittable"
   }
  ],
- "updated_utc": "2026-10-04T14:30:19Z"
+ "updated_utc": "2026-10-25"
 }

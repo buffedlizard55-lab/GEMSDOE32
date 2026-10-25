@@ -1,0 +1,116 @@
+{
+  "candidate_id": "H-SUP-SGMC",
+  "slug": "hsupsgmc-cvgbm35-b2-greedy37654",
+  "content_digest8": "6abcd2b5",
+  "description": "Round-5 experiment 2: 4-quadrant spatial-CV HistGB over the 35-channel stack with SGMC-north-augmented supervision; B=2 catalogue gate; lazy-greedy 300m-kernel max-coverage at 37,654 dots. Primary validation = held-out SOUTH SGMC DTI (see evidence/hsupsgmc_run.json). No organizer score exists.",
+  "submission_note_zeros": "GEMSDOE32 H-SUP-SGMC | CV-GBM+SGMCsup B=2 greedy 37654 dots; south-SGMC holdout gate in evidence; UNSCORED DO-NOT-SUBMIT",
+  "submission_note_nan": "GEMSDOE32 H-SUP-SGMC (nan twin) | CV-GBM+SGMCsup B=2 greedy 37654 dots; south-SGMC holdout gate in evidence; UNSCORED DO-NOT-SUBMIT",
+  "zeros_tif": {
+    "filename": "gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-zeros.tif",
+    "size_bytes": 199067,
+    "sha256": "e20d00b8d600db7c5a16cabf1ec8df07e4b473abcec0462dc624a2787a554aee",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-nan.tif",
+    "size_bytes": 334389,
+    "sha256": "55beb48c40c76cecd72211739573d79983994da7d9b929721a34cf4277b6e6bb",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.0006455006585247185,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.0006792056697123421,
+      "NE": 0.0009344870481661682,
+      "SW": 0.00040153126741511447,
+      "SE": 0.0005667786488052493
+    },
+    "sgmc_prevalence_calibrated_dti": 0.08026959318089395,
+    "drift_corrected_holdout_mean": 0.0336837755445788,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.035442370051604805,
+      "NE": 0.043547180325226954,
+      "SW": 0.031372562410468194,
+      "SE": 0.024372989391015253
+    },
+    "predicted_leaderboard_dti": null,
+    "ei_drift_corrected": null,
+    "slot_decision": "DO-NOT-SUBMIT"
+  }
+}

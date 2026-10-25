@@ -39,6 +39,84 @@
 
 ---
 
+## 🔴 ROUND 5 — READ FIRST (2026-10-25): the champion scored 0.2778; two new unique files are DO-NOT-SUBMIT
+
+**ONE-CLICK — the scored champion (already submitted; kept here for the record, do not resubmit):**
+**[⬇ `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` — 0.2778](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif)**
+· sha256 `c55bafc470054e82…` · 37,654 dots · the two NEW unique files are linked in the table
+below and are both 🔴 **DO NOT SUBMIT**.
+
+**The owner reported the DrivenData submission-page score for this repo's champion:
+`h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` = 0.2778** (ORGANIZER-CONFIRMED, owner-reported
+receipt; this repo cannot independently authenticate account-side receipts — IR-32-SCORE-03).
+It is the group's best score. **It has already been submitted — do not resubmit it.** The
+pre-submission live-mirror projection was 0.2747 (error +0.0031). The public leaderboard's #1 is
+now **0.4413** (read 2026-10-25; the 0.3195/0.3262 figures elsewhere in this README are the
+2026-10-03/04 snapshots).
+
+**Why it won (forensically verified this session, `knowledge/03_why_02778_and_the_anatomy_of_the_family.md`):**
+the whole top cluster is one nested family — H19-5 (121,131 dots, 0.1922) ⊃ d2.8 (44,090, 0.2600) ⊃
+solo (40,199, 0.2708) ⊃ champion (37,654, 0.2778) — and every gain came from *removing* dots. The
+champion is exactly `solo` minus its 2,545 dots within 200 m of the catalogue (pixel-exact,
+`evidence/registry_overlap.json`). Those dots implied ≈0.006–0.016 credit each against the metric's
+0.0556 break-even bar: pure denominator tax. The runner-up (GEMSDOE36 "Anderson PINN", 0.2750)
+*contains all 37,654 champion dots* + 1,200 more that cost −0.0028 (IR-32-FAM-01) — there is no
+independent second method to ensemble with.
+
+**This session generated two NEW, UNIQUE, format-valid GeoTIFFs in genuinely different lanes**
+(≤50 % of dots within 3 px of the champion, vs ≥92.6 % for every family member) under the frozen
+gates of `docs/research/hypotheses-round5.md`. **Both measured worse than the champion on the fair
+local instrument. Both are labelled DO NOT SUBMIT.** No human inspection is involved: the gates
+(holdout-vs-champion, lane uniqueness, 12-point portal audit + independent second validator) are
+computed by `scripts/run_hcvf2.py` / `scripts/run_hsupsgmc.py` and stamped into each file's note.
+
+| file (unique this session) | sha256 | dots | HOLDOUT-DTI vs champion | verdict |
+|---|---|---:|---|---|
+| [`gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-zeros.tif`](docs/downloads/gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-zeros.tif) | `5d65591a23df0f46…` | 37,654 | SGMC-cal 0.05876 vs 0.06412 | 🔴 **DO NOT SUBMIT** (negative) |
+| [`gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-zeros.tif`](docs/downloads/gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-zeros.tif) | `e20d00b8d600db7c…` | 37,654 | south-SGMC 0.07517 vs 0.09289 | 🔴 **DO NOT SUBMIT** (negative) |
+
+Portal name/note (only if a future selector re-clears one after new evidence — currently **not**
+cleared): name `GEMSDOE32-H-CVF2`, note `GEMSDOE32 H-CVF2 | CV-GBM 35ch B=2 greedy 37654 dots;
+HOLDOUT cat 0.0008 sgmc 0.0588; UNSCORED DO-NOT-SUBMIT` (108 chars). Both files pass every format
+check (single-band float32, EPSG:32611, 3730×3292, all values finite in [0, 1], 0 on-catalogue) —
+the *"Predicted values must be in range [0, 1]"* class of failure cannot occur with the `-zeros`
+variants; the verdict above is about expected score, not legality.
+
+**Instrument warning (IR-32-INSTR-03):** the catalogue-hidden holdout scores the live B-ladder
+*backwards* (0.00460 < 0.03104 < 0.09832 for live 0.2778 > 0.2708 > 0.2600) because a B-gated
+candidate's exclusion zone was derived from the full catalogue including the hidden segments.
+Do not gate B-pruned candidates on it; the SGMC off-catalogue instrument is the fair local gate.
+
+**Next levers, ranked** (`knowledge/03` §6): submit the built identification probes S2/S3 to unlock
+soft-valued emission · B = 3 in the incumbent lane (expected Δ ∈ [−0.004, +0.009]) · a GPU detector
+(U-Net + 1 m LiDAR) for the +59 % credit density that #1 requires · raw USGS FDSN seismicity
+(unreachable from this sandbox; fetcher ready) · fix `evaluate_candidate_holdout` per IR-32-INSTR-03.
+
+### Standing instructions for every future session (the brief, kept verbatim where it binds)
+
+> **PARALLEL-RUN PROTOCOL.** (1) **Lane**: stay inside your single method; if your raster's
+> rank-correlation with any registry raster exceeds 0.90, or >70 % of your dots fall within 3 px of
+> one registry raster's dots, log it as a duplicate and stop — check the surface before placement
+> AND the final dots. (2) **Reuse, don't rebuild**: the cached feature stack, the holdout evaluator
+> and the submission writer; holdout = hide-and-recover with whole fault segments + buffer,
+> catalogue features from visible faults only, visible faults masked pixel-exactly, pooled DTI
+> (α 0.2, β 0.8, 300 m triangular kernel). (3) **Label every number** HOLDOUT-DTI (evaluator
+> version, # withheld positives, 95 % CI) or ORGANIZER-CONFIRMED; a projection is never a score.
+> (4) **Leakage canary**: each feature alone on the holdout; AUC > 0.90 = leakage until proven
+> otherwise. (5) **Run card**: end with one JSON card (hypothesis; mechanism; named non-fault
+> mimic; holdout DTI + CI; correlation/overlap vs registry; raster sha256; validator output;
+> submission name + ≤140-char note; verdict promote/negative). Negative results are deliverables.
+> (6) **Budget**: stop after 3 experiments or 2 hours; promotion to a real slot is a separate
+> selector step. — Generate 3–5 untried geological hypotheses before implementing (layers,
+> signature, why off-catalogue, how it differs; ranked by expected DTI gain ÷ cost) and validate
+> the top one on the blocked holdout before any slot is considered. Every generated TIF must be
+> **unique** (never a copy of a previous submission), portal-valid, and its OK/not-OK-to-submit
+> status must be **obvious without human inspection**. Verify line by line; no hallucinations;
+> flag irregularities. The full cross-site score history lives in `docs/score-ledger.csv`
+> (updated 2026-10-25 with the GEMSDOE24/25/27/28/30/31/32/33/36 focus sites).
+
+---
+
 ## 🔴 ARENA41 UPDATE 2026-10-25 — READ BEFORE DOWNLOADING ANYTHING BELOW
 
 > **Standing brief for this session (condensed; full text in session record):** focus on the highest
@@ -79,7 +157,11 @@ wording is superseded by this update.)
 
 ---
 
-## ⬇ ONE-CLICK SUBMISSION FILE (HISTORICAL, pre-Arena41 — see 🔴 update above)
+## ⬇ ONE-CLICK SUBMISSION FILE (historical sections — see the ROUND 5 and ARENA41 updates above)
+
+> **Superseded 2026-10-25** by the ROUND 5 and ARENA41 updates above: an organizer score now exists
+> (champion 0.2778), and this H32-D artifact remains unscored and is no longer the recommended
+> download. The measurements below are unchanged history.
 
 **[⬇ Download `gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif)**
 · sha256 `f81e26d7712d1a4a…` · 250,577 B · **46,090 px** · 0 on-catalogue · all 12 portal checks PASS
@@ -139,6 +221,10 @@ any artifact here** — every number is a local proxy measurement.
 ---
 
 ## ⬇ ONE-CLICK SUBMISSION FILE — identification pack (the three-slot live measurement)
+
+> **Scored 2026-10-25: this file returned 0.2778** (ORGANIZER-CONFIRMED, owner-reported) — the
+> group's best. Everything below was written before the score existed ("UNSCORED", "projected
+> 0.2747"); it is kept verbatim as the pre-submission record. The projection error was +0.0031.
 
 **[⬇ Download `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif)**
 · [`.zip`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip) ·

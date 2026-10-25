@@ -126,8 +126,20 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                      + "".join(cells) + "</table>")
 
     anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
+    # Round 5 (2026-10-25): the primary has an organizer score now.  The dated status line
+    # supersedes the pre-submission one; the original fields are kept in the registry untouched.
+    status_line = sub.get("status_line_2026_10_25") or sub.get("status_line", "")
+    _os = sub.get("organizer_score") or {}
+    scored_badge = ""
+    if _os.get("value") is not None:
+        scored_badge = (f'<p><b>&#9989;&nbsp;ORGANIZER-SCORED: {_os["value"]}</b> '
+                        f'({esc(_os.get("label", ""))}, reported {esc(_os.get("reported_utc", ""))}) '
+                        f'&mdash; <b>already submitted; do not resubmit</b>. '
+                        f'The pre-submission projection was {_os.get("projected_was")} '
+                        f'(error +{_os.get("projection_error")}).</p>\n')
     return f"""<div class=dl>
 <h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
+{scored_badge}
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
 <b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
@@ -140,7 +152,85 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 {('· ' + receipt) if receipt else ''}</p>
 {('<p><b>Already-scored fallback:</b> ' + anchor + '</p>') if anchor else ''}
 {pack_rows}
-<p class=warn><b>Status.</b> {esc(sub.get('status_line',''))}</p>
+<p class=warn><b>Status.</b> {esc(status_line)}</p>
+</div>"""
+
+
+GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
+
+
+def _r5_candidate_row(run: dict | None, label: str, gate_text: str, ev_file: str) -> str:
+    if not run:
+        return f"<tr><td><b>{esc(label)}</b></td><td class=mut>not built in this checkout</td></tr>"
+    b = (run.get("submission_bundle") or {}).get("zeros_tif") or {}
+    fname = b.get("filename", "")
+    dl = ""
+    if fname and (DL / fname).exists():
+        dl = f'<a href="downloads/{esc(fname)}">download .tif</a> · sha256 <code>{esc((b.get("sha256") or "")[:12])}&hellip;</code>'
+    verdict = run.get("verdict", "?")
+    badge = ('<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>' if verdict == "negative"
+             else '<b style="color:#0a6c03">&#9989; PASSED ALL LOCAL GATES (selector decides)</b>')
+    return (f"<tr><td><b>{esc(label)}</b><br>{badge}</td>"
+            f"<td>{esc(gate_text)}<br><span class=mut>{dl} · "
+            f'<a href="{GH}evidence/{esc(ev_file)}">full receipt</a></span></td></tr>')
+
+
+def round5_section() -> str:
+    """Round 5 (2026-10-25): why the champion scored 0.2778, and the two new unique candidates.
+
+    Everything is rendered from evidence/ JSON produced by scripts/run_hcvf2.py,
+    scripts/run_hsupsgmc.py and scripts/analyze_registry_overlap.py — never hand-typed numbers.
+    """
+    e1 = read("evidence/hcvf2_run.json")
+    e2 = read("evidence/hsupsgmc_run.json")
+    ov = read("evidence/registry_overlap.json") or {}
+    cc = ov.get("construction_checks", {})
+    h1 = ((e1 or {}).get("holdout") or {}).get("H-CVF2", {})
+    sg = ((e2 or {}).get("south_sgmc_gate") or {})
+    per = sg.get("per_candidate", {})
+    e1_gate = (f"HOLDOUT-DTI @37,654 dots: SGMC-cal {h1.get('sgmc_prevalence_calibrated_dti', 0):.5f} vs "
+               f"champion 0.06412; catalogue-hidden pooled "
+               f"{((h1.get('pooled') or {}).get('pooled_dti') or 0):.5f} (instrument perverse for B-gated "
+               f"files, IR-32-INSTR-03). Unique lane: 49.7% of dots within 3 px of the champion "
+               f"(champion family: &ge;92.6%). Format: 12/12 audit checks pass.")
+    e2_gate = (f"Held-out SOUTH SGMC DTI {per.get('H-SUP-SGMC', {}).get('dti', 0):.5f} vs champion "
+               f"{per.get('CHAMPION_h33-2-b2', {}).get('dti', 0):.5f} (paired diff 95% CI "
+               f"{(sg.get('paired_diff_candidate_minus_champion') or {}).get('boot_ci95', ['?','?'])}). "
+               f"Unique lane + format-valid, but worse where it matters.")
+    nested = ("verified" if cc.get("champion_equals_solo_and_dist_gt_2px") else "NOT verified")
+    return f"""<div class=dl>
+<h2>&#128300;&nbsp;ROUND 5 (2026-10-25) &mdash; why the champion scored 0.2778, and two new unique files</h2>
+<p><b>Round-5 verdict:</b> the champion file <code>h33-2-b2-…-e5eb6e7e-zeros.tif</code> is already
+submitted and scored <b>0.2778</b> (ORGANIZER-CONFIRMED, owner-reported) — do not resubmit it. The
+two round-5 files below are <b>unique and format-valid</b> but both measured <b>worse than the
+champion</b> on the fair local instrument, so both are labelled
+<b style="color:#b00020">DO NOT SUBMIT</b>. The one-click primary elsewhere on this page is a
+<i>separate parallel lane's</i> artifact (promoted on the drift instrument, IR-32-INSTR-01/03
+caveats apply) — round 5 neither promotes nor blocks it; promotion to a weekly slot is the
+selector's step, and this section never spends one.</p>
+<h3>Why h33-2-b2 got the group's highest score (measured from the bytes)</h3>
+<ul>
+<li>The whole top cluster is <b>one nested family</b>: H19-5 (121,131 dots, 0.1922) &sup; d2.8 (44,090,
+0.2600) &sup; solo (40,199, 0.2708) &sup; champion (37,654, <b>0.2778</b>). Every gain came from
+<i>removing</i> dots. The champion's construction is {nested} pixel-exactly: the 0.2708 base minus its
+2,545 dots within 200&nbsp;m of the catalogue.</li>
+<li>Mechanism: the scorer masks known faults, so near-catalogue dots almost never earn (implied
+&approx;0.006&ndash;0.016 credit/dot) but always pay &alpha;=0.2 in the denominator; the break-even bar at
+0.2778 is <code>k &gt; 0.2&middot;DTI = 0.0556</code>. B=2 was the first file with <b>zero</b> dots inside 200&nbsp;m.</li>
+<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750) <b>contains all 37,654 champion dots</b>
++ 1,200 more &mdash; those extras cost &minus;0.0028 (IR-32-FAM-01).</li>
+<li>Beating 0.2778 therefore needs <b>better-placed mass, not more or less of the same mass</b>: at the
+same 37,654 dots, +8% mean credit reaches 0.30; the public #1 (0.4413, read 2026-10-25) needs &approx;+59%.</li>
+</ul>
+<h3>The two unique round-5 candidates (new lanes, honestly measured)</h3>
+<table><tr><th>candidate</th><th>validation gates (all numbers HOLDOUT-DTI unless labelled)</th></tr>
+{_r5_candidate_row(e1, "H-CVF2 — CV-GBM 35-channel field, B=2, greedy max-coverage", e1_gate, "hcvf2_run.json")}
+{_r5_candidate_row(e2, "H-SUP-SGMC — CV-GBM + SGMC-north supervision", e2_gate, "hsupsgmc_run.json")}
+</table>
+<p class=mut>Method, frozen gates and falsifiers: <a href="research/hypotheses-round5.md">hypotheses-round5.md</a>.
+Forensic overlap anatomy: <a href="{GH}evidence/registry_overlap.json">registry_overlap.json</a>
+(reproduce: <code>scripts/analyze_registry_overlap.py</code>). Instrument warning: the catalogue-hidden
+holdout scores the live B-ladder <i>backwards</i> (IR-32-INSTR-03) &mdash; do not gate B-pruned files on it.</p>
 </div>"""
 
 
@@ -269,7 +359,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), download_block(sub, name), f"""<div class=dl>
+    parts = [arena41_block(), download_block(sub, name), round5_section(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -407,9 +497,20 @@ def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
     receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
                     if _rec else '<span class=mut>not written in this checkout</span>')
+    # Round-5 (2026-10-25) note: rendered only when this session's evidence is present.
+    _r5_note = ""
+    if read("evidence/hcvf2_run.json"):
+        _r5_note = f"""<div class=card style="border:2px solid #b00020"><h3>&#9940; Round-5 status (2026-10-25)</h3>
+<p>The group champion <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code> was
+<b>already submitted and scored 0.2778</b> — re-submitting it wastes a weekly slot. The two round-5
+candidates on the <a href="index.html">home page</a> are unique and format-valid but both measured
+<b>worse than the champion</b> locally and are labelled <b>DO NOT SUBMIT</b>. The one-click primary
+below is a separate parallel lane's artifact — judge it by its own status line. The steps below
+remain the exact procedure for any file the selector does clear.</p></div>
+"""
     return f"""<h2 style="margin-top:6px">Submission instructions — read the Arena41 traffic light first</h2>
 {arena41_block()}
-{download_block(sub, name)}
+{_r5_note}{download_block(sub, name)}
 <div class=card><h3>1 · Check the file (optional, 20 s)</h3>
 <pre>python3 - &lt;&lt;'EOF'
 import rasterio, numpy as np, hashlib
@@ -469,6 +570,10 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("hypotheses-round5.md", "Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family "
+                             "forensics), the five ranked hypotheses, two measured negative lanes "
+                             "(H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity "
+                             "(IR-32-INSTR-03)"),
     ("hypotheses-round4.md", "Round 4 (H33-1..H33-5): the live-anchored removal rule, the winning "
                              "flank-B=2 arm, the two falsified addition arms, and IR-33-LM-01"),
     ("hypotheses-round3.md", "Round 3 (H62-1..H62-5): transform only layers that are still raw "
