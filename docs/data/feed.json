@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-25T09:56:56Z",
+ "generated_utc": "2026-10-25T20:33:39Z",
  "sources": [
   {
    "id": "competition",
@@ -713,8 +713,8 @@
  ],
  "submission": {
   "name": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
-  "note": "GEMSDOE32 H33-2-B2 | flank B=2 prune on the 0.2708 base: 37,654 dots, 0 within 200 m of the catalogue; live-mirror +0.00487 in 4/4 folds, safety 2.08, projected 0.2747; UNSCORED",
-  "status_line": "PRIMARY = H33-2-B2 (Tier 1: live-anchored gate). 0.2708 base with every dot at d(catalogue) <= 2 px deleted (37,654 dots). 37,654 dots, 0 on the catalogue. Live mirror (spatially blocked, off-catalogue truth, validated on the known live orderings) +0.004870 in 4 quadrants over the 0.2708 base; live-anchored safety factor 2.08; projected live DTI 0.2747 (a MODEL, not a score). NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
+  "note": "ALREADY SUBMITTED (owner-reported 0.2778) | H33-2-B2 37,654 dots B=2 | DO NOT RESUBMIT DUPLICATE",
+  "status_line": "CHAMPION H33-2-B2 \u2014 ALREADY SUBMITTED: owner-reported organizer score 0.2778 (standing brief 2026-10-25; no receipt in this checkout). 37,654 dots, 0 on/<=200m of catalogue. DO NOT RESUBMIT (duplicate wastes a slot). Arena41 (2026-10-25) verified: B2 shell earned ~0.004-0.029 credit/dot vs 0.0556 break-even; see docs/research/arena41-report.md.",
   "file": {
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
@@ -728,8 +728,8 @@
   },
   "zip": {
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip",
-   "sha256": "0322d0b413530b9fb445a366ca1ad234c5180868c2f89cdc70fe2ce80bd4439f",
-   "bytes": 216
+   "sha256": "5a6f3ee02e6392089d53361976dbc9d5dec43ef4205001097c6806fe487bef11",
+   "bytes": 186378
   },
   "candidate_id": "H33-2-B2",
   "tier": 1,
@@ -958,7 +958,8 @@
    }
   ],
   "rule": "0.2708 base (GEMS28-H27-4-R1-SOLO-D2.8, 40,199 dots) minus every dot within 2 px (200 m) of the published catalogue",
-  "provenance": "built by scripts/build_submission_build.py from evidence/h33_validation.json + registry/slot_plan.json; every digest re-read from the written bytes; receipts evidence/h33_submission_bundles.json and docs/research/hypotheses-round4.md"
+  "provenance": "built by scripts/build_submission_build.py from evidence/h33_validation.json + registry/slot_plan.json; every digest re-read from the written bytes; receipts evidence/h33_submission_bundles.json and docs/research/hypotheses-round4.md",
+  "arena41_update": "2026-10-25: champion .zip repaired (was empty 216B self-entry; tif sha unchanged); status corrected from UNSCORED to owner-reported 0.2778; see evidence/arena41_pass2_audit.json"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",

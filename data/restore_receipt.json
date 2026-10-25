@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "verified_files_count": 22,
+  "verified_files_count": 23,
   "storage_root": "/home/user/GEMSDOE32/.cache/gems_data",
   "files": [
     {
@@ -178,6 +178,14 @@
       "status": "present",
       "bytes": 439456,
       "sha256": "2314b59920bfeeaf6a592d4868b25eca62212825620f9945723c2f6d0a2e5b22"
+    },
+    {
+      "id": "scored_gems27_tgc_v2_d15",
+      "dest": "scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "group": "scored",
+      "status": "present",
+      "bytes": 1635084,
+      "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d"
     }
   ]
 }

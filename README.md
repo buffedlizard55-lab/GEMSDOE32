@@ -25,7 +25,46 @@
 
 ---
 
-## ⬇ ONE-CLICK SUBMISSION FILE (best-validated artifact — selected by measurement, not by hand)
+## 🔴 ARENA41 UPDATE 2026-10-25 — READ BEFORE DOWNLOADING ANYTHING BELOW
+
+> **Standing brief for this session (condensed; full text in session record):** focus on the highest
+> scorers from GEMSDOE24/25/27/28/30/31/32/33/36; explain why this site's
+> `h33-h33-2-b2-…-e5eb6e7e-zeros` scored **0.2778** (owner-reported); generate a **unique** TIF
+> (never a copy), validated **without human inspection**, where it is **obvious whether it may be
+> submitted**; pre-register 3–5 geological hypotheses, validate the top one on a spatially-blocked
+> hide-and-recover holdout, and do not spend a submission slot on anything that has not beaten the
+> holdout best. Core values: **Maximize P(Win)**, **Own the Outcome**. Current public leader:
+> **0.4413** (xiaofanhu, ORGANIZER-CONFIRMED leaderboard read 2026-10-25).
+
+**Champion answer (measured from bytes):** 0.2778 = D2.8 minus every dot within 200 m of the
+catalogue. That shell earned ~0.004–0.029 credit/dot vs a 0.0556 break-even — a pure denominator
+reduction, not a better model. Full autopsy: [`docs/research/arena41-report.md`](docs/research/arena41-report.md)
+· [`evidence/arena41_forensic.json`](evidence/arena41_forensic.json).
+
+**New unique TIF (this session's lane: PF-ONLY blind-basin, no DEM/LiDAR):**
+**[⬇ `gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif`](docs/downloads/gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif)**
+· sha256 `f042f48e76d8ee25…` · 37,654 dots · format ✅ (all cells finite, [0,1], EPSG:32611, nodata=None)
+· **unique submission name** `GEMSDOE32-ARENA41-PFONLY`
+· **note (≤140):** `Arena41 PF-only blind-basin 37654d B2 zeros | HOLDOUT gates G2/G3 FAIL vs surf-ctrl | DO NOT SUBMIT`
+
+### 🔴 DO NOT SUBMIT IT — automated gates FAILED (no human inspection involved)
+HOLDOUT-DTI (pooled, 22,232 withheld px, shared evaluator @012e17b) PF-ONLY **0.1205
+[95% CI 0.0748–0.1642]** vs surface-control 0.1571 and 3×-random bar 0.1423; off-catalogue SGMC
+also loses. It is published as a **measured negative deliverable**, and the champion below was
+**already submitted (0.2778) — do not resubmit it either. There is currently no 🟢 file.**
+Gates/receipts: [`evidence/arena41_run_card.json`](evidence/arena41_run_card.json) ·
+[`docs/downloads/checks-gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif.json`](docs/downloads/checks-gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif.json)
+· figure [`docs/assets/fig_arena41_pfonly.png`](docs/assets/fig_arena41_pfonly.png).
+Reproduce: `.venv/bin/python scripts/restore_data.py --group all --target-dir .cache/gems_data &&
+.venv/bin/python scripts/prepare_data.py && .venv/bin/python scripts/arena41_forensic.py &&
+.venv/bin/python scripts/arena41_exp1_screen.py && .venv/bin/python scripts/arena41_exp2_oof.py &&
+.venv/bin/python scripts/arena41_exp3_refine.py && .venv/bin/python scripts/arena41_build_final.py`
+(3-experiment budget; everything below this block predates Arena41 and its "unscored" champion
+wording is superseded by this update.)
+
+---
+
+## ⬇ ONE-CLICK SUBMISSION FILE (HISTORICAL, pre-Arena41 — see 🔴 update above)
 
 **[⬇ Download `gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif`](docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif)**
 · sha256 `f81e26d7712d1a4a…` · 250,577 B · **46,090 px** · 0 on-catalogue · all 12 portal checks PASS

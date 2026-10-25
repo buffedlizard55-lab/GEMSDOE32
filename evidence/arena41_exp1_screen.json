@@ -1,0 +1,152 @@
+{
+  "experiment": "EXP1_screen",
+  "evaluator": "gems32.holdout.evaluate_candidate_holdout v(repo HEAD 012e17b): hide 20% whole catalogue components per quadrant, draws 20/21, 15px collar, visible masked in scoring domain; pooled DTI alpha0.2 beta0.8 R=3px computed from per-cell TP/FP/FN",
+  "budget": 37654,
+  "screen_mask": "foot & d(catalogue)>2 (global, pessimistic; identical eligibility logic for solo surfaces)",
+  "leakage_canary": "AUC>0.90 => leakage until proven otherwise",
+  "results": {
+    "CHAMPION_B2_prebuilt": {
+      "emitted": 37654,
+      "pooled": {
+        "pooled_dti": 0.00451537871535044,
+        "ci95_cluster_bootstrap": [
+          0.003943270699615557,
+          0.005250104404946791
+        ],
+        "tp": 144.17670556019365,
+        "fp": 70578.55765039964,
+        "fn": 22087.823294439804,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.004600104084398947,
+      "sgmc_prevalence_calibrated_dti": 0.06412093764176459,
+      "drift_corrected_holdout_mean": 0.04504333270394367
+    },
+    "C2_worm_scale_persist_proxy": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5370437875061486,
+        0.48116993012815384,
+        0.5361110459076004,
+        0.5140372892995088
+      ],
+      "auc_mean": 0.5170905132103529,
+      "pooled": {
+        "pooled_dti": 0.0056712064357971785,
+        "ci95_cluster_bootstrap": [
+          0.00340352048593711,
+          0.00747836269533557
+        ],
+        "tp": 181.826004394875,
+        "fp": 71196.45666517301,
+        "fn": 22050.173995605124,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.0048522277985713815,
+      "sgmc_prevalence_calibrated_dti": 0.03843202425412809,
+      "drift_corrected_holdout_mean": 0.03135591103492818
+    },
+    "C3_curv_abs_s2p5": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5717747372520084,
+        0.49939708323342125,
+        0.5371308808967242,
+        0.5126242486031424
+      ],
+      "auc_mean": 0.530231737496324,
+      "pooled": {
+        "pooled_dti": 0.0018773002978006582,
+        "ci95_cluster_bootstrap": [
+          0.0012327698448119171,
+          0.0027215765284381455
+        ],
+        "tp": 58.219206272898404,
+        "fp": 66074.7647532588,
+        "fn": 22173.780793727103,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.002039871848486899,
+      "sgmc_prevalence_calibrated_dti": 0.09548576845985697,
+      "drift_corrected_holdout_mean": 0.04030985122144824
+    },
+    "C_basement_step": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5147054312182325,
+        0.5347081471638291,
+        0.491458102415506,
+        0.5296860393932575
+      ],
+      "auc_mean": 0.5176394300477063,
+      "pooled": {
+        "pooled_dti": 0.0034819552781766645,
+        "ci95_cluster_bootstrap": [
+          0.0015476292925727059,
+          0.005593124842727985
+        ],
+        "tp": 107.97958131070348,
+        "fp": 66019.97703517874,
+        "fn": 22124.0204186893,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.003151071649408216,
+      "sgmc_prevalence_calibrated_dti": 0.010223975136004433,
+      "drift_corrected_holdout_mean": 0.012584732489111843
+    },
+    "C1_pf_edge_mean": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.5259958489096573,
+        0.5404632936349346,
+        0.5157564723953768,
+        0.5435063280458994
+      ],
+      "auc_mean": 0.5314304857464671,
+      "pooled": {
+        "pooled_dti": 0.00459013129466132,
+        "ci95_cluster_bootstrap": [
+          0.00312668898180073,
+          0.006088431689583308
+        ],
+        "tp": 138.41959544307096,
+        "fp": 61713.14046209135,
+        "fn": 22093.58040455693,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.004458934391638608,
+      "sgmc_prevalence_calibrated_dti": 0.021271778025238,
+      "drift_corrected_holdout_mean": 0.02270918761530588
+    },
+    "C4_radalt_x_demag": {
+      "emitted": 37654,
+      "auc_by_quadrant": [
+        0.48192324848335794,
+        0.49900109503636797,
+        0.4830042874013831,
+        0.5237774201259984
+      ],
+      "auc_mean": 0.49692651276177685,
+      "pooled": {
+        "pooled_dti": 0.0034647459894871814,
+        "ci95_cluster_bootstrap": [
+          0.0021980097186816024,
+          0.004516150837088627
+        ],
+        "tp": 110.46467269650309,
+        "fp": 70373.90355238804,
+        "fn": 22121.535327303496,
+        "n_withheld_positives": 22232,
+        "n_cells": 8
+      },
+      "catalogue_hidden_mean": 0.00294937635745692,
+      "sgmc_prevalence_calibrated_dti": 0.03168678701931765,
+      "drift_corrected_holdout_mean": 0.023356336855414255
+    }
+  }
+}

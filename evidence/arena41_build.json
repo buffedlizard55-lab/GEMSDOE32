@@ -1,0 +1,235 @@
+{
+  "candidate_id": "ARENA41-PFONLY",
+  "file": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+  "zip": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.zip",
+  "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+  "zip_sha256": "fe2f7710e6f824326de1b1a8146d3fce3f160213f7204a8f3fa9686f9ef532f1",
+  "bytes": 277724,
+  "dots": 37654,
+  "digest8_mask": "530d08d1",
+  "note_le140": "Arena41 PF-only blind-basin 37654d B2 zeros | HOLDOUT gates G2/G3 FAIL vs surf-ctrl | DO NOT SUBMIT",
+  "unique_submission_name": "GEMSDOE32-ARENA41-PFONLY",
+  "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": "None"
+  },
+  "checks": {
+    "validator_passed": true,
+    "checks": [
+      {
+        "name": "dimensions",
+        "passed": true,
+        "detail": "shape (3730, 3292) (expected (3730, 3292))"
+      },
+      {
+        "name": "band_count",
+        "passed": true,
+        "detail": "bands: 1 (expected 1)"
+      },
+      {
+        "name": "crs",
+        "passed": true,
+        "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+      },
+      {
+        "name": "transform",
+        "passed": true,
+        "detail": "transform matched template"
+      },
+      {
+        "name": "dtype",
+        "passed": true,
+        "detail": "dtype: float32 (expected float32)"
+      },
+      {
+        "name": "in_footprint_range",
+        "passed": true,
+        "detail": "in-footprint range [0.0000, 1.0000], all finite"
+      },
+      {
+        "name": "portal_safe_whole_array",
+        "passed": true,
+        "detail": "whole-array range [0.0000, 1.0000], finite=True"
+      }
+    ],
+    "all_cells_finite": true,
+    "nan_cells": 0,
+    "min": 0.0,
+    "max": 1.0,
+    "values_outside_0_1": 0,
+    "nodata_is_none": true,
+    "dots": 37654,
+    "mask_roundtrip_exact": true,
+    "dots_on_catalogue": 0,
+    "dots_within_200m_catalogue": 0,
+    "min_dist_to_catalogue_px": 2.23606797749979,
+    "portal_legal": true
+  },
+  "writer_manifest": {
+    "file_path": "/home/user/GEMSDOE32/docs/downloads/gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+    "file_name": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+    "unique_id": "f042f48e76d8",
+    "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+    "timestamp_utc": "20261025T202726Z",
+    "outside_mode": "zeros",
+    "portal_compliant_range": true,
+    "emitted_dots_count": 37654,
+    "note": "Arena41 PF-only blind-basin 37654d B2 zeros | HOLDOUT gates G2/G3 FAIL vs surf-ctrl | DO NOT SUBMIT",
+    "validation_passed": true,
+    "validation_report": {
+      "file_path": "/home/user/GEMSDOE32/docs/downloads/gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+      "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+      "passed": true,
+      "checks": [
+        {
+          "name": "dimensions",
+          "passed": true,
+          "detail": "shape (3730, 3292) (expected (3730, 3292))"
+        },
+        {
+          "name": "band_count",
+          "passed": true,
+          "detail": "bands: 1 (expected 1)"
+        },
+        {
+          "name": "crs",
+          "passed": true,
+          "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+        },
+        {
+          "name": "transform",
+          "passed": true,
+          "detail": "transform matched template"
+        },
+        {
+          "name": "dtype",
+          "passed": true,
+          "detail": "dtype: float32 (expected float32)"
+        },
+        {
+          "name": "in_footprint_range",
+          "passed": true,
+          "detail": "in-footprint range [0.0000, 1.0000], all finite"
+        },
+        {
+          "name": "portal_safe_whole_array",
+          "passed": true,
+          "detail": "whole-array range [0.0000, 1.0000], finite=True"
+        }
+      ]
+    }
+  },
+  "surface_uniqueness_top5": [
+    {
+      "file": "8GEMSDOE_Hedge-v2_submission.tif",
+      "sha256": "052688eafbc7a55d90caab72252a50304fe5caa8ecf973f8e791b4ae910f0792",
+      "spearman_surface_sampled": 0.15014885538975006,
+      "dots": 227507
+    },
+    {
+      "file": "gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "sha256": "1381e784fb8b8340beffd0e735ac9eea89ad35d1a807f8a9bab5506e3fc8275e",
+      "spearman_surface_sampled": 0.13656898950205673,
+      "dots": 174232
+    },
+    {
+      "file": "gemsdoe-ens12-adopted-7f00890a.tif",
+      "sha256": "7f00890a62878d612fb5eef67a9a364a2df819433dde74b6762ce4fc0fc4fe15",
+      "spearman_surface_sampled": 0.11158374673299808,
+      "dots": 172974
+    },
+    {
+      "file": "gems16-h16-1-topo-geophys-baseline-ridges-20260930-df20f65e-nan.tif",
+      "sha256": "055309694ed499ca3d87e76b3f5e81c292aef6e39c418d33ff5a817aa1309bea",
+      "spearman_surface_sampled": 0.09073220965012078,
+      "dots": 123939
+    },
+    {
+      "file": "gems19-h19-4-multiline-corroborated-openness-thermal-pop-20260930-691e4dfa-nan.tif",
+      "sha256": "89109a3bd2cd3b12e7a0f388113c519843acfc9c4f46825affefc3e63dd99b22",
+      "spearman_surface_sampled": 0.08939175985963921,
+      "dots": 123779
+    }
+  ],
+  "dot_uniqueness_top5": [
+    {
+      "file": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "spearman_surface_sampled": -0.0029731105480839733,
+      "dots": 206895,
+      "phi_binary_final": 0.0001204934636335234,
+      "frac_final_within3px_of_other": 0.9866415254687417,
+      "frac_other_within3px_of_final": 0.11949056284588801
+    },
+    {
+      "file": "gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "sha256": "1381e784fb8b8340beffd0e735ac9eea89ad35d1a807f8a9bab5506e3fc8275e",
+      "spearman_surface_sampled": 0.13656898950205673,
+      "dots": 174232,
+      "phi_binary_final": 0.021232937270036625,
+      "frac_final_within3px_of_other": 0.5887555107027141,
+      "frac_other_within3px_of_final": 0.2870597823591533
+    },
+    {
+      "file": "gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+      "sha256": "7637b72d4c6c3e10226bf46bd72a20272d62ccbe29743062632d10b158b49c58",
+      "spearman_surface_sampled": 0.07646813838785706,
+      "dots": 69281,
+      "phi_binary_final": 0.011596348920521256,
+      "frac_final_within3px_of_other": 0.5624900408987094,
+      "frac_other_within3px_of_final": 0.2583536611769461
+    },
+    {
+      "file": "8GEMSDOE_Hedge-v2_submission.tif",
+      "sha256": "052688eafbc7a55d90caab72252a50304fe5caa8ecf973f8e791b4ae910f0792",
+      "spearman_surface_sampled": 0.15014885538975006,
+      "dots": 227507,
+      "phi_binary_final": 0.008397779914167413,
+      "frac_final_within3px_of_other": 0.5356668614224253,
+      "frac_other_within3px_of_final": 0.23840145577938263
+    },
+    {
+      "file": "gemsdoe-ens12-adopted-7f00890a.tif",
+      "sha256": "7f00890a62878d612fb5eef67a9a364a2df819433dde74b6762ce4fc0fc4fe15",
+      "spearman_surface_sampled": 0.11158374673299808,
+      "dots": 172974,
+      "phi_binary_final": 0.01460501427764757,
+      "frac_final_within3px_of_other": 0.444361820789292,
+      "frac_other_within3px_of_final": 0.24270699642720872
+    }
+  ],
+  "dot_uniqueness_vs_champion": [
+    {
+      "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "spearman_surface_sampled": 0.03873678566352663,
+      "dots": 37654,
+      "phi_binary_final": 0.007560804974775952,
+      "frac_final_within3px_of_other": 0.258485154299676,
+      "frac_other_within3px_of_final": 0.20053646358952568
+    }
+  ],
+  "gates": {
+    "G1_auc_le_0.90": true,
+    "G2_pooled_gt_3x_random": false,
+    "G3_lane_offcat_beats_ctrl_and_retains70": false,
+    "G4_uniqueness": false,
+    "G5_format": true
+  },
+  "verdict": "negative",
+  "ok_to_submit": false
+}
