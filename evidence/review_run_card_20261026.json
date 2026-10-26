@@ -1,0 +1,39 @@
+{
+  "kind": "repository review; no new geological experiment was run",
+  "hypothesis": "No new hypothesis tested: this review evaluated whether the historical R6-1 artifact is authorized under the current prompt.",
+  "mechanism": "Historical R6-1 used a label-free det_elev step-vs-ramp field, but applied a B=2 exclusion derived from the full catalogue before its holdout evaluation.",
+  "named_non_fault_mimic": "Pleistocene Lake Lahontan shoreline terraces and road cuts can create non-fault elevation steps.",
+  "holdout_dti": {
+    "evidence_class": "HOLDOUT-DTI (historical local result; not organizer-confirmed and not accepted as compliant promotion evidence)",
+    "evaluator_version": "gems32.holdout draws 20/21; four spatial quadrants; 15 px collar; 12 px domain erosion; alpha=0.2, beta=0.8, R=3 px; eight draw-fold cells",
+    "n_withheld_positives": 22232,
+    "candidate_dti": 0.0033763239250124547,
+    "candidate_ci95": [0.0025123785219746527, 0.004534956346077028],
+    "incumbent_dti": 0.00451537871535044,
+    "incumbent_ci95": [0.003943270699615557, 0.005250104404946791],
+    "caveat": "Candidate placement used the full-label B=2 exclusion; fold-specific feature/emission reconstruction from visible faults was not demonstrated."
+  },
+  "correlation_overlap_vs_registry": {
+    "evidence_class": "historical prior-round registry comparison; does not confer current-lane authorization",
+    "surface_max_spearman": 0.34013434998861647,
+    "final_max_fraction_within_3px": 0.4136346736070537,
+    "registry_rasters_compared": 29,
+    "current_session_lane_present": false
+  },
+  "raster_sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+  "validator_output": {
+    "single_band_float32": true,
+    "no_nan_full_grid": true,
+    "values_in_0_1": true,
+    "crs": "EPSG:32611",
+    "shape": [3730, 3292],
+    "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+    "template_crs_shape_transform_match_rechecked_this_review": false,
+    "template_reference_available_this_review": false,
+    "format_valid": true,
+    "overall_submission_validation_pass": false
+  },
+  "submission_name": "GEMSDOE32-R6-STEP-23FBBB51",
+  "submission_note_le140": "AUDIT ONLY; not authorized. Re-run fold-local hide-and-recover after lane assignment.",
+  "verdict": "negative"
+}

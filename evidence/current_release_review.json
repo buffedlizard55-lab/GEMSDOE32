@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-26",
+  "decision_scope": "Current session release authorization; does not rewrite the historical Round-6 run card.",
+  "review_run_card": "evidence/review_run_card_20261026.json",
+  "artifact": {
+    "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+    "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+    "format_byte_audit": {
+      "verified_this_review": true,
+      "single_band_float32": true,
+      "crs": "EPSG:32611",
+      "shape": [3730, 3292],
+      "transform": [100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0],
+      "nodata": null,
+      "finite_cells": 12279160,
+      "total_cells": 12279160,
+      "min": 0.0,
+      "max": 1.0,
+      "positive_pixels": 37654
+    },
+    "reference_grid_reaudit": "NOT RUN: the competition sample_submission.tif and prior .cache/gems_data template are absent from this checkout. The format audit above checks the artifact bytes and declared expected grid, not a fresh byte-for-byte comparison to the competition template."
+  },
+  "submission_authorization": {
+    "ok_to_download_and_submit": false,
+    "verdict": "negative",
+    "slot_used": false,
+    "reasons": [
+      "The current parallel-run prompt assigns a single method paragraph, but no method paragraph is present. The standing project brief requires stopping rather than choosing another lane.",
+      "The prior Round-6 candidate was emitted using a 200 m exclusion derived from the full catalogue. Its hide-and-recover evaluation does not demonstrate fold-specific re-emission with catalogue-derived features computed only from visible faults, as the required protocol specifies.",
+      "The prior Round-6 promotion gate was the external SGMC off-catalogue comparison. Its own reported catalogue hide-and-recover result did not beat the incumbent; the SGMC result is not a substitute for the mandated hide-and-recover gate.",
+      "The current checkout lacks the competition template and cached feature stack needed to reproduce the prior holdout and compare the candidate against the exact sample grid during this review."
+    ],
+    "next_required": "Provide an explicit lane paragraph in the next run prompt, restore the hash-verified competition data/cache, and rerun the shared evaluator with fold-specific visible-catalogue feature derivation and matched incumbent comparison. Do not spend a submission slot before then."
+  },
+  "holdout_evidence_from_historical_round6_card": {
+    "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
+    "evaluator": "gems32.holdout draws 20/21, four spatial quadrants, 15 px collar, 12 px domain erosion; alpha=0.2, beta=0.8, R=3 px; pooled across 8 draw-fold cells",
+    "withheld_positives": 22232,
+    "candidate_dti": 0.0033763239250124547,
+    "candidate_ci95": [0.0025123785219746527, 0.004534956346077028],
+    "incumbent_dti": 0.00451537871535044,
+    "incumbent_ci95": [0.003943270699615557, 0.005250104404946791],
+    "limitation": "These are recorded results from the historical run card; because the candidate's catalogue exclusion was computed from full labels rather than rebuilt per withheld fold, they are not accepted as protocol-compliant promotion evidence."
+  },
+  "uniqueness_evidence_from_historical_round6_card": {
+    "evidence_class": "historical registry comparison, not current-session lane authorization",
+    "surface_max_spearman": 0.34013434998861647,
+    "final_max_within_3px_fraction": 0.4136346736070537,
+    "registry_rasters_compared": 29,
+    "limitation": "Prior-lane check only. The current run has no assigned lane paragraph; this does not authorize promotion."
+  }
+}

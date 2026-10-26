@@ -1,5 +1,7 @@
 # Round-6 hypotheses & frozen preregistration — written BEFORE any round-6 candidate was built
 
+> **Retrospective correction (2026-10-26): this is a historical preregistration, not current submission authorization.** Its SGMC-primary gate and full-label B=2 eligibility were found not to satisfy the required fold-local hide-and-recover protocol. The session-scoped decision is **DO NOT SUBMIT**; see [`repo-review-20261026.md`](repo-review-20261026.md) and [`evidence/current_release_review.json`](../../evidence/current_release_review.json). Preserve the original run and numbers below as audit history only.
+
 **Date:** 2026-10-26 · **Session lane (explicit, single paragraph):** see §2.
 **Labels:** `[HOLDOUT-DTI]` = local hide-and-recover / SGMC instrument (evaluator +
 withheld positives + 95 % CI stated with every number); `[OWNER-REPORT]` = a number
