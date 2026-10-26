@@ -292,7 +292,29 @@
       "group": "external",
       "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988",
       "bytes": 10492276,
-      "provenance": "Owner-derived Euclidean distance in meters to US Census Bureau TIGER/Line 2024 county road/highway centerlines (official directory: https://www2.census.gov/geo/tiger/TIGER2024/ROADS/, public-domain Census product), projected onto exact EPSG:32611 3730x3292 100 m competition grid. The sibling mirror includes `data/external/audit_sources/tiger_road_receipt.json`; this session did not fetch road files from Census. SHA-256 pins verify the owner mirror, not official-host authenticity."
+      "provenance": "owner-derived Euclidean distance in meters to US Census Bureau TIGER/Line 2024 county road/highway centerlines (official directory: https://www2.census.gov/geo/tiger/TIGER2024/ROADS/, public-domain Census product), projected onto exact EPSG:32611 3730x3292 100 m competition grid. The sibling mirror includes `data/external/audit_sources/tiger_road_receipt.json`; this session did not fetch road files from Census. SHA-256 pins verify the owner mirror, not official-host authenticity."
+    },
+    {
+      "id": "scored_gems25_d28_nan",
+      "repo": "buffedlizard55-lab/GEMSDOE25",
+      "ref": "606eef45e669a6da061ec24be4a3d870addadb0f",
+      "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "dest": "scored/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "group": "scored",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "bytes": 1603424,
+      "provenance": "owner-mirrored GEMSDOE25 H25-1 d2.8 nan sibling raster required by tests/test_h33.py::test_d28_vs_d15_bit_diff_audit"
+    },
+    {
+      "id": "scored_gems28_h27_4_r1_solo",
+      "repo": "buffedlizard55-lab/GEMSDOE28",
+      "ref": "9c1be21e8f1be707347f737e42abf62ea669c819",
+      "path": "docs/downloads/gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif",
+      "dest": "scored/gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif",
+      "group": "scored",
+      "sha256": "2fc94a38d77f74d4f4ed1a97a83e7bb71a1ceea090515ec641e6681cc47c44c8",
+      "bytes": 830036,
+      "provenance": "owner-mirrored GEMSDOE28 H27-4 r1 solo d2.8 allfinite sibling raster required by tests/test_h33.py::test_gems28_solo_differs_from_d28_only_by_741_infill"
     }
   ]
 }

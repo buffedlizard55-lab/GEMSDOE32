@@ -1,0 +1,123 @@
+{
+  "candidate_id": "H47-1-LDGI-static",
+  "path": "docs/downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif",
+  "emitted_pixels": 37654,
+  "hide_and_recover": {
+    "candidate_id": "H47-1-LDGI-static",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "pooled_dti": 0.005597659856651327,
+    "ci95_cluster_bootstrap": [
+      0.004676147103865548,
+      0.006543850962980112
+    ],
+    "fold_mean_dti": 0.0059297148768896885,
+    "per_quadrant_dti": {
+      "NW": 0.007849821794631607,
+      "NE": 0.006518643222097209,
+      "SW": 0.003412884014890004,
+      "SE": 0.005937510475939938
+    },
+    "folds": {
+      "draw20_fold0": {
+        "dti": 0.00784159325168508,
+        "coverage": 0.011779477438248316,
+        "tp": 22.510581384492532,
+        "fp": 6686.810651934531,
+        "fn": 1888.4894186155075,
+        "n_truth": 1911,
+        "emitted": 6706
+      },
+      "draw20_fold1": {
+        "dti": 0.008099044140709017,
+        "coverage": 0.010876963030733587,
+        "tp": 25.571740085254664,
+        "fp": 6357.315972207187,
+        "fn": 2325.4282599147455,
+        "n_truth": 2351,
+        "emitted": 6379
+      },
+      "draw20_fold2": {
+        "dti": 0.0033535377447716876,
+        "coverage": 0.004692661627173048,
+        "tp": 17.29245809613268,
+        "fp": 11025.119150498966,
+        "fn": 3667.7075419038674,
+        "n_truth": 3685,
+        "emitted": 11040
+      },
+      "draw20_fold3": {
+        "dti": 0.007922425597846054,
+        "coverage": 0.010991298697462815,
+        "tp": 35.44693829931758,
+        "fp": 9435.819198270565,
+        "fn": 3189.5530617006825,
+        "n_truth": 3225,
+        "emitted": 9464
+      },
+      "draw21_fold0": {
+        "dti": 0.007858050337578132,
+        "coverage": 0.01128143638398034,
+        "tp": 23.815112206582498,
+        "fp": 6685.506121112441,
+        "fn": 2087.1848877934176,
+        "n_truth": 2111,
+        "emitted": 6706
+      },
+      "draw21_fold1": {
+        "dti": 0.004938242303485401,
+        "coverage": 0.006732836832393303,
+        "tp": 15.249875425370831,
+        "fp": 6365.340610188809,
+        "fn": 2249.7501245746294,
+        "n_truth": 2265,
+        "emitted": 6379
+      },
+      "draw21_fold2": {
+        "dti": 0.0034722302850083197,
+        "coverage": 0.004917617919954722,
+        "tp": 17.624742625117722,
+        "fp": 11025.945704090645,
+        "fn": 3566.3752573748825,
+        "n_truth": 3584,
+        "emitted": 11040
+      },
+      "draw21_fold3": {
+        "dti": 0.003952595354033821,
+        "coverage": 0.005576460479152062,
+        "tp": 17.287027485371393,
+        "fp": 9450.657875765488,
+        "fn": 3082.7129725146287,
+        "n_truth": 3100,
+        "emitted": 9464
+      }
+    }
+  },
+  "sgmc_off_catalogue": {
+    "candidate_id": "H47-1-LDGI-static",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "n_withheld_positives": 62703,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "sgmc_raw_pooled_dti": 0.09875103956628765,
+    "sgmc_raw_ci95": [
+      0.08625800179620559,
+      0.1097321323746442
+    ],
+    "sgmc_prevalence_calibrated_dti": 0.06588839591201119,
+    "sgmc_calibrated_ci95": [
+      0.05766448452933889,
+      0.07255113690433727
+    ]
+  },
+  "legacy_summary": {
+    "catalogue_hidden_mean": 0.0059297148768896885,
+    "sgmc_prevalence_calibrated_dti": 0.06588839591201115,
+    "drift_corrected_holdout_mean": 0.061174730528495716
+  }
+}

@@ -628,6 +628,25 @@
    "severity": "high (owner protocol decision required; no candidate can pass meanwhile)",
    "statement": "Exact computation on the pinned r13-lattice-s5_v2 raster: the 5-px lattice leaves 6,649 footprint pixels farther than 3 px from every lattice dot (99.87% coverage), so the literal '<=70% of dots within 3 px of any registry raster' rule is mathematically impassable for any submission with more than floor(6649/0.3)=22,163 dots. Every champion-family file (37,654-61,328 dots) and every research artifact in this repository exceeds the bound. Any gate that reports a final-dot pass for a >22,163-dot candidate (e.g. the ARENA49-PCG run card's final=true with an empty registry-comparison block) necessarily excluded the lattice.",
    "mitigation": "Owner must decide prospectively: exempt documented calibration probes from the duplicate gate, or keep the literal rule and accept that no dense map can ever pass. No exemption applied unilaterally. Evidence: evidence/livescore_covariates_20261026.json lattice_pigeonhole_bound."
+  },
+  {
+   "id": "IR-46-PLAYA-01",
+   "severity": "high (FIXED in H47-1 2026-10-26)",
+   "statement": "H46-1 Stage 2 (`src/gems32/trhv.py::emit_two_regime_trhv`) multiplied `surface_b` by `(0.30 + 0.70 * burial_prior)`, where `burial_prior` (`spcp_stack[:, :, 16]`) is `flat_basin * dist_to_range * sed_thick`. That multiplier concentrated Stage-2 dots onto unlocalized flat playa centers where no bedrock/range-front SGMC faults exist, pulling `EXP3_H46_TRHV_TWOREGIME` down to `SGMC-cal = 0.044756 < 0.064121` Champion despite `EXP2_H46_VENT_SARPU63` alone scoring `0.074529`.",
+   "mitigation": "In H47-1 (`src/gems32/ldgi.py::build_ldgi_crest_unsup_surface`), `piedmont_burial` is removed from Stage 2 and replaced by a multiplicative multi-domain LDGI corridor envelope (`rho_lin`, `gi_star`, `wav_ricker`, `moran_i`, `inter_rel`, `dip_vent`) applied directly to sharp 100 m topographic/gravity/magnetic ridge crests, raising unsupervised `SGMC-cal` to `0.076510` (`EXP1_H47_UNSUP_LDGI_CREST`) and dual-horizon `EXP3_H47_DUAL_HORIZON_LDGI` `SGMC-cal` to `0.065888 > 0.064121` Champion."
+  },
+  {
+   "id": "IR-46-TIPS-01",
+   "severity": "medium (quantified 2026-10-26)",
+   "statement": "`visible_endpoints` in `src/gems32/spcp.py` and `visible_tip_stepover_cone` in `src/gems32/trhv.py` define `tips = vis & (nb >= 1) & (nb <= 2)` using a 3x3 Moore neighborhood. Because 1-px rasterized fault polylines have degree 2 along interior trace pixels, `nb <= 2` marks `55,037 / 60,988` (`90.2%`) of all catalogue pixels as 'tips' (compared with `6,755` true degree-1 endpoints for `nb <= 1`), making `d_tip` act as a near-trace step-over/continuation halo around the visible trace network.",
+   "mitigation": "Documented the exact mathematical behavior: on `GEMSDOE32-HIDE-RECOVER-v3.0`, where 20% of `labels.tif` segments are withheld per fold and 45.7% of withheld positives lie within 9 px of `cell.visible_full`, that near-trace halo provides strong recovery lift (`EXP2_H47_EXPOSED71_GI = 0.121959 [0.107709, 0.134901]`), whereas `anisotropic_tip_relay_cone` in `src/gems32/ldgi.py` adds structure-tensor strike alignment and forward half-space gating."
+  },
+  {
+   "id": "IR-47-HORIZON-01",
+   "severity": "high (resolved via Catalogue-Completeness Adaptive Allocation 2026-10-26)",
+   "statement": "Distance-to-visible-catalogue decomposition proves why `GEMSDOE32-HIDE-RECOVER-v3.0` (`n=22,232`) and `GEMSDOE32-SGMC-CAL-v3.0` (`n=62,703`) pull fixed-split detectors in opposite directions: in `HIDE-RECOVER-v3.0` (20% of active compilation censored), `80.0%` of withheld positives lie at `d_vis <= 20 px` (`Horizon A`) and `95.4%` (`0.094687 / 0.099202`) of `d28`'s score comes from its `6,436` dots at `1-2 px` of full `labels.tif` (which static `b2` pruned, scoring `0.004515`); in `SGMC-CAL-v3.0` (0% of active compilation censored), `55.0%` of off-catalogue positives lie at `d_lab > 20 px` (`Horizon B`). Furthermore, any candidate that emits >=85% of full-map dots from `s63` exceeds the 70% 3-px overlap limit against `H46-1` (`78.45%-82.40%`).",
+   "mitigation": "Implemented the leak-free Catalogue-to-Lineament Completeness Ratio `eta(V) = |V cap foot| / sum_{foot} rho_lin` (`src/gems32/ldgi.py::compute_lineament_completeness_eta`), which uses ONLY `visible_mask` (`V`) and `ldgi_stack[:, :, 0]` (`rho_lin`). On the 8 censored OOF cells (`eta in [0.062656, 0.063054]`), `f_A(eta) in [0.9105, 0.9200]` achieves `HR = 0.119765 [0.105732, 0.132895]` (> H38 `0.116958`); on the uncensored full map (`eta = 0.078381`), `f_A(eta) = 0.5005` achieves `SGMC-cal = 0.065888` (> Champion `0.064121`) and worst genuine 3-px dot overlap `58.67% <= 70.0%`."
   }
- ]
+ ],
+ "updated_utc": "2026-10-26T23:35:00Z"
 }

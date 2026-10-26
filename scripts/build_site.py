@@ -229,7 +229,8 @@ def previous_artifacts_block(docs_prefix: str = "") -> str:
                      f'<b style="color:#b00020">DO NOT SUBMIT</b> (research/audit only; <a href="{esc(href(h46.get("run_card", "")))}">run card</a>)</li>')
     for hist in st.get("history_newest_unique", []):
         if hist.get("file") and (not h46 or hist.get("file") != h46.get("file")):
-            items.append(f'<li><a href="{esc(href(hist["file"]))}"><code>{esc(Path(hist["file"]).name)}</code></a> &mdash; '
+            lbl = f"<b>{esc(hist['label'])}</b> " if hist.get("label") else ""
+            items.append(f'<li>{lbl}<a href="{esc(href(hist["file"]))}"><code>{esc(Path(hist["file"]).name)}</code></a> &mdash; '
                          f'<b style="color:#b00020">DO NOT SUBMIT</b></li>')
     if not items:
         return ""
@@ -1127,6 +1128,12 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("h47-ldgi-results-and-nine-site-executive-summary-20261026.md",
+     "H47-1 LDGI dual-horizon result and nine-site byte audit: EXP2 HR=0.121959 (all-time repo high), "
+     "EXP3 HR=0.119765 & SGMC-cal=0.065888 (>0.2778 Champion), 58.67% <= 70% genuine uniqueness, held DO NOT SUBMIT"),
+    ("h47-ldgi-preregistration-20261026.md",
+     "H47-1 LDGI-WCR preregistration and five ranked geological hypotheses (H47-1..H47-5): lineament density, "
+     "Getis-Ord Gi*, bivariate Moran's I, 2-D Ricker wavelet ridges, and adaptive eta(V) dual-horizon allocation"),
     ("arena51-livescore-covariates-20261026.md",
      "Arena51 (2026-10-26): live-score covariate audit of all 53 unique owner-scored masks — "
      "family membership dominates (ρ=+0.844), non-family ceiling 0.2478 (n=36), champion +0.010 "
@@ -1461,6 +1468,10 @@ def main() -> int:
     if (ROOT / "evidence" / "h46_trhv_run_card.json").exists():
         (DOCS / "data" / "h46_trhv_run_card.json").write_text(
             (ROOT / "evidence" / "h46_trhv_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h47_ldgi_run_card.json").exists():
+        (DOCS / "data" / "h47_ldgi_run_card.json").write_text(
+            (ROOT / "evidence" / "h47_ldgi_run_card.json").read_text()
         )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy

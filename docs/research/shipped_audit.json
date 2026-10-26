@@ -1873,6 +1873,300 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+   "bytes": 283346,
+   "sha256": "b14bba00d6053e75e5c72d9e68fac52f607fe40de1c356111baea85e1ceee538",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 33795,
+   "off_h19_5_frac": 0.8975142083178413,
+   "catalogue_proxy_T": 26.425107639891728,
+   "catalogue_proxy_F": 37631.25013265116,
+   "credit_per_unit_mass": 0.0007017875296088524,
+   "catalogue_proxy_DTI": 0.0004691796831437661,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-nan.tif",
+   "bytes": 351759,
+   "sha256": "c370bf4fcca3d7846db600b4dbcca71c71374196e1f3a778faebf50acc846c0e",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 33741,
+   "off_h19_5_frac": 0.8960800977319807,
+   "catalogue_proxy_T": 213.2509936201286,
+   "catalogue_proxy_F": 37491.986418904155,
+   "credit_per_unit_mass": 0.005663435322147145,
+   "catalogue_proxy_DTI": 0.0037856473275670586,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+   "bytes": 215744,
+   "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 33741,
+   "off_h19_5_frac": 0.8960800977319807,
+   "catalogue_proxy_T": 213.2509936201286,
+   "catalogue_proxy_F": 37491.986418904155,
+   "credit_per_unit_mass": 0.005663435322147145,
+   "catalogue_proxy_DTI": 0.0037856473275670586,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-nan.tif",
+   "bytes": 346077,
+   "sha256": "44db5c6a7bff333fa8b5c9c3e0186f7bc6992c72f8994d4bb41540b20e686b97",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31715,
+   "off_h19_5_frac": 0.8422743931587614,
+   "catalogue_proxy_T": 587.4560931799733,
+   "catalogue_proxy_F": 37198.97533815978,
+   "credit_per_unit_mass": 0.015601425962181264,
+   "catalogue_proxy_DTI": 0.01042555838398528,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+   "bytes": 212436,
+   "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31715,
+   "off_h19_5_frac": 0.8422743931587614,
+   "catalogue_proxy_T": 587.4560931799733,
+   "catalogue_proxy_F": 37198.97533815978,
+   "credit_per_unit_mass": 0.015601425962181264,
+   "catalogue_proxy_DTI": 0.01042555838398528,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-nan.tif",
+   "bytes": 345305,
+   "sha256": "95106d7c280ddd898dbb76ff637d8bc077fae70296e500b396cfcbbde2b14888",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 33702,
+   "off_h19_5_frac": 0.895044351197748,
+   "catalogue_proxy_T": 562.781165535446,
+   "catalogue_proxy_F": 37217.98963380091,
+   "credit_per_unit_mass": 0.014946119018841186,
+   "catalogue_proxy_DTI": 0.009987854162984216,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif",
+   "bytes": 211243,
+   "sha256": "d82d63ab9c935b4eb6d8886129a7820da4642d20c3304c57364c55380438f27a",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 33702,
+   "off_h19_5_frac": 0.895044351197748,
+   "catalogue_proxy_T": 562.781165535446,
+   "catalogue_proxy_F": 37217.98963380091,
+   "credit_per_unit_mass": 0.014946119018841186,
+   "catalogue_proxy_DTI": 0.009987854162984216,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif",
    "bytes": 339092,
    "sha256": "7a588bbe44c51c865790f010f0c2883d05aa2373d5983093850020d6c0ec5946",
