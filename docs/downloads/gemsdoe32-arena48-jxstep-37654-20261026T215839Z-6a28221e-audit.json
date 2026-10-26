@@ -1,0 +1,110 @@
+{
+  "candidate_id": "A48EXP3_TWOSTAGE_QUIESCENT15",
+  "slug": "arena48-jxstep-37654",
+  "content_digest8": "6a28221e",
+  "description": "EXP2 OOF 85% + jx_quiescent 15% sequential residual-coverage (preregistered)",
+  "submission_note_zeros": "A48-H1 JXSTEP juxtaposition 37654d B2 | HR=0.1063 SGMC=0.0614 | research artifact",
+  "submission_note_nan": "A48-H1 JXSTEP juxtaposition 37654d B2 | HR=0.1063 SGMC=0.0614 | research artifact",
+  "zeros_tif": {
+    "filename": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+    "size_bytes": 215180,
+    "sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+    "mode": "zeros",
+    "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-nan.tif",
+    "size_bytes": 351636,
+    "sha256": "c23fb32e7cae5d18fc4e7516dbb45a1bae431ecda6b8836dacb373bd6ef18996",
+    "mode": "nan",
+    "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.0021153970860174997,
+    "catalogue_hidden_per_quadrant": {},
+    "sgmc_prevalence_calibrated_dti": 0.061414755328590885,
+    "drift_corrected_holdout_mean": 0.03992185001911146,
+    "drift_corrected_per_quadrant": {},
+    "predicted_leaderboard_dti": null,
+    "ei_drift_corrected": null,
+    "slot_decision": "DO NOT SUBMIT"
+  }
+}

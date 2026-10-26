@@ -233,9 +233,13 @@ def current_status_block(docs_prefix: str = "") -> str:
     b, n = st.get("best_scored", {}), st.get("newest_unique", {})
     hold = n.get("holdout", {})
     off = n.get("off_catalogue_instrument", {})
-    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+    def _ci(v):
+        c_ = v.get("ci95") if isinstance(v, dict) else None
+        return f"[{c_[0]:.4f}, {c_[1]:.4f}]" if c_ and len(c_) == 2 else "— (no CI recorded)"
+
+    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>{_ci(v)}</td></tr>"
                     for k, v in hold.items())
-    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>{_ci(v)}</td></tr>"
                     for k, v in off.items())
     reasons = "".join(f"<li>{esc(r)}</li>" for r in n.get("reasons", []))
     wd = "".join(f"<li><code>{esc(Path(w['file']).name)}</code> &mdash; <b style=\"color:#b00020\">{esc(w['status'])}</b>. "

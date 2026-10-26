@@ -1,0 +1,343 @@
+{
+  "protocol_version": "parallel-run-v1-20261026",
+  "hypothesis_id": "A48-H1-JXSTEP",
+  "hypothesis": "A48EXP3_TWOSTAGE_QUIESCENT15: fault-juxtaposition step concordance \u2014 same-orientation step-vs-ramp steps in basement depth, gravity, conductivity, radiometric TC and DEM roughness (7 label-free JX channels, docs/research/arena48-preregistration-and-hypotheses.md) recover faults missing from the surface-scarp catalogue; EXP2 OOF 85% + jx_quiescent 15% sequential residual-coverage (preregistered)",
+  "mechanism": "A fault juxtaposes two blocks; where its elevation scarp is buried the juxtaposition still steps basement/gravity/conductivity/texture across the trace at one orientation. Concordance across independent physics separates through-going faults from single-field contacts.",
+  "named_non_fault_mimic": "Unfaulted lithologic contacts (pluton walls, ash-flow tuff boundaries, caldera margins) and Lake Lahontan shoreline benches, which juxtapose the same fields without a through-going geothermal conduit fault.",
+  "lane": "A48-H1-JXSTEP (frozen in preregistration \u00a72; no assigned paragraph was supplied)",
+  "holdout_dti": {
+    "primary_hide_and_recover": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "pooled_dti": 0.10629585899356905,
+      "ci95": [
+        0.09205057815707464,
+        0.12066825709162489
+      ],
+      "per_quadrant_dti": {
+        "NW": 0.1194946585543587,
+        "NE": 0.11854593073468361,
+        "SW": 0.07437976788386465,
+        "SE": 0.12125126329443657
+      },
+      "champion_recipe_same_evaluator": 0.09920232315251679,
+      "ctrl35_same_evaluator": 0.0996932753615217,
+      "repository_best_h38_same_evaluator": 0.116958,
+      "repository_best_h38_ci95": [
+        0.100533,
+        0.13204
+      ],
+      "paired_vs_champion_recipe": {
+        "point_delta": 0.007094,
+        "mean_boot_delta": 0.007098,
+        "ci95": [
+          -0.000379,
+          0.014265
+        ],
+        "prob_positive": 0.969
+      },
+      "paired_vs_ctrl35": {
+        "point_delta": 0.006603,
+        "mean_boot_delta": 0.006434,
+        "ci95": [
+          0.000896,
+          0.011849
+        ],
+        "prob_positive": 0.988
+      }
+    },
+    "secondary_off_catalogue_sgmc": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "n_withheld_positives": 62703,
+      "sgmc_prevalence_calibrated_dti": 0.061414755328590885,
+      "ci95": [
+        0.053272851289907615,
+        0.06834797348604127
+      ],
+      "champion_same_evaluator": 0.0641209376417646,
+      "paired_vs_champion": {
+        "point_delta": -0.002706,
+        "mean_boot_delta": -0.002906,
+        "ci95": [
+          -0.009976,
+          0.00421
+        ],
+        "prob_positive": 0.229
+      }
+    },
+    "model_projection_not_a_score": {
+      "label": "MODEL projection \u2014 NOT a score, NOT organizer-confirmed",
+      "method": "leave-one-out linear fit owner-reported live ~ drift_corrected_holdout_mean, 12 artifacts in evidence/instrument_calibration.json",
+      "n_calibration": 12,
+      "spearman_rho_live_vs_drift": 0.529,
+      "loo_mae": 0.0534,
+      "loo_rmse": 0.0634,
+      "candidate_drift_corrected_holdout_mean": 0.039922,
+      "projected_live_dti_point": 0.0979,
+      "projected_live_dti_interval_pm1.96rmse": [
+        0.0,
+        0.2221
+      ],
+      "warning": "Calibration rho is not statistically significant at n=12 (p~0.09 in docs/research/instrument-calibration.md); interval is an uncertainty statement about a weak instrument, not a promise."
+    }
+  },
+  "leakage_canary": {
+    "n_channels_tested": 42,
+    "max_single_feature_auc": 0.6235,
+    "worst_channel": "coherence_s2",
+    "threshold": 0.9,
+    "passed": true
+  },
+  "correlation_and_overlap_vs_registry": {
+    "registry_manifest": "registry/focus_registry_manifest.json (refreshed this session)",
+    "registry_rasters": 375,
+    "unique_masks_or_surfaces": 197,
+    "malformed_or_missing": 2,
+    "surface_before_placement": {
+      "worst_abs_spearman": 0.2384882838070735,
+      "worst_raster": "GEMSDOE32:docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
+      "passed_le_090": true
+    },
+    "final_dots": {
+      "worst_abs_spearman": 0.1485734743814114,
+      "max_genuine_within_3px": 0.6846019015244065,
+      "worst_genuine_raster": "GEMSDOE32:docs/downloads/gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif",
+      "lattice_within_3px": 0.9977691613108833,
+      "genuine_passed_le_070": true,
+      "literal_passed_incl_lattice": false,
+      "n_duplicate_rows_literal": 1
+    }
+  },
+  "raster_filename": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+  "raster_sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+  "validator_output": {
+    "validated_without_human_intervention": true,
+    "writer_audit_all_checks_passed": true,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "full_grid_finite_pixels": 12279160,
+    "nan_inside_footprint": 0,
+    "values_in_0_1": true,
+    "emitted_positive_pixels": 37654,
+    "on_catalogue_positive_pixels": 0,
+    "strict_portal_check_submission_passed": true,
+    "strict_portal_report": {
+      "file_path": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+      "sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+      "passed": true,
+      "checks": [
+        {
+          "name": "dimensions",
+          "passed": true,
+          "detail": "shape (3730, 3292) (expected (3730, 3292))"
+        },
+        {
+          "name": "band_count",
+          "passed": true,
+          "detail": "bands: 1 (expected 1)"
+        },
+        {
+          "name": "crs",
+          "passed": true,
+          "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+        },
+        {
+          "name": "transform",
+          "passed": true,
+          "detail": "transform matched template"
+        },
+        {
+          "name": "dtype",
+          "passed": true,
+          "detail": "dtype: float32 (expected float32)"
+        },
+        {
+          "name": "in_footprint_range",
+          "passed": true,
+          "detail": "in-footprint range [0.0000, 1.0000], all finite"
+        },
+        {
+          "name": "portal_safe_whole_array",
+          "passed": true,
+          "detail": "whole-array range [0.0000, 1.0000], finite=True"
+        }
+      ]
+    }
+  },
+  "submission_name": "GEMSDOE32-A48-JXSTEP-4AA4D8F2",
+  "submission_note": "A48-H1 JXSTEP juxtaposition 37654d B2 | HR=0.1063 SGMC=0.0614 | research artifact",
+  "submission_note_length": 81,
+  "gates": {
+    "canary_le_090": true,
+    "hr_point_gt_h38_repo_best_0.116958": false,
+    "hr_paired_vs_champion_ci_gt_0": false,
+    "hr_paired_vs_ctrl_ci_gt_0": true,
+    "sgmc_cal_ge_champion": false,
+    "surface_spearman_le_090_all_registry": true,
+    "genuine_final_dots_le_070": true,
+    "literal_final_dots_le_070_incl_lattice": false
+  },
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "decision_banner": "DO NOT SUBMIT \u2014 verdict=negative; promotion to a weekly slot is a separate selector step (Protocol Rule 6); no slot spent by this run.",
+  "experiments_used": 3,
+  "experiments_budget_cap": 3,
+  "exp3_kind": "two_stage_quiescent15",
+  "elapsed_seconds": 1067.8,
+  "artifacts": {
+    "primary_zeros_tif": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+    "primary_zeros_sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+    "primary_zeros_bytes": 215180,
+    "zip_archive": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.zip",
+    "nan_companion_tif": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-nan.tif",
+    "audit_json": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-audit.json",
+    "bundle": {
+      "candidate_id": "A48EXP3_TWOSTAGE_QUIESCENT15",
+      "slug": "arena48-jxstep-37654",
+      "content_digest8": "6a28221e",
+      "description": "EXP2 OOF 85% + jx_quiescent 15% sequential residual-coverage (preregistered)",
+      "submission_note_zeros": "A48-H1 JXSTEP juxtaposition 37654d B2 | HR=0.1063 SGMC=0.0614 | research artifact",
+      "submission_note_nan": "A48-H1 JXSTEP juxtaposition 37654d B2 | HR=0.1063 SGMC=0.0614 | research artifact",
+      "zeros_tif": {
+        "filename": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+        "size_bytes": 215180,
+        "sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+        "mode": "zeros",
+        "geometry_reference": ".cache/gems_data/sample_submission.tif",
+        "crs": "EPSG:32611",
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "nodata": null,
+        "nodata_repr": "None",
+        "emitted_positive_pixels": 37654,
+        "footprint_fraction": 0.007287,
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_finite_pixels": 5167373,
+        "in_footprint_min": 0.0,
+        "in_footprint_max": 1.0,
+        "full_grid_finite_pixels": 12279160,
+        "checks": {
+          "exact_reference_grid_match": true,
+          "single_band": true,
+          "dtype_float32": true,
+          "dimensions_3730x3292": true,
+          "crs_epsg_32611": true,
+          "in_footprint_all_finite": true,
+          "in_footprint_zero_nan": true,
+          "in_footprint_zero_inf": true,
+          "in_footprint_zero_sentinel": true,
+          "in_footprint_range_0_1": true,
+          "outside_footprint_compliant": true,
+          "zero_on_catalogue_leakage": true,
+          "validator_range_0_1_guaranteed": true
+        },
+        "all_checks_passed": true
+      },
+      "nan_tif": {
+        "filename": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-nan.tif",
+        "size_bytes": 351636,
+        "sha256": "c23fb32e7cae5d18fc4e7516dbb45a1bae431ecda6b8836dacb373bd6ef18996",
+        "mode": "nan",
+        "geometry_reference": ".cache/gems_data/sample_submission.tif",
+        "crs": "EPSG:32611",
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "nodata": null,
+        "nodata_repr": "nan",
+        "emitted_positive_pixels": 37654,
+        "footprint_fraction": 0.007287,
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_finite_pixels": 5167373,
+        "in_footprint_min": 0.0,
+        "in_footprint_max": 1.0,
+        "full_grid_finite_pixels": 5167373,
+        "checks": {
+          "exact_reference_grid_match": true,
+          "single_band": true,
+          "dtype_float32": true,
+          "dimensions_3730x3292": true,
+          "crs_epsg_32611": true,
+          "in_footprint_all_finite": true,
+          "in_footprint_zero_nan": true,
+          "in_footprint_zero_inf": true,
+          "in_footprint_zero_sentinel": true,
+          "in_footprint_range_0_1": true,
+          "outside_footprint_compliant": true,
+          "zero_on_catalogue_leakage": true,
+          "validator_range_0_1_guaranteed": true
+        },
+        "all_checks_passed": true
+      },
+      "holdout_metrics": {
+        "catalogue_hidden_mean": 0.0021153970860174997,
+        "catalogue_hidden_per_quadrant": {},
+        "sgmc_prevalence_calibrated_dti": 0.061414755328590885,
+        "drift_corrected_holdout_mean": 0.03992185001911146,
+        "drift_corrected_per_quadrant": {},
+        "predicted_leaderboard_dti": null,
+        "ei_drift_corrected": null,
+        "slot_decision": "DO NOT SUBMIT"
+      },
+      "zeros_zip": {
+        "filename": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.zip",
+        "path": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.zip",
+        "size_bytes": 182245,
+        "sha256": "8dad64e0131d250e3ada1d6aef1c517b910006f5b0ea2f0af641570dbc5c6a62"
+      }
+    }
+  },
+  "evidence": "evidence/arena48_jxstep_experiments.json",
+  "preregistration": "docs/research/arena48-preregistration-and-hypotheses.md"
+}
