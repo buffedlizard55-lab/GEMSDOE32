@@ -291,6 +291,11 @@ research artifact”.
   the registry audit; would also fail the portal range check).
 - **IR-A48-REG-02** — `GEMSDOE36/docs/downloads/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif`
   is on a mismatched grid (format test by name; not measurable).
+- **IR-A48-LANE-01** — a parallel session merged an H50 TM-SPI lane also
+  labelled “ARENA48-H1” (PR #38, artifact 21:40Z) while this JXSTEP lane
+  (21:58Z) was running. Distinct mechanisms/artifacts, colliding lane IDs;
+  both verdict-negative. Future lanes must take a fresh number from merged
+  `main` first.
 - Standing: **IR-32-SCORE-01** (no organizer receipts; all group
   scores OWNER-REPORT), **IR-42-UNIQ-01** (literal lattice gate
   unsatisfiable), **IR-42-INSTR-02** (SGMC-only gating invalid).
