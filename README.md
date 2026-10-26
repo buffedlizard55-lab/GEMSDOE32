@@ -9,7 +9,7 @@
 
 **Prior:** H50 ([card](evidence/h50_tmspi_run_card.json)), ARENA47 below — all 🔴 DO NOT SUBMIT.
 
-**Standing prompt (read every session):** [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). Lane this session: `ARENA49-H1-PCG` (adopted Rank-1, IR-ARENA49-LANE-01; prior lane `ARENA48-H1-TMSPI`).
+**Standing prompt (read every session):** [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). Lane this session: `ARENA49-H1-PCG` (IR-ARENA49-LANE-01). See the [repository review](docs/research/repository-review-20261026.md).
 
 **A passing format check is not enough to authorize a competition upload.** Every generated candidate below remains an **audit artifact** unless scientific, leakage, literal-registry uniqueness, and saved-byte gates all pass and the separate weekly-slot selector approves the file.
 
