@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T20:23:12Z",
+ "generated_utc": "2026-10-26T21:44:13Z",
  "sources": [
   {
    "id": "competition",
@@ -1388,13 +1388,13 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros",
-  "note": "GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT",
+  "name": "gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros",
+  "note": "ARENA47 perturb-H38 unique 37654d B2 | HR=0.0044 SGMC=0.0438 | 9ab73056 | research artifact",
   "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
   "file": {
-   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-   "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
-   "bytes": 210920,
+   "path": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+   "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
+   "bytes": 192561,
    "positive_px": 37654
   },
   "file_zeros": {
@@ -1403,13 +1403,13 @@
    "bytes": 210920
   },
   "zip": {
-   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip",
-   "sha256": "13ec74ccaef6dac73bc3acf8ecf2c4c8e3dfe2c1078bbdf1a2e629997905528b",
-   "bytes": 177020
+   "path": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.zip",
+   "sha256": "edd0e51503f91f493fc1c12536a74fd86314d19545c7e8fb3016ec64ed5e4f4a",
+   "bytes": 158644
   },
-  "candidate_id": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
+  "candidate_id": "GEMSDOE32-ARENA47-PERTURB-9AB73056",
   "tier": 1,
-  "hypothesis": "A9-H1-MDRC-PGRN-PU",
+  "hypothesis": "ARENA47-H1-SYNTH-PERTURB: relocate 6424 of 29,203 hcvf2-overlapping dots (~22%) via exact residual-coverage to off-catalogue off-TIGER curvature crests >3px from hcvf2, achieving genuine 66.6% overlap <=70% while retaining B=2 support confinement.",
   "verdict": "negative",
   "ok_to_submit": false,
   "on_catalogue_pixels": 0,
@@ -1525,6 +1525,12 @@
     "provenance": "built 2026-10-25 from GEMSDOE32-HOLDOUT-v2, 22232 withheld positives, all 12 portal checks PASS, leakage AUC 0.55 <0.90",
     "withdrawn": true,
     "status_line_current": "WITHDRAWN 2026-10-26 - DO NOT SUBMIT (IR-42-README-01): champion-family variant (shares 37,298 dots with the 0.2778 champion, Jaccard 0.803); its claimed holdout margin was inside its own CI; on the SGMC off-catalogue instrument it is indistinguishable from the champion. See registry/current_status.json for the current status."
+   },
+   {
+    "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+    "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+    "candidate_id": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
+    "demoted_reason": "superseded by a newer release review; see current_release_review.json"
    }
   ],
   "other_unique_files": [
@@ -1562,7 +1568,12 @@
   "round6_session_verdict": "promote",
   "status_line_current": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
   "arena8a_candidate": "registry/arena8a_submission.json",
-  "arena9_candidate": "evidence/arena9_run_card.json"
+  "arena9_candidate": "evidence/arena9_run_card.json",
+  "sync": {
+   "synced_utc": "2026-10-26T20:22:50.540198Z",
+   "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
+   "previous_pinned_sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609"
+  }
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",

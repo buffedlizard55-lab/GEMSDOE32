@@ -720,28 +720,54 @@ def focus_sites_block() -> str:
     candidate = status.get("newest_unique", {})
     cand_file = Path(candidate.get("file", "")).name
     cand_href = candidate.get("file", "").replace("docs/", "", 1)
-    h = candidate.get("holdout", {})
-    h46 = h.get("H46-1-TRHV-exploratory", {})
-    h38 = h.get("prior H38 repo best", {})
-    sg = (candidate.get("off_catalogue_instrument", {}).get("H46-1-TRHV-exploratory", {}))
-    sg_champ = (candidate.get("off_catalogue_instrument", {}).get("0.2778 Champion proxy", {}))
-    uniq = candidate.get("uniqueness", {})
-    validator = candidate.get("validator", {})
+
+    def _fmt_arm(v: dict) -> str:
+        """Format one holdout arm; missing metrics render as an em dash, never as 0.00000.
+
+        IR-48-SYNC-02: the previous renderer printed ``nan [0.00000, 0.00000]`` whenever the
+        newest candidate lacked an H46-specific field, i.e. missing data was displayed as a
+        measured zero.  Missing is missing.
+        """
+        try:
+            d = float(v.get("dti"))
+            lo, hi = v.get("ci95", [None, None])
+            if lo is None or hi is None or not all(np.isfinite([d, float(lo), float(hi)])):
+                return "&mdash;"
+            extra = ""
+            if v.get("p_pos") is not None and np.isfinite(float(v.get("p_pos"))):
+                extra = f" (p_pos {float(v['p_pos']):.3f})"
+            return f"{d:.5f} [{float(lo):.5f}, {float(hi):.5f}]{extra}"
+        except (TypeError, ValueError):
+            return "&mdash;"
+
+    def _arm_rows(d: dict) -> str:
+        return "".join(f"<tr><td>{esc(k)}</td><td>{_fmt_arm(v)}</td></tr>" for k, v in (d or {}).items())
+
+    h = candidate.get("holdout", {}) or {}
+    off = candidate.get("off_catalogue_instrument", {}) or {}
+    uniq = candidate.get("uniqueness", {}) or {}
+    validator = candidate.get("validator", {}) or {}
+    reasons = "".join(f"<li>{esc(r)}</li>" for r in candidate.get("reasons", []))
     report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
+    prereg_link = candidate.get("preregistration", "")
+    prereg_html = (f' &middot; <a href="{esc(prereg_link.replace("docs/", ""))}">pre-registration</a>'
+                   if prereg_link else "")
+    fmt_ok = bool(validator.get("strict_cli_passed")) and bool(validator.get("geotiff_13_checks_passed"))
     candidate_block = f"""<div class=card style="border:2px solid #b91c1c">
 <h3>Current generated file — research/audit download only</h3>
 <p><a class=btn href="{esc(cand_href)}">&#11015; Download {esc(cand_file)}</a>
-&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h46_trhv_run_card.json'))}">H46 run card</a>
-&middot; <a href="{report_link}">three-pass review &amp; nine-site audit</a></p>
+&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/arena47_perturb_run_card.json'))}">run card</a>{prereg_html}
+&middot; <a href="{report_link}">prior three-pass review &amp; nine-site audit (H46)</a></p>
 <p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes local format validation, but the scientific/protocol gates fail. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
 <table><tr><th>Metric / status</th><th>Measured result</th><th>Interpretation</th></tr>
-<tr><td>HOLDOUT-DTI — {esc(h46.get('evaluator_version','GEMSDOE32-HIDE-RECOVER-v3.0'))}, {int(h46.get('n_withheld_positives',0)):,} withheld positives, 95% spatial-block CI</td><td><b>{h46.get('dti',float('nan')):.5f} [{h46.get('ci95',[0,0])[0]:.5f}, {h46.get('ci95',[0,0])[1]:.5f}]</b></td><td>Exploratory only. It is below the prior same-evaluator H38 repo best {h38.get('dti',float('nan')):.5f}; no paired H38 bootstrap is archived. Not a leaderboard score estimate.</td></tr>
-<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td>{sg.get('dti',float('nan')):.5f} [{sg.get('ci95',[0,0])[0]:.5f}, {sg.get('ci95',[0,0])[1]:.5f}] vs Champion {sg_champ.get('dti',float('nan')):.5f}</td><td>Paired difference is negative; this auxiliary diagnostic is not a leaderboard score.</td></tr>
-<tr><td>Leakage canary</td><td>63/63 PASS; max AUC 0.586868 &le; 0.90</td><td>Canary pass does not establish scientific improvement.</td></tr>
-<tr><td>Unique vs nine historical winners</td><td>&le; 54.58% within 3 px; surface max |&rho;| 0.166685</td><td>PASS versus those nine winners only.</td></tr>
-<tr><td>Literal full registry</td><td>{100*uniq.get('literal_lattice_overlap',0):.3f}% within 3 px of r13-lattice-s5</td><td><b>FAIL</b> (&gt;70% stop); no calibration-lattice exemption.</td></tr>
-<tr><td>Saved-byte validator</td><td>{'PASS' if validator.get('strict_cli_passed') and validator.get('geotiff_13_checks_passed') else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
-<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> The active prompt did not contain an explicit method paragraph assigning this lane; the run also departed from its frozen allocation/data filters. The point-estimate holdout is below H38 and the literal lattice gate fails. <b>0 weekly slots used.</b></p></div>"""
+<tr><td>HOLDOUT-DTI — {esc(candidate.get('holdout_label','GEMSDOE32-HIDE-RECOVER-v3.0'))}</td><td><b>{_fmt_arm(next(iter(h.values()), {}))}</b> (first arm; all arms below)</td><td>Local evaluator result only. Not a leaderboard score estimate.</td></tr>
+{_arm_rows(h)}
+<tr><td>Off-catalogue diagnostic — {esc(candidate.get('off_catalogue_label',''))}</td><td>{_arm_rows(off) or '&mdash;'}</td><td>Auxiliary diagnostic; not a leaderboard score.</td></tr>
+<tr><td>Unique vs genuine registry rasters</td><td>max within-3-px {100*float(uniq.get('max_genuine_3px_overlap', 0) or 0):.2f}%; surface max |&rho;| {float(uniq.get('max_abs_spearman', 0) or 0):.3f}</td><td>{'PASS' if uniq.get('genuine_final_dots_passed') and uniq.get('preplacement_surface_passed') else 'FAIL'} versus genuine submission rasters only.</td></tr>
+<tr><td>Literal full registry (incl. 5-px calibration lattice)</td><td>{100*float(uniq.get('literal_lattice_overlap', 0) or 0):.3f}% within 3 px of r13-lattice-s5</td><td><b>{'PASS' if uniq.get('literal_all_registry_passed') else 'FAIL'}</b> (&gt;70% stop); no calibration-lattice exemption (IR-42-UNIQ-01).</td></tr>
+<tr><td>Saved-byte validator</td><td>{'PASS' if fmt_ok else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
+<ul>{reasons}</ul>
+<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> Verdict <code>{esc(candidate.get('verdict','negative'))}</code>; no release gate has authorized this or any other file for upload. <b>0 weekly slots used.</b></p></div>"""
 
     min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
     return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
