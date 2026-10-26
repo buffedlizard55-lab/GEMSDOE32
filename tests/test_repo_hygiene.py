@@ -76,9 +76,11 @@ def test_required_documents_exist_and_are_non_trivial(rel):
     assert p.stat().st_size > 500, f"{rel} looks empty"
 
 
-def test_readme_leads_with_the_download():
-    """The brief requires the one-click file to be obvious at the very beginning of the site."""
+def test_readme_leads_with_current_fail_closed_submission_status():
+    """The brief requires an obvious status; a failed candidate must not be marketed as upload-ready."""
     text = (ROOT / "README.md").read_text()
-    head = text[:6000]
-    assert "ONE-CLICK" in head.upper()
-    assert "docs/downloads/" in head
+    head = text[:3000]
+    assert "DO NOT SUBMIT ANY FILE" in head
+    assert "audit only" in head
+    assert "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif" in head
+    assert "OK TO DOWNLOAD AND SUBMIT" not in head

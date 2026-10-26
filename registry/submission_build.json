@@ -1,7 +1,7 @@
 {
  "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
- "note": "R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE",
- "status_line": "PRIMARY = GEMSDOE32-R6-STEP-23FBBB51 (Round-6 R6-1 step detector): 37654 dots, 0 on catalogue, B=2 exclusion, HOLDOUT-DTI SGMC-exact 0.1413 vs champion 0.0961. PROMOTE (selector recommendation; no organizer score exists).",
+ "note": "R6-1 STEP 37654d | audit artifact only | failed required holdout/registry overlap gates | NOT FOR UPLOAD",
+ "status_line": "R6-1 STEP artifact: DO NOT SUBMIT. Post-hoc review found full-catalogue B=2 leakage in hide-and-recover evaluation and 97.82% dot overlap with a registered calibration raster (>70% limit). Format is byte-valid, but scientific uniqueness/holdout gates fail; audit only.",
  "file": {
   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
@@ -21,8 +21,8 @@
  "candidate_id": "GEMSDOE32-R6-STEP-23FBBB51",
  "tier": 1,
  "hypothesis": "R6-1-STEP-PROFILE",
- "verdict": "promote",
- "ok_to_submit": true,
+ "verdict": "negative",
+ "ok_to_submit": false,
  "on_catalogue_pixels": 0,
  "catalogue_hidden_mean": 0.003579525583570572,
  "drift_corrected_holdout_mean": 0.045775095546370465,
@@ -43,5 +43,6 @@
   }
  ],
  "supersedes": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E demoted 2026-10-26: 70.24% within-3px vs h28-dotted-ridge exceeds 70% lane gate; SGMC-cal 0.0462 below champion 0.0641 (IR-R6-02). Preserved as registry/submission_build_geo_conduit_superseded.json",
- "evidence": "evidence/round6_run_card.json + evidence/round6_pass2_controls.json"
+ "evidence": "evidence/round6_run_card.json + evidence/round6_pass2_controls.json",
+ "decision_basis": "evidence/round6_run_card.json protocol_review; format validity is not submission authorization"
 }

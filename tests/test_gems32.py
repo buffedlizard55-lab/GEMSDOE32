@@ -195,7 +195,11 @@ def test_docs_and_readme_integrity():
         assert "Maximize P(Win)" in text
         assert "Own the Outcome" in text
         assert "Predicted values must be in range [0, 1]" in text
-        assert "dotted-h19-5-d2-8-20261002-e56ea318af89-nan" in text
+    assert "DO NOT SUBMIT" in index_html
+    assert "focus-sites-executive-summary.md" in index_html
+    focus_summary = (docs_dir() / "research" / "focus-sites-executive-summary.md").read_text(encoding="utf-8")
+    assert "dotted-h19-5-d2-8" in focus_summary
+    assert "[OWNER-REPORT]" in focus_summary
 
     # Check every local href/src in docs/index.html and docs/executive-summary.html resolves
     for page_name, content in (("index.html", index_html), ("executive-summary.html", exec_html)):

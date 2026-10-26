@@ -47,38 +47,67 @@ def read(path: str, default=None):
 
 
 def protocol_notice(prefix: str = "") -> str:
-    """Single authoritative verdict (Round 6, 2026-10-26). Fail-closed: anything
-    other than a promote verdict in evidence/round6_run_card.json renders DO NOT SUBMIT."""
+    """Fail closed against the literal session protocol, not a prior promotion label."""
     card = read("evidence/round6_run_card.json", {}) or {}
-    boot = ((card.get("holdout") or {}).get("primary_sgmc") or {})
+    hold = card.get("holdout", {})
+    hidden_candidate = hold.get("catalogue_hidden_pooled_candidate", {}).get("pooled_dti")
+    hidden_incumbent = hold.get("catalogue_hidden_pooled_champion", {}).get("pooled_dti")
+    registry = card.get("correlation_overlap_vs_registry", {})
+    lattice = registry.get("lattice_diagnostic_not_gated", {})
+    overlap = lattice.get("candidate_within3px")
+    final_rows = registry.get("final", {}).get("comparisons", [])
+    measured_overlaps = [r.get("within_3px_fraction") for r in final_rows
+                         if isinstance(r.get("within_3px_fraction"), (int, float))]
+    if isinstance(overlap, (int, float)):
+        measured_overlaps.append(overlap)
+    max_measured_overlap = max(measured_overlaps, default=None)
+    validation = card.get("validator_output", {})
+    strict_format_pass = bool(validation.get("independent_recheck_2026_10_26", {}).get("passed") or
+                              validation.get("all_checks_passed"))
+    strict_holdout_pass = (isinstance(hidden_candidate, (int, float)) and
+                           isinstance(hidden_incumbent, (int, float)) and
+                           hidden_candidate > hidden_incumbent)
+    literal_overlap_pass = isinstance(max_measured_overlap, (int, float)) and max_measured_overlap <= 0.70
+    review = card.get("protocol_review", {})
+    all_registry_surface_complete = review.get("all_registry_surface_check_complete") is True
+    all_registry_final_complete = review.get("all_registry_final_dot_check_complete") is True
+    approved = bool(card.get("verdict") == "promote" and
+                    card.get("ok_to_download_and_submit") is True and
+                    review.get("release_authorized") is True and
+                    not review.get("failed_gates") and
+                    all_registry_surface_complete and all_registry_final_complete and
+                    strict_format_pass and strict_holdout_pass and literal_overlap_pass)
     fname = "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
-    if card.get("verdict") != "promote" or not boot:
-        return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
-<h2>&#128308; DO NOT SUBMIT</h2>
-<p><b>No file currently passes all frozen gates. Downloads are audit artifacts, not upload authorization.</b>
-See <a href="{prefix}research/hypotheses-round6.md">Round-6 preregistration</a>. No slot was used.</p></section>"""
+    if not approved:
+        overlap_text = f"{overlap:.1%}" if isinstance(overlap, (int, float)) else "unavailable"
+        cand_hold = hold.get("catalogue_hidden_pooled_candidate", {})
+        inc_hold = hold.get("catalogue_hidden_pooled_champion", {})
+        withheld_n = cand_hold.get("n_withheld_positives", "unknown")
+        cand_ci = cand_hold.get("ci95_cluster_bootstrap", [])
+        inc_ci = inc_hold.get("ci95_cluster_bootstrap", [])
+        ci_text = (f"candidate 95% CI [{cand_ci[0]:.5f}, {cand_ci[1]:.5f}], "
+                   f"incumbent 95% CI [{inc_ci[0]:.5f}, {inc_ci[1]:.5f}]"
+                   if len(cand_ci) == 2 and len(inc_ci) == 2 else "95% CI unavailable")
+        holdout_text = (f"[HOLDOUT-DTI, leakage-affected/inadmissible; gems32.holdout draws 20/21; "
+                        f"{withheld_n} withheld positives; separate, unpaired intervals: {ci_text}] "
+                        f"candidate {hidden_candidate:.5f} vs incumbent {hidden_incumbent:.5f}"
+                        if isinstance(hidden_candidate, (int, float)) and isinstance(hidden_incumbent, (int, float))
+                        else "[HOLDOUT-DTI unavailable]")
+        return f"""<section class=dl style="border:3px solid #b91c1c;background:#fff7f7" aria-label="Current submission decision">
+<h2>&#128308; DO NOT SUBMIT — no candidate passes the literal protocol gates</h2>
+<p><b>R6-1 STEP file is an audit artifact only; download does not authorize upload.</b>
+{holdout_text};
+{overlap_text} of candidate dots are within 3 px of the registered calibration raster (limit 70%).
+Pre-placement correlation against all registry rasters is incomplete. The prior promotion used a different SGMC proxy and excluded that registry raster from the duplicate gate.
+No slot was used; no new raster is being generated from missing source data.
+See <a href="{prefix}research/protocol-review-20261026.md">the three-pass review</a> and
+<a href="{prefix}research/hypotheses-round6.md">the preregistration</a>.</p>
+<p><a href="{prefix}downloads/{fname}">Download existing TIF for audit only</a> ·
+<a href="{prefix}executive-summary.html">submission guidance (currently no approved file)</a></p></section>"""
+    boot = hold.get("primary_sgmc", {})
     return f"""<section class=dl style="border:3px solid #1a7f37; background:#f6fbf7" aria-label="Current submission decision">
-<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; ONE FILE ONLY (Round 6, 2026-10-26)</h2>
-<p><b>Submit this file:</b> <code>{esc(fname)}</code><br>
-<b>Unique submission name:</b> <code>{esc(card.get('submission_name', ''))}</code> &middot;
-<b>Note to paste (93/140 chars):</b> <code>{esc(card.get('note_le140', ''))}</code><br>
-<b>SHA-256:</b> <code>{esc((card.get('raster_sha256') or '')[:16])}&hellip;</code> &middot; 37,654 dots &middot; 0 on catalogue &middot; B=2 &middot; all-finite [0,1] (never triggers <i>&ldquo;Predicted values must be in range [0, 1]&rdquo;</i>)</p>
-<p><a class="btn" style="background:#1a7f37;color:#fff" href="{esc(prefix)}downloads/{esc(fname)}">&#11015; ONE-CLICK DOWNLOAD .TIF</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(fname[:-4])}.zip">.ZIP</a>
-<a href="{esc(prefix)}executive-summary.html">Step-by-step upload guide</a> &middot;
-<a href="{esc(prefix)}research/focus-sites-executive-summary.md">Per-site executive summary (9 focus sites)</a></p>
-<p><b>Why this verdict:</b> the file passed every frozen automated gate without human inspection &mdash;
-leakage canary AUC 0.525 (&le;0.90); <b>[HOLDOUT-DTI]</b> SGMC-exact {boot.get('candidate_sgmc_dti', 0):.4f} vs champion {boot.get('champion_sgmc_dti', 0):.4f}
-(paired diff {boot.get('paired_diff', 0):+.4f}, 95% CI [{boot.get('paired_diff_ci95', [0, 0])[0]:.4f}, {boot.get('paired_diff_ci95', [0, 0])[1]:.4f}],
-{int(boot.get('n_truth_px', 0)):,} withheld truth px); uniqueness max 41.4% within-3px (&le;70%) and max surface &rho; 0.34 (&le;0.90)
-vs every detector raster on disk; dual portal validators PASS. Random controls score 0.074&ndash;0.077 on the same instrument.</p>
-<p><b>What PROMOTE does not mean:</b> no organizer score exists for this file and none is claimed; HOLDOUT-DTI is a local
-proxy (SGMC population), not a leaderboard prediction; promotion is a selector recommendation &mdash; confirm the
-authenticated weekly cap on the submission page before uploading. <b>Every other file on this site is
-<span style="color:#b00020">DO NOT SUBMIT</span></b>: the 0.2778 champion was already submitted (resubmitting wastes a slot),
-and the former GEO-CONDUIT primary was demoted 2026-10-26 (70.24% within-3px vs h28 exceeds the 70% gate; IR-R6-02).</p>
-<p><a href="{prefix}research/hypotheses-round6.md">Frozen preregistration &amp; 5 ranked hypotheses</a> &middot;
-<a href="{prefix}research/standing-brief-20261025.md">Standing brief — read every session</a></p></section>"""
+<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; ONE FILE ONLY</h2>
+<p>This verdict is generated from the strict run-card gates. See the run card and selector procedure.</p></section>"""
 
 
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
@@ -173,20 +202,22 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                         f'&mdash; <b>already submitted; do not resubmit</b>. '
                         f'The pre-submission projection was {_os.get("projected_was")} '
                         f'(error +{_os.get("projection_error")}).</p>\n')
+    negative = sub.get("verdict") != "promote" or not sub.get("ok_to_submit", False)
+    heading = "&#128308; AUDIT ARTIFACT — DO NOT SUBMIT" if negative else "&#11015;&nbsp;ONE-CLICK FILE — READ ITS STATUS BELOW BEFORE UPLOADING"
+    if negative:
+        primary = primary.replace("Download ", "Audit-only download ")
     return f"""<div class=dl>
-<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
+<h2>{heading}</h2>
 {scored_badge}
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
-<b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
-<b>Note to paste into the submit form's <em>Note (optional)</em> field
-({len(note)}/200 characters):</b><br>
+<b>Historical candidate ID (not authorized for portal use):</b> <code>{esc(sub.get('candidate_id','primary'))}</code><br>
+<b>Archived note (do not paste into a submission form; {len(note)} characters):</b><br>
 <code>{esc(note)}</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
 {int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
 0 NaN anywhere · no nodata tag · sha256 <code>{esc(sha[:16])}&hellip;</code>
 {('· ' + receipt) if receipt else ''}</p>
-{('<p><b>Already-scored fallback:</b> ' + anchor + '</p>') if anchor else ''}
 {pack_rows}
 <p class=warn><b>Status.</b> {esc(status_line)}</p>
 </div>"""
@@ -236,14 +267,11 @@ def round5_section() -> str:
     nested = ("verified" if cc.get("champion_equals_solo_and_dist_gt_2px") else "NOT verified")
     return f"""<div class=dl>
 <h2>&#128300;&nbsp;ROUND 5 (2026-10-25) &mdash; why the champion scored 0.2778, and two new unique files</h2>
-<p><b>Round-5 verdict:</b> the champion file <code>h33-2-b2-…-e5eb6e7e-zeros.tif</code> is already
-submitted and scored <b>0.2778</b> (ORGANIZER-CONFIRMED, owner-reported) — do not resubmit it. The
-two round-5 files below are <b>unique and format-valid</b> but both measured <b>worse than the
-champion</b> on the fair local instrument, so both are labelled
-<b style="color:#b00020">DO NOT SUBMIT</b>. The one-click primary elsewhere on this page is a
-<i>separate parallel lane's</i> artifact (promoted on the drift instrument, IR-32-INSTR-01/03
-caveats apply) — round 5 neither promotes nor blocks it; promotion to a weekly slot is the
-selector's step, and this section never spends one.</p>
+<p><b>Evidence status:</b> the supplied history reports <b>0.2778</b> for
+<code>h33-2-b2-…-e5eb6e7e-zeros.tif</code>, but this repository has no submission receipt that
+binds that score to the bytes. Treat it as an owner report, not ORGANIZER-CONFIRMED. The two
+round-5 candidates are audit records only. The R6-1 STEP file also fails the strict protocol review;
+no file on this page is currently approved for upload.</p>
 <h3>Why h33-2-b2 got the group's highest score (measured from the bytes)</h3>
 <ul>
 <li>The whole top cluster is <b>one nested family</b>: H19-5 (121,131 dots, 0.1922) &sup; d2.8 (44,090,
@@ -256,7 +284,8 @@ selector's step, and this section never spends one.</p>
 <li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750) <b>contains all 37,654 champion dots</b>
 + 1,200 more &mdash; those extras cost &minus;0.0028 (IR-32-FAM-01).</li>
 <li>Beating 0.2778 therefore needs <b>better-placed mass, not more or less of the same mass</b>: at the
-same 37,654 dots, +8% mean credit reaches 0.30; the public #1 (0.4413, read 2026-10-25) needs &approx;+59%.</li>
+same 37,654 dots, a higher mean credit could improve DTI; numerical leaderboard targets are not forecasts.
+The user-provided snapshots (0.3195 and 0.4413) conflict and were not independently refreshed here.</li>
 </ul>
 <h3>The two unique round-5 candidates (new lanes, honestly measured)</h3>
 <table><tr><th>candidate</th><th>validation gates (all numbers HOLDOUT-DTI unless labelled)</th></tr>
@@ -402,20 +431,20 @@ def focus_sites_block() -> str:
         ("GEMSDOE28", "h36-1-rung30-blind-r1", "0.2710", "Best of a ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649): all one family.", "DO NOT SUBMIT (already scored)"),
         ("GEMSDOE30", "d28-poisson300m-offcat-44090", "0.2600", "Dot-identical to GEMSDOE25 d2.8 (same score = scorer determinism check).", "DO NOT SUBMIT (duplicate)"),
         ("GEMSDOE31", "h27-4-solo-d28", "0.2708", "Same 8acb75e1 solo lineage as GEMSDOE28.", "DO NOT SUBMIT (duplicate lineage)"),
-        ("GEMSDOE32", "h33-h33-2-b2 (champion) + NEW R6-1 STEP", "0.2778 / unscored", "Champion = ladder end (B=2). R6-1 is the only gate-passing unique unscored file.", "Champion: DO NOT RESUBMIT. R6-1: OK TO SUBMIT"),
+        ("GEMSDOE32", "h33-h33-2-b2 (reported champion) + R6-1 STEP", "0.2778 / unscored", "0.2778 is owner-reported, not receipt-verified. R6-1 fails literal holdout/overlap gates.", "DO NOT SUBMIT; audit only"),
         ("GEMSDOE33", "h33d-analog-tip-stepover-r30", "0.2632", "Tip/step-over analog lane; below champion.", "DO NOT SUBMIT"),
         ("GEMSDOE36", "anderson-geothermal-pinn-38854", "0.2750", "Contains ALL 37,654 champion dots +1,200 (extras cost -0.0028). Not independent.", "DO NOT SUBMIT (champion superset)"),
     ]
     trs = "".join(f"<tr><td><b>{esc(a)}</b></td><td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>" for a, b, c, d, e in rows)
     return f"""<div class=dl><h2>&#128202; Executive summary &mdash; the 9 focus sites: which file is best, and what to submit</h2>
-<p>Every score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; this repo holds no organizer
-receipt linking bytes to score &mdash; IR-32-SCORE-01). Full analysis:
+<p>Scores below are <b>[OWNER-REPORT]</b> from the supplied history; this checkout contains no organizer
+receipt linking the exact bytes to a score &mdash; IR-32-SCORE-01. These are not verified live scores. Full analysis:
 <a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a>.</p>
 <table><tr><th>site</th><th>its best submission</th><th>score</th><th>what it is</th><th>verdict today</th></tr>{trs}</table>
-<p><b>Bottom line:</b> the proven best file (0.2778 champion) is already submitted &mdash; resubmitting it wastes a weekly
-slot on a duplicate. The only unique, unscored file that has beaten the champion on the fair local instrument is the
-green-banner <b>R6-1 STEP</b> file above. No other site's best file should be submitted: each is already scored,
-a duplicate of another site's file, or a superseded parent of the champion.</p></div>"""
+<p><b>Bottom line:</b> the supplied history reports 0.2778 for the H33-2-B2 file, but no receipt here verifies that score.
+The R6-1 STEP artifact is <b>not approved for submission</b>: its required hide-and-recover result is lower than the incumbent,
+and it violates the literal 70% registry-dot overlap gate against the calibration raster. Every listed historical file is for
+analysis only; do not upload any file on the basis of this page.</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -916,8 +945,9 @@ def main() -> int:
     if sub:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
+        _label = "Download audit artifact (NOT approved for upload)" if not sub.get("ok_to_submit", False) else "Download approved submission GeoTIFF"
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
-                f'&#11015; Download the registry-primary GeoTIFF (read its status first)</a>']
+                f'&#11015; {_label}</a>']
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)

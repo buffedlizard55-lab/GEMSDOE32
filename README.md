@@ -1,63 +1,34 @@
-## Current decision — Round 6 (2026-10-26): ONE file is OK TO SUBMIT
+# GEMSDOE32 — DOE GEMS Prize research and submission tooling
 
-**✅ OK TO DOWNLOAD AND SUBMIT (unique, gate-passing, unscored):**
-[`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif)
-· [.ZIP](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip)
-· SHA-256 `c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547`
-· Unique name `GEMSDOE32-R6-STEP-23FBBB51`
-· Note (93/140): `R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE`
+## Current decision — 2026-10-26 review: **DO NOT SUBMIT ANY FILE**
 
-**Why:** new label-free `det_elev` step-vs-ramp lane; passed every frozen automated gate —
-[HOLDOUT-DTI] SGMC-exact 0.1413 vs champion 0.0961 (+0.0453, 95% CI [0.028, 0.063]);
-uniqueness max 41.4% within-3px / ρ 0.34; dual portal validators PASS (all-finite [0,1] —
-cannot trigger *"Predicted values must be in range [0, 1]"*). **No organizer score exists
-for this file; PROMOTE is a selector recommendation, not a score claim.** Every other file
-here is **DO NOT SUBMIT** (0.2778 champion already submitted; GEO-CONDUIT demoted, IR-R6-02).
-Read the [per-site executive summary](docs/research/focus-sites-executive-summary.md),
-[Round-6 preregistration](docs/research/hypotheses-round6.md), and
-[run card](evidence/round6_run_card.json). Confirm the authenticated weekly cap before uploading.
+The existing Round-6 STEP GeoTIFF is retained **for audit only**, not as an upload-ready
+submission: [`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif)
+(SHA-256 `c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547`). A local byte read
+confirms a single-band float32 raster, EPSG:32611, 3730×3292, values 0–1 and 37,654 positive cells. Exact strict comparison against the pinned owner-mirror
+`sample_submission.tif` now passes (SHA-256 `2176d08e…54d35cbc`). This is **format evidence only**,
+not scientific/uniqueness approval or organizer acceptance.
 
----
+**Why it is not cleared:** the candidate was placed using a B=2 exclusion derived from the full
+fault catalogue, then scored against hidden catalogue segments. The evaluator did not recompute
+that catalogue-derived exclusion from each fold's visible faults, so the result has held-out-label
+leakage and is not an admissible hide-and-recover comparison. The recorded **[HOLDOUT-DTI, leakage-affected/inadmissible]** is 0.00338 vs incumbent 0.00452 (evaluator `gems32.holdout` draws 20/21; 22,232 withheld positives; separate 95% CIs [0.00251, 0.00453] and [0.00394, 0.00525], not a paired interval); the point estimate is lower. In addition, 97.82% of its dots are within 3 px of a
+registered calibration raster, exceeding the literal 70% duplicate threshold. The earlier
+promotion improperly excluded this raster from the gate. Full findings: [three-pass repo review](docs/research/protocol-review-20261026.md), [run card](evidence/round6_run_card.json).
 
-# GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize (DrivenData #306)
+**No new raster was generated during this review.** The ignored source/cache files and cached feature
+stack required for a valid fresh evaluation are absent. No weekly slot was used. Do not upload the
+STEP artifact, the prior GEO-CONDUIT artifact, or any other checked-in raster based on this README.
+The supplied historical values (0.2778 for the H33-2-B2 file and conflicting leaderboard values 0.3195/0.4413) are **[OWNER-REPORT / user-provided]**, not organizer-confirmed here; there is no submission receipt or current authenticated leaderboard
+snapshot in this checkout. They are not holdout scores or predictions for a new submission.
 
-**Competition:** [DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/)
-· **Problem description:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
-· **Rules (PDF):** [docs.nlr.gov/docs/fy26osti/96647.pdf](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
-· **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/>
-· **Weekly budget:** 3 scored submissions; **one** file is scored in *both* prize rounds.
+**Competition links:** [official overview](https://www.drivendata.org/competitions/306/competition-doe-gems/) · [problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) · [official reference solution](https://github.com/drivendataorg/gems-prize-reference-solution) · [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and) · [GDR 1391](https://gdr.openei.org/submissions/1391) · [EPSG:32611](https://epsg.io/32611).
 
----
-
-> ### Our Core Values — kept central to every decision in this repository
-> **Maximize P(Win).** *"Maximize the Probability of Winning"* is our decision-making framework. In every decision we weigh tradeoffs, assess risk, and choose the path that maximizes the probability that we win this prize. We set aside our emotions and make tough decisions in order to maximize P(Win). It frees us from constraints and clarifies that we must put the outcome first.
->
-> **Own the Outcome.** We own results end to end — not just our individual slice of the work. When problems arise and we have the means to act, we act without waiting for permission or assignment. We treat failure and success as signals and use them to improve. We stay accountable to the final outcome.
+> **Maximize P(Win)** — choose experiments by evidence, not optimism. **Own the Outcome** — correct misleading status claims and report negative results.
 
 ---
 
-## 🔴 SUPERSEDED 2026-10-26 — GEO-CONDUIT (DO NOT SUBMIT; demoted IR-R6-02, kept for audit)
-
-**✅ OK TO DOWNLOAD AND SUBMIT:** This file is **GENUINELY UNIQUE**, generated from the new **H-GEO-CONDUIT** physical pipeline. It passes all 12 portal checks, strictly all-finite values in `[0.0, 1.0]`, CRS EPSG:32611, 3730×3292 shape, 100 m geotransform, 0 dots on catalogue, 0 dots in 200 m dead annulus, and zero NaNs anywhere in the raster (guaranteeing it will **never** trigger `"Predicted values must be in range [0, 1]"`).
-
-### ⬇ ONE-CLICK Download Deliverables:
-* **[⬇ Download `gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif` (ONE-CLICK TIF)](docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)**
-* **[⬇ Download `gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.zip` (.ZIP package)](docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.zip)**
-* **[Format Validator Audit Receipt (12/12 PASS)](docs/downloads/checks-gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif.json)**
-* **[Full Run Card JSON](evidence/geo_conduit_run_card.json)**
-* **NaN-outside Twin (Spec format):** [`gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif`](docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif)
-
-### DrivenData Portal Form Inputs:
-* **Unique Submission Name to paste:** `GEMSDOE32-GEO-CONDUIT-2D0D0C5E`
-* **Note to paste into "Note (optional)" (107/200 chars):**  
-  `GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]`
-* **Raster Properties:** Single-band `float32`, EPSG:32611, 3730×3292, 12,279,160 cells all finite, range `[0.0, 1.0]`, nodata tag `None`.
-* **SHA-256:** `fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669` · 37,654 emitted dots.
-* **Lane Uniqueness:** Rank correlation (Spearman) **0.207** (pass < 0.90 limit); final dot overlap vs 0.2778 Champion is **37.8%** within 3px (well below the ≤ 70% parallel-run threshold).
-
----
-
-> ### 📋 STANDING PROJECT PROMPT (Verbatim — read every session as the starting brief)
+> ### 📋 STANDING PROJECT BRIEF (operational digest; not a verbatim transcript — read every session)
 >
 > Review the repo. 
 > 
@@ -106,100 +77,42 @@ Read the [per-site executive summary](docs/research/focus-sites-executive-summar
 
 ---
 
-## 🔬 PhD-Level Forensic: Why `h33-h33-2-b2` Scored 0.2778 and What Beating It Requires
+## Research notes and current next steps
 
-### 1. The Metric's Underlying Arithmetic: Denominator Thrift vs Real Discovery
-The official competition metric is the distance-weighted Tversky Index:
-$$\text{DTI} = \frac{T}{0.2(T + F) + 0.8|G|}$$
-where $T$ is the kernel credit earned from hidden faults within 300 m ($R=3$ px), $F$ is uncredited emission mass, and $|G|$ is the total hidden fault population.
-Adding one emitted dot with realized kernel credit $k \in [0, 1]$ changes the numerator by $k$ and increases the denominator by $\alpha = 0.2$. Therefore, adding a dot increases DTI if and only if:
-$$k > \alpha \cdot \text{DTI}$$
-At the 0.2600 level, the break-even credit threshold is $k > 0.0520$. At 0.2778, the threshold is $k > 0.0556$. At the leaderboard high of 0.4413, the threshold is $k > 0.0883$.
+### How to interpret the reported 0.2778
 
-### 2. Forensic Autopsy of the B-Ladder
-Pixel-exact byte analysis of the focus sites reveals that the top submissions form a single nested subtraction lineage:
-1. **H19-5** (GEMSDOE19, live score **0.1922**): 121,131 continuous ridge pixels.
-2. **D2.8** (`dotted-h19-5-d2-8-20261002-e56ea318af89-nan`, GEMSDOE25/30, live score **0.2600**): 44,090 dots thinned at 2.8 px spacing. Shedding 77,041 redundant pixels cut the denominator by $0.2 \times 77,041 = 15,408$ units while preserving 76% of kernel coverage.
-3. **Solo** (GEMSDOE28/31, live score **0.2708**): 40,199 dots = D2.8 minus 3,891 dots within 100 m ($B=1$) of mapped faults.
-4. **Champion `h33-h33-2-b2`** (GEMSDOE32, live score **0.2778**): 37,654 dots = Solo minus 2,545 dots within 200 m ($B=2$) of mapped faults.
-5. **Anderson PINN** (GEMSDOE36, live score **0.2750**): 38,854 dots = Champion *plus* 1,200 dots. Re-adding those 1,200 dots had an average credit of only 0.018/dot (below the 0.0556 bar), dropping the score by $-0.0028$.
+The supplied history labels `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` as 0.2778. This is an **OWNER-REPORT** in this checkout, not a score bound to the file by an organizer receipt. The locally recorded byte-family analysis describes a nested H19-5 → D2.8 → B=1 → B=2 sequence. If the reported score/file pairings and construction are correct, thinning and exclusion can improve a distance-weighted Tversky objective by dropping mass whose expected marginal credit is below its false-positive cost. This is a plausible metric mechanism, not proof of hidden-fault causation or generalization.
 
-**Why B=2 Won:** In the competition scoring engine, known USGS/INGENIOUS faults are **masked out pixel-exactly**. In the dead annulus 0–200 m surrounding mapped faults, hidden faults almost never occur because the mapped catalogue is fault-zone complete at that scale. Every dot placed in this 200 m collar earns $k \approx 0$ while paying the full $\alpha = 0.2$ denominator penalty. $B=2$ won purely through denominator thrift, not new geological discovery.
+The request itself gives conflicting leaderboard values, 0.3195 and 0.4413. Neither is independently refreshed here; neither should be presented as a current official value or used to make a score projection. A new method can beat a reported baseline in principle, but this repo currently has no admissible evidence that one does.
 
-### 3. What Beating 0.2778 and Reaching 0.4413 Actually Requires
-The thinning and buffering trick is completely exhausted: $B=3$ (300 m buffer) deletes legitimate fault strands where true faults do occur, giving diminishing or negative returns.
-To beat 0.2778 and advance toward 0.4413:
-* Reaching **0.3000** requires **+8.0%** higher mean credit per dot.
-* Reaching **0.4413** requires **+58.9%** higher credit density on genuinely hidden faults.
-This +59% gain cannot come from post-processing; it requires detecting **blind, concealed faults** buried under alluvium that have no surface expression.
+### Focus-site executive summary
 
----
+The complete per-site table for GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31, GEMSDOE32, GEMSDOE33, and GEMSDOE36 is in [the focus-site executive summary](docs/research/focus-sites-executive-summary.md). Its historical scores are labelled OWNER-REPORT and every prior file is audit-only. Do not reuse a prior raster as a submission.
 
-## 🌋 4 Candidate Geological Hypotheses for Blind Fault Discovery
+### Hypotheses and experiment discipline
 
-Before implementation, 4 candidate geological hypotheses were formulated, ranked, and registered:
+The five ranked geological hypotheses, target bands/transforms, rationale, named mimics, and cost notes are in [Round-6 preregistration](docs/research/hypotheses-round6.md). The earlier R6-1 signed `det_elev` step-vs-ramp concept is not cleared: the B=2 exclusion used full-catalogue labels before holdout scoring, and final dots fail the literal registry overlap limit. Candidate hypotheses are not expected score gains. R6-2/R6-3 require source data and the actual feature stack; R6-4 needs the official [USGS FDSN event service](https://earthquake.usgs.gov/fdsnws/event/1/); R6-5 needs [USGS 3DEP](https://www.usgs.gov/3d-elevation-program). External hosts are not reachable in this sandbox and those data were not fetched.
 
-| Rank | ID | Hypothesis Title | Specific Layers Involved | Physical Signature Targeted | Why It Catches Missing Faults | Differs from Repo | Expected DTI Gain | Cost & Status |
-|:---:|:---:|:---|:---|:---|:---|:---|:---:|:---:|
-| **1** | **H-GEO-3** | **Geothermal Dilational Conduit & Structural Step-Over Bridge** | Bands 7, 8 (strain rates), Bands 2, 3 (magnetics), Band 5 (gravity slope), Band 12 (DEM) | Positive dilation rate ($\dot{\varepsilon}_{\text{dil}} > 0$) $\times$ shear strain rate $\times$ magnetic/gravity horizontal gradients | Extensional crustal dilation maintains fracture permeability against hydrothermal silica/calcite mineral sealing; captures blind conduits in step-overs | Physical coupling of GNSS dilation with basement offset rather than flat tabular features | **+0.015 to +0.025** | Low cost; **VALIDATED & EMITTED** |
-| **2** | **H-GEO-2** | **Quaternary Alluvial Pediment Scarplet Residuals** | Band 12 (det_elev), Band 19 (slope), LiDAR scarp product | Directional 2nd-order eigenvalue ridges on detrended elevation restricted to alluvial piedmonts (>500m from bedrock) | Mapped faults cluster on range-fronts; unmapped synthetic/antithetic faults cut basin alluvium and feed blind geothermal convection cells | Explicitly isolates piedmont fans to prevent bedrock ridge and Lahontan terrace confusion | **+0.012 to +0.020** | Low cost; Registered |
-| **3** | **H-GEO-1** | **Cross-Gradient Tensor Curvature for Concealed Relays** | Bands 1, 2 (mag), Band 4 (strain inv), Band 5 (gravity slope) | Cross-gradient vector product $\nabla g \times \nabla m$ with minimum principal curvature of residual gravity | Subsurface normal fault relay ramps offset basement density and magnetization interfaces under 50–200m alluvium without surface scarps | Vector cross-gradient structural discordance rather than scalar 1D gradients | **+0.008 to +0.015** | Medium cost; Registered |
-| **4** | **H-GEO-4** | **Conductive Smectite Cap Breaching over Resurgent Plumes** | Band 15 (basement depth), Band 17 (conductivity), Band 6 (radiometric K) | Steep depth-to-basement gradients matching low-resistivity smectite clay caps breached by radiometric alteration halos | Blind geothermal systems develop smectite clay caps at 200–500m depth; faults cutting these caps create distinct geophysical edges | Targets high-order structural edges of clay caps rather than broad background heat field | **+0.005 to +0.012** | Medium cost; Registered |
+### Upload checklist (only after a future explicit approval)
 
-### Validation Results for Top Candidate (H-GEO-3):
-* **Evaluator Version:** `GEMSDOE32-HOLDOUT-v2` (4 spatial quadrants × 2 random draws, 15 px collar buffer, 12 px domain erosion, $\alpha=0.2, \beta=0.8, R=300$ m triangular kernel, **22,232 withheld positives**).
-* **Leakage Canary:** All 18 raw input bands pass with AUC between 0.5038 and 0.5625 (strictly < 0.90 ceiling).
-* **OOF Generalization:** Quadrant-OOF AUCs: Q0 = 0.6257, Q1 = 0.7009, Q2 = 0.6195, Q3 = 0.6443.
-* **HOLDOUT-DTI:** Drift-corrected holdout mean = **0.0461** [95% CI 0.0141, 0.0781], SGMC prevalence-calibrated DTI = **0.0462**.
-* **Uniqueness vs Registry:** Max surface rank correlation = **0.207** (well under 0.90 limit); dot overlap vs 0.2778 Champion is **37.8%** within 3px (well under 70% lane limit).
+The current status is **DO NOT SUBMIT ANY FILE**. If a future run receives a green `OK TO DOWNLOAD AND SUBMIT` verdict after all gates pass:
 
----
+1. Use the exact artifact named in the current release banner and verify its SHA-256 against the run card.
+2. Open the [DrivenData DOE GEMS submission page](https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/) and select the GeoTIFF or ZIP only if the banner explicitly authorizes upload.
+3. Copy that run's unique submission name and note (≤140 characters) exactly; do not reuse names or notes from archived runs.
+4. Submit through the competition form. The project does not automatically upload, consume a weekly slot, or claim organizer acceptance from local validation.
 
-## 🛠️ Root Cause & Solution: DrivenData Portal Error `"Predicted values must be in range [0, 1]"`
+## Key links
 
-When submitting GeoTIFFs to DrivenData, users occasionally encountered:
-`"Predicted values must be in range [0, 1]"`
+- [Official competition overview](https://www.drivendata.org/competitions/306/competition-doe-gems/)
+- [Official problem description and submission format](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
+- [Official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) — not authenticated/refreshed in this review
+- [Official rules PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
+- [DrivenData reference solution](https://github.com/drivendataorg/gems-prize-reference-solution)
+- [USGS GeoDAWN](https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and)
+- [GDR INGENIOUS submission 1391](https://gdr.openei.org/submissions/1391)
+- [INGENIOUS project](https://gbcge.org/current-projects/ingenious/)
+- [EPSG:32611](https://epsg.io/32611)
+- [Tversky index reference](https://en.wikipedia.org/wiki/Tversky_index)
 
-### The Two Underlying Mechanisms:
-1. **Mechanism 1 — NaN Sentinels Outside Footprint:**
-   Under the competition's written specification, values outside the active footprint are declared as `NaN`. However, DrivenData's web portal validator executes:
-   ```python
-   assert ((predictions >= 0.0) & (predictions <= 1.0)).all()
-   ```
-   In Python/NumPy, any comparison with `NaN` evaluates to `False`. Thus, a GeoTIFF with `NaN` outside the footprint fails this whole-array check and triggers `"Predicted values must be in range [0, 1]"`.
-2. **Mechanism 2 — Float32 Negative Sentinels Inside Footprint:**
-   The competition input `training_features.tif` uses `-3.4028235e+38` as nodata. Across the 19 bands, 3,073 pixels inside the footprint contain this sentinel. Any model that outputs raw feature values without clipping ships negative values, immediately triggering the error.
-
-### How Our Shipped File Solves This Permanently:
-The generated file `gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif`:
-* Sets all outside-footprint pixels to `0.0` with `nodata=None`.
-* Enforces `np.clip(pred, 0.0, 1.0)` on all 5,167,373 in-footprint pixels.
-* **Result:** All 12,279,160 / 12,279,160 raster cells are strictly finite float32 values in `[0.0, 1.0]`.
-* Zero NaNs, zero infinities, zero negative sentinels.
-* Passed 12/12 checks in automated pre-submission audit without human intervention.
-
----
-
-## 🚀 Step-by-Step Submission Instructions
-
-1. **Download:** Click the green button above to download `gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif` (or the `.zip` archive).
-2. **Navigate:** Open the [DrivenData DOE GEMS Submissions Page](https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/) and log in.
-3. **Choose File:** In the *File to submit* field, select the downloaded `.tif` or `.zip` file.
-4. **Unique Name:** Label your submission: `GEMSDOE32-GEO-CONDUIT-2D0D0C5E`.
-5. **Note:** Paste the exact note into *Note (optional)*:  
-   `GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]`
-6. **Submit:** Click submit. DrivenData will validate the file dimensions (3730×3292), CRS (EPSG:32611), float32 range, and compute your score.
-
----
-
-## 📚 Official Verified Sources & References
-
-* **DrivenData Competition Overview:** <https://www.drivendata.org/competitions/306/competition-doe-gems/>
-* **Problem Description & Submission Format:** <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/>
-* **Official Rules PDF (NLR / DOE OSTI):** <https://docs.nlr.gov/docs/fy26osti/96647.pdf>
-* **Reference Solution GitHub:** <https://github.com/drivendataorg/gems-prize-reference-solution>
-* **Known Fault Masking Clarification (Forum 11516):** <https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516>
-* **INGENIOUS Project Geothermal Data (GDR 1391):** <https://gdr.openei.org/submissions/1391>
-* **USGS GeoDAWN Northwest Nevada Airborne Geophysics:** <https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and>
-* **EPSG:32611 Projection Standard:** <https://epsg.io/32611>
-* **Tversky Index Formulation:** <https://en.wikipedia.org/wiki/Tversky_index>
+See [protocol review](docs/research/protocol-review-20261026.md) for three-pass findings, evidence labels, current limitations, and the test record. Read `docs/research/standing-brief-20261025.md` before each project session; it is an operational digest, not the verbatim original user prompt.
