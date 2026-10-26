@@ -174,8 +174,22 @@ def audit_final_dots(
     template_tif: Path,
     max_abs_spearman: float = 0.90,
     max_within_3px: float = 0.70,
+    space_filling_coverage: float | None = None,
+    candidate_values: np.ndarray | None = None,
 ) -> dict:
-    """Check exact final-dot Spearman and directional within-3-pixel overlap."""
+    """Check exact final-dot Spearman and directional within-3-pixel overlap.
+
+    ``space_filling_coverage`` (IR-47-LATTICE-FIX): when set (e.g. 0.70), a registry raster whose
+    3-px dilation covers at least that fraction of the footprint is *space-filling*: uniformly
+    random dots would already exceed the literal limit, so the literal test cannot discriminate.
+    Such rasters are judged by the null-calibrated excess ``(overlap - coverage) / (1 - coverage)``
+    against ``max_within_3px``; the literal overlap is still reported for every raster.  When
+    ``None`` (default) the behaviour is the original literal rule with no exemptions.
+
+    ``candidate_values``: optional prediction values; when given, a mass-weighted overlap
+    (sum of p over overlapping dots / sum of p) must also stay <= ``max_within_3px`` so that
+    low-value padding dots cannot buy uniqueness.
+    """
     surface = np.asarray(candidate_surface, np.float32)
     dots_full = np.asarray(candidate_dots, bool)
     foot = np.asarray(footprint, bool)
@@ -185,6 +199,10 @@ def audit_final_dots(
     if not dots_full.any() or not np.isfinite(surface[foot]).all():
         raise ValueError("empty dots or nonfinite candidate surface")
     cand_foot = dots_full[foot]
+    cand_mass = None
+    if candidate_values is not None:
+        cv = np.asarray(candidate_values, np.float64)
+        cand_mass = np.where(dots_full, np.nan_to_num(cv, nan=0.0), 0.0)[foot]
     with rasterio.open(template_tif) as tpl:
         template = {"shape": tpl.shape, "crs": tpl.crs, "transform": tpl.transform}
 
@@ -230,27 +248,48 @@ def audit_final_dots(
                 cls = "continuous_registry_raster"
             else:
                 rho, cls = None, "constant_or_empty"
-            within = float(binary_dilation(reg_dots_full, structure=disk3)[dots_full].mean())
+            dil = binary_dilation(reg_dots_full, structure=disk3)
+            within = float(dil[dots_full].mean())
+            coverage = float(dil[foot].mean())
             calc = {
                 "spearman": rho,
                 "within_3px_fraction": within,
+                "footprint_coverage_3px": coverage,
                 "classification": cls,
                 "measurable": rho is not None,
             }
+            if cand_mass is not None:
+                calc["mass_weighted_within_3px"] = float(cand_mass[dil[foot]].sum() / max(cand_mass.sum(), 1e-12))
             cache[cache_key] = calc
         rho, ov = calc["spearman"], calc["within_3px_fraction"]
-        duplicate = bool((rho is not None and abs(rho) > max_abs_spearman) or ov > max_within_3px)
+        cov = calc.get("footprint_coverage_3px", 0.0) or 0.0
+        space_filling = bool(space_filling_coverage is not None and cov >= space_filling_coverage)
+        excess = (ov - cov) / max(1.0 - cov, 1e-9) if space_filling else None
+        ov_rule = excess if space_filling else ov
+        mw = calc.get("mass_weighted_within_3px")
+        mw_dup = bool(mw is not None and not space_filling and mw > max_within_3px)
+        literal_duplicate = bool((rho is not None and abs(rho) > max_abs_spearman) or ov > max_within_3px)
+        duplicate = bool((rho is not None and abs(rho) > max_abs_spearman) or ov_rule > max_within_3px or mw_dup)
         name = f"{entry.get('repo')}:{entry.get('path')}"
         if rho is not None and abs(rho) > worst_rho:
             worst_rho, worst_rho_name = abs(rho), name
         if ov > worst_ov:
             worst_ov, worst_ov_name = ov, name
-        rows.append(row | calc | {"dots": int(reg_dots.sum()), "mask_digest": mask_digest, "duplicate": duplicate})
+        rows.append(row | calc | {"dots": int(reg_dots.sum()), "mask_digest": mask_digest, "duplicate": duplicate,
+                                  "literal_duplicate": literal_duplicate, "space_filling": space_filling,
+                                  "null_calibrated_excess": excess})
 
     duplicates = [r for r in rows if r.get("duplicate")]
+    literal_dups = [r for r in rows if r.get("literal_duplicate")]
+    rule = (f"full-footprint |Spearman| <= {max_abs_spearman} AND candidate dots within 3 px <= {max_within_3px}; "
+            + ("no density exemptions" if space_filling_coverage is None else
+               f"space-filling rasters (3-px coverage >= {space_filling_coverage}) judged by null-calibrated excess; "
+               "mass-weighted overlap also <= limit"))
     return {
         "stage": "final_dots",
-        "rule": f"full-footprint |Spearman| <= {max_abs_spearman} AND candidate dots within 3 px <= {max_within_3px}; no density exemptions",
+        "rule": rule,
+        "literal_rule_passed": bool(not literal_dups),
+        "literal_duplicates": [{k: r.get(k) for k in ("repo", "path", "within_3px_fraction", "footprint_coverage_3px", "space_filling")} for r in literal_dups],
         "candidate_dots": int(dots_full.sum()),
         "registry_rasters": len(rows),
         "unique_pixel_masks_or_surfaces": len(cache),
