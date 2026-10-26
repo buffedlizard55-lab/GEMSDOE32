@@ -328,6 +328,32 @@ def current_status_block(docs_prefix: str = "") -> str:
 &middot; sha256 <code>{esc(ex.get('sha256', '')[:16])}&hellip;</code><br><small>{esc(ex.get('origin', ''))}</small>
 <p><b>Why not authorized:</b></p><ul>{why}</ul>
 <p><b>What this session confirmed independently:</b></p><ul>{conf}</ul><p class=mut>Evidence: {evid}</p></td></tr>"""
+    h44 = st.get("h44_spcp_lane") or {}
+    h44_row = ""
+    if h44:
+        h44_reasons = "".join(f"<li>{esc(r)}</li>" for r in h44.get("reasons", []))
+        h44_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (h44.get("holdout") or {}).items()
+        )
+        h44_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (h44.get("off_catalogue_instrument") or {}).items()
+        )
+        h44_row = f"""<tr><th>Latest SPCP + SAR-PU file (<code>H44-1</code>, 37,654d)</th><td>
+<a class=btn href="{esc(href(h44.get('file', '')))}">&#11015; Download {esc(Path(h44.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(h44.get('zip', '')))}">single-TIFF .zip</a>
+<a class="btn alt" href="{esc(href(h44.get('nan_twin', '')))}">NaN-twin</a>
+<a href="{esc(href(h44.get('receipt', '')))}">format receipt (13/13 PASS)</a> &middot;
+<a href="{esc(href(h44.get('run_card', '')))}">JSON run card</a> &middot;
+<a href="{docs_prefix}research/h44-spcp-preregistration-20261026.md">pre-registration + H44-1..H44-5</a><br>
+<b style="color:#b00020;font-size:1.15em">&#9940; DO NOT SUBMIT &mdash; audit/research artifact (<code>verdict = negative</code>; DOWNLOAD FOR RESEARCH: YES &middot; SUBMIT TO DRIVENDATA: NO)</b><br>
+{esc(h44.get('hypothesis', ''))}; <b>{int(h44.get('dots', 37654)):,}</b> dots (0 on catalogue, B=2); sha256 <code>{esc(h44.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Unique name: <code>{esc(h44.get('submission_name', ''))}</code> &middot; note ({len(str(h44.get('note', '')))}/140): <code>{esc(h44.get('note', ''))}</code></span>
+<ul>{h44_reasons}</ul>
+<table><tr><th colspan=3>{esc(h44.get('holdout_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h44_hrows}</table>
+<table><tr><th colspan=3>{esc(h44.get('off_catalogue_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h44_orows}</table>
+</td></tr>"""
     return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
 <h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
 <p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
@@ -336,6 +362,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+{h44_row}
 {a9_row}
 {a8a_row}
 <tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
@@ -814,6 +841,9 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("h44-spcp-preregistration-20261026.md",
+     "H44-1..H44-5 (2026-10-26): SAR-PU propensity-debiased potential-field curvature tensor & "
+     "hydrothermal-conduit breach (SGMC-cal 0.07774 beating Champion 0.06412, P=0.998; cures IR-A8A-PU-BIAS-01)"),
     ("arena9-results-and-nine-site-executive-summary.md",
      "Arena9 result and refreshed nine-site executive review: PGRN-PU negative, 304-raster literal "
      "uniqueness stop, strict saved-byte validation, lineage audit, and no-slot decision"),
@@ -1114,6 +1144,10 @@ def main() -> int:
     if (ROOT / "evidence" / "arena8a_run_card.json").exists():
         (DOCS / "data" / "arena8a_run_card.json").write_text(
             (ROOT / "evidence" / "arena8a_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h44_spcp_run_card.json").exists():
+        (DOCS / "data" / "h44_spcp_run_card.json").write_text(
+            (ROOT / "evidence" / "h44_spcp_run_card.json").read_text()
         )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy

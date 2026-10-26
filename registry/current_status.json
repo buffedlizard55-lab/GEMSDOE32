@@ -359,5 +359,95 @@
    "G4_final_registry_unique": false,
    "G5_format_and_range": true
   }
+ },
+ "h44_spcp_lane": {
+  "file": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.zip",
+  "nan_twin": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif",
+  "receipt": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-audit.json",
+  "run_card": "evidence/h44_spcp_run_card.json",
+  "preregistration": "docs/research/h44-spcp-preregistration-20261026.md",
+  "sha256": "386a4aad59a5c742b28541835892f9f6e0cb306cbbe4e296741bbad8e4bff235",
+  "bytes": 216377,
+  "dots": 37654,
+  "submission_name": "GEMSDOE32-H44-SPCP-38F7995A",
+  "note": "H44-1 SPCP SAR-PU curv+conduit 37654d B2 | HR=0.0698 SGMC=0.0777 | DO NOT SUBMIT",
+  "verdict": "DO NOT SUBMIT",
+  "ok_to_submit": false,
+  "download_for_research_ok": true,
+  "hypothesis": "H44-1 (SPCP): SAR-PU Propensity-Debiased Potential-Field Curvature Tensor & Hydrothermal-Conduit Breach (37,654 dots, B=2)",
+  "hide_and_recover_pooled_dti": 0.069841,
+  "hide_and_recover_ci95": [
+   0.060297,
+   0.079276
+  ],
+  "detached_600m_dti": 0.063641,
+  "detached_600m_ci95": [
+   0.053392,
+   0.074096
+  ],
+  "sgmc_raw_pooled_dti": 0.116056,
+  "sgmc_prevalence_calibrated_dti": 0.077736,
+  "sgmc_calibrated_ci95": [
+   0.069192,
+   0.085644
+  ],
+  "sgmc_paired_delta_vs_champion": {
+   "mean_boot_delta": 0.013280440849281927,
+   "ci95": [
+    0.0030021949283572046,
+    0.024790113512442893
+   ],
+   "prob_positive": 0.998
+  },
+  "sgmc_sarpu_lift_over_naive": {
+   "mean_boot_delta": 0.03083198908693093,
+   "ci95": [
+    0.021274898085628168,
+    0.04023858201313477
+   ],
+   "prob_positive": 1.0
+  },
+  "uniqueness": {
+   "n_unique_rasters_checked": 289,
+   "n_genuine_rasters_checked": 288,
+   "genuine_pre_placement_surface_passed": true,
+   "genuine_final_dots_passed": true,
+   "max_abs_surface_spearman": 0.120401,
+   "worst_genuine_surface_peer": {
+    "name": "GEMSDOE24:inputs/gems16-h16-1-topo-geophys-baseline-ridges-20260930-df20f65e-nan.tif",
+    "sha256": "055309694ed499ca3d87e76b3f5e81c292aef6e39c418d33ff5a817aa1309bea",
+    "other_dots": 123939,
+    "raw_in_foot_finite": true,
+    "is_calibration_lattice": false,
+    "surface_spearman": 0.120401,
+    "dots_spearman": 0.017695,
+    "within_3px_fraction": 0.351782
+   },
+   "max_genuine_3px_dot_overlap": 0.444813,
+   "worst_genuine_overlap_peer": {
+    "name": "GEMSDOE30:docs/downloads/gemsdoe30-sgmc-hedge-d10-85k-20261003-ac08b41e-zeros.tif",
+    "sha256": "d7977d7b93287f17fbf3cb85f10fdbee4acc5c8453a7faa451e760363433a286",
+    "other_dots": 85526,
+    "raw_in_foot_finite": true,
+    "is_calibration_lattice": false,
+    "surface_spearman": 0.041375,
+    "dots_spearman": 0.005899,
+    "within_3px_fraction": 0.444813
+   },
+   "literal_5px_calibration_lattice_probe": {
+    "name": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "other_dots": 206895,
+    "raw_in_foot_finite": true,
+    "is_calibration_lattice": true,
+    "surface_spearman": 3.6e-05,
+    "dots_spearman": -0.000483,
+    "within_3px_fraction": 0.996893
+   },
+   "literal_all_rasters_final_passed": false,
+   "genuine_rasters_checked": 289,
+   "vs_arena9_within_3px": 0.4277
+  }
  }
 }
