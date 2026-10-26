@@ -5,25 +5,24 @@
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 <section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
-<p style="margin:4px 0"><b>No file in this repository is authorized for upload. H46 is a format-valid preliminary research artifact, not a promotable submission.</b>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload. H46 is a research/audit artifact; this review re-read the saved bytes, but the sample-template comparison was not reproduced.</b>
 Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
-Updated 2026-10-26T18:25:21Z.</p>
+Updated 2026-10-26T20:28:10Z.</p>
 <p style="margin:7px 0"><a class=btn href="downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif">&#11015; Download latest generated GeoTIFF for research/audit</a> <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>
 <p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
-<a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="research/h46-results-and-nine-site-executive-summary-20261026.md">H46 science review</a> &middot;
+<a href="research/repository-review-20261026-arena-followup.md">three-pass repository follow-up</a> &middot;
 <a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
 <a href="executive-summary.html">How a cleared file would be submitted</a></p></section>
 
 <div class=dlbtn><span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> <a class="btn alt" href="index.html#status">status &amp; audit downloads</a></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
-<main class=wrap><h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
-<p class=mut>Each row names the layers it needs, the physical signature, why it can catch a fault the
-USGS&nbsp;/&nbsp;INGENIOUS catalogue lacks, how it differs from everything the group has already run,
-and its measured status. Nothing is promoted to a submission slot without passing the holdout and
-the slot gate.</p>
+<main class=wrap><h2 style="margin-top:6px">Registered geological hypotheses</h2>
+<p class=warn><b>Interpretation:</b> any value in the expected-impact column is a preregistered research prior, not a measured HOLDOUT-DTI, organizer score, or leaderboard projection. The current H46 result is exploratory and negative; do not use a hypothesis prior as a score estimate.</p>
+<p class=mut>Each row names its layers, physical signature, missing-catalogue rationale, distinction from prior work, data status and measured status. No candidate is cleared for a submission slot.</p>
 <table><tr><th>#</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
-<th>difference from prior work</th><th>expected / cost / data</th><th>status</th></tr><tr><td>1</td><td><b>H33-1</b><br>GDR measured geothermometry (wellspring chemistry, T &gt;= 150/180/200 C) as a *removal prior* on the 0.2708 base emission</td>
+<th>difference from prior work</th><th>preregistered impact prior (not a score) / cost / data</th><th>status</th></tr><tr><td>1</td><td><b>H33-1</b><br>GDR measured geothermometry (wellspring chemistry, T &gt;= 150/180/200 C) as a *removal prior* on the 0.2708 base emission</td>
 <td>external: gdr.openei.org files/1391/wellspringdata.gdb.zip (1,014 chemistry rows, 184 geothermometer sites); external: gdr_wellspring_in_footprint.csv (27,092 rows); 19 official bands only as a corroboration filter</td><td>each spring&#x27;s Na-K-Ca / silica geothermometer temperature placed on the 100 m grid, blurred by the 300 m kernel, and used to *delete* dots from the base emission</td>
 <td>15 of the 53 sites above 150 C lie &gt;3 km from any mapped trace, so a geothermometer anomaly is evidence of a fault the catalogue has not mapped</td><td>H18-5 &#x27;thermal-anchor linking&#x27; was registered by the 16GEMSDOE operator with the same premise and was never built; this arm builds it. No arm in this repo has ever used measured geochemistry.</td>
 <td>as an ADDITION arm: FALSIFIED - measured credit/dot 0.0022-0.0054 against the live break-even bar tau_live = 0.05416 (10-25x too expensive) · cost low (one CSV + IDW surface + a threshold) · data: VERIFIED OBTAINABLE: gdr.openei.org/submissions/1391, official, CC BY 4.0, DOI 10.15121/1881483, file wellspringdata.gdb.zip; already materialised in data/raw/external/</td>
@@ -122,8 +121,8 @@ the slot gate.</p>
 <td>registered; partially evaluated</td></tr><tr><td>1</td><td><b>H-GEO-3</b><br>Geothermal Dilational Conduit &amp; Structural Step-Over Bridge</td>
 <td>Band 8 (geod_dilaterate); Band 7 (geod_shearrate); Band 3 (tmi_hg); Band 5 (iso_grav_anom_slope); Band 12 (det_elev)</td><td>Physical product of positive extensional dilation rate (dilaterate &gt; 0), shear strain rate, and high-wavenumber potential-field horizontal gradients</td>
 <td>Active geothermal upwelling requires ongoing crustal extensional dilation to maintain fracture permeability against hydrothermal silica and calcite self-sealing; actively dilating fault segments with concealed basement offsets are prime geothermal conduits missed by surface-only mapping</td><td>Direct physical coupling of GNSS-derived geodetic extensional strain dilation with magnetic and gravity basement steps rather than treating strain as a flat statistical feature</td>
-<td>+0.015 to +0.025 HOLDOUT-DTI · cost low (built and evaluated on prepared 28-channel physical feature stack) · data: obtainable and verified in data/</td>
-<td>VALIDATED on spatially-blocked holdout set; primary candidate emitted (gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)</td></tr><tr><td>4</td><td><b>H-GEO-4</b><br>Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes</td>
+<td>Unquantified; no score projection permitted. The prior unsupported range is withdrawn. · cost Historical run complete; no new evaluation authorized; current competition inputs and cache are absent. · data: Historical inputs were recorded for the superseded run; competition rasters/cache are absent from this checkout.</td>
+<td>Retired negative; not validated for promotion. Historical artifact is audit-only; the claimed CI was fabricated by fixed-width arithmetic and registry/SGMC gates failed. See IR-R6-02 and IR-32-CONDUIT-01.</td></tr><tr><td>4</td><td><b>H-GEO-4</b><br>Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes</td>
 <td>Band 15 (depth_to_base_surf); Band 17 (cond_surf); Band 6 (tc radiometric potassium)</td><td>Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos</td>
 <td>Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp</td><td>Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field</td>
 <td>+0.005 to +0.012 HOLDOUT-DTI · cost low-medium (uses bands 6, 15, 17 in prepared stack) · data: obtainable and verified in data/</td>
@@ -269,7 +268,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 18:27 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Status snapshot updated 2026-10-26 20:28 UTC; pages are rendered from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

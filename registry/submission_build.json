@@ -1,32 +1,32 @@
 {
- "name": "gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros",
- "note": "GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT",
- "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
+ "name": "gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros",
+ "note": "H46-1 TRHV 2-regime vent+TIGER 37654d B2 | HR=0.1094 SGMC=0.0448 | DO NOT SUBMIT",
+ "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 H46 is exploratory, not lane-authorized, and fails promotion gates.",
  "file": {
-  "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-  "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
-  "bytes": 210920,
+  "path": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+  "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+  "bytes": 212436,
   "positive_px": 37654
  },
  "file_zeros": {
-  "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-  "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
-  "bytes": 210920
+  "path": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+  "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+  "bytes": 212436
  },
  "zip": {
-  "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip",
-  "sha256": "13ec74ccaef6dac73bc3acf8ecf2c4c8e3dfe2c1078bbdf1a2e629997905528b",
-  "bytes": 177020
+  "path": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.zip",
+  "sha256": "9c5e45095b5043e06f9d4150762e72cff26cdcd94a7e3b22dfc368287ef0e2fe",
+  "bytes": 179311
  },
- "candidate_id": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
+ "candidate_id": "GEMSDOE32-H46-TRHV-6437B275",
  "tier": 1,
- "hypothesis": "A9-H1-MDRC-PGRN-PU",
+ "hypothesis": "H46-1-TRHV (exploratory, negative)",
  "verdict": "negative",
  "ok_to_submit": false,
  "on_catalogue_pixels": 0,
- "catalogue_hidden_mean": 0.057907939861141074,
- "drift_corrected_holdout_mean": 0.057907939861141074,
- "sgmc_prevalence_calibrated_dti": 0.08780043882036752,
+ "catalogue_hidden_mean": 0.109361,
+ "drift_corrected_holdout_mean": 0.109361,
+ "sgmc_prevalence_calibrated_dti": 0.044756,
  "anchor": {
   "role": "ANCHOR -- champion comparison (already submitted; do not resubmit)",
   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -34,19 +34,27 @@
  },
  "pack": [
   {
-   "role": "NaN-outside archival twin; not portal-safe under strict-finite mode",
-   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif",
-   "sha256": "03eee6fb55ad98040a8887dec10767558b26d6cb10461defc46bc9f3c4bb5c02",
-   "bytes": 345698
+   "role": "NaN-outside archival twin of the current research artifact",
+   "path": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-nan.tif",
+   "sha256": "44db5c6a7bff333fa8b5c9c3e0186f7bc6992c72f8994d4bb41540b20e686b97",
+   "bytes": 346077,
+   "positive_px": 37654,
+   "note": "Audit only; use no file for live submission."
   }
  ],
  "supersedes": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E demoted 2026-10-26: 70.24% within-3px vs h28-dotted-ridge exceeds 70% lane gate; SGMC-cal 0.0462 below champion 0.0641 (IR-R6-02). Preserved as registry/submission_build_geo_conduit_superseded.json",
- "evidence": "evidence/arena9_run_card.json",
+ "evidence": "evidence/h46_trhv_run_card.json",
  "historical_run_verdict": "negative",
  "historical_ok_to_submit": false,
  "current_release_review": "evidence/current_release_review.json",
  "schema_note": "Registry primary = the file the site headlines. It is NOT an approval: read 'verdict' / 'ok_to_submit'. Source of truth: registry/current_status.json.",
  "previous_primaries": [
+  {
+   "name": "gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros",
+   "record": "evidence/arena9_run_card.json",
+   "withdrawn": true,
+   "reason": "Superseded as the current audit artifact by H46; the archived result remains negative and not upload-authorized."
+  },
   {
    "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
    "record": "evidence/round6_run_card.json",
@@ -170,8 +178,10 @@
    "evidence": "evidence/h38_run_card.json"
   }
  ],
- "round6_session_verdict": "promote",
- "status_line_current": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
+ "round6_session_verdict": "negative",
+ "status_line_current": "DO NOT SUBMIT \u2014 research/audit artifact only; see evidence/current_release_review.json.",
  "arena8a_candidate": "registry/arena8a_submission.json",
- "arena9_candidate": "evidence/arena9_run_card.json"
+ "arena9_candidate": "evidence/arena9_run_card.json",
+ "previous_primary_archive_note": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
+ "round6_session_verdict_legacy": "promote (unqualified legacy value; superseded by the negative round-6 run card and current release records)"
 }

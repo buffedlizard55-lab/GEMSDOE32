@@ -16,6 +16,12 @@ def main() -> int:
 
     status_path = ROOT / "registry" / "current_status.json"
     status = json.loads(status_path.read_text())
+    current_candidate = (status.get("newest_unique") or {}).get("file")
+    if current_candidate != card.get("raster_path"):
+        raise RuntimeError(
+            "Refusing to restore the historical Arena9 review over a newer current candidate. "
+            "This updater is archived; use the current-status source and its matching review instead."
+        )
     hr = card["holdout_dti"]
     sg = card["off_catalogue_holdout_dti"]
     sa = card["correlation_overlap_vs_registry"]["surface_before_placement"]

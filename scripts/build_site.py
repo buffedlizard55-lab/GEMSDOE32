@@ -8,7 +8,7 @@ from __future__ import annotations
 import html
 import json
 import sys
-import time
+from datetime import datetime, timezone
 
 import numpy as np
 import rasterio
@@ -74,7 +74,8 @@ Generated GeoTIFFs are retained as research/audit artifacts only; a passing form
 Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
 {latest_download}
 <p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
-<a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="{prefix}research/h46-results-and-nine-site-executive-summary-20261026.md">H46 science review</a> &middot;
+<a href="{prefix}research/repository-review-20261026-arena-followup.md">three-pass repository follow-up</a> &middot;
 <a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
 <a href="{prefix}executive-summary.html">How a cleared file would be submitted</a></p></section>
 """
@@ -84,9 +85,25 @@ Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
 """
 
 
+def _status_snapshot_stamp() -> str:
+    """Return a stable render timestamp so the CI freshness check is reproducible."""
+    status = read("registry/current_status.json", {}) or {}
+    release = read("evidence/current_release_review.json", {}) or {}
+    raw = status.get("updated_utc") or release.get("reviewed_utc")
+    if not isinstance(raw, str) or not raw:
+        return "timestamp unavailable"
+    try:
+        parsed = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+        if parsed.tzinfo is None:
+            parsed = parsed.replace(tzinfo=timezone.utc)
+        return parsed.astimezone(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")
+    except ValueError:
+        return "timestamp unavailable"
+
+
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
     nav = " ".join(f'<a href="{h}"{" class=active" if h == active else ""}>{t}</a>' for h, t in NAV)
-    stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
+    stamp = _status_snapshot_stamp()
     return f"""<!doctype html><html lang=en><head><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
@@ -98,7 +115,7 @@ def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap>{body}</main>
 <footer><div class=wrap>
-Site generated {stamp} from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Status snapshot updated {stamp}; pages are rendered from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·
@@ -112,7 +129,7 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                 'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
     release = read("evidence/current_release_review.json", {}) or {}
     if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
-        # The authoritative red notice and audit-only link are rendered by protocol_notice/arena41_block.
+        # The authoritative red notice and audit-only link are rendered by protocol_notice().
         # Do not add another generic submission button here.
         return ""
     f = sub.get("file", {})
@@ -456,58 +473,6 @@ holdout scores the live B-ladder <i>backwards</i> (IR-32-INSTR-03) &mdash; do no
 </div>"""
 
 
-def arena41_block(prefix: str = "") -> str:
-    """Active submission banner: unique new TIF, automated gates, traffic light.
-
-    Data-driven from registry/submission_build.json + evidence/geo_conduit_run_card.json.
-    """
-    try:
-        sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
-    except Exception:
-        return ""
-    release = read("evidence/current_release_review.json", {}) or {}
-    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
-        rel = "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
-        artifact = ROOT / rel
-        sha = (release.get("artifact") or {}).get("sha256", "")
-        audit_link = (f'<a href="{esc(prefix + rel.replace("docs/", ""))}">'
-                      f'Download audit artifact only: {esc(artifact.name)}</a>' if artifact.is_file() else "")
-        return f"""<div class=dl style="border:3px solid #b91c1c">
-<h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
-<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>{esc(sha)}</code>.</p>
-<p>{audit_link}</p>
-</div>"""
-    f_path = sub.get("file", {}).get("path", "")
-    f_name = Path(f_path).name
-    ok = bool(sub.get("ok_to_submit", False))
-    sub_name = sub.get("candidate_id", "")
-    note = sub.get("note", "")
-    sha = sub.get("file", {}).get("sha256", "")
-    dots = sub.get("file", {}).get("positive_px", 37654)
-    zip_path = sub.get("zip", {}).get("path", "")
-    zip_name = Path(zip_path).name if zip_path else f"{f_name.split('.tif')[0]}.zip"
-
-    if ok:
-        return f"""<div class=dl style="border:3px solid #1a7f37; background:#f6fbf7;">
-<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; UNIQUE VALIDATED TIF SUBMISSION</h2>
-<p><b>Generated Unique File:</b> <code>{esc(f_name)}</code><br>
-<b>Unique Submission Name for Portal:</b> <code>{esc(sub_name)}</code><br>
-<b>Note to paste into DrivenData "Note (optional)" field ({len(note)}/200 chars):</b><br>
-<code>{esc(note)}</code><br>
-<b>SHA-256:</b> <code>{esc(sha[:16])}&hellip;</code> · {int(dots):,} dots · 0 on catalogue · B=2 buffer applied · Verdict: <b>PROMOTE</b></p>
-<p><a class="btn" style="background:#1a7f37; color:#fff;" href="{esc(prefix)}downloads/{esc(f_name)}">&#11015; ONE-CLICK DOWNLOAD .TIF (VALIDATED READY)</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(zip_name)}">Download as .ZIP</a>
-<a href="{esc(prefix)}downloads/checks-{esc(f_name)}.json">Automated Format Receipt (12/12 PASS)</a></p>
-<p><b>Validation Status:</b> Passed 100% automated validation without human intervention. All 12,279,160 cells finite in [0.0, 1.0], EPSG:32611, 3730&times;3292 float32, zero NaNs anywhere in raster (permanently avoiding the DrivenData portal error <i>"Predicted values must be in range [0, 1]"</i>). Uniqueness verified (Round 6): max 41.4% of dots within 3 px of any single detector raster (&le;70% limit; 19.1% vs the 0.2778 champion), max surface Spearman 0.34 (&le;0.90 limit). Gates: <code>evidence/round6_run_card.json</code>.</p>
-</div>"""
-    else:
-        return f"""<div class=dl style="border:3px solid #b91c1c">
-<h2>&#128308; DO NOT SUBMIT — automated gates FAILED (download for audit only)</h2>
-<p><b>File:</b> <code>{esc(f_name)}</code> · Verdict: <b>NEGATIVE</b></p>
-<p><a class="btn" href="{esc(prefix)}downloads/{esc(f_name)}">Download for audit only</a></p>
-</div>"""
-
-
 def download_catalogue(fl: dict, sub: dict | None) -> str:
     """Every GeoTIFF this repository offers, with its sha256 -- so no link on the site is a dead
     button and every file is independently checkable."""
@@ -515,6 +480,9 @@ def download_catalogue(fl: dict, sub: dict | None) -> str:
     if not DL.is_dir():
         return ""
     rows = []
+    release = read("evidence/current_release_review.json", {}) or {}
+    upload_authorized = release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True
+    primary_path = (sub or {}).get("file", {}).get("path")
     for p in sorted(DL.glob("*.tif")):
         rel = str(p.relative_to(ROOT))
         pos = ""
@@ -528,7 +496,8 @@ def download_catalogue(fl: dict, sub: dict | None) -> str:
             sha = sp.run(["sha256sum", str(p)], capture_output=True, text=True, check=True).stdout[:64]
         except Exception:
             sha = "&mdash;"
-        role = "PRIMARY" if (sub or {}).get("file", {}).get("path") == rel else ""
+        is_current_primary = primary_path == rel
+        role = ("AUTHORIZED PRIMARY" if upload_authorized else "CURRENT RESEARCH/AUDIT ONLY") if is_current_primary else ""
         for e in (sub or {}).get("pack") or []:
             if e.get("path") == rel:
                 role = e.get("role", role)
@@ -592,168 +561,95 @@ same metric; only the objective changed.</p>
 
 
 def nine_site_table_block(docs_prefix: str = "") -> str:
-    """Data-driven 9-site submission table (sources: evidence/nine_site_best_files_audit.json,
-    evidence/h45_tworegime_run_card.json, registry/current_status.json). Nothing hand-typed.
+    """Render the nine pinned historical winners and the current research artifact.
 
-    Columns answer the three questions the owner asked: which file to download, what its estimate
-    is (live scores are OWNER-REPORT; there is no validated holdout-to-live mapping, so no live
-    estimate is printed for a new file), and whether it is unique against the other registry files.
+    Historical live scores are OWNER-REPORT claims without organizer receipts in this checkout.
+    HOLDOUT-DTI is shown only as an evaluator result; no live-score projection is made.
     """
     au = read("evidence/nine_site_best_files_audit.json") or {}
-    rc = read("evidence/h45_tworegime_run_card.json") or {}
+    status = read("registry/current_status.json") or {}
     if not au.get("sites"):
         return ""
     pairs = au.get("pairwise", [])
     n_pairs = len(pairs)
     n_flag = sum(1 for p in pairs if p.get("duplicate_flag_rho_gt_0_90") or p.get("duplicate_flag_overlap_gt_70pct"))
     rows = []
-    for s_ in au["sites"]:
-        site = s_["site"]
-        fname = Path(s_["file"]).name
-        ref = s_["github_ref"]
-        if site == "GEMSDOE32":
-            link = f"downloads/{fname}"  # table lives in docs/ pages; file is docs/downloads/
-        else:
-            link = f"https://github.com/buffedlizard55-lab/{site}/blob/{ref}/{s_['file']}"
+    for site_row in au["sites"]:
+        site = site_row["site"]
+        fname = Path(site_row["file"]).name
+        ref = site_row["github_ref"]
+        link = (f"downloads/{fname}" if site == "GEMSDOE32" else
+                f"https://github.com/buffedlizard55-lab/{site}/blob/{ref}/{site_row['file']}")
         rows.append(
-            f'<tr><td><b><a href="https://buffedlizard55-lab.github.io/{site}/">{esc(site)}</a></b></td>'
+            f'<tr><td><b><a href="https://buffedlizard55-lab.github.io/{esc(site)}/">{esc(site)}</a></b></td>'
             f'<td><a href="{esc(link)}"><code>{esc(fname)}</code></a><br><span class=mut>leaderboard name: '
-            f'<code>{esc(s_["leaderboard_name"])}</code> &middot; sha256 <code>{esc(s_["sha256"][:16])}&hellip;</code></span></td>'
-            f'<td>{s_["positive_dots"]:,}</td>'
-            f'<td><b>{s_["published_score_OWNER_REPORT"]:.4f}</b> <span class=mut>[OWNER-REPORT]</span></td>'
-            f'<td>No new estimate. Same-family live band 0.2449&ndash;0.2778 [OWNER-REPORT].</td>'
-            f'<td><b style="color:#b00020">NO</b> &mdash; same family as the other 8 (all {n_pairs} pairs flagged, '
-            f'{n_flag}/{n_pairs}; <a href="../evidence/nine_site_best_files_audit.json">audit</a>)</td>'
-            f'<td><b>DO NOT RESUBMIT</b> &mdash; already scored</td></tr>'
+            f'<code>{esc(site_row["leaderboard_name"])}</code> &middot; sha256 <code>{esc(site_row["sha256"][:16])}&hellip;</code></span></td>'
+            f'<td>{site_row["positive_dots"]:,}</td>'
+            f'<td><b>{site_row["published_score_OWNER_REPORT"]:.4f}</b> <span class=mut>[OWNER-REPORT]</span></td>'
+            f'<td>No validated live-score estimate. This historical OWNER-REPORT value is not a forecast.</td>'
+            f'<td><b style="color:#b00020">NO</b> &mdash; same H19-5 thinning/pruning family; '
+            f'{n_flag}/{n_pairs} pairwise comparisons are flagged (&gt;0.90 surface correlation or &gt;70% within 3 px); '
+            f'<a href="../evidence/nine_site_best_files_audit.json">audit</a></td>'
+            f'<td><b>DO NOT RESUBMIT</b> &mdash; already reported/submitted</td></tr>'
         )
-    h45 = ""
-    if rc:
-        arms = rc.get("arms", {})
-        h = arms.get("H45_TWOREGIME_SPLIT", {})
-        hr = h.get("hr", {})
-        sg = h.get("sgmc_cal", {})
-        art = rc.get("artifacts", {})
-        zf = art.get("zeros_tif", {}).get("filename", "")
-        un = rc.get("uniqueness", {})
-        fd = un.get("final_dots", {})
-        verdict = rc.get("release_verdict_fail_closed", "negative")
-        crit = rc.get("criteria", {})
-        fails = [k for k, v in crit.items() if not v]
-        hr_ci = hr.get("ci95_cluster_bootstrap", [0, 0])
-        # Uniqueness is taken from the CURRENT-registry recheck (2026-10-26), not from the run card: the run
-        # card's C5/C6 were computed against an older manifest that did not contain GEMSDOE32's own downloads.
-        rk = read("evidence/h45_uniqueness_recheck_20261026.json") or {}
-        genuine_peers = [r for r in rk.get("flagged_final_dot_peers", []) if "r13-lattice-s5" not in r.get("name", "")]
-        unique_genuine = bool(rk.get("passes_surface_gate") and rk.get("passes_final_dot_gate"))
-        if genuine_peers:
-            gp = genuine_peers[0]
-            peer_txt = (f"&#10060; {gp['cand_dots_within_3px_of_other']*100:.1f}% of its dots lie within 3&nbsp;px of "
-                        f"<code>{esc(Path(gp['name']).name)}</code> (limit 70%)")
+
+    candidate = status.get("newest_unique", {}) or {}
+    file_path = candidate.get("file", "")
+    if file_path:
+        holdout = candidate.get("holdout", {})
+        h46 = holdout.get("H46-1-TRHV-exploratory", {})
+        h38 = holdout.get("prior H38 repo best", {})
+        uniq = candidate.get("uniqueness", {})
+        fname = Path(file_path).name
+        href = file_path.replace("docs/", "", 1) if file_path.startswith("docs/") else file_path
+        ci = h46.get("ci95", [None, None])
+        dti = h46.get("dti")
+        dti_text = (f"HOLDOUT-DTI {dti:.6f} [{ci[0]:.6f}, {ci[1]:.6f}]" if dti is not None and len(ci) == 2
+                    else "HOLDOUT-DTI not recorded")
+        evaluator = candidate.get("holdout_label", "Archived local evaluator result")
+        if h38.get("dti") is not None:
+            comparison = f"; prior H38 point {h38['dti']:.6f} (not paired)"
         else:
-            peer_txt = "no non-lattice peer above 70%"
-        h45 = (
-            f'<tr style="background:#fff7e6"><td><b>NEW: H45-TR two-regime</b><br><span class=mut>GEMSDOE32, this session</span></td>'
-            f'<td><a href="downloads/{esc(zf)}"><code>{esc(zf)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
-            f'<td>{h.get("full_map_dots", 0):,}</td>'
-            f'<td><i>none</i> &mdash; not a score</td>'
-            f'<td>HOLDOUT-DTI {hr.get("pooled_dti", 0):.4f} [{hr_ci[0]:.4f}, {hr_ci[1]:.4f}] '
-            f'(n={hr.get("n_withheld_positives", 0):,}, GEMSDOE32-HIDE-RECOVER-v3.0); off-catalogue SGMC-cal '
-            f'{sg.get("sgmc_prevalence_calibrated_dti", 0):.4f} (off-catalogue diagnostic, not a score)</td>'
-            f'<td><b>{"YES" if unique_genuine else "NO"}</b> vs {int(rk.get("n_targets_checked", 0))} current registry rasters '
-            f'(surface &le;0.90, final dots &le;70%): {peer_txt}. Literal 5-px lattice gate: '
-            f'<b>{"PASS" if fd.get("literal_all_rasters_passed") else "FAIL"}</b></td>'
-            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; verdict <code>{esc(verdict)}</code>; '
-            f'failed: {esc(", ".join(fails) or "none")}; C6 re-check: {"FAIL" if not unique_genuine else "pass"}. '
-            f'Research download only.</td></tr>'
+            comparison = ""
+        literal_overlap = float(uniq.get("literal_lattice_overlap", 0.0))
+        max_rho = float(uniq.get("max_abs_spearman", float("nan")))
+        genuine_overlap = float(uniq.get("max_genuine_3px_overlap", float("nan")))
+        candidate_row = (
+            f'<tr style="background:#fff7e6"><td><b>Current research artifact</b><br><span class=mut>GEMSDOE32 H46-1</span></td>'
+            f'<td><a href="{esc(href)}"><code>{esc(fname)}</code></a><br><span class=mut>SHA-256 <code>{esc(candidate.get("sha256", ""))}</code></span></td>'
+            f'<td>{int(candidate.get("dots", 0)):,}</td>'
+            f'<td><i>None</i> &mdash; not an organizer score</td>'
+            f'<td><b>No validated live-score estimate.</b> {esc(dti_text)}; {esc(evaluator)}{esc(comparison)}. '
+            f'Exploratory diagnostic only, not a leaderboard projection.</td>'
+            f'<td><b style="color:#b00020">NO</b> &mdash; recorded genuine-raster check max |&rho;|={max_rho:.6f}, '
+            f'max overlap={100*genuine_overlap:.3f}%; literal lattice overlap={100*literal_overlap:.3f}% '
+            f'(&gt;70% stop). Full registry gate FAILS.</td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; research/audit only; '
+            f'<a href="../evidence/current_release_review.json">current release decision</a></td></tr>'
         )
+        rows.append(candidate_row)
+
+    leaderboard = status.get("leaderboard_top", {}) or {}
+    lb_text = "No timestamped public leaderboard snapshot is recorded."
+    if leaderboard.get("score") is not None:
+        lb_text = (f"The latest archived public leaderboard read ({esc(leaderboard.get('read_utc', 'timestamp unavailable'))}) "
+                   f"records {esc(leaderboard.get('team', 'the leader'))} at <b>{float(leaderboard['score']):.4f}</b>; "
+                   "this is another participant's public score, not a GEMSDOE32 result or projection.")
     return (
-        '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
-        '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
-        'resubmitting adds no information). The live #1 on the public DrivenData leaderboard read at build time is '
-        '<b>0.4437</b> (see <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a>). '
-        'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
-        'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
-        '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
-        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + '</table>'
-        '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
-        '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
-        '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
-        '<a href="../evidence/nine_site_best_files_audit.json">nine-site audit</a> &middot; '
-        '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a> &middot; '
-        '<a href="research/h45-tworegime-preregistration-20261026.md">H45 preregistration</a>.</p></div>'
+        '<div class=dl><h2>&#128205; Nine focus sites — historical file, reported score, estimate and uniqueness</h2>'
+        '<p><b>Best file to submit today: none.</b> The highest historical focus-site value is '
+        '<b>GEMSDOE32 0.2778 [OWNER-REPORT]</b>, already reported/submitted and not backed here by an organizer receipt '
+        'that binds the score to the exact TIFF hash. Resubmission is not recommended. '
+        + lb_text + ' No validated mapping from local HOLDOUT-DTI to a live score exists, so no leaderboard estimate is shown.</p>'
+        '<table><tr><th>site / candidate</th><th>file to download / inspect</th><th>dots</th><th>historical score</th><th>estimate</th>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + '</table>'
+        '<p class=mut>Historical scores are OWNER-REPORT, not ORGANIZER-CONFIRMED. The nine historical masks are closely related; '
+        f'the audit marks {n_flag}/{n_pairs} pairwise comparisons. H46 uniqueness figures come from its archived run card '
+        'and were not recomputed in this review because the registry rasters are absent. The literal calibration-lattice check '
+        'fails the strict 70% rule. Evidence: <a href="../evidence/nine_site_best_files_audit.json">nine-site audit</a> &middot; '
+        '<a href="../evidence/h46_trhv_run_card.json">H46 run card</a> &middot; '
+        '<a href="../evidence/current_release_review.json">current release review</a>.</p></div>'
     )
-
-
-def focus_sites_block() -> str:
-    """Render byte-audited 9-site historical winners, literal novelty, and this session's H46 negative result."""
-    audit = read("evidence/focus_site_winner_overlap_20261026.json", {}) or {}
-    status = read("registry/current_status.json", {}) or {}
-    winner_rows = audit.get("historical_winners", [])
-    pairwise = audit.get("pairwise_directional_3px_overlap", [])
-    descriptors = {
-        "GEMSDOE24": "H19-5 D1.5 thinning",
-        "GEMSDOE25": "H19-5 D2.8 thinning",
-        "GEMSDOE27": "D1.5 topographic gap-closure",
-        "GEMSDOE28": "H19-5 blind-rung variant",
-        "GEMSDOE30": "D2.8 Poisson off-catalogue mask",
-        "GEMSDOE31": "D2.8 solo / B1 parent",
-        "GEMSDOE32": "D2.8 with B2 catalogue-apron pruning",
-        "GEMSDOE33": "B2 analog tip/step-over addition",
-        "GEMSDOE36": "B2 + 1,200 Anderson/PINN additions",
-    }
-    rows = []
-    for win in winner_rows:
-        repo = win["repo"]
-        peers = [r for r in pairwise if r["candidate_repo"] == repo]
-        worst_peer = max(peers, key=lambda r: r["directional_within_3px_fraction"])
-        pct = 100.0 * worst_peer["directional_within_3px_fraction"]
-        fname = Path(win["file"]).name
-        blob = f"https://github.com/buffedlizard55-lab/{repo}/blob/{win['head']}/{win['file']}"
-        rows.append(
-            f'<tr><td><b><a href="{blob}">{esc(repo)}</a></b><br><small>HEAD {esc(win["head"][:10])}</small></td>'
-            f'<td><a href="{blob}"><code>{esc(fname)}</code></a><br><small>{esc(descriptors.get(repo, ""))}</small></td>'
-            f'<td><b>{float(win["owner_reported_leaderboard_score"]):.4f}</b> <small>OWNER-REPORTED</small></td>'
-            f'<td><b>NO</b> — {pct:.2f}% of this winner’s dots are within 3 px of {esc(worst_peer["reference_repo"])}; '
-            f'all nine winner masks exceed the 70% pairwise stop. {esc("Exact mask duplicate" if repo in {"GEMSDOE25", "GEMSDOE30"} else "Same H19-5 thinning/pruning family")}</td></tr>'
-        )
-
-    candidate = status.get("newest_unique", {})
-    cand_file = Path(candidate.get("file", "")).name
-    cand_href = candidate.get("file", "").replace("docs/", "", 1)
-    h = candidate.get("holdout", {})
-    h46 = h.get("H46-1-TRHV-exploratory", {})
-    h38 = h.get("prior H38 repo best", {})
-    sg = (candidate.get("off_catalogue_instrument", {}).get("H46-1-TRHV-exploratory", {}))
-    sg_champ = (candidate.get("off_catalogue_instrument", {}).get("0.2778 Champion proxy", {}))
-    uniq = candidate.get("uniqueness", {})
-    validator = candidate.get("validator", {})
-    report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
-    candidate_block = f"""<div class=card style="border:2px solid #b91c1c">
-<h3>Current generated file — research/audit download only</h3>
-<p><a class=btn href="{esc(cand_href)}">&#11015; Download {esc(cand_file)}</a>
-&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h46_trhv_run_card.json'))}">H46 run card</a>
-&middot; <a href="{report_link}">three-pass review &amp; nine-site audit</a></p>
-<p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes local format validation, but the scientific/protocol gates fail. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
-<table><tr><th>Metric / status</th><th>Measured result</th><th>Interpretation</th></tr>
-<tr><td>HOLDOUT-DTI — {esc(h46.get('evaluator_version','GEMSDOE32-HIDE-RECOVER-v3.0'))}, {int(h46.get('n_withheld_positives',0)):,} withheld positives, 95% spatial-block CI</td><td><b>{h46.get('dti',float('nan')):.5f} [{h46.get('ci95',[0,0])[0]:.5f}, {h46.get('ci95',[0,0])[1]:.5f}]</b></td><td>Exploratory only. It is below the prior same-evaluator H38 repo best {h38.get('dti',float('nan')):.5f}; no paired H38 bootstrap is archived. Not a leaderboard score estimate.</td></tr>
-<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td>{sg.get('dti',float('nan')):.5f} [{sg.get('ci95',[0,0])[0]:.5f}, {sg.get('ci95',[0,0])[1]:.5f}] vs Champion {sg_champ.get('dti',float('nan')):.5f}</td><td>Paired difference is negative; this auxiliary diagnostic is not a leaderboard score.</td></tr>
-<tr><td>Leakage canary</td><td>63/63 PASS; max AUC 0.586868 &le; 0.90</td><td>Canary pass does not establish scientific improvement.</td></tr>
-<tr><td>Unique vs nine historical winners</td><td>&le; 54.58% within 3 px; surface max |&rho;| 0.166685</td><td>PASS versus those nine winners only.</td></tr>
-<tr><td>Literal full registry</td><td>{100*uniq.get('literal_lattice_overlap',0):.3f}% within 3 px of r13-lattice-s5</td><td><b>FAIL</b> (&gt;70% stop); no calibration-lattice exemption.</td></tr>
-<tr><td>Saved-byte validator</td><td>{'PASS' if validator.get('strict_cli_passed') and validator.get('geotiff_13_checks_passed') else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
-<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> The active prompt did not contain an explicit method paragraph assigning this lane; the run also departed from its frozen allocation/data filters. The point-estimate holdout is below H38 and the literal lattice gate fails. <b>0 weekly slots used.</b></p></div>"""
-
-    min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
-    return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
-<p>Historical submission scores were supplied in the owner prompt / owner project records; no organizer receipt in this checkout binds each exact file hash to its score. They are therefore <b>OWNER-REPORTED</b>, not ORGANIZER-CONFIRMED. The files below are linked to pinned sibling-repository commits and are for historical review, not new uploads. Their exact positive masks, hashes, dot counts, and pairwise 3-px directed overlap were re-read from the pinned GeoTIFFs in <a href="../evidence/focus_site_winner_overlap_20261026.json">this machine receipt</a>.</p>
-{candidate_block}
-<h3>Highest historical submission recorded for each specified site</h3>
-<table><tr><th>Site / pinned HEAD</th><th>Historical winner file (click to inspect exact pinned bytes)</th><th>Reported score</th><th>Unique relative to the other eight site winners?</th></tr>{''.join(rows)}</table>
-<p><b>Lineage result:</b> the lowest directional 3-px overlap among the nine best historical masks is <b>{min_pair:.2f}%</b>, still above the requested 70% stop. GEMSDOE25 and GEMSDOE30 are dot-identical (44,090 dots); GEMSDOE31 is the 40,199-dot B1 parent of GEMSDOE32 B2 (removing 2,545 dots); GEMSDOE36 contains all 37,654 GEMSDOE32 B2 dots plus 1,200. These are one closely related H19-5 thinning/pruning family, not nine independent detector wins.</p>
-<h3>Why GEMSDOE32’s `0.2778` might have led this family — not a causal proof</h3>
-<p>The official distance-weighted Tversky objective with &alpha;=0.2, &beta;=0.8, 300 m triangular kernel penalizes uncredited prediction mass. The byte-verified family sequence is consistent with thinning redundant ribbon mass and pruning predictions near known-catalogue faults, while retaining off-catalogue coverage. The score-to-file values remain OWNER-REPORTED and private truth is unavailable here, so that mechanism is plausible, not proven. The exact metric identity is <code>DTI = T / (0.2(T+S−M)+0.8|G|)</code>; see the [metric implementation](../src/gems32/metric.py) and [DrivenData problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).</p>
-<p><b>Recommendation:</b> no new TIFF is cleared for a weekly slot. The `0.2778` historical claim is already submitted and should not be resubmitted. H46’s <b>HOLDOUT-DTI 0.109361</b> is an evaluator result, not an expected leaderboard score; the artifact is explicitly research-only. Do not translate any holdout value into a projected live score.</p></div>"""
-
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
     lb = fl.get("leaderboard", [])
@@ -764,7 +660,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), current_status_block(""), nine_site_table_block(""), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
+    parts = [nine_site_table_block(""), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -924,7 +820,7 @@ def submission_form_block() -> str:
     var nm = n.value.trim(), nt = c.value;
     document.getElementById('sf-note-count').textContent = nt.length + '/140';
     var msgs = [], ok = true;
-    if (nm.length < 3 || !/^[A-Za-z0-9][A-Za-z0-9 _.\-]*$/.test(nm)) {{ ok = false; msgs.push('name: 3+ characters, letters/digits/space/_/./-'); }}
+    if (nm.length < 3 || !/^[A-Za-z0-9][A-Za-z0-9 _.-]*$/.test(nm)) {{ ok = false; msgs.push('name: 3+ characters, letters/digits/space/_/./-'); }}
     if (prior.indexOf(nm.toLowerCase()) >= 0) {{ ok = false; msgs.push('name already used in this repository (prior submission)'); }}
     if (nt.length > 140) {{ ok = false; msgs.push('comment over 140 characters'); }}
     document.getElementById('sf-name-msg').textContent = nm && prior.indexOf(nm.toLowerCase()) < 0 && ok ? 'name ok' : '';
@@ -953,9 +849,10 @@ def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
                 'spend a weekly slot on any new file from this repository.</b> The steps below are the exact procedure '
                 'for the next file whose automated gates all pass.</p>')
     return f"""<h2 style="margin-top:6px">Make a submission &mdash; executive summary (no upload authorized right now)</h2>
-<p class=mut>Release review: <a href="research/protocol-review-20261026.md">protocol audit</a> &middot;
-<a href="research/repo-review-20261026.md">repository review</a> &middot;
-<a href="../evidence/current_release_review.json">machine-readable decision</a></p>
+<p class=mut>Current reviews: <a href="research/repository-review-20261026-arena-followup.md">three-pass repository/site follow-up</a> &middot;
+<a href="research/h46-results-and-nine-site-executive-summary-20261026.md">H46 science and nine-site review</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="research/protocol-review-20261026.md">archived protocol audit</a></p>
 {current_status_block("")}
 {nine_site_table_block("")}
 {submission_form_block()}
@@ -1026,6 +923,8 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("repository-review-20261026-arena-followup.md",
+     "Three-pass repository/code/site review: fail-closed legacy runner, refreshed release decision, and ranked untested hypotheses"),
     ("h46-results-and-nine-site-executive-summary-20261026.md",
      "H46 exploratory result and nine-site byte audit: no authorized lane, preregistration deviations, "
      "HOLDOUT-DTI below H38, literal lattice stop, and DO NOT SUBMIT"),
@@ -1186,13 +1085,11 @@ def hypotheses_page(fl: dict) -> str:
 <td>{esc(h.get('why_off_catalogue',''))}</td><td>{esc(h.get('differs_from_repo',''))}</td>
 <td>{esc(h.get('expected_dti',''))} · cost {esc(h.get('cost',''))} · data: {esc(h.get('data_status',''))}</td>
 <td>{esc(h.get('status',''))}</td></tr>""" for h in hyp)
-    return f"""<h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
-<p class=mut>Each row names the layers it needs, the physical signature, why it can catch a fault the
-USGS&nbsp;/&nbsp;INGENIOUS catalogue lacks, how it differs from everything the group has already run,
-and its measured status. Nothing is promoted to a submission slot without passing the holdout and
-the slot gate.</p>
+    return f"""<h2 style="margin-top:6px">Registered geological hypotheses</h2>
+<p class=warn><b>Interpretation:</b> any value in the expected-impact column is a preregistered research prior, not a measured HOLDOUT-DTI, organizer score, or leaderboard projection. The current H46 result is exploratory and negative; do not use a hypothesis prior as a score estimate.</p>
+<p class=mut>Each row names its layers, physical signature, missing-catalogue rationale, distinction from prior work, data status and measured status. No candidate is cleared for a submission slot.</p>
 <table><tr><th>#</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
-<th>difference from prior work</th><th>expected / cost / data</th><th>status</th></tr>{rows}</table>
+<th>difference from prior work</th><th>preregistered impact prior (not a score) / cost / data</th><th>status</th></tr>{rows}</table>
 <h2>Promotion rules (preregistered)</h2>
 <ol>
 <li>every hypothesis is registered with its layers, signature, novelty and data status before it is
@@ -1365,8 +1262,6 @@ def main() -> int:
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
 {current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
-<h2>Historical record</h2>
-{arena41_block("docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
 &nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>

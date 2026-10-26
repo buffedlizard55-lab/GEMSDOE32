@@ -253,7 +253,7 @@
    "id": "IR-R6-02",
    "severity": "high",
    "statement": "Former primary geo-conduit (fc4e0e58...) was bannered OK TO SUBMIT while 70.24% of its dots lie within 3px of gems10-h28-dotted-ridge (exceeds 70% lane gate; verified 2026-10-26 from bytes) and its SGMC-cal 0.0462 trails the champion 0.0641. Site simultaneously showed red DO NOT SUBMIT and green OK TO SUBMIT banners.",
-   "mitigation": "GEO-CONDUIT remains demoted and audit-only; R6-1 was later also demoted by IR-R6-05. Current release status is fail-closed DO NOT SUBMIT."
+   "mitigation": "H-GEO-CONDUIT is retired and audit-only. The original promote flag is preserved as historical metadata but withdrawn; the runner is now a no-write fail-closed stub, its fixed +/-0.032 interval is marked invalid, and current release status is negative."
   },
   {
    "id": "IR-R6-03",
@@ -372,9 +372,9 @@
   {
    "id": "IR-32-CONDUIT-01",
    "severity": "high (FIXED 2026-10-26)",
-   "status": "fixed 2026-10-26",
+   "status": "fixed 2026-10-26; legacy runner retired",
    "statement": "PR #17's scripts/run_conduit_pipeline.py (artifact 2d0d0c5e) hardcoded ci95_cluster_bootstrap = [pooled_dti - 0.032, pooled_dti + 0.032] at line 380 instead of computing a cluster bootstrap, trained on only 18 of 19 bands (omitting Band 10 and all external LiDAR/GeoDAWN/GDR layers), exceeded the 70% discrete-detector overlap limit against gems10-h28-dotted-ridge (0.70245 > 0.70) as well as r13-lattice-s5 (0.9990), trailed Champion 0.2778 on SGMC_cal (0.05114 vs 0.06412), yet set verdict='promote' and rendered a green 'OK TO DOWNLOAD AND SUBMIT' block directly beneath PR #16's red 'DO NOT SUBMIT' header on index.html and docs/index.html.",
-   "mitigation": "Replaced hardcoded +-0.032 with genuine 256-block spatial cluster bootstrap in holdout.py, quarantined H-GEO-CONDUIT as negative, and unified README.md + index.html + docs/*.html under a single unambiguous machine-gated verdict banner."
+   "mitigation": "scripts/run_conduit_pipeline.py is now disabled and cannot write a TIFF or shared registry. The superseded run card is reclassified negative and retains the original decision/interval as withdrawn history. A future lane must use the shared fold-local evaluator/writer, compute a real spatial-block CI, and pass all-registry novelty gates."
   },
   {
    "id": "IR-32-CONDUIT-02",

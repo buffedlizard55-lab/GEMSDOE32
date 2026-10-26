@@ -1,11 +1,11 @@
 # GEMSDOE32 — DOE GEMS Prize Research, Validation & Submission System
 
 <!-- SINGLE DECISION: rendered from registry/current_status.json and evidence/current_release_review.json (both must authorize; fail closed). Update those files, never add a second banner. -->
-## 🚦 Current Decision — 2026-10-26 17:55 UTC
+## 🚦 Current Decision — 2026-10-26 20:28 UTC
 
 # 🔴 DO NOT SUBMIT — no upload is authorized (`DOWNLOAD FOR RESEARCH / AUDIT: YES · SUBMIT TO LIVE PORTAL: NO`)
 
-**Latest H46 research artifact:** [`gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif`](docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif) · [single-TIFF ZIP](docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.zip) · [H46 run card](evidence/h46_trhv_run_card.json) · [three-pass review](docs/research/h46-results-and-nine-site-executive-summary-20261026.md). **DOWNLOAD: YES for audit/research only · SUBMIT: NO.** The saved TIFF is format-valid, but the result is exploratory: it fails the literal registry lattice gate, its HOLDOUT-DTI point is below H38's prior repo best, off-catalogue SGMC-cal is below the Champion, the explicit lane paragraph was absent, and the executed settings deviated from pre-registration. The `0.109361` HOLDOUT-DTI below is not a leaderboard prediction.
+**Latest H46 research artifact:** [`gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif`](docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif) · [single-TIFF ZIP](docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.zip) · [H46 run card](evidence/h46_trhv_run_card.json) · [H46 three-pass science review](docs/research/h46-results-and-nine-site-executive-summary-20261026.md) · [current repository follow-up review](docs/research/repository-review-20261026-arena-followup.md). **DOWNLOAD: YES for audit/research only · SUBMIT: NO.** The prior H46 saved-byte receipt reports a format pass, and this review independently re-read the TIFF's band, CRS, shape, finite range, and hash; the sample template is absent, so its exact template comparison was not reproduced. The result is exploratory: it fails the literal registry lattice gate, its HOLDOUT-DTI point is below H38's prior repo best, off-catalogue SGMC-cal is below the Champion, the explicit lane paragraph was absent, and the executed settings deviated from pre-registration. The `0.109361` HOLDOUT-DTI below is not a leaderboard prediction.
 
 **A passing format check is not enough to authorize a competition upload.** Every generated candidate below remains an **audit artifact** unless scientific, leakage, literal-registry uniqueness, and saved-byte gates all pass and the separate weekly-slot selector approves the file.
 
@@ -34,38 +34,28 @@
 
 **Where to look first**
 
-- **Executive summary and nine-site table** (which file to download, its score or estimate, and whether it is unique): [`docs/executive-summary.html`](docs/executive-summary.html). The table is generated from [`evidence/nine_site_best_files_audit.json`](evidence/nine_site_best_files_audit.json) and [`evidence/h45_tworegime_run_card.json`](evidence/h45_tworegime_run_card.json) by `scripts/build_site.py`.
+- **Executive summary and nine-site table** (which file to download, its score or estimate, and whether it is unique): [`docs/executive-summary.html`](docs/executive-summary.html). The table is generated from [`evidence/nine_site_best_files_audit.json`](evidence/nine_site_best_files_audit.json), [`registry/current_status.json`](registry/current_status.json), and the current release review by `scripts/build_site.py`; it labels owner-reported scores and does not project a live score.
 - **Submission form helper** (unique name, comment ≤140 characters, automated checks): on the same page. It fails closed while `registry/current_status.json` has no cleared file.
-- **Official sources:** [problem statement and metric](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) (verified this session: DTI with α=0.2, β=0.8, 300 m triangular kernel; float32 values in [0, 1]; NaN outside bounds; EPSG 32611 at 100 m), [live leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/), [reference solution](https://github.com/drivendataorg/gems-prize-reference-solution).
+- **Official sources:** [problem statement and metric](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) (the repository's most recent source-verification record is dated 2026-10-04; it records DTI with α=0.2, β=0.8, a 300 m triangular kernel, float32 values in [0, 1], NaN outside bounds, and EPSG:32611 at 100 m; not re-fetched in this follow-up), [live leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/), [reference solution](https://github.com/drivendataorg/gems-prize-reference-solution).
 
 ### 0.1 Why the 0.2778 GEMSDOE32 file scored highest (OWNER-REPORT, not verified)
 
 The repo's best-supported explanation is §2.2 above: the B-pruning sequence (solid H19-5 `121,131` → D2.8 `44,090` → B=1 `40,199` → B=2 `37,654` dots) removes predictions near known faults that are excluded from scoring, so false-positive mass falls while coverage is largely kept. §2.3 states what this does not establish. The private truth, the weighted true-positive totals, and any receipt linking the bytes to the score are unavailable. Holdout evidence points the other way on the same file: the champion scores `0.00452` on HIDE-RECOVER-v3.0 (last of the arms in H44) and `0.09920` on the visible-gated evaluator. Those evaluators disagree (`IR-45-EVAL-02`), so no single holdout number supports the 0.2778 result.
 
-### 0.2 Untried geological hypotheses (proposed, ranked by expected gain per cost; none pre-registered yet)
+### 0.2 Unexecuted geological hypotheses (ranked research slate, not a run queue)
 
-"Untried" below means a case-insensitive keyword search of `README.md`, `docs/research`, `evidence`, `scripts` and `src` (2026-10-26) returned no matching experiment. It is a keyword check, not a literature review. Gain and cost are qualitative priors, not projections of any score.
+The current five-item research slate is recorded in [`docs/research/repository-review-20261026-arena-followup.md`](docs/research/repository-review-20261026-arena-followup.md): threshold-persistent 1 m LiDAR scarp topology; signed paired magnetic edges; drainage-reach deflection; acquisition-block-normalized GeoDAWN alteration zoning; and paired InSAR/3-D MT segmentation. Ranking is qualitative only, not a DTI projection. A targeted repository search found no full standalone experiment for these exact tests. The LiDAR topology and drainage/pair-edge ideas overlap prior proposals, so they are unexecuted tests—not claims of scientific novelty. H46-4 and H46-5 are already registered but unrun; the H46-2/3 feature concepts were present in the integrated H46 work and must not be called independently validated or wholly untouched.
 
-| rank | hypothesis | keyword search hits | expected gain (prior) | cost | validation before any slot |
-|---|---|---|---|---|---|
-| 1 | **H46-1 line-density prior:** smooth the density of existing DEM/magnetic lineament segments (segment length per km²) as a multiplicative prior on the crest-submodular emission | `lineament density` / `line density`: 0 | medium-low | low (no new data) | HIDE-RECOVER paired CI vs the EXP2 replica, detached ≥600 m, canary AUC ≤0.90, uniqueness C5/C6 |
-| 2 | **H46-2 Getis-Ord Gi\* hot-spot weighting** of crest candidates (spatial-significance mask instead of raw ridge score) | `Getis` / `Moran`: 0 | medium-low | low-medium | same as H46-1; add the off-catalogue SGMC diagnostic |
-| 3 | **H46-3 wavelet multi-scale ridge** at 1–4 km scales for regional-structure suppression | `wavelet`: 1 mention, not an experiment | medium | medium | same; reject if gain is only inside the ≤600 m detached band |
-| 4 | **H46-4 Bouguer gravity regional-residual** (requires an assumed density; sensitivity needed) | `Bouguer`: 0 | low-medium, uncertain | high (density assumptions; no receipt) | same; treat as diagnostic first |
+No candidate is authorized to run now: the explicit method-lane paragraph is missing, the competition rasters and feature cache are absent, and the H46 three-experiment budget is recorded as consumed. The next action is to restore those prerequisites and receive a new explicit lane/budget, not to infer a method or start another experiment.
 
-Each hypothesis gets a pre-registration, one automated run card, and a 3-experiment, 2-hour budget. A file is promoted to a slot only if its paired holdout CI excludes zero **and** every uniqueness gate passes.
+### 0.3 Current blockers and evidence limits
 
-### 0.3 Remaining work and limitations (this session)
-
-- **Blocking decision (owner):** the literal 5-px lattice rule (C7) cannot be met by a dense map. Dense maps have ~99.7% of their dots within 3 px of `r13-lattice-s5`, including the champion. Choose either an exemption for documented calibration probes, or the literal rule (no 37,654-dot file can then pass). See `IR-45-LATTICE-02`.
-- **Lane:** the protocol's lane paragraph is missing from the prompt, so the lane is provisional (`IR-45-LANE-01`).
-- **Evaluator conflict:** HIDE-RECOVER-v3.0 and HOLDOUT-v3-visible-gated disagree on the champion (`IR-45-EVAL-02`). One canonical instrument is needed before promotion decisions.
-- **H45 card label:** the card names the wrong evaluator; numbers are HIDE-RECOVER (`IR-45-CARD-03`; script fixed, card not regenerated).
-- **Uniqueness family:** all 36 pairs among the nine site-best files exceed the 70% rule. Treat them as one family (`IR-45-FAMILY-01`).
-- **H45-TR is a duplicate:** 85.0% of its dots lie within 3 px of H44-1 (`IR-45-UNIQ-07`). Its earlier uniqueness pass is withdrawn. Any scan that omits GEMSDOE32's own `docs/downloads` files is incomplete.
-- **Site generators:** `build_docs.py` and `build_site.py` overlap; `focus_sites_block()` is hand-typed (`IR-45-SITE-04`).
-- **No organizer confirmation** exists for any historical score; all of them are OWNER-REPORT.
-- **Not done:** the four H46 hypotheses above have no experiments yet. H45 is negative, so no run is queued.
+- **Lane and experiment budget:** no explicit single-method lane paragraph is present; H46 recorded all three experiments used. No new run is authorized by this review.
+- **Data/cache:** `training_features.tif`, labels, sample template, and the cached feature stack are absent from this checkout. The H46 saved-byte format read was reproduced, but template alignment and registry uniqueness were not re-run.
+- **Current H46 gates:** the archived `HOLDOUT-DTI` point is below H38's same-evaluator point (no paired H38 interval); SGMC-cal is below the Champion proxy; the H46 result deviated from preregistration; literal 3-px overlap with the calibration lattice is 99.267%, above the 70% threshold. No exemption is applied.
+- **Historical lineage:** the nine site-best masks are a closely related H19-5 thinning/pruning family; their scores remain OWNER-REPORT without a receipt linking each score to exact bytes.
+- **External data:** repository source links are references, not evidence that an official endpoint was reachable or a dataset obtainable in this sandbox. See the follow-up review for per-candidate blockers and source URLs.
+- **Site generation:** `scripts/build_site.py` is the active generator. The duplicate `focus_sites_block()` and retired Arena41 banner were removed; the current H46 row and research-only decision are source-driven.
 
 ---
 
@@ -88,7 +78,7 @@ Each hypothesis gets a pre-registration, one automated run card, and a 3-experim
 | **[GEMSDOE28](https://github.com/buffedlizard55-lab/GEMSDOE28/tree/348ff086e29b9c48bb7104daacb647af31a184bf)** `348ff086` | `h36-1-rung30`, `0.2710`; H19-5 pruning lineage | `S20-NCHC` `HOLDOUT-DTI 0.131263 [0.120346,0.141838]`, below same-run baseline `0.144433` | **NO** |
 | **[GEMSDOE30](https://github.com/buffedlizard55-lab/GEMSDOE30/tree/73db382d3c990d0aa0b5126997a67213cc56dee4)** `73db382d` | `d28-poisson300m-offcat`, `0.2600`; duplicate of GEMSDOE25 | Latest `FFL-1` is duplicate-stopped; TAD paired CI crossed zero | **NO** |
 | **[GEMSDOE31](https://github.com/buffedlizard55-lab/GEMSDOE31/tree/e6e85b357914068b3ba57ace0f899dde13f110a6)** `e6e85b35` | `h27-4-solo-d28`, `0.2708`; duplicate of GEMSDOE28 | Current `H31-S UDAP-SSLIC` is research-only and lattice-duplicate | **NO** |
-| **[GEMSDOE32](https://github.com/buffedlizard55-lab/GEMSDOE32/tree/6eed0e2)** `6eed0e2` | **`h33-h33-2-b2`, `0.2778` (`OWNER-REPORT`) — portfolio best** | `H44-1 SPCP` (`38f7995a`, `SGMC-cal = 0.07774`, `HR = 0.06984`) and `Arena9` (`4f7aba9b`, `HR = 0.05791`) are content-new (`42.8%` mutual 3-px overlap) but primary-holdout inferior and `99.4–99.7%` lattice-overlapping | **NO; do not resubmit Champion** |
+| **[GEMSDOE32](https://github.com/buffedlizard55-lab/GEMSDOE32/tree/6eed0e2)** `6eed0e2` | **`h33-h33-2-b2`, `0.2778` (`OWNER-REPORT`) — portfolio best; no organizer receipt binds the exact hash** | H46-1 latest audit artifact: `HOLDOUT-DTI 0.109361 [0.094695,0.122341]` (22,232; exploratory, not a score estimate), below H38 point `0.116958`; literal lattice overlap `99.267%`; lane unresolved and preregistration deviations. Full decision: [`evidence/current_release_review.json`](evidence/current_release_review.json). | **NO — submit none; do not resubmit Champion** |
 | **[GEMSDOE33](https://github.com/buffedlizard55-lab/GEMSDOE33/tree/565d663a9c6b5a68f405277d684a12be8dd8ae26)** `565d663a` | `h33d-analog-tip-stepover`, `0.2632` | `A33-R3-LLC` tied/trailed CSHT on confirmation; paired CIs cross zero and selector finds 0 eligible | **NO** |
 | **[GEMSDOE36](https://github.com/buffedlizard55-lab/GEMSDOE36/tree/4aa901be69307ea69c2a6fa0872135d6697e1d7a)** `4aa901be` | `anderson-geothermal-pinn`, `0.2750`; Champion + 1,200 costly dots | `MTO-36` `HOLDOUT-DTI 0.067611 [0.058449,0.077867]`; paired CI crosses zero and lattice overlap reaches `100%` | **NO** |
 
@@ -244,10 +234,13 @@ Pre-registration frozen prior to code execution: [`docs/research/h44-spcp-prereg
 | **Hydrothermal smectite–illite clay cap lateral fault seals** | Sharp lateral gradient of `Band 17` (`cond_surf`) residualized against quadratic `(det_elev, log1p(depth_to_base), det_elev_slope)` | Closed-basin evaporative saline playas & deep conductive clay-rich depocenters | Quadratic elevation/depth nuisance regression strips horizontal basin-floor brine sheets before taking $|\nabla_h r_{\text{MT}}|$ | [DrivenData Problem Spec](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) · [INGENIOUS GBCGE](https://gbcge.org/current-projects/ingenious/) |
 | **Sub-meter Holocene piedmont fault scarplets (`<1 m` vertical throw)** | `Band 12` `valid`-routed 1 m 3DEP LiDAR Laplacian dipole `step_max * sqrt(lapneg*lappos)` $\times$ facing asymmetry $\times \sin^2(\theta_{\text{scarp}} - \theta_{\text{contour}})$ | Pleistocene Lake Lahontan horizontal wave-cut shoreline benches (`~1,270–1,338 m`) & two-bank incised washes | Contour-orthogonality $\sin^2\Delta\theta$ zeroes topographic-contour-parallel shorelines; facing asymmetry zeroes symmetric stream channels | [USGS 3DEP 1m DEM](https://www.usgs.gov/3d-elevation-program) · [USGS QFaults](https://www.usgs.gov/natural-hazards/earthquake-hazards/faults) |
 
-### 8.4 Remaining Limitations & Concrete High-Leverage Next Suggestions
-1. **Two-Regime Split-Budget Allocation (Immediate CPU Follow-Up):** Combine `EXP2`/`H38-G1` high-precision exposed range-front scarp continuations (`~65%` of the `37,654` dot budget where $\tilde{e}(z) \ge 0.5$) with `EXP3_H44_SARPU_SPCP` blind-basin curvature/conduit crests (`~35%` of budget where $\tilde{e}(z) < 0.5$) to jointly win on **both** `GEMSDOE32-HIDE-RECOVER-v3.0` and `GEMSDOE32-SGMC-CAL-v3.0`.
-2. **GPU 2D Spatial Segmentation (`H44-5`):** Train a `256×256`-patch SegFormer/U-Net on the 55-channel `template + SPCP` stack using smooth Distance-Buffered Tversky loss ($\alpha=0.2, \beta=0.8$) weighted by `SAR-PU` propensity $\hat{e}(z)$ (without `drivendataorg/gems-prize-reference-solution` Cell 12 positive-tile filtering).
-3. **Literal Calibration-Lattice Registry Metadata (`IR-42-UNIQ-01`):** Separate synthetic mathematical covering grids (`13gems r13-lattice-s5`) from candidate submission rasters via an explicit manifest `role: "calibration_probe"` schema update approved across all 9 repos.
+### 8.4 Remaining Limitations & Next Permitted Work
+
+1. **No experiment is queued or authorized.** The supplied prompt has no explicit single-method lane paragraph; H46 used the recorded three-experiment cap. Wait for a new explicit lane and budget before choosing among the ranked, unexecuted tests in the follow-up review.
+2. **Restore the actual inputs first.** The competition rasters and cached feature stack are absent in this checkout. Do not build a private fork or create a TIFF by copying/re-encoding an existing raster.
+3. **Retain the literal novelty rule.** The 5-px calibration lattice is part of the stated registry rule in this review; do not silently exclude it. A candidate that breaches Spearman >0.90 or >70% 3-px overlap against any registry raster is logged and stopped.
+4. **Do not treat a holdout value as a live score.** Keep the historical `0.2778` claim labelled OWNER-REPORT unless an organizer receipt binds it to the saved bytes; keep any future local result labelled HOLDOUT-DTI with evaluator/version/count/CI.
+5. **Keep the current release closed.** No candidate is upload-authorized and no weekly slot was used. Slot selection, if a future candidate passes, remains a separate selector action.
 
 ---
 
@@ -305,9 +298,10 @@ Parallel-run protocol — follow strictly:
 
 ## H46-1 TRHV three-pass review (2026-10-26)
 
-**Download for audit: YES · Submit to DrivenData: NO.** The unique H46 GeoTIFF passes the local format checker, but its run is exploratory only: the explicit lane paragraph was absent, its settings diverged from the frozen plan, the primary `HOLDOUT-DTI` point `0.109361` is below the prior H38 result `0.116958` on the same evaluator, SGMC-cal is below the Champion, and literal full-registry novelty is stopped by `99.267%` overlap with `r13-lattice-s5`. **No weekly slot was used.**
+**Download for audit: YES · Submit to DrivenData: NO.** The H46 GeoTIFF is hash-new and format-valid, but not protocol-unique under the literal all-registry rule; its run is exploratory only: the explicit lane paragraph was absent, its settings diverged from the frozen plan, the primary `HOLDOUT-DTI` point `0.109361` is below the prior H38 result `0.116958` on the same evaluator, SGMC-cal is below the Champion, and literal full-registry novelty is stopped by `99.267%` overlap with `r13-lattice-s5`. **No weekly slot was used.**
 
-- [Three-pass PhD-level review and nine-site executive summary](docs/research/h46-results-and-nine-site-executive-summary-20261026.md)
+- [Three-pass H46 scientific review and nine-site executive summary](docs/research/h46-results-and-nine-site-executive-summary-20261026.md)
+- [Current three-pass repository/code/site follow-up review](docs/research/repository-review-20261026-arena-followup.md)
 - [Frozen H46 hypothesis slate and experimental protocol, including amendment/deviation notes](docs/research/h46-trhv-preregistration-20261026.md)
 - [H46 machine run card](evidence/h46_trhv_run_card.json) · [HOLDOUT-DTI arms](evidence/h46_trhv_experiments.json) · [static evaluator receipt](evidence/h46_trhv_static_evaluator_receipt.json)
 - [Pinned-byte overlap audit of all nine historical winners](evidence/focus_site_winner_overlap_20261026.json)

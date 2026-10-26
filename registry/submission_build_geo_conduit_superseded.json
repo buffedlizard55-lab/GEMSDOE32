@@ -1,7 +1,7 @@
 {
  "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
- "note": "GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]",
- "status_line": "PRIMARY = GEMSDOE32-GEO-CONDUIT-2D0D0C5E (20261025T2): Geothermal Dilational Conduit & Step-Over Bridge, 37654 dots, 0 on catalogue, B=2 exclusion, HOLDOUT-DTI 0.0461, SGMC-cal 0.0462. OK TO DOWNLOAD AND SUBMIT.",
+ "note": "Legacy GEO-CONDUIT 37654d B2 | HOLDOUT-DTI v2 0.0461; SGMC-cal 0.0462 | research only; DO NOT SUBMIT",
+ "status_line": "HISTORICAL RESEARCH/AUDIT ARTIFACT ONLY \u2014 DO NOT SUBMIT; legacy novelty and SGMC gates failed; purported CI withdrawn.",
  "file": {
   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
   "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
@@ -21,8 +21,8 @@
  "candidate_id": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E",
  "tier": 1,
  "hypothesis": "H-GEO-CONDUIT",
- "verdict": "promote",
- "ok_to_submit": true,
+ "verdict": "negative",
+ "ok_to_submit": false,
  "on_catalogue_pixels": 0,
  "catalogue_hidden_mean": 0.007448772962276978,
  "drift_corrected_holdout_mean": 0.046094324290325346,
@@ -30,7 +30,7 @@
  "anchor": {
   "role": "ANCHOR -- champion comparison",
   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
-  "note": "0.2778 scored champion (already submitted; do not resubmit)"
+  "note": "0.2778 OWNER-REPORT champion (already submitted; no receipt in this checkout; do not resubmit)"
  },
  "pack": [
   {
@@ -47,7 +47,14 @@
    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
    "bytes": 219065,
    "positive_px": 37654,
-   "note": "0.2778 OWNER-REPORT (for comparison/study only; no receipt in checkout)"
+   "note": "0.2778 OWNER-REPORT only; no organizer receipt in this checkout; comparison only."
   }
- ]
+ ],
+ "historical_decision": {
+  "verdict": "promote",
+  "ok_to_submit": true,
+  "withdrawn_utc": "2026-10-26T20:24:05Z",
+  "reason": "The prior promote flag contradicted the recorded novelty/SGMC gates and is withdrawn."
+ },
+ "ok_to_download_for_audit": true
 }
