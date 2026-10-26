@@ -1,9 +1,11 @@
-# Round-5 hypotheses — written 2026-10-25 BEFORE any round-5 candidate was built
+# Round-5 hypotheses — archived plan from 2026-10-25
+
+> **Correction, 2026-10-26:** portfolio scores are OWNER-REPORT. Hidden-credit estimates, hidden-truth inversions, and the model-based B=3 score interval in the historical forensic section were not independently verifiable and are withdrawn after the metric-algebra correction. The scalar `k > 0.2·DTI` is only the isolated, previously-uncovered-pixel case; it cannot classify arbitrary additions. This is not a current lane assignment or release authorization; current decision is **DO NOT SUBMIT**.
 
 **Session lane (parallel-run protocol).** This session's single method is **H-CVF2** below. Every
 other hypothesis is documented, ranked, and explicitly *not* built here, either because it belongs
 to another lane, because it is data-blocked, or because it cannot be validated locally. Numbers are
-labelled **[ORGANIZER-CONFIRMED]** (owner-reported from the DrivenData submission page),
+labelled **[OWNER-REPORT]** (recorded by the owner; no receipt is stored here),
 **[HOLDOUT-DTI]** (local proxy, evaluator `src/gems32/holdout.py`), or **[MODEL]** (algebra).
 
 ## 0. What the forensic measurements established first (2026-10-25, this session)
@@ -14,12 +16,11 @@ All measured from the bytes on disk (`evidence/registry_overlap.json`, reproduce
 1. **The group's whole top cluster is one nested family.** Dot sets satisfy
    `champion (37,654) ⊂ solo (40,199) ⊂ d2.8 (44,090) ⊂ H19-5 (121,131)` exactly, and
    `champion == solo & (dist_to_catalogue > 2 px)` **exactly** (2,545 dots removed, all within
-   200 m of the catalogue). Every live improvement in the family came from *removing* dots from
-   one belief field: 0.1922 → 0.2600 → 0.2708 → **0.2778 [ORGANIZER-CONFIRMED]**.
+   200 m of the catalogue). The owner-reported score sequence is consistent with gains from *removing* dots from
+   one belief field: 0.1922 → 0.2600 → 0.2708 → **0.2778 [OWNER-REPORT]**.
 2. **The GEMSDOE36 "Anderson PINN" (0.2750) is not an independent method at the dot level**: its
    38,854 dots *contain all 37,654 champion dots* (Jaccard 0.969). Its +1,200 extra dots scored
-   **−0.0028** — a direct live measurement that marginal dots near the champion's own lineaments
-   are below the metric's break-even credit `k > α·DTI = 0.0556` at DTI 0.2778.
+   **−0.0028** in the owner-reported score difference; if the archived file identities and scores are correct, the larger raster performed worse. This does not identify the hidden credit of each extra dot or prove the per-pixel break-even condition.
 3. **GEMSDOE30's `d28-poisson300m` and GEMSDOE25's `dotted-h19-5-d2-8` are the identical dot set**
    (44,090; symmetric difference 0) — and both are reported 0.2600, consistent with a
    deterministic scorer on dot sets.
@@ -28,21 +29,15 @@ All measured from the bytes on disk (`evidence/registry_overlap.json`, reproduce
    same lineament network is a legal new lane* — a new lane must place ≥ 30 % of its mass on
    different structures. That is the protocol working as intended.
 
-**Why the champion won (mechanism, [MODEL] on [ORGANIZER-CONFIRMED] points).** The scorer masks
-known faults; mass within 200 m of the catalogue almost never earns (the 2,545 removed dots
-implied ≈ 0.006–0.016 credit/dot under the `(★)` inversion at |G| ∈ [7,905, 12,691], vs the
-0.0556 break-even bar) but always pays α = 0.2 in the denominator. B = 2 was the first emission
-with **zero** dots inside 200 m. The gain (+0.0070 over B = 1) is denominator thrift, not new
-geology — which is also why it is nearly exhausted: the next annulus (200–300 m) can still earn
-partial kernel credit, so B = 3 is a coin-flip worth ≤ +0.009 (see H-F3).
+**Possible mechanism, not causal proof.** If some near-catalogue predictions receive little hidden-truth credit while increasing false-positive mass, pruning them could improve DTI. The record has no private truth or organizer receipt to estimate per-dot credit, infer hidden-truth mass, or attribute the reported score difference to B=2. The 200–300 m annulus and B=3 effect are not identified by the archived score ladder.
 
 ## 1. The five candidates, ranked by expected DTI gain ÷ implementation cost
 
 | rank | id | layers / inputs | physical signature targeted | why it should catch faults the catalogue lacks | how it differs from everything in this repo | cost |
 |---|---|---|---|---|---|---|
 | 1 | **H-CVF2 — spatially-CV 35-channel GBM field, emitted under the champion's proven emission law** | the 19 official bands via `src/gems32/features.py` (bands 12 `det_elev`, 14 `tmi`, 2 `rtp`, 13 `iso_grav_anom`, 17 `cond_surf`, 15 `depth_to_base_surf` drive the derived channels) | line-shaped discontinuities *jointly* in topography and potential fields: Hessian ridge response of detrended elevation at σ = 1/2/3.5 px, Gaussian-Laplace curvature, white top-hat scarp step, gradient magnitudes of magnetic/gravity/conductivity/depth-to-basement, structure-tensor coherence — ranked by a per-pixel gradient-boosted classifier trained with 4-quadrant spatial CV | supervision comes from catalogue pixels, but the *ranking* generalises by appearance: a buried or unmapped fault with the same joint topo+potential-field line signature scores high even where no fault is mapped; the B = 2 gate then forbids spending mass where the field is merely re-describing the catalogue | the field family exists in the repo ("Candidate A") but its only artifact was **quarantined** (14.8 % of dots on-catalogue) and never submitted, and its emission was a plain top-n threshold. H-CVF2 is the first emission of this field with (i) zero dots within 200 m of the catalogue, (ii) exact lazy-greedy 300 m-kernel maximum-coverage spacing (`src/gems32/emitter.py`), (iii) the champion's exact 37,654-dot budget. The champion's own field is a hand-built multiline-corroboration surface emitted by raster-order thinning — different ranking, different placement rule | low–medium (all code exists; ~1 h CPU) |
-| 2 | **H-SUP-SGMC — same stack, SGMC-augmented supervision** | 19 bands + USGS SGMC fault raster (local, hash-pinned) | same transforms; classifier positives = catalogue ∪ SGMC-off-catalogue pixels | SGMC is pre-Quaternary-inclusive: it contains real faults the Quaternary catalogue omits (61,664 px beyond 300 m of the catalogue, measured `evidence/h60_2_catalogue_difference.json`). Learning their *appearance* (not tracing their coarse pixels) targets a population no group field has aimed at | no artifact in the group has used SGMC as *supervision*; the two live SGMC attempts traced SGMC pixels directly and failed (0.0512, 0.0492 [ORGANIZER-CONFIRMED]) — a positional-accuracy failure, not evidence about appearance learning. **Designated fallback if H-CVF2 fails the lane-uniqueness gate** | medium |
-| 3 | **H-F3 — B = 3 flank prune of the champion** | champion raster + catalogue | none (emission geometry only) | removes the 2,171 champion dots at 200–300 m from the catalogue; helps iff their mean credit < 0.0556 ([MODEL] breakeven; the 100–200 m annulus measured ≈ 0.006–0.016, but credit should rise with distance) | **REJECTED for this session**: a strict subset of the champion → 100 % of dots within 3 px of a registry raster → lane violation by construction. It is the incumbent lane's cheapest next experiment and is handed to the selector quantified: expected live Δ ∈ [−0.002, +0.009] | trivial |
+| 2 | **H-SUP-SGMC — same stack, SGMC-augmented supervision** | 19 bands + USGS SGMC fault raster (local, hash-pinned) | same transforms; classifier positives = catalogue ∪ SGMC-off-catalogue pixels | SGMC is pre-Quaternary-inclusive: it contains real faults the Quaternary catalogue omits (61,664 px beyond 300 m of the catalogue, measured `evidence/h60_2_catalogue_difference.json`). Learning their *appearance* (not tracing their coarse pixels) targets a population no group field has aimed at | no artifact in the group has used SGMC as *supervision*; the two live SGMC attempts traced SGMC pixels directly and failed (0.0512, 0.0492 [OWNER-REPORT]) — a positional-accuracy failure, not evidence about appearance learning. **Designated fallback if H-CVF2 fails the lane-uniqueness gate** | medium |
+| 3 | **H-F3 — B = 3 flank prune of the champion** | champion raster + catalogue | none (emission geometry only) | removes the 2,171 champion dots at 200–300 m from the catalogue; would help only if the actual marginal TP/FP/FN condition is positive; no hidden-credit estimate is available | **REJECTED for this session**: a strict subset of the champion → 100 % of dots within 3 px of a registry raster → lane violation by construction. It is the incumbent lane's cheapest next experiment and is handed to the selector quantified: historical model interval withdrawn; no live Δ is established | trivial |
 | 4 | **H-F4 — relocated-seismicity lineaments (ex-H33-E)** | raw USGS FDSN event catalogue (ComCat), free & official: <https://earthquake.usgs.gov/fdsnws/event/1/> | linear clusters of microseismicity (fault-plane illumination) not present in the smoothed `ieq_n100a15`/`deq_n100a15` bands (measured autocorrelation 0.9986 @ 1 km — no fault-scale information) | active faults creep/seismically slip whether or not they are mapped; the 2020 Mw 6.5 Monte Cristo rupture inside the footprint ran on largely unmapped segments | never built: every seismic attempt used the two smoothed bands. **DATA-BLOCKED in this sandbox**: `earthquake.usgs.gov` returns HTTP 000 (re-verified 2026-10-25); the ready fetcher is `scripts/fetch_earthquake_catalog.sh`. Not claimed viable until fetched | high |
 | 5 | **H-F5 — soft-valued kernel-matched emission** | any belief field | emit values ∝ expected kernel credit instead of binary dots | if the scorer integrates `p(x)·k` (as the published formula states), fractional mass on uncertain pixels dominates binary all-or-nothing placement | **NOT VALIDATABLE this session**: the identification probe S2 (λ = 0.5 scaling) that would reveal the scorer's value semantics has no reported score. Shipping soft values blind risks a thresholded scorer reading them as ~0 or as full mass. Documented, not built | low (but unvalidatable) |
 
@@ -94,7 +89,7 @@ SGMC prevalence-calibrated DTI 0.05876 vs champion 0.06412 (SGMC coverage 8.19 %
 identical mass). **Verdict under the frozen gates: negative.** That verdict stands; nothing
 below re-opens it.
 
-One by-product outranks the candidate: with the new [ORGANIZER-CONFIRMED] points, the
+One by-product outranks the candidate: with the new [OWNER-REPORT] points, the
 `catalogue_hidden` instrument is now *provably perverse for B-gated emissions*. It scores the
 live order **backwards**: live champion (B = 2) 0.2778 > solo (B = 1) 0.2708 > d2.8 (B = 0)
 0.2600, but catalogue-hidden gives 0.00460 < 0.03104 < 0.09832. Mechanism: the instrument

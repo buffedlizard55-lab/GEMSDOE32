@@ -1,7 +1,8 @@
 # Highest-score study: why the 0.2600 dotted file is shaped that way, whether >0.26 is reachable, and the system most likely to beat 0.3195
 
-**Date:** 2026-10-03 · **Author:** Arena session 30 · **Status:** analysis + one registered experiment,
-no new submission slot requested.
+**Date:** 2026-10-03 · **Author:** Arena session 30 · **Status:** historical analysis; superseded where noted below.
+
+> **2026-10-26 mathematical/provenance correction:** this historical note uses an incorrect isolated-pixel threshold `alpha*s/(1-alpha*s)` and extrapolates hidden-truth mass/recall from owner-model assumptions. The exact isolated, previously-uncovered-pixel threshold is `alpha*s`; arbitrary partially-covered additions require the full marginal `ΔTP/ΔFP/ΔFN` condition. None of the old hidden-truth/recall estimates is organizer-verified. Current public #1 is `0.4437` (`xiaofanhu`) on the official leaderboard as read 2026-10-26; `0.3195` is an early-October historical score. See [`evidence/live_leaderboard_snapshot_20261026.json`](../../evidence/live_leaderboard_snapshot_20261026.json) and `src/gems32/metric.py`.
 
 Evidence labels are used throughout, because nothing here is an organizer-confirmed score:
 
@@ -33,12 +34,7 @@ Evidence labels are used throughout, because nothing here is an organizer-confir
    before scoring. This is the measured explanation for the failed 30-arm catalogue-gap factorial
    [OWNER-REPORT] and for the repository's own standing rule that catalogue holdouts are a
    *necessary* sanity frame, never a promotion frame.
-3. **Is >0.26 achievable?** Yes, and the requirement is arithmetic, not speculative. At
-   `s = 0.3195` a dot pays for itself iff its kernel credit exceeds `0.2s/(1−0.2s) = 0.0683`, i.e.
-   iff it lands within ≈ 280 m of a scored truth pixel, and with the owner-model hidden mass
-   `N̂ ≈ 12,691 px` [MODEL] the leader's statistics need `T = 3,466 + 0.0683·F` — between roughly
-   **one dot in eight and one dot in five landing within 300 m of a hidden fault**, or a weighted
-   coverage of **27 % of the hidden truth at zero false-positive mass, 34 % at parity**.
+3. **Is >0.26 achievable?** The owner-reported ladder does not identify hidden-truth mass, weighted TP, FP, or recall, so this note cannot supply an exact coverage requirement or score forecast. For an idealized added pixel that raises an otherwise-uncovered truth pixel by its full kernel weight `k`, the break-even is `k > alpha*s` (see §1 and the correction above). Actual additions to a partially covered field must be evaluated from their marginal components; a public score is not a substitute for a valid spatial holdout or organizer receipt.
 4. **What the project's own measurements say about the gap.** In the same-frame, leave-one-fold-out
    comparison registered and run this session, an exact marginal-credit emitter (EDGE) beat every
    belief-ordered emission family on all three belief fields, by **+0.049** (proximity), **+0.018**
@@ -75,17 +71,18 @@ probability map is *strictly dominated by its own thresholded support*. Every co
 must be a binary 0/1 dot raster. The repository's download set already respects this: the OOF GBM
 file's unique positive value is exactly `{1.0}` [MEASURED].
 
-**(ii) The marginal-inclusion rule.** Adding a dot of credit `k` raises `T` by `k` and the denominator
-by `α`, so it pays iff
+**(ii) The isolated marginal-inclusion rule.** For an added binary pixel that raises an otherwise-uncovered truth pixel by its full kernel weight `k`, the denominator increases by `α`, so it improves DTI iff
 
 ```
-k > alpha*s / (1 - alpha*s),        s = current index.                            (2)
+k > alpha*s,        s = current index.                                           (2)
 ```
 
-| `s` | 0.10 | 0.20 | 0.26 | **0.3195** | 0.40 |
+| `s` | 0.10 | 0.20 | 0.26 | 0.3195 (historical) | 0.40 |
 | --- | --- | --- | --- | --- | --- |
-| required credit `k` | 0.0204 | 0.0417 | 0.0549 | **0.0683** | 0.0870 |
-| implied maximum distance for a dot to pay | 294 m | 288 m | 284 m | **280 m** | 274 m |
+| idealized required credit `k` | 0.0200 | 0.0400 | 0.0520 | 0.0639 | 0.0800 |
+| corresponding distance boundary | 294 m | 288 m | 284 m | 281 m | 276 m |
+
+For a general partial-coverage addition, compute actual `ΔTP`, `ΔFP`, `ΔFN` and apply `ΔTP·D > TP·(ΔTP + αΔFP + βΔFN)`; do not use (2) as a universal per-pixel gate.
 
 A dot at distance `d` from the nearest scored truth carries `k = 1 − d/300 m`. **Credit is nearly
 free anywhere inside the kernel and worthless outside it**; the metric is a *distance* filter, not a

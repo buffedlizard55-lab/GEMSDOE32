@@ -1,19 +1,22 @@
 """Emitters: how a detector field becomes a legal 0/1 prediction raster.
 
-The decision rule is analytic.  With ``D = 0.2 (T + S - M) + 0.8 K`` (see ``metric.py``), adding
-one unit of prediction mass at a pixel changes ``D`` by exactly 0.2, so
+The official metric is ``DTI = TP / (TP + alpha*FP + beta*FN)``. For an added binary pixel whose
+entire kernel credit ``k`` improves an otherwise-uncovered truth pixel, ``delta_TP=k``,
+``delta_FP=1-k`` and ``delta_FN=-k``. Since ``1-beta=alpha``, the denominator changes by alpha and
+the exact isolated-pixel break-even is ``k > alpha*DTI`` (0.05556 at score 0.2778).
 
-    dDTI > 0  <=>  dT > 0.2 * dS * DTI  <=>  credit per unit mass  >  0.2 * DTI .
+That scalar is an idealized special case, not a universal threshold for an arbitrary candidate in a
+partially covered field. In general, score improvement depends on the actual marginal TP/FP/FN:
+``delta_TP * D > TP * (delta_TP + alpha*delta_FP + beta*delta_FN)``. Existing coverage can make
+``delta_TP`` smaller than the candidate's kernel weight. The hidden truth is unavailable during
+model selection, so code using ``alpha*DTI`` is a decision heuristic, never a projected leaderboard
+score. See ``metric.marginal_inclusion_threshold`` for the qualified derivation and
+``tests/test_metric.py`` for exact scoring checks.
 
-Let ``c* = 0.2 * DTI`` be the **credit bar**.  It is 0.052 at the group's claimed best (0.26) and
-0.065 at the current public leaderboard #1 (0.3262).  Every emitter below is a way of estimating
-the left-hand side without the hidden labels.  Two structural consequences drive the design:
-
-* mass that is *not* the best covering pixel of some hidden truth pixel is pure cost, so
-  duplicates must be pruned -- this is why dotting a thick surface helps;
-* a single pixel can be the best cover for several truth pixels (a fault network is 1 px wide,
-  so a pixel on a straight trace can serve 3-5 truth pixels at once), so credit is *not*
-  proportional to the number of emitted pixels; only the greedy/marginal view is correct.
+A single pixel can be the best cover for several truth pixels (a fault network is 1 px wide, so a
+pixel on a straight trace can serve 3-5 truth pixels at once); credit is therefore not proportional
+to the number of emitted pixels, and the greedy/marginal view is more informative than raw field
+mass.
 """
 from __future__ import annotations
 

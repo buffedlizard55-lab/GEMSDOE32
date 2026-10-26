@@ -1,4 +1,6 @@
-# Round-2 candidate hypotheses — five things we have not tried, ranked
+# Round-2 candidate hypotheses — archived historical plan
+
+> **Historical-only note (corrected 2026-10-26):** the experiments, leaderboard values, data assumptions, and slot recommendations below are not current authorization. The metric rank expression below has been corrected; the isolated-pixel `k > 0.2·DTI` rule is only a special case, not a universal inclusion rule. No score projection or old holdout result in this 2026-10-04 plan can authorize a new submission. Current release is **DO NOT SUBMIT**; see [current repository review](repo-review-20261026.md).
 
 **Date:** 2026-10-04 · **Supersedes the ranking in** `registry/hypotheses.json` (H60-1…H60-5 are kept
 and re-ranked below) · **Machine-readable:** `registry/hypotheses.json`
@@ -23,13 +25,11 @@ These four measurements decide which hypotheses can possibly matter. They are es
 them.
 
 1. **The metric rewards coverage of the hidden faults and nothing else, subject to wasted mass.**
-   `1/DTI = 0.2 + 0.2·(F/T) + 0.8·(K/T)` — verified to 1e-15. The leaderboard ranks `T/(0.2F+0.8K)`.
+   `1/DTI = 0.2 + 0.2·(F/T) + 0.8·(K/T)` — verified to 1e-15. Since `T` also appears in the denominator, DTI ranks `T/(0.2T + 0.2F + 0.8K)`.
    `K` is common to every submission, so **a hypothesis matters iff it raises `T` (weighted credit
    on *hidden* faults) without raising `F` proportionally**.
-2. **A dot pays for itself iff its incremental credit exceeds `0.2·DTI`** — `0.052` at DTI 0.26,
-   i.e. it must land within **≈ 284 m of a hidden fault**. Verified 300/300 against the official
-   implementation. So "a bit near a fault" is worth almost all of the credit; "definitely a fault"
-   is worth nothing extra.
+2. **An isolated new binary pixel pays for itself iff its full kernel credit to previously uncovered truth exceeds `0.2·DTI`** — `0.052` at DTI 0.26,
+   i.e. the idealized break-even is ≈ 284 m under the triangular kernel. This does not cover marginal changes to a partially-covered field; use the full TP/FP/FN condition from `src/gems32/metric.py`.
 3. **Every locally measurable truth raster is the visible catalogue, and the organizers mask
    catalogue pixels out of scoring** (staff, thread 11516). Therefore **no local holdout can reward
    a genuinely new fault.** A local win is a *screen*, never evidence. This is the single most

@@ -85,6 +85,30 @@ def test_marginal_emission_rule_exact_single_truth_pixel():
         assert (after > before) == (k > M.ALPHA * before), (d, k, before, after)
 
 
+def test_general_marginal_update_is_not_a_single_scalar_credit_bar():
+    """For partially covered truth, the candidate's kernel weight is not its marginal TP gain."""
+    truth = np.zeros((25, 25), bool)
+    truth[10, 10] = True
+    pred = np.zeros((25, 25), dtype=np.float64)
+    pred[10, 10] = 0.4                 # existing partial coverage of the only truth pixel
+    before = M.dti_exact(pred, truth)
+    s = before["dti"]
+
+    # Candidate at 100 m has kernel weight 2/3; with prediction 0.62 its credit is 0.4133,
+    # much larger than alpha*s, but it only raises the existing max from 0.4 to 0.4133.
+    candidate = pred.copy()
+    candidate[10, 11] = 0.62
+    after = M.dti_exact(candidate, truth)
+    dtp = after["tp"] - before["tp"]
+    dfp = after["fp"] - before["fp"]
+    dfn = after["fn"] - before["fn"]
+    denominator = before["tp"] + M.ALPHA * before["fp"] + M.BETA * before["fn"]
+
+    assert 0.62 * M.kernel(1) > M.ALPHA * s  # naive scalar test passes
+    assert after["dti"] < s                  # but actual partially-covered addition loses
+    assert not (dtp * denominator > before["tp"] * (dtp + M.ALPHA * dfp + M.BETA * dfn))
+
+
 def test_far_mass_is_always_harmful():
     truth = np.zeros((21, 21), bool)
     truth[10, 3:18] = True
