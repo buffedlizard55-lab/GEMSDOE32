@@ -52,7 +52,10 @@ def test_arena9_saved_bytes_and_release_projections_agree():
     assert candidate["ok_to_download"] is True
     assert candidate["ok_to_submit"] is False
     assert status["any_file_ok_to_submit"] is False
-    assert release["latest_candidate"]["sha256"] == card["raster_sha256"]
+    # Arena9 is a historical artifact: the release review now covers a newer candidate, which must match
+    # registry/current_status.json, and nothing may be authorized.
+    assert release["latest_candidate"]["sha256"] == status["newest_unique"]["sha256"]
+    assert release["latest_candidate"]["verdict"] == "negative"
     assert release["submission_authorization"]["ok_to_download_and_submit"] is False
     # The authoritative latest-run-card follows registry/current_status.json's newest candidate.
     assert latest["raster_sha256"] == status["newest_unique"]["sha256"]
