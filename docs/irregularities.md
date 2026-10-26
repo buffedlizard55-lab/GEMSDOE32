@@ -1,6 +1,15 @@
 # Irregularity and limitation register
 
-Last reviewed: **2026-10-03**. “Fixed” means the repository now mitigates the tooling defect; it does not authenticate competition data or establish score gains.
+Last reviewed: **2026-10-26**. “Fixed” means the repository now mitigates the tooling defect; it does not authenticate competition data or establish score gains.
+
+## Current release-blocking findings (2026-10-26)
+
+- **IR-R6-05 (critical): DO NOT SUBMIT R6-1 STEP.** Its B=2 mask was made from the full fault catalogue before hide-and-recover scoring; the fold evaluator cannot undo that leakage. The descriptive result is 0.003376 vs 0.004515 incumbent for 22,232 withheld positives (draws 20/21; separate, not paired 95% CIs [0.002512, 0.004535] and [0.003943, 0.005250]); it is not admissible promotion evidence.
+- **IR-R6-03 (high): literal novelty gate fails.** 97.82% of R6-1 dots lie within 3 px of the registered calibration raster, over the user's 70% threshold. The protocol says any registry raster; the earlier density-based exception is withdrawn.
+- **Format is not release approval.** Strict validation against the hash-pinned owner-mirror sample passes: one float32 band, EPSG:32611, 3730×3292, exact CRS/shape/transform, all cells finite in [0,1], and 37,654 positive cells. No fresh raster was generated; no weekly slot was used; no organizer score or current cap was retrieved.
+- Site/README verdict is fail-closed **DO NOT SUBMIT**. Existing TIFFs remain downloadable solely for audit. See [full three-pass review](research/protocol-review-20261026.md), [Round-6 run card](../evidence/round6_run_card.json), and [per-site summary](research/focus-sites-executive-summary.md).
+
+---
 
 | ID | Severity | Status | Observation / evidence | Action or consequence |
 | --- | --- | --- | --- | --- |

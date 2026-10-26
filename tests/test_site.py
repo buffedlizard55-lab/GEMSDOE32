@@ -1,12 +1,4 @@
-"""The published site is a rendering of the repository, never a hand-typed page.
-
-The two properties that matter operationally are checked here by *re-reading the written bytes*:
-
-* the root pages (which GitHub Pages actually serves -- the repository's Pages source is ``main:/``,
-  i.e. the repository root, not ``docs/``) must link at files that exist on disk, so the one-click
-  download can never be a dead button (IR-34-ROOT-01);
-* the download the site headlines must be the download the registry declares primary.
-"""
+"""GitHub Pages output must render the current release authorization, not historical status."""
 from __future__ import annotations
 
 import json
@@ -17,6 +9,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = ROOT / "docs"
+AUDIT_NAME = "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
 
 
 def _require_inputs(*names: str):
@@ -25,52 +18,65 @@ def _require_inputs(*names: str):
         pytest.skip(f"site not built in this checkout: {missing}")
 
 
-def test_root_pages_link_to_the_primary():
-    _require_inputs("index.html", "downloads")
-    sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
-    primary = sub["file"]["path"]
-    assert (ROOT / primary).is_file(), f"registry primary {primary} is not on disk"
+def _local_targets(page: Path):
+    html = page.read_text()
+    for rel in re.findall(r'(?:href|src)="([^"#]+?)"', html):
+        if rel.startswith(("http://", "https://", "mailto:", "data:", "javascript:")):
+            continue
+        target = (page.parent / rel).resolve()
+        assert target.is_file(), f"{page.relative_to(ROOT)} links at missing file: {rel}"
 
+
+def test_root_pages_have_valid_links_and_do_not_imply_submission_authorization():
+    review = json.loads((ROOT / "evidence/current_release_review.json").read_text())
+    assert review["submission_authorization"]["ok_to_download_and_submit"] is False
     root_pages = sorted(ROOT.glob("*.html"))
-    assert root_pages, "no root .html pages found"
+    assert root_pages
     for page in root_pages:
+        _local_targets(page)
         html = page.read_text()
-        # every local href/src on the page must resolve to a real file
-        for rel in re.findall(r'(?:href|src)="([^"#]+?)"', html):
-            if rel.startswith(("http://", "https://", "mailto:", "data:")):
-                continue
-            target = (page.parent / rel).resolve()
-            assert target.is_file(), f"{page.name} links at missing file: {rel}"
-        # and the page must offer the primary download, correctly prefixed
-        assert "docs/downloads/" in html or page.name == "index.html" and True
-        hrefs = re.findall(r'(?:href|src)="([^"]*downloads/[^"]+)"', html)
-        assert hrefs, f"{page.name} offers no download at all"
-        assert any(Path(h).name == Path(primary).name for h in hrefs), \
-            f"{page.name} does not headline the registry primary {Path(primary).name}"
+        if AUDIT_NAME in html:
+            assert "DO NOT SUBMIT" in html
+            assert "audit artifact only" in html.lower()
+            assert "OK TO DOWNLOAD AND SUBMIT" not in html
+            assert "PROMOTE" not in html
+    index = (ROOT / "index.html").read_text()
+    assert AUDIT_NAME in index
+    assert "DO NOT SUBMIT" in index
 
 
-def test_docs_pages_link_to_the_primary():
-    _require_inputs("index.html")
-    sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
-    primary = Path(sub["file"]["path"]).name
+def test_docs_pages_link_only_to_auditing_artifact_when_release_is_negative():
+    _require_inputs("index.html", "executive-summary.html")
+    review = json.loads((ROOT / "evidence/current_release_review.json").read_text())
+    assert review["submission_authorization"]["ok_to_download_and_submit"] is False
     for page in sorted(SITE.glob("*.html")):
+        _local_targets(page)
         html = page.read_text()
-        hrefs = re.findall(r'(?:href|src)="([^"]*downloads/[^"]+)"', html)
-        assert hrefs, f"{page.name} offers no download at all"
-        assert any(Path(h).name == primary for h in hrefs), \
-            f"{page.name} does not headline the registry primary {primary}"
+        if AUDIT_NAME in html:
+            assert "DO NOT SUBMIT" in html
+            assert "audit" in html.lower()
+            assert "OK TO DOWNLOAD AND SUBMIT" not in html
+            assert "PROMOTE" not in html
+    summary = (SITE / "executive-summary.html").read_text()
+    assert "no upload authorized" in summary.lower()
+    assert "Unique Submission Identifier" not in summary
+    assert "Click <i>Submit</i>" not in summary
 
 
-def test_submission_note_fits_the_portal_budget():
-    sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
-    # DrivenData's Note field is capped at 200 characters (GEMSDOE28 measured 192/200 for its own).
-    assert len(sub["note"]) <= 200, f"note is {len(sub['note'])} chars; portal caps it at 200"
-    assert sub["name"] and sub["file"]["sha256"]
+def test_submission_metadata_is_not_authorized_and_notes_remain_bounded():
+    sub = json.loads((ROOT / "registry/submission_build.json").read_text())
+    assert sub["ok_to_submit"] is False
+    assert sub["verdict"] == "negative"
+    assert sub["current_release_review"] == "evidence/current_release_review.json"
+    assert len(sub["note"]) <= 200
+    assert sub["file"]["sha256"] == json.loads(
+        (ROOT / "evidence/current_release_review.json").read_text()
+    )["artifact"]["sha256"]
 
 
 def test_registry_and_site_agree_on_the_hypothesis_count():
     _require_inputs("hypotheses.html")
-    hyp = json.loads((ROOT / "registry" / "hypotheses.json").read_text())
+    hyp = json.loads((ROOT / "registry/hypotheses.json").read_text())
     ids = [h["id"] for h in hyp["hypotheses"]]
     assert len(ids) == len(set(ids)), "duplicate hypothesis id in the registry"
     html = (SITE / "hypotheses.html").read_text()

@@ -3,7 +3,17 @@
 <title>Candidate hypotheses, ranked · GEMSDOE32</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
-<div class=dlbtn><a class="btn" href="downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif">&#11015; Download the registry-primary GeoTIFF (read its status first)</a> <a class="btn alt" href="downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip">.zip</a></div>
+<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload.</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated 2026-10-26T02:05:00Z.</p>
+<p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
+<a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="executive-summary.html">How a cleared file would be submitted</a></p></section>
+
+<div class=dlbtn><span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> <a class="btn alt" href="index.html#status">status &amp; audit downloads</a></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap><h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
@@ -100,7 +110,43 @@ the slot gate.</p>
 <td>19 official bands; USGS SGMC faults raster (hash-pinned) as extra positives, north quadrants only</td><td>appearance learning from catalogue + SGMC-off-catalogue (north); validated on held-out south SGMC</td>
 <td>SGMC is pre-Quaternary-inclusive — real faults the Quaternary catalogue omits</td><td>first use of SGMC as supervision (vs the two failed live SGMC-tracing attempts, 0.0512/0.0492)</td>
 <td> · cost  · data: </td>
-<td>measured (NEGATIVE — not promoted)</td></tr><tr><td>1</td><td><b>A8A-H1</b><br>Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits</td>
+<td>measured (NEGATIVE — not promoted)</td></tr><tr><td>3</td><td><b>H-GEO-1</b><br>Cross-Gradient Tensor Curvature of Gravity and Magnetics for Concealed Fault Relays</td>
+<td>B; a; n; d; s;  ; 1;  ; (; m; a; g; _; a; n; o; m; ); ,;  ; 2;  ; (; r; t; p; ); ,;  ; 4;  ; (; g; e; o; d; _; 2; n; d; i; n; v; ); ,;  ; 5;  ; (; i; s; o; _; g; r; a; v; _; a; n; o; m; _; s; l; o; p; e; )</td><td>Cross-gradient vector product grad(g) x grad(m) combined with minimum principal curvature of residual gravity anomalies</td>
+<td>Subsurface normal fault step-overs and relay ramps in Basin &amp; Range extensional basins offset pre-Cenozoic basement density and magnetization interfaces beneath 50-200m of quaternary alluvium, lacking surface scarps mapped in USGS/INGENIOUS</td><td>Prior methods used 1D gradient magnitudes; cross-gradient measures structural vector discordance between density and magnetization</td>
+<td>+0.008 to +0.015 HOLDOUT-DTI · cost low-medium (computed directly from prepared competition bands 1, 2, 4, 5) · data: obtainable and verified in data/</td>
+<td>registered; partially evaluated</td></tr><tr><td>2</td><td><b>H-GEO-2</b><br>Quaternary Alluvial Pediment Scarplet Edge-Preserving Bilateral Residuals</td>
+<td>B; a; n; d;  ; 1; 2;  ; (; d; e; t; _; e; l; e; v; ); ,;  ; B; a; n; d;  ; 1; 9;  ; (; d; e; t; _; e; l; e; v; _; s; l; o; p; e; ); ,;  ; e; x; t; e; r; n; a; l; /; l; i; d; a; r; _; s; c; a; r; p; _; f; e; a; t; u; r; e; s; _; u; 8; .; t; i; f</td><td>Directional second-order eigenvalue ridges of detrended elevation masked to alluvial slope piedmonts (&gt;500m from bedrock rangefront)</td>
+<td>Mapped catalogue heavily concentrates on bedrock range fronts where erosion exposes fault scarps; basin-interior synthetic/antithetic fault strands cutting alluvial fans control blind convection cells but lack historical cataloguing</td><td>Isolates piedmont alluvial fans outside bedrock zones using slope-aspect consistency and detrended elevation residuals to prevent bedrock ridge and Lahontan terrace confusion</td>
+<td>+0.012 to +0.020 HOLDOUT-DTI · cost low (computed directly from prepared DEM and LiDAR scarp products) · data: obtainable and verified in data/</td>
+<td>registered; partially evaluated</td></tr><tr><td>1</td><td><b>H-GEO-3</b><br>Geothermal Dilational Conduit &amp; Structural Step-Over Bridge</td>
+<td>B; a; n; d;  ; 8;  ; (; g; e; o; d; _; d; i; l; a; t; e; r; a; t; e; ); ,;  ; B; a; n; d;  ; 7;  ; (; g; e; o; d; _; s; h; e; a; r; r; a; t; e; ); ,;  ; B; a; n; d;  ; 3;  ; (; t; m; i; _; h; g; ); ,;  ; B; a; n; d;  ; 5;  ; (; i; s; o; _; g; r; a; v; _; a; n; o; m; _; s; l; o; p; e; ); ,;  ; B; a; n; d;  ; 1; 2;  ; (; d; e; t; _; e; l; e; v; )</td><td>Physical product of positive extensional dilation rate (dilaterate &gt; 0), shear strain rate, and high-wavenumber potential-field horizontal gradients</td>
+<td>Active geothermal upwelling requires ongoing crustal extensional dilation to maintain fracture permeability against hydrothermal silica and calcite self-sealing; actively dilating fault segments with concealed basement offsets are prime geothermal conduits missed by surface-only mapping</td><td>Direct physical coupling of GNSS-derived geodetic extensional strain dilation with magnetic and gravity basement steps rather than treating strain as a flat statistical feature</td>
+<td>+0.015 to +0.025 HOLDOUT-DTI · cost low (built and evaluated on prepared 28-channel physical feature stack) · data: obtainable and verified in data/</td>
+<td>VALIDATED on spatially-blocked holdout set; primary candidate emitted (gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)</td></tr><tr><td>4</td><td><b>H-GEO-4</b><br>Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes</td>
+<td>B; a; n; d;  ; 1; 5;  ; (; d; e; p; t; h; _; t; o; _; b; a; s; e; _; s; u; r; f; ); ,;  ; B; a; n; d;  ; 1; 7;  ; (; c; o; n; d; _; s; u; r; f; ); ,;  ; B; a; n; d;  ; 6;  ; (; t; c;  ; r; a; d; i; o; m; e; t; r; i; c;  ; p; o; t; a; s; s; i; u; m; )</td><td>Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos</td>
+<td>Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp</td><td>Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field</td>
+<td>+0.005 to +0.012 HOLDOUT-DTI · cost low-medium (uses bands 6, 15, 17 in prepared stack) · data: obtainable and verified in data/</td>
+<td>registered</td></tr><tr><td>1</td><td><b>H42-1</b><br>Hanging-wall conditional intensity (HWCI): P(new fault | distance, topographically signed side, strike alignment to the nearest visible trace, local scarp evidence)</td>
+<td>visible catalogue geometry; band 12 det_elev (smoothed, side sign); band 19 slope; lidar scarp bands 1-10, 12; bands 2/3/5/13/15/17; cached curvature/ridge/top-hat/coherence channels</td><td>LOQO HistGradientBoosting on evidence + visible-network relational features + side; E[k] tile emission, B=2 from visible</td>
+<td>synthetic/antithetic splays and basinward-stepping piedmont scarps form on the down-thrown side at 0.3-3 km</td><td>57GEMSDOE &#x27;side&#x27; is left/right of an arbitrary strike vector; H19 L1/GEMSDOE33 are along-strike lobes; H37-1 shifted the same dots down-dip</td>
+<td>+0.000..+0.015 (pre-registered, wide) · cost medium · data: all inputs restored and hash-verified</td>
+<td>measured (NEGATIVE - lane duplicate; worse than random off-catalogue)</td></tr><tr><td>2</td><td><b>H42-2</b><br>Lahontan isobath suppression of shoreline mimics</td>
+<td>absolute DEM: USGS 3DEP 1 arc-second (public domain)</td><td>drop lineaments whose along-strike elevation range &lt; ~3 m below the ~1318-1340 m highstand</td>
+<td>removes the main named mimic of lidar scarp detectors in the Lahontan basins (precision lever)</td><td>no contour-parallelism discriminator exists; 62GEMSDOE used the highstand as a datum-offset gauge (owner-reported 0.0000)</td>
+<td>precision-only, unknown · cost high (needs a GitHub-hosted runner to fetch 3DEP) · data: not in restored data; USGS hosts unreachable from this sandbox</td>
+<td>registered (data-blocked in this sandbox)</td></tr><tr><td>3</td><td><b>H42-3</b><br>Playa-floor dead zone</td>
+<td>band 19 slope; lidar relief; band 17 conductivity</td><td>flat, conductive lacustrine floors where scarps are not preserved</td>
+<td>precision: experts cannot map what the surface does not preserve</td><td>not used as an explicit mask before</td>
+<td>small · cost low · data: available</td>
+<td>registered (subsumed by H42-1 inputs)</td></tr><tr><td>4</td><td><b>H42-4</b><br>Anthropogenic-corridor suppression (roads/rail)</td>
+<td>TIGER/Line road distance (GEMSDOE24 audit source)</td><td>road/rail cuts and fills mimic scarps</td>
+<td>precision</td><td>GEMSDOE24 used roads as a nuisance (C2ST) audit</td>
+<td>small · cost low · data: available in GEMSDOE24</td>
+<td>registered (partially tried elsewhere)</td></tr><tr><td>5</td><td><b>H42-5</b><br>Relocated-seismicity lineaments</td>
+<td>USGS ComCat FDSN</td><td>microseismic planes</td>
+<td>sub-surface faults without scarps</td><td>not new; listed for completeness</td>
+<td>low at 300 m tolerance · cost high · data: unreachable from this sandbox</td>
+<td>registered (previously proposed as H33-E/H-F4; data-blocked)</td></tr><tr><td>1</td><td><b>A8A-H1</b><br>Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits</td>
 <td>lidar_scarp_features_u8 (b2 step_max, b3/b4 lapneg*lappos, b7/b8 |downface-upface|, b9 cross, b10 coh100, b11 strike, b12 valid); training_features (rtp b2, tmi b1, tmi_hg b3, iso_grav_anom b13, grav_hg b18, depth_to_base_surf b15, cond_surf b17, det_elev b12, geod_shearrate b8); geodawn_rad_u8 (K, eU, eTh) + gdr_wellspring_in_footprint.csv (temp_c, na_k_c, chalcedony_c; dist_known_fault_px dropped)</td><td>One-sided 1 m LiDAR crest-toe dipole (missing tiles routed via native NaN) concordant with true Miller-Singh (1994) RTP/TMI tilt-zero lineaments, gravity/MT basement steps, and K/Th + geothermometer halos; sharpened onto 1-px cross-strike crests</td>
 <td>Catches sub-metre degraded scarps on valid 3DEP tiles and covered sub-alluvial transfer/step-over faults where &gt;=2 subsurface/hydrothermal domains align; dual-head piedmont weighting mitigates range-front domain shift</td><td>Fixes IR-32-BAND6-TC-01 (Band 6 is radiometric TC, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR mis-indexing + 24.6% missing-tile zeros); adds 1-px cross-strike crest sharpening; Mimic: fluvial terrace risers / gullies (suppressed by |downface-upface| &amp; &gt;=2-domain gate)</td>
 <td>HOLDOUT-DTI 0.10679 [0.08765, 0.12850] (beats CTRL 0.09893 &amp; D2.8 0.09920; SGMC-cal 0.05509 &lt; 0.06412) · cost 3/3 session experiments (~14 min CPU) · data: all inputs hash-pinned in .cache/gems_data</td>
@@ -146,7 +192,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 01:45 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 01:58 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

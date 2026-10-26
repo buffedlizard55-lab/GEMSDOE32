@@ -15,114 +15,139 @@ def main() -> int:
     exp1 = json.loads((ROOT / "evidence" / "arena8a_exp1_canary_and_domains.json").read_text())
     exp3 = json.loads((ROOT / "evidence" / "arena8a_exp3_crest_and_gates.json").read_text())
 
-    # 1. Update registry/submission_build.json to feature the NEW UNIQUE Arena8a deliverable
-    #    with unmistakable automated verdict (`OK TO DOWNLOAD: YES | OK TO SUBMIT: NO — NEGATIVE`),
-    #    while preserving the 0.2778 champion (with repaired 186,378-byte zip!) in `pack`.
+    # 1. Update evidence/arena8a_run_card.json with post-merge sibling uniqueness audit (H42, R6-1, H-GEO-CONDUIT, 13gems lattice),
+    #    write registry/arena8a_submission.json, preserve registry/submission_build.json's current_release_review contract,
+    #    and update registry/current_status.json with Arena8a as newest_unique while keeping h42_candidate + round6_candidate.
     tif_rel = rc["raster_path"]
     zip_rel = rc["zip_path"]
     nan_rel = f"docs/downloads/{rc['nan_twin_filename']}"
     tif_bytes = (ROOT / tif_rel).stat().st_size
     nan_bytes = (ROOT / nan_rel).stat().st_size
 
+    rc["correlation_and_overlap_vs_registry"]["post_merge_sibling_audit_2026_10_26"] = {
+        "H42_HWCI": {"ref_dots": 37654, "spearman": 0.06003, "cand_in_3px_ref": 0.22064, "ref_in_3px_cand": 0.42551, "sym_within_3px": 0.22064},
+        "R6_STEPPROFILE": {"ref_dots": 37654, "spearman": 0.00251, "cand_in_3px_ref": 0.19367, "ref_in_3px_cand": 0.21520, "sym_within_3px": 0.19367},
+        "H_GEO_CONDUIT": {"ref_dots": 37654, "spearman": 0.07314, "cand_in_3px_ref": 0.33575, "ref_in_3px_cand": 0.41252, "sym_within_3px": 0.33575},
+        "CALIB_LATTICE_S5_206895": {
+            "ref_dots": 206895,
+            "spearman": 0.00447,
+            "cand_in_3px_ref_literal": 0.99036,
+            "ref_in_3px_cand": 0.15872,
+            "sym_within_3px": 0.15872,
+            "note": "Synthetic 5-px covering grid (IR-42-UNIQ-01 / IR-A41-UNIQ-01): random dots score 0.9988 and 0.2778 champion scores 0.9992 on one-way within-3px; reported literally and symmetrically.",
+        },
+    }
+    (ROOT / "evidence" / "arena8a_run_card.json").write_text(json.dumps(rc, indent=2) + "\n")
+
     champ_tif_rel = "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif"
     champ_zip_rel = "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip"
 
-    sub_build = {
+    arena8a_sub = {
         "name": Path(tif_rel).stem,
         "note": rc["submission_note"],
         "verdict": rc["verdict"],
         "ok_to_download": rc["ok_to_download"],
         "ok_to_submit": rc["ok_to_submit"],
-        "status_line": (
-            f"LATEST UNIQUE SESSION DELIVERABLE = {rc['submission_name']} (2026-10-26): "
-            f"OK TO DOWNLOAD = YES (100% portal-legal [0, 1] float32, 0 NaN, genuinely unique: "
-            f"pre-placement surface |rho|={rc['correlation_and_overlap_vs_registry']['worst_abs_surface_spearman_before_placement']:.4f}<=0.90, "
-            f"within-3px={rc['correlation_and_overlap_vs_registry']['worst_frac_within_3px_genuine_models']*100:.2f}%<=70%; "
-            f"52.89% vs 0.2778 champion). "
-            f"OK TO SPEND WEEKLY LEADERBOARD SLOT = NO — AUTOMATED VERDICT: NEGATIVE (DO NOT SUBMIT). "
-            f"Beats both CTRL-35ch (0.09893) and D2.8 vis-B2 (0.09920) on repaired visible-only HOLDOUT-DTI "
-            f"at {rc['holdout_dti']['primary_visible_only_holdout']['pooled_dti']:.5f} "
-            f"[95% CI {rc['holdout_dti']['primary_visible_only_holdout']['ci95'][0]:.5f}, "
-            f"{rc['holdout_dti']['primary_visible_only_holdout']['ci95'][1]:.5f}] (7/8 cells won vs D2.8), "
-            f"and beats CTRL-35ch on off-catalogue SGMC (0.05509 vs 0.05019), but fails Gate G5 vs "
-            f"CHAMPION h33-2-b2 on off-catalogue SGMC (0.05509 < 0.06412). Keep reigning 0.2778 champion; do not waste a weekly slot."
-        ),
-        "status_line_2026_10_25": (
-            f"LATEST UNIQUE SESSION DELIVERABLE = {rc['submission_name']} (2026-10-26): "
-            f"OK TO DOWNLOAD = YES (12/12 + strict [0,1] GeoTIFF checks PASS, unique lane PASS) · "
-            f"OK TO SUBMIT TO PORTAL = NO — AUTOMATED VERDICT: NEGATIVE (DO NOT SPEND WEEKLY SLOT). "
-            f"Repaired visible-only HOLDOUT-DTI = {rc['holdout_dti']['primary_visible_only_holdout']['pooled_dti']:.5f} "
-            f"(beats CTRL-35ch 0.09893 & D2.8 vis-B2 0.09920; 7/8 cells won vs D2.8), "
-            f"but off-catalogue SGMC = {rc['holdout_dti']['secondary_sgmc_off_catalogue']['sgmc_prevalence_calibrated_dti']:.5f} "
-            f"< 0.2778 champion (0.06412, Gate G5 FAIL). Reigning live-scored portfolio champion remains "
-            f"h33-h33-2-b2 (0.2778 ORGANIZER-CONFIRMED owner receipt; already submitted — do not resubmit)."
-        ),
         "file": {
             "path": tif_rel,
             "sha256": rc["raster_sha256"],
             "bytes": tif_bytes,
             "positive_px": rc["emitted_positive_pixels"],
         },
-        "file_zeros": {
-            "path": tif_rel,
-            "sha256": rc["raster_sha256"],
-            "bytes": tif_bytes,
+        "file_nan": {
+            "path": nan_rel,
+            "sha256": rc["nan_twin_sha256"],
+            "bytes": nan_bytes,
+            "positive_px": rc["emitted_positive_pixels"],
         },
         "zip": {
             "path": zip_rel,
             "sha256": rc["zip_sha256"],
             "bytes": rc["zip_bytes"],
         },
-        "candidate_id": rc["submission_name"].replace("GEMSDOE32-", ""),
-        "tier": 0,
+        "candidate_id": rc["submission_name"],
         "hypothesis": "A8A-H1 (MDRC_Crest_CreditBar)",
         "visible_only_holdout_dti": rc["holdout_dti"]["primary_visible_only_holdout"]["pooled_dti"],
         "visible_only_holdout_ci95": rc["holdout_dti"]["primary_visible_only_holdout"]["ci95"],
-        "catalogue_hidden_mean": None,
-        "drift_corrected_holdout_mean": None,
         "sgmc_prevalence_calibrated_dti": rc["holdout_dti"]["secondary_sgmc_off_catalogue"]["sgmc_prevalence_calibrated_dti"],
-        "on_catalogue_pixels": 0,
-        "anchor": {
-            "role": "PORTFOLIO LIVE CHAMPION (0.2778 ORGANIZER-CONFIRMED — already submitted; do not resubmit)",
+        "anchor_champion": {
             "path": champ_tif_rel,
             "zip_path": champ_zip_rel,
             "zip_sha256": "5a6f3ee02e6392089d53361976dbc9d5dec43ef4205001097c6806fe487bef11",
             "zip_bytes": 186378,
-            "note": "37,654 dots; B=2 prune of solo (0.2708); highest-scoring artifact across all GEMSDOE sites",
         },
-        "pack": [
-            {
-                "role": "SECONDARY — NaN-outside twin of Arena8a unique deliverable",
-                "path": nan_rel,
-                "sha256": rc["nan_twin_sha256"],
-                "bytes": nan_bytes,
-                "positive_px": rc["emitted_positive_pixels"],
-                "note": "Identical 44,090 in-footprint binary predictions; NaN outside footprint (DO NOT SUBMIT — research audit twin)",
-            },
-            {
-                "role": "HISTORICAL PORTFOLIO CHAMPION (0.2778 — ALREADY SUBMITTED, DO NOT RESUBMIT)",
-                "path": champ_tif_rel,
-                "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
-                "bytes": 219065,
-                "positive_px": 37654,
-                "note": "ORGANIZER-CONFIRMED 0.2778 (owner receipt 2026-10-25); valid ZIP 186,378 B sha256 5a6f3ee0...",
-            },
-            {
-                "role": "AVAILABLE DOWNLOAD",
-                "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
-                "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
-                "bytes": 1603424,
-                "positive_px": 44090,
-                "note": "kept for audit trail (0.2600 owner-reported parent)",
-            },
-        ],
-        "rule": rc["mechanism"],
-        "provenance": (
-            f"built {rc['generated_utc']} on {rc['session_branch']} from {rc['holdout_dti']['primary_visible_only_holdout']['evaluator_version']}, "
-            f"22,232 withheld positives, 12/12 + strict [0,1] checks PASS, canary max AUC {rc['automated_gates']['G1_leakage_canary_auc_le_090']['worst_auc']} <= 0.90"
-        ),
+        "run_card": "evidence/arena8a_run_card.json",
     }
-    (ROOT / "registry" / "submission_build.json").write_text(json.dumps(sub_build, indent=1) + "\n")
+    (ROOT / "registry" / "arena8a_submission.json").write_text(json.dumps(arena8a_sub, indent=2) + "\n")
+
+    # Preserve origin/main's registry/submission_build.json contract (current_release_review sha256)
+    sub_build_path = ROOT / "registry" / "submission_build.json"
+    sub_build = json.loads(sub_build_path.read_text())
+    sub_build["ok_to_submit"] = False
+    sub_build["verdict"] = "negative"
+    sub_build["arena8a_candidate"] = "registry/arena8a_submission.json"
+    sub_build_path.write_text(json.dumps(sub_build, indent=2) + "\n")
+
+    # Update registry/current_status.json: promote Arena8a MDRC to newest_unique (DO NOT SUBMIT) while keeping h42_candidate & round6_candidate
+    cs_path = ROOT / "registry" / "current_status.json"
+    if cs_path.exists():
+        cs = json.loads(cs_path.read_text())
+        prev_newest = cs.get("newest_unique") or {}
+        if prev_newest and "h42-hwci" in str(prev_newest.get("file", "")) and "h42_candidate" not in cs:
+            cs["h42_candidate"] = prev_newest
+        cs["updated_utc"] = "2026-10-26T02:05:00Z"
+        cs["any_file_ok_to_submit"] = False
+        cs["newest_unique"] = {
+            "file": tif_rel,
+            "zip": zip_rel,
+            "receipt": f"docs/downloads/checks-{Path(tif_rel).name}.json",
+            "sha256": rc["raster_sha256"],
+            "bytes": tif_bytes,
+            "dots": rc["emitted_positive_pixels"],
+            "submission_name": rc["submission_name"],
+            "note": rc["submission_note"],
+            "verdict": "DO NOT SUBMIT",
+            "ok_to_submit": False,
+            "hypothesis": "A8A-H1 Multi-Domain Ridge-Crest Concordance (MDRC, 44,090 dots, B=2)",
+            "gates": {
+                "G1_canary": True,
+                "G2_format_01": True,
+                "G3_lane_unique_genuine": True,
+                "G4_visible_only_holdout_vs_ctrl_and_d28": True,
+                "G4_subbar_3x_submodular_random": False,
+                "G5_sgmc_beats_champion": False,
+            },
+            "reasons": [
+                "Fold-local visible-only HOLDOUT-DTI (GEMSDOE32-HOLDOUT-v3-visible-only, 22,232 withheld positives) = 0.1068 [0.0877, 0.1285], beating BOTH CTRL-35ch (0.0989) and D2.8 vis-B2 (0.0992, winning 7/8 cells, paired diff 95% CI [+0.0040, +0.0111]), while reaching 2.29x vs the conservative 3.0x submodular-random sub-bar (0.1398).",
+                "Gate G5 FAILED on off-catalogue USGS SGMC faults (62,703 off-cat px): MDRC scores 0.0551 (beating CTRL-35ch 0.0502 by +9.8%), but trails the 0.2778 champion (0.0641) because binary cross-entropy on ~labels treats unmapped pre-Quaternary SGMC faults as y=0 negatives (IR-A8A-PU-BIAS-01; unsupervised D1_LiDAR_Dipole scored 0.1027 and MDRC_Unsup_4Domain scored 0.0765).",
+                "Lane-unique against all 19 genuine detector/submission rasters (pre-placement surface |rho| <= 0.4209 <= 0.90; final within-3px <= 64.96% <= 70%: 52.89% vs 0.2778 champion, 22.06% vs H42, 19.37% vs R6-1, 33.58% vs H-GEO-CONDUIT; literal one-way overlap vs 206,895-dot 5-px calibration lattice is 99.04% vs 99.92% for champion, IR-42-UNIQ-01).",
+            ],
+            "holdout": {
+                "MDRC_Crest_CreditBar_44090": {"dti": 0.1068, "ci95": [0.0877, 0.1285]},
+                "MDRC_Crest_37654": {"dti": 0.1055, "ci95": [0.0857, 0.1277]},
+                "D28_vis_B2_incumbent": {"dti": 0.0992, "ci95": [0.0815, 0.1204]},
+                "CTRL_35ch_OOF": {"dti": 0.0989, "ci95": [0.0802, 0.1197]},
+                "RANDOM_B2_submod": {"dti": 0.0466, "ci95": [0.0369, 0.0580]},
+            },
+            "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HOLDOUT-v3-visible-only (fold-local B=2), 22,232 withheld positives, 95% CI",
+            "off_catalogue_instrument": {
+                "D1_LiDAR_Dipole_unsup": {"dti": 0.1027, "ci95": [0.0910, 0.1145]},
+                "MDRC_Unsup_4Domain": {"dti": 0.0765, "ci95": [0.0665, 0.0870]},
+                "CHAMPION_0.2778": {"dti": 0.0641, "ci95": [0.0555, 0.0732]},
+                "MDRC_Crest_CreditBar_44090": {"dti": 0.0551, "ci95": [0.0472, 0.0634]},
+                "CTRL_35ch_OOF": {"dti": 0.0502, "ci95": [0.0426, 0.0582]},
+            },
+            "off_catalogue_label": "SGMC prevalence-calibrated DTI (>200 m off-catalogue, 62,703 px)",
+            "uniqueness": {
+                "registry_rasters": 20,
+                "max_spearman": 0.4209,
+                "worst_informative_overlap": 0.6496,
+                "worst_informative_raster": "GEMSDOE25/30:d2.8-44090 (52.89% vs 0.2778 champion; 19.37% vs R6-1; 22.06% vs H42)",
+                "calibration_lattice_oneway_fraction": 0.99036,
+            },
+            "run_card": "evidence/arena8a_run_card.json",
+        }
+        cs_path.write_text(json.dumps(cs, indent=1) + "\n")
 
     # 2. Update registry/hypotheses.json with A8A-H1..A8A-H5 (idempotent)
     hyp_path = ROOT / "registry" / "hypotheses.json"

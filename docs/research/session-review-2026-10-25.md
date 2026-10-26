@@ -1,3 +1,5 @@
+> **SUPERSEDED (2026-10-26):** this review was written when data and dependencies were absent. The data has since been restored, the H42 experiment run and its run card written — see [knowledge/05](../../knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md) and the status block at the top of the README.
+
 # GEMSDOE32 repository review — 2026-10-25
 
 ## Executive finding

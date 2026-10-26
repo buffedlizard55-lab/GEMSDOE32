@@ -393,6 +393,202 @@
    "verdict": "NEGATIVE: SGMC supervision pulled mass north and under-covered held-out south SGMC truth; not submittable"
   },
   {
+   "id": "H-GEO-1",
+   "rank": 3,
+   "title": "Cross-Gradient Tensor Curvature of Gravity and Magnetics for Concealed Fault Relays",
+   "layers": "Bands 1 (mag_anom), 2 (rtp), 4 (geod_2ndinv), 5 (iso_grav_anom_slope)",
+   "signature": "Cross-gradient vector product grad(g) x grad(m) combined with minimum principal curvature of residual gravity anomalies",
+   "why_off_catalogue": "Subsurface normal fault step-overs and relay ramps in Basin & Range extensional basins offset pre-Cenozoic basement density and magnetization interfaces beneath 50-200m of quaternary alluvium, lacking surface scarps mapped in USGS/INGENIOUS",
+   "differs_from_repo": "Prior methods used 1D gradient magnitudes; cross-gradient measures structural vector discordance between density and magnetization",
+   "expected_dti": "+0.008 to +0.015 HOLDOUT-DTI",
+   "cost": "low-medium (computed directly from prepared competition bands 1, 2, 4, 5)",
+   "data_status": "obtainable and verified in data/",
+   "status": "registered; partially evaluated"
+  },
+  {
+   "id": "H-GEO-2",
+   "rank": 2,
+   "title": "Quaternary Alluvial Pediment Scarplet Edge-Preserving Bilateral Residuals",
+   "layers": "Band 12 (det_elev), Band 19 (det_elev_slope), external/lidar_scarp_features_u8.tif",
+   "signature": "Directional second-order eigenvalue ridges of detrended elevation masked to alluvial slope piedmonts (>500m from bedrock rangefront)",
+   "why_off_catalogue": "Mapped catalogue heavily concentrates on bedrock range fronts where erosion exposes fault scarps; basin-interior synthetic/antithetic fault strands cutting alluvial fans control blind convection cells but lack historical cataloguing",
+   "differs_from_repo": "Isolates piedmont alluvial fans outside bedrock zones using slope-aspect consistency and detrended elevation residuals to prevent bedrock ridge and Lahontan terrace confusion",
+   "expected_dti": "+0.012 to +0.020 HOLDOUT-DTI",
+   "cost": "low (computed directly from prepared DEM and LiDAR scarp products)",
+   "data_status": "obtainable and verified in data/",
+   "status": "registered; partially evaluated"
+  },
+  {
+   "id": "H-GEO-3",
+   "rank": 1,
+   "title": "Geothermal Dilational Conduit & Structural Step-Over Bridge",
+   "layers": "Band 8 (geod_dilaterate), Band 7 (geod_shearrate), Band 3 (tmi_hg), Band 5 (iso_grav_anom_slope), Band 12 (det_elev)",
+   "signature": "Physical product of positive extensional dilation rate (dilaterate > 0), shear strain rate, and high-wavenumber potential-field horizontal gradients",
+   "why_off_catalogue": "Active geothermal upwelling requires ongoing crustal extensional dilation to maintain fracture permeability against hydrothermal silica and calcite self-sealing; actively dilating fault segments with concealed basement offsets are prime geothermal conduits missed by surface-only mapping",
+   "differs_from_repo": "Direct physical coupling of GNSS-derived geodetic extensional strain dilation with magnetic and gravity basement steps rather than treating strain as a flat statistical feature",
+   "expected_dti": "+0.015 to +0.025 HOLDOUT-DTI",
+   "cost": "low (built and evaluated on prepared 28-channel physical feature stack)",
+   "data_status": "obtainable and verified in data/",
+   "status": "VALIDATED on spatially-blocked holdout set; primary candidate emitted (gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)"
+  },
+  {
+   "id": "H-GEO-4",
+   "rank": 4,
+   "title": "Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes",
+   "layers": "Band 15 (depth_to_base_surf), Band 17 (cond_surf), Band 6 (tc radiometric potassium)",
+   "signature": "Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos",
+   "why_off_catalogue": "Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp",
+   "differs_from_repo": "Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field",
+   "expected_dti": "+0.005 to +0.012 HOLDOUT-DTI",
+   "cost": "low-medium (uses bands 6, 15, 17 in prepared stack)",
+   "data_status": "obtainable and verified in data/",
+   "status": "registered"
+  },
+  {
+   "id": "H42-1",
+   "rank": 1,
+   "status": "measured (NEGATIVE - lane duplicate; worse than random off-catalogue)",
+   "title": "Hanging-wall conditional intensity (HWCI): P(new fault | distance, topographically signed side, strike alignment to the nearest visible trace, local scarp evidence)",
+   "layers": [
+    "visible catalogue geometry",
+    "band 12 det_elev (smoothed, side sign)",
+    "band 19 slope",
+    "lidar scarp bands 1-10, 12",
+    "bands 2/3/5/13/15/17",
+    "cached curvature/ridge/top-hat/coherence channels"
+   ],
+   "signature": "LOQO HistGradientBoosting on evidence + visible-network relational features + side; E[k] tile emission, B=2 from visible",
+   "why_off_catalogue": "synthetic/antithetic splays and basinward-stepping piedmont scarps form on the down-thrown side at 0.3-3 km",
+   "differs_from_repo": "57GEMSDOE 'side' is left/right of an arbitrary strike vector; H19 L1/GEMSDOE33 are along-strike lobes; H37-1 shifted the same dots down-dip",
+   "implementation": "scripts/run_h42.py; scripts/h42_finalize.py; evidence/h42_run.json; evidence/h42_run_card.json",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md",
+   "measured": {
+    "holdout_dti": {
+     "evidence_class": "HOLDOUT-DTI",
+     "evaluator_version": "gems57-pooled-hide-v2",
+     "dti": 0.15291794956365676,
+     "ci95": [
+      0.1399617592695118,
+      0.16740642698095798
+     ],
+     "withheld_positive_pixels": 22893
+    },
+    "champion_recipe": {
+     "evidence_class": "HOLDOUT-DTI",
+     "evaluator_version": "gems57-pooled-hide-v2",
+     "dti": 0.10564450185732029,
+     "ci95": [
+      0.09357426551429845,
+      0.1166185988408001
+     ],
+     "withheld_positive_pixels": 22893
+    },
+    "paired_vs_SYM": {
+     "evidence_class": "HOLDOUT-DTI",
+     "evaluator_version": "gems57-pooled-hide-v2",
+     "delta": 0.005030797380090185,
+     "ci95": [
+      0.0006276009145571047,
+      0.009928463981521899
+     ],
+     "withheld_positive_pixels": 22893
+    },
+    "sgmc_off_catalogue": {
+     "H42_HWCI_final": {
+      "dti": 0.05447094010898104,
+      "ci95": [
+       0.04633382983879226,
+       0.06355989795662013
+      ]
+     },
+     "CHAMPION_0.2778": {
+      "dti": 0.09538611460482535,
+      "ci95": [
+       0.0841102079816557,
+       0.10658875716107591
+      ]
+     },
+     "RANDOM_37654": {
+      "dti": 0.07091178803165195,
+      "ci95": [
+       0.067825478716518,
+       0.07417224131421848
+      ]
+     }
+    }
+   },
+   "verdict": "NEGATIVE: holdout win (+0.0473 [+0.0338, +0.0610]) is a gap-filling artefact; G4 lane gate failed (82% within 3 px of GEMSDOE25 h38); worse than random off-catalogue",
+   "expected_dti": "+0.000..+0.015 (pre-registered, wide)",
+   "cost": "medium",
+   "data_status": "all inputs restored and hash-verified"
+  },
+  {
+   "id": "H42-2",
+   "rank": 2,
+   "status": "registered (data-blocked in this sandbox)",
+   "title": "Lahontan isobath suppression of shoreline mimics",
+   "layers": [
+    "absolute DEM: USGS 3DEP 1 arc-second (public domain)"
+   ],
+   "signature": "drop lineaments whose along-strike elevation range < ~3 m below the ~1318-1340 m highstand",
+   "why_off_catalogue": "removes the main named mimic of lidar scarp detectors in the Lahontan basins (precision lever)",
+   "differs_from_repo": "no contour-parallelism discriminator exists; 62GEMSDOE used the highstand as a datum-offset gauge (owner-reported 0.0000)",
+   "expected_dti": "precision-only, unknown",
+   "cost": "high (needs a GitHub-hosted runner to fetch 3DEP)",
+   "data_status": "not in restored data; USGS hosts unreachable from this sandbox",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H42-3",
+   "rank": 3,
+   "status": "registered (subsumed by H42-1 inputs)",
+   "title": "Playa-floor dead zone",
+   "layers": [
+    "band 19 slope",
+    "lidar relief",
+    "band 17 conductivity"
+   ],
+   "signature": "flat, conductive lacustrine floors where scarps are not preserved",
+   "why_off_catalogue": "precision: experts cannot map what the surface does not preserve",
+   "differs_from_repo": "not used as an explicit mask before",
+   "expected_dti": "small",
+   "cost": "low",
+   "data_status": "available",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H42-4",
+   "rank": 4,
+   "status": "registered (partially tried elsewhere)",
+   "title": "Anthropogenic-corridor suppression (roads/rail)",
+   "layers": [
+    "TIGER/Line road distance (GEMSDOE24 audit source)"
+   ],
+   "signature": "road/rail cuts and fills mimic scarps",
+   "why_off_catalogue": "precision",
+   "differs_from_repo": "GEMSDOE24 used roads as a nuisance (C2ST) audit",
+   "expected_dti": "small",
+   "cost": "low",
+   "data_status": "available in GEMSDOE24",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H42-5",
+   "rank": 5,
+   "status": "registered (previously proposed as H33-E/H-F4; data-blocked)",
+   "title": "Relocated-seismicity lineaments",
+   "layers": [
+    "USGS ComCat FDSN"
+   ],
+   "signature": "microseismic planes",
+   "why_off_catalogue": "sub-surface faults without scarps",
+   "differs_from_repo": "not new; listed for completeness",
+   "expected_dti": "low at 300 m tolerance",
+   "cost": "high",
+   "data_status": "unreachable from this sandbox",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
    "id": "A8A-H1",
    "rank": 1,
    "status": "measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE \u2014 DO NOT SUBMIT)",

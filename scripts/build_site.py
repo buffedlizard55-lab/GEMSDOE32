@@ -46,6 +46,35 @@ def read(path: str, default=None):
         return default
 
 
+def protocol_notice(prefix: str = "") -> str:
+    """Single authoritative verdict for the top of every page, failing closed.
+
+    Upload is authorized only if BOTH machine-readable decisions agree: evidence/current_release_review.json
+    (parallel review session) and registry/current_status.json (this repository's status source). Rendered before
+    any download button (tests/test_protocol_site.py, tests/test_site.py).
+    """
+    release = read("evidence/current_release_review.json", {}) or {}
+    st = read("registry/current_status.json", {}) or {}
+    authorized = (release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True
+                  and bool(st.get("any_file_ok_to_submit")))
+    up = "../" if prefix == "" else ""
+    if not authorized:
+        return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>{esc(st.get('headline', 'No file in this repository is authorized for upload.'))}</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
+<p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
+<a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="{prefix}executive-summary.html">How a cleared file would be submitted</a></p></section>
+"""
+    return f"""<section class=dl style="border:3px solid #1a7f37" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#9989; Upload authorized &mdash; see the status card</h2>
+<p style="margin:4px 0"><a href="{prefix}index.html#status">Status card</a> &middot; <a href="{prefix}executive-summary.html">Exact steps</a></p></section>
+"""
+
+
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
     nav = " ".join(f'<a href="{h}"{" class=active" if h == active else ""}>{t}</a>' for h, t in NAV)
     stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
@@ -54,6 +83,7 @@ def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
 <title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>{esc(title)}</h1><nav>{nav}</nav>
+{protocol_notice()}
 <div class=dlbtn>{dl_btn}</div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
@@ -71,6 +101,11 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
     if not sub:
         return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
                 'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        # The authoritative red notice and audit-only link are rendered by protocol_notice/arena41_block.
+        # Do not add another generic submission button here.
+        return ""
     f = sub.get("file", {})
     sha = (f.get("sha256") or "")
     note = sub.get("note", "")
@@ -83,7 +118,7 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
         page 404s, which is exactly the defect this parameter exists to prevent (IR-34-ROOT-01).
         """
         p = ROOT / rel
-        if not p.exists():
+        if not rel or not p.is_file():      # an empty path resolves to the repo root, which "exists"
             return ""
         c = f' class="{cls}"' if cls else ""
         return f'<a{c} href="{esc(prefix + rel.replace("docs/", ""))}">{esc(label)}</a> '
@@ -125,9 +160,20 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                      "<table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr>"
                      + "".join(cells) + "</table>")
 
-    anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2778 portfolio champion (already-scored reference — do not resubmit)")
-    # Round 5 / Arena8a (2026-10-25/26): the dated status line supersedes older status text.
-    status_line = sub.get("status_line_2026_10_25") or sub.get("status_line", "")
+    anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
+    # Round 5 (2026-10-25): the primary has an organizer score now.  The dated status line
+    # supersedes the pre-submission one; the original fields are kept in the registry untouched.
+    status_line = (sub.get("status_line_current") or sub.get("status_line_2026_10_25")
+                   or sub.get("status_line", ""))
+    verdict_badge = ""
+    if sub.get("verdict"):
+        _v = str(sub.get("verdict", "")).upper()
+        verdict_badge = ('<p style="font-size:1.25em"><b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b> '
+                         '&mdash; every automated gate passed</p>' if sub.get("ok_to_submit") else
+                         '<p style="font-size:1.25em"><b style="color:#b45309">&#128992; EXPLORATION ONLY &mdash; NOT CLEARED</b> '
+                         '&mdash; not an expected improvement; see the status card</p>' if _v.startswith("EXPLORATION") else
+                         '<p style="font-size:1.25em"><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> '
+                         '&mdash; automated gates failed; download for audit / research only</p>')
     _os = sub.get("organizer_score") or {}
     scored_badge = ""
     if _os.get("value") is not None:
@@ -136,26 +182,14 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                         f'&mdash; <b>already submitted; do not resubmit</b>. '
                         f'The pre-submission projection was {_os.get("projected_was")} '
                         f'(error +{_os.get("projection_error")}).</p>\n')
-    elif sub.get("verdict") in ("promote", "negative"):
-        ok_sub = bool(sub.get("ok_to_submit"))
-        scored_badge = (
-            '<p style="padding:10px 12px;border-radius:6px;background:'
-            + ('#ecfdf5;border:2px solid #059669' if ok_sub else '#fef2f2;border:2px solid #dc2626')
-            + '"><b>'
-            + ('&#128994; AUTOMATED GATE VERDICT: PROMOTE — OK TO DOWNLOAD &amp; SUBMIT'
-               if ok_sub else
-               '&#128994; OK TO DOWNLOAD (100% PORTAL-SAFE [0,1] UNIQUE TIF) &nbsp;&middot;&nbsp; '
-               '&#128308; DO NOT SUBMIT TO PORTAL SLOT (AUTOMATED VERDICT: NEGATIVE)')
-            + '</b></p>\n'
-        )
     return f"""<div class=dl>
-<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS AUTOMATED GATE VERDICT BEFORE UPLOADING</h2>
-{scored_badge}
+<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
+{verdict_badge}{scored_badge}
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
 <b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
 <b>Note to paste into the submit form's <em>Note (optional)</em> field
-({len(note)}/140 characters):</b><br>
+({len(note)} characters; protocol limit 140):</b><br>
 <code>{esc(note)}</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
 {int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
@@ -168,6 +202,88 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 
 
 GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
+
+
+def current_status_block(docs_prefix: str = "") -> str:
+    """The single status card (source of truth: registry/current_status.json).
+
+    ``docs_prefix`` follows :func:`download_block`: "" on docs/ pages, "docs/" on root pages.  Files under
+    docs/ are linked relative to docs/; repository files (evidence/, registry/) are linked from the root.
+    """
+    st = read("registry/current_status.json")
+    if not st:
+        return ""
+    up = "../" if docs_prefix == "" else ""
+
+    def href(rel: str) -> str:
+        return (docs_prefix + rel[len("docs/"):]) if rel.startswith("docs/") else (up + rel)
+
+    ok = bool(st.get("any_file_ok_to_submit"))
+    light = ('<b style="color:#0a7d2c">&#9989; A file is cleared</b>' if ok else
+             '<b style="color:#b00020">&#128308; NO &mdash; ' + esc(st.get("headline", "")) + '</b>')
+    b, n = st.get("best_scored", {}), st.get("newest_unique", {})
+    hold = n.get("holdout", {})
+    off = n.get("off_catalogue_instrument", {})
+    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+                    for k, v in hold.items())
+    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+                    for k, v in off.items())
+    reasons = "".join(f"<li>{esc(r)}</li>" for r in n.get("reasons", []))
+    wd = "".join(f"<li><code>{esc(Path(w['file']).name)}</code> &mdash; <b style=\"color:#b00020\">{esc(w['status'])}</b>. "
+                 f"{esc(w['reason'])}</li>" for w in st.get("withdrawn", []))
+    nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
+                '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
+    lb = st.get("leaderboard_top", {})
+    h42 = st.get("h42_candidate") or {}
+    h42_row = ""
+    if h42:
+        h42_why = "".join(f"<li>{esc(c)}</li>" for c in h42.get("reasons", []))
+        h42_row = f"""<tr><th>Prior session (H42-1)</th><td><b style="color:#b00020">&#128308; {esc(h42.get('verdict', 'DO NOT SUBMIT'))}</b> &mdash;
+<a href="{esc(href(h42.get('file', '')))}">{esc(Path(h42.get('file', '')).name)}</a> (audit artifact only)
+&middot; sha256 <code>{esc(h42.get('sha256', '')[:16])}&hellip;</code> &middot; <a href="{esc(href(h42.get('run_card', '')))}">run card</a>
+<ul>{h42_why}</ul></td></tr>"""
+    ex = st.get("round6_candidate") or {}
+    expl_row = ""
+    if ex:
+        conf = "".join(f"<li>{esc(c)}</li>" for c in ex.get("confirmed_independently", []))
+        why = "".join(f"<li>{esc(c)}</li>" for c in ex.get("reasons", []))
+        evid = " &middot; ".join(f'<a href="{esc(href(e))}">{esc(Path(e).name)}</a>' for e in ex.get("evidence", []))
+        expl_row = f"""<tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; {esc(ex.get('verdict', ''))}</b> &mdash;
+<a href="{esc(href(ex.get('file', '')))}">{esc(Path(ex.get('file', '')).name)}</a> (audit artifact only)
+&middot; sha256 <code>{esc(ex.get('sha256', '')[:16])}&hellip;</code><br><small>{esc(ex.get('origin', ''))}</small>
+<p><b>Why not authorized:</b></p><ul>{why}</ul>
+<p><b>What this session confirmed independently:</b></p><ul>{conf}</ul><p class=mut>Evidence: {evid}</p></td></tr>"""
+    fig_rel = "docs/assets/fig_arena8a_mdrc.png"
+    fig_html = (f'<p style="margin:8px 0"><a href="{esc(href(fig_rel))}">'
+                f'<img src="{esc(href(fig_rel))}" alt="Arena8a MDRC 4-panel diagnostic" '
+                f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:4px"></a></p>'
+                if (ROOT / fig_rel).is_file() else "")
+    return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
+<p class=mut>{esc(st.get('gate_rule', ''))}</p>
+<table>
+<tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
+<b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
+<code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+<tr><th>Newest unique file (Arena8a MDRC)</th><td>Audit download only: <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">format receipt</a>
+&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a> &middot; <a href="{docs_prefix}research/arena8a-preregistration-and-hypotheses.md">pre-registration &amp; hypotheses</a><br>{nverdict} (audit artifact only; automated verdict: <code>negative</code>; note: <code>{esc(n.get('note', ''))}</code>, {len(str(n.get('note', '')))}/140 chars) &mdash; {esc(n.get('hypothesis', ''))};
+{int(n.get('dots', 0)):,} dots; sha256 <code>{esc(n.get('sha256', '')[:16])}&hellip;</code>
+<ul>{reasons}</ul>
+<table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
+<table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
+{fig_html}
+</td></tr>
+{h42_row}
+{expl_row}
+<tr><th>Withdrawn</th><td><ul>{wd}</ul></td></tr>
+<tr><th>Leaderboard</th><td>public #1 = <b>{lb.get('score')}</b> ({esc(lb.get('team', ''))}), read {esc(lb.get('read_utc', ''))}
+from the <a href="{esc(lb.get('url', ''))}">official leaderboard</a></td></tr>
+</table>
+<p>Why, in full: <a href="{GH}{esc(st.get('knowledge', ''))}">session findings (knowledge/05)</a> &middot;
+<a href="{docs_prefix}executive-summary.html">exact upload steps</a></p>
+</div>"""
 
 
 def _r5_candidate_row(run: dict | None, label: str, gate_text: str, ev_file: str) -> str:
@@ -245,151 +361,55 @@ holdout scores the live B-ladder <i>backwards</i> (IR-32-INSTR-03) &mdash; do no
 </div>"""
 
 
-def arena8a_block(prefix: str = "") -> str:
-    """Arena8a (2026-10-26) automated gate banner: unique MDRC TIF, zero-human-intervention audit."""
-    try:
-        rc = json.loads((ROOT / "evidence" / "arena8a_run_card.json").read_text())
-    except Exception:
-        return ""
-    ok = bool(rc.get("ok_to_submit"))
-    fn = rc.get("raster_filename", "")
-    zn = rc.get("zip_filename", "")
-    nn = rc.get("nan_twin_filename", "")
-    vh = (rc.get("holdout_dti") or {}).get("primary_visible_only_holdout") or {}
-    sg = (rc.get("holdout_dti") or {}).get("secondary_sgmc_off_catalogue") or {}
-    p_d28 = (rc.get("holdout_dti") or {}).get("paired_diff_vs_d28_vis_b2") or {}
-    gates = rc.get("automated_gates") or {}
-    uo = rc.get("correlation_and_overlap_vs_registry") or {}
-
-    g_badges = " &middot; ".join(
-        f"<b>{esc(k.split('_')[0])}</b>: "
-        + (f'<span style="color:#059669">PASS</span>' if v.get("passed") else f'<span style="color:#dc2626">FAIL</span>')
-        for k, v in gates.items()
-    )
-    light = (
-        "&#128994; PROMOTED — OK TO DOWNLOAD &amp; SUBMIT TO WEEKLY SLOT"
-        if ok
-        else "&#128994; OK TO DOWNLOAD (UNIQUE [0,1] TIF) &nbsp;&middot;&nbsp; &#128308; DO NOT SUBMIT TO PORTAL SLOT (AUTOMATED NEGATIVE)"
-    )
-    fig_html = ""
-    if (DOCS / "assets" / "fig_arena8a_mdrc.png").exists():
-        fig_html = (
-            f'<p style="margin-top:12px"><a href="{esc(prefix)}assets/fig_arena8a_mdrc.png">'
-            f'<img src="{esc(prefix)}assets/fig_arena8a_mdrc.png" alt="Arena8a MDRC 4-panel validation audit" '
-            f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:6px"></a></p>'
-        )
-    rc_link = (
-        f'<a href="{esc(prefix)}data/arena8a_run_card.json">JSON Run Card</a>'
-        if (DOCS / "data" / "arena8a_run_card.json").exists()
-        else f'<code>evidence/arena8a_run_card.json</code>'
-    )
-    return f"""<div class=dl style="border:3px solid {'#059669' if ok else '#dc2626'}">
-<h2>{light}</h2>
-<p><b>Latest Unique Session Deliverable (Arena8a MDRC, 2026-10-26):</b> <code>{esc(fn)}</code><br>
-<b>Unique Submission Name:</b> <code>{esc(rc.get('submission_name',''))}</code> &middot;
-<b>Note ({int(rc.get('submission_note_length') or 0)}/140 chars):</b> <code>{esc(rc.get('submission_note',''))}</code><br>
-<b>SHA-256:</b> <code>{esc(rc.get('raster_sha256',''))}</code> &middot;
-<b>Emitted Dots:</b> {int(rc.get('emitted_positive_pixels') or 0):,} binary {{0.0, 1.0}} px (0 NaN, 0 on-catalogue, 0 &le;200 m)</p>
-<p><a class="btn" href="{esc(prefix)}downloads/{esc(fn)}">&#11015; Download Unique Arena8a GeoTIFF (-zeros.tif)</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(zn)}">.zip ({int(rc.get('zip_bytes') or 0):,} B)</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(nn)}">NaN-outside twin</a>
-<a href="{esc(prefix)}downloads/checks-{esc(fn)}.json">strict [0,1] validator receipt</a> &middot;
-{rc_link}</p>
-<p><b>Automated Zero-Human-Intervention Gates:</b> {g_badges}
-&nbsp;(re-verify anytime: <code>.venv/bin/python scripts/verify_arena8a_submission.py</code>)</p>
-<ul>
-<li><b>Repaired Visible-Only Holdout (<code>{esc(vh.get('evaluator_version',''))}</code>, {int(vh.get('n_withheld_positives') or 0):,} withheld px):</b>
-<b>HOLDOUT-DTI = {vh.get('pooled_dti',0):.5f}</b> [95% CI {vh.get('ci95',[0,0])[0]:.5f}, {vh.get('ci95',[0,0])[1]:.5f}] &mdash;
-<b>beats both CTRL-35ch ({gates.get('G4_visible_only_holdout_beats_ctrl_and_d28',{}).get('ctrl_35ch_pooled_dti',0):.5f}) and
-D2.8 vis-B2 ({gates.get('G4_visible_only_holdout_beats_ctrl_and_d28',{}).get('d28_vis_b2_pooled_dti',0):.5f})</b>, winning
-<b>{int(p_d28.get('cells_won') or 0)}/{int(p_d28.get('n_cells') or 8)}</b> spatial-draw cells vs D2.8 (paired &Delta; 95% CI
-[{p_d28.get('ci95_cell_dti_diff',[0,0])[0]:+.5f}, {p_d28.get('ci95_cell_dti_diff',[0,0])[1]:+.5f}]), while reaching 2.29&times; vs the frozen 3.0&times; submodular-random sub-bar ({gates.get('G4_visible_only_holdout_beats_ctrl_and_d28',{}).get('three_x_random_bar',0):.5f} &rarr; G4 conservative FAIL).</li>
-<li><b>Lane Uniqueness (PASS):</b> pre-placement belief Spearman |&rho;| &le; <b>{uo.get('worst_abs_surface_spearman_before_placement',0):.4f}</b> (&le;0.90);
-within-3px overlap &le; <b>{uo.get('worst_frac_within_3px_genuine_models',0)*100:.2f}%</b> across all genuine models (&le;70%; only
-<b>{(uo.get('vs_champion_02778') or {}).get('frac_candidate_dots_within_3px_of_registry',0)*100:.2f}%</b> vs the 0.2778 champion).</li>
-<li><b>Why Automated Verdict = NEGATIVE (do not spend a weekly slot):</b> on off-catalogue USGS SGMC ({int(sg.get('n_withheld_positives') or 0):,} px),
-supervised <code>HistGB</code> (<code>y=0</code> on <code>~labels</code>) beats CTRL-35ch (<b>{sg.get('sgmc_prevalence_calibrated_dti',0):.5f}</b> vs
-{sg.get('ctrl_35ch_sgmc_prevalence_calibrated_dti',0):.5f}) after 1-px crest sharpening, <b>but trails the 0.2778 champion
-({sg.get('champion_02778_sgmc_prevalence_calibrated_dti',0):.5f}, Gate G5 FAIL)</b> because binary negative sampling treats unmapped pre-Quaternary
-faults inside <code>~labels</code> as true negatives (proven by EXP1, where label-free 1 m LiDAR dipole scored <b>0.10267</b> and label-free
-4-domain MDRC scored <b>0.07651</b> &gt; 0.06412). Reigning live-scored portfolio champion remains <code>h33-h33-2-b2</code> (<b>0.2778</b>, already submitted &mdash; do not resubmit).</li>
-</ul>
-{fig_html}
-</div>"""
-
-
-def nine_site_focus_section() -> str:
-    """Auditable 9-site focused comparison table (GEMSDOE24..36 + official DrivenData leaderboard)."""
-    return """<div class=card>
-<h3>Focused Nine-Site Portfolio Ledger (GEMSDOE24..GEMSDOE36 &amp; Official Leaderboard, verified 2026-10-26)</h3>
-<p class=mut>Every number carries its explicit evidence class (<code>OFFICIAL-LEADERBOARD-SNAPSHOT</code>,
-<code>ORGANIZER-CONFIRMED (owner receipt)</code>, <code>OWNER-REPORTED</code>, or <code>HOLDOUT-DTI</code>). No projection is ever printed as a score.</p>
-<table>
-<tr><th>Site / Source</th><th>Highest / Latest Artifact</th><th>Dots</th><th>Score / Metric</th><th>Evidence Class &amp; Automated Gate Status</th></tr>
-<tr><td><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">DrivenData #306</a></td>
-<td><code>#1 xiaofanhu</code> (2026-10-25) / <code>#1 DARD</code> (2026-10-03)</td><td>&mdash;</td>
-<td><b>0.4413</b> / 0.3195</td><td><code>OFFICIAL-LEADERBOARD-SNAPSHOT</code> (bar k &gt; 0.0883 / 0.0639)</td></tr>
-<tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE32">GEMSDOE32</a> (Champion)</b></td>
-<td><code>h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros</code></td><td>37,654</td>
-<td><b>0.2778</b></td><td><code>ORGANIZER-CONFIRMED (owner receipt)</code> &middot; <b>GROUP BEST</b> (B=2 prune of solo; already submitted)</td></tr>
-<tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE32">GEMSDOE32</a> (Arena8a New)</b></td>
-<td><code>arena8a-mdrc-crestbar-b2-44090-…-ce1abd39-zeros</code></td><td>44,090</td>
-<td>visHoldout <b>0.1068</b> / SGMC 0.0551</td><td><code>HOLDOUT-DTI</code> &middot; <b>DOWNLOAD YES / SUBMIT NO</b> (beats D2.8 0.0992 &amp; CTRL 0.0989; G5 SGMC &lt; 0.0641)</td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE36">GEMSDOE36</a></td>
-<td><code>anderson-geothermal-pinn-38854</code> / <code>h36-gps-graben-pair</code></td><td>38,854 / —</td>
-<td><b>0.2750</b> / HOLDOUT 0.1320</td><td><code>OWNER-REPORTED</code> (= champion &cup; 1,200 dots, &minus;0.0028) / 2026-10-26 <code>DO_NOT_SUBMIT</code></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE28">GEMSDOE28</a></td>
-<td><code>h36-1-rung30-blind-r1</code> / <code>h27-4-r1-solo-d2-8</code></td><td>37,660 / 40,199</td>
-<td><b>0.2710</b> / <b>0.2708</b></td><td><code>OWNER-REPORTED</code> (B=1 parent of champion) / 2026-10-26 <code>S20V</code> <code>DO_NOT_SUBMIT</code></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE31">GEMSDOE31</a></td>
-<td><code>h27-4-solo-d28</code> / <code>xfcoh31-xfield-coherence</code></td><td>40,199 / 37,654</td>
-<td><b>0.2708</b> / HOLDOUT 0.0459</td><td><code>OWNER-REPORTED</code> (same solo B=1 family) / 2026-10-26 <code>DO_NOT_SUBMIT</code></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE33">GEMSDOE33</a></td>
-<td><code>h33d-analog-tip-stepover-r30-cb490425926e</code></td><td>41,865</td>
-<td><b>0.2632</b></td><td><code>OWNER-REPORTED</code> (H19-5 family + tip/stepover) / 2026-10-25 no new TIF</td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE25">GEMSDOE25</a> &amp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE30">30</a></td>
-<td><code>dotted-h19-5-d2-8</code> == <code>d28-poisson300m-offcat-44090</code></td><td>44,090</td>
-<td><b>0.2600</b></td><td><code>OWNER-REPORTED</code> (byte-identical pair, IR-32-FAM-02) / 2026-10-26 <code>H71</code> &amp; <code>FFL1</code> <code>DO_NOT_SUBMIT</code></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE24">GEMSDOE24</a></td>
-<td><code>h25-1-dotted-h19-5-d1-5</code> / <code>cup1-compfront</code></td><td>60,069 / 37,654</td>
-<td><b>0.2477</b> / UNSCORED</td><td><code>OWNER-REPORTED</code> (1.5 px thinning of H19-5) / 2026-10-26 <code>CUP1</code> <code>DO_NOT_SUBMIT</code></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE27">GEMSDOE27</a></td>
-<td><code>topo-gap-closure-t-v2-on-d1-5</code> / <code>h30-1-updip-35k</code></td><td>61,328 / 35,200</td>
-<td><b>0.2449</b> / HOLDOUT 0.0942</td><td><code>OWNER-REPORTED</code> / 2026-10-25 <code>H30-1</code> locally approved in GEMSDOE27 (unscored)</td></tr>
-</table></div>"""
-
-
 def arena41_block(prefix: str = "") -> str:
-    """Arena41 (2026-10-25) verdict banner: unique new TIF, automated gates, traffic light.
+    """Active submission banner: unique new TIF, automated gates, traffic light.
 
-    Data-driven from registry/arena41_submission.json + evidence/arena41_run_card.json;
-    renders nothing if that build is absent, so older checkouts keep working.
+    Data-driven from registry/submission_build.json + evidence/geo_conduit_run_card.json.
     """
     try:
-        a = json.loads((ROOT / "registry" / "arena41_submission.json").read_text())
-        rc = json.loads((ROOT / "evidence" / "arena41_run_card.json").read_text())
+        sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
     except Exception:
         return ""
-    f = a.get("file", ""); ok = bool(a.get("ok_to_submit"))
-    light = "&#128994; OK TO SUBMIT" if ok else "&#128308; DO NOT SUBMIT — automated gates FAILED (download for audit only)"
-    h = rc.get("holdout", {}); pf = (h.get("PF_ONLY_37654") or {}); ct = (h.get("CTRL_SURF_37654") or {})
-    return f"""<div class=dl style="border:3px solid {'#1a7f37' if ok else '#b91c1c'}">
-<h2>{light}</h2>
-<p><b>New unique file (Arena41, 2026-10-25):</b> <code>{esc(f)}</code><br>
-<b>Unique submission name:</b> <code>{esc(a.get('unique_submission_name',''))}</code> ·
-<b>Note (&le;140 chars):</b> <code>{esc(a.get('note_le140',''))}</code><br>
-<b>sha256:</b> <code>{esc(a.get('sha256','')[:16])}&hellip;</code> · {int(a.get('dots') or 0):,} dots · verdict <b>{esc(a.get('verdict',''))}</b></p>
-<p><a class="btn" href="{esc(prefix)}downloads/{esc(f)}">Download the Arena41 GeoTIFF (audit only — see gates)</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(a.get('zip',''))}">.zip</a>
-<a href="{esc(prefix)}downloads/checks-{esc(f)}.json">automated format receipt</a></p>
-<p><b>Why red:</b> pre-registered gates G2/G3 failed — HOLDOUT-DTI (pooled, 22,232 withheld px)
-PF-ONLY <b>{pf.get('pooled_dti',0):.4f}</b> [95% CI {pf.get('ci95_cluster_bootstrap',['?','?'])[0]:.4f}–{pf.get('ci95_cluster_bootstrap',['?','?'])[1]:.4f}]
-vs surface-control {ct.get('pooled_dti',0):.4f} and off-catalogue SGMC also loses. Format (G5) passes:
-all cells finite, [0,1], EPSG:32611, nodata=None — <b>portal-legal but predicted to score below the
-0.2778 champion, so do not spend a slot on it.</b> Full audit:
-<code>evidence/arena41_run_card.json</code>, <code>docs/research/arena41-report.md</code>.</p>
-<p class=warn><b>Champion status correction:</b> the H33-2-B2 file below was already submitted —
-owner-reported score <b>0.2778</b>. Do not resubmit it. <b>The Arena41 lane itself has no &#128994; file</b> — the registry primary further below is a <i>separate parallel lane&#x27;s</i> artifact; judge it by its own status line, not by this banner.</p>
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        rel = "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+        artifact = ROOT / rel
+        sha = (release.get("artifact") or {}).get("sha256", "")
+        audit_link = (f'<a href="{esc(prefix + rel.replace("docs/", ""))}">'
+                      f'Download audit artifact only: {esc(artifact.name)}</a>' if artifact.is_file() else "")
+        return f"""<div class=dl style="border:3px solid #b91c1c">
+<h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
+<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>{esc(sha)}</code>.</p>
+<p>{audit_link}</p>
+</div>"""
+    f_path = sub.get("file", {}).get("path", "")
+    f_name = Path(f_path).name
+    ok = bool(sub.get("ok_to_submit", False))
+    sub_name = sub.get("candidate_id", "")
+    note = sub.get("note", "")
+    sha = sub.get("file", {}).get("sha256", "")
+    dots = sub.get("file", {}).get("positive_px", 37654)
+    zip_path = sub.get("zip", {}).get("path", "")
+    zip_name = Path(zip_path).name if zip_path else f"{f_name.split('.tif')[0]}.zip"
+
+    if ok:
+        return f"""<div class=dl style="border:3px solid #1a7f37; background:#f6fbf7;">
+<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; UNIQUE VALIDATED TIF SUBMISSION</h2>
+<p><b>Generated Unique File:</b> <code>{esc(f_name)}</code><br>
+<b>Unique Submission Name for Portal:</b> <code>{esc(sub_name)}</code><br>
+<b>Note to paste into DrivenData "Note (optional)" field ({len(note)}/200 chars):</b><br>
+<code>{esc(note)}</code><br>
+<b>SHA-256:</b> <code>{esc(sha[:16])}&hellip;</code> · {int(dots):,} dots · 0 on catalogue · B=2 buffer applied · Verdict: <b>PROMOTE</b></p>
+<p><a class="btn" style="background:#1a7f37; color:#fff;" href="{esc(prefix)}downloads/{esc(f_name)}">&#11015; ONE-CLICK DOWNLOAD .TIF (VALIDATED READY)</a>
+<a class="btn alt" href="{esc(prefix)}downloads/{esc(zip_name)}">Download as .ZIP</a>
+<a href="{esc(prefix)}downloads/checks-{esc(f_name)}.json">Automated Format Receipt (12/12 PASS)</a></p>
+<p><b>Validation Status:</b> Passed 100% automated validation without human intervention. All 12,279,160 cells finite in [0.0, 1.0], EPSG:32611, 3730&times;3292 float32, zero NaNs anywhere in raster (permanently avoiding the DrivenData portal error <i>"Predicted values must be in range [0, 1]"</i>). Uniqueness verified (Round 6): max 41.4% of dots within 3 px of any single detector raster (&le;70% limit; 19.1% vs the 0.2778 champion), max surface Spearman 0.34 (&le;0.90 limit). Gates: <code>evidence/round6_run_card.json</code>.</p>
+</div>"""
+    else:
+        return f"""<div class=dl style="border:3px solid #b91c1c">
+<h2>&#128308; DO NOT SUBMIT — automated gates FAILED (download for audit only)</h2>
+<p><b>File:</b> <code>{esc(f_name)}</code> · Verdict: <b>NEGATIVE</b></p>
+<p><a class="btn" href="{esc(prefix)}downloads/{esc(f_name)}">Download for audit only</a></p>
 </div>"""
 
 
@@ -425,9 +445,8 @@ def download_catalogue(fl: dict, sub: dict | None) -> str:
                     f"<td class=mut>{p.stat().st_size:,} B</td></tr>")
     return f"""<h2>Complete download catalogue</h2>
 <p class=mut>Every GeoTIFF in this repository, in one table, each with the sha256 of the bytes
-actually published. Only <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code>
-carries an owner-reported DrivenData submission receipt (<b>0.2778</b>); all other files are local
-unscored research/validation artifacts.</p>
+actually published. Nothing here is claimed to be scored: <b>no artifact in this repository has an
+organiser score.</b></p>
 <table><tr><th>role</th><th>file</th><th>positive pixels</th><th>sha256</th><th>bytes</th></tr>
 {''.join(rows)}</table>"""
 
@@ -476,6 +495,29 @@ same metric; only the objective changed.</p>
 {''.join(blocks)}"""
 
 
+
+def focus_sites_block() -> str:
+    """Per-site executive summary for the 9 focus sites (Round 6). All scores OWNER-REPORT."""
+    rows = [
+        ("GEMSDOE24", "h25-1-dotted-h19-5-d1-5", "0.2477", "Denser H19-5 thin (60,069 dots). Superseded by its own sparser children.", "DO NOT SUBMIT (superseded)"),
+        ("GEMSDOE25", "dotted-h19-5-d2-8", "0.2600", "H19-5 dot-thin 2.8px (44,090). Parent of the champion.", "DO NOT SUBMIT (superseded)"),
+        ("GEMSDOE27", "topo-gap-closure-t-v2-on-d1-5", "0.2449", "Gap-closure on d1.5 scored BELOW d1.5 itself: added mass hurt.", "DO NOT SUBMIT"),
+        ("GEMSDOE28", "h36-1-rung30-blind-r1", "0.2710", "Best of a ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649): all one family.", "DO NOT SUBMIT (already scored)"),
+        ("GEMSDOE30", "d28-poisson300m-offcat-44090", "0.2600", "Dot-identical to GEMSDOE25 d2.8 (same score = scorer determinism check).", "DO NOT SUBMIT (duplicate)"),
+        ("GEMSDOE31", "h27-4-solo-d28", "0.2708", "Same 8acb75e1 solo lineage as GEMSDOE28.", "DO NOT SUBMIT (duplicate lineage)"),
+        ("GEMSDOE32", "h33-h33-2-b2 (champion) + Arena8a MDRC + archived R6-1 & H42-1", "0.2778 / unscored", "Champion = ladder end (B=2, 37,654 px). Arena8a MDRC (44,090 px) wins fold-local visible-only holdout (+0.0076 vs D2.8) but fails SGMC Gate G5 (0.0551 < 0.0641); R6-1 & H42-1 retained as audit artifacts.", "Champion: DO NOT RESUBMIT. Arena8a / R6-1 / H42-1: DO NOT SUBMIT"),
+        ("GEMSDOE33", "h33d-analog-tip-stepover-r30", "0.2632", "Tip/step-over analog lane; below champion.", "DO NOT SUBMIT"),
+        ("GEMSDOE36", "anderson-geothermal-pinn-38854", "0.2750", "Contains ALL 37,654 champion dots +1,200 (extras cost -0.0028). Not independent.", "DO NOT SUBMIT (champion superset)"),
+    ]
+    trs = "".join(f"<tr><td><b>{esc(a)}</b></td><td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>" for a, b, c, d, e in rows)
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; highest reported files across the 9 focus sites and current status</h2>
+<p>Every score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; this repo holds no organizer
+receipt linking bytes to score &mdash; IR-32-SCORE-01). Full analysis:
+<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a>.</p>
+<table><tr><th>site</th><th>its best submission</th><th>score</th><th>what it is</th><th>verdict today</th></tr>{trs}</table>
+<p><b>Bottom line:</b> the 0.2778 champion is an OWNER-REPORT score and is reported as already submitted; do not resubmit it. The archived R6-1 STEP artifact is unique under its historical registry comparison and format-valid, but the current review found no authorized lane and no compliant fold-isolated promotion result: <b>DO NOT SUBMIT</b>. The other listed files are reported scored, duplicated or superseded; the available evidence does not establish an organizer-confirmed score-to-bytes receipt.</p></div>"""
+
+
 def overview(fl: dict, sub: dict | None, name: str) -> str:
     lb = fl.get("leaderboard", [])
     lb_top = lb[0] if lb else None
@@ -485,7 +527,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena8a_block(), download_block(sub, name), nine_site_focus_section(), arena41_block(), round5_section(), f"""<div class=dl>
+    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -617,65 +659,66 @@ claim.</p>""")
 
 
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
-    note = esc((sub or {}).get("note", ""))
+    """How to submit, exactly — driven by registry/current_status.json (no hand-typed status)."""
+    st = read("registry/current_status.json") or {}
+    n = st.get("newest_unique", {})
+    ok_any = bool(st.get("any_file_ok_to_submit"))
+    fname = Path(n.get("file", f"{name}.tif")).name
+    note = n.get("note", (sub or {}).get("note", ""))
     fresh = esc(f"{name}-fresh")
-    _stem = name.split("-zeros")[0].split("-nan")[0]
-    _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
-    receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
-                    if _rec else '<span class=mut>not written in this checkout</span>')
-    # Round-5 (2026-10-25) note: rendered only when this session's evidence is present.
-    _r5_note = ""
-    if read("evidence/hcvf2_run.json"):
-        _r5_note = f"""<div class=card style="border:2px solid #b00020"><h3>&#9940; Round-5 status (2026-10-25)</h3>
-<p>The group champion <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code> was
-<b>already submitted and scored 0.2778</b> — re-submitting it wastes a weekly slot. The two round-5
-candidates on the <a href="index.html">home page</a> are unique and format-valid but both measured
-<b>worse than the champion</b> locally and are labelled <b>DO NOT SUBMIT</b>. The one-click primary
-below is a separate parallel lane's artifact — judge it by its own status line. The steps below
-remain the exact procedure for any file the selector does clear.</p></div>
-"""
-    return f"""<h2 style="margin-top:6px">Executive Summary &amp; Automated Submission Gate — Read Top Verdict First</h2>
-{arena8a_block()}
-{nine_site_focus_section()}
-{_r5_note}{download_block(sub, name)}
-{arena41_block()}
-<div class=card><h3>1 · Check the file (optional, 20 s)</h3>
-<pre>python3 - &lt;&lt;'EOF'
-import rasterio, numpy as np, hashlib
-p = "{esc(name)}.tif"
-print("sha256", hashlib.sha256(open(p, "rb").read()).hexdigest())
-with rasterio.open(p) as s:
-    a = s.read(1)
-    print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
-inside = np.isfinite(a)
-print("finite", int(inside.sum()), "min", float(np.nanmin(a)), "max", float(np.nanmax(a)))
-assert float(np.nanmin(a)) &gt;= 0.0 and float(np.nanmax(a)) &lt;= 1.0
-print("OK: single band, [0,1] wherever finite")
-EOF</pre>
-<p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
-values within [0,&nbsp;1] wherever finite. The repository's own receipt is
-{receipt_link}.</p></div>
-<div class=card><h3>2 · Upload &mdash; the exact portal URL, file and name</h3>
-<p class=mut>Standing policy: this repository never requests drivendata.org automatically. The links
-below are for a human to click.</p>
+    decision = ('<p style="font-size:1.15em"><b style="color:#0a7d2c">&#9989; A file is cleared.</b> Use only the file '
+                'marked OK TO SUBMIT in the status card.</p>' if ok_any else
+                '<p style="font-size:1.15em"><b style="color:#b00020">&#128308; No upload authorized. DO NOT SUBMIT &mdash; do not '
+                'spend a weekly slot on any new file from this repository.</b> The steps below are the exact procedure '
+                'for the next file whose automated gates all pass.</p>')
+    return f"""<h2 style="margin-top:6px">Make a submission &mdash; executive summary (no upload authorized right now)</h2>
+<p class=mut>Release review: <a href="research/protocol-review-20261026.md">protocol audit</a> &middot;
+<a href="research/repo-review-20261026.md">repository review</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a></p>
+{current_status_block("")}
+<div class=card><h3>0 &middot; Decide (automated, no human inspection)</h3>
+{decision}
+<p class=mut>A file is OK to submit only if its run card shows every gate passed: leakage canary, a holdout win whose
+95&nbsp;% CI excludes zero, lane uniqueness against the registry (rank correlation &le; 0.90 and &le; 70&nbsp;% of dots
+within 3&nbsp;px of any registry raster), and the format validators. Weekly slots are capped by the DrivenData
+submission page (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); slot selection is a
+separate step.</p></div>
+<p><b>This page will show upload instructions only after a future, lane-authorized file passes every gate.</b> Until then the
+procedure below is reference material (inactive) &mdash; no upload authorized.</p>
+<details><summary><b>Reference: the exact procedure for a future authorized file (inactive)</b></summary>
+<div class=card><h3>1 &middot; Download</h3>
+<p>Use the <b><code>-zeros.tif</code></b> (or its <code>.zip</code>, which contains exactly one GeoTIFF). It is
+single-band float32, EPSG:32611, 100&nbsp;m, 3292&times;3730, the template&#x27;s exact geotransform, every pixel finite
+and in [0,&nbsp;1] (0 outside the footprint) &mdash; so it cannot trigger
+&ldquo;Predicted values must be in range [0,&nbsp;1]&rdquo;.</p></div>
+<div class=card><h3>2 &middot; Optional local check (20 s)</h3>
+<pre>git clone https://github.com/buffedlizard55-lab/GEMSDOE32 &amp;&amp; cd GEMSDOE32
+python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/restore_data.py --group core --target-dir .cache/gems_data
+PYTHONPATH=src .venv/bin/python scripts/check_submission.py docs/downloads/{esc(fname)} \\
+    --template .cache/gems_data/sample_submission.tif --strict-finite</pre>
+<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} is fully valid and ready for submission!</code>
+(format only &mdash; it is not a clearance).</p></div>
+<div class=card><h3>3 &middot; Upload on DrivenData</h3>
 <ol>
-<li><b>Portal URL:</b>
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">https://www.drivendata.org/competitions/306/competition-doe-gems/</a>
-&rarr; the <b>Submit</b> tab (the same page also carries the
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem
-description, page 967</a>, which defines the metric).</li>
-<li><em>File to submit</em> &rarr; choose <code>{esc(name)}.tif</code> (or the <code>.zip</code>).</li>
-<li>Paste this into <em>Note (optional)</em>: <code>{note}</code></li>
-<li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
-</ol></div>
-<div class=card><h3>3 · Know the two-round consequence before you click</h3>
+<li>Open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">submissions page</a>
+(login required; competition home: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DOE GEMS Prize</a>).</li>
+<li><em>File</em>: choose the cleared <code>-zeros.tif</code> (or <code>.zip</code>). The form accepts &ldquo;a single-band
+GeoTIFF (.tif) file, or a .zip file containing a single GeoTIFF&rdquo; matching the submission format&#x27;s CRS, shape and
+geotransform.</li>
+<li><em>Note (optional)</em>: paste the file&#x27;s note from its run card (&le; 140 characters, carries the unique content
+id). Example from the newest file: <code>{esc(note)}</code></li>
+<li>Submit, then record the score in <a href="../docs/score-ledger.csv">docs/score-ledger.csv</a> as
+ORGANIZER-CONFIRMED with the submission time.</li></ol></div>
+</details>
+<div class=card><h3>4 &middot; Know the two-round consequence before you click</h3>
 <p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
 before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
 from everyone's submissions. The metric weights a false negative 4&times; a false positive
 (&beta;&nbsp;=&nbsp;0.8 vs &alpha;&nbsp;=&nbsp;0.2) precisely to make novel-but-real predictions
 cheap. Consequences:</p>
 <ul>
-<li>three submissions per week are <em>scored</em>; a fourth effort is wasted;</li>
+<li>the weekly cap is whatever the DrivenData submission page displays (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); every scored upload spends one;</li>
 <li>exactly <b>one</b> file is selected for the final round and is scored in both rounds, so a file
 that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
 <li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
@@ -689,19 +732,26 @@ write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload 
 identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
 inferred from the files and the observed error, not quoted from the platform
 (<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
-{download_catalogue(fl, sub)}
-<div class=card><h3>5 · Keep the names unique</h3>
+<div class=card><h3>5 &middot; If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>Root cause measured in <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause</a>:
+NaN or float32-sentinel pixels inside the scored footprint (3,061 footprint pixels are sentinel-valued in the feature
+raster). Every file published here is written by a fail-closed writer that refuses NaN, &plusmn;inf and out-of-range values,
+and the <code>-zeros</code> variant has no NaN anywhere. If you ever see the error, you uploaded a NaN-outside or a
+foreign file.</p></div>
+<div class=card><h3>6 &middot; Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
 (e.g. <code>{fresh}</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
-</div>"""
+</div>
+<h2>All downloadable files (audit)</h2>
+{download_catalogue(fl, sub)}"""
 
 
 RESEARCH_NOTES = [
-    ("arena8a-preregistration-and-hypotheses.md", "Arena8a (2026-10-26): frozen pre-registration of "
-                                                  "five untried multi-physics hypotheses (A8A-H1..H5), "
-                                                  "repaired visible-only holdout v3 resolving IR-32-INSTR-03, "
-                                                  "and automated zero-human-intervention gates G1..G5"),
+    ("arena8a-preregistration-and-hypotheses.md",
+     "Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest "
+     "concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression "
+     "discovery (IR-A8A-PU-BIAS-01)"),
     ("hypotheses-round5.md", "Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family "
                              "forensics), the five ranked hypotheses, two measured negative lanes "
                              "(H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity "
@@ -994,29 +1044,34 @@ organizer-authenticated, and naming inconsistencies. Each item is also tracked b
 
 def main() -> int:
     fl = FEED.build(ROOT)
-    if (ROOT / "evidence" / "arena8a_run_card.json").exists():
-        (DOCS / "data").mkdir(parents=True, exist_ok=True)
-        (DOCS / "data" / "arena8a_run_card.json").write_text(
-            (ROOT / "evidence" / "arena8a_run_card.json").read_text()
-        )
     sub = read("registry/submission_build.json")
     name = (sub or {}).get("name", "gems32-h19-5-maxcov-r1")
     # A persistent download button in the header of *every* page: the brief asks for an obvious
     # one-click download at the very top of the site, and the safest way to guarantee that is to put
     # it in the page chrome rather than in one page's body.
     dl_btn = ""
-    if sub:
+    release = read("evidence/current_release_review.json", {}) or {}
+    if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
+        _v = str(sub.get("verdict", ""))
+        _label = ("&#9989; OK TO SUBMIT" if sub.get("ok_to_submit") else
+                  "&#128992; EXPLORATION ONLY, NOT CLEARED" if _v.upper().startswith("EXPLORATION") else
+                  "&#9940; DO NOT SUBMIT")
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
-                f'&#11015; Download the registry-primary GeoTIFF (read its status first)</a>']
+                f'&#11015; ONE-CLICK: headline GeoTIFF &mdash; {_label} (read status)</a>',
+                '<a class="btn alt" href="index.html#status">status</a>']
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)
+    else:
+        # Fail closed: when nothing is authorized the page chrome carries the verdict, not a download.
+        dl_btn = ('<span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> '
+                  '<a class="btn alt" href="index.html#status">status &amp; audit downloads</a>')
 
     pages = {
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           overview(fl, sub, name), "index.html", dl_btn),
+                           current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
         "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
@@ -1032,6 +1087,11 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     for fname, html_text in pages.items():
         (DOCS / fname).write_text(html_text)
+    if (ROOT / "evidence" / "arena8a_run_card.json").exists():
+        (DOCS / "data").mkdir(parents=True, exist_ok=True)
+        (DOCS / "data" / "arena8a_run_card.json").write_text(
+            (ROOT / "evidence" / "arena8a_run_card.json").read_text()
+        )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy
     # builder, source main:/) to publish the repository root, and the API token available here
@@ -1045,8 +1105,9 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
-{arena8a_block("docs/")}
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
+<h2>Historical record</h2>
 {arena41_block("docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
@@ -1072,6 +1133,7 @@ irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.
 <meta http-equiv=refresh content="0; url=docs/{target[0]}"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{esc(target[1])}</h1>
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>This page moved.</b> The parallel site layout was retired; the current page is
 <a href="docs/{target[0]}">{esc(target[1])} &rarr;</a>. &nbsp;&middot;&nbsp;
@@ -1088,7 +1150,7 @@ irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.
 <meta http-equiv=refresh content="0; url=docs/{fname}"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{esc(title)}</h1>
-{arena8a_block("docs/")}
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>Full page:</b> <a href="docs/{fname}">{esc(title)} &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>

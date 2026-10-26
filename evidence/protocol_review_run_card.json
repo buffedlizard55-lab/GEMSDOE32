@@ -1,0 +1,38 @@
+{
+  "hypothesis": "Signed DEM cross-profile step-vs-smooth residual may recover weak unmapped scarps (untested proposal)",
+  "mechanism": "Cross-profile signed step consistency, rather than ridge magnitude alone",
+  "named_nonfault_mimic": "Lahontan shoreline terrace or road cut",
+  "holdout": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": null,
+    "n_withheld_positives": null,
+    "dti": null,
+    "ci95": null,
+    "status": "NOT RUN: required method lane absent; no comparable current incumbent evaluation or feature cache restored"
+  },
+  "correlation_overlap_vs_registry": {
+    "surface_rank_correlation": null,
+    "status": "No new surface created; prior surfaces missing",
+    "retrospective_primary_within3px": 0.9967021045779996,
+    "retrospective_pfonly_within3px": 0.9866415254687417,
+    "reference": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "literal_rule": "duplicate; STOP; density exemption prohibited"
+  },
+  "raster_sha256": null,
+  "validator_output": {
+    "new_raster": null,
+    "status": "No new raster generated; existing two rasters pass sample-mirror grid/range checks; see docs/data/protocol-audit.json"
+  },
+  "submission_name": null,
+  "note": "Protocol audit only; missing lane; existing artifacts fail literal duplicate gate. DO NOT SUBMIT.",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "new_experiments": 0,
+  "weekly_slots_used": 0,
+  "requirements_not_completed": [
+    "New unique submission GeoTIFF (stopped by protocol)",
+    "Top-hypothesis hide-and-recover experiment (no lane; cache absent)",
+    "Verbatim full user prompt archive (operational digest stored instead)",
+    "Current leaderboard and authenticated weekly cap (host/access restricted)"
+  ]
+}

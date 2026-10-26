@@ -258,6 +258,37 @@
         "frac_registry_dots_within_3px_of_candidate": 0.15872,
         "mutual_min_within_3px": 0.15872
       }
+    },
+    "post_merge_sibling_audit_2026_10_26": {
+      "H42_HWCI": {
+        "ref_dots": 37654,
+        "spearman": 0.06003,
+        "cand_in_3px_ref": 0.22064,
+        "ref_in_3px_cand": 0.42551,
+        "sym_within_3px": 0.22064
+      },
+      "R6_STEPPROFILE": {
+        "ref_dots": 37654,
+        "spearman": 0.00251,
+        "cand_in_3px_ref": 0.19367,
+        "ref_in_3px_cand": 0.2152,
+        "sym_within_3px": 0.19367
+      },
+      "H_GEO_CONDUIT": {
+        "ref_dots": 37654,
+        "spearman": 0.07314,
+        "cand_in_3px_ref": 0.33575,
+        "ref_in_3px_cand": 0.41252,
+        "sym_within_3px": 0.33575
+      },
+      "CALIB_LATTICE_S5_206895": {
+        "ref_dots": 206895,
+        "spearman": 0.00447,
+        "cand_in_3px_ref_literal": 0.99036,
+        "ref_in_3px_cand": 0.15872,
+        "sym_within_3px": 0.15872,
+        "note": "Synthetic 5-px covering grid (IR-42-UNIQ-01 / IR-A41-UNIQ-01): random dots score 0.9988 and 0.2778 champion scores 0.9992 on one-way within-3px; reported literally and symmetrically."
+      }
     }
   },
   "raster_sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
