@@ -1052,6 +1052,11 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("arena48-livescore-covariates-20261026.md",
+     "Arena48 (2026-10-26): live-score covariate audit of all 48 unique owner-scored masks — "
+     "family membership dominates (ρ=+0.832), non-family ceiling 0.2478, champion +0.010 above "
+     "its family's dot-count trend, and the exact lattice bound (>22,163 dots can never pass the "
+     "literal rule; IR-48-LATTICE-01) — plus the nine-site executive decision table"),
     ("h46-results-and-nine-site-executive-summary-20261026.md",
      "H46 exploratory result and nine-site byte audit: no authorized lane, preregistration deviations, "
      "HOLDOUT-DTI below H38, literal lattice stop, and DO NOT SUBMIT"),

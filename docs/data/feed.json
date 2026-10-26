@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T21:44:13Z",
+ "generated_utc": "2026-10-26T22:13:06Z",
  "sources": [
   {
    "id": "competition",
@@ -2645,10 +2645,10 @@
  },
  "current_status": {
   "schema_version": 1,
-  "updated_utc": "2026-10-26T20:22:45.778325Z",
+  "updated_utc": "2026-10-26T21:55:00Z",
   "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
   "any_file_ok_to_submit": false,
-  "headline": "No file in this repository is authorized for upload. ARENA47 is a format-valid, genuine-unique research artifact but does not beat the Champion on HOLDOUT-DTI; the literal lattice blocks every dense map (IR-42-UNIQ-01).",
+  "headline": "No file in this repository is authorized for upload. Arena48 (2026-10-26 evening) repaired the release-registry drift (IR-48-SYNC-01/02) and quantified the portfolio: owner-reported scores are dominated by H19-5 family membership (Spearman +0.832), the family tops out at 0.2778 with no non-family detector above 0.2478, and the literal lattice rule is impassable above 22,163 dots (IR-48-LATTICE-01) - an owner protocol decision is required before any dense candidate can be cleared.",
   "gate_rule": "OK TO SUBMIT requires an explicitly assigned method lane; all feature-only leakage canaries <=0.90; a fold-local HOLDOUT-DTI win with paired 95% CI >0 against the current same-evaluator repo best; no SGMC-cal regression against the Champion; literal surface/final-dot uniqueness against every registry raster (Spearman <=0.90 and <=70% within 3 px); exact saved-byte format/range validation; and separate weekly-slot selector approval. No human inspection.",
   "best_scored": {
    "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -3362,6 +3362,65 @@
     "Literal all-registry gate fails against the synthetic 5-px calibration lattice (99.68% overlap >70%) due to pigeonhole coverage 99.87% \u2014 same failure as champion 99.92% (IR-42-UNIQ-01).",
     "No paired win against H38 repo best (0.1169) on GEMSDOE32-HIDE-RECOVER-v3.0 per-cell OOF metric; flat-mask HR is not comparable to per-cell OOF HR."
    ]
+  },
+  "arena48_audit": {
+   "report": "docs/research/arena48-livescore-covariates-20261026.md",
+   "evidence": "evidence/livescore_covariates_20261026.json",
+   "kind": "retrospective portfolio audit; 0 new experiments; 0 weekly slots; no lane assigned so no candidate generated",
+   "evidence_class": "OWNER-REPORT-fitted diagnostics; not score predictions",
+   "n_unique_scored_masks": 48,
+   "spearman_score_vs_family_membership": 0.832,
+   "spearman_score_vs_champion_overlap": 0.858,
+   "loo_all_features": {
+    "r2": 0.756,
+    "spearman": 0.863,
+    "mae": 0.0225
+   },
+   "loo_family_dotcount": {
+    "r2": 0.881,
+    "spearman": 0.765,
+    "mae": 0.0072
+   },
+   "family_max_owner_report": 0.2778,
+   "non_family_max_owner_report": 0.2478,
+   "champion_residual_vs_family_trend": 0.0101,
+   "lattice_pigeonhole_bound": {
+    "hole_pixels": 6649,
+    "max_dots_that_could_pass_literal_rule": 22163
+   },
+   "byte_identical_cross_site_masks": [
+    {
+     "score": 0.26,
+     "dots": 44090,
+     "digest": "426073b6b4abda02",
+     "sites": [
+      "GEMSDOE25",
+      "GEMSDOE30",
+      "GEMSDOE29"
+     ]
+    },
+    {
+     "score": 0.2708,
+     "dots": 40199,
+     "digest": "dbb809101d86489d",
+     "sites": [
+      "GEMSDOE28",
+      "GEMSDOE31"
+     ]
+    },
+    {
+     "score": 0.1563,
+     "dots": 172974,
+     "digest": "a84d22001224582a",
+     "sites": [
+      "GEMSDOE",
+      "5GEMSDOE",
+      "8GEMSDOE"
+     ]
+    }
+   ],
+   "extra_scored_rasters_manifest": "registry/extra_scored_manifest.json",
+   "decision": "No upload authorized; see the report for the exact blockers and next steps."
   }
  },
  "irregularities": [
@@ -3881,6 +3940,24 @@
    "severity": "high (promotion gate failed)",
    "statement": "H46 EXP3 exploratory HOLDOUT-DTI is 0.109361 [0.094695, 0.122341] on GEMSDOE32-HIDE-RECOVER-v3.0 with 22,232 withheld positives. The prior H38 repository best is 0.116958 [0.100533, 0.132040] on the same evaluator/population. H46 is lower by 0.007597 at the point level; H38 bootstrap vectors are not archived, so no paired CI may be computed.",
    "mitigation": "Promotion compares against the prior repo best, not just the 0.099202 fold-collared B2 proxy. No performance claim is made; H46 remains negative."
+  },
+  {
+   "id": "IR-48-SYNC-01",
+   "severity": "high (main test suite red; fixed this session)",
+   "statement": "The ARENA47 merge (PR #33) advanced evidence/current_release_review.json and registry/current_status.json to the ARENA47 artifact but left registry/submission_build.json pinned to the Arena9 sha 8eee6e1a..., so five tests failed on main (submission_build vs release review vs latest-run-card drift).",
+   "mitigation": "scripts/sync_submission_build.py re-pins submission_build.json to the current release-review artifact and refuses to run when the release review and current status disagree; tests/test_release_consistency.py pins the relationship between all three registries; suite green (158 passed)."
+  },
+  {
+   "id": "IR-48-SYNC-02",
+   "severity": "medium (misleading site rendering; fixed this session)",
+   "statement": "scripts/build_site.py focus_sites_block() was hard-wired to H46 field paths; once ARENA47 became newest_unique it rendered missing holdout metrics as 'nan [0.00000, 0.00000]', i.e. missing data displayed as a measured zero.",
+   "mitigation": "Generic candidate card driven by current_status.newest_unique; missing metrics render as an em dash; regression test test_no_missing_metric_renders_as_zero."
+  },
+  {
+   "id": "IR-48-LATTICE-01",
+   "severity": "high (owner protocol decision required; no candidate can pass meanwhile)",
+   "statement": "Exact computation on the pinned r13-lattice-s5_v2 raster: the 5-px lattice leaves 6,649 footprint pixels farther than 3 px from every lattice dot (99.87% coverage), so the literal '<=70% of dots within 3 px of any registry raster' rule is mathematically impassable for any submission with more than floor(6649/0.3)=22,163 dots. Every champion-family file (37,654-61,328 dots) and every research artifact in this repository exceeds the bound, as does the champion itself (99.92%).",
+   "mitigation": "Owner must decide prospectively: exempt documented calibration probes from the duplicate gate, or keep the literal rule and accept that no dense map can ever pass. No exemption applied unilaterally. Evidence: evidence/livescore_covariates_20261026.json lattice_pigeonhole_bound."
   }
  ]
 }

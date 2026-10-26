@@ -240,7 +240,7 @@
   {
    "id": "IR-32-SCORE-03",
    "severity": "medium",
-   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts — cf. IR-32-SCORE-01/02).",
+   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
   },
   {
@@ -313,7 +313,7 @@
    "id": "IR-32-BAND-02",
    "severity": "high",
    "status": "fixed-in-h36-tdr-pds",
-   "summary": "Band 6 (`tc`) in `training_features.tif` is Airborne Radiometric Total Count (`rho = +0.99942` with `0.41*K + 0.48*eTh + 0.21*eU`), NOT gravity Terrain Correction — prior hypotheses dividing `tc/dem` computed radiometric-over-elevation ratios.",
+   "summary": "Band 6 (`tc`) in `training_features.tif` is Airborne Radiometric Total Count (`rho = +0.99942` with `0.41*K + 0.48*eTh + 0.21*eU`), NOT gravity Terrain Correction \u2014 prior hypotheses dividing `tc/dem` computed radiometric-over-elevation ratios.",
    "impact": "Invalidated physical mechanism of prior `tc`-as-terrain-correction features; fixed in `src/gems32/h36_tdr_pds.py`."
   },
   {
@@ -517,6 +517,24 @@
    "severity": "high (promotion gate failed)",
    "statement": "H46 EXP3 exploratory HOLDOUT-DTI is 0.109361 [0.094695, 0.122341] on GEMSDOE32-HIDE-RECOVER-v3.0 with 22,232 withheld positives. The prior H38 repository best is 0.116958 [0.100533, 0.132040] on the same evaluator/population. H46 is lower by 0.007597 at the point level; H38 bootstrap vectors are not archived, so no paired CI may be computed.",
    "mitigation": "Promotion compares against the prior repo best, not just the 0.099202 fold-collared B2 proxy. No performance claim is made; H46 remains negative."
+  },
+  {
+   "id": "IR-48-SYNC-01",
+   "severity": "high (main test suite red; fixed this session)",
+   "statement": "The ARENA47 merge (PR #33) advanced evidence/current_release_review.json and registry/current_status.json to the ARENA47 artifact but left registry/submission_build.json pinned to the Arena9 sha 8eee6e1a..., so five tests failed on main (submission_build vs release review vs latest-run-card drift).",
+   "mitigation": "scripts/sync_submission_build.py re-pins submission_build.json to the current release-review artifact and refuses to run when the release review and current status disagree; tests/test_release_consistency.py pins the relationship between all three registries; suite green (158 passed)."
+  },
+  {
+   "id": "IR-48-SYNC-02",
+   "severity": "medium (misleading site rendering; fixed this session)",
+   "statement": "scripts/build_site.py focus_sites_block() was hard-wired to H46 field paths; once ARENA47 became newest_unique it rendered missing holdout metrics as 'nan [0.00000, 0.00000]', i.e. missing data displayed as a measured zero.",
+   "mitigation": "Generic candidate card driven by current_status.newest_unique; missing metrics render as an em dash; regression test test_no_missing_metric_renders_as_zero."
+  },
+  {
+   "id": "IR-48-LATTICE-01",
+   "severity": "high (owner protocol decision required; no candidate can pass meanwhile)",
+   "statement": "Exact computation on the pinned r13-lattice-s5_v2 raster: the 5-px lattice leaves 6,649 footprint pixels farther than 3 px from every lattice dot (99.87% coverage), so the literal '<=70% of dots within 3 px of any registry raster' rule is mathematically impassable for any submission with more than floor(6649/0.3)=22,163 dots. Every champion-family file (37,654-61,328 dots) and every research artifact in this repository exceeds the bound, as does the champion itself (99.92%).",
+   "mitigation": "Owner must decide prospectively: exempt documented calibration probes from the duplicate gate, or keep the literal rule and accept that no dense map can ever pass. No exemption applied unilaterally. Evidence: evidence/livescore_covariates_20261026.json lattice_pigeonhole_bound."
   }
  ]
 }
