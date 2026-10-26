@@ -577,6 +577,39 @@
    "severity": "medium (method lesson)",
    "statement": "An LLI design splitting the H19-5 halo by up/down-slope side produced a huge in-sample effect (358x upslope at 1 px) with zero out-of-sample gain (LOO 0.0222 vs 0.0222; 53 asymmetric rasters 0.0217 vs 0.0217; r=-0.07), and the side flipped between bands across multi-start fits.",
    "mitigation": "H47-1 recorded NEGATIVE; any LLI factor must improve held-out prediction before it informs a design."
+  },
+  {
+   "id": "IR-A48-JX-01",
+   "severity": "medium",
+   "status": "open",
+   "date": "2026-10-26",
+   "evidence": "evidence/arena48_jxstep_run_card.json; docs/assets/fig_arena48_jxstep.png",
+   "statement": "JXSTEP step operator partially responds to airborne-survey flight-line seams. docs/assets/fig_arena48_jxstep.png panel A shows rectilinear texture in jx_concordant consistent with GeoDAWN 200/400 m line spacings (USGS DOI 10.5066/P93LGLVQ). Blocks any JXSTEP rerun until A48-H3 BADOG block normalization (docs/research/arena48-preregistration-and-hypotheses.md) is applied. Observation, not proof of seam origin.",
+   "mitigation": "Recorded; no submission relies on it. Evidence: evidence/arena48_jxstep_run_card.json; docs/assets/fig_arena48_jxstep.png"
+  },
+  {
+   "id": "IR-A48-REG-01",
+   "severity": "low",
+   "status": "open",
+   "date": "2026-10-26",
+   "evidence": "evidence/arena48_pass2_verification.json",
+   "statement": "Registry raster GEMSDOE31 gemsdoe31-csdu-stepover-8cf9dc27-nan.tif is non-finite inside the footprint. Registry audit status nonfinite_inside_footprint on the refreshed 375-raster manifest; not measurable for uniqueness and would fail the portal [0,1] range check. Expected or not, flagged per protocol.",
+   "mitigation": "Recorded; no submission relies on it. Evidence: evidence/arena48_pass2_verification.json"
+  },
+  {
+   "id": "IR-A48-REG-02",
+   "severity": "low",
+   "status": "open",
+   "date": "2026-10-26",
+   "evidence": "evidence/arena48_pass2_verification.json",
+   "statement": "Registry raster GEMSDOE36 GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif is on a mismatched grid. Registry audit status grid_mismatch; excluded from uniqueness measurement. Named a format test by its owner repo; flagged so the audit is never silently incomplete.",
+   "mitigation": "Recorded; no submission relies on it. Evidence: evidence/arena48_pass2_verification.json"
+  },
+  {
+   "id": "IR-A48-LANE-01",
+   "severity": "medium",
+   "statement": "Two parallel sessions both used the ARENA48 lane label: ARENA48-H1-TMSPI (H50, merged PR #38, artifact 20261026T214025Z) and A48-H1-JXSTEP (this lane, artifact 20261026T215839Z). Distinct mechanisms and artifacts, colliding lane IDs - a parallel-run coordination irregularity.",
+   "mitigation": "Recorded here and in registry/current_status.json headline; both artifacts kept with distinct run cards (evidence/h50_tmspi_run_card.json, evidence/arena48_jxstep_run_card.json); future lanes must take a fresh number from the merged main before starting."
   }
  ]
 }

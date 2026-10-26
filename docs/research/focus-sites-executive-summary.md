@@ -1,5 +1,16 @@
 # Executive summary — the 9 focus sites, the 0.2778 champion, and submission status
 
+> **ARENA48 UPDATE (2026-10-26, supersedes the status text below where they
+> differ):** a new unique, portal-valid file
+> `gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif`
+> (sha256 `4aa4d8f2…`) was generated, but its verdict is **negative — DO NOT
+> SUBMIT**: HOLDOUT-DTI `GEMSDOE32-HIDE-RECOVER-v3.0` (n=22,232) = 0.1063
+> [0.0921, 0.1207] does not clear H38 0.1170, the paired win vs the champion
+> recipe is not significant, and SGMC 0.0614 < champion 0.0641. The 9-site
+> table with required columns (file / estimated score / unique YES-NO) and
+> the fresh byte audit are in
+> [`arena48-results-and-nine-site-executive-summary.md`](arena48-results-and-nine-site-executive-summary.md).
+
 > **CURRENT REVIEW OVERRIDES THE HISTORICAL ROUND-6 PROMOTION BELOW: DO NOT SUBMIT THE R6-1 TIFF.** Strict format/grid validation passes against a hash-pinned owner mirror, but the TIFF is not unique under the literal registry rule: 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold). The earlier 41.36% result omitted that lattice. In addition, the B=2 mask used full-catalogue geometry before holdout evaluation, and fold-local hide-and-recover evidence is not established. It is audit-only. See [`protocol-review-20261026.md`](protocol-review-20261026.md), [`repo-review-20261026.md`](repo-review-20261026.md), and [`evidence/current_release_review.json`](../../evidence/current_release_review.json).
 
 **Date:** 2026-10-26 · **Round:** 6 · **Competition:** DOE GEMS Prize (DrivenData #306)
