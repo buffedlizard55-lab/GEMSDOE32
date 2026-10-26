@@ -1,0 +1,323 @@
+{
+ "schema_version": 1,
+ "generated_utc": "2026-10-26T21:08:36Z",
+ "experiment": "H47 E2 - LLI-optimal unique allocation (H47-3)",
+ "preregistration": "docs/research/h47-lli-preregistration-20261026.md",
+ "constants": {
+  "novel_share": 0.35,
+  "core_B_px": 3.01,
+  "novel_min_d_H19-5_px": 5.01,
+  "novel_min_d_catalogue_px": 5.01
+ },
+ "uniqueness_repair": {
+  "applied": true,
+  "avoid_zone_footprint_fraction": 0.8371122038219421,
+  "reason": "first extended-registry audit: novel dots inside dense GEMSDOE22/23/67/77 rasters; novel candidates now avoid the union of 3-px dilations of all rasters with >=55% overlap"
+ },
+ "budget_grid": [
+  {
+   "r_core": 2.8,
+   "k_core_requested": 16000,
+   "core": 16000,
+   "novel": 8616,
+   "dots": 24616,
+   "lli_projection": {
+    "0.0001": 0.158313427126992,
+    "0.001": 0.21505196540323981
+   },
+   "mean_projection": 0.1866826962651159,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 2.8,
+   "k_core_requested": 20000,
+   "core": 20000,
+   "novel": 10770,
+   "dots": 30770,
+   "lli_projection": {
+    "0.0001": 0.1912051346085677,
+    "0.001": 0.22927042876423104
+   },
+   "mean_projection": 0.21023778168639937,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 2.8,
+   "k_core_requested": 24000,
+   "core": 24000,
+   "novel": 12924,
+   "dots": 36924,
+   "lli_projection": {
+    "0.0001": 0.21471981559105785,
+    "0.001": 0.23850582573609513
+   },
+   "mean_projection": 0.2266128206635765,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 2.8,
+   "k_core_requested": 28000,
+   "core": 28000,
+   "novel": 15077,
+   "dots": 43077,
+   "lli_projection": {
+    "0.0001": 0.23225092450888607,
+    "0.001": 0.2445659810799437
+   },
+   "mean_projection": 0.2384084527944149,
+   "within3px_H19-5": 0.649998839287787
+  },
+  {
+   "r_core": 2.8,
+   "k_core_requested": 32000,
+   "core": 32000,
+   "novel": 17231,
+   "dots": 49231,
+   "lli_projection": {
+    "0.0001": 0.2402422927585927,
+    "0.001": 0.24764752060791054
+   },
+   "mean_projection": 0.24394490668325164,
+   "within3px_H19-5": 0.6499969531392822
+  },
+  {
+   "r_core": 3.0,
+   "k_core_requested": 16000,
+   "core": 16000,
+   "novel": 8616,
+   "dots": 24616,
+   "lli_projection": {
+    "0.0001": 0.165684588741689,
+    "0.001": 0.21553629572845945
+   },
+   "mean_projection": 0.19061044223507423,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 3.0,
+   "k_core_requested": 20000,
+   "core": 20000,
+   "novel": 10770,
+   "dots": 30770,
+   "lli_projection": {
+    "0.0001": 0.19738712792117943,
+    "0.001": 0.22938038540055733
+   },
+   "mean_projection": 0.2133837566608684,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 3.0,
+   "k_core_requested": 24000,
+   "core": 24000,
+   "novel": 12924,
+   "dots": 36924,
+   "lli_projection": {
+    "0.0001": 0.22060867648739124,
+    "0.001": 0.23852680937910745
+   },
+   "mean_projection": 0.22956774293324933,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 3.0,
+   "k_core_requested": 28000,
+   "core": 28000,
+   "novel": 15077,
+   "dots": 43077,
+   "lli_projection": {
+    "0.0001": 0.23785581887800888,
+    "0.001": 0.24430659843440447
+   },
+   "mean_projection": 0.2410812086562067,
+   "within3px_H19-5": 0.649998839287787
+  },
+  {
+   "r_core": 3.0,
+   "k_core_requested": 32000,
+   "core": 30290,
+   "novel": 16310,
+   "dots": 46600,
+   "lli_projection": {
+    "0.0001": 0.23668539727528518,
+    "0.001": 0.24498199878528057
+   },
+   "mean_projection": 0.24083369803028287,
+   "within3px_H19-5": 0.65
+  },
+  {
+   "r_core": 3.3,
+   "k_core_requested": 16000,
+   "core": 16000,
+   "novel": 8616,
+   "dots": 24616,
+   "lli_projection": {
+    "0.0001": 0.17883941533961828,
+    "0.001": 0.21350071031990234
+   },
+   "mean_projection": 0.1961700628297603,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 3.3,
+   "k_core_requested": 20000,
+   "core": 20000,
+   "novel": 10770,
+   "dots": 30770,
+   "lli_projection": {
+    "0.0001": 0.20845395117734003,
+    "0.001": 0.22650121637115514
+   },
+   "mean_projection": 0.21747758377424758,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 3.3,
+   "k_core_requested": 24000,
+   "core": 24000,
+   "novel": 12924,
+   "dots": 36924,
+   "lli_projection": {
+    "0.0001": 0.22761131819019748,
+    "0.001": 0.23394430990488602
+   },
+   "mean_projection": 0.23077781404754175,
+   "within3px_H19-5": 0.6499837504062398
+  },
+  {
+   "r_core": 3.3,
+   "k_core_requested": 28000,
+   "core": 25612,
+   "novel": 13792,
+   "dots": 39404,
+   "lli_projection": {
+    "0.0001": 0.2267009762790534,
+    "0.001": 0.23471130803641566
+   },
+   "mean_projection": 0.23070614215773452,
+   "within3px_H19-5": 0.6499847731194802
+  },
+  {
+   "r_core": 3.3,
+   "k_core_requested": 32000,
+   "core": 25612,
+   "novel": 13792,
+   "dots": 39404,
+   "lli_projection": {
+    "0.0001": 0.2267009762790534,
+    "0.001": 0.23471130803641566
+   },
+   "mean_projection": 0.23070614215773452,
+   "within3px_H19-5": 0.6499847731194802
+  }
+ ],
+ "selected": {
+  "r_core": 2.8,
+  "k_core_requested": 32000,
+  "core": 32000,
+  "novel": 17231,
+  "dots": 49231,
+  "lli_projection": {
+   "0.0001": 0.2402422927585927,
+   "0.001": 0.24764752060791054
+  },
+  "mean_projection": 0.24394490668325164,
+  "within3px_H19-5": 0.6499969531392822
+ },
+ "champion_lli_projection": {
+  "0.0001": 0.2831318967139768,
+  "0.001": 0.2845406379193836
+ },
+ "lli_validation": {
+  "design": "S3",
+  "loo_mae": 0.0219,
+  "loo_spearman": 0.927,
+  "abs_err_q90": 0.0542,
+  "leave_site_out_mae": 0.0223,
+  "note": "final archived fit: evidence/live_ledger_inversion.json (multi-start + warm LOO)"
+ },
+ "holdout": {
+  "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+  "n_withheld_positives": 22232,
+  "H47-3": {
+   "dti": 0.0784353462710033,
+   "ci95": [
+    0.06617026386645272,
+    0.09085878721784761
+   ]
+  },
+  "H47-3 core-only ablation": {
+   "dti": 0.09153166317509326,
+   "ci95": [
+    0.07768581530624254,
+    0.10580337492671874
+   ]
+  },
+  "champion proxy (D2.8 + fold-local B2)": {
+   "dti": 0.09920232315251679,
+   "ci95": [
+    0.08595140754809347,
+    0.11266835751415871
+   ]
+  },
+  "paired_delta_vs_champion_proxy_ci95": [
+   -0.02460512449278302,
+   -0.016754550388048853
+  ],
+  "paired_delta_novel_component_ci95": [
+   -0.016364530677076047,
+   -0.009514153199343688
+  ],
+  "repo_best_same_evaluator_H38": {
+   "dti": 0.116958,
+   "ci95": [
+    0.100533,
+    0.13204
+   ]
+  }
+ },
+ "canary": {
+  "passed": true,
+  "threshold": 0.9,
+  "n_features": 5,
+  "n_withheld_pos_eval": 22232,
+  "n_active_neg_eval": 88928,
+  "max_oriented_auc": 0.71018,
+  "max_feature": "lli_priority_fullcat",
+  "full_catalogue_feature_note": null,
+  "fold_local_catalogue_features": {
+   "neg_d_visible": {
+    "raw_auc": 0.73886,
+    "oriented_auc": 0.73886
+   },
+   "lli_priority_visible": {
+    "raw_auc": 0.62477,
+    "oriented_auc": 0.62477
+   }
+  },
+  "gate_passed": true,
+  "per_feature": {
+   "coupling_rtp_elev": {
+    "raw_auc": 0.54376,
+    "oriented_auc": 0.54376
+   },
+   "lidar_step_coh": {
+    "raw_auc": 0.52413,
+    "oriented_auc": 0.52413
+   },
+   "novel_score": {
+    "raw_auc": 0.54424,
+    "oriented_auc": 0.54424
+   },
+   "neg_d_H19-5": {
+    "raw_auc": 0.64221,
+    "oriented_auc": 0.64221
+   },
+   "lli_priority_fullcat": {
+    "raw_auc": 0.28982,
+    "oriented_auc": 0.71018
+   }
+  }
+ },
+ "dots_sha256_packbits": "33464ce2de9d66da626ba23798b4f11699c9105d62d1d2d49f56345ba90f92a9"
+}

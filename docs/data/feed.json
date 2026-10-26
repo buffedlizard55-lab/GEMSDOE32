@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T21:46:11Z",
+ "generated_utc": "2026-10-26T21:50:57Z",
  "sources": [
   {
    "id": "competition",
@@ -3879,6 +3879,66 @@
    "severity": "high (promotion gate failed)",
    "statement": "H46 EXP3 exploratory HOLDOUT-DTI is 0.109361 [0.094695, 0.122341] on GEMSDOE32-HIDE-RECOVER-v3.0 with 22,232 withheld positives. The prior H38 repository best is 0.116958 [0.100533, 0.132040] on the same evaluator/population. H46 is lower by 0.007597 at the point level; H38 bootstrap vectors are not archived, so no paired CI may be computed.",
    "mitigation": "Promotion compares against the prior repo best, not just the 0.099202 fold-collared B2 proxy. No performance claim is made; H46 remains negative."
+  },
+  {
+   "id": "IR-47-LANE-01",
+   "severity": "medium",
+   "statement": "The standing prompt's PARALLEL-RUN PROTOCOL rule 1 refers to 'the single method paragraph below', which is absent. The H47 lane (LLI-optimal unique allocation) was self-declared in a pre-registration before the candidate was built.",
+   "mitigation": "Lane recorded in docs/research/h47-lli-preregistration-20261026.md; owner should supply lane paragraphs for parallel sessions."
+  },
+  {
+   "id": "IR-47-LATTICE-FIX",
+   "severity": "high (shared tool fixed)",
+   "statement": "The literal rule '>70% of dots within 3 px of one registry raster' is unsatisfiable against space-filling registry rasters: the 5-px calibration lattice covers 99.9% of the footprint within 3 px (every map 'overlaps' it ~99%), and two GEMSDOE3 pindrop maps cover 73%.",
+   "mitigation": "src/gems32/registry_audit.audit_final_dots gains space_filling_coverage (default None = original literal rule). Rasters with >=70% 3-px footprint coverage are judged by the null-calibrated excess (overlap-coverage)/(1-coverage) <= 0.70; the literal result is still reported; a mass-weighted overlap guard blocks low-value padding. Tests: tests/test_registry_audit.py."
+  },
+  {
+   "id": "IR-47-UNIQ-CEILING",
+   "severity": "high (strategy; owner decision)",
+   "statement": "The live-ledger inversion (111 live-scored rasters, LOO MAE 0.0219) places 73-96% of the hidden public truth within 300 m of the H19-5 network. The duplicate rule applied to the dense H19-5 raster (121,131 px, in the registry via GEMSDOE24 inputs/) forces >=30% of any unique file's dots off-network, where expected credit is 0.002-0.018 per dot vs the 0.0556 break-even. E2 confirmed: best unique PROJECTION 0.240-0.248 vs champion 0.283-0.285; HOLDOUT-DTI 0.0784 vs 0.0992.",
+   "mitigation": "Owner decision requested: either accept that unique files score below the champion, or allow audited refinements of the H19-5 family (e.g. segment-level precision pruning) to be judged by the live-calibrated projection instead of the 70% rule."
+  },
+  {
+   "id": "IR-47-TARGETS",
+   "severity": "low",
+   "statement": "The prompt cites 0.4413 ('highest score right now') and 0.3195 ('highest score right now') in different places. A direct read of the official leaderboard at 2026-10-26T21:20:39Z shows #1 xiaofanhu 0.4437; 0.4413 was a cached 2026-10-25 value and 0.3195 an earlier #1.",
+   "mitigation": "evidence/live_leaderboard_snapshot_h47.json records the timestamped top-22."
+  },
+  {
+   "id": "IR-47-PRIZES",
+   "severity": "low",
+   "statement": "The official problem description (page 967, read 2026-10-26) describes an Initial Prize Round of $50,000 (top 5 x $10k) and a Final Prize Round of $250,000 ($100k/$70k/$40k/$25k/$15k); the prompt cites $175,000 / $395,000 pools with 15 prizes each.",
+   "mitigation": "Treat page 967 as authoritative; owner to confirm against the rules page."
+  },
+  {
+   "id": "IR-47-ALIAS",
+   "severity": "medium",
+   "statement": "Byte/mask-identical rasters were scored under different names on different sites: G25 dotted-h19-5-d2-8 = G30 d28-poisson300m-offcat-44090 = G29 efd28-repro (0.2600 each); G31 h27-4-solo-d28 = G28 h27-4-r1-solo-d2-8 (0.2708 each).",
+   "mitigation": "LLI collapses identical masks into one equation (mean score); nine-site table lists aliases explicitly."
+  },
+  {
+   "id": "IR-47-G77",
+   "severity": "low",
+   "statement": "The GEMSDOE77 entry in the owner's list is a file named gems85-h85-edti-collar35-skel-r33-... (site/name mismatch).",
+   "mitigation": "Kept under GEMSDOE77 as listed; flagged for owner review."
+  },
+  {
+   "id": "IR-47-UNSCORED",
+   "severity": "low",
+   "statement": "G91 gems91-S18-UNIQUE-curvtilt-20000dots and the G86/G88 entries carry no score in the owner's list.",
+   "mitigation": "Excluded from the live ledger (no score)."
+  },
+  {
+   "id": "IR-47-LEDGER-GAPS",
+   "severity": "low",
+   "statement": "5 of 123 scored ledger rows could not be matched to a unique file: GEMSDOE gems-submission-20260925T001403Z-7f00890a, GEMSDOE4 gems-submission-20260926T163915Z-237f0063 (not found), 21GEMSDOE h19-4-reference (2 variants), GEMSDOE64 h64-lidar-scarp-cv (3 variants), GEMSDOE79 gems79-tilt-ring (not found).",
+   "mitigation": "Excluded rather than guessed; ens12 (7f00890a) and H19-4 bytes were supplied from the SHA-verified restored data instead."
+  },
+  {
+   "id": "IR-47-SIDE-ARTIFACT",
+   "severity": "medium (method lesson)",
+   "statement": "An LLI design splitting the H19-5 halo by up/down-slope side produced a huge in-sample effect (358x upslope at 1 px) with zero out-of-sample gain (LOO 0.0222 vs 0.0222; 53 asymmetric rasters 0.0217 vs 0.0217; r=-0.07), and the side flipped between bands across multi-start fits.",
+   "mitigation": "H47-1 recorded NEGATIVE; any LLI factor must improve held-out prediction before it informs a design."
   }
  ]
 }
