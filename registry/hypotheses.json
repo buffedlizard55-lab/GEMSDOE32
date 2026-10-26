@@ -1039,7 +1039,88 @@
       "cost": "High; GPU and external downloads required.",
       "data_status": "Not checked for obtainability in this sandbox; official ASF/ScienceBase links only. Data-blocked, not currently viable.",
       "status": "Registered; not run."
+    },
+    {
+      "id": "H47-1",
+      "rank": 1,
+      "title": "LDGI-WCR: Lineament-Density, Getis-Ord Gi*, Bivariate Moran's I & Multi-Scale 2-D Ricker Wavelet Dual-Horizon Allocation",
+      "layers": [
+        "35-channel template + 20-channel SPCP + 8-channel repaired TRHV stack",
+        "8 new label-free LDGI channels (.cache/gems_work/ldgi_extra_8ch.npy): lineament density (0.8 & 1.8 km), intersection/relay density, Getis-Ord Gi* (r=500 m & 1.2 km), bivariate local Moran's I, 2-D Ricker wavelet ridges (1.0, 2.0, 3.5 km), SVD gravity wall, multi-altitude magnetic + hydrothermal vent plume, LDGI corridor composite"
+      ],
+      "signature": "Modulate sharp 100 m topographic/gravity/magnetic ridge crests by multi-kilometer lineament density, Getis-Ord Gi* hot-spot z-scores, bivariate Moran's I gravity-topography cross-clustering, and 2-D Ricker wavelet ridges; allocate the 37,654-dot B=2 budget via the leak-free Catalogue-to-Lineament Completeness Ratio eta(V) = |V cap foot| / sum_{foot} rho_lin across Horizon A (exposed/tip-relay, EXP2) and Horizon B (off-catalogue LDGI crests, EXP1).",
+      "why_off_catalogue": "Unmapped range-front step-overs, accommodation zones, and buried graben-bounding faults form multi-kilometer damage corridors with high lineament density, Gi* clustering, and 1-3.5 km wavelet potential-field step walls even where individual 100 m scarp segments are discontinuous; unlike H46-1's piedmont_burial factor (IR-46-PLAYA-01), LDGI gates corridor envelopes on sharp 100 m crests without dumping dots onto flat playas.",
+      "differs_from_repo": "First session to introduce spatial lineament density (km/km^2), lineament intersection/relay density, Getis-Ord Gi* hot-spot z-scores, bivariate local Moran's I, 2-D Ricker wavelet ridges, and the leak-free Catalogue-to-Lineament Completeness Ratio eta(V) for dual-horizon CELF allocation.",
+      "expected_dti": "HOLDOUT-DTI only (never a leaderboard score projection): EXP2 HR=0.121959 [0.107709, 0.134901] (all-time repo high, +0.005001 vs H38 0.116958, +0.022950 vs 0.2778 Champion); EXP1 SGMC-cal=0.076510 [0.064668, 0.086451]; EXP3 Dual-Horizon HR=0.119765 [0.105732, 0.132895] AND SGMC-cal=0.065888 [0.057664, 0.072551] (>0.064121 Champion).",
+      "cost": "Medium CPU (~98 s for 8-channel LDGI stack + 3-experiment OOF protocol in <2.9 GB RSS).",
+      "data_status": "VERIFIED OBTAINABLE & ON DISK: all 71 channels built and verified (71/71 Leakage Canary PASS, max AUC 0.586868 <= 0.90).",
+      "status": "MEASURED in 3-experiment protocol (EXP1/EXP2/EXP3). Beats 0.2778 Champion on BOTH HIDE-RECOVER-v3.0 (0.119765 vs 0.099202, p=1.000) and SGMC-CAL-v3.0 (0.065888 vs 0.064121), exceeds H38 point estimate (0.119765 > 0.116958), and passes genuine 362-raster uniqueness (58.67% <= 70%, |rho|=0.1537 <= 0.90). Held fail-closed (DO NOT SUBMIT) because H38 paired bootstrap vector is unarchived and literal 5-px lattice overlap is 99.61%."
+    },
+    {
+      "id": "H47-2",
+      "rank": 2,
+      "title": "Multi-Scale 2-D Ricker Wavelet & Second-Vertical-Derivative (SVD) Gravity Inflection-Wall Corridor",
+      "layers": [
+        "Bands 02/03/05/09/14 (RTP magnetic, Bouguer gravity, horizontal/vertical gradients)",
+        "Band 15 (depth_to_base_surf), GeoDAWN TMI_up150 & magnetic_4km_upward"
+      ],
+      "signature": "Multi-scale 2-D Ricker wavelet ridge response across scales s in {1.0, 2.0, 3.5 km} combined with the zero-crossing inflection wall of the Laplace-equation vertical second derivative d^2 g / dz^2 = -(d^2 g / dx^2 + d^2 g / dy^2).",
+      "why_off_catalogue": "Basin-bounding normal faults beneath 100-1,500 m of unconsolidated valley fill produce broad potential-field steps (1-4 km wavelength) invisible to 100 m Sobel operators; the Ricker wavelet + SVD inflection wall localizes the hanging-wall/footwall basement step directly.",
+      "differs_from_repo": "Prior stacks used single-scale Sobel/Gaussian derivatives; this hypothesis uses explicit 2-D Mexican-hat/Ricker wavelet banks and potential-field SVD zero-crossing walls.",
+      "expected_dti": "HOLDOUT-DTI component of H47-1 (Canary AUC 0.5068 and 0.5229 <= 0.90).",
+      "cost": "Low CPU (integrated as channels 4 and 5 of ldgi_extra_8ch.npy).",
+      "data_status": "VERIFIED OBTAINABLE & ON DISK.",
+      "status": "MEASURED as component channels 4-5 inside H47-1 (EXP1 SGMC-cal = 0.076510)."
+    },
+    {
+      "id": "H47-3",
+      "rank": 3,
+      "title": "Multi-Altitude (0 m -> 150 m -> 4 km) Upward-Continuation Crest-Migration & Hydrothermal Vent Plume",
+      "layers": [
+        "Bands 02/03/09 (surface RTP & TMI horizontal/vertical gradients)",
+        "geodawn_extensions_u8.tif Band 4 (TMI_up150) & external/magnetic_4km_upward.tif",
+        "UNR/DOE GDR #1391 2-m temperature probes (2,782 in-footprint stations) & paleo-geothermal vents (281 in-footprint points)"
+      ],
+      "signature": "Geometric mean of surface, +150 m, and +4 km upward-continued magnetic horizontal-gradient crests multiplied by shallow 2-m thermal and sinter/travertine vent plumes.",
+      "why_off_catalogue": "Crustal-scale dipping normal faults retain coherent potential-field gradients from the surface through 4 km upward continuation and focus advective geothermal upflow, whereas surficial volcanic float and cultural noise decay rapidly with altitude.",
+      "differs_from_repo": "Combines three-altitude magnetic continuation persistence (0 m, 150 m, 4 km) with footprint-filtered GDR #1391 thermal/sinter plumes.",
+      "expected_dti": "HOLDOUT-DTI component of H47-1 (Canary AUC 0.5236 <= 0.90).",
+      "cost": "Low CPU (integrated as channel 6 of ldgi_extra_8ch.npy).",
+      "data_status": "VERIFIED OBTAINABLE & ON DISK.",
+      "status": "MEASURED as component channel 6 inside H47-1."
+    },
+    {
+      "id": "H47-4",
+      "rank": 4,
+      "title": "Anisotropic Fault-Tip Strike-Projection & Step-Over Relay Cone",
+      "layers": [
+        "Fold-visible fault trace mask V (cell.visible_full in OOF folds, labels.tif on full map)",
+        "71-channel multi-physics surface"
+      ],
+      "signature": "Estimate local fault-tip strike orientation via the structure tensor of V at visible trace endpoints and project an anisotropic forward propagation and step-over relay cone into the B > 2 px domain.",
+      "why_off_catalogue": "Incomplete fault compilations frequently terminate mid-segment at quadrangle boundaries or thin alluvial fans; along-strike tip cones and relay bridges capture the unmapped continuation.",
+      "differs_from_repo": "Adds structure-tensor strike-angle conditioning and forward half-space gating to visible tip/step-over cones.",
+      "expected_dti": "HOLDOUT-DTI tested in H47-1 (EXP2_H47_EXPOSED71_GI achieves 0.121959 [0.107709, 0.134901]).",
+      "cost": "Low CPU (implemented in src/gems32/ldgi.py).",
+      "data_status": "VERIFIED OBTAINABLE & ON DISK (strictly fold-visible).",
+      "status": "MEASURED in H47-1."
+    },
+    {
+      "id": "H47-5",
+      "rank": 5,
+      "title": "2-D Multi-Scale Dilated ResUNet / SegFormer Trained Under Distance-Buffered Tversky Loss on the 71-Channel Stack",
+      "layers": [
+        "Full 71-channel stack (feature_stack.npy + spcp_extra_20ch.npy + trhv_extra_8ch.npy + ldgi_extra_8ch.npy)",
+        "Fold-local distance-buffered Tversky loss (alpha=0.2, beta=0.8, 300 m kernel)"
+      ],
+      "signature": "Replace pixelwise tree splits with a 256x256 patch (25.6x25.6 km receptive field) 2-D convolutional/attention segmentation network trained end-to-end on the differentiable 300 m DTI surrogate without reference notebook Cell 12 positive-tile filtering.",
+      "why_off_catalogue": "Learns 5-25 km structural continuity, horse-tail splays, and en-echelon relay geometry directly across the 71-channel stack to bridge the gap from tree-based detectors toward the 0.3195-0.4437 public leaderboard range.",
+      "differs_from_repo": "End-to-end 2-D spatial segmentation on the 71-channel multi-physics stack rather than 100 m pixel-local HistGradientBoosting trees.",
+      "expected_dti": "Unquantified; requires CUDA GPU outside this 2-vCPU sandbox.",
+      "cost": "High (requires external GPU compute).",
+      "data_status": "All 71 channels ready on disk; GPU compute deferred.",
+      "status": "Registered next-milestone GPU architecture."
     }
   ],
-  "updated_utc": "2026-10-26T18:03:49Z"
+  "updated_utc": "2026-10-26T23:20:00Z"
 }

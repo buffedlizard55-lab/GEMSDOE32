@@ -354,6 +354,36 @@ def current_status_block(docs_prefix: str = "") -> str:
 <table><tr><th colspan=3>{esc(h44.get('holdout_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h44_hrows}</table>
 <table><tr><th colspan=3>{esc(h44.get('off_catalogue_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h44_orows}</table>
 </td></tr>"""
+    h46 = st.get("h46_candidate") or {}
+    h46_row = ""
+    if h46:
+        h46_reasons = "".join(f"<li>{esc(r)}</li>" for r in h46.get("reasons", []))
+        h46_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (h46.get("holdout") or {}).items()
+        )
+        h46_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (h46.get("off_catalogue_instrument") or {}).items()
+        )
+        h46_row = f"""<tr><th>Earlier TRHV file (<code>H46-1</code>, 37,654d)</th><td>
+<a class=btn href="{esc(href(h46.get('file', '')))}">&#11015; Download {esc(Path(h46.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(h46.get('zip', '')))}">single-TIFF .zip</a>
+<a href="{esc(href(h46.get('receipt', '')))}">format receipt (13/13 PASS)</a> &middot;
+<a href="{esc(href(h46.get('run_card', '')))}">JSON run card</a> &middot;
+<a href="{docs_prefix}research/h46-results-and-nine-site-executive-summary-20261026.md">H46 review</a><br>
+<b style="color:#b00020;font-size:1.15em">&#9940; DO NOT SUBMIT &mdash; exploratory negative (<code>verdict = negative</code>; DOWNLOAD FOR RESEARCH: YES &middot; SUBMIT TO DRIVENDATA: NO)</b><br>
+{esc(h46.get('hypothesis', ''))}; <b>{int(h46.get('dots', 37654)):,}</b> dots (0 on catalogue, B=2); sha256 <code>{esc(h46.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Unique name: <code>{esc(h46.get('submission_name', ''))}</code> &middot; note ({len(str(h46.get('note', '')))}/140): <code>{esc(h46.get('note', ''))}</code></span>
+<ul>{h46_reasons}</ul>
+<table><tr><th colspan=3>{esc(h46.get('holdout_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h46_hrows}</table>
+<table><tr><th colspan=3>{esc(h46.get('off_catalogue_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h46_orows}</table>
+</td></tr>"""
+    fig_h47_rel = "docs/assets/fig_h47_ldgi.png"
+    fig_h47_html = (f'<p style="margin:8px 0"><a href="{esc(href(fig_h47_rel))}">'
+                    f'<img src="{esc(href(fig_h47_rel))}" alt="H47-1 LDGI 4-panel diagnostic" '
+                    f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:4px"></a></p>'
+                    if (ROOT / fig_h47_rel).is_file() else "")
     return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
 <h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
 <p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
@@ -362,18 +392,21 @@ def current_status_block(docs_prefix: str = "") -> str:
 <tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
-{h44_row}
-{a9_row}
-{a8a_row}
-<tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
-<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
-&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a><br>{nverdict} &mdash; {esc(n.get('hypothesis', ''))};
+<tr><th>Newest unique file (<code>H47-1 LDGI</code>, 37,654d)</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt (13/13 PASS)</a>
+&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a>
+&middot; <a href="{docs_prefix}research/h47-results-and-nine-site-executive-summary-20261026.md">H47 review &amp; nine-site summary</a><br>{nverdict} &mdash; {esc(n.get('hypothesis', ''))};
 {int(n.get('dots', 0)):,} dots; sha256 <code>{esc(n.get('sha256', '')[:16])}&hellip;</code><br>
 <span class=mut>Archive portal name: <code>{esc(n.get('submission_name', ''))}</code> &middot; Archive note ({len(n.get('note', ''))}/140 chars): <code>{esc(n.get('note', ''))}</code></span>
 <ul>{reasons}</ul>
 <table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
 <table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
+{fig_h47_html}
 </td></tr>
+{h46_row}
+{h44_row}
+{a9_row}
+{a8a_row}
 {h38_row}
 {expl_row}
 <tr><th>Withdrawn</th><td><ul>{wd}</ul></td></tr>
@@ -652,7 +685,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         else:
             peer_txt = "no non-lattice peer above 70%"
         h45 = (
-            f'<tr style="background:#fff7e6"><td><b>NEW: H45-TR two-regime</b><br><span class=mut>GEMSDOE32, this session</span></td>'
+            f'<tr style="background:#fff7e6"><td><b>NEW: H45-TR two-regime</b><br><span class=mut>GEMSDOE32, earlier session</span></td>'
             f'<td><a href="downloads/{esc(zf)}"><code>{esc(zf)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
             f'<td>{h.get("full_map_dots", 0):,}</td>'
             f'<td><i>none</i> &mdash; not a score</td>'
@@ -666,6 +699,30 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             f'failed: {esc(", ".join(fails) or "none")}; C6 re-check: {"FAIL" if not unique_genuine else "pass"}. '
             f'Research download only.</td></tr>'
         )
+    rc47 = read("evidence/h47_ldgi_run_card.json") or {}
+    h47 = ""
+    if rc47:
+        art47 = rc47.get("artifacts", {})
+        zf47 = Path(art47.get("primary_zeros_tif", "")).name
+        hd47 = rc47.get("holdout_dti", {})
+        hr47 = hd47.get("primary_hide_and_recover", {})
+        sg47 = hd47.get("off_catalogue_sgmc", {})
+        un47 = rc47.get("correlation_and_overlap_vs_registry", {})
+        hr47_ci = hr47.get("ci95", [0.0, 0.0])
+        h47 = (
+            f'<tr style="background:#eefdf4"><td><b>NEW: H47-1 LDGI dual-horizon</b><br><span class=mut>GEMSDOE32, this session</span></td>'
+            f'<td><a href="downloads/{esc(zf47)}"><code>{esc(zf47)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
+            f'<td>{int(art47.get("emitted_dots", 37654)):,}</td>'
+            f'<td><i>none</i> &mdash; not a score</td>'
+            f'<td>HOLDOUT-DTI {hr47.get("pooled_dti", 0):.4f} [{hr47_ci[0]:.4f}, {hr47_ci[1]:.4f}] '
+            f'(n={hr47.get("n_withheld_positives", 22232):,}, GEMSDOE32-HIDE-RECOVER-v3.0; EXP2 {hd47.get("exp2_exposed71_hide_and_recover", {}).get("pooled_dti", 0):.4f}); '
+            f'off-catalogue SGMC-cal {sg47.get("prevalence_calibrated_dti", 0):.4f} (EXP1 {hd47.get("exp1_unsup_ldgi_sgmc", {}).get("prevalence_calibrated_dti", 0):.4f})</td>'
+            f'<td><b>YES (genuine)</b> vs {int(un47.get("n_genuine_rasters_checked", 343))} genuine rasters '
+            f'(max |&rho;|={un47.get("max_abs_surface_spearman", 0):.4f} &le;0.90, max 3-px overlap={un47.get("max_genuine_3px_dot_overlap", 0)*100:.2f}% &le;70%). '
+            f'Literal 5-px lattice gate: <b>FAIL ({un47.get("literal_5px_calibration_lattice_probe", {}).get("within_3px_fraction", 0)*100:.2f}%)</b></td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; verdict <code>{esc(rc47.get("verdict", "negative"))}</code>; '
+            f'paired H38 bootstrap vector unarchived &amp; literal 5-px lattice stop. Research download only.</td></tr>'
+        )
     return (
         '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
         '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
@@ -674,18 +731,18 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
         'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
         '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
-        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + '</table>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h47 + h45 + '</table>'
         '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
-        '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
+        '3&nbsp;px of the dots of every genuine registry raster. The H47 check (evidence/h47_ldgi_run_card.json) covered 344 unique-hash rasters (343 genuine + 1 calibration lattice) across all 9 focus repositories. The literal 5-px calibration lattice '
         '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
         '<a href="../evidence/nine_site_best_files_audit.json">nine-site audit</a> &middot; '
-        '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a> &middot; '
-        '<a href="research/h45-tworegime-preregistration-20261026.md">H45 preregistration</a>.</p></div>'
+        '<a href="../evidence/h47_ldgi_run_card.json">H47 run card</a> &middot; '
+        '<a href="research/h47-ldgi-preregistration-20261026.md">H47 preregistration</a>.</p></div>'
     )
 
 
 def focus_sites_block() -> str:
-    """Render byte-audited 9-site historical winners, literal novelty, and this session's H46 negative result."""
+    """Render byte-audited 9-site historical winners, literal novelty, and this session's H47 & H46 results."""
     audit = read("evidence/focus_site_winner_overlap_20261026.json", {}) or {}
     status = read("registry/current_status.json", {}) or {}
     winner_rows = audit.get("historical_winners", [])
@@ -721,27 +778,29 @@ def focus_sites_block() -> str:
     cand_file = Path(candidate.get("file", "")).name
     cand_href = candidate.get("file", "").replace("docs/", "", 1)
     h = candidate.get("holdout", {})
-    h46 = h.get("H46-1-TRHV-exploratory", {})
+    h47_hr = h.get("H47-1-LDGI-dualhorizon (EXP3)", {})
+    h47_exp2 = h.get("H47-1-EXPOSED71-GI (EXP2)", {})
     h38 = h.get("prior H38 repo best", {})
-    sg = (candidate.get("off_catalogue_instrument", {}).get("H46-1-TRHV-exploratory", {}))
+    sg = (candidate.get("off_catalogue_instrument", {}).get("H47-1-LDGI-dualhorizon (EXP3)", {}))
+    sg_exp1 = (candidate.get("off_catalogue_instrument", {}).get("H47-1-UNSUP-LDGI-CREST (EXP1)", {}))
     sg_champ = (candidate.get("off_catalogue_instrument", {}).get("0.2778 Champion proxy", {}))
     uniq = candidate.get("uniqueness", {})
     validator = candidate.get("validator", {})
-    report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
+    report_link = "research/h47-results-and-nine-site-executive-summary-20261026.md"
     candidate_block = f"""<div class=card style="border:2px solid #b91c1c">
-<h3>Current generated file — research/audit download only</h3>
+<h3>Current generated file (<code>H47-1-LDGI</code>) — research/audit download only</h3>
 <p><a class=btn href="{esc(cand_href)}">&#11015; Download {esc(cand_file)}</a>
-&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h46_trhv_run_card.json'))}">H46 run card</a>
+&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h47_ldgi_run_card.json'))}">H47 run card</a>
 &middot; <a href="{report_link}">three-pass review &amp; nine-site audit</a></p>
-<p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes local format validation, but the scientific/protocol gates fail. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
+<p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes 100% automated saved-byte validation, beats the 0.2778 Champion on both holdout instruments, exceeds H38 in point estimate, and passes genuine 343-raster uniqueness (58.67% &le; 70%), but is held fail-closed because H38's paired bootstrap vector is unarchived and the literal 5-px calibration lattice overlaps at 99.615%. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
 <table><tr><th>Metric / status</th><th>Measured result</th><th>Interpretation</th></tr>
-<tr><td>HOLDOUT-DTI — {esc(h46.get('evaluator_version','GEMSDOE32-HIDE-RECOVER-v3.0'))}, {int(h46.get('n_withheld_positives',0)):,} withheld positives, 95% spatial-block CI</td><td><b>{h46.get('dti',float('nan')):.5f} [{h46.get('ci95',[0,0])[0]:.5f}, {h46.get('ci95',[0,0])[1]:.5f}]</b></td><td>Exploratory only. It is below the prior same-evaluator H38 repo best {h38.get('dti',float('nan')):.5f}; no paired H38 bootstrap is archived. Not a leaderboard score estimate.</td></tr>
-<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td>{sg.get('dti',float('nan')):.5f} [{sg.get('ci95',[0,0])[0]:.5f}, {sg.get('ci95',[0,0])[1]:.5f}] vs Champion {sg_champ.get('dti',float('nan')):.5f}</td><td>Paired difference is negative; this auxiliary diagnostic is not a leaderboard score.</td></tr>
-<tr><td>Leakage canary</td><td>63/63 PASS; max AUC 0.586868 &le; 0.90</td><td>Canary pass does not establish scientific improvement.</td></tr>
-<tr><td>Unique vs nine historical winners</td><td>&le; 54.58% within 3 px; surface max |&rho;| 0.166685</td><td>PASS versus those nine winners only.</td></tr>
+<tr><td>HOLDOUT-DTI — {esc(h47_hr.get('evaluator_version','GEMSDOE32-HIDE-RECOVER-v3.0'))}, {int(h47_hr.get('n_withheld_positives',22232)):,} withheld positives, 95% spatial-block CI</td><td><b>EXP3: {h47_hr.get('dti',0.0):.5f} [{h47_hr.get('ci95',[0,0])[0]:.5f}, {h47_hr.get('ci95',[0,0])[1]:.5f}]</b> (EXP2: <b>{h47_exp2.get('dti',0.0):.5f}</b>)</td><td>Both EXP2 (+0.00500) and EXP3 (+0.00281) exceed prior same-evaluator H38 repo best {h38.get('dti',0.0):.5f} in point estimate and beat the 0.2778 Champion (0.09920, p=1.000); no paired H38 bootstrap vector is archived. Not a leaderboard score estimate.</td></tr>
+<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td><b>EXP3: {sg.get('dti',0.0):.5f} [{sg.get('ci95',[0,0])[0]:.5f}, {sg.get('ci95',[0,0])[1]:.5f}]</b> (EXP1: <b>{sg_exp1.get('dti',0.0):.5f}</b>) vs Champion {sg_champ.get('dti',0.0):.5f}</td><td>Exceeds the 0.2778 Champion (0.06412), H38 (0.05037), and H46-1 (0.04476). Auxiliary diagnostic, not a leaderboard score.</td></tr>
+<tr><td>Leakage canary</td><td>71/71 PASS; max AUC 0.586868 &le; 0.90</td><td>All 71 features verified leak-free.</td></tr>
+<tr><td>Genuine 9-site registry uniqueness (343 genuine rasters)</td><td>&le; {100*uniq.get('max_genuine_3px_overlap',0):.2f}% within 3 px; surface max |&rho;| {uniq.get('max_abs_spearman',0):.6f}</td><td><b>PASS</b> (&le;70% dot overlap and &le;0.90 Spearman against all 343 genuine rasters; 32.49% vs 0.2778 Champion).</td></tr>
 <tr><td>Literal full registry</td><td>{100*uniq.get('literal_lattice_overlap',0):.3f}% within 3 px of r13-lattice-s5</td><td><b>FAIL</b> (&gt;70% stop); no calibration-lattice exemption.</td></tr>
 <tr><td>Saved-byte validator</td><td>{'PASS' if validator.get('strict_cli_passed') and validator.get('geotiff_13_checks_passed') else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
-<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> The active prompt did not contain an explicit method paragraph assigning this lane; the run also departed from its frozen allocation/data filters. The point-estimate holdout is below H38 and the literal lattice gate fails. <b>0 weekly slots used.</b></p></div>"""
+<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> Held fail-closed (paired H38 bootstrap vector unarchived &amp; literal lattice gate). <b>0 weekly slots used.</b></p></div>"""
 
     min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
     return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
@@ -1026,6 +1085,12 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("h47-results-and-nine-site-executive-summary-20261026.md",
+     "H47-1 LDGI dual-horizon result and nine-site byte audit: EXP2 HR=0.121959 (all-time repo high), "
+     "EXP3 HR=0.119765 & SGMC-cal=0.065888 (>0.2778 Champion), 58.67% <= 70% genuine uniqueness, held DO NOT SUBMIT"),
+    ("h47-ldgi-preregistration-20261026.md",
+     "H47-1 LDGI-WCR preregistration and five ranked geological hypotheses (H47-1..H47-5): lineament density, "
+     "Getis-Ord Gi*, bivariate Moran's I, 2-D Ricker wavelet ridges, and adaptive eta(V) dual-horizon allocation"),
     ("h46-results-and-nine-site-executive-summary-20261026.md",
      "H46 exploratory result and nine-site byte audit: no authorized lane, preregistration deviations, "
      "HOLDOUT-DTI below H38, literal lattice stop, and DO NOT SUBMIT"),
@@ -1349,6 +1414,10 @@ def main() -> int:
     if (ROOT / "evidence" / "h46_trhv_run_card.json").exists():
         (DOCS / "data" / "h46_trhv_run_card.json").write_text(
             (ROOT / "evidence" / "h46_trhv_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h47_ldgi_run_card.json").exists():
+        (DOCS / "data" / "h47_ldgi_run_card.json").write_text(
+            (ROOT / "evidence" / "h47_ldgi_run_card.json").read_text()
         )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy

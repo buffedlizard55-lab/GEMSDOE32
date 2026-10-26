@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "verified_files_count": 26,
+  "verified_files_count": 28,
   "storage_root": ".cache/gems_data",
   "files": [
     {
@@ -210,6 +210,22 @@
       "status": "present",
       "bytes": 10492276,
       "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988"
+    },
+    {
+      "id": "scored_gems25_d28_nan",
+      "dest": "scored/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "group": "scored",
+      "status": "present",
+      "bytes": 1603424,
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8"
+    },
+    {
+      "id": "scored_gems28_h27_4_r1_solo",
+      "dest": "scored/gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif",
+      "group": "scored",
+      "status": "present",
+      "bytes": 830036,
+      "sha256": "2fc94a38d77f74d4f4ed1a97a83e7bb71a1ceea090515ec641e6681cc47c44c8"
     }
   ]
 }
