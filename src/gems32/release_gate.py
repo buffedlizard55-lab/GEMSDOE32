@@ -46,23 +46,61 @@ def compare_registry(surface, dots, footprint, registry, *, stage="final"):
                 comparisons=rows, passed=passed, stop=not passed)
 
 
+REQUIRED_VALIDATOR_CHECKS = frozenset({
+    "single_band", "finite", "range_0_1", "crs_match", "shape_match", "transform_match",
+})
+
+
+def _valid_holdout(result):
+    """Reject missing provenance and malformed evidence rather than guessing defaults."""
+    if not isinstance(result, dict):
+        return False
+    try:
+        ci = result.get("ci95", [])
+        dti = result["dti"]
+        n = result["n_withheld_positives"]
+        return bool(
+            isinstance(result.get("evaluator_version"), str)
+            and result["evaluator_version"].strip()
+            and isinstance(n, int) and not isinstance(n, bool) and n > 0
+            and len(ci) == 2 and np.isfinite([dti, *ci]).all()
+            and 0 <= ci[0] <= dti <= ci[1] <= 1
+        )
+    except (KeyError, TypeError, ValueError):
+        return False
+
+
 def promotion_decision(*, lane, surface_check, final_check, canary_aucs,
-                       holdout, incumbent, same_evaluation, validator):
-    """Only a recommendation, not authorization to spend a slot. Missing evidence rejects."""
+                       holdout, incumbent, same_evaluation, validator,
+                       paired_delta_ci95=None):
+    """Recommendation only. A paired improvement CI must exclude zero.
+
+    Both estimates must identify the same evaluator and positive count. The
+    caller must compute the paired CI on matched spatial units, not subtract
+    marginal CI endpoints. Legacy/incomplete evidence deliberately rejects.
+    """
     aucs = list(canary_aucs)
+    try:
+        paired_win = bool(paired_delta_ci95 is not None
+                          and len(paired_delta_ci95) == 2
+                          and np.isfinite(paired_delta_ci95).all()
+                          and 0 < paired_delta_ci95[0] <= paired_delta_ci95[1] <= 1)
+    except (TypeError, ValueError):
+        paired_win = False
+    holdout_ok = _valid_holdout(holdout) and _valid_holdout(incumbent)
     gates = dict(
-        lane=bool(lane and lane.strip()),
+        lane=isinstance(lane, str) and bool(lane.strip()),
         surface=surface_check.get('stage') == 'surface' and surface_check.get('passed') is True,
         final=final_check.get('stage') == 'final' and final_check.get('passed') is True,
         canaries=bool(aucs) and all(np.isfinite(a) and 0 <= a <= .90 for a in aucs),
-        holdout=bool(same_evaluation and holdout and incumbent
-                     and holdout.get('n_withheld_positives', 0) > 0
-                     and len(holdout.get('ci95', [])) == 2
-                     and np.isfinite([holdout.get('dti', np.nan), incumbent.get('dti', np.nan),
-                                      *holdout.get('ci95', [])]).all()
-                     and 0 <= holdout['ci95'][0] <= holdout['dti'] <= holdout['ci95'][1] <= 1
+        holdout=bool(same_evaluation is True and holdout_ok
+                     and holdout['evaluator_version'] == incumbent['evaluator_version']
+                     and holdout['n_withheld_positives'] == incumbent['n_withheld_positives']
                      and holdout['dti'] > incumbent['dti']),
-        format=bool(validator) and all(v is True for v in validator.values()),
+        paired_improvement=paired_win,
+        format=isinstance(validator, dict)
+               and REQUIRED_VALIDATOR_CHECKS.issubset(validator)
+               and all(v is True for v in validator.values()),
     )
     return dict(gates=gates, verdict='promote' if all(gates.values()) else 'negative',
                 selector_required=True, slot_used=False)
