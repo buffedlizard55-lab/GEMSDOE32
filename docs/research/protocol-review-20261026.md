@@ -65,7 +65,7 @@ The request supplies 0.2778 for GEMSDOE32's H33-2-B2, with other reported top sc
 
 ## Verification record
 
-- `PYTHONPATH=src .venv/bin/python -m pytest tests -q`: **88 passed, 8 skipped** (8 skips depend on unavailable training/label/group artifacts; not an end-to-end holdout run).
+- `PYTHONPATH=src .venv/bin/python -m pytest tests -q`: **90 passed, 8 skipped** (8 skips depend on unavailable training/label/group artifacts; not an end-to-end holdout run).
 - Independent rasterio byte read: succeeded as reported above.
 - `GEMS_DATA_DIR="$PWD/.cache/gems_data" PYTHONPATH=src .venv/bin/python scripts/check_submission.py --strict-finite <R6-1 zeros TIF>`: **PASS**, exact pinned owner-mirror template.
 - `GEMS_DATA_DIR="$PWD/.cache/gems_data" PYTHONPATH=src .venv/bin/python scripts/audit_release_protocol.py`: **PASS**; independently reproduces 0.9781696499707866 for R6-1 and 0.9866415254687417 for Arena41 against the registered calibration lattice. Both files are correctly DO NOT SUBMIT under the literal threshold. Audit output is `docs/data/protocol-audit.json`.

@@ -3,18 +3,12 @@
 <title>Candidate hypotheses, ranked · GEMSDOE32</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
-<section class=dl style="border:3px solid #b91c1c;background:#fff7f7" aria-label="Current submission decision">
-<h2>&#128308; DO NOT SUBMIT — no candidate passes the literal protocol gates</h2>
-<p><b>R6-1 STEP file is an audit artifact only; download does not authorize upload.</b>
-[HOLDOUT-DTI, leakage-affected/inadmissible; gems32.holdout draws 20/21; 22232 withheld positives; separate, unpaired intervals: candidate 95% CI [0.00251, 0.00453], incumbent 95% CI [0.00394, 0.00525]] candidate 0.00338 vs incumbent 0.00452;
-97.8% of candidate dots are within 3 px of the registered calibration raster (limit 70%).
-Pre-placement correlation against all registry rasters is incomplete. The prior promotion used a different SGMC proxy and excluded that registry raster from the duplicate gate.
-No slot was used; no new raster is being generated from missing source data.
-See <a href="research/protocol-review-20261026.md">the three-pass review</a> and
-<a href="research/hypotheses-round6.md">the preregistration</a>.</p>
-<p><a href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Download existing TIF for audit only</a> ·
-<a href="executive-summary.html">submission guidance (currently no approved file)</a></p></section>
-<div class=dlbtn><a class="btn" href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">&#11015; Download audit artifact (NOT approved for upload)</a> <a class="btn alt" href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip">.zip</a></div>
+<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2>&#128308; DO NOT SUBMIT — current-session release gates are not satisfied</h2>
+<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Strict CRS/shape/transform and finite [0,1] validation passes against a hash-pinned owner mirror, but this does not authorize upload. The prior B=2 holdout used full-catalogue geometry before scoring. Also, 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold); pre-placement correlation against every registry raster remains incomplete. No submission slot was used.</p>
+<p><a href="research/protocol-review-20261026.md">Read the three-pass protocol audit</a> · <a href="research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="../evidence/current_release_review.json">machine-readable release decision</a></p>
+</section>
+<div class=dlbtn></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap><h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
@@ -153,7 +147,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 00:44 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 00:48 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

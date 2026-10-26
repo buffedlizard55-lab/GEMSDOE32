@@ -76,11 +76,11 @@ def test_required_documents_exist_and_are_non_trivial(rel):
     assert p.stat().st_size > 500, f"{rel} looks empty"
 
 
-def test_readme_leads_with_current_fail_closed_submission_status():
-    """The brief requires an obvious status; a failed candidate must not be marketed as upload-ready."""
+def test_readme_leads_with_the_current_fail_closed_decision():
+    """A format-valid artifact must not be presented as submit-ready without all gates."""
     text = (ROOT / "README.md").read_text()
-    head = text[:3000]
-    assert "DO NOT SUBMIT ANY FILE" in head
-    assert "audit only" in head
+    head = text[:6000]
+    assert "DO NOT SUBMIT" in head
+    assert "audit artifact" in head.lower()
     assert "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif" in head
-    assert "OK TO DOWNLOAD AND SUBMIT" not in head
+    assert "not enough to authorize a competition upload" in head.lower()

@@ -6,37 +6,17 @@
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>GEMSDOE32 — DOE GEMS Prize (DrivenData #306)</h1>
-<section class=dl style="border:3px solid #b91c1c;background:#fff7f7" aria-label="Current submission decision">
-<h2>&#128308; DO NOT SUBMIT — no candidate passes the literal protocol gates</h2>
-<p><b>R6-1 STEP file is an audit artifact only; download does not authorize upload.</b>
-[HOLDOUT-DTI, leakage-affected/inadmissible; gems32.holdout draws 20/21; 22232 withheld positives; separate, unpaired intervals: candidate 95% CI [0.00251, 0.00453], incumbent 95% CI [0.00394, 0.00525]] candidate 0.00338 vs incumbent 0.00452;
-97.8% of candidate dots are within 3 px of the registered calibration raster (limit 70%).
-Pre-placement correlation against all registry rasters is incomplete. The prior promotion used a different SGMC proxy and excluded that registry raster from the duplicate gate.
-No slot was used; no new raster is being generated from missing source data.
-See <a href="docs/research/protocol-review-20261026.md">the three-pass review</a> and
-<a href="docs/research/hypotheses-round6.md">the preregistration</a>.</p>
-<p><a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Download existing TIF for audit only</a> ·
-<a href="docs/executive-summary.html">submission guidance (currently no approved file)</a></p></section>
+<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2>&#128308; DO NOT SUBMIT — current-session release gates are not satisfied</h2>
+<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Strict CRS/shape/transform and finite [0,1] validation passes against a hash-pinned owner mirror, but this does not authorize upload. The prior B=2 holdout used full-catalogue geometry before scoring. Also, 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold); pre-placement correlation against every registry raster remains incomplete. No submission slot was used.</p>
+<p><a href="docs/research/protocol-review-20261026.md">Read the three-pass protocol audit</a> · <a href="docs/research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="evidence/current_release_review.json">machine-readable release decision</a></p>
+</section>
 <div class=dl style="border:3px solid #b91c1c">
-<h2>&#128308; DO NOT SUBMIT — automated gates FAILED (download for audit only)</h2>
-<p><b>File:</b> <code>gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</code> · Verdict: <b>NEGATIVE</b></p>
-<p><a class="btn" href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Download for audit only</a></p>
+<h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
+<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547</code>.</p>
+<p><a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Download audit artifact only: gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a></p>
 </div>
-<div class=dl>
-<h2>&#128308; AUDIT ARTIFACT — DO NOT SUBMIT</h2>
 
-<p><a class="btn" href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Audit-only download gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a> <a class="btn alt" href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip">.zip (single GeoTIFF inside)</a> </p>
-<p><b>Filename:</b> <code>gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</code><br>
-<b>Historical candidate ID (not authorized for portal use):</b> <code>GEMSDOE32-R6-STEP-23FBBB51</code><br>
-<b>Archived note (do not paste into a submission form; 104 characters):</b><br>
-<code>R6-1 STEP 37654d | audit artifact only | failed required holdout/registry overlap gates | NOT FOR UPLOAD</code></p>
-<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-37,654 predicted pixels · every cell finite · every value in [0, 1] ·
-0 NaN anywhere · no nodata tag · sha256 <code>c7f094c1f4d00f2d&hellip;</code>
-· <a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-audit.json">format receipt (independent re-read)</a> </p>
-<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>NaN-outside twin of the primary</b></td><td><a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif">gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif</a> </td><td class=mut>20318b52084a60be&hellip;</td><td class=mut></td></tr></table>
-<p class=warn><b>Status.</b> R6-1 STEP artifact: DO NOT SUBMIT. Post-hoc review found full-catalogue B=2 leakage in hide-and-recover evaluation and 97.82% dot overlap with a registered calibration raster (&gt;70% limit). Format is byte-valid, but scientific uniqueness/holdout gates fail; audit only.</p>
-</div>
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
 &nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
