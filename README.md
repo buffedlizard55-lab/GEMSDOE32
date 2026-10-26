@@ -1,24 +1,32 @@
 # GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize (DrivenData #306)
 
-> **Repository review update (2026-10-25, current checkout): no new TIF was generated or certified in this run.** The competition source rasters and feature-stack cache are absent from `data/`/`work/`, so a fresh, independently evaluated unique submission cannot be produced here. Existing downloadable GeoTIFFs are historical artifacts; their names, hashes, and format-validation receipts do not establish uniqueness against all GEMSDOE registries or predict a score. Do not treat the older “OK TO DOWNLOAD AND SUBMIT” banner below as clearance for a new weekly slot. See the [current review, hypothesis shortlist, blockers and run card](docs/research/session-review-2026-10-25.md). No slot should be spent until the required holdout/duplicate gates have been run on a fresh candidate.
+<!-- SINGLE SOURCE OF TRUTH for submission status. Values come from evidence/h42_run_card.json (automated gates, no human inspection). Update this block, never add a second banner. -->
+## 🚦 Submission status — read this first (updated 2026-10-26 UTC)
 
-> **Project starting brief — read before every project change:** maximize the probability of a scientifically defensible competition result; own outcomes end-to-end; investigate the strongest submissions from GEMSDOE24/25/27/28/30/31/32/33/36 without copying them; generate a genuinely unique submission GeoTIFF only after validated experimentation; and make any downloadable file clearly distinguishable as validated, unscored, or not ready. Research and claims must be traceable to official sources or explicitly labelled as user-provided/owner-reported/proxy. No hallucinated scores or causal explanations. Use the shared cached feature stack, evaluator and writer; test every feature alone for leakage (AUC > 0.90 is a stop-and-investigate signal); spatially withhold whole fault segments with a buffer, derive catalogue features only from visible faults, mask those faults pixel-exactly, and evaluate pooled DTI with alpha=0.2, beta=0.8 and a 300 m triangular kernel. Label every reported number as HOLDOUT-DTI (include evaluator version, withheld-positive count and 95% CI) or ORGANIZER-CONFIRMED (submission receipt); projections are never scores. Check correlation and dot overlap against registry rasters before placement and on final output; if rank-correlation >0.90 or >70% of dots are within 3 px of one registry raster, record a duplicate and stop. Do not spend/select a weekly slot without beating valid holdout best; slot selection is separate and obeys the live weekly cap. A valid deliverable needs a unique name, <=140-character note, GeoTIFF matching sample CRS/shape/transform, no NaN in footprint and predictions in [0,1]. Preserve negative results. Full review and current blockers: [2026-10-25 repository review](docs/research/session-review-2026-10-25.md). This brief is the durable operational distillation of the project request; consult the linked review and evidence before acting.
+| question | answer |
+|---|---|
+| **Is any new file OK to submit?** | **🔴 NO.** No file in this repository is cleared for a new weekly slot. A file is labelled ✅ OK TO SUBMIT only when every automated gate (leakage canary, holdout win with CI, lane uniqueness, format) passes. |
+| **Best scored file** (already submitted — **do not resubmit**) | [`gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) — **0.2778**, ORGANIZER-CONFIRMED (owner-reported receipt) · sha256 `c55bafc470054e82…` · 37,654 dots |
+| **Newest unique file** (this session, H42-1) | ONE-CLICK: [⬇ `gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif`](docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif) · [zip](docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.zip) · [receipt](docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.json) — 🔴 **DO NOT SUBMIT.** Unique by content (final dots vs 205 registry rasters: max Jaccard 0.034, max Spearman 0.059; surface max Spearman 0.127) and format-valid (3 independent validators), but it **fails the lane gate** (82 % of its dots lie within 3 px of GEMSDOE25 `h38-greedy-credit`) and is **worse than random dots** on the independent off-catalogue instrument (0.0545 vs random 0.0709 vs champion 0.0954). [Run card](evidence/h42_run_card.json) |
+| **Withdrawn** | The earlier "✅ OK TO DOWNLOAD AND SUBMIT" banner for `gemsdoe32-h32-winning-46090-prune400-…` — a champion-family variant (shares 37,298 dots with the champion, Jaccard 0.80) whose claimed holdout margin (0.14840 vs 0.14801) lay inside its own CI [0.115, 0.182] → **DO NOT SUBMIT** (IR-42-README-01). |
+| **How to submit any file** | [Executive summary: exact upload steps](executive-summary.html). Always upload the `-zeros.tif` (0 outside the footprint): it cannot trigger "Predicted values must be in range [0, 1]". |
+| **Leaderboard context** | Public #1 = 0.4413 (xiaofanhu), read 2026-10-25 from the [official leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/). |
+
+**This session in one paragraph.** Data restored and SHA-256-verified (23 files); the shared template evaluator/writer
+vendored from [57GEMSDOE@822a0ce](https://github.com/buffedlizard55-lab/57GEMSDOE/tree/822a0ce5546c7b6749cdd82eb145b6b3e616603d);
+five new hypotheses pre-registered ([knowledge/04](knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md));
+the top one (H42-1, hanging-wall conditional intensity) scored **HOLDOUT-DTI 0.1529 [0.1400, 0.1674]** vs the champion
+recipe's 0.1056 [0.0936, 0.1166] (gems57-pooled-hide-v2, 22,893 withheld positives) — but that win is a
+*gap-filling artefact* of the catalogue-hidden instrument: off-catalogue it loses to random dots. Full analysis,
+why 0.2778 won, and the fault-discovery science: [knowledge/05](knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md).
+Earlier anatomy of the champion: [knowledge/03](knowledge/03_why_02778_and_the_anatomy_of_the_family.md) ·
+score ledger (138 rows, provenance per row): [docs/score-ledger.csv](docs/score-ledger.csv).
 
 **Competition:** [DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/)
-· **Problem description:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
+· **Problem description & metric:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
 · **Rules (PDF):** [docs.nlr.gov/docs/fy26osti/96647.pdf](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
 · **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/>
-· **Weekly budget:** 3 scored submissions; **one** file is scored in *both* prize rounds.
-
-## ✅ NEW UNIQUE SUBMISSION — OK TO DOWNLOAD AND SUBMIT (2026-10-25) — ONE-CLICK FILE
-
-**✅ OK TO DOWNLOAD AND SUBMIT:** This file is **UNIQUE** (not byte-identical to any GEMSDOE24-36 submission), passes all 12 portal checks, values in [0,1], CRS/shape/transform match, 0 on-catalogue leakage, no NaN.
-
-**[⬇ Download `gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif` (ONE CLICK, UNIQUE, VALIDATED)](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif)** · [NaN twin](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif) · [validator receipt 12/12 PASS](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-audit.json) · sha256 `04fd8a73eb584dd1…` · 250,142 B · 46,090 px · **HOLDOUT-DTI 0.14840 [0.115,0.182] vs incumbent 0.14801 — promote** — see [why 0.2778 scored](docs/research/why-02778-analysis-20261025.html) and [5 new hypotheses](docs/research/h35-hypotheses-20261025.html)
-
-**Unique name for portal:** `GEMSDOE32-H32-WIN-46090` · **Note (101/200 chars):** `H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606` — copy-paste into DrivenData “Note (optional)” field. File is portal-legal (EPSG:32611, 3730×3292, float32, [0,1], no NaN, no nodata tag) and will NOT trigger “Predicted values must be in range [0,1]”.
-
-> **Standing prompt (verbatim, read every session):** Review the repo. There should be an easy to download submission tif file as described by the prompt. Read the entire prompt. A lot of sites mention inspection only and a human inspector, but the inspection needs to be done through the project and needs to be validated for submission without human intervention. ... (full prompt in `docs/research/`) — kept here to ensure every session builds what we aim for: a useful, auditable, one-click submission system.
+· **Weekly cap:** whatever the DrivenData submission page shows ([staff, forum 11553](https://community.drivendata.org/raw/11553)); **one** selected file is scored in both prize rounds.
 
 ---
 
@@ -38,6 +46,34 @@
 > *Own the Outcome* is why every claim on this page carries an evidence class and a link, and why
 > the defect in our own previously-shipped primary download was measured, published and fixed
 > rather than quietly replaced.
+
+---
+
+## 🧭 Standing brief — read before every change (owner brief of 2026-10-25, distilled; earlier verbatim brief kept below)
+
+*Distilled, not verbatim: the full text of the 2026-10-25 brief was not retained in this checkout. The earlier verbatim
+brief is preserved in the section "🧭 Read this first, every session" further down.*
+
+1. **Goal:** place at the top of the DOE GEMS leaderboard; study the best files of GEMSDOE24/25/27/28/30/31/32/33/36;
+   explain (PhD level) why `h33-h33-2-b2-…-zeros` scored 0.2778 and whether it can be beaten (targets 0.2778 → 0.3195+;
+   public #1 was 0.4413 on 2026-10-25).
+2. **Deliverable:** a NEW, UNIQUE submission GeoTIFF (never a copy of a previous submission), validated by the project
+   itself with no human inspection, whose OK / NOT-OK-to-submit status is obvious; one-click download at the very top of
+   the site; an executive-summary subpage with the exact upload steps, a unique file name and a short note; never the
+   "Predicted values must be in range [0, 1]" error.
+3. **Science:** 3–5 untried geological hypotheses (layers, physical signature, why it finds off-catalogue faults, how it
+   differs), ranked by expected DTI gain and cost; external data only if free, official and verified obtainable; deep,
+   contrarian but grounded research kept as reusable knowledge (`knowledge/`).
+4. **Parallel-run protocol:** stay in one lane — rank-correlation > 0.90 or > 70 % of dots within 3 px of one registry
+   raster ⇒ duplicate, stop (check the surface before placement and the final dots); reuse the shared feature stack,
+   evaluator and writer (fix shared tools once, no private forks); hide whole fault segments with a buffer, derive
+   catalogue features from visible faults only, mask visible faults pixel-exactly, pooled DTI (α 0.2, β 0.8, 300 m
+   triangular kernel); label every number HOLDOUT-DTI (evaluator version, withheld positives, 95 % CI) or
+   ORGANIZER-CONFIRMED; leakage canary per feature (AUC > 0.90 ⇒ leakage until proven otherwise); one JSON run card per
+   experiment; ≤ 3 experiments or 2 hours; negative results are deliverables; slot selection is a separate step.
+5. **Process:** verify line by line against official sources with links; flag irregularities; no hallucinations; three
+   passes (implement/verify → review/fix → re-check against the request); open a PR and merge it; report suggestions,
+   remaining work and limitations; work on the previous session's next steps first.
 
 ---
 

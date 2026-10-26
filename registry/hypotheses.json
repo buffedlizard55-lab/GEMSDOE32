@@ -391,7 +391,151 @@
     ]
    },
    "verdict": "NEGATIVE: SGMC supervision pulled mass north and under-covered held-out south SGMC truth; not submittable"
+  },
+  {
+   "id": "H42-1",
+   "rank": 1,
+   "status": "measured (NEGATIVE - lane duplicate; worse than random off-catalogue)",
+   "title": "Hanging-wall conditional intensity (HWCI): P(new fault | distance, topographically signed side, strike alignment to the nearest visible trace, local scarp evidence)",
+   "layers": [
+    "visible catalogue geometry",
+    "band 12 det_elev (smoothed, side sign)",
+    "band 19 slope",
+    "lidar scarp bands 1-10, 12",
+    "bands 2/3/5/13/15/17",
+    "cached curvature/ridge/top-hat/coherence channels"
+   ],
+   "signature": "LOQO HistGradientBoosting on evidence + visible-network relational features + side; E[k] tile emission, B=2 from visible",
+   "why_off_catalogue": "synthetic/antithetic splays and basinward-stepping piedmont scarps form on the down-thrown side at 0.3-3 km",
+   "differs_from_repo": "57GEMSDOE 'side' is left/right of an arbitrary strike vector; H19 L1/GEMSDOE33 are along-strike lobes; H37-1 shifted the same dots down-dip",
+   "implementation": "scripts/run_h42.py; scripts/h42_finalize.py; evidence/h42_run.json; evidence/h42_run_card.json",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md",
+   "measured": {
+    "holdout_dti": {
+     "evidence_class": "HOLDOUT-DTI",
+     "evaluator_version": "gems57-pooled-hide-v2",
+     "dti": 0.15291794956365676,
+     "ci95": [
+      0.1399617592695118,
+      0.16740642698095798
+     ],
+     "withheld_positive_pixels": 22893
+    },
+    "champion_recipe": {
+     "evidence_class": "HOLDOUT-DTI",
+     "evaluator_version": "gems57-pooled-hide-v2",
+     "dti": 0.10564450185732029,
+     "ci95": [
+      0.09357426551429845,
+      0.1166185988408001
+     ],
+     "withheld_positive_pixels": 22893
+    },
+    "paired_vs_SYM": {
+     "evidence_class": "HOLDOUT-DTI",
+     "evaluator_version": "gems57-pooled-hide-v2",
+     "delta": 0.005030797380090185,
+     "ci95": [
+      0.0006276009145571047,
+      0.009928463981521899
+     ],
+     "withheld_positive_pixels": 22893
+    },
+    "sgmc_off_catalogue": {
+     "H42_HWCI_final": {
+      "dti": 0.05447094010898104,
+      "ci95": [
+       0.04633382983879226,
+       0.06355989795662013
+      ]
+     },
+     "CHAMPION_0.2778": {
+      "dti": 0.09538611460482535,
+      "ci95": [
+       0.0841102079816557,
+       0.10658875716107591
+      ]
+     },
+     "RANDOM_37654": {
+      "dti": 0.07091178803165195,
+      "ci95": [
+       0.067825478716518,
+       0.07417224131421848
+      ]
+     }
+    }
+   },
+   "verdict": "NEGATIVE: holdout win (+0.0473 [+0.0338, +0.0610]) is a gap-filling artefact; G4 lane gate failed (82% within 3 px of GEMSDOE25 h38); worse than random off-catalogue",
+   "expected_dti": "+0.000..+0.015 (pre-registered, wide)",
+   "cost": "medium",
+   "data_status": "all inputs restored and hash-verified"
+  },
+  {
+   "id": "H42-2",
+   "rank": 2,
+   "status": "registered (data-blocked in this sandbox)",
+   "title": "Lahontan isobath suppression of shoreline mimics",
+   "layers": [
+    "absolute DEM: USGS 3DEP 1 arc-second (public domain)"
+   ],
+   "signature": "drop lineaments whose along-strike elevation range < ~3 m below the ~1318-1340 m highstand",
+   "why_off_catalogue": "removes the main named mimic of lidar scarp detectors in the Lahontan basins (precision lever)",
+   "differs_from_repo": "no contour-parallelism discriminator exists; 62GEMSDOE used the highstand as a datum-offset gauge (owner-reported 0.0000)",
+   "expected_dti": "precision-only, unknown",
+   "cost": "high (needs a GitHub-hosted runner to fetch 3DEP)",
+   "data_status": "not in restored data; USGS hosts unreachable from this sandbox",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H42-3",
+   "rank": 3,
+   "status": "registered (subsumed by H42-1 inputs)",
+   "title": "Playa-floor dead zone",
+   "layers": [
+    "band 19 slope",
+    "lidar relief",
+    "band 17 conductivity"
+   ],
+   "signature": "flat, conductive lacustrine floors where scarps are not preserved",
+   "why_off_catalogue": "precision: experts cannot map what the surface does not preserve",
+   "differs_from_repo": "not used as an explicit mask before",
+   "expected_dti": "small",
+   "cost": "low",
+   "data_status": "available",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H42-4",
+   "rank": 4,
+   "status": "registered (partially tried elsewhere)",
+   "title": "Anthropogenic-corridor suppression (roads/rail)",
+   "layers": [
+    "TIGER/Line road distance (GEMSDOE24 audit source)"
+   ],
+   "signature": "road/rail cuts and fills mimic scarps",
+   "why_off_catalogue": "precision",
+   "differs_from_repo": "GEMSDOE24 used roads as a nuisance (C2ST) audit",
+   "expected_dti": "small",
+   "cost": "low",
+   "data_status": "available in GEMSDOE24",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H42-5",
+   "rank": 5,
+   "status": "registered (previously proposed as H33-E/H-F4; data-blocked)",
+   "title": "Relocated-seismicity lineaments",
+   "layers": [
+    "USGS ComCat FDSN"
+   ],
+   "signature": "microseismic planes",
+   "why_off_catalogue": "sub-surface faults without scarps",
+   "differs_from_repo": "not new; listed for completeness",
+   "expected_dti": "low at 300 m tolerance",
+   "cost": "high",
+   "data_status": "unreachable from this sandbox",
+   "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
   }
  ],
- "updated_utc": "2026-10-25"
+ "updated_utc": "2026-10-26T00:50:00Z"
 }

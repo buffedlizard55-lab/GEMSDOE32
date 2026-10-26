@@ -6,22 +6,45 @@
 <meta http-equiv=refresh content="0; url=docs/leaderboard.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>Leaderboard</h1>
+<div class=card id=status style="border:3px solid #b00020">
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T00:45:00Z</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is cleared for a new weekly slot.</b></p>
+<p class=mut>OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound &gt; 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.</p>
+<table>
+<tr><th>Best scored file</th><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> &mdash;
+<b>0.2778</b> ORGANIZER-CONFIRMED (owner-reported receipt) &middot; 37,654 dots &middot; sha256
+<code>c55bafc470054e82&hellip;</code><br><b>already submitted - do not resubmit (a resubmission spends a slot and adds no information)</b></td></tr>
+<tr><th>Newest unique file</th><td>ONE-CLICK: <a class=btn href="docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif">&#11015; gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.zip">.zip</a> <a href="docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.json">receipt</a>
+&middot; <a href="evidence/h42_run_card.json">run card</a><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> &mdash; H42-1 hanging-wall conditional intensity (HWCI);
+37,654 dots; sha256 <code>c8e8d10dc55c3164&hellip;</code>
+<ul><li>G4 lane gate FAILED on the final dots: 21 registry rasters beyond the space-filling lattice have &gt; 70 % of H42 dots within 3 px (worst GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif), i.e. H42&#x27;s near-network placement zone is already occupied by GEMSDOE25&#x27;s lane.</li><li>Diagnostic D4 (reported, not a gate): on the independent SGMC off-catalogue instrument the H42 raster scores 0.0545 vs champion 0.0954 vs random dots 0.0709 (gems57-pooled-hide-v2, paired CIs exclude 0) - the catalogue-hidden gain does not transfer to off-catalogue faults.</li></ul>
+<table><tr><th colspan=3>HOLDOUT-DTI, gems57-pooled-hide-v2, 22893 withheld positives, 95% CI</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr><tr><td>HWCI</td><td>0.1529</td><td>[0.1400, 0.1674]</td></tr><tr><td>SYM</td><td>0.1479</td><td>[0.1349, 0.1612]</td></tr><tr><td>EVID</td><td>0.0638</td><td>[0.0540, 0.0743]</td></tr><tr><td>CHAMP_RECIPE</td><td>0.1056</td><td>[0.0936, 0.1166]</td></tr></table>
+<table><tr><th colspan=3>INSTRUMENT: SGMC faults &gt; 3 px off-catalogue (62122 px), gems57-pooled-hide-v2</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr><tr><td>H42_HWCI_final</td><td>0.0545</td><td>[0.0463, 0.0636]</td></tr><tr><td>CHAMPION_0.2778</td><td>0.0954</td><td>[0.0841, 0.1066]</td></tr><tr><td>RANDOM_37654</td><td>0.0709</td><td>[0.0678, 0.0742]</td></tr></table>
+</td></tr>
+<tr><th>Withdrawn</th><td><ul><li><code>gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</code> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b>. IR-42-README-01: champion-family variant (37,298 shared dots, Jaccard 0.803, 84.0% within 3 px); claimed holdout margin 0.14840 vs 0.14801 inside its CI [0.115, 0.182]; SGMC off-catalogue instrument indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).</li></ul></td></tr>
+<tr><th>Leaderboard</th><td>public #1 = <b>0.4413</b> (xiaofanhu), read 2026-10-25
+from the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">official leaderboard</a></td></tr>
+</table>
+<p>Why, in full: <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md">session findings (knowledge/05)</a> &middot;
+<a href="docs/executive-summary.html">exact upload steps</a></p>
+</div>
 <div class=dl>
 <h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
-
-<p><a class="btn" href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif">Download gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</a> <a class="btn alt" href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip">.zip (single GeoTIFF inside)</a> </p>
-<p><b>Filename:</b> <code>gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</code><br>
-<b>Unique submission name to use:</b> <code>GEMSDOE32-H32-WIN-46090</code><br>
+<p style="font-size:1.25em"><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> &mdash; automated gates failed; download for audit / research only</p>
+<p><a class="btn" href="docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif">Download gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif</a> <a class="btn alt" href="docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.zip">.zip (single GeoTIFF inside)</a> </p>
+<p><b>Filename:</b> <code>gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif</code><br>
+<b>Unique submission name to use:</b> <code>GEMSDOE32-H42-1-HWCI</code><br>
 <b>Note to paste into the submit form's <em>Note (optional)</em> field
-(101/200 characters):</b><br>
-<code>H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606</code></p>
+(92 characters; protocol limit 140):</b><br>
+<code>GEMSDOE32 H42 hanging-wall HWCI 37654 dots B2 | HOLDOUT 0.1529 | id b91008fa | research only</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-46,090 predicted pixels · every cell finite · every value in [0, 1] ·
-0 NaN anywhere · no nodata tag · sha256 <code>04fd8a73eb584dd1&hellip;</code>
-· <a href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-audit.json">format receipt (independent re-read)</a> </p>
-<p><b>Already-scored fallback:</b> <a href="docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif">0.2708 anchor (already-scored base)</a> </p>
-<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>SECONDARY (Tier 2 - previous primary)</b></td><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> </td><td class=mut>c55bafc470054e82&hellip;</td><td class=mut>Previous primary: 0.2708 base minus 2px flank (B=2), 37654 dots, 0 within 200m of catalogue, live-mirror +0.00487 safety 2.08 projected 0.2747</td></tr><tr><td><b>NaN-outside twin of the primary</b></td><td><a href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif">gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif</a> </td><td class=mut>fe01ebd3961d6911&hellip;</td><td class=mut>the competition&#x27;s own format (identical values inside footprint)</td></tr></table>
-<p class=warn><b>Status.</b> PRIMARY = H32-WIN-46090 (2026-10-25): D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 dots, 0 on catalogue. HOLDOUT-DTI 0.14840 vs incumbent 0.14801, cat_hidden 0.09847 vs 0.09832, SGMC 0.06061 vs 0.06059 — beats all three holdout instruments. NO ORGANISER SCORE EXISTS for this or any artifact in this repository.</p>
+37,654 predicted pixels · every cell finite · every value in [0, 1] ·
+0 NaN anywhere · no nodata tag · sha256 <code>c8e8d10dc55c3164&hellip;</code>
+</p>
+
+
+<p class=warn><b>Status.</b> DO NOT SUBMIT (automated gates, no human inspection): G1 canary, G2/G3 holdout and G5 format PASS, but G4 lane uniqueness FAILS (82% of dots within 3 px of GEMSDOE25 h38-greedy-credit) and, as a reported diagnostic, the file is worse than random dots on the independent SGMC off-catalogue instrument (0.0545 vs 0.0709; champion 0.0954). Run card: evidence/h42_run_card.json.</p>
 </div>
 <div class=card><b>Full page:</b> <a href="docs/leaderboard.html">Leaderboard &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>

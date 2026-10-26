@@ -83,7 +83,7 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
         page 404s, which is exactly the defect this parameter exists to prevent (IR-34-ROOT-01).
         """
         p = ROOT / rel
-        if not p.exists():
+        if not rel or not p.is_file():      # an empty path resolves to the repo root, which "exists"
             return ""
         c = f' class="{cls}"' if cls else ""
         return f'<a{c} href="{esc(prefix + rel.replace("docs/", ""))}">{esc(label)}</a> '
@@ -128,7 +128,14 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
     anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
     # Round 5 (2026-10-25): the primary has an organizer score now.  The dated status line
     # supersedes the pre-submission one; the original fields are kept in the registry untouched.
-    status_line = sub.get("status_line_2026_10_25") or sub.get("status_line", "")
+    status_line = (sub.get("status_line_current") or sub.get("status_line_2026_10_25")
+                   or sub.get("status_line", ""))
+    verdict_badge = ""
+    if sub.get("verdict"):
+        verdict_badge = ('<p style="font-size:1.25em"><b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b> '
+                         '&mdash; every automated gate passed</p>' if sub.get("ok_to_submit") else
+                         '<p style="font-size:1.25em"><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> '
+                         '&mdash; automated gates failed; download for audit / research only</p>')
     _os = sub.get("organizer_score") or {}
     scored_badge = ""
     if _os.get("value") is not None:
@@ -139,12 +146,12 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                         f'(error +{_os.get("projection_error")}).</p>\n')
     return f"""<div class=dl>
 <h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
-{scored_badge}
+{verdict_badge}{scored_badge}
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
 <b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
 <b>Note to paste into the submit form's <em>Note (optional)</em> field
-({len(note)}/200 characters):</b><br>
+({len(note)} characters; protocol limit 140):</b><br>
 <code>{esc(note)}</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
 {int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
@@ -157,6 +164,61 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 
 
 GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
+
+
+def current_status_block(docs_prefix: str = "") -> str:
+    """The single status card (source of truth: registry/current_status.json).
+
+    ``docs_prefix`` follows :func:`download_block`: "" on docs/ pages, "docs/" on root pages.  Files under
+    docs/ are linked relative to docs/; repository files (evidence/, registry/) are linked from the root.
+    """
+    st = read("registry/current_status.json")
+    if not st:
+        return ""
+    up = "../" if docs_prefix == "" else ""
+
+    def href(rel: str) -> str:
+        return (docs_prefix + rel[len("docs/"):]) if rel.startswith("docs/") else (up + rel)
+
+    ok = bool(st.get("any_file_ok_to_submit"))
+    light = ('<b style="color:#0a7d2c">&#9989; A file is cleared</b>' if ok else
+             '<b style="color:#b00020">&#128308; NO &mdash; ' + esc(st.get("headline", "")) + '</b>')
+    b, n = st.get("best_scored", {}), st.get("newest_unique", {})
+    hold = n.get("holdout", {})
+    off = n.get("off_catalogue_instrument", {})
+    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+                    for k, v in hold.items())
+    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+                    for k, v in off.items())
+    reasons = "".join(f"<li>{esc(r)}</li>" for r in n.get("reasons", []))
+    wd = "".join(f"<li><code>{esc(Path(w['file']).name)}</code> &mdash; <b style=\"color:#b00020\">{esc(w['status'])}</b>. "
+                 f"{esc(w['reason'])}</li>" for w in st.get("withdrawn", []))
+    nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
+                '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
+    lb = st.get("leaderboard_top", {})
+    return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}</p>
+<p class=mut>{esc(st.get('gate_rule', ''))}</p>
+<table>
+<tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
+<b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
+<code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+<tr><th>Newest unique file</th><td>ONE-CLICK: <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
+&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a><br>{nverdict} &mdash; {esc(n.get('hypothesis', ''))};
+{int(n.get('dots', 0)):,} dots; sha256 <code>{esc(n.get('sha256', '')[:16])}&hellip;</code>
+<ul>{reasons}</ul>
+<table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
+<table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
+</td></tr>
+<tr><th>Withdrawn</th><td><ul>{wd}</ul></td></tr>
+<tr><th>Leaderboard</th><td>public #1 = <b>{lb.get('score')}</b> ({esc(lb.get('team', ''))}), read {esc(lb.get('read_utc', ''))}
+from the <a href="{esc(lb.get('url', ''))}">official leaderboard</a></td></tr>
+</table>
+<p>Why, in full: <a href="{GH}{esc(st.get('knowledge', ''))}">session findings (knowledge/05)</a> &middot;
+<a href="{docs_prefix}executive-summary.html">exact upload steps</a></p>
+</div>"""
 
 
 def _r5_candidate_row(run: dict | None, label: str, gate_text: str, ev_file: str) -> str:
@@ -491,63 +553,59 @@ claim.</p>""")
 
 
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
-    note = esc((sub or {}).get("note", ""))
+    """How to submit, exactly — driven by registry/current_status.json (no hand-typed status)."""
+    st = read("registry/current_status.json") or {}
+    n = st.get("newest_unique", {})
+    ok_any = bool(st.get("any_file_ok_to_submit"))
+    fname = Path(n.get("file", f"{name}.tif")).name
+    note = n.get("note", (sub or {}).get("note", ""))
     fresh = esc(f"{name}-fresh")
-    _stem = name.split("-zeros")[0].split("-nan")[0]
-    _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
-    receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
-                    if _rec else '<span class=mut>not written in this checkout</span>')
-    # Round-5 (2026-10-25) note: rendered only when this session's evidence is present.
-    _r5_note = ""
-    if read("evidence/hcvf2_run.json"):
-        _r5_note = f"""<div class=card style="border:2px solid #b00020"><h3>&#9940; Round-5 status (2026-10-25)</h3>
-<p>The group champion <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code> was
-<b>already submitted and scored 0.2778</b> — re-submitting it wastes a weekly slot. The two round-5
-candidates on the <a href="index.html">home page</a> are unique and format-valid but both measured
-<b>worse than the champion</b> locally and are labelled <b>DO NOT SUBMIT</b>. The one-click primary
-below is a separate parallel lane's artifact — judge it by its own status line. The steps below
-remain the exact procedure for any file the selector does clear.</p></div>
-"""
-    return f"""<h2 style="margin-top:6px">Submission instructions — read the Arena41 traffic light first</h2>
-{arena41_block()}
-{_r5_note}{download_block(sub, name)}
-<div class=card><h3>1 · Check the file (optional, 20 s)</h3>
-<pre>python3 - &lt;&lt;'EOF'
-import rasterio, numpy as np, hashlib
-p = "{esc(name)}.tif"
-print("sha256", hashlib.sha256(open(p, "rb").read()).hexdigest())
-with rasterio.open(p) as s:
-    a = s.read(1)
-    print(s.crs, s.width, s.height, s.transform, s.dtypes, s.nodata)
-inside = np.isfinite(a)
-print("finite", int(inside.sum()), "min", float(np.nanmin(a)), "max", float(np.nanmax(a)))
-assert float(np.nanmin(a)) &gt;= 0.0 and float(np.nanmax(a)) &lt;= 1.0
-print("OK: single band, [0,1] wherever finite")
-EOF</pre>
-<p class=mut>Expected: <code>EPSG:32611</code>, 3292&times;3730, 100&nbsp;m pixels, <code>float32</code>,
-values within [0,&nbsp;1] wherever finite. The repository's own receipt is
-{receipt_link}.</p></div>
-<div class=card><h3>2 · Upload &mdash; the exact portal URL, file and name</h3>
-<p class=mut>Standing policy: this repository never requests drivendata.org automatically. The links
-below are for a human to click.</p>
+    decision = ('<p style="font-size:1.15em"><b style="color:#0a7d2c">&#9989; A file is cleared.</b> Use only the file '
+                'marked OK TO SUBMIT in the status card.</p>' if ok_any else
+                '<p style="font-size:1.15em"><b style="color:#b00020">&#128308; Nothing is cleared right now &mdash; do not '
+                'spend a weekly slot on any new file from this repository.</b> The steps below are the exact procedure '
+                'for the next file whose automated gates all pass.</p>')
+    return f"""<h2 style="margin-top:6px">Make a submission &mdash; executive summary</h2>
+{current_status_block("")}
+<div class=card><h3>0 &middot; Decide (automated, no human inspection)</h3>
+{decision}
+<p class=mut>A file is OK to submit only if its run card shows every gate passed: leakage canary, a holdout win whose
+95&nbsp;% CI excludes zero, lane uniqueness against the registry (rank correlation &le; 0.90 and &le; 70&nbsp;% of dots
+within 3&nbsp;px of any registry raster), and the format validators. Weekly slots are capped by the DrivenData
+submission page (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); slot selection is a
+separate step.</p></div>
+<div class=card><h3>1 &middot; Download</h3>
+<p>Use the <b><code>-zeros.tif</code></b> (or its <code>.zip</code>, which contains exactly one GeoTIFF). It is
+single-band float32, EPSG:32611, 100&nbsp;m, 3292&times;3730, the template&#x27;s exact geotransform, every pixel finite
+and in [0,&nbsp;1] (0 outside the footprint) &mdash; so it cannot trigger
+&ldquo;Predicted values must be in range [0,&nbsp;1]&rdquo;.</p></div>
+<div class=card><h3>2 &middot; Optional local check (20 s)</h3>
+<pre>git clone https://github.com/buffedlizard55-lab/GEMSDOE32 &amp;&amp; cd GEMSDOE32
+python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/restore_data.py --group core --target-dir .cache/gems_data
+PYTHONPATH=src .venv/bin/python scripts/check_submission.py docs/downloads/{esc(fname)} \\
+    --template .cache/gems_data/sample_submission.tif --strict-finite</pre>
+<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} is fully valid and ready for submission!</code>
+(format only &mdash; it is not a clearance).</p></div>
+<div class=card><h3>3 &middot; Upload on DrivenData</h3>
 <ol>
-<li><b>Portal URL:</b>
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">https://www.drivendata.org/competitions/306/competition-doe-gems/</a>
-&rarr; the <b>Submit</b> tab (the same page also carries the
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/">problem
-description, page 967</a>, which defines the metric).</li>
-<li><em>File to submit</em> &rarr; choose <code>{esc(name)}.tif</code> (or the <code>.zip</code>).</li>
-<li>Paste this into <em>Note (optional)</em>: <code>{note}</code></li>
-<li>Submit. The response screen shows the new score and the remaining weekly slots.</li>
-</ol></div>
-<div class=card><h3>3 · Know the two-round consequence before you click</h3>
+<li>Open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">submissions page</a>
+(login required; competition home: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DOE GEMS Prize</a>).</li>
+<li><em>File</em>: choose the cleared <code>-zeros.tif</code> (or <code>.zip</code>). The form accepts &ldquo;a single-band
+GeoTIFF (.tif) file, or a .zip file containing a single GeoTIFF&rdquo; matching the submission format&#x27;s CRS, shape and
+geotransform.</li>
+<li><em>Note (optional)</em>: paste the file&#x27;s note from its run card (&le; 140 characters, carries the unique content
+id). Example from the newest file: <code>{esc(note)}</code></li>
+<li>Submit, then record the score in <a href="../docs/score-ledger.csv">docs/score-ledger.csv</a> as
+ORGANIZER-CONFIRMED with the submission time.</li></ol></div>
+<div class=card><h3>4 &middot; Know the two-round consequence before you click</h3>
 <p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
 before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
 from everyone's submissions. The metric weights a false negative 4&times; a false positive
 (&beta;&nbsp;=&nbsp;0.8 vs &alpha;&nbsp;=&nbsp;0.2) precisely to make novel-but-real predictions
 cheap. Consequences:</p>
 <ul>
-<li>three submissions per week are <em>scored</em>; a fourth effort is wasted;</li>
+<li>the weekly cap is whatever the DrivenData submission page displays (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); every scored upload spends one;</li>
 <li>exactly <b>one</b> file is selected for the final round and is scored in both rounds, so a file
 that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
 <li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
@@ -561,12 +619,19 @@ write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload 
 identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
 inferred from the files and the observed error, not quoted from the platform
 (<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
-{download_catalogue(fl, sub)}
-<div class=card><h3>5 · Keep the names unique</h3>
+<div class=card><h3>5 &middot; If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>Root cause measured in <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause</a>:
+NaN or float32-sentinel pixels inside the scored footprint (3,061 footprint pixels are sentinel-valued in the feature
+raster). Every file published here is written by a fail-closed writer that refuses NaN, &plusmn;inf and out-of-range values,
+and the <code>-zeros</code> variant has no NaN anywhere. If you ever see the error, you uploaded a NaN-outside or a
+foreign file.</p></div>
+<div class=card><h3>6 &middot; Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
 (e.g. <code>{fresh}</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
-</div>"""
+</div>
+<h2>All downloadable files (audit)</h2>
+{download_catalogue(fl, sub)}"""
 
 
 RESEARCH_NOTES = [
@@ -871,15 +936,17 @@ def main() -> int:
     if sub:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
+        _label = ("&#9989; OK TO SUBMIT" if sub.get("ok_to_submit") else "&#9940; DO NOT SUBMIT")
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
-                f'&#11015; Download the registry-primary GeoTIFF (read its status first)</a>']
+                f'&#11015; ONE-CLICK: newest unique GeoTIFF &mdash; {_label} (read status)</a>',
+                '<a class="btn alt" href="index.html#status">status</a>']
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)
 
     pages = {
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           overview(fl, sub, name), "index.html", dl_btn),
+                           current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
         "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
@@ -908,8 +975,10 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
-{arena41_block("docs/")}
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
+<h2>Historical record</h2>
+{arena41_block("docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
 &nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
@@ -934,6 +1003,7 @@ irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.
 <meta http-equiv=refresh content="0; url=docs/{target[0]}"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{esc(target[1])}</h1>
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>This page moved.</b> The parallel site layout was retired; the current page is
 <a href="docs/{target[0]}">{esc(target[1])} &rarr;</a>. &nbsp;&middot;&nbsp;
@@ -950,6 +1020,7 @@ irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.
 <meta http-equiv=refresh content="0; url=docs/{fname}"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{esc(title)}</h1>
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>Full page:</b> <a href="docs/{fname}">{esc(title)} &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>

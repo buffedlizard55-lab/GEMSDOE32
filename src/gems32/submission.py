@@ -38,8 +38,14 @@ def audit_geotiff(
     foot: np.ndarray,
     labels: np.ndarray,
     mode: str = "zeros",
+    template_tif: Path | None = None,
 ) -> dict:
-    """Strict 12-point DrivenData submission validator audit."""
+    """Strict 12-point DrivenData submission validator audit (+2 template checks when ``template_tif`` is given).
+
+    IR-42-WRITER-01 (2026-10-25): the audit used to read the GeoTransform without comparing it with anything,
+    so a shifted grid could pass.  When ``template_tif`` is supplied, CRS and GeoTransform must now equal the
+    template's exactly (the portal requires "the submission format's CRS, shape, and geotransform").
+    """
     with rasterio.open(tif_path) as src:
         arr = src.read(1)
         crs_str = str(src.crs)
@@ -90,6 +96,10 @@ def audit_geotiff(
         "zero_on_catalogue_leakage": on_catalogue_dots == 0,
         "validator_range_0_1_guaranteed": full_grid_in_01,
     }
+    if template_tif is not None:
+        with rasterio.open(template_tif) as tpl, rasterio.open(tif_path) as sub:
+            checks["crs_matches_template"] = bool(sub.crs == tpl.crs)
+            checks["transform_matches_template"] = bool(sub.transform == tpl.transform)
     all_passed = all(checks.values())
     if not all_passed:
         failed = [k for k, v in checks.items() if not v]
@@ -165,8 +175,8 @@ def write_submission_pair(
     with rasterio.open(nan_path, "w", **profile_nan) as dst:
         dst.write(arr_nan, 1)
 
-    audit_zeros = audit_geotiff(zeros_path, foot, labels, mode="zeros")
-    audit_nan = audit_geotiff(nan_path, foot, labels, mode="nan")
+    audit_zeros = audit_geotiff(zeros_path, foot, labels, mode="zeros", template_tif=template_tif)
+    audit_nan = audit_geotiff(nan_path, foot, labels, mode="nan", template_tif=template_tif)
 
     fmt_kwargs = dict(
         dots=audit_zeros["emitted_positive_pixels"],
