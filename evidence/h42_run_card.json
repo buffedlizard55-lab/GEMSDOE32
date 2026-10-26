@@ -539,6 +539,27 @@
    "worst_topk_overlap_informative": 0.8767461624263027,
    "worst_topk_overlap_submission": "GEMSDOE24:inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
    "surface_duplicate_corrected": true
+  },
+  "D5_fragment_geometry": {
+   "question": "How close are withheld components to the visible catalogue (the gap-filling mechanism)?",
+   "per_draw": {
+    "20": {
+     "hidden_components": 606,
+     "comp_nearest_visible_median_px": 3.605551275463989,
+     "comp_within_6px": 0.7524752475247525,
+     "comp_within_10px": 0.8828382838283828,
+     "hidden_pixel_dist_median_px": 9.055385138137417,
+     "random_pixel_dist_median_px": 25.612496949731394
+    },
+    "21": {
+     "hidden_components": 578,
+     "comp_nearest_visible_median_px": 3.605551275463989,
+     "comp_within_6px": 0.7525951557093425,
+     "comp_within_10px": 0.8754325259515571,
+     "hidden_pixel_dist_median_px": 9.848857801796104,
+     "random_pixel_dist_median_px": 26.30589287593181
+    }
+   }
   }
  },
  "verdict": "negative",
@@ -548,7 +569,8 @@
  "experiments_run": 1,
  "deviations": [
   "Surface phase: run_h42.py passed the continuous surface to the dot-overlap test, so every footprint pixel counted as a 'dot'; that statistic is geometrically guaranteed to fire against any <=4-px lattice raster. Reported as D3 with the corrected statistic. G4 is decided by the FINAL-DOT literal rule, which is unaffected.",
-  "Registry scope: 205 unique on-grid rasters from 9 focus repositories at pinned refs (1 off-grid format test excluded); not every GEMSDOE repository."
+  "Registry scope: 205 unique on-grid rasters from 9 focus repositories at pinned refs (1 off-grid format test excluded); not every GEMSDOE repository.",
+  "Strict protocol reading: under the corrected surface statistic (D3, top-k support overlap 0.877) the lane would have stopped before dot placement; the final file is published only as a DO-NOT-SUBMIT research artifact."
  ],
  "elapsed_seconds": 787.9
 }

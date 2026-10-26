@@ -470,6 +470,7 @@ def _diag_summary(diag):
                                   worst=d2["rows"][1] if len(d2["rows"]) > 1 else (d2["rows"][0] if d2["rows"] else None)),
         D1_space_filling=diag["D1_space_filling"]["space_filling_rasters"],
         D3_surface_corrected={k: v for k, v in diag["D3_surface_corrected"].items() if k != "statistic"},
+        D5_fragment_geometry=diag.get("D5_fragment_geometry"),
     )
 
 
