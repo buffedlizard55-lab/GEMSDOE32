@@ -1,0 +1,67 @@
+{
+ "schema_version": 1,
+ "candidate": "docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+ "candidate_sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+ "candidate_dots": 37654,
+ "footprint_px": 5167373,
+ "rules": {
+  "surface_spearman_flag_gt": 0.9,
+  "final_dots_within_3px_flag_gt": 0.7,
+  "protocol_direction": "candidate -> other (share of candidate dots within 3 px of other raster)"
+ },
+ "n_targets_checked": 307,
+ "n_targets_skipped": 1,
+ "skipped": [
+  {
+   "name": "GEMSDOE36:docs/downloads/GEMS36_FORMAT_TEST_NOT_SUBMISSION.tif",
+   "reason": "shape=(32, 48)"
+  }
+ ],
+ "n_surface_flags": 0,
+ "n_final_dot_flags": 3,
+ "worst_surface": {
+  "name": "GEMSDOE32:docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif",
+  "sha256": "7402a847f37e6687acc2a7dd9b5c6f6ece6344fe133854bf844daba1427171eb",
+  "other_dots": 37654,
+  "spearman_footprint": 0.511766,
+  "cand_dots_within_3px_of_other": 0.850162,
+  "other_dots_within_3px_of_cand": 0.81986
+ },
+ "worst_final_dots": {
+  "name": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+  "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+  "other_dots": 206895,
+  "spearman_footprint": -0.000657,
+  "cand_dots_within_3px_of_other": 0.996893,
+  "other_dots_within_3px_of_cand": 0.158274
+ },
+ "passes_surface_gate": true,
+ "passes_final_dot_gate": false,
+ "flagged_final_dot_peers": [
+  {
+   "name": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+   "sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+   "other_dots": 206895,
+   "spearman_footprint": -0.000657,
+   "cand_dots_within_3px_of_other": 0.996893,
+   "other_dots_within_3px_of_cand": 0.158274
+  },
+  {
+   "name": "GEMSDOE32:docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif",
+   "sha256": "7402a847f37e6687acc2a7dd9b5c6f6ece6344fe133854bf844daba1427171eb",
+   "other_dots": 37654,
+   "spearman_footprint": 0.511766,
+   "cand_dots_within_3px_of_other": 0.850162,
+   "other_dots_within_3px_of_cand": 0.81986
+  },
+  {
+   "name": "GEMSDOE32:docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",
+   "sha256": "386a4aad59a5c742b28541835892f9f6e0cb306cbbe4e296741bbad8e4bff235",
+   "other_dots": 37654,
+   "spearman_footprint": 0.511766,
+   "cand_dots_within_3px_of_other": 0.850162,
+   "other_dots_within_3px_of_cand": 0.81986
+  }
+ ],
+ "note": "Surface uses the candidate's value raster as proxy (composite run-time surface was not saved)."
+}

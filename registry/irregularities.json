@@ -475,6 +475,18 @@
    "severity": "low (reporting)",
    "statement": "Official DrivenData problem page (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) lists an Initial Prize Round of $50,000 (top 5 at $10,000 each) and a Final Prize Round of $250,000 (top 5 at $100K, $70K, $40K, $25K, $15K). Any prize figure in older notes should be checked against this page.",
    "mitigation": "Cite the official page, not the prompt, for prize amounts."
+  },
+  {
+   "id": "IR-45-UNIQ-07",
+   "severity": "high (withdraws an earlier uniqueness claim)",
+   "statement": "The H45-TR run card (evidence/h45_tworegime_run_card.json) records C5 and C6 as PASSED against 286 genuine registry rasters. That scan read only the manifest entries that existed at run time (288 unique hashes) and never saw GEMSDOE32's own docs/downloads files. Re-check against the current registry (evidence/h45_uniqueness_recheck_20261026.json; 307 unique targets incl. every docs/downloads TIF; both overlap directions): surface max |rho| 0.5118 (pass); final dots: 85.0% of the H45-TR dots lie within 3 px of GEMSDOE32 H44-1 (38f7995a, zeros and nan variants share dots) (FAIL vs the 70% limit). The literal lattice share is 99.69% (C7 fail). Result: H45-TR is a protocol DUPLICATE of H44-1 and is logged as such. The run card's C6 value is stale and should not be cited.",
+   "mitigation": "Use scripts/recheck_h45_uniqueness.py for any candidate, not the manifest-only scan. Any future uniqueness claim must state the target count and whether docs/downloads was included."
+  },
+  {
+   "id": "IR-45-COLLISION-06",
+   "severity": "medium (labelling; parallel work)",
+   "statement": "A parallel session pushed PR #30 to main (commit 6bba7a2, 2026-10-26) titled 'H45-1 kernel-spacing: 3 holdout experiments (falsified) ...', with run card evidence/h45_kernel_spacing_run_card.json (HIDE-RECOVER 0.1009; DO NOT SUBMIT). This session's two-regime work is also labelled 'H45-1'. Both are real and separate; the labels collide.",
+   "mitigation": "This session's lane is referred to as H45-TR (two-regime). The kernel-spacing lane keeps H45-1 (KS). Both are negative/DO NOT SUBMIT. Neither file is cleared."
   }
  ]
 }

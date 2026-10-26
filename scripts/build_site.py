@@ -640,21 +640,31 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         crit = rc.get("criteria", {})
         fails = [k for k, v in crit.items() if not v]
         hr_ci = hr.get("ci95_cluster_bootstrap", [0, 0])
-        unique_genuine = bool(crit.get("C5_surface_all_genuine_registry_rasters_le_0_90")
-                              and crit.get("C6_final_dots_le_70pct_all_genuine_registry_rasters"))
+        # Uniqueness is taken from the CURRENT-registry recheck (2026-10-26), not from the run card: the run
+        # card's C5/C6 were computed against an older manifest that did not contain GEMSDOE32's own downloads.
+        rk = read("evidence/h45_uniqueness_recheck_20261026.json") or {}
+        genuine_peers = [r for r in rk.get("flagged_final_dot_peers", []) if "r13-lattice-s5" not in r.get("name", "")]
+        unique_genuine = bool(rk.get("passes_surface_gate") and rk.get("passes_final_dot_gate"))
+        if genuine_peers:
+            gp = genuine_peers[0]
+            peer_txt = (f"&#10060; {gp['cand_dots_within_3px_of_other']*100:.1f}% of its dots lie within 3&nbsp;px of "
+                        f"<code>{esc(Path(gp['name']).name)}</code> (limit 70%)")
+        else:
+            peer_txt = "no non-lattice peer above 70%"
         h45 = (
-            f'<tr style="background:#fff7e6"><td><b>NEW: H45-1 two-regime</b><br><span class=mut>GEMSDOE32, this session</span></td>'
+            f'<tr style="background:#fff7e6"><td><b>NEW: H45-TR two-regime</b><br><span class=mut>GEMSDOE32, this session</span></td>'
             f'<td><a href="downloads/{esc(zf)}"><code>{esc(zf)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
             f'<td>{h.get("full_map_dots", 0):,}</td>'
             f'<td><i>none</i> &mdash; not a score</td>'
             f'<td>HOLDOUT-DTI {hr.get("pooled_dti", 0):.4f} [{hr_ci[0]:.4f}, {hr_ci[1]:.4f}] '
             f'(n={hr.get("n_withheld_positives", 0):,}, GEMSDOE32-HIDE-RECOVER-v3.0); off-catalogue SGMC-cal '
             f'{sg.get("sgmc_prevalence_calibrated_dti", 0):.4f} (off-catalogue diagnostic, not a score)</td>'
-            f'<td><b>{"YES" if unique_genuine else "NO"}</b> vs {int(un.get("coverage", {}).get("registry_rasters_checked_genuine", 0))} '
-            f'genuine registry rasters (surface &le;0.90, final dots &le;70%); literal 5-px lattice gate: '
+            f'<td><b>{"YES" if unique_genuine else "NO"}</b> vs {int(rk.get("n_targets_checked", 0))} current registry rasters '
+            f'(surface &le;0.90, final dots &le;70%): {peer_txt}. Literal 5-px lattice gate: '
             f'<b>{"PASS" if fd.get("literal_all_rasters_passed") else "FAIL"}</b></td>'
             f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; verdict <code>{esc(verdict)}</code>; '
-            f'failed: {esc(", ".join(fails) or "none")}</td></tr>'
+            f'failed: {esc(", ".join(fails) or "none")}; C6 re-check: {"FAIL" if not unique_genuine else "pass"}. '
+            f'Research download only.</td></tr>'
         )
     return (
         '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
@@ -666,7 +676,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
         '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + '</table>'
         '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
-        '3&nbsp;px of the dots of every genuine registry raster (286 genuine: 304 manifest entries = 288 unique SHA-256, minus 1 format-test blob, minus 1 lattice checked under the literal rule). The literal 5-px calibration lattice '
+        '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
         '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
         '<a href="../evidence/nine_site_best_files_audit.json">nine-site audit</a> &middot; '
         '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a> &middot; '
