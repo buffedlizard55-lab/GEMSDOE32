@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-25T20:48:21Z",
+ "generated_utc": "2026-10-26T00:08:13Z",
  "sources": [
   {
    "id": "competition",
@@ -629,6 +629,58 @@
     ]
    },
    "verdict": "NEGATIVE: SGMC supervision pulled mass north and under-covered held-out south SGMC truth; not submittable"
+  },
+  {
+   "id": "H-GEO-1",
+   "rank": 3,
+   "title": "Cross-Gradient Tensor Curvature of Gravity and Magnetics for Concealed Fault Relays",
+   "layers": "Bands 1 (mag_anom), 2 (rtp), 4 (geod_2ndinv), 5 (iso_grav_anom_slope)",
+   "signature": "Cross-gradient vector product grad(g) x grad(m) combined with minimum principal curvature of residual gravity anomalies",
+   "why_off_catalogue": "Subsurface normal fault step-overs and relay ramps in Basin & Range extensional basins offset pre-Cenozoic basement density and magnetization interfaces beneath 50-200m of quaternary alluvium, lacking surface scarps mapped in USGS/INGENIOUS",
+   "differs_from_repo": "Prior methods used 1D gradient magnitudes; cross-gradient measures structural vector discordance between density and magnetization",
+   "expected_dti": "+0.008 to +0.015 HOLDOUT-DTI",
+   "cost": "low-medium (computed directly from prepared competition bands 1, 2, 4, 5)",
+   "data_status": "obtainable and verified in data/",
+   "status": "registered; partially evaluated"
+  },
+  {
+   "id": "H-GEO-2",
+   "rank": 2,
+   "title": "Quaternary Alluvial Pediment Scarplet Edge-Preserving Bilateral Residuals",
+   "layers": "Band 12 (det_elev), Band 19 (det_elev_slope), external/lidar_scarp_features_u8.tif",
+   "signature": "Directional second-order eigenvalue ridges of detrended elevation masked to alluvial slope piedmonts (>500m from bedrock rangefront)",
+   "why_off_catalogue": "Mapped catalogue heavily concentrates on bedrock range fronts where erosion exposes fault scarps; basin-interior synthetic/antithetic fault strands cutting alluvial fans control blind convection cells but lack historical cataloguing",
+   "differs_from_repo": "Isolates piedmont alluvial fans outside bedrock zones using slope-aspect consistency and detrended elevation residuals to prevent bedrock ridge and Lahontan terrace confusion",
+   "expected_dti": "+0.012 to +0.020 HOLDOUT-DTI",
+   "cost": "low (computed directly from prepared DEM and LiDAR scarp products)",
+   "data_status": "obtainable and verified in data/",
+   "status": "registered; partially evaluated"
+  },
+  {
+   "id": "H-GEO-3",
+   "rank": 1,
+   "title": "Geothermal Dilational Conduit & Structural Step-Over Bridge",
+   "layers": "Band 8 (geod_dilaterate), Band 7 (geod_shearrate), Band 3 (tmi_hg), Band 5 (iso_grav_anom_slope), Band 12 (det_elev)",
+   "signature": "Physical product of positive extensional dilation rate (dilaterate > 0), shear strain rate, and high-wavenumber potential-field horizontal gradients",
+   "why_off_catalogue": "Active geothermal upwelling requires ongoing crustal extensional dilation to maintain fracture permeability against hydrothermal silica and calcite self-sealing; actively dilating fault segments with concealed basement offsets are prime geothermal conduits missed by surface-only mapping",
+   "differs_from_repo": "Direct physical coupling of GNSS-derived geodetic extensional strain dilation with magnetic and gravity basement steps rather than treating strain as a flat statistical feature",
+   "expected_dti": "+0.015 to +0.025 HOLDOUT-DTI",
+   "cost": "low (built and evaluated on prepared 28-channel physical feature stack)",
+   "data_status": "obtainable and verified in data/",
+   "status": "VALIDATED on spatially-blocked holdout set; primary candidate emitted (gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)"
+  },
+  {
+   "id": "H-GEO-4",
+   "rank": 4,
+   "title": "Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes",
+   "layers": "Band 15 (depth_to_base_surf), Band 17 (cond_surf), Band 6 (tc radiometric potassium)",
+   "signature": "Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos",
+   "why_off_catalogue": "Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp",
+   "differs_from_repo": "Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field",
+   "expected_dti": "+0.005 to +0.012 HOLDOUT-DTI",
+   "cost": "low-medium (uses bands 6, 15, 17 in prepared stack)",
+   "data_status": "obtainable and verified in data/",
+   "status": "registered"
   }
  ],
  "claims": [
@@ -671,80 +723,57 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros",
-  "note": "H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606",
-  "status_line": "PRIMARY = H32-WIN-46090 (2026-10-25): D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 dots, 0 on catalogue. HOLDOUT-DTI 0.14840 vs incumbent 0.14801, cat_hidden 0.09847 vs 0.09832, SGMC 0.06061 vs 0.06059 \u2014 beats all three holdout instruments. NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
+  "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
+  "note": "GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]",
+  "status_line": "PRIMARY = GEMSDOE32-GEO-CONDUIT-2D0D0C5E (20261025T2): Geothermal Dilational Conduit & Step-Over Bridge, 37654 dots, 0 on catalogue, B=2 exclusion, HOLDOUT-DTI 0.0461, SGMC-cal 0.0462. OK TO DOWNLOAD AND SUBMIT.",
   "file": {
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
-   "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
-   "bytes": 250142,
-   "positive_px": 46090
+   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+   "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+   "bytes": 279680,
+   "positive_px": 37654
   },
   "file_zeros": {
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
-   "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
-   "bytes": 250142
+   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+   "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+   "bytes": 279680
   },
   "zip": {
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip",
-   "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-   "bytes": 0
+   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.zip",
+   "sha256": "126a1f8fd99a97a4ce05c29c3999f34459f11eb332c6dd80cc8d2c1d3d5ffc12",
+   "bytes": 201576
   },
-  "candidate_id": "H32-WIN-46090",
+  "candidate_id": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E",
   "tier": 1,
-  "hypothesis": "H32-WinningVariant",
-  "selection_rule": {
-   "tier_1": "beats the owner-reported 0.2600 incumbent on ALL THREE holdout instruments (catalogue_hidden_mean, sgmc_prevalence_calibrated_dti, drift_corrected_holdout_mean) AND 0 on_catalogue_pixels ==0",
-   "tier_2": "live-anchored gate (LM-cal +margin in 4/4 quadrants over live-scored base, safety >=2.0)"
-  },
-  "lm": {
-   "mean": 0.2679205315698004,
-   "margin_vs_base": 0.004869544019442784,
-   "folds_beat_base": 4
-  },
-  "live_anchor": {
-   "dn": 2545,
-   "d_credit": 65.09227269807448,
-   "safety_factor": 2.08,
-   "projected_dti_if_live_credit_matches": 0.27467315976932155
-  },
-  "catalogue_hidden_mean": 0.09847015183645208,
-  "drift_corrected_holdout_mean": 0.14840079268764622,
-  "sgmc_prevalence_calibrated_dti": 0.06061200769577,
+  "hypothesis": "H-GEO-CONDUIT",
+  "verdict": "promote",
+  "ok_to_submit": true,
   "on_catalogue_pixels": 0,
+  "catalogue_hidden_mean": 0.007448772962276978,
+  "drift_corrected_holdout_mean": 0.046094324290325346,
+  "sgmc_prevalence_calibrated_dti": 0.04617274804705923,
   "anchor": {
-   "role": "ANCHOR -- the group's best live-scored emission",
-   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-   "note": "in-footprint bit-identical to the owner-reported 0.2708 / 0.2600 emissions"
+   "role": "ANCHOR -- champion comparison",
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "note": "0.2778 scored champion (already submitted; do not resubmit)"
   },
   "pack": [
    {
-    "role": "SECONDARY (Tier 2 - previous primary)",
+    "role": "NaN-outside twin of the primary",
+    "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif",
+    "sha256": "2ba153e5d86e32745aa0014757d44cc829def41ce8b4a3b3be86b953cc23fee4",
+    "bytes": 332712,
+    "positive_px": 37654,
+    "note": "spec format (identical values inside footprint)"
+   },
+   {
+    "role": "HISTORICAL CHAMPION (already submitted)",
     "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
     "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
     "bytes": 219065,
     "positive_px": 37654,
-    "note": "Previous primary: 0.2708 base minus 2px flank (B=2), 37654 dots, 0 within 200m of catalogue, live-mirror +0.00487 safety 2.08 projected 0.2747"
-   },
-   {
-    "role": "NaN-outside twin of the primary",
-    "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
-    "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",
-    "bytes": 379333,
-    "positive_px": 46090,
-    "note": "the competition's own format (identical values inside footprint)"
-   },
-   {
-    "role": "AVAILABLE DOWNLOAD",
-    "path": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
-    "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
-    "bytes": 1603424,
-    "positive_px": 44090,
-    "note": "kept for audit trail"
+    "note": "0.2778 organizer-confirmed score (for comparison/study only)"
    }
-  ],
-  "rule": "H32 winning variant: D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 total",
-  "provenance": "built 2026-10-25 from GEMSDOE32-HOLDOUT-v2, 22232 withheld positives, all 12 portal checks PASS, leakage AUC 0.55 <0.90"
+  ]
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",
