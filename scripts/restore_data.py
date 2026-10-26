@@ -115,10 +115,14 @@ def main() -> None:
             results.append(r)
             print(f"{r['status']:>8}  {e['dest']:82s}  sha256={r['sha256'][:12]}…")
 
+    try:
+        storage_root = root.resolve().relative_to(ROOT.resolve()).as_posix()
+    except ValueError:
+        storage_root = str(root)
     receipt = {
         "schema_version": 1,
         "verified_files_count": len(results),
-        "storage_root": str(root),
+        "storage_root": storage_root,
         "files": results,
     }
     (ROOT / "data").mkdir(parents=True, exist_ok=True)

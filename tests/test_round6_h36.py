@@ -19,8 +19,10 @@ def test_round6_run_card_and_protocol_contract():
 
     rc = json.loads(rc_path.read_text())
     latest = json.loads(latest_path.read_text())
-    assert latest["lane_id"] == "A9-H1-MDRC-PGRN-PU"
+    status = json.loads((ROOT / "registry" / "current_status.json").read_text())
+    assert status["newest_unique"]["run_card"] == "evidence/h46_trhv_run_card.json"
     assert latest["verdict"] == "negative"
+    assert latest["candidate_id"] == "H46-1-TRHV"
 
     # Required Parallel-Run Protocol Rule 7 fields
     for k in (
@@ -73,8 +75,9 @@ def test_round6_unique_geotiff_and_zip_portal_ready():
     zip_path = ROOT / rc["artifacts"]["zip_archive"]
 
     assert tif_path.is_file() and nan_path.is_file() and zip_path.is_file()
-    assert st["file"] == rc["artifacts"]["primary_zeros_tif"]
-    assert sha256_file(tif_path) == rc["raster_sha256"] == st["sha256"]
+    # H36 remains an archived negative artifact; the current latest candidate is H46.
+    assert st["file"] != rc["artifacts"]["primary_zeros_tif"]
+    assert sha256_file(tif_path) == rc["raster_sha256"]
 
     with rasterio.open(tif_path) as ds:
         assert str(ds.crs) == "EPSG:32611"

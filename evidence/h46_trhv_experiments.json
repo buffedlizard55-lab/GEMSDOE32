@@ -1,0 +1,728 @@
+{
+  "session_branch": "arena/7e63e67a-gemsdoe32",
+  "generated_utc": "2026-10-26T17:43:24Z",
+  "runtime_seconds": 752.12,
+  "peak_rss_mb": 3734.8,
+  "experiments_used": 3,
+  "experiments_budget_cap": 3,
+  "trhv_feature_receipt": {
+    "n_trhv_channels": 8,
+    "channel_names": [
+      "gdr_2m_dab_plume",
+      "gdr_2m_vert_grad",
+      "gdr_paleo_sinter_vent",
+      "vent_conduit_coupling",
+      "tiger_road_clean_gate",
+      "lidar_tiger_lahontan_clean",
+      "mag_up150_contact_persist",
+      "geod_strain_pf_obliquity"
+    ],
+    "shape": [
+      3730,
+      3292,
+      8
+    ],
+    "reused_cached_memmap": true
+  },
+  "leakage_canary": {
+    "passed": true,
+    "threshold_auc": 0.9,
+    "n_features_tested": 63,
+    "max_oriented_auc": 0.586868,
+    "worst_channel": "curv_s2",
+    "n_withheld_pos_tested": 11172,
+    "n_active_neg_sampled": 1207370,
+    "per_channel": [
+      {
+        "channel": "band01",
+        "oriented_auc": 0.525766,
+        "passed": true
+      },
+      {
+        "channel": "band02",
+        "oriented_auc": 0.510115,
+        "passed": true
+      },
+      {
+        "channel": "band03",
+        "oriented_auc": 0.521508,
+        "passed": true
+      },
+      {
+        "channel": "band04",
+        "oriented_auc": 0.564476,
+        "passed": true
+      },
+      {
+        "channel": "band05",
+        "oriented_auc": 0.531937,
+        "passed": true
+      },
+      {
+        "channel": "band06",
+        "oriented_auc": 0.544688,
+        "passed": true
+      },
+      {
+        "channel": "band07",
+        "oriented_auc": 0.569707,
+        "passed": true
+      },
+      {
+        "channel": "band08",
+        "oriented_auc": 0.520376,
+        "passed": true
+      },
+      {
+        "channel": "band09",
+        "oriented_auc": 0.501266,
+        "passed": true
+      },
+      {
+        "channel": "band10",
+        "oriented_auc": 0.549414,
+        "passed": true
+      },
+      {
+        "channel": "band11",
+        "oriented_auc": 0.511737,
+        "passed": true
+      },
+      {
+        "channel": "band12",
+        "oriented_auc": 0.524554,
+        "passed": true
+      },
+      {
+        "channel": "band13",
+        "oriented_auc": 0.528267,
+        "passed": true
+      },
+      {
+        "channel": "band14",
+        "oriented_auc": 0.51618,
+        "passed": true
+      },
+      {
+        "channel": "band15",
+        "oriented_auc": 0.503705,
+        "passed": true
+      },
+      {
+        "channel": "band16",
+        "oriented_auc": 0.563879,
+        "passed": true
+      },
+      {
+        "channel": "band17",
+        "oriented_auc": 0.516647,
+        "passed": true
+      },
+      {
+        "channel": "band18",
+        "oriented_auc": 0.537406,
+        "passed": true
+      },
+      {
+        "channel": "band19",
+        "oriented_auc": 0.552415,
+        "passed": true
+      },
+      {
+        "channel": "curv_s1",
+        "oriented_auc": 0.568555,
+        "passed": true
+      },
+      {
+        "channel": "curv_s2",
+        "oriented_auc": 0.586868,
+        "passed": true
+      },
+      {
+        "channel": "ridge_s1",
+        "oriented_auc": 0.51302,
+        "passed": true
+      },
+      {
+        "channel": "ridge_s2",
+        "oriented_auc": 0.510643,
+        "passed": true
+      },
+      {
+        "channel": "ridge_s3",
+        "oriented_auc": 0.511969,
+        "passed": true
+      },
+      {
+        "channel": "relief5",
+        "oriented_auc": 0.56143,
+        "passed": true
+      },
+      {
+        "channel": "tophat2",
+        "oriented_auc": 0.526105,
+        "passed": true
+      },
+      {
+        "channel": "tmi_edge",
+        "oriented_auc": 0.521606,
+        "passed": true
+      },
+      {
+        "channel": "rtp_edge",
+        "oriented_auc": 0.526527,
+        "passed": true
+      },
+      {
+        "channel": "grav_edge",
+        "oriented_auc": 0.536531,
+        "passed": true
+      },
+      {
+        "channel": "cond_edge",
+        "oriented_auc": 0.502212,
+        "passed": true
+      },
+      {
+        "channel": "depth_grad",
+        "oriented_auc": 0.526309,
+        "passed": true
+      },
+      {
+        "channel": "coherence_s2",
+        "oriented_auc": 0.562821,
+        "passed": true
+      },
+      {
+        "channel": "strike_cos",
+        "oriented_auc": 0.570776,
+        "passed": true
+      },
+      {
+        "channel": "strike_sin",
+        "oriented_auc": 0.536999,
+        "passed": true
+      },
+      {
+        "channel": "footprint",
+        "oriented_auc": 0.5,
+        "passed": true
+      },
+      {
+        "channel": "grav_hgrad_kneg_s12",
+        "oriented_auc": 0.530884,
+        "passed": true
+      },
+      {
+        "channel": "grav_hgrad_kneg_s25",
+        "oriented_auc": 0.538,
+        "passed": true
+      },
+      {
+        "channel": "rtp_hgrad_kneg_s12",
+        "oriented_auc": 0.51675,
+        "passed": true
+      },
+      {
+        "channel": "rtp_hgrad_kneg_s25",
+        "oriented_auc": 0.521966,
+        "passed": true
+      },
+      {
+        "channel": "pf_curv_strike_concord",
+        "oriented_auc": 0.525406,
+        "passed": true
+      },
+      {
+        "channel": "grav_saddle_polarity",
+        "oriented_auc": 0.550982,
+        "passed": true
+      },
+      {
+        "channel": "roest_as_shallow_basin",
+        "oriented_auc": 0.512261,
+        "passed": true
+      },
+      {
+        "channel": "mag_demag_trough",
+        "oriented_auc": 0.508691,
+        "passed": true
+      },
+      {
+        "channel": "k_th_potassic_excess",
+        "oriented_auc": 0.540671,
+        "passed": true
+      },
+      {
+        "channel": "cond_nuisance_resid_edge",
+        "oriented_auc": 0.566122,
+        "passed": true
+      },
+      {
+        "channel": "gdr_geotherm_upflow",
+        "oriented_auc": 0.501292,
+        "passed": true
+      },
+      {
+        "channel": "hydrothermal_breach_index",
+        "oriented_auc": 0.544183,
+        "passed": true
+      },
+      {
+        "channel": "lidar_valid_flag",
+        "oriented_auc": 0.507621,
+        "passed": true
+      },
+      {
+        "channel": "lidar_tectonic_dipole",
+        "oriented_auc": 0.530906,
+        "passed": true
+      },
+      {
+        "channel": "lahontan_contour_orthog",
+        "oriented_auc": 0.543102,
+        "passed": true
+      },
+      {
+        "channel": "lidar_lahontan_debiased",
+        "oriented_auc": 0.536129,
+        "passed": true
+      },
+      {
+        "channel": "piedmont_burial_index",
+        "oriented_auc": 0.540116,
+        "passed": true
+      },
+      {
+        "channel": "transtensional_obliquity",
+        "oriented_auc": 0.551195,
+        "passed": true
+      },
+      {
+        "channel": "up150_basement_persistence",
+        "oriented_auc": 0.519281,
+        "passed": true
+      },
+      {
+        "channel": "spcp_unsup_composite",
+        "oriented_auc": 0.535612,
+        "passed": true
+      },
+      {
+        "channel": "gdr_2m_dab_plume",
+        "oriented_auc": 0.5289,
+        "passed": true
+      },
+      {
+        "channel": "gdr_2m_vert_grad",
+        "oriented_auc": 0.524792,
+        "passed": true
+      },
+      {
+        "channel": "gdr_paleo_sinter_vent",
+        "oriented_auc": 0.50991,
+        "passed": true
+      },
+      {
+        "channel": "vent_conduit_coupling",
+        "oriented_auc": 0.564577,
+        "passed": true
+      },
+      {
+        "channel": "tiger_road_clean_gate",
+        "oriented_auc": 0.518944,
+        "passed": true
+      },
+      {
+        "channel": "lidar_tiger_lahontan_clean",
+        "oriented_auc": 0.524886,
+        "passed": true
+      },
+      {
+        "channel": "mag_up150_contact_persist",
+        "oriented_auc": 0.520128,
+        "passed": true
+      },
+      {
+        "channel": "geod_strain_pf_obliquity",
+        "oriented_auc": 0.53541,
+        "passed": true
+      }
+    ]
+  },
+  "baselines": {
+    "CHAMPION_02778": {
+      "name": "CHAMPION_02778",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.099202,
+        "ci95": [
+          0.085951,
+          0.112668
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.101257,
+          "NE": 0.112793,
+          "SW": 0.066499,
+          "SE": 0.12423
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.004515,
+        "ci95": [
+          0.003816,
+          0.005262
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.094324,
+        "ci95": [
+          0.079248,
+          0.109825
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.09606,
+        "raw_ci95": [
+          0.08566,
+          0.107072
+        ],
+        "prevalence_calibrated_dti": 0.064121,
+        "calibrated_ci95": [
+          0.05673,
+          0.071649
+        ]
+      }
+    },
+    "CTRL_35CH_OOF": {
+      "name": "CTRL_35CH_OOF",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.101688,
+        "ci95": [
+          0.086133,
+          0.11682
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.116089,
+          "NE": 0.121112,
+          "SW": 0.057422,
+          "SE": 0.123857
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.004714,
+        "ci95": [
+          0.003831,
+          0.005629
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.094739,
+        "ci95": [
+          0.078312,
+          0.111742
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.081785,
+        "raw_ci95": [
+          0.070194,
+          0.093521
+        ],
+        "prevalence_calibrated_dti": 0.054453,
+        "calibrated_ci95": [
+          0.047048,
+          0.06174
+        ]
+      }
+    },
+    "H38_STATIC_REFERENCE_HR": null
+  },
+  "experiments": {
+    "EXP1_H46_EXPOSED63": {
+      "name": "EXP1_H46_EXPOSED63",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.117156,
+        "ci95": [
+          0.101181,
+          0.131227
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.134566,
+          "NE": 0.121382,
+          "SW": 0.072362,
+          "SE": 0.151781
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.005454,
+        "ci95": [
+          0.004553,
+          0.006362
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.101835,
+        "ci95": [
+          0.08479,
+          0.117582
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.074907,
+        "raw_ci95": [
+          0.064864,
+          0.085162
+        ],
+        "prevalence_calibrated_dti": 0.049799,
+        "calibrated_ci95": [
+          0.043759,
+          0.055347
+        ]
+      }
+    },
+    "EXP2_H46_VENT_SARPU63": {
+      "name": "EXP2_H46_VENT_SARPU63",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.065944,
+        "ci95": [
+          0.056916,
+          0.075357
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.082824,
+          "NE": 0.061536,
+          "SW": 0.049974,
+          "SE": 0.075262
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.002776,
+        "ci95": [
+          0.002263,
+          0.003337
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.060315,
+        "ci95": [
+          0.051146,
+          0.070125
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.111361,
+        "raw_ci95": [
+          0.098903,
+          0.123974
+        ],
+        "prevalence_calibrated_dti": 0.074529,
+        "calibrated_ci95": [
+          0.066139,
+          0.08259
+        ]
+      }
+    },
+    "EXP3_H46_TRHV_TWOREGIME": {
+      "name": "EXP3_H46_TRHV_TWOREGIME",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.109361,
+        "ci95": [
+          0.094695,
+          0.122341
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.126269,
+          "NE": 0.117813,
+          "SW": 0.069501,
+          "SE": 0.134624
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.004738,
+        "ci95": [
+          0.003918,
+          0.005611
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.093982,
+        "ci95": [
+          0.078787,
+          0.107883
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.067341,
+        "raw_ci95": [
+          0.058245,
+          0.077378
+        ],
+        "prevalence_calibrated_dti": 0.044756,
+        "calibrated_ci95": [
+          0.039243,
+          0.050114
+        ]
+      }
+    }
+  },
+  "paired_spatial_bootstrap_comparisons": {
+    "EXP3_vs_CHAMPION_hide_and_recover": {
+      "mean_boot_delta": 0.010262740937397367,
+      "ci95": [
+        0.0011359668665984531,
+        0.019022245854229538
+      ],
+      "prob_positive": 0.992
+    },
+    "EXP3_vs_CTRL35_hide_and_recover": {
+      "mean_boot_delta": 0.007674313459293217,
+      "ci95": [
+        0.00011058744940033265,
+        0.014311316951185009
+      ],
+      "prob_positive": 0.975
+    },
+    "EXP3_vs_EXP2_hide_and_recover": {
+      "mean_boot_delta": 0.04312402013506062,
+      "ci95": [
+        0.03346331652221503,
+        0.052984089519982396
+      ],
+      "prob_positive": 1.0
+    },
+    "EXP1_vs_CHAMPION_hide_and_recover": {
+      "mean_boot_delta": 0.018082871590601825,
+      "ci95": [
+        0.008788316673174411,
+        0.02747687632114954
+      ],
+      "prob_positive": 1.0
+    },
+    "EXP3_vs_CHAMPION_censored_d2": {
+      "mean_boot_delta": 0.000229601377509637,
+      "ci95": [
+        -0.000589319780167111,
+        0.0010421497740190134
+      ],
+      "prob_positive": 0.728
+    },
+    "EXP3_vs_CHAMPION_detached_600m": {
+      "mean_boot_delta": -9.733472893981609e-05,
+      "ci95": [
+        -0.009013878307935605,
+        0.008478515654885659
+      ],
+      "prob_positive": 0.489
+    },
+    "EXP3_vs_CHAMPION_sgmc_calibrated": {
+      "mean_boot_delta": -0.01926765551877831,
+      "ci95": [
+        -0.02571070150199555,
+        -0.012318618527843191
+      ],
+      "prob_positive": 0.0
+    },
+    "EXP3_vs_EXP1_sgmc_two_regime_lift": {
+      "mean_boot_delta": -0.005007267522697537,
+      "ci95": [
+        -0.006958092904742369,
+        -0.0030237105217254655
+      ],
+      "prob_positive": 0.0
+    }
+  },
+  "spatial_allocation_exp3": {
+    "stage1_exposed_dots": 27111,
+    "stage2_blind_vent_dots": 10543,
+    "le_2px_on_or_flank_frac": 0.0,
+    "apron_2_to_9px_frac": 0.45296648430445635,
+    "mid_9_to_20px_frac": 0.21846284591278484,
+    "far_gt_20px_blind_frac": 0.3285706697827588,
+    "median_dist_to_catalogue_px": 10.630146026611328
+  },
+  "protocol_audit": {
+    "assigned_single_method_paragraph_present_in_prompt_context": false,
+    "lane_authorization": "NOT ESTABLISHED: standing project README states the session lane paragraph was absent; H46 was selected from a prior next-step suggestion. No promotion is permitted under the literal lane rule.",
+    "preregistration_deviations": [
+      "Frozen pre-registration specified a 70/30 Regime-A/Regime-B budget split (26,358 / 11,296 dots); the executed run used 72/28 (27,111 / 10,543). The executed experiment is therefore not the preregistered split.",
+      "Frozen pre-registration specified F2mDAB > +1 C; the executed plume input used every positive value > 0 C before clipping.",
+      "Frozen pre-registration specified a 150 m TIGER road veto scale; the executed feature used 180 m.",
+      "The executed point importer retained points within a 24-pixel padding and clipped their coordinates to the footprint edge, rather than filtering to true in-footprint points before plume interpolation. The code was corrected after execution; the corrected feature stack was not rebuilt or validated in this run."
+    ],
+    "impact": "H46 model holdout and SGMC numbers are exploratory diagnostics only, not admissible preregistered promotion evidence. The output remains a valid saved-byte format artifact, but it must not be submitted.",
+    "corrective_shared_code_changes_after_run": [
+      "src/gems32/trhv.py now filters all point datasets to the true sample_submission.tif footprint before rasterization, preventing clipped-edge point artifacts.",
+      "src/gems32/emitter.py rho option-value and initial_mask residual coverage are covered by tests/test_emitter.py."
+    ],
+    "no_rebuild_after_stop": "No corrected H46 rerun was performed: the prompt does not provide an explicit assigned lane and the preregistered three-arm budget has already been consumed."
+  },
+  "repository_best_h38_same_evaluator": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.116958,
+    "ci95": [
+      0.100533,
+      0.13204
+    ],
+    "source": "evidence/h38_run_card.json; prior H38 run card, not recomputed in H46 lane"
+  },
+  "point_delta_vs_repository_best_h38": -0.007597,
+  "paired_delta_vs_repository_best_h38": null,
+  "weekly_slots_used": 0
+}

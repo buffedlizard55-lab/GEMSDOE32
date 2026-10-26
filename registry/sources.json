@@ -245,6 +245,27 @@
    "url": "https://doi.org/10.1007/s10994-020-05877-5",
    "role": "H44-1 SPCP Selected-At-Random Positive-Unlabeled (SAR-PU) observability propensity debiasing curing IR-A8A-PU-BIAS-01",
    "status": "peer-reviewed ML methodology; implemented fold-locally in src/gems32/spcp.py"
+  },
+  {
+   "id": "gdr1391_2m_temperature_probes",
+   "title": "INGENIOUS / DOE GDR #1391 2-meter temperature-probe regional data",
+   "url": "https://gdr.openei.org/submissions/1391",
+   "role": "H46 exploratory label-free shallow thermal observations (F2mDAB, T1m, T15m, T2m); not fault labels",
+   "status": "Official record link listed for manual review; binary ZIP is a SHA-256-pinned owner mirror in registry/data_manifest.json; this session did not fetch from the GDR host."
+  },
+  {
+   "id": "gdr1391_paleo_geothermal_features",
+   "title": "INGENIOUS / DOE GDR #1391 Paleo-Geothermal Features",
+   "url": "https://gdr.openei.org/submissions/1391",
+   "role": "H46 exploratory mapped sinter, travertine, tufa, and silica-cemented point features; geothermal-setting indicators, not fault labels",
+   "status": "Official record link listed for manual review; binary ZIP is a SHA-256-pinned owner mirror in registry/data_manifest.json; this session did not fetch from the GDR host."
+  },
+  {
+   "id": "census_tiger_2024_roads",
+   "title": "US Census Bureau TIGER/Line 2024 County Roads",
+   "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/",
+   "role": "H46 road/rail corridor deconfounding; owner-derived distance raster in EPSG:32611",
+   "status": "Official Census source directory link listed for manual review; the derived raster and receipt came from a pinned owner mirror; this session did not fetch TIGER assets directly from Census."
   }
  ]
 }

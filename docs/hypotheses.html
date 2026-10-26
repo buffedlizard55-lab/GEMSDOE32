@@ -5,10 +5,10 @@
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 <section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
-<p style="margin:4px 0"><b>No file in this repository is authorized for upload; Arena9 is a format-valid negative result.</b>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload. H46 is a format-valid preliminary research artifact, not a promotable submission.</b>
 Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
-Updated 2026-10-26T05:08:02+00:00.</p>
-<p style="margin:7px 0"><a class=btn href="downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif">&#11015; Download latest generated GeoTIFF for research/audit</a> <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>
+Updated 2026-10-26T18:12:41Z.</p>
+<p style="margin:7px 0"><a class=btn href="downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif">&#11015; Download latest generated GeoTIFF for research/audit</a> <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>
 <p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
 <a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
@@ -223,7 +223,27 @@ the slot gate.</p>
 <td>55-channel template + SPCP multi-physics stack (.cache/gems_work/feature_stack.npy + spcp_extra_20ch.npy); USGS GeoDAWN flight-line grids (DOI 10.5066/P93LGLVQ) + USGS 3D geological/MT models (gdr.openei.org/submissions/1391)</td><td>Multi-altitude upward-continuation crest migration vector dx_crest/dz -&gt; dip estimation for 55-65 deg normal faults + 256x256 patch SegFormer/U-Net trained under SAR-PU Distance-Buffered Tversky loss (alpha=0.2, beta=0.8) without reference notebook Cell 12 positive-tile filtering</td>
 <td>Directly bridges the detector-recall gap between pixel-wise CPU GBDTs (0.2778 owner-report) and multi-scale 2D spatial segmentation leaders (0.3195-0.4413) by learning 10-25 km en-echelon relay, horse-tail splay, and hanging-wall offset geometry</td><td>Replaces 100 m pixel-local tree splits with 25.6 km receptive-field SAR-PU Tversky segmentation + explicit dip-projected hanging-wall to surface-trace back-projection</td>
 <td>+0.04 to +0.14 live DTI potential toward 0.3195-0.4413 · cost high (requires CUDA GPU + PyTorch; deferred outside 2-vCPU / 3.8 GiB zero-swap CPU sandbox) · data: VERIFIED OFFICIAL SOURCES: drivendataorg/gems-prize-reference-solution + GeoDAWN DOI 10.5066/P93LGLVQ + GDR #1391; GPU compute deferred</td>
-<td>registered next-milestone architecture; CPU sandbox boundary documented</td></tr></table>
+<td>registered next-milestone architecture; CPU sandbox boundary documented</td></tr><tr><td>1</td><td><b>H46-1</b><br>TRHV Two-Regime Hydrothermal-Feature, Potential-Field and TIGER-Deconfounded Allocation</td>
+<td>GDR #1391 2-m temperature probes (F2mDAB, T1m, T15m, T2m; owner mirror); GDR #1391 paleo-geothermal deposit points (owner mirror); US Census TIGER/Line 2024 road distance raster (owner-derived mirror); 35-channel template + 20-channel SPCP + 1-m 3DEP/LiDAR + GeoDAWN</td><td>Fold-local 70/30 exposed-scape vs vent-feature/SAR-PU residual-coverage CELF; cross-domain gravity/magnetic/MT curvature; 2-m thermal anomalies; 150-m road deconfounding; exact 300-m triangular kernel.</td>
+<td>Thermal and paleo-geothermal observations are independent geothermal-setting evidence and not the competition fault catalogue; geophysical co-location is intended to reduce spring-outflow and shoreline mimics. This is a hypothesis, not proof that a point marks a fault.</td><td>Planned use of 2-m probes + paleo-geothermal feature points + TIGER roads with a sequential residual-coverage initial_mask allocator; previous H38/H44 used different data blends and did not build this exact combination.</td>
+<td>Unquantified; no leaderboard projection permitted. · cost Medium CPU; full 63-channel OOF stack and 3 registered arms. · data: Owner-mirror files are present and SHA-256 pinned in registry/data_manifest.json. Official GDR/Census links are recorded; direct official-host byte retrieval was not done in this sandbox.</td>
+<td>Exploratory negative; lane authorization absent and the executed run deviated from its frozen settings; not eligible for submission. See IR-32-H46-LANE-01, IR-32-H46-PREREG-01, IR-32-TRHV-FOOTPRINT-01 and evidence/h46_trhv_run_card.json.</td></tr><tr><td>2</td><td><b>H46-2</b><br>Multi-Altitude Upward-Continuation Magnetic Contact Persistence</td>
+<td>Bands 02/03/09/14 (RTP/TMI horizontal and vertical derivatives); GeoDAWN TMI_up150 (geodawn_extensions_u8.tif band 4); Band 05 gravity gradient and Band 07 geodetic shear</td><td>Track horizontal-gradient crest persistence after +150 m upward continuation, weighted by true cross-strike curvature and gravity/strain concordance.</td>
+<td>Deep fault contacts may persist across altitude continuation while shallow volcanic float and surface noise decay; it does not use known fault distance.</td><td>Prior H38/H44 used scalar TMI minus upward-continued TMI or a general persistence channel, not the preregistered multi-altitude gradient-ratio contact measure.</td>
+<td>Unquantified; no leaderboard projection permitted. · cost Low CPU; cached feature transforms. · data: Existing GeoDAWN-derived owner mirror present; direct USGS GeoDAWN host was not fetched this session.</td>
+<td>Registered; not run; outside the executed H46-1 lane.</td></tr><tr><td>3</td><td><b>H46-3</b><br>Strain-Gradient Azimuthal Obliquity Coupled to Potential-Field Strikes</td>
+<td>Bands 04/07/08/10/16 (geodetic inverse/shear/dilation and seismic rates); Band 05 gravity gradient; Band 02 RTP magnetic field</td><td>Axial obliquity between gravity/magnetic curvature strike and spatial gradient of dilation/shear, weighted by seismic transtension.</td>
+<td>Short en-echelon transfer/relay faults may be poorly represented in regional Quaternary traces; mechanism needs independent spatial validation.</td><td>Prior feature stacks used isotropic strain products rather than the proposed strike-conditioned gradient-angle interaction.</td>
+<td>Unquantified; no leaderboard projection permitted. · cost Low-to-medium CPU; existing 100-m channels. · data: Competition mirror stack restored and hash-checked; not independently organizer-authenticated.</td>
+<td>Registered; not run; outside the executed H46-1 lane.</td></tr><tr><td>4</td><td><b>H46-4</b><br>GeoDAWN Acquisition-Block-Normalized Silicification Core / Potassic Halo Difference-of-Gaussians</td>
+<td>Owner-derived GeoDAWN acquisition-block raster; GeoDAWN K/eTh/eU/Total Count, Th/K ratios; Band 06 total count</td><td>Within-survey-block normalized radiometric contrast between silica-rich low-count cores and K/Th-rich alteration halos at separate scales.</td>
+<td>Hydrothermal alteration may outline buried conduits without a surface scarp, while block normalization should reduce acquisition seams.</td><td>Previous SPCP used global K-on-Th residualization, not block-local normalization plus a concentric difference-of-Gaussians operator.</td>
+<td>Unquantified; no leaderboard projection permitted. · cost Low CPU; data product status requires independent verification. · data: Owner mirror receipt exists in GEMSDOE24; direct official-host verification not performed here.</td>
+<td>Registered; not run; outside the executed H46-1 lane.</td></tr><tr><td>5</td><td><b>H46-5</b><br>InSAR Phase-Gradient / 3-D MT Conduit Segmentation</td>
+<td>NASA ASF Sentinel-1 ascending/descending InSAR; USGS ScienceBase MT phase tensor; 63-channel feature stack</td><td>Aseismic creep/hydrothermal pressure-gradient lineaments in paired InSAR geometries with multi-scale spatial Tversky segmentation.</td>
+<td>Potentially sensitive to active blind structures in flat basins, independent of topographic scarps.</td><td>Moves from pixelwise CPU tree models to spatial 2-D segmentation with multi-kilometre receptive fields.</td>
+<td>Unquantified; no leaderboard projection permitted. · cost High; GPU and external downloads required. · data: Not checked for obtainability in this sandbox; official ASF/ScienceBase links only. Data-blocked, not currently viable.</td>
+<td>Registered; not run.</td></tr></table>
 <h2>Promotion rules (preregistered)</h2>
 <ol>
 <li>every hypothesis is registered with its layers, signature, novelty and data status before it is
@@ -249,7 +269,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 11:19 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 18:13 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

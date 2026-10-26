@@ -352,7 +352,7 @@
     {
       "id": "H-CVF2",
       "rank": 1,
-      "status": "measured (NEGATIVE \u2014 not promoted)",
+      "status": "measured (NEGATIVE — not promoted)",
       "title": "Spatially-CV 35-channel GBM field under the champion's emission law (round 5, experiment 1)",
       "layers": [
         "19 official bands via src/gems32/features.py (det_elev, tmi, rtp, iso_grav_anom, cond_surf, depth_to_base_surf drive derived channels)"
@@ -372,14 +372,14 @@
     {
       "id": "H-SUP-SGMC",
       "rank": 2,
-      "status": "measured (NEGATIVE \u2014 not promoted)",
+      "status": "measured (NEGATIVE — not promoted)",
       "title": "Same CV-GBM field with SGMC-north-augmented supervision (round 5, experiment 2)",
       "layers": [
         "19 official bands",
         "USGS SGMC faults raster (hash-pinned) as extra positives, north quadrants only"
       ],
       "signature": "appearance learning from catalogue + SGMC-off-catalogue (north); validated on held-out south SGMC",
-      "why_off_catalogue": "SGMC is pre-Quaternary-inclusive \u2014 real faults the Quaternary catalogue omits",
+      "why_off_catalogue": "SGMC is pre-Quaternary-inclusive — real faults the Quaternary catalogue omits",
       "differs_from_repo": "first use of SGMC as supervision (vs the two failed live SGMC-tracing attempts, 0.0512/0.0492)",
       "implementation": "scripts/run_hsupsgmc.py; evidence/hsupsgmc_run.json",
       "measured": {
@@ -610,7 +610,7 @@
     {
       "id": "H36-1",
       "rank": 1,
-      "status": "measured \u2014 negative (H36-1C: HOLDOUT-DTI 0.10982 [0.0987, 0.1227] v3-vis; cens_d0 0.07639 < 0.09920; SGMC 0.08380 < 0.09606)",
+      "status": "measured — negative (H36-1C: HOLDOUT-DTI 0.10982 [0.0987, 0.1227] v3-vis; cens_d0 0.07639 < 0.09920; SGMC 0.08380 < 0.09606)",
       "title": "True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS)",
       "layers": [
         "tmi_vg",
@@ -711,7 +711,7 @@
     {
       "id": "A8A-H1",
       "rank": 1,
-      "status": "measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE \u2014 DO NOT SUBMIT)",
+      "status": "measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE — DO NOT SUBMIT)",
       "title": "Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits",
       "layers": [
         "lidar_scarp_features_u8 (b2 step_max, b3/b4 lapneg*lappos, b7/b8 |downface-upface|, b9 cross, b10 coh100, b11 strike, b12 valid)",
@@ -953,7 +953,93 @@
       "cost": "high (requires CUDA GPU + PyTorch; deferred outside 2-vCPU / 3.8 GiB zero-swap CPU sandbox)",
       "data_status": "VERIFIED OFFICIAL SOURCES: drivendataorg/gems-prize-reference-solution + GeoDAWN DOI 10.5066/P93LGLVQ + GDR #1391; GPU compute deferred",
       "status": "registered next-milestone architecture; CPU sandbox boundary documented"
+    },
+    {
+      "id": "H46-1",
+      "rank": 1,
+      "title": "TRHV Two-Regime Hydrothermal-Feature, Potential-Field and TIGER-Deconfounded Allocation",
+      "layers": [
+        "GDR #1391 2-m temperature probes (F2mDAB, T1m, T15m, T2m; owner mirror)",
+        "GDR #1391 paleo-geothermal deposit points (owner mirror)",
+        "US Census TIGER/Line 2024 road distance raster (owner-derived mirror)",
+        "35-channel template + 20-channel SPCP + 1-m 3DEP/LiDAR + GeoDAWN"
+      ],
+      "signature": "Fold-local 70/30 exposed-scape vs vent-feature/SAR-PU residual-coverage CELF; cross-domain gravity/magnetic/MT curvature; 2-m thermal anomalies; 150-m road deconfounding; exact 300-m triangular kernel.",
+      "why_off_catalogue": "Thermal and paleo-geothermal observations are independent geothermal-setting evidence and not the competition fault catalogue; geophysical co-location is intended to reduce spring-outflow and shoreline mimics. This is a hypothesis, not proof that a point marks a fault.",
+      "differs_from_repo": "Planned use of 2-m probes + paleo-geothermal feature points + TIGER roads with a sequential residual-coverage initial_mask allocator; previous H38/H44 used different data blends and did not build this exact combination.",
+      "expected_dti": "Unquantified; no leaderboard projection permitted.",
+      "cost": "Medium CPU; full 63-channel OOF stack and 3 registered arms.",
+      "data_status": "Owner-mirror files are present and SHA-256 pinned in registry/data_manifest.json. Official GDR/Census links are recorded; direct official-host byte retrieval was not done in this sandbox.",
+      "status": "Exploratory negative; lane authorization absent and the executed run deviated from its frozen settings; not eligible for submission. See IR-32-H46-LANE-01, IR-32-H46-PREREG-01, IR-32-TRHV-FOOTPRINT-01 and evidence/h46_trhv_run_card.json."
+    },
+    {
+      "id": "H46-2",
+      "rank": 2,
+      "title": "Multi-Altitude Upward-Continuation Magnetic Contact Persistence",
+      "layers": [
+        "Bands 02/03/09/14 (RTP/TMI horizontal and vertical derivatives)",
+        "GeoDAWN TMI_up150 (geodawn_extensions_u8.tif band 4)",
+        "Band 05 gravity gradient and Band 07 geodetic shear"
+      ],
+      "signature": "Track horizontal-gradient crest persistence after +150 m upward continuation, weighted by true cross-strike curvature and gravity/strain concordance.",
+      "why_off_catalogue": "Deep fault contacts may persist across altitude continuation while shallow volcanic float and surface noise decay; it does not use known fault distance.",
+      "differs_from_repo": "Prior H38/H44 used scalar TMI minus upward-continued TMI or a general persistence channel, not the preregistered multi-altitude gradient-ratio contact measure.",
+      "expected_dti": "Unquantified; no leaderboard projection permitted.",
+      "cost": "Low CPU; cached feature transforms.",
+      "data_status": "Existing GeoDAWN-derived owner mirror present; direct USGS GeoDAWN host was not fetched this session.",
+      "status": "Registered; not run; outside the executed H46-1 lane."
+    },
+    {
+      "id": "H46-3",
+      "rank": 3,
+      "title": "Strain-Gradient Azimuthal Obliquity Coupled to Potential-Field Strikes",
+      "layers": [
+        "Bands 04/07/08/10/16 (geodetic inverse/shear/dilation and seismic rates)",
+        "Band 05 gravity gradient",
+        "Band 02 RTP magnetic field"
+      ],
+      "signature": "Axial obliquity between gravity/magnetic curvature strike and spatial gradient of dilation/shear, weighted by seismic transtension.",
+      "why_off_catalogue": "Short en-echelon transfer/relay faults may be poorly represented in regional Quaternary traces; mechanism needs independent spatial validation.",
+      "differs_from_repo": "Prior feature stacks used isotropic strain products rather than the proposed strike-conditioned gradient-angle interaction.",
+      "expected_dti": "Unquantified; no leaderboard projection permitted.",
+      "cost": "Low-to-medium CPU; existing 100-m channels.",
+      "data_status": "Competition mirror stack restored and hash-checked; not independently organizer-authenticated.",
+      "status": "Registered; not run; outside the executed H46-1 lane."
+    },
+    {
+      "id": "H46-4",
+      "rank": 4,
+      "title": "GeoDAWN Acquisition-Block-Normalized Silicification Core / Potassic Halo Difference-of-Gaussians",
+      "layers": [
+        "Owner-derived GeoDAWN acquisition-block raster",
+        "GeoDAWN K/eTh/eU/Total Count, Th/K ratios",
+        "Band 06 total count"
+      ],
+      "signature": "Within-survey-block normalized radiometric contrast between silica-rich low-count cores and K/Th-rich alteration halos at separate scales.",
+      "why_off_catalogue": "Hydrothermal alteration may outline buried conduits without a surface scarp, while block normalization should reduce acquisition seams.",
+      "differs_from_repo": "Previous SPCP used global K-on-Th residualization, not block-local normalization plus a concentric difference-of-Gaussians operator.",
+      "expected_dti": "Unquantified; no leaderboard projection permitted.",
+      "cost": "Low CPU; data product status requires independent verification.",
+      "data_status": "Owner mirror receipt exists in GEMSDOE24; direct official-host verification not performed here.",
+      "status": "Registered; not run; outside the executed H46-1 lane."
+    },
+    {
+      "id": "H46-5",
+      "rank": 5,
+      "title": "InSAR Phase-Gradient / 3-D MT Conduit Segmentation",
+      "layers": [
+        "NASA ASF Sentinel-1 ascending/descending InSAR",
+        "USGS ScienceBase MT phase tensor",
+        "63-channel feature stack"
+      ],
+      "signature": "Aseismic creep/hydrothermal pressure-gradient lineaments in paired InSAR geometries with multi-scale spatial Tversky segmentation.",
+      "why_off_catalogue": "Potentially sensitive to active blind structures in flat basins, independent of topographic scarps.",
+      "differs_from_repo": "Moves from pixelwise CPU tree models to spatial 2-D segmentation with multi-kilometre receptive fields.",
+      "expected_dti": "Unquantified; no leaderboard projection permitted.",
+      "cost": "High; GPU and external downloads required.",
+      "data_status": "Not checked for obtainability in this sandbox; official ASF/ScienceBase links only. Data-blocked, not currently viable.",
+      "status": "Registered; not run."
     }
   ],
-  "updated_utc": "2026-10-26T06:35:00Z"
+  "updated_utc": "2026-10-26T18:03:49Z"
 }

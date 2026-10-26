@@ -2,12 +2,16 @@
 
 Last reviewed: **2026-10-26**. “Fixed” means the repository now mitigates the tooling defect; it does not authenticate competition data or establish score gains.
 
-## Current release-blocking findings (2026-10-26)
+## Current release-blocking findings (2026-10-26, H46 review)
 
-- **IR-R6-05 (critical): DO NOT SUBMIT R6-1 STEP.** Its B=2 mask was made from the full fault catalogue before hide-and-recover scoring; the fold evaluator cannot undo that leakage. The descriptive result is 0.003376 vs 0.004515 incumbent for 22,232 withheld positives (draws 20/21; separate, not paired 95% CIs [0.002512, 0.004535] and [0.003943, 0.005250]); it is not admissible promotion evidence.
-- **IR-R6-03 (high): literal novelty gate fails.** 97.82% of R6-1 dots lie within 3 px of the registered calibration raster, over the user's 70% threshold. The protocol says any registry raster; the earlier density-based exception is withdrawn.
-- **Format is not release approval.** Strict validation against the hash-pinned owner-mirror sample passes: one float32 band, EPSG:32611, 3730×3292, exact CRS/shape/transform, all cells finite in [0,1], and 37,654 positive cells. No fresh raster was generated; no weekly slot was used; no organizer score or current cap was retrieved.
-- Site/README verdict is fail-closed **DO NOT SUBMIT**. Existing TIFFs remain downloadable solely for audit. See [full three-pass review](research/protocol-review-20261026.md), [Round-6 run card](../evidence/round6_run_card.json), and [per-site summary](research/focus-sites-executive-summary.md).
+- **H46-1 is downloadable for research only; DO NOT SUBMIT.** Saved-byte format checks pass, but the local `HOLDOUT-DTI 0.109361 [0.094695, 0.122341]` (`GEMSDOE32-HIDE-RECOVER-v3.0`, 22,232 withheld positives) is below the prior H38 repo-best point `0.116958` on the same evaluator/population. No paired H38 bootstrap draws are archived; no paired CI is claimed.
+- **`IR-32-H46-LANE-01` (critical):** the prompt context lacked the explicit single-method paragraph required to assign a lane. H46 was selected from an earlier README next-step suggestion, not an explicit current lane authorization. No weekly slot was used.
+- **`IR-32-H46-PREREG-01` (high):** H46’s executed settings deviated from the frozen preregistration (72/28 rather than 70/30 allocation; F2mDAB >0 rather than >1 C; 180 m rather than 150 m TIGER scale). Its performance figures are exploratory, not admissible promotion evidence.
+- **`IR-32-TRHV-FOOTPRINT-01` (high, code fixed after run):** the completed H46 candidate was built with a point-importer that clipped up-to-24-px outside-footprint observations to raster-edge cells before smoothing. `src/gems32/trhv.py` now filters to the exact finite footprint, but H46 was not rebuilt/revalidated after the correction; the published TIFF remains a pre-fix audit artifact.
+- **`IR-32-EMIT-RHO-01` (fixed):** the shared emitter’s `rho` option-value was documented but not applied correctly in the marginal acceptance inequality; it is now corrected and covered by tests. The residual-coverage `initial_mask` interface is also shared and tested.
+- **Literal uniqueness still fails:** H46’s continuous surface passes genuine registry comparisons (`max |Spearman|=0.166685`) and its max genuine 3-px dot overlap is `66.5587%`, but `99.267%` of dots lie within 3 px of the 5-px calibration lattice. The rule has no density exemption, so the all-registry result is **FAIL**.
+- **Format is not release approval.** H46 reopens as one `float32` band, `EPSG:32611`, `3730×3292`, exact template transform, all `12,279,160` cells finite/in `[0,1]`, no NaN, and 37,654 positive cells. No portal acceptance or new organizer score is recorded.
+- Historical top scores and their mask lineage are **OWNER-REPORTED**. A pinned-byte audit found GEMSDOE25/GEMSDOE30 winner masks identical; the minimum directed 3-px overlap among the nine historical site winners is `86.718954%`, over the 70% protocol limit. See [H46 report](research/h46-results-and-nine-site-executive-summary-20261026.md), [H46 card](../evidence/h46_trhv_run_card.json), and [winner-overlap receipt](../evidence/focus_site_winner_overlap_20261026.json).
 
 ---
 

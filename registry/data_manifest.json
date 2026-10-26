@@ -260,6 +260,39 @@
       "sha256": "33003374335d84bf885f2d8f5e9dd4c57044c8ec58fa6a0d7fa581e8bc41c11d",
       "bytes": 1635084,
       "provenance": "owner-supplied scored-artifact mirror (GEMSDOE27 primary candidate manifest, generated_utc 2026-10-03T00:32:37Z); UNSCORED on the leaderboard; added 2026-10-04 because scripts/run_pipeline.py required it and it was absent from this manifest, which made the documented reproduce command abort (IR-32-MANIFEST-01)"
+    },
+    {
+      "id": "ext_gdr_2m_temp_probes_zip",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "9da8a18381e179530c3b878d073314feaa26a20c",
+      "path": "data/external/2m_temperature_probe_INGENIOUS_regional_data.zip",
+      "dest": "external/2m_temperature_probe_INGENIOUS_regional_data.zip",
+      "group": "external",
+      "sha256": "1301f70d230058e616ea5d34d1c7a32fabf7d49198172f376c59c89bd652eca3",
+      "bytes": 1080530,
+      "provenance": "Owner-hosted mirror of the UNR/GBCGE INGENIOUS 2-meter shallow temperature-probe regional survey attributed to DOE GDR #1391 (https://gdr.openei.org/submissions/1391, DOI 10.15121/1881483, CC BY 4.0); 3,800 stations (2,782 inside GEMS footprint) with T1m, T15m, T2m, and F2mDAB (source field described as 2m temperature difference above background); label-free. SHA-256 pins verify this mirror; this session did not download the bytes from the official GDR host."
+    },
+    {
+      "id": "ext_gdr_paleo_geothermal_zip",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "9da8a18381e179530c3b878d073314feaa26a20c",
+      "path": "data/external/paleo_geothermal_regional.zip",
+      "dest": "external/paleo_geothermal_regional.zip",
+      "group": "external",
+      "sha256": "faffcf697f32dbbf6cbb317cd1effb3e305538ce38eb239d72d0c6fa071e91ca",
+      "bytes": 84008,
+      "provenance": "Owner-hosted mirror of the UNR/GBCGE INGENIOUS Paleo-Geothermal Features compilation attributed to DOE GDR #1391 (https://gdr.openei.org/submissions/1391, DOI 10.15121/1881483, CC BY 4.0); 709 mapped point features with deposit types including travertine, tufa, sinter, and silica-cemented material (281 inside GEMS footprint); these are geothermal-feature observations, not fault labels. SHA-256 pins verify the owner mirror; this session did not download bytes from the official GDR host."
+    },
+    {
+      "id": "ext_tiger_road_distance_m",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "9da8a18381e179530c3b878d073314feaa26a20c",
+      "path": "data/external/audit_sources/tiger_road_distance_m.tif",
+      "dest": "external/tiger_road_distance_m.tif",
+      "group": "external",
+      "sha256": "e5350423508968fa2d32b0a6ae0d3fb4ae3ea645e3b8736f0c8e7ad9ff2f2988",
+      "bytes": 10492276,
+      "provenance": "Owner-derived Euclidean distance in meters to US Census Bureau TIGER/Line 2024 county road/highway centerlines (official directory: https://www2.census.gov/geo/tiger/TIGER2024/ROADS/, public-domain Census product), projected onto exact EPSG:32611 3730x3292 100 m competition grid. The sibling mirror includes `data/external/audit_sources/tiger_road_receipt.json`; this session did not fetch road files from Census. SHA-256 pins verify the owner mirror, not official-host authenticity."
     }
   ]
 }

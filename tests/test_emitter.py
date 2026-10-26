@@ -141,3 +141,38 @@ def test_log_reports_every_documented_field():
         assert key in d, key
     assert d["implied_bar_alpha_s"] == pytest.approx(0.052)
     assert d["implied_bar_two_round"] == pytest.approx(0.026)
+
+
+def test_rho_option_value_lowers_acceptance_bar_in_both_emitters():
+    """Fixes IR-32-EMIT-RHO-01: rho > 0 must actually relax the marginal credit bar."""
+    f = np.zeros((25, 25), dtype=float)
+    # Isolated weak belief pixel: kbar = gain = 0.04 < alpha * prior_dti = 0.052 at rho=0,
+    # but > (alpha / (1 + rho)) * prior_dti = 0.026 at rho=1.0.
+    f[12, 12] = 0.04
+    m0, _ = emitter.emit(f, budget=None, prior_dti=0.26, rho=0.0)
+    m1, _ = emitter.emit(f, budget=None, prior_dti=0.26, rho=1.0)
+    e0, _ = emitter.exact_greedy(f, budget=None, prior_dti=0.26, rho=0.0)
+    e1, _ = emitter.exact_greedy(f, budget=None, prior_dti=0.26, rho=1.0)
+    assert int(m0.sum()) == int(e0.sum()) == 0
+    assert int(m1.sum()) == int(e1.sum()) == 1
+
+
+def test_initial_mask_residual_coverage_is_disjoint_and_exact():
+    """Stage-2 emission with initial_mask must never re-pick Stage-1 dots or double-credit coverage."""
+    f1 = _field(shape=(35, 35), rows=(10,), spans=((4, 31),))
+    f2 = _field(shape=(35, 35), rows=(10, 24), spans=((4, 31), (4, 31))) * 0.8
+    m1, _ = emitter.emit(f1, budget=5, prior_dti=0.0)
+    m2, log2 = emitter.emit(f2, budget=4, prior_dti=0.0, initial_mask=m1)
+    assert int(m1.sum()) == 5 and int(m2.sum()) == 4
+    assert not (m1 & m2).any(), "Stage-2 must be disjoint from initial_mask"
+    # Because row 10 is already heavily covered by m1, Stage-2's top picks must land on row 24
+    ys2 = np.argwhere(m2)[:, 0]
+    assert (ys2 == 24).all()
+    # Incremental credit delivered on f2 must equal TP_w(m1|m2, f2) - TP_w(m1, f2)
+    def _weighted_tp(mask, field):
+        cov = np.zeros_like(field)
+        for y, x in np.argwhere(mask):
+            emitter._deliver(cov, int(y), int(x))
+        return float((field * cov).sum())
+    inc = _weighted_tp(m1 | m2, f2) - _weighted_tp(m1, f2)
+    assert log2.credit_delivered == pytest.approx(inc, rel=1e-9, abs=1e-9)
