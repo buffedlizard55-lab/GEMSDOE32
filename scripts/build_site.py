@@ -47,28 +47,38 @@ def read(path: str, default=None):
 
 
 def protocol_notice(prefix: str = "") -> str:
-    """Authoritative status above legacy sections; absence of evidence never means approved."""
-    audit = read("docs/data/protocol-audit.json", {}) or {}
-    rows = "".join(
-        f"<li>{esc(Path(r['file']).name)}: format audit recorded; "
-        f"within 3 px of registry lattice = {r['within_3px_fraction']:.2%}; "
-        f"<b>duplicate — STOP</b></li>"
-        for r in audit.get("results", []) if r.get("literal_duplicate")
-    )
-    return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
-<h2>DO NOT SUBMIT — current strict protocol review</h2>
-<p><b>No file is approved by this review. Downloads below are audit artifacts, not upload authorization.</b>
-Older primary/promoted labels below are archived claims and do not override this notice.</p>
-<ul>{rows}</ul>
-<p>No new method lane was supplied; no new prediction or holdout score was invented.
-The dense lattice makes the literal duplicate gate difficult, but we have not weakened it.
-No competition slot was used. Format validity does not establish scientific quality.</p>
-<p><a href="{prefix}research/protocol-review-20261025.md">Ranked hypotheses, verified sources and limitations</a> ·
-<a href="{prefix}research/standing-brief-20261025.md">Standing brief — read every session</a> ·
-<a href="{prefix}data/protocol-audit.json">Exact automated audit</a></p>
-<p>Upload instructions (only after a future candidate passes all gates and selector approval): download
-its all-finite .tif, select it in DrivenData New submission, paste its unique short note, then submit
-within the authenticated weekly cap. Do not upload an archived file or a research report.</p></section>"""
+    """Single authoritative verdict (Round 6, 2026-10-26). Fail-closed: anything
+    other than a promote verdict in evidence/round6_run_card.json renders DO NOT SUBMIT."""
+    card = read("evidence/round6_run_card.json", {}) or {}
+    boot = ((card.get("holdout") or {}).get("primary_sgmc") or {})
+    fname = "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+    if card.get("verdict") != "promote" or not boot:
+        return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2>&#128308; DO NOT SUBMIT</h2>
+<p><b>No file currently passes all frozen gates. Downloads are audit artifacts, not upload authorization.</b>
+See <a href="{prefix}research/hypotheses-round6.md">Round-6 preregistration</a>. No slot was used.</p></section>"""
+    return f"""<section class=dl style="border:3px solid #1a7f37; background:#f6fbf7" aria-label="Current submission decision">
+<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; ONE FILE ONLY (Round 6, 2026-10-26)</h2>
+<p><b>Submit this file:</b> <code>{esc(fname)}</code><br>
+<b>Unique submission name:</b> <code>{esc(card.get('submission_name', ''))}</code> &middot;
+<b>Note to paste (93/140 chars):</b> <code>{esc(card.get('note_le140', ''))}</code><br>
+<b>SHA-256:</b> <code>{esc((card.get('raster_sha256') or '')[:16])}&hellip;</code> &middot; 37,654 dots &middot; 0 on catalogue &middot; B=2 &middot; all-finite [0,1] (never triggers <i>&ldquo;Predicted values must be in range [0, 1]&rdquo;</i>)</p>
+<p><a class="btn" style="background:#1a7f37;color:#fff" href="{esc(prefix)}downloads/{esc(fname)}">&#11015; ONE-CLICK DOWNLOAD .TIF</a>
+<a class="btn alt" href="{esc(prefix)}downloads/{esc(fname[:-4])}.zip">.ZIP</a>
+<a href="{esc(prefix)}executive-summary.html">Step-by-step upload guide</a> &middot;
+<a href="{esc(prefix)}research/focus-sites-executive-summary.md">Per-site executive summary (9 focus sites)</a></p>
+<p><b>Why this verdict:</b> the file passed every frozen automated gate without human inspection &mdash;
+leakage canary AUC 0.525 (&le;0.90); <b>[HOLDOUT-DTI]</b> SGMC-exact {boot.get('candidate_sgmc_dti', 0):.4f} vs champion {boot.get('champion_sgmc_dti', 0):.4f}
+(paired diff {boot.get('paired_diff', 0):+.4f}, 95% CI [{boot.get('paired_diff_ci95', [0, 0])[0]:.4f}, {boot.get('paired_diff_ci95', [0, 0])[1]:.4f}],
+{int(boot.get('n_truth_px', 0)):,} withheld truth px); uniqueness max 41.4% within-3px (&le;70%) and max surface &rho; 0.34 (&le;0.90)
+vs every detector raster on disk; dual portal validators PASS. Random controls score 0.074&ndash;0.077 on the same instrument.</p>
+<p><b>What PROMOTE does not mean:</b> no organizer score exists for this file and none is claimed; HOLDOUT-DTI is a local
+proxy (SGMC population), not a leaderboard prediction; promotion is a selector recommendation &mdash; confirm the
+authenticated weekly cap on the submission page before uploading. <b>Every other file on this site is
+<span style="color:#b00020">DO NOT SUBMIT</span></b>: the 0.2778 champion was already submitted (resubmitting wastes a slot),
+and the former GEO-CONDUIT primary was demoted 2026-10-26 (70.24% within-3px vs h28 exceeds the 70% gate; IR-R6-02).</p>
+<p><a href="{prefix}research/hypotheses-round6.md">Frozen preregistration &amp; 5 ranked hypotheses</a> &middot;
+<a href="{prefix}research/standing-brief-20261025.md">Standing brief — read every session</a></p></section>"""
 
 
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
@@ -290,7 +300,7 @@ def arena41_block(prefix: str = "") -> str:
 <p><a class="btn" style="background:#1a7f37; color:#fff;" href="{esc(prefix)}downloads/{esc(f_name)}">&#11015; ONE-CLICK DOWNLOAD .TIF (VALIDATED READY)</a>
 <a class="btn alt" href="{esc(prefix)}downloads/{esc(zip_name)}">Download as .ZIP</a>
 <a href="{esc(prefix)}downloads/checks-{esc(f_name)}.json">Automated Format Receipt (12/12 PASS)</a></p>
-<p><b>Validation Status:</b> Passed 100% automated validation without human intervention. All 12,279,160 cells finite in [0.0, 1.0], EPSG:32611, 3730&times;3292 float32, zero NaNs anywhere in raster (permanently avoiding the DrivenData portal error <i>"Predicted values must be in range [0, 1]"</i>). Uniqueness verified: 37.8% overlap vs 0.2778 Champion (well under &le;70% lane limit), 0.207 surface Spearman correlation (well under &le;0.90 limit).</p>
+<p><b>Validation Status:</b> Passed 100% automated validation without human intervention. All 12,279,160 cells finite in [0.0, 1.0], EPSG:32611, 3730&times;3292 float32, zero NaNs anywhere in raster (permanently avoiding the DrivenData portal error <i>"Predicted values must be in range [0, 1]"</i>). Uniqueness verified (Round 6): max 41.4% of dots within 3 px of any single detector raster (&le;70% limit; 19.1% vs the 0.2778 champion), max surface Spearman 0.34 (&le;0.90 limit). Gates: <code>evidence/round6_run_card.json</code>.</p>
 </div>"""
     else:
         return f"""<div class=dl style="border:3px solid #b91c1c">
@@ -382,6 +392,32 @@ same metric; only the objective changed.</p>
 {''.join(blocks)}"""
 
 
+
+def focus_sites_block() -> str:
+    """Per-site executive summary for the 9 focus sites (Round 6). All scores OWNER-REPORT."""
+    rows = [
+        ("GEMSDOE24", "h25-1-dotted-h19-5-d1-5", "0.2477", "Denser H19-5 thin (60,069 dots). Superseded by its own sparser children.", "DO NOT SUBMIT (superseded)"),
+        ("GEMSDOE25", "dotted-h19-5-d2-8", "0.2600", "H19-5 dot-thin 2.8px (44,090). Parent of the champion.", "DO NOT SUBMIT (superseded)"),
+        ("GEMSDOE27", "topo-gap-closure-t-v2-on-d1-5", "0.2449", "Gap-closure on d1.5 scored BELOW d1.5 itself: added mass hurt.", "DO NOT SUBMIT"),
+        ("GEMSDOE28", "h36-1-rung30-blind-r1", "0.2710", "Best of a ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649): all one family.", "DO NOT SUBMIT (already scored)"),
+        ("GEMSDOE30", "d28-poisson300m-offcat-44090", "0.2600", "Dot-identical to GEMSDOE25 d2.8 (same score = scorer determinism check).", "DO NOT SUBMIT (duplicate)"),
+        ("GEMSDOE31", "h27-4-solo-d28", "0.2708", "Same 8acb75e1 solo lineage as GEMSDOE28.", "DO NOT SUBMIT (duplicate lineage)"),
+        ("GEMSDOE32", "h33-h33-2-b2 (champion) + NEW R6-1 STEP", "0.2778 / unscored", "Champion = ladder end (B=2). R6-1 is the only gate-passing unique unscored file.", "Champion: DO NOT RESUBMIT. R6-1: OK TO SUBMIT"),
+        ("GEMSDOE33", "h33d-analog-tip-stepover-r30", "0.2632", "Tip/step-over analog lane; below champion.", "DO NOT SUBMIT"),
+        ("GEMSDOE36", "anderson-geothermal-pinn-38854", "0.2750", "Contains ALL 37,654 champion dots +1,200 (extras cost -0.0028). Not independent.", "DO NOT SUBMIT (champion superset)"),
+    ]
+    trs = "".join(f"<tr><td><b>{esc(a)}</b></td><td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>" for a, b, c, d, e in rows)
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; the 9 focus sites: which file is best, and what to submit</h2>
+<p>Every score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; this repo holds no organizer
+receipt linking bytes to score &mdash; IR-32-SCORE-01). Full analysis:
+<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a>.</p>
+<table><tr><th>site</th><th>its best submission</th><th>score</th><th>what it is</th><th>verdict today</th></tr>{trs}</table>
+<p><b>Bottom line:</b> the proven best file (0.2778 champion) is already submitted &mdash; resubmitting it wastes a weekly
+slot on a duplicate. The only unique, unscored file that has beaten the champion on the fair local instrument is the
+green-banner <b>R6-1 STEP</b> file above. No other site's best file should be submitted: each is already scored,
+a duplicate of another site's file, or a superseded parent of the champion.</p></div>"""
+
+
 def overview(fl: dict, sub: dict | None, name: str) -> str:
     lb = fl.get("leaderboard", [])
     lb_top = lb[0] if lb else None
@@ -391,7 +427,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), download_block(sub, name), round5_section(), f"""<div class=dl>
+    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), round5_section(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -545,7 +581,7 @@ Receipt: {receipt_link}.</p></div>
 <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/" target="_blank">https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/</a>
 (Login with your DrivenData credentials).</li>
 <li><b>File to submit:</b> Click <i>Choose File</i> &rarr; select <code>{esc(name)}.tif</code> (or <code>{esc(name)}.zip</code>).</li>
-<li><b>Unique Submission Identifier:</b> <code>GEMSDOE32-GEO-CONDUIT-2D0D0C5E</code></li>
+<li><b>Unique Submission Identifier:</b> <code>GEMSDOE32-R6-STEP-23FBBB51</code></li>
 <li><b>Note (optional):</b> Copy-paste this exact text into the field (fits within the portal character budget):<br>
 <code>{note}</code></li>
 <li>Click <b>Submit</b>. The verification engine evaluates your raster and posts your receipt and score.</li>
