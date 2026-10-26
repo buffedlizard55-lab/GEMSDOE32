@@ -1,5 +1,12 @@
 # GEMSDOE32 — DOE GEMS Prize Research, Validation & Submission System
 
+## Latest repository review
+
+[2026-10-26 shared promotion-gate audit](docs/research/repository-review-20261026-gate-hardening.md):
+**DO NOT SUBMIT.** Promotion now requires a positive paired improvement CI, matching
+HOLDOUT-DTI provenance, and complete named format checks. No new geological experiment
+or submission slot was used. Historical scores remain owner reports, not authenticated receipts.
+
 <!-- SINGLE DECISION: rendered from registry/current_status.json and evidence/current_release_review.json (both must authorize; fail closed). Update those files, never add a second banner. -->
 ## 🚦 Current Decision — 2026-10-26 01:45 UTC
 
