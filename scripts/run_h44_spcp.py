@@ -178,16 +178,23 @@ def scan_full_registry(
     dman = json.loads((ROOT / "registry" / "data_manifest.json").read_text())
 
     entries: dict[str, tuple[str, Path]] = {}
+    # IR-45-REGISTRY-01: never skip silently. Missing local files are recorded and surfaced so the
+    # caller can fail closed (a "289 rasters checked" claim is false if the cache is incomplete).
+    missing_local: list[str] = []
     for r in fman["rasters"]:
         if r.get("status") == "ok" and r["sha256"] not in exclude_shas:
             p = ROOT / r["local"]
             if p.exists():
                 entries.setdefault(r["sha256"], (f"{r['repo']}:{r['path']}", p))
+            else:
+                missing_local.append(f"{r['repo']}:{r['path']}")
     for e in dman["files"]:
         if e["group"] == "scored" and e["sha256"] not in exclude_shas:
             p = ddir / e["dest"]
             if p.exists():
                 entries.setdefault(e["sha256"], (f"manifest:{e['id']}", p))
+            else:
+                missing_local.append(f"manifest:{e['id']}")
 
     # Exact 100% full-footprint (5,167,373 pixels, zero sampling!) Spearman & <=3px overlap
     rx_surf = _normalized_ranks(np.asarray(surface[foot], dtype=np.float64))
@@ -324,6 +331,7 @@ def scan_full_registry(
         "worst_genuine_surface": worst_surf_gen,
         "worst_genuine_overlap": worst_ov_gen,
         "worst_literal_overlap": worst_ov_all,
+        "missing_local_registry_entries": missing_local,
         "release_gate_direct_surface": rg_surface,
         "release_gate_direct_final": rg_final,
         "top15_by_overlap": sorted(genuine, key=lambda r: -r["within_3px_fraction"])[:15],

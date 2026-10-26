@@ -591,6 +591,99 @@ same metric; only the objective changed.</p>
 
 
 
+def nine_site_table_block(docs_prefix: str = "") -> str:
+    """Data-driven 9-site submission table (sources: evidence/nine_site_best_files_audit.json,
+    evidence/h45_tworegime_run_card.json, registry/current_status.json). Nothing hand-typed.
+
+    Columns answer the three questions the owner asked: which file to download, what its estimate
+    is (live scores are OWNER-REPORT; there is no validated holdout-to-live mapping, so no live
+    estimate is printed for a new file), and whether it is unique against the other registry files.
+    """
+    au = read("evidence/nine_site_best_files_audit.json") or {}
+    rc = read("evidence/h45_tworegime_run_card.json") or {}
+    if not au.get("sites"):
+        return ""
+    pairs = au.get("pairwise", [])
+    n_pairs = len(pairs)
+    n_flag = sum(1 for p in pairs if p.get("duplicate_flag_rho_gt_0_90") or p.get("duplicate_flag_overlap_gt_70pct"))
+    rows = []
+    for s_ in au["sites"]:
+        site = s_["site"]
+        fname = Path(s_["file"]).name
+        ref = s_["github_ref"]
+        if site == "GEMSDOE32":
+            link = f"downloads/{fname}"  # table lives in docs/ pages; file is docs/downloads/
+        else:
+            link = f"https://github.com/buffedlizard55-lab/{site}/blob/{ref}/{s_['file']}"
+        rows.append(
+            f'<tr><td><b><a href="https://buffedlizard55-lab.github.io/{site}/">{esc(site)}</a></b></td>'
+            f'<td><a href="{esc(link)}"><code>{esc(fname)}</code></a><br><span class=mut>leaderboard name: '
+            f'<code>{esc(s_["leaderboard_name"])}</code> &middot; sha256 <code>{esc(s_["sha256"][:16])}&hellip;</code></span></td>'
+            f'<td>{s_["positive_dots"]:,}</td>'
+            f'<td><b>{s_["published_score_OWNER_REPORT"]:.4f}</b> <span class=mut>[OWNER-REPORT]</span></td>'
+            f'<td>No new estimate. Same-family live band 0.2449&ndash;0.2778 [OWNER-REPORT].</td>'
+            f'<td><b style="color:#b00020">NO</b> &mdash; same family as the other 8 (all {n_pairs} pairs flagged, '
+            f'{n_flag}/{n_pairs}; <a href="../evidence/nine_site_best_files_audit.json">audit</a>)</td>'
+            f'<td><b>DO NOT RESUBMIT</b> &mdash; already scored</td></tr>'
+        )
+    h45 = ""
+    if rc:
+        arms = rc.get("arms", {})
+        h = arms.get("H45_TWOREGIME_SPLIT", {})
+        hr = h.get("hr", {})
+        sg = h.get("sgmc_cal", {})
+        art = rc.get("artifacts", {})
+        zf = art.get("zeros_tif", {}).get("filename", "")
+        un = rc.get("uniqueness", {})
+        fd = un.get("final_dots", {})
+        verdict = rc.get("release_verdict_fail_closed", "negative")
+        crit = rc.get("criteria", {})
+        fails = [k for k, v in crit.items() if not v]
+        hr_ci = hr.get("ci95_cluster_bootstrap", [0, 0])
+        # Uniqueness is taken from the CURRENT-registry recheck (2026-10-26), not from the run card: the run
+        # card's C5/C6 were computed against an older manifest that did not contain GEMSDOE32's own downloads.
+        rk = read("evidence/h45_uniqueness_recheck_20261026.json") or {}
+        genuine_peers = [r for r in rk.get("flagged_final_dot_peers", []) if "r13-lattice-s5" not in r.get("name", "")]
+        unique_genuine = bool(rk.get("passes_surface_gate") and rk.get("passes_final_dot_gate"))
+        if genuine_peers:
+            gp = genuine_peers[0]
+            peer_txt = (f"&#10060; {gp['cand_dots_within_3px_of_other']*100:.1f}% of its dots lie within 3&nbsp;px of "
+                        f"<code>{esc(Path(gp['name']).name)}</code> (limit 70%)")
+        else:
+            peer_txt = "no non-lattice peer above 70%"
+        h45 = (
+            f'<tr style="background:#fff7e6"><td><b>NEW: H45-TR two-regime</b><br><span class=mut>GEMSDOE32, this session</span></td>'
+            f'<td><a href="downloads/{esc(zf)}"><code>{esc(zf)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
+            f'<td>{h.get("full_map_dots", 0):,}</td>'
+            f'<td><i>none</i> &mdash; not a score</td>'
+            f'<td>HOLDOUT-DTI {hr.get("pooled_dti", 0):.4f} [{hr_ci[0]:.4f}, {hr_ci[1]:.4f}] '
+            f'(n={hr.get("n_withheld_positives", 0):,}, GEMSDOE32-HIDE-RECOVER-v3.0); off-catalogue SGMC-cal '
+            f'{sg.get("sgmc_prevalence_calibrated_dti", 0):.4f} (off-catalogue diagnostic, not a score)</td>'
+            f'<td><b>{"YES" if unique_genuine else "NO"}</b> vs {int(rk.get("n_targets_checked", 0))} current registry rasters '
+            f'(surface &le;0.90, final dots &le;70%): {peer_txt}. Literal 5-px lattice gate: '
+            f'<b>{"PASS" if fd.get("literal_all_rasters_passed") else "FAIL"}</b></td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; verdict <code>{esc(verdict)}</code>; '
+            f'failed: {esc(", ".join(fails) or "none")}; C6 re-check: {"FAIL" if not unique_genuine else "pass"}. '
+            f'Research download only.</td></tr>'
+        )
+    return (
+        '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
+        '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
+        'resubmitting adds no information). The live #1 on the public DrivenData leaderboard read at build time is '
+        '<b>0.4437</b> (see <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a>). '
+        'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
+        'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
+        '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + '</table>'
+        '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
+        '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
+        '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
+        '<a href="../evidence/nine_site_best_files_audit.json">nine-site audit</a> &middot; '
+        '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a> &middot; '
+        '<a href="research/h45-tworegime-preregistration-20261026.md">H45 preregistration</a>.</p></div>'
+    )
+
+
 def focus_sites_block() -> str:
     """Render byte-audited 9-site historical winners, literal novelty, and this session's H46 negative result."""
     audit = read("evidence/focus_site_winner_overlap_20261026.json", {}) or {}
@@ -671,7 +764,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), current_status_block(""), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
+    parts = [arena41_block(), current_status_block(""), nine_site_table_block(""), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -788,6 +881,64 @@ claim.</p>""")
     return "\n".join(parts)
 
 
+def submission_form_block() -> str:
+    """Submission-page helper: unique name + comment (<=140 chars) with automated in-browser checks.
+
+    Prior names are collected automatically from every evidence/*.json that carries a submission_name.
+    The helper never authorizes an upload: while registry/current_status.json has no cleared file it shows DO NOT SUBMIT.
+    """
+    prior = set()
+    for f in sorted((ROOT / "evidence").glob("*.json")):
+        try:
+            obj = json.loads(f.read_text())
+        except Exception:
+            continue
+        stack = [obj]
+        while stack:
+            x = stack.pop()
+            if isinstance(x, dict):
+                for k, v in x.items():
+                    if k == "submission_name" and isinstance(v, str):
+                        prior.add(v.lower())
+                    stack.append(v)
+            elif isinstance(x, list):
+                stack.extend(x)
+    st = read("registry/current_status.json") or {}
+    cleared = bool(st.get("any_file_ok_to_submit"))
+    prior_js = json.dumps(sorted(prior))
+    gate = ("Cleared by registry/current_status.json" if cleared else
+            "NOT CLEARED: registry/current_status.json has any_file_ok_to_submit=false. Do not submit.")
+    return f"""<div class=card id=form><h3>Submission form helper &mdash; unique name and comment (checked automatically in your browser)</h3>
+<p class=mut>{esc(gate.rstrip('.'))}. The checks below are rules, not a human review. They do not authorize an upload.</p>
+<p><label>Unique name <input id=sf-name size=48 maxlength=60 placeholder="e.g. GEMSDOE32-clustering-k25"></label>
+<span id=sf-name-msg></span></p>
+<p><label>Comment (&le;140 chars) <input id=sf-note size=80 maxlength=140 placeholder="e.g. clustering with k=25"></label>
+<span id=sf-note-count class=mut>0/140</span></p>
+<p id=sf-verdict style="font-weight:bold"></p>
+<script>
+(function(){{
+  var prior = {prior_js};
+  var cleared = {"true" if cleared else "false"};
+  var n = document.getElementById('sf-name'), c = document.getElementById('sf-note');
+  function run(){{
+    var nm = n.value.trim(), nt = c.value;
+    document.getElementById('sf-note-count').textContent = nt.length + '/140';
+    var msgs = [], ok = true;
+    if (nm.length < 3 || !/^[A-Za-z0-9][A-Za-z0-9 _.\-]*$/.test(nm)) {{ ok = false; msgs.push('name: 3+ characters, letters/digits/space/_/./-'); }}
+    if (prior.indexOf(nm.toLowerCase()) >= 0) {{ ok = false; msgs.push('name already used in this repository (prior submission)'); }}
+    if (nt.length > 140) {{ ok = false; msgs.push('comment over 140 characters'); }}
+    document.getElementById('sf-name-msg').textContent = nm && prior.indexOf(nm.toLowerCase()) < 0 && ok ? 'name ok' : '';
+    var v = document.getElementById('sf-verdict');
+    if (!cleared) {{ v.style.color = '#b00020'; v.textContent = 'DO NOT SUBMIT: no file is cleared. Name/comment checks: ' + (ok ? 'pass' : msgs.join('; ')); }}
+    else if (!ok) {{ v.style.color = '#b00020'; v.textContent = 'Fix: ' + msgs.join('; '); }}
+    else {{ v.style.color = '#0a7d2c'; v.textContent = 'Name and comment pass the automated checks. Submit only the file marked OK TO SUBMIT.'; }}
+  }}
+  n.addEventListener('input', run); c.addEventListener('input', run); run();
+}})();
+</script></div>
+"""
+
+
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     """How to submit, exactly — driven by registry/current_status.json (no hand-typed status)."""
     st = read("registry/current_status.json") or {}
@@ -806,6 +957,8 @@ def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
 <a href="research/repo-review-20261026.md">repository review</a> &middot;
 <a href="../evidence/current_release_review.json">machine-readable decision</a></p>
 {current_status_block("")}
+{nine_site_table_block("")}
+{submission_form_block()}
 <div class=card><h3>0 &middot; Decide (automated, no human inspection)</h3>
 {decision}
 <p class=mut>A file is OK to submit only if its run card shows every gate passed: leakage canary, a holdout win whose

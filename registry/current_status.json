@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "updated_utc": "2026-10-26T18:12:41Z",
+ "updated_utc": "2026-10-26T18:25:21Z",
  "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
  "any_file_ok_to_submit": false,
  "headline": "No file in this repository is authorized for upload. H46 is a format-valid preliminary research artifact, not a promotable submission.",
@@ -70,15 +70,31 @@
    }
   },
   "uniqueness": {
-   "manifest_rasters": 339,
-   "unique_hash_rasters_checked": 321,
-   "genuine_rasters_checked": 320,
+   "manifest_rasters": 354,
+   "unique_hash_rasters_checked": 336,
+   "genuine_rasters_checked": 335,
    "preplacement_surface_passed": true,
    "max_abs_spearman": 0.166685,
    "genuine_final_dots_passed": true,
    "max_genuine_3px_overlap": 0.665587,
    "literal_lattice_overlap": 0.99267,
-   "literal_all_registry_passed": false
+   "literal_all_registry_passed": false,
+   "new_H45_main_candidate_overlap": null,
+   "registry_refreshed_utc": "2026-10-26T18:23:32Z",
+   "new_H45_main_candidate_overlaps": [
+    {
+     "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+     "sha256": "b14bba00d6053e75e5c72d9e68fac52f607fe40de1c356111baea85e1ceee538",
+     "directional_within_3px_fraction": 0.62989324,
+     "dots": 37654
+    },
+    {
+     "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+     "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+     "directional_within_3px_fraction": 0.58171775,
+     "dots": 37654
+    }
+   ]
   },
   "validator": {
    "strict_cli_passed": true,
@@ -548,15 +564,31 @@
    }
   },
   "uniqueness": {
-   "manifest_rasters": 339,
-   "unique_hash_rasters_checked": 321,
-   "genuine_rasters_checked": 320,
+   "manifest_rasters": 354,
+   "unique_hash_rasters_checked": 336,
+   "genuine_rasters_checked": 335,
    "preplacement_surface_passed": true,
    "max_abs_spearman": 0.166685,
    "genuine_final_dots_passed": true,
    "max_genuine_3px_overlap": 0.665587,
    "literal_lattice_overlap": 0.99267,
-   "literal_all_registry_passed": false
+   "literal_all_registry_passed": false,
+   "new_H45_main_candidate_overlap": null,
+   "registry_refreshed_utc": "2026-10-26T18:23:32Z",
+   "new_H45_main_candidate_overlaps": [
+    {
+     "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+     "sha256": "b14bba00d6053e75e5c72d9e68fac52f607fe40de1c356111baea85e1ceee538",
+     "directional_within_3px_fraction": 0.62989324,
+     "dots": 37654
+    },
+    {
+     "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+     "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+     "directional_within_3px_fraction": 0.58171775,
+     "dots": 37654
+    }
+   ]
   },
   "validator": {
    "strict_cli_passed": true,

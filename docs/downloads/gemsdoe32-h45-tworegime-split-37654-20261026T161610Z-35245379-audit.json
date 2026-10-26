@@ -1,0 +1,90 @@
+{
+  "strict_cli": {
+    "file_path": "/home/user/GEMSDOE32/docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+    "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+    "passed": true,
+    "checks": [
+      {
+        "name": "dimensions",
+        "passed": true,
+        "detail": "shape (3730, 3292) (expected (3730, 3292))"
+      },
+      {
+        "name": "band_count",
+        "passed": true,
+        "detail": "bands: 1 (expected 1)"
+      },
+      {
+        "name": "crs",
+        "passed": true,
+        "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+      },
+      {
+        "name": "transform",
+        "passed": true,
+        "detail": "transform matched template"
+      },
+      {
+        "name": "dtype",
+        "passed": true,
+        "detail": "dtype: float32 (expected float32)"
+      },
+      {
+        "name": "in_footprint_range",
+        "passed": true,
+        "detail": "in-footprint range [0.0000, 1.0000], all finite"
+      },
+      {
+        "name": "portal_safe_whole_array",
+        "passed": true,
+        "detail": "whole-array range [0.0000, 1.0000], finite=True"
+      }
+    ]
+  },
+  "audit_geotiff": {
+    "filename": "gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+    "size_bytes": 215744,
+    "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+    "mode": "zeros",
+    "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  }
+}

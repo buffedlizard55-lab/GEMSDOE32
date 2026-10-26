@@ -619,8 +619,14 @@ def fit_predict_sarpu_spcp(
     neg_halo_px: float = 5.0,
     max_pos: int = 40_000,
     neg_ratio: int = 4,
-) -> tuple[np.ndarray, np.ndarray]:
-    """Fold-local SAR-PU propensity-debiased HistGB + cover-adaptive physical curvature transfer."""
+    return_propensity: bool = False,
+) -> tuple[np.ndarray, ...]:
+    """Fold-local SAR-PU propensity-debiased HistGB + cover-adaptive physical curvature transfer.
+
+    Returns ``(blended, p_sarpu)``; with ``return_propensity=True`` returns
+    ``(blended, p_sarpu, e_pred)`` where ``e_pred`` is the normalised observability propensity on
+    ``predict_region`` (0 elsewhere). Default behaviour is unchanged for existing callers.
+    """
     rng = np.random.default_rng(seed)
     near_vis = binary_dilation(visible_faults, structure=_disk_mask(neg_halo_px))
     pos_y, pos_x = np.nonzero(train_region & visible_faults)
@@ -718,6 +724,7 @@ def fit_predict_sarpu_spcp(
     p_rank = _rank_unit_f32(p_sarpu, predict_region)
     r_rank = _rank_unit_f32(np.asarray(unsup_surface, dtype=np.float32), predict_region)
     lam = np.where(predict_region, np.float32(0.22) + np.float32(0.34) * (np.float32(1.0) - e_pred), np.float32(0.0))
+    e_pred_keep = e_pred if return_propensity else None
     del e_pred
     blended = np.where(
         predict_region,
@@ -726,6 +733,8 @@ def fit_predict_sarpu_spcp(
         np.float32(0.0),
     ).astype(np.float32)
     del p_rank, r_rank, lam
+    if return_propensity:
+        return blended, p_sarpu, e_pred_keep
     return blended, p_sarpu
 
 
