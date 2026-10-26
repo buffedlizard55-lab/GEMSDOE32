@@ -44,19 +44,35 @@ The source for each “current” statement is the owner repository README at th
 
 **Portfolio conclusion:** the best historical score is still `0.2778`, and the best already-scored genuinely independent 2026-10-25 method reported in these sites is GEMSDOE27 H29 at `0.2190`. No refreshed candidate simultaneously clears comparable holdout superiority, the literal all-registry uniqueness rule, format validation, and the separate weekly-slot selector.
 
-## Why `h33-h33-2-b2` reached `0.2778`
+## Why `h33-h33-2-b2` is reported at `0.2778`
 
-The result is best explained as **metric-aligned subtraction**, not a new detector:
+### What the bytes and owner history establish
 
-1. `H19-5` created a broad corroborated support field (`121,131` positive pixels; owner-reported `0.1922`).
-2. Kernel-scale thinning to `d=2.8 px` reduced redundant neighboring predictions to `44,090` dots and raised the owner-reported score to `0.2600`.
-3. Removing `3,891` dots within `100 m` of the catalogue produced the B=1/solo rung (`40,199` dots, `0.2708`).
-4. Removing another `2,545` dots in the `100–200 m` catalogue annulus produced B=2 (`37,654` dots, `0.2778`).
-5. Adding 1,200 Anderson-mechanics dots back produced GEMSDOE36 (`38,854`, `0.2750`), while adding gap-closure mass in GEMSDOE27 also reduced score. Those are two independent checks that low-credit additions hurt.
+The strongest evidence is a nested emission family, not a new detector:
 
-For pooled DTI with `alpha=0.2`, `beta=0.8` and a 300 m triangular kernel, every added dot pays a false-positive cost unless it supplies enough new truth credit. Dense neighboring dots have strongly overlapping 300 m influence, and catalogue-adjacent predictions are especially low-value because visible faults are masked. B=2 removed pixels whose marginal credit was below their marginal cost while preserving the thinned H19-5 ordering.
+1. `H19-5` emitted a broad corroborated support field (`121,131` positive pixels; owner-reported `0.1922`).
+2. Kernel-scale thinning to `d=2.8 px` reduced neighboring predictions to `44,090` dots (owner-reported `0.2600`).
+3. Removing `3,891` dots within `100 m` of the visible catalogue produced the B=1/solo rung (`40,199` dots, owner-reported `0.2708`).
+4. Removing another `2,545` dots in the `100–200 m` catalogue annulus produced B=2 (`37,654` dots, owner-reported `0.2778`).
+5. GEMSDOE36's owner record says adding 1,200 Anderson-mechanics dots back produced `0.2750`; GEMSDOE27's gap-closure variant is likewise reported below its parent.
 
-This explains why emission-only variants have reached a ceiling: to move substantially beyond `0.2778`, the system needs a field that ranks **new off-catalogue fault geometry** above H19-5's remaining low-credit tail, not another minor thinning or graft.
+The dot nesting and counts are byte-forensics facts. The score sequence is **OWNER-REPORTED**. Because no organizer receipt binds each score to each hash and the private truth is unavailable, it does **not** identify per-dot hidden credit, hidden TP/FP/FN, recall, or a causal B=2 effect.
+
+### Metric-consistent scientific explanation
+
+For distance-weighted Tversky with `alpha=0.2`, `beta=0.8`, and the 300 m triangular kernel,
+
+`DTI = TPw / (TPw + 0.2 FPw + 0.8 FNw)`.
+
+For binary predictions, let `T=TPw`, `S=sum(p)`, `M=sum_x p(x) max_g K(d(x,g))`, and `|G|` be hidden truth mass. Since `FNw=|G|-T`, the exact identity used by `src/gems32/metric.py` is:
+
+`DTI = T / [0.2 (T + S - M) + 0.8 |G|]`.
+
+The earlier expression `0.8 T + 0.2 S + 0.8 |G|` is not algebraically equivalent and is withdrawn. For an isolated added prediction that gives its full kernel credit `k` to previously uncovered truth, the idealized break-even condition is `k > 0.2 * DTI` (`0.05556` at `DTI=0.2778`). For arbitrary additions near already-covered truth, there is no universal scalar threshold: actual marginal `delta TPw`, `delta FPw`, and `delta FNw` must be evaluated.
+
+The **plausible**, not proven, explanation is therefore metric-aligned subtraction: spacing reduced redundant predictions, and catalogue-annulus pruning removed mass with low marginal hidden-truth credit while preserving useful off-catalogue coverage. Known faults are masked in scoring, making that mechanism geologically and metrically credible, but only private truth could establish it causally.
+
+This also explains why emission-only variants are unlikely to make a large leap: a result above the reported `0.2778` probably needs a field that ranks genuinely new off-catalogue fault geometry above H19-5's low-credit tail, not another small thinning or graft. Arena9 tested one such detector hypothesis and did not validate it.
 
 ## Arena9 scientific result
 

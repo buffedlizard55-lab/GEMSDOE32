@@ -132,25 +132,24 @@ def dti_bruteforce(pred, truth, alpha: float = ALPHA, beta: float = BETA, radius
 
 
 def marginal_inclusion_threshold(current_dti: float, alpha: float = ALPHA) -> float:
-    """Minimum marginal kernel credit k for an added dot to improve DTI at score level s.
+    """Return the idealized single-pixel break-even kernel credit ``alpha * current_dti``.
 
-    CORRECTED 2026-10-04 (IR-32-BAR-01).  This function previously returned
-    ``alpha*s / (1 - alpha*s)`` -- the form quoted in ``docs/research/score-ceiling-analysis.md``
-    and propagated into the GEMSDOE28 repository as ``tau_live = 0.05485``.  That form does not
-    follow from the metric.  Writing ``DTI = T / (alpha*(T+F) + beta*K)`` and adding one unit of
-    mass whose realised kernel weight is k (so dT = k and dF = 1 - k),
+    This is exact when the added unit prediction improves an otherwise-uncovered truth pixel by
+    its full kernel credit ``k``: then ``delta_TP=k``, ``delta_FP=1-k``, and ``delta_FN=-k``;
+    because ``1-beta=alpha``, the denominator rises by exactly ``alpha`` and the DTI improves
+    iff ``k > alpha * current_dti``.
 
-        dDTI > 0  <=>  k*D > alpha*T  <=>  k > alpha*DTI        with D = alpha*(T+F) + beta*K,
+    **Scope matters:** this scalar threshold is not a general test for an arbitrary addition to a
+    partially covered field. In general, use the actual marginal components and test
+    ``delta_TP * D > TP * (delta_TP + alpha*delta_FP + beta*delta_FN)``, where
+    ``D = TP + alpha*FP + beta*FN``. Existing coverage may make ``delta_TP`` smaller than the
+    candidate pixel's nearest-truth kernel weight. The repository's emitted predictions are not
+    scored against known catalogue faults, so the hidden-truth quantities cannot be observed
+    directly; ``alpha*s`` is a decision-theory identity/idealized credit bar, not a predicted score.
 
-    because the denominator rises by exactly ``alpha`` regardless of where the mass lands:
-
-        dD = alpha*(dT + dF) = alpha*(k + 1 - k) = alpha.
-
-    The two forms coincide at s = 0 and differ materially above it: at s = 0.2708 the wrong form
-    gives 0.05726 and the correct one 0.05416, and the only kernel weight on the 100 m lattice in
-    that window is the (2,2)-diagonal 1 - 2*sqrt(2)/3 = 0.05719.  The wrong form therefore
-    **rejects a legitimate (2,2)-diagonal emission** at exactly the group's best reported score.
-    Verified by brute force in ``scripts/verify_theorems.py``.
+    The older form ``alpha*s / (1 - alpha*s)`` in some archived notes is not the isolated-pixel
+    threshold. The exact metric implementation is in :func:`dti_exact` and tested against the
+    literal equations in ``tests/test_metric.py``.
     """
     return alpha * current_dti
 

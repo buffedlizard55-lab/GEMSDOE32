@@ -400,26 +400,22 @@ def round5_section() -> str:
     return f"""<div class=dl>
 <h2>&#128300;&nbsp;ROUND 5 (2026-10-25) &mdash; why the champion scored 0.2778, and two new unique files</h2>
 <p><b>Round-5 verdict:</b> the champion file <code>h33-2-b2-…-e5eb6e7e-zeros.tif</code> is already
-submitted and scored <b>0.2778</b> (ORGANIZER-CONFIRMED, owner-reported) — do not resubmit it. The
+has the highest reported focus-site score (<b>0.2778 OWNER-REPORT</b>; no score-to-byte organizer receipt is stored here) — do not resubmit it. The
 two round-5 files below are <b>unique and format-valid</b> but both measured <b>worse than the
 champion</b> on the fair local instrument, so both are labelled
 <b style="color:#b00020">DO NOT SUBMIT</b>. The one-click primary elsewhere on this page is a
 <i>separate parallel lane's</i> artifact (promoted on the drift instrument, IR-32-INSTR-01/03
 caveats apply) — round 5 neither promotes nor blocks it; promotion to a weekly slot is the
 selector's step, and this section never spends one.</p>
-<h3>Why h33-2-b2 got the group's highest score (measured from the bytes)</h3>
+<h3>Why the historical record suggests sparse H19-5 descendants may have scored better</h3>
 <ul>
 <li>The whole top cluster is <b>one nested family</b>: H19-5 (121,131 dots, 0.1922) &sup; d2.8 (44,090,
 0.2600) &sup; solo (40,199, 0.2708) &sup; champion (37,654, <b>0.2778</b>). Every gain came from
 <i>removing</i> dots. The champion's construction is {nested} pixel-exactly: the 0.2708 base minus its
 2,545 dots within 200&nbsp;m of the catalogue.</li>
-<li>Mechanism: the scorer masks known faults, so near-catalogue dots almost never earn (implied
-&approx;0.006&ndash;0.016 credit/dot) but always pay &alpha;=0.2 in the denominator; the break-even bar at
-0.2778 is <code>k &gt; 0.2&middot;DTI = 0.0556</code>. B=2 was the first file with <b>zero</b> dots inside 200&nbsp;m.</li>
-<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750) <b>contains all 37,654 champion dots</b>
-+ 1,200 more &mdash; those extras cost &minus;0.0028 (IR-32-FAM-01).</li>
-<li>Beating 0.2778 therefore needs <b>better-placed mass, not more or less of the same mass</b>: at the
-same 37,654 dots, +8% mean credit reaches 0.30; the public #1 (0.4413, read 2026-10-25) needs &approx;+59%.</li>
+<li>Possible mechanism, not proven cause: if near-catalogue predictions earn little hidden-truth credit because known faults are masked, they still add false-positive mass, so pruning could help. The private truth is unavailable and no per-dot hidden credit is inferred. The <code>k &gt; 0.2&middot;DTI = 0.05556</code> bar is only the idealized isolated-pixel case; arbitrary additions require the full marginal TP/FP/FN condition. The B=2 file is recorded as excluding dots inside 200&nbsp;m of the catalogue.</li>
+<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750 OWNER-REPORT) is recorded as containing all 37,654 champion dots plus 1,200 more (IR-32-FAM-01); this is a byte-forensics claim, not an organizer receipt.</li>
+<li>Beating the reported 0.2778 likely requires better-ranked coverage of faults absent from the training catalogue, not merely changing density on the same field. The public leaderboard is dynamic; the current timestamped observation appears in the status card.</li>
 </ul>
 <h3>The two unique round-5 candidates (new lanes, honestly measured)</h3>
 <table><tr><th>candidate</th><th>validation gates (all numbers HOLDOUT-DTI unless labelled)</th></tr>
@@ -571,15 +567,15 @@ same metric; only the objective changed.</p>
 def focus_sites_block() -> str:
     """Per-site executive summary for the 9 focus sites + Round-6 H36-1C audit (all historical scores OWNER-REPORT)."""
     rows = [
-        ("GEMSDOE24", "2a2b9829", "h25-1-dotted-h19-5-d1-5 / h24-1-tip-relay", "0.2477 / 0.2194", "Denser H19-5 thin (60,069d, superseded) + unique tip/relay (crp1-dipfan-stepover negative today).", "DO NOT SUBMIT"),
-        ("GEMSDOE25", "de77cb6c", "dotted-h19-5-d2-8-e56ea318af89", "0.2600", "44,090d dot-thin parent of champion; dot-identical to GEMSDOE30; latest h44 negative today.", "DO NOT SUBMIT (superseded / dup 30)"),
-        ("GEMSDOE27", "398cda94", "topo-gap-closure (0.2449) / H29-S (0.2190)", "0.2449 / 0.2190", "Gap-closure on d1.5 hurt (-0.0028); latest h31-range-front-step-50k negative today.", "DO NOT SUBMIT"),
-        ("GEMSDOE28", "94152be6", "h36-1-rung30 (0.2710) / solo-8acb75e1 (0.2708)", "0.2710 / 0.2708", "40,199d solo base identical to GEMSDOE31; latest s20-asymmetric-hanging-wall negative today.", "DO NOT SUBMIT (already scored / dup 31)"),
-        ("GEMSDOE30", "ac54b7f3", "d28-poisson300m-offcat-44090", "0.2600", "Exact 44,090-dot duplicate of GEMSDOE25; latest PTA1-piedmont-thermal negative today.", "DO NOT SUBMIT (duplicate of 25)"),
-        ("GEMSDOE31", "6ca63b0c", "h27-4-solo-d28-8acb75e1", "0.2708", "Exact 40,199-dot duplicate lineage of GEMSDOE28; latest xfcoh31-37654 negative today.", "DO NOT SUBMIT (duplicate of 28)"),
-        ("GEMSDOE32", "current", "h33-h33-2-b2 (champion) + H36-1C TDR-PDS (9ff9d6e2)", "0.2778 / unscored", "Champion = B=2 ladder end (37,654d). H36-1C (0.1098 v3-vis; 0.0838 SGMC < 0.0961) & R6-1 are audit-only.", "Champion: DO NOT RESUBMIT · H36-1C / R6-1: DO NOT SUBMIT"),
-        ("GEMSDOE33", "7deca206", "h33d-analog-tip-stepover-r30", "0.2632", "Unique tip/step-over analog (50,023d) below 0.2778; latest 2026-10-26 lane negative.", "DO NOT SUBMIT"),
-        ("GEMSDOE36", "a4c660a8", "anderson-geothermal-pinn-38854", "0.2750", "96.9% superset containing all 37,654 champion dots + 1,200 (-0.0028); latest gps-graben negative.", "DO NOT SUBMIT (champion superset)"),
+        ("GEMSDOE24", "17496743", "h25-1-dotted-h19-5-d1-5", "0.2477", "H24-DPRF1 HOLDOUT-DTI 0.16379 [0.15045,0.17739]; selector negative; refreshed lattice overlap 99.56%.", "DO NOT SUBMIT"),
+        ("GEMSDOE25", "66b97bc9", "dotted-h19-5-d2-8-e56ea318af89", "0.2600", "Dot-identical to GEMSDOE30; H71-HGPC failed holdout versus H35 and has 100% lattice overlap.", "DO NOT SUBMIT"),
+        ("GEMSDOE27", "426426b4", "topo-gap (0.2449) / H29-S (0.2190)", "0.2449 / 0.2190", "Site H31 promotion used 27 rasters; refreshed literal lattice overlap is 99.61%, so this stricter protocol stops it.", "DO NOT SUBMIT HERE"),
+        ("GEMSDOE28", "348ff086", "h36-1-rung30 / solo-d2.8", "0.2710 / 0.2708", "H19-5 pruning lineage; S20-NCHC HOLDOUT-DTI 0.13126 below same-run baseline 0.14443.", "DO NOT SUBMIT"),
+        ("GEMSDOE30", "73db382d", "d28-poisson300m-offcat-44090", "0.2600", "Exact GEMSDOE25 duplicate; latest FFL-1 is duplicate-stopped and TAD paired CI crossed zero.", "DO NOT SUBMIT"),
+        ("GEMSDOE31", "e6e85b35", "h27-4-solo-d28-8acb75e1", "0.2708", "Exact GEMSDOE28 lineage; current H31-S is research-only and lattice-duplicate.", "DO NOT SUBMIT"),
+        ("GEMSDOE32", "174c1c3f + Arena9", "h33-h33-2-b2", "0.2778", "Arena9 is content-new but primary HOLDOUT-DTI 0.05791 trails H38 0.11696 and final lattice overlap is 99.43%.", "DO NOT RESUBMIT / DO NOT SUBMIT A9"),
+        ("GEMSDOE33", "565d663a", "h33d-analog-tip-stepover-r30", "0.2632", "A33-R3-LLC tied/trailed CSHT on confirmation; paired CIs cross zero and selector found no eligible raster.", "DO NOT SUBMIT"),
+        ("GEMSDOE36", "4aa901be", "anderson-geothermal-pinn-38854", "0.2750", "Champion superset lineage; MTO-36 paired CI crosses zero and all-reference lattice overlap reaches 100%.", "DO NOT SUBMIT"),
     ]
     trs = "".join(
         f'<tr><td><b><a href="https://github.com/buffedlizard55-lab/{esc(a)}">{esc(a)}</a></b><br><code class=mut>{esc(hd)}</code></td>'
@@ -593,18 +589,18 @@ def focus_sites_block() -> str:
         f"<td>{r.get('censored_d0_control_dti',0):.5f}</td><td>{r.get('sgmc_off_catalogue_raw_dti',0):.5f}</td></tr>"
         for r in rc.get("experiment_progression", [])
     )
-    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; verified audit across all 9 focus sites &amp; PhD 0.2778 &rarr; 0.3195 &rarr; 0.4413 analysis</h2>
-<p>Every historical score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; IR-32-SCORE-01; note also IR-32-SCORE-03: <code>0.3195</code> is the portfolio aspirational target, while public #1 <code>xiaofanhu</code> holds <b>0.4413</b>). Full reports:
-<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a> &middot;
-<a href="research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a>.</p>
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; nine focus sites and the 0.2778 owner-reported portfolio high</h2>
+<p>Every historical group score below is <b>[OWNER-REPORT]</b>; no organizer receipt binds each archived raster hash to the reported score. The supplied `0.3195` is a dated historical public-leader observation, not the current leader. Current official public page read: <b>#{int((read('registry/current_status.json', {}) or {}).get('leaderboard_top', {}).get('rank', 1))} = {(read('registry/current_status.json', {}) or {}).get('leaderboard_top', {}).get('score', 'unknown')}</b> ({esc((read('registry/current_status.json', {}) or {}).get('leaderboard_top', {}).get('team', 'unknown'))}). See the timestamped evidence. Full reports:
+<a href="research/arena9-results-and-nine-site-executive-summary.md">current Arena9 + nine-site review</a> &middot;
+<a href="../evidence/focus_sites_release_review_20261026.json">pinned source receipt</a>.</p>
 <table><tr><th>site &amp; HEAD</th><th>best historical submission</th><th>score</th><th>byte forensics &amp; 2026-10-26 status</th><th>verdict today</th></tr>{trs}</table>
-<h3>PhD metric algebra: why <code>h33-h33-2-b2</code> scored 0.2778 and what 0.3195 / 0.4413 require</h3>
-<p>Under <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> with hidden truth <code>|G| &approx; 12,265</code> px, solid <code>H19-5</code> (121,131 px, 0.1922) captured only <code>T &approx; 5,021</code> weighted truth pixels (40.9% recall), algebraically capping every subset of <code>H19-5</code> below ~0.312. Removing 2,545 flank dots within <code>1 &lt; d_cat &le; 2 px</code> (200 m) raised 0.2708 &rarr; <b>0.2778</b> (<code>T &approx; 4,503</code>) because known-catalogue masking prevents flank dots from clearing the marginal break-even bar <code>&Delta;T &gt; 0.25&middot;DTI/(1&minus;0.8&middot;DTI) = 0.0893</code>. Reaching <b>0.3195</b> at 37,654 dots requires <code>T &approx; 5,430</code> (+20.6% recall) and public #1 <b>0.4413</b> requires <code>T &approx; 8,408</code> (68.6% recall) via genuinely off-catalogue blind-fault physics.</p>
-<h3>Round-6 H36-1 (TDR-PDS) 3-experiment progression (repaired <code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, 22,232 withheld positives)</h3>
+<h3>Metric mechanism: why sparse descendants can beat their thick parent</h3>
+<p>The correct identity is <code>DTI = TP / (TP + 0.2 FP + 0.8 FN) = T / (0.2(T + S - M) + 0.8|G|)</code>. The nested H19-5 &rarr; D2.8 &rarr; B=1 &rarr; B=2 file lineage is recorded in the audit; thinning can reduce false-positive mass while retaining credit. Since the private truth and organizer score-to-file receipts are unavailable here, this is a plausible mechanism, not causal proof. Earlier hidden-TP/recall estimates based on a non-equivalent denominator were withdrawn; no exact reachability claim is made for 0.3195 or the current public leader.</p>
+<h3>Historical Round-6 H36-1 progression (<code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, 22,232 withheld positives)</h3>
 <table><tr><th>experiment</th><th>HOLDOUT-DTI (v3-vis, 95% CI)</th><th>censored d0 control</th><th>off-catalogue SGMC DTI</th></tr>
 <tr><td>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</td><td>0.09920 [0.0820, 0.1222]</td><td>0.09920</td><td>0.09606</td></tr>
 {exp_rows}</table>
-<p><b>Bottom line:</b> <code>GEMSDOE32</code> <code>h33-h33-2-b2</code> (0.2778, already scored &mdash; do not resubmit) remains the strongest entry across all 9 sites. Both <code>H36-1C</code> (<code>9ff9d6e2</code>) and <code>R6-1</code> (<code>23fbbb51</code>) are format-valid, non-human-validated research/audit artifacts &mdash; <b>DO NOT SUBMIT</b> (spend 0 weekly DrivenData slots today).</p></div>"""
+<p><b>Bottom line:</b> <code>h33-h33-2-b2</code> has the strongest focus-site score claim (0.2778 OWNER-REPORT) but is already recorded as submitted. Arena9 is the latest format-valid audit artifact and failed primary holdout and literal lane uniqueness. <b>DO NOT SUBMIT any reviewed new file; spend 0 weekly slots today.</b></p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -650,7 +646,7 @@ scarce weekly submission is worth spending.</p>
 <div class=card><h3>Verified in this repository</h3><ul>
 <li>the published metric formula, the published worked example, and the identity
 <code>DTI = T/(0.2(T+S−M)+0.8|G|)</code> (the suite runs in CI on every push: <code>pytest tests -q</code>);</li>
-<li>the credit bar <code>k &gt; 0.2·DTI</code> that every emitted pixel must clear;</li>
+<li>the idealized isolated-pixel bar <code>k &gt; 0.2·DTI</code> (general additions require marginal TP/FP/FN);</li>
 <li>the byte identity (sha256) of every raster this site offers;</li>
 <li>the official source links on the <a href="sources.html">sources</a> page.</li></ul></div>
 <div class=card><h3>Not claimed</h3><ul>
@@ -661,20 +657,8 @@ scarce weekly submission is worth spending.</p>
 <li>the submitted file is a candidate, <b>not</b> a proven improvement.</li></ul></div>
 </div>
 <h2>The brief's question, answered</h2>
-<p><b>Why did the dotted H19-5 file score highest?</b> Because the metric is a budget: every unit of
-prediction mass that is not the best cover of a truth pixel costs 0.2, and one that is earns at most
-1. Thinning a thick surface while keeping its geometry removes mass that was already covered — it
-raises the credit per emitted pixel and moves the file to the point where the marginal pixel's
-credit equals the break-even bar. The group measured that break-even empirically at
-<b>0.0548</b>&nbsp;credit per dot; this repository derives the same number from the published
-formula, <code>0.2·0.26 = 0.0520</code>. Two independent routes, one answer.</p>
-<p><b>Can we beat {esc(lb_top['score'] if lb_top else 'the leader')}?</b> Only by raising the
-<em>credit density</em> of the top of the ranking: at the same emitted mass the leader needs
-≈25&nbsp;% more mean credit per pixel than the group's best field delivers. No public catalogue can
-supply that — the newest public compilation is already inside the given catalogue
-({esc(fl.get('evidence', {}).get('h60_2_catalogue_difference.json', {}).get('gdr_qfaults_v2', {}).get('px_total', 59065))}
-px, of which all but one lie within 300&nbsp;m of it). The path is a better detector plus the
-two-round objective, and the plan is <a href="hypotheses.html">ranked here</a>.</p>"""]
+<p><b>Why might thinning help?</b> The DTI charges uncredited prediction mass through its false-positive term. If thinning removes predictions that contribute little marginal hidden-truth credit while retaining useful coverage, the score can rise. The recorded nested file lineage is consistent with that mechanism, but private truth and an exact-byte organizer receipt are absent, so the historical 0.2778 attribution is OWNER-REPORT and causality is unproved.</p>
+<p><b>Is improvement over the reported 0.2778 supported?</b> No new compliant holdout was run in this checkout: the competition rasters and cached feature stack are absent. Existing alternatives are audit-only or negative, and none is authorized to spend a slot. Keep the release verdict <b>DO NOT SUBMIT</b>; a new candidate must beat the compliant holdout incumbent with its uncertainty and pass all registry, leakage, format, and independent-selector gates before a score improvement is supported. The research backlog is <a href="hypotheses.html">here</a>.</p>"""]
 
     parts.append(model_mc_section(fl))
     if hold:
@@ -723,12 +707,10 @@ claim.</p>""")
 
     gap_txt = ""
     if lb_top and best_claim:
-        gap = float(lb_top["score"]) - float(best_claim["score"])
-        need = (float(lb_top["score"]) / float(best_claim["score"]) - 1) * 100
-        gap_txt = (f"<p>The gap to the public leader is <b>{gap:+.4f}</b> — a "
-                   f"<b>{need:+.1f}&nbsp;%</b> increase in the score, which through the metric's own "
-                   f"arithmetic is a similar increase in mean credit per emitted pixel at constant "
-                   f"mass.</p>")
+        gap_txt = (f"<p>Comparison is descriptive only: the portfolio value {float(best_claim['score']):.4f} is OWNER-REPORT, "
+                   f"while the public {esc(lb_top.get('participant', 'leader'))} value {float(lb_top['score']):.4f} "
+                   f"is a timestamped observation of another participant. Their difference is not a predicted score, "
+                   f"hidden-truth estimate, or evidence that a new method can close the gap.</p>")
     parts.append(f"""<h2>Where we stand</h2>
 <div class=grid>
 <div class=card><h3>Public leaderboard <span class=pill>verified read</span></h3>
@@ -905,15 +887,10 @@ the fast implementation against it; it also reproduces the published worked exam
 <p><code>FNw = |G| − TPw</code> exactly, so with <code>T = TPw</code>, <code>S = &sum;p</code> and
 <code>M = &sum;<sub>x</sub> p(x)·max<sub>g</sub>k</code>:</p>
 <p style="text-align:center"><code>DTI = T / ( 0.2·(T + S − M) + 0.8·|G| )</code></p>
-<p>Adding one unit of mass at weight <code>k</code> therefore changes the denominator by exactly 0.2,
-giving the <b>credit bar</b>:</p>
-<p style="text-align:center"><code>add mass &hArr; k &gt; 0.2·DTI</code></p>
-<p>At the group's claimed 0.2600 the bar is <b>0.0520</b>; at the public leader's
-{esc((fl.get('leaderboard') or [{}])[0].get('score', 0.3262))} it is
-<b>{0.2 * float((fl.get('leaderboard') or [{}])[0].get('score', 0.3262)):.4f}</b>. The group's own
-measured marginal credit per added dot was 0.0548 — the file sits within a few percent of its own
-optimum, which is the strongest available evidence that the dotted file is not leaving easy points
-on the table.</p></div>
+<p>For an added binary pixel that contributes its full kernel credit <code>k</code> to previously uncovered truth, the denominator rises by 0.2. In this idealized case the <b>break-even</b> is:</p>
+<p style="text-align:center"><code>k &gt; 0.2·DTI</code></p>
+<p>For a general addition to partially covered truth, test the actual marginal TP/FP/FN changes; the scalar bar is not universal.</p>
+<p>At the group's claimed 0.2600 the idealized bar is <b>0.0520</b>. The group's reported mean marginal credit per added dot was 0.0548; this is not the same quantity and does not establish an optimum.</p></div>
 <h2>2 · Why the dotted file won, quantitatively</h2>
 <p>From 121,131 emitted pixels (solid H19-5) to 44,090 (dotted D2.8) the mean credit per pixel rose
 from 0.0520 to 0.0893 (owner-reported) while the total mass fell by 64&nbsp;%. The metric's own
@@ -952,58 +929,10 @@ every given-catalogue pixel (by construction) and only
 enriched on the off-catalogue SGMC set versus the footprint background, with
 <b>{esc(ev.get('emitted_on_sgmc_off_catalogue_px', 2014))}</b> of its 121,131 pixels sitting there.
 That is the measured size of the discovery lane this system could still open.</p>
-<h2>6 · Round 4 (H33): the live-anchored removal rule, and what it killed</h2>
-<p>The single most informative measurement available to this project is a pair of the group's own
-files that differ by <b>exactly one mechanism</b>: the dotted D2.8 emission
-(<code>GEMS28-H27-4-R1-SOLO-D2.8</code>, 40,199 dots, owner-reported live score
-<b>0.2600</b>) and its catalogue-flank prune at B&nbsp;=&nbsp;1
-(40,199&nbsp;&minus;&nbsp;3,891&nbsp;=&nbsp;36,308 dots, owner-reported live score
-<b>0.2708</b>). <code>existing_faults.tif</code> is byte-identical to <code>labels.tif</code>, so
-the "blind" prune removed exactly the 3,891 dots within 100&nbsp;m of the published catalogue and
-nothing else. Inverting that pair through the official metric under a zero-credit assumption
-recovers the live true-positive weight, the live false-positive mass, and therefore a
-<b>credit-loss budget</b> for any further removal.</p>
-<table>
-<tr><th>quantity recovered by the inversion</th><th>value</th><th>what it means</th></tr>
-<tr><td>weighted true positives, TP<sub>w</sub></td><td>5,073.3</td><td>the live set's credit mass</td></tr>
-<tr><td>denominator, D</td><td>18,734.4</td><td>implies |G| = 12,226 hidden truth pixels</td></tr>
-<tr><td>mean credit per emitted dot</td><td>0.1262</td><td>the group's live efficiency</td></tr>
-<tr><td>implied weighted recall</td><td>0.4150</td><td>41.5 % of the hidden set's weight</td></tr>
-<tr><td>credit-loss budget at B = 1</td><td>210.7</td><td>how much weighted credit a removal may burn</td></tr>
-<tr><td>live break-even bar &tau;<sub>live</sub></td><td>0.05416</td><td>a new dot must beat this to pay for itself</td></tr>
-</table>
-<p><b>The rule that falls out of it</b> (implemented in <code>src/gems32/live_anchor.py</code>): a
-removal of <code>dn</code> dots that costs <code>dS</code> units of off-catalogue weighted credit and
-removes <code>dTP<sub>g</sub></code> units of on-catalogue credit is a live gain iff
-<code>dS &lt; TP_w · (0.2·dn &minus; 0.8(dS &minus; dTP_g)) / D</code>. The gate used for every
-submission decision is the <b>safety factor</b> = budget &divide; measured cost; a removal arm is
-slot-eligible only at safety &ge; 2.0.</p>
-<h3>What round 4 measured, arm by arm</h3>
-<table>
-<tr><th>arm</th><th>dots</th><th>live-mirror &Delta;DTI</th><th>folds</th><th>credit/dot</th><th>safety</th><th>verdict</th></tr>
-<tr><td>base &mdash; GEMS28-H27-4-R1-SOLO-D2.8</td><td>40,199</td><td>0.263051</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the anchor</td></tr>
-<tr><td>D2.8 emission (live 0.2600)</td><td>44,090</td><td>0.251593</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the other anchor</td></tr>
-<tr><td><b>H33-2-B2 (catalogue flank B = 2)</b></td><td><b>37,654</b></td><td><b>+0.004870</b></td><td><b>4/4</b></td><td>&mdash;</td><td><b>2.08</b></td><td class=ok><b>WINNER &mdash; shipped primary</b></td></tr>
-<tr><td>H33-2-B3 (catalogue flank B = 3)</td><td>35,483</td><td>+0.001317</td><td>3/4</td><td>&mdash;</td><td>1.27</td><td class=bad>rejected: safety &lt; 2.0</td></tr>
-<tr><td>H33-2B2 + H33-1</td><td>38,554</td><td>+0.004978</td><td>4/4</td><td>&mdash;</td><td>&mdash;</td><td>slot-eligible secondary</td></tr>
-<tr><td>H33-1-P600A1800 (geothermometry)</td><td>41,999</td><td>+0.002639</td><td>2/4</td><td>0.00541</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-<tr><td>H33-1-P300A900 (geothermometry)</td><td>41,099</td><td>+0.000524</td><td>2/4</td><td>0.00215</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-<tr><td>H33-5-P300A900 (tip / step-over)</td><td>41,099</td><td>+0.001870</td><td>3/4</td><td>0.00767</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-</table>
-<p><b>Why B = 2 and not B = 1 or B = 3.</b> B = 1 is already live-tested and produced 0.2708.
-B = 2 removes 2,545 further dots (6.3 % of the mass) for 58.6 units of off-catalogue weighted credit
-(1.5 %) against a budget of 125.1 &mdash; safety 2.08 &mdash; and improves the live-mirror margin in
-all four quadrants. B = 3 spends the budget down to safety 1.27 and only wins 3 of 4 quadrants, so it
-is rejected. The group only ever tested B = 1 live; <b>B = 2 is a new, non-obvious operating
-point.</b></p>
-<h3>IR-33-LM-01: the drift finding that bounds what the live mirror may decide</h3>
-<p>Outside its validated regime the live mirror (LM-cal) ranks a 7,943-dot "safe-mass-pruned"
-variant at <b>0.4413</b> &mdash; 1.35&times; the entire public leaderboard's top score. The live
-record refutes that number. For the pruned file not to exceed 0.3262, <b>at least 16 % of the 0.2708
-emission's weighted credit must sit on dots the off-catalogue truth model calls credit-neutral</b>.
-LM-cal is therefore licensed only for small, mechanism-matched perturbations of a live-scored base
-(40&nbsp;k&ndash;62&nbsp;k dots), which is exactly why the slot gate requires the live-anchored safety
-factor in addition to the mirror margin.</p>
+<h2>6 · Portfolio score attribution and the historical B-pruning hypothesis</h2>
+<p>The portfolio records list a nested H19-5 family with owner-reported values: H19-5 (121,131 dots; 0.1922), D2.8 (44,090; 0.2600), solo/B=1 (40,199; 0.2708), and H33/B=2 (37,654; 0.2778). No submission-page receipt linking the exact TIFF hashes to these scores is stored here; they are <b>OWNER-REPORT</b>, not <b>ORGANIZER-CONFIRMED</b> or <b>HOLDOUT-DTI</b>.</p>
+<p>A plausible but unproven mechanism is that pruning can remove prediction mass with little hidden-truth credit while preserving useful coverage. The hidden truth is unavailable, so the archived score sequence does not identify per-dot credit, hidden TP/FP/FN, recall, or the causal contribution of B=2. Earlier live-anchor inversions, credit-loss budgets, and exact reachability estimates used unsupported assumptions and are withdrawn; do not use them to promote a candidate. The corrected equations and evidence limits are in <a href="research/why-02778-analysis-20261025.md">the metric review</a> and <a href="research/score-ceiling-analysis.md">the archived score-ceiling analysis</a>.</p>
+<p>No new compliant holdout was run in this checkout because the competition rasters and cached feature stack are absent. Existing candidate TIFFs remain audit artifacts with <b>DO NOT SUBMIT</b> verdicts. No new candidate or score projection is being offered.</p>
 <h2>7 · Research notes (readable on GitHub, one click each)</h2>
 <p class=mut>Every number on this site is produced by a script in <code>scripts/</code> and stored in
 <code>evidence/</code> or <code>registry/</code>. These are the write-ups, in the order they were

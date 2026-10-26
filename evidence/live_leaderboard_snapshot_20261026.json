@@ -1,0 +1,27 @@
+{
+  "retrieved_utc": "2026-10-26T04:32:28Z",
+  "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "provenance": "Direct read of the official public DrivenData leaderboard page via Arena fetch_page; not an owner-provided score.",
+  "observed_rows": [
+    {
+      "rank": 1,
+      "participant": "xiaofanhu",
+      "score": 0.4437,
+      "page_activity_text": "1h 18min ago; 31 submissions"
+    },
+    {
+      "rank": 2,
+      "participant": "cfld__",
+      "score": 0.3916,
+      "page_activity_text": "2d ago; 17 submissions"
+    },
+    {
+      "rank": 3,
+      "participant": "Batik Shirt Brothers",
+      "score": 0.3904,
+      "page_activity_text": "3d 5h ago; 51 submissions"
+    }
+  ],
+  "interpretation": "This is the public leaderboard snapshot at retrieval time. Do not treat 0.3195 (historical early-October figure) or 0.4413 (cached 2026-10-25 snapshot) as current.",
+  "scope_limit": "This confirms public leaderboard rows only; it does not confirm the owner team’s score, receipt, or final/private-round performance."
+}
