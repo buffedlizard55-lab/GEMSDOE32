@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T22:53:09Z",
+ "generated_utc": "2026-10-26T22:56:18Z",
  "sources": [
   {
    "id": "competition",
@@ -2734,7 +2734,7 @@
   "updated_utc": "2026-10-26T23:05:00Z",
   "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
   "any_file_ok_to_submit": false,
-  "headline": "No file is authorized for upload yet. ARENA49-PCG is the strongest genuine-unique candidate this repo has produced (HOLDOUT-DTI 0.02826 flat-mask vs champion 0.00452 same evaluator, SGMC-cal 0.07033 > champion 0.06412, genuine-unique 43.09% max 3px) and the shared promotion_decision returns promote \u2014 but a separate weekly-slot selector decision and IR-42-UNIQ-01 literal-lattice disposition (overlap 1.000, fail-closed) are still required. H50 retained as prior artifact. Parallel ARENA48 JXSTEP lane (21:58Z) is also verdict-negative (HR HOLDOUT-DTI 0.1063 < H38 0.1170; SGMC 0.0614 < champion) - research artifact only.",
+  "headline": "No file is authorized for upload yet. ARENA49-PCG is the strongest genuine-unique candidate this repo has produced (HOLDOUT-DTI 0.02826 flat-mask vs champion 0.00452 same evaluator, SGMC-cal 0.07033 > champion 0.06412, genuine-unique 43.09% max 3px) and the shared promotion_decision returns promote \u2014 but a separate weekly-slot selector decision and IR-42-UNIQ-01 literal-lattice disposition (overlap 1.000, fail-closed) are still required. H50 retained as prior artifact. Parallel ARENA48 JXSTEP lane (21:58Z) is also verdict-negative (HR HOLDOUT-DTI 0.1063 < H38 0.1170; SGMC 0.0614 < champion) - research artifact only. Arena51's portfolio audit (2026-10-26 late): family membership dominates the 53 owner-scored masks (rho +0.844), the non-family live ceiling is 0.2478, and the literal lattice rule is impassable above 22,163 dots (IR-51-LATTICE-01).",
   "gate_rule": "OK TO SUBMIT requires an explicitly assigned method lane; all feature-only leakage canaries <=0.90; a fold-local HOLDOUT-DTI win with paired 95% CI >0 against the current same-evaluator repo best; no SGMC-cal regression against the Champion; literal surface/final-dot uniqueness against every registry raster (Spearman <=0.90 and <=70% within 3 px); exact saved-byte format/range validation; and separate weekly-slot selector approval. No human inspection.",
   "best_scored": {
    "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
