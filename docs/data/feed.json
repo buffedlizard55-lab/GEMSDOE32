@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T04:50:48Z",
+ "generated_utc": "2026-10-26T05:48:05Z",
  "sources": [
   {
    "id": "competition",
@@ -1155,36 +1155,34 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
-  "note": "AUDIT ONLY \u2014 NOT AUTHORIZED FOR SUBMISSION; current lane and compliant hide-and-recover gates are missing.",
-  "status_line": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established.",
+  "name": "gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros",
+  "note": "GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT",
+  "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
   "file": {
-   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
-   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
-   "bytes": 201127,
+   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+   "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+   "bytes": 210920,
    "positive_px": 37654
   },
   "file_zeros": {
-   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
-   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
-   "bytes": 201127
+   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+   "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+   "bytes": 210920
   },
   "zip": {
-   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip",
-   "sha256": "245e8288c33d4989cca82906999d536323e54219817f3dc790d244cf3fc84c41",
-   "bytes": 166196
+   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip",
+   "sha256": "13ec74ccaef6dac73bc3acf8ecf2c4c8e3dfe2c1078bbdf1a2e629997905528b",
+   "bytes": 177020
   },
-  "candidate_id": "GEMSDOE32-R6-STEP-23FBBB51",
+  "candidate_id": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
   "tier": 1,
-  "hypothesis": "R6-1-STEP-PROFILE",
+  "hypothesis": "A9-H1-MDRC-PGRN-PU",
   "verdict": "negative",
   "ok_to_submit": false,
   "on_catalogue_pixels": 0,
-  "catalogue_hidden_mean": 0.003579525583570572,
-  "drift_corrected_holdout_mean": 0.045775095546370465,
-  "sgmc_prevalence_calibrated_dti": 0.09486806944757353,
-  "sgmc_exact_dti": 0.14131435805047032,
-  "sgmc_exact_champion_dti": 0.09606004283619353,
+  "catalogue_hidden_mean": 0.057907939861141074,
+  "drift_corrected_holdout_mean": 0.057907939861141074,
+  "sgmc_prevalence_calibrated_dti": 0.08780043882036752,
   "anchor": {
    "role": "ANCHOR -- champion comparison (already submitted; do not resubmit)",
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -1192,19 +1190,25 @@
   },
   "pack": [
    {
-    "role": "NaN-outside twin of the primary",
-    "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif",
-    "sha256": "20318b52084a60be13040bcce5b8099208fc75b8e85640bf61e7d0c3309693e4",
-    "bytes": 335167
+    "role": "NaN-outside archival twin; not portal-safe under strict-finite mode",
+    "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif",
+    "sha256": "03eee6fb55ad98040a8887dec10767558b26d6cb10461defc46bc9f3c4bb5c02",
+    "bytes": 345698
    }
   ],
   "supersedes": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E demoted 2026-10-26: 70.24% within-3px vs h28-dotted-ridge exceeds 70% lane gate; SGMC-cal 0.0462 below champion 0.0641 (IR-R6-02). Preserved as registry/submission_build_geo_conduit_superseded.json",
-  "evidence": "evidence/round6_run_card.json + evidence/round6_pass2_controls.json",
-  "historical_run_verdict": "promote",
-  "historical_ok_to_submit": true,
+  "evidence": "evidence/arena9_run_card.json",
+  "historical_run_verdict": "negative",
+  "historical_ok_to_submit": false,
   "current_release_review": "evidence/current_release_review.json",
   "schema_note": "Registry primary = the file the site headlines. It is NOT an approval: read 'verdict' / 'ok_to_submit'. Source of truth: registry/current_status.json.",
   "previous_primaries": [
+   {
+    "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
+    "record": "evidence/round6_run_card.json",
+    "withdrawn": true,
+    "reason": "Superseded as the headline audit artifact by Arena9; remains DO NOT SUBMIT."
+   },
    {
     "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
     "record": "registry/submission_build_geo_conduit_superseded.json",
@@ -1323,8 +1327,9 @@
    }
   ],
   "round6_session_verdict": "promote",
-  "status_line_current": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established. Independently (this session): SGMC +0.0465 [+0.0255, +0.0681] vs champion, but that instrument does not track live scores outside the champion family (IR-42-INSTR-02).",
-  "arena8a_candidate": "registry/arena8a_submission.json"
+  "status_line_current": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
+  "arena8a_candidate": "registry/arena8a_submission.json",
+  "arena9_candidate": "evidence/arena9_run_card.json"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",

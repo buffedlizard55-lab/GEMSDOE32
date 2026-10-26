@@ -14,11 +14,13 @@ ROOT = Path(__file__).resolve().parents[1]
 
 def test_round6_run_card_and_protocol_contract():
     rc_path = ROOT / "evidence" / "h36_tdr_pds_run_card.json"
-    web_rc_path = ROOT / "docs" / "data" / "latest-run-card.json"
-    assert rc_path.is_file() and web_rc_path.is_file()
+    latest_path = ROOT / "docs" / "data" / "latest-run-card.json"
+    assert rc_path.is_file() and latest_path.is_file()
 
     rc = json.loads(rc_path.read_text())
-    assert rc == json.loads(web_rc_path.read_text())
+    latest = json.loads(latest_path.read_text())
+    assert latest["lane_id"] == "A9-H1-MDRC-PGRN-PU"
+    assert latest["verdict"] == "negative"
 
     # Required Parallel-Run Protocol Rule 7 fields
     for k in (

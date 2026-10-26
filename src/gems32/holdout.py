@@ -188,6 +188,17 @@ def load_holdout_context(ddir: Path, hide_frac: float = 0.20) -> HoldoutContext:
         sgmc_quad_truth_coords[fold] = tc
         sgmc_quad_n_truth[fold] = int(tc[0].size)
 
+    # Keep the exact per-draw visible catalogues on the shared context.  Several
+    # callers need them to derive fold-local catalogue features and emissions;
+    # reconstructing them from the full labels would re-introduce hidden segments.
+    visible_by_cell = {
+        cell.key: cell.visible_full
+        for cell in cells
+        if cell.visible_full is not None
+    }
+    if len(visible_by_cell) != len(cells):
+        raise RuntimeError("Holdout context is missing one or more fold-visible catalogues")
+
     return HoldoutContext(
         foot=foot,
         labels=labels,
@@ -201,6 +212,7 @@ def load_holdout_context(ddir: Path, hide_frac: float = 0.20) -> HoldoutContext:
         sgmc_n_truth=sgmc_n_truth,
         sgmc_quad_truth_coords=sgmc_quad_truth_coords,
         sgmc_quad_n_truth=sgmc_quad_n_truth,
+        visible_by_cell=visible_by_cell,
     )
 
 

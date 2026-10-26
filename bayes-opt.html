@@ -7,13 +7,30 @@
 <main class=wrap style="padding-top:26px">
 <h1>Bayesian surrogate &amp; expected improvement</h1>
 <div class=card id=status style="border:3px solid #b00020">
-<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T04:32:28Z</h2>
-<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is authorized for upload.</b> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.</p>
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T05:08:02+00:00</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is authorized for upload; Arena9 is a format-valid negative result.</b> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.</p>
 <p class=mut>OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound &gt; 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.</p>
 <table>
 <tr><th>Best scored file</th><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> &mdash;
 <b>0.2778</b> OWNER-REPORT (owner-provided submission-log claim; no submission-page receipt linking this raster hash to the score is present in this repository) &middot; 37,654 dots &middot; sha256
 <code>c55bafc470054e82&hellip;</code><br><b>already submitted - do not resubmit (a resubmission spends a slot and adds no information)</b></td></tr>
+<tr><th>Latest generated GeoTIFF (<code>A9-H1 PGRN-PU</code>)</th><td>
+<a class=btn href="docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif">&#11015; Download GeoTIFF (research/audit only)</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip">single-TIFF .zip</a>
+<a href="docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-audit.json">format receipt</a> &middot;
+<a href="evidence/arena9_run_card.json">JSON run card</a> &middot;
+<a href="docs/research/arena9-preregistration-and-hypotheses.md">pre-registration + 5 ranked hypotheses</a> &middot;
+<a href="docs/research/arena9-results-and-nine-site-executive-summary.md">scientific + nine-site review</a><br>
+<b style="color:#b00020;font-size:1.15em">&#9940; DOWNLOAD FOR RESEARCH: YES &middot; SUBMIT TO DRIVENDATA: NO</b><br>
+A9-H1 physics-guarded reliable-negative PU on the 57-channel MDRC stack; 37,654 dots; sha256 <code>8eee6e1a85708c91&hellip;</code><br>
+<span class=mut>Unique name: <code>GEMSDOE32-A9-PGRN-PU-4F7ABA9B</code> &middot; note (74/140): <code>GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT</code></span>
+<ul><li>Primary HOLDOUT-DTI failed: 0.05791 [0.04849, 0.06719] &lt; Champion 0.09920 and repository best H38 0.11696; paired delta vs Champion -0.04129 [-0.05498, -0.02770].</li><li>Independent off-catalogue SGMC improved to 0.08780 [0.07392, 0.09958] vs Champion 0.06412, but proxy improvement cannot override the failed primary holdout.</li><li>Surface uniqueness passed across 304 refreshed registry files (max |Spearman| 0.12942), but final-dot lane uniqueness failed at 99.43% &gt; 70% against the registered spacing-5 calibration lattice.</li><li>The dot mask is not pixel-identical to any refreshed registry raster and the GeoTIFF is cryptographically new, but that is weaker than the mandatory lane-overlap rule.</li><li>The full-grid format validator passes; format validity alone is not scientific or slot authorization.</li></ul>
+<table><tr><th colspan=3>HOLDOUT-DTI (GEMSDOE32-HIDE-RECOVER-v3.0, 22232 withheld positives, 95% spatial-block CI)</th></tr><tr><th>arm/control</th><th>DTI</th><th>95% CI</th></tr><tr><td>A9 PGRN80</td><td>0.05791</td><td>[0.04849, 0.06719]</td></tr><tr><td>0.2778 Champion</td><td>0.09920</td><td>[0.08623, 0.11261]</td></tr><tr><td>H38 repository best</td><td>0.11696</td><td>[0.10053, 0.13204]</td></tr></table>
+<table><tr><th colspan=3>HOLDOUT-DTI (GEMSDOE32-SGMC-CAL-v3.0, 62703 off-catalogue SGMC positives, 95% spatial-block CI)</th></tr><tr><th>arm/control</th><th>DTI</th><th>95% CI</th></tr><tr><td>A9 PGRN80</td><td>0.08780</td><td>[0.07392, 0.09958]</td></tr><tr><td>0.2778 Champion</td><td>0.06412</td><td>[0.05668, 0.07178]</td></tr></table>
+<p class=warn><b>Uniqueness wording:</b> SHA/content and final dot mask are new (0 exact registry-mask matches), and the pre-placement surface passes
+(<code>max |rho|=0.12942</code>), but this is <b>not protocol-unique</b> because
+<code>99.43%</code> of final dots fall within 3 px of the registered spacing-5 lattice (&gt;70%).</p>
+</td></tr>
 <tr><th>Arena8a unique file (MDRC, 44,090d)</th><td>ONE-CLICK (audit/research only): <a class=btn href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif">&#11015; gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif</a>
 <a class="btn alt" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip">.zip</a> <a href="docs/downloads/checks-gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif.json">receipt</a>
 &middot; <a href="evidence/arena8a_run_card.json">run card</a> &middot; <a href="docs/research/arena8a-preregistration-and-hypotheses.md">pre-registration &amp; hypotheses</a><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>) &mdash; A8A-H1 Multi-Domain Ridge-Crest Concordance (MDRC, 44,090 dots, B=2);

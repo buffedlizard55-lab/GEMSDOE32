@@ -1,9 +1,9 @@
 {
  "schema_version": 1,
- "updated_utc": "2026-10-26T04:32:28Z",
+ "updated_utc": "2026-10-26T05:08:02+00:00",
  "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
  "any_file_ok_to_submit": false,
- "headline": "No file in this repository is authorized for upload.",
+ "headline": "No file in this repository is authorized for upload; Arena9 is a format-valid negative result.",
  "gate_rule": "OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound > 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.",
  "best_scored": {
   "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -281,5 +281,83 @@
    0.13204
   ],
   "sgmc_prevalence_calibrated_dti": 0.050374
+ },
+ "arena9_candidate": {
+  "file": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip",
+  "receipt": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-audit.json",
+  "run_card": "evidence/arena9_run_card.json",
+  "preregistration": "docs/research/arena9-preregistration-and-hypotheses.md",
+  "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+  "bytes": 210920,
+  "dots": 37654,
+  "submission_name": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
+  "note": "GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT",
+  "verdict": "DO NOT SUBMIT",
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "hypothesis": "A9-H1 physics-guarded reliable-negative PU on the 57-channel MDRC stack",
+  "reasons": [
+   "Primary HOLDOUT-DTI failed: 0.05791 [0.04849, 0.06719] < Champion 0.09920 and repository best H38 0.11696; paired delta vs Champion -0.04129 [-0.05498, -0.02770].",
+   "Independent off-catalogue SGMC improved to 0.08780 [0.07392, 0.09958] vs Champion 0.06412, but proxy improvement cannot override the failed primary holdout.",
+   "Surface uniqueness passed across 304 refreshed registry files (max |Spearman| 0.12942), but final-dot lane uniqueness failed at 99.43% > 70% against the registered spacing-5 calibration lattice.",
+   "The dot mask is not pixel-identical to any refreshed registry raster and the GeoTIFF is cryptographically new, but that is weaker than the mandatory lane-overlap rule.",
+   "The full-grid format validator passes; format validity alone is not scientific or slot authorization."
+  ],
+  "holdout": {
+   "A9 PGRN80": {
+    "dti": 0.057907939861141074,
+    "ci95": [
+     0.048492161901158015,
+     0.06718644625080894
+    ]
+   },
+   "0.2778 Champion": {
+    "dti": 0.09920232315251679,
+    "ci95": [
+     0.08623342632409434,
+     0.11260559078337257
+    ]
+   },
+   "H38 repository best": {
+    "dti": 0.116958,
+    "ci95": [
+     0.100533,
+     0.13204
+    ]
+   }
+  },
+  "holdout_label": "HOLDOUT-DTI (GEMSDOE32-HIDE-RECOVER-v3.0, 22232 withheld positives, 95% spatial-block CI)",
+  "off_catalogue_instrument": {
+   "A9 PGRN80": {
+    "dti": 0.08780043882036752,
+    "ci95": [
+     0.07392258988292762,
+     0.09958457095904728
+    ]
+   },
+   "0.2778 Champion": {
+    "dti": 0.0641209376417646,
+    "ci95": [
+     0.05667573628390423,
+     0.07177500521629192
+    ]
+   }
+  },
+  "off_catalogue_label": "HOLDOUT-DTI (GEMSDOE32-SGMC-CAL-v3.0, 62703 off-catalogue SGMC positives, 95% spatial-block CI)",
+  "surface_worst_abs_spearman": 0.12942373916290661,
+  "final_worst_abs_spearman": 0.07198093548723625,
+  "final_worst_within_3px": 0.9943166728634408,
+  "registry_rasters": 304,
+  "exact_mask_matches": 0,
+  "format_test_registry_irregularities": 1,
+  "gates": {
+   "G1_leakage_canary": true,
+   "G2_holdout_beats_champion_and_repo_best": false,
+   "G3_sgmc_beats_champion": true,
+   "G4_surface_registry_unique": true,
+   "G4_final_registry_unique": false,
+   "G5_format_and_range": true
+  }
  }
 }
