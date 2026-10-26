@@ -1705,6 +1705,90 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif",
+   "bytes": 352599,
+   "sha256": "7402a847f37e6687acc2a7dd9b5c6f6ece6344fe133854bf844daba1427171eb",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 35512,
+   "off_h19_5_frac": 0.9431136134275243,
+   "catalogue_proxy_T": 161.95350528662743,
+   "catalogue_proxy_F": 37531.18912286681,
+   "credit_per_unit_mass": 0.004301096969422304,
+   "catalogue_proxy_DTI": 0.002875134003295224,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",
+   "bytes": 216377,
+   "sha256": "386a4aad59a5c742b28541835892f9f6e0cb306cbbe4e296741bbad8e4bff235",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 35512,
+   "off_h19_5_frac": 0.9431136134275243,
+   "catalogue_proxy_T": 161.95350528662743,
+   "catalogue_proxy_F": 37531.18912286681,
+   "credit_per_unit_mass": 0.004301096969422304,
+   "catalogue_proxy_DTI": 0.002875134003295224,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif",
    "bytes": 339092,
    "sha256": "7a588bbe44c51c865790f010f0c2883d05aa2373d5983093850020d6c0ec5946",
@@ -1956,6 +2040,5 @@
    "catalogue_proxy_DTI": 0.005534373596565496,
    "dots_on_catalogue": 0
   }
- ],
- "portal_illegal": []
+ ]
 }

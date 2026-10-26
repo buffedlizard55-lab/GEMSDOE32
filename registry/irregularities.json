@@ -320,8 +320,10 @@
    "id": "IR-32-BAND-03",
    "severity": "medium",
    "status": "fixed-in-h36-tdr-pds",
-   "summary": "Band 17 (`iso_grav_anom_slope`) is total horizontal gravity gradient `sqrt((dg/dx)^2+(dg/dy)^2)` (`>=0`, `rho=+0.9557`), while Band 18 (`iso_grav_anom_hg`) is the signed E-W derivative `dg/dx` (`min=-2.21, max=+1.93`, `rho=+0.9438`).",
-   "impact": "Using `|iso_grav_anom_hg|` for gravity tilt missed E-W-striking transfer faults and threw away half-graben polarity sign; fixed in `src/gems32/h36_tdr_pds.py`."
+   "summary": "Band 05 (`iso_grav_anom_slope`, 0-based index 4) is unsigned total horizontal gravity gradient `sqrt((dg/dx)^2+(dg/dy)^2)` (`[0.00138, 0.6517]`), whereas Band 17 (`cond_surf`, index 16) is surface magnetotelluric log-conductivity (`[0.1937, 4.969]`) and Band 18 (`iso_grav_anom_hg`, index 17) is the signed E-W horizontal derivative `dg/dx` (`[-15.44, +12.86]`, Pearson r = +0.9438 with numerical dg_B13/dx).",
+   "impact": "Using `|iso_grav_anom_hg|` for gravity tilt missed E-W-striking transfer faults and threw away half-graben polarity sign; fixed in `src/gems32/h36_tdr_pds.py`.",
+   "statement": "Band 05 (`iso_grav_anom_slope`, 0-based index 4) is unsigned total horizontal gravity gradient `sqrt((dg/dx)^2+(dg/dy)^2)` (`[0.00138, 0.6517]`), whereas Band 17 (`cond_surf`, index 16) is surface magnetotelluric log-conductivity (`[0.1937, 4.969]`) and Band 18 (`iso_grav_anom_hg`, index 17) is the signed E-W horizontal derivative `dg/dx` (`[-15.44, +12.86]`, Pearson r = +0.9438 with numerical dg_B13/dx).",
+   "mitigation": "Corrected prose misattribution (which previously wrote Band 17 for iso_grav_anom_slope; see IR-32-DOC-BAND05-01); both src/gems32/h36_tdr_pds.py and src/gems32/spcp.py index Band 05 (`stack[:,:,4]`), Band 17 (`stack[:,:,16]`), and Band 18 (`stack[:,:,17]`) accurately."
   },
   {
    "id": "IR-32-LATTICE-01",
@@ -401,6 +403,18 @@
    "status": "verified 2026-10-26",
    "statement": "Inspection of official drivendataorg/gems-prize-reference-solution (unet-mc-cv-reference-solution.ipynb @ commit aebe92f7c8) reveals two key facts: (1) Cell 12 filters X_patches to tiles where np.any(y_patches[i]) BEFORE train/test splitting and Cell 17 writes predictions only onto those positive-catalogue tiles, leaving every 128x128 tile without a pre-mapped catalogue fault identically 0.0; (2) Cell 19 initializes pred_full with zeros and writes nodata=None outside the footprint, confirming that all-finite -zeros.tif matches the organizer's own reference output convention.",
    "mitigation": "Documented in knowledge and site executive summary; rank-4 roadmap H38-G4 specifies full-footprint tile inference without Cell 12's positive-tile filter."
+  },
+  {
+   "id": "IR-32-DOC-BAND05-01",
+   "severity": "medium (FIXED 2026-10-26)",
+   "statement": "Prior README.md line 63, IR-32-BAND-03 summary text, and docs/research/hypotheses-round6-20261026.md referred to `Band 17 (iso_grav_anom_slope)` vs `Band 18 (iso_grav_anom_hg)`. Direct GDAL inspection of training_features.tif and data/prepared_manifest.json proves Band 05 is `iso_grav_anom_slope` ([0.001383, 0.6517]), Band 17 is `cond_surf` ([0.1937, 4.969]), and Band 18 is signed `iso_grav_anom_hg` ([-15.44, +12.86], r = +0.9438 with E-W derivative of Band 13 `iso_grav_anom`).",
+   "mitigation": "Corrected Band 05 / Band 17 / Band 18 attributions in README.md and registry/irregularities.json, and verified exact 0-based channel indexing across src/gems32/features.py, src/gems32/h36_tdr_pds.py, and src/gems32/spcp.py."
+  },
+  {
+   "id": "IR-32-SARPU-PARETO-01",
+   "severity": "high (scientific finding 2026-10-26)",
+   "statement": "Controlled 3-experiment ablation in H44-1 (SPCP) at matched 37,654-dot B=2 budget isolated the exact exposed-scarp vs blind-basin Pareto frontier caused by positive-unlabeled catalogue bias (IR-A8A-PU-BIAS-01): adding 20 physical curvature/hydrothermal/LiDAR channels under naive binary HistGB (EXP2) raised Hide-and-Recover v3.0 from 0.10169 (CTRL-35ch) to 0.10770 while crashing off-catalogue USGS SGMC calibrated DTI from 0.08032 (EXP1 unsupervised) down to 0.04663; replacing naive binary training with fold-local Bekker-Davis SAR-PU propensity debiasing (EXP3) restored SGMC calibrated DTI to 0.07774 (+0.03083 over EXP2, p=1.000; +0.01328 [+0.0030, +0.0248] over 0.2778 Champion, p=0.998) by shifting 52.4% of dots >2 km into blind basins, at the trade-off of lowering exposed-scarp Hide-and-Recover v3.0 to 0.06984.",
+   "mitigation": "Automated fail-closed gate properly classified EXP3 as negative / DO NOT SUBMIT (spending 0 weekly slots), while preserving the validated GeoTIFF (386a4aad59a5...) and SAR-PU propensity estimator in src/gems32/spcp.py for two-regime split-budget fusion."
   }
  ]
 }

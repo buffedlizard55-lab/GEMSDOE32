@@ -261,6 +261,30 @@ def current_status_block(docs_prefix: str = "") -> str:
 <table><tr><th colspan=3>{esc(a8a.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{a8a_orows}</table>
 {fig_html}
 </td></tr>"""
+    h44 = st.get("h44_spcp_lane") or {}
+    h44_row = ""
+    if h44:
+        h44_hr_ci = h44.get("hide_and_recover_ci95", [0.060297, 0.079276])
+        h44_sg_ci = h44.get("sgmc_calibrated_ci95", [0.069192, 0.085644])
+        h44_sg_d = h44.get("sgmc_paired_delta_vs_champion", {})
+        h44_u = h44.get("uniqueness", {})
+        h44_row = f"""<tr><th>Latest Unique Session File (<code>H44-1 SPCP</code>, 37,654d)</th><td>ONE-CLICK (research &amp; calibration audit artifact &mdash; 20/20 format checks PASS):
+<a class=btn href="{esc(href(h44.get('file', '')))}">&#11015; {esc(Path(h44.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(h44.get('zip', '')))}">.zip</a>
+<a class="btn alt" href="{esc(href(h44.get('nan_twin', '')))}">NaN-twin</a>
+<a class="btn alt" href="{esc(href(h44.get('receipt', '')))}">Format Receipt (13/13 + strict CLI PASS)</a>
+&middot; <a href="{esc(href(h44.get('run_card', '')))}">H44 run card</a>
+&middot; <a href="{docs_prefix}research/h44-spcp-preregistration-20261026.md">pre-registration &amp; 5 hypotheses</a><br>
+<b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>; safe to download for research/calibration without human intervention) &mdash;
+{esc(h44.get('hypothesis', ''))}; <b>{int(h44.get('dots', 37654)):,}</b> dots (0 on catalogue, B=2); sha256 <code>{esc(h44.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Unique submission name: <code>{esc(h44.get('submission_name', ''))}</code> &middot; Portal note ({len(str(h44.get('note', '')))}/140 chars): <code>{esc(h44.get('note', ''))}</code></span>
+<ul>
+<li><b>Highest off-catalogue blind-fault SGMC DTI among all 37,654-dot supervised models across all 9 sites (curing <code>IR-A8A-PU-BIAS-01</code>):</b>
+<code>GEMSDOE32-SGMC-CAL-v3.0</code> (62,703 off-catalogue USGS SGMC fault px, zero SGMC supervision) = <code>{h44.get('sgmc_prevalence_calibrated_dti', 0.077736):.5f}</code>
+(95% CI <code>[{h44_sg_ci[0]:.5f}, {h44_sg_ci[1]:.5f}]</code>; raw <code>{h44.get('sgmc_raw_pooled_dti', 0.116056):.5f}</code>), beating the <code>0.2778</code> OWNER-REPORT Champion (<code>0.06412</code>) by paired spatial-block bootstrap &Delta; <code>+{h44_sg_d.get('mean_boot_delta', 0.01328):.5f}</code> (95% CI <code>[+{h44_sg_d.get('ci95', [0.003, 0.0248])[0]:.4f}, +{h44_sg_d.get('ci95', [0.003, 0.0248])[1]:.4f}]</code>, P=0.998) and beating naive 55-ch binary HistGB (<code>0.04663</code>) by <b>+66.7%</b> (<code>+0.03083</code>, P=1.000).</li>
+<li><b>Why automated verdict is <code>negative</code> / DO NOT SUBMIT (0 weekly slots spent):</b> Shifting 52.41% of dots &gt;2 km into blind basins lowers exposed-scarp <code>GEMSDOE32-HIDE-RECOVER-v3.0</code> (22,232 withheld positives) to <code>HOLDOUT-DTI = {h44.get('hide_and_recover_pooled_dti', 0.069841):.5f}</code> (95% CI <code>[{h44_hr_ci[0]:.5f}, {h44_hr_ci[1]:.5f}]</code>; detached &ge;600 m = <code>{h44.get('detached_600m_dti', 0.063641):.5f}</code>), beating static <code>0.2778</code> OWNER-REPORT Champion (<code>0.00452</code>) but trailing fold-local <code>CTRL-35ch</code> (<code>0.10169</code>) and censorship-matched Champion (<code>0.00302 &lt; 0.00452</code>, <code>IR-32-SARPU-PARETO-01</code>).</li>
+<li><b>289-raster cross-site uniqueness &amp; 55-channel leakage canary PASS:</b> Single-feature canary max oriented AUC = <code>0.5869 &le; 0.90</code> across all 55 channels. Genuine uniqueness PASS across all <b>288</b> detector/submission rasters from all 9 repos (<code>max |Spearman| = {h44_u.get('max_abs_surface_spearman', 0.1204):.4f} &le; 0.90</code>; <code>max 3-px dot overlap = {h44_u.get('max_genuine_3px_dot_overlap', 0.4448)*100:.2f}% &le; 70%</code>; <code>33.75%</code> vs <code>0.2778</code> OWNER-REPORT Champion), while literal 5-px calibration lattice <code>r13-lattice-s5</code> triggers fail-closed stop (<code>99.69% &gt; 70%</code>, <code>IR-42-UNIQ-01</code>).</li>
+</ul></td></tr>"""
     h38 = st.get("h38_multiphysics_lane") or {}
     h38_row = ""
     if h38:
@@ -276,7 +300,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <span class=mut>Archive portal name: <code>{esc(h38.get('submission_name', ''))}</code> &middot; Archive note ({len(h38.get('note', ''))}/140 chars): <code>{esc(h38.get('note', ''))}</code></span>
 <ul>
 <li><b>Highest leak-free Hide-and-Recover v3.0 score in GEMSDOE32:</b> <code>HOLDOUT-DTI = {h38.get('hide_and_recover_pooled_dti', 0.116958):.5f}</code>
-(95% spatial-block CI <code>[{h38_ci[0]:.5f}, {h38_ci[1]:.5f}]</code>, <b>+17.9%</b> over <code>0.2778</code> Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
+(95% spatial-block CI <code>[{h38_ci[0]:.5f}, {h38_ci[1]:.5f}]</code>, <b>+17.9%</b> over <code>0.2778</code> OWNER-REPORT Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
 <li><b>Cross-site uniqueness PASS vs all 26 live-scored detectors</b> (max &le;3-px overlap <code>69.49% &le; 70%</code>; <code>58.78%</code> vs Champion; surface |Spearman| <code>0.4374 &le; 0.90</code>), <b>but fails closed (audit artifact only — DO NOT SUBMIT)</b> because off-catalogue <code>SGMC_cal</code> (<code>{h38.get('sgmc_prevalence_calibrated_dti', 0.050374):.5f}</code>) trails Champion (<code>0.06412</code>) and unexempted &le;3-px check hits local GBDT <code>hcvf2</code> (<code>77.56%</code>) + 5-px calibration lattice <code>r13-lattice-s5</code> (<code>99.71%</code>, <code>IR-32-PIGEONHOLE-01</code>).</li>
 </ul></td></tr>"""
     ex = st.get("round6_candidate") or {}
@@ -298,6 +322,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+{h44_row}
 {a8a_row}
 <tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
 <a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
@@ -530,42 +555,54 @@ same metric; only the objective changed.</p>
 
 
 def focus_sites_block() -> str:
-    """Per-site executive summary for the 9 focus sites + Round-6 H36-1C audit (all historical scores OWNER-REPORT)."""
+    """Per-site executive summary for the 9 focus sites + H44-1 SPCP & H36-1C audits (all historical scores OWNER-REPORT)."""
     rows = [
-        ("GEMSDOE24", "2a2b9829", "h25-1-dotted-h19-5-d1-5 / h24-1-tip-relay", "0.2477 / 0.2194", "Denser H19-5 thin (60,069d, superseded) + unique tip/relay (crp1-dipfan-stepover negative today).", "DO NOT SUBMIT"),
-        ("GEMSDOE25", "de77cb6c", "dotted-h19-5-d2-8-e56ea318af89", "0.2600", "44,090d dot-thin parent of champion; dot-identical to GEMSDOE30; latest h44 negative today.", "DO NOT SUBMIT (superseded / dup 30)"),
-        ("GEMSDOE27", "398cda94", "topo-gap-closure (0.2449) / H29-S (0.2190)", "0.2449 / 0.2190", "Gap-closure on d1.5 hurt (-0.0028); latest h31-range-front-step-50k negative today.", "DO NOT SUBMIT"),
-        ("GEMSDOE28", "94152be6", "h36-1-rung30 (0.2710) / solo-8acb75e1 (0.2708)", "0.2710 / 0.2708", "40,199d solo base identical to GEMSDOE31; latest s20-asymmetric-hanging-wall negative today.", "DO NOT SUBMIT (already scored / dup 31)"),
-        ("GEMSDOE30", "ac54b7f3", "d28-poisson300m-offcat-44090", "0.2600", "Exact 44,090-dot duplicate of GEMSDOE25; latest PTA1-piedmont-thermal negative today.", "DO NOT SUBMIT (duplicate of 25)"),
-        ("GEMSDOE31", "6ca63b0c", "h27-4-solo-d28-8acb75e1", "0.2708", "Exact 40,199-dot duplicate lineage of GEMSDOE28; latest xfcoh31-37654 negative today.", "DO NOT SUBMIT (duplicate of 28)"),
-        ("GEMSDOE32", "current", "h33-h33-2-b2 (champion) + H36-1C TDR-PDS (9ff9d6e2)", "0.2778 / unscored", "Champion = B=2 ladder end (37,654d). H36-1C (0.1098 v3-vis; 0.0838 SGMC < 0.0961) & R6-1 are audit-only.", "Champion: DO NOT RESUBMIT · H36-1C / R6-1: DO NOT SUBMIT"),
-        ("GEMSDOE33", "7deca206", "h33d-analog-tip-stepover-r30", "0.2632", "Unique tip/step-over analog (50,023d) below 0.2778; latest 2026-10-26 lane negative.", "DO NOT SUBMIT"),
-        ("GEMSDOE36", "a4c660a8", "anderson-geothermal-pinn-38854", "0.2750", "96.9% superset containing all 37,654 champion dots + 1,200 (-0.0028); latest gps-graben negative.", "DO NOT SUBMIT (champion superset)"),
+        ("GEMSDOE24", "17496743a969", "h25-1-dotted-h19-5-d1-5 (60,069d) / H24-DPRF1 (37,654d)", "0.2477 [OWNER-REPORT] / unscored", "2026-10-26 DPRF1 (c1257c1d..., 37,654d): SGMC-cal 0.05505, 45.6% within 3 px of 0.2778 OWNER-REPORT Champion; blocked by lattice-s5.", "DO NOT SUBMIT"),
+        ("GEMSDOE25", "88a29e094989", "dotted-h19-5-d2-8 (44,090d) / H71-HGPC (59,472d)", "0.2600 [OWNER-REPORT] / unscored", "d2.8 parent of 0.2778 OWNER-REPORT Champion (dot-identical to GEMSDOE30); 2026-10-26 H71 (44ee6028...) SGMC-cal 0.05158.", "DO NOT SUBMIT (superseded / dup 30)"),
+        ("GEMSDOE27", "426426b402f9", "topo-gap (0.2449) / H29-S (0.2190) [OWNER-REPORT]", "0.2449 / 0.2190 [OWNER-REPORT]", "H29-S (51189874..., 37,654d) is #1 live-scored non-H19-5 unique upload (0.2190 OWNER-REPORT); 2026-10-26 H31-1 SGMC-cal 0.06047.", "DO NOT SUBMIT"),
+        ("GEMSDOE28", "348ff086e29b", "h36-1-rung30 (0.2710) / solo-8acb75e1 (0.2708) [OWNER-REPORT]", "0.2710 / 0.2708 [OWNER-REPORT]", "40,199d solo base identical to GEMSDOE31; 2026-10-26 S20-NCHC (1d629d6c..., 40,071d) SGMC-cal 0.06327.", "DO NOT SUBMIT (already scored / dup 31)"),
+        ("GEMSDOE30", "73db382d3c99", "d28-poisson300m-offcat-44090 / FFL-1 (44,090d)", "0.2600 [OWNER-REPORT] / unscored", "Exact 44,090-dot duplicate of GEMSDOE25; 2026-10-26 FFL-1 (79506070...) 78.3% duplicate, SGMC-cal 0.06205.", "DO NOT SUBMIT (duplicate of 25)"),
+        ("GEMSDOE31", "e6e85b357914", "h27-4-solo-d28-8acb75e1 / H31-S (37,654d)", "0.2708 [OWNER-REPORT] / unscored", "Exact 40,199-dot duplicate of GEMSDOE28; 2026-10-26 H31-S (186d35d8...) SGMC-cal 0.05658.", "DO NOT SUBMIT (duplicate of 28)"),
+        ("GEMSDOE32", "9e55d5d61cb7", "h33-h33-2-b2 (Champion) + H44-1 SPCP (38f7995a)", "0.2778 [OWNER-REPORT] / unscored", "Best across all 9 sites (37,654d, B=2). New H44-1 SPCP sets supervised 9-site high on blind SGMC-cal (0.07774 > 0.06412, p=0.998) but trails CTRL-35ch on exposed scarps.", "Champion: DO NOT RESUBMIT · H44-1 / H36-1C / R6-1: DO NOT SUBMIT"),
+        ("GEMSDOE33", "fded53840662", "h33d-analog-tip-stepover-r30 / A33-R2-CSHT (37,654d)", "0.2632 [OWNER-REPORT] / unscored", "Unique 50,023d analog below 0.2778 OWNER-REPORT; 2026-10-26 A33-R2-CSHT (14ab452c...) SGMC-cal 0.04698, surface dup blocked.", "DO NOT SUBMIT"),
+        ("GEMSDOE36", "4938a123133b", "anderson-geothermal-pinn-38854 / ATVR-36 (37,654d)", "0.2750 [OWNER-REPORT] / unscored", "Contains all 37,654 dots of 0.2778 OWNER-REPORT Champion + 1,200 (-0.0028); 2026-10-26 ATVR-36 (54f493f4...) SGMC-cal 0.03658.", "DO NOT SUBMIT (champion superset)"),
     ]
     trs = "".join(
         f'<tr><td><b><a href="https://github.com/buffedlizard55-lab/{esc(a)}">{esc(a)}</a></b><br><code class=mut>{esc(hd)}</code></td>'
         f"<td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>"
         for a, hd, b, c, d, e in rows
     )
-    rc = read("evidence/h36_tdr_pds_run_card.json") or {}
-    exp_rows = "".join(
-        f"<tr><td><b>{esc(r.get('experiment',''))}</b></td><td>{r.get('holdout_dti_visible_v3',0):.5f} "
-        f"[{r.get('holdout_dti_ci95',[0,0])[0]:.4f}, {r.get('holdout_dti_ci95',[0,0])[1]:.4f}]</td>"
-        f"<td>{r.get('censored_d0_control_dti',0):.5f}</td><td>{r.get('sgmc_off_catalogue_raw_dti',0):.5f}</td></tr>"
-        for r in rc.get("experiment_progression", [])
-    )
-    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; verified audit across all 9 focus sites &amp; PhD 0.2778 &rarr; 0.3195 &rarr; 0.4413 analysis</h2>
-<p>Every historical score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; IR-32-SCORE-01; note also IR-32-SCORE-03: <code>0.3195</code> is the portfolio aspirational target, while public #1 <code>xiaofanhu</code> holds <b>0.4413</b>). Full reports:
+    h44_exp = read("evidence/h44_spcp_experiments.json") or {}
+    h44_trs = ""
+    for label, arm_d in [
+        ("Baseline: 0.2778 OWNER-REPORT Champion (static B=2)", (h44_exp.get("baselines") or {}).get("CHAMPION_02778")),
+        ("Control: CTRL_35CH_OOF (35-ch naive HistGB)", (h44_exp.get("baselines") or {}).get("CTRL_35CH_OOF")),
+        ("EXP 1/3: EXP1_H44_UNSUP_SPCP (label-free curvature + conduit)", (h44_exp.get("experiments") or {}).get("EXP1_H44_UNSUP_SPCP")),
+        ("EXP 2/3: EXP2_H44_NAIVE_BIN55 (55-ch naive y=0 HistGB)", (h44_exp.get("experiments") or {}).get("EXP2_H44_NAIVE_BIN55")),
+        ("EXP 3/3: EXP3_H44_SARPU_SPCP (SAR-PU propensity-debiased SPCP)", (h44_exp.get("experiments") or {}).get("EXP3_H44_SARPU_SPCP")),
+    ]:
+        if arm_d:
+            hr_d = arm_d["hide_and_recover_v3"]
+            det_d = arm_d["detached_600m_segments"]
+            sg_d = arm_d["sgmc_off_catalogue_v3"]
+            h44_trs += (
+                f"<tr><td><b>{esc(label)}</b></td>"
+                f"<td>{hr_d['pooled_dti']:.5f} [{hr_d['ci95'][0]:.4f}, {hr_d['ci95'][1]:.4f}]</td>"
+                f"<td>{det_d['pooled_dti']:.5f}</td>"
+                f"<td>{sg_d['raw_pooled_dti']:.5f} / <b>{sg_d['prevalence_calibrated_dti']:.5f}</b> "
+                f"[{sg_d['calibrated_ci95'][0]:.4f}, {sg_d['calibrated_ci95'][1]:.4f}]</td></tr>"
+            )
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; live 2026-10-26 audit across all 9 focus sites &amp; PhD 0.2778 [OWNER-REPORT] &rarr; 0.3195 &rarr; 0.4413 analysis</h2>
+<p>Every historical score below is <b>[OWNER-REPORT (no submission-page receipt in repo)]</b> (IR-32-SCORE-01; IR-32-SCORE-03: <code>0.3195</code> is the 2026-10-03 early leader <code>DARD</code>, while public #1 <code>xiaofanhu</code> holds <b>0.4413</b> as of 2026-10-25). Full reports:
 <a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a> &middot;
-<a href="research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a>.</p>
-<table><tr><th>site &amp; HEAD</th><th>best historical submission</th><th>score</th><th>byte forensics &amp; 2026-10-26 status</th><th>verdict today</th></tr>{trs}</table>
-<h3>PhD metric algebra: why <code>h33-h33-2-b2</code> scored 0.2778 and what 0.3195 / 0.4413 require</h3>
-<p>Under <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> with hidden truth <code>|G| &approx; 12,265</code> px, solid <code>H19-5</code> (121,131 px, 0.1922) captured only <code>T &approx; 5,021</code> weighted truth pixels (40.9% recall), algebraically capping every subset of <code>H19-5</code> below ~0.312. Removing 2,545 flank dots within <code>1 &lt; d_cat &le; 2 px</code> (200 m) raised 0.2708 &rarr; <b>0.2778</b> (<code>T &approx; 4,503</code>) because known-catalogue masking prevents flank dots from clearing the marginal break-even bar <code>&Delta;T &gt; 0.25&middot;DTI/(1&minus;0.8&middot;DTI) = 0.0893</code>. Reaching <b>0.3195</b> at 37,654 dots requires <code>T &approx; 5,430</code> (+20.6% recall) and public #1 <b>0.4413</b> requires <code>T &approx; 8,408</code> (68.6% recall) via genuinely off-catalogue blind-fault physics.</p>
-<h3>Round-6 H36-1 (TDR-PDS) 3-experiment progression (repaired <code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, 22,232 withheld positives)</h3>
-<table><tr><th>experiment</th><th>HOLDOUT-DTI (v3-vis, 95% CI)</th><th>censored d0 control</th><th>off-catalogue SGMC DTI</th></tr>
-<tr><td>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</td><td>0.09920 [0.0820, 0.1222]</td><td>0.09920</td><td>0.09606</td></tr>
-{exp_rows}</table>
-<p><b>Bottom line:</b> <code>GEMSDOE32</code> <code>h33-h33-2-b2</code> (0.2778, already scored &mdash; do not resubmit) remains the strongest entry across all 9 sites. Both <code>H36-1C</code> (<code>9ff9d6e2</code>) and <code>R6-1</code> (<code>23fbbb51</code>) are format-valid, non-human-validated research/audit artifacts &mdash; <b>DO NOT SUBMIT</b> (spend 0 weekly DrivenData slots today).</p></div>"""
+<a href="research/h44-spcp-preregistration-20261026.md">h44-spcp-preregistration-20261026.md</a>.</p>
+<table><tr><th>site &amp; 2026-10-26 HEAD</th><th>best historical / newest 2026-10-26 TIF</th><th>score</th><th>byte forensics &amp; 2026-10-26 cross-site evaluation</th><th>verdict today</th></tr>{trs}</table>
+<h3>PhD metric algebra: why <code>h33-h33-2-b2</code> achieved 0.2778 [OWNER-REPORT] and what 0.3195 / 0.4413 require</h3>
+<p>Under <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> with hidden truth <code>|G| &approx; 12,265</code> px, solid <code>H19-5</code> (121,131 px, 0.1922 OWNER-REPORT) captured only <code>T &approx; 5,021</code> weighted truth pixels (40.9% recall), algebraically capping every subset of <code>H19-5</code> below ~0.312. Removing 2,545 flank dots within <code>1 &lt; d_cat &le; 2 px</code> (200 m) raised 0.2708 [OWNER-REPORT] &rarr; <b>0.2778 [OWNER-REPORT (no submission-page receipt in repo)]</b> (<code>T &approx; 4,503</code>) because known-catalogue masking prevents flank dots from clearing the marginal break-even bar <code>&Delta;T &gt; 0.25&middot;DTI/(1&minus;0.8&middot;DTI) = 0.0893</code>. Reaching <b>0.3195</b> at 37,654 dots requires <code>T &approx; 5,430</code> (+20.6% recall) and public #1 <b>0.4413</b> requires <code>T &approx; 8,408</code> (68.6% recall) via genuinely off-catalogue blind-fault physics.</p>
+<h3>Session H44-1 (SPCP) 3-experiment ablation at matched 37,654-dot B=2 budget (<code>GEMSDOE32-HIDE-RECOVER-v3.0</code> &amp; <code>GEMSDOE32-SGMC-CAL-v3.0</code>)</h3>
+<table><tr><th>arm (37,654 dots, B=2)</th><th>HOLDOUT-DTI (Hide&amp;Recover v3.0, n=22,232)</th><th>Detached &ge;600m (n=15,504)</th><th>Off-catalogue SGMC raw / calibrated DTI (n=62,703)</th></tr>
+{h44_trs}</table>
+<p><b>Bottom line:</b> <code>GEMSDOE32</code> <code>h33-h33-2-b2</code> (0.2778 OWNER-REPORT, already scored &mdash; do not resubmit) remains the strongest entry across all 9 sites. New <code>H44-1 SPCP</code> (<code>38f7995a</code>), <code>H36-1C</code> (<code>9ff9d6e2</code>), and <code>R6-1</code> (<code>23fbbb51</code>) are 100% automated-validator-verified research/audit GeoTIFFs &mdash; <b>DO NOT SUBMIT</b> (spend 0 weekly DrivenData slots today).</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -798,6 +835,11 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("h44-spcp-preregistration-20261026.md",
+     "H44-1 SPCP (2026-10-26): pre-registered 5 untried geological/geothermal-vent hypotheses (H44-1..H44-5), "
+     "Phillips (2007) potential-field curvature tensor + hydrothermal conduit + Bekker-Davis SAR-PU propensity "
+     "debiasing (+66.7% off-catalogue SGMC lift curing IR-A8A-PU-BIAS-01, paired +0.0133 [+0.0030, +0.0248] over "
+     "0.2778 OWNER-REPORT Champion), and IR-32-DOC-BAND05-01 fix"),
     ("arena8a-preregistration-and-hypotheses.md",
      "Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest "
      "concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression "
@@ -1142,6 +1184,11 @@ def main() -> int:
         (DOCS / "data").mkdir(parents=True, exist_ok=True)
         (DOCS / "data" / "arena8a_run_card.json").write_text(
             (ROOT / "evidence" / "arena8a_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h44_spcp_run_card.json").exists():
+        (DOCS / "data").mkdir(parents=True, exist_ok=True)
+        (DOCS / "data" / "h44_spcp_run_card.json").write_text(
+            (ROOT / "evidence" / "h44_spcp_run_card.json").read_text()
         )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy

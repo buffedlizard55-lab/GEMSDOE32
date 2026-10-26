@@ -84,13 +84,24 @@ def build(root: Path = ROOT) -> dict:
                                       "n_truth": f.get("n_truth", 0), "arms": _arms(f)}
                                      for f in hold["folds"]]}
     for name in ("h60_2_catalogue_difference.json", "truth_model_mc.json",
-                 "emission_models_mc.json", "shipped_vs_incumbent_mc.json"):
+                 "emission_models_mc.json", "shipped_vs_incumbent_mc.json",
+                 "h44_spcp_run_card.json", "nine_site_live_audit_20261026.json"):
         ev = _read_json(root / "evidence" / name)
         if ev:
             feed.setdefault("evidence", {})[name] = ev
+    cs = _read_json(reg / "current_status.json")
+    if cs:
+        feed["current_status"] = cs
     feed["irregularities"] = _read_json(reg / "irregularities.json", {"items": []})["items"]
     (docs / "data").mkdir(parents=True, exist_ok=True)
-    (docs / "data" / "feed.json").write_text(json.dumps(feed, indent=1) + "\n")
+    feed_path = docs / "data" / "feed.json"
+    prev = _read_json(feed_path)
+    if isinstance(prev, dict) and "generated_utc" in prev:
+        cmp_prev = {k: v for k, v in prev.items() if k != "generated_utc"}
+        cmp_curr = {k: v for k, v in feed.items() if k != "generated_utc"}
+        if cmp_prev == cmp_curr:
+            feed["generated_utc"] = prev["generated_utc"]
+    feed_path.write_text(json.dumps(feed, indent=1) + "\n")
     return feed
 
 

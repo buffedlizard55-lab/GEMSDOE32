@@ -203,6 +203,48 @@
    "url": "https://github.com/buffedlizard55-lab/GEMSDOE24/tree/main/data/external",
    "role": "Round-6 H38-G1..G3 external geophysical & geomorphic layers (lidar_scarp_features_u8.tif, geodawn_rad_u8.tif, geodawn_extensions_u8.tif, gdr_evidence_u8.tif)",
    "status": "fetched & SHA-256 verified locally 2026-10-26 via scripts/restore_data.py"
+  },
+  {
+   "id": "phillips_2007_usgs_of07_1355",
+   "title": "Phillips, J.D., Hansen, R.O., & Blakely, R.J. (2007), The use of curvature in potential-field interpretation, USGS Open-File Report / Exploration Geophysics 38(2), 111-119",
+   "url": "https://pubs.usgs.gov/publication/70030656",
+   "role": "H44-1 SPCP theoretical basis for horizontal-gradient principal negative curvature crests (-min(l1,l2,0))",
+   "status": "official USGS Publications Warehouse citation; implemented in src/gems32/spcp.py"
+  },
+  {
+   "id": "roest_1992_analytic_signal",
+   "title": "Roest, W.R., Verhoef, J., & Pilkington, M. (1992), Magnetic interpretation using the 3-D analytic signal, Geophysics 57(1), 116-125",
+   "url": "https://doi.org/10.1190/1.1443174",
+   "role": "H44-1 / H44-2 3D analytic-signal amplitude & contact-depth estimation independent of magnetization inclination",
+   "status": "peer-reviewed geophysical primary source; implemented in src/gems32/spcp.py"
+  },
+  {
+   "id": "faulds_hinz_2015_gbas_play_fairway",
+   "title": "Faulds, J.E., & Hinz, N.H. (2015), Favorable tectonic and structural settings of geothermal systems in the Great Basin region, western USA, World Geothermal Congress / NBMG-GBCGE",
+   "url": "https://gbcge.org/current-projects/ingenious/",
+   "role": "Structural geology basis for blind geothermal conduits (>75% blind systems in step-overs, relay ramps, tips, and graben bends)",
+   "status": "official GBCGE / INGENIOUS scientific foundation"
+  },
+  {
+   "id": "gdr1391_doi",
+   "title": "Great Basin Center for Geothermal Energy (GBCGE) INGENIOUS Regional Dataset (DOE GDR #1391, CC-BY-4.0)",
+   "url": "https://doi.org/10.15121/1881483",
+   "role": "Official DOE Geothermal Data Repository DOI for Nevada wells/springs geothermometry & volcanic vents",
+   "status": "verified locally in .cache/gems_data/external (dist_known_fault_px excluded)"
+  },
+  {
+   "id": "geodawn_doi",
+   "title": "USGS GeoDAWN Airborne Magnetic and Radiometric Surveys Data Release (DOI 10.5066/P93LGLVQ)",
+   "url": "https://doi.org/10.5066/P93LGLVQ",
+   "role": "Official USGS data release DOI for K/Th/U radiometrics and upward-continued aeromagnetics",
+   "status": "verified locally in .cache/gems_data/external"
+  },
+  {
+   "id": "bekker_davis_2020_sarpu",
+   "title": "Bekker, J., & Davis, J. (2020), Learning from positive and unlabeled data: a survey (SAR-PU propensity weighting), Machine Learning 109, 719-760",
+   "url": "https://doi.org/10.1007/s10994-020-05877-5",
+   "role": "H44-1 SPCP Selected-At-Random Positive-Unlabeled (SAR-PU) observability propensity debiasing curing IR-A8A-PU-BIAS-01",
+   "status": "peer-reviewed ML methodology; implemented fold-locally in src/gems32/spcp.py"
   }
  ]
 }

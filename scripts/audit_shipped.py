@@ -18,11 +18,15 @@ Requires ``data/raw/{sample_submission,labels}.tif``; run ``bash scripts/fetch_m
 """
 from __future__ import annotations
 
+import gc
 import hashlib
 import json
+import os
 import time
 import sys
 from pathlib import Path
+
+os.environ.setdefault("GDAL_CACHEMAX", "32")
 
 import numpy as np
 import rasterio
@@ -112,6 +116,8 @@ def main() -> int:
             "dots_on_catalogue": int((pos & cat).sum()),
         })
         rows.append(row)
+        del a, finite, vals, pos, c
+        gc.collect()
 
     out = {
         "generated_by": "scripts/audit_shipped.py",

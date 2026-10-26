@@ -7,13 +7,30 @@
 <main class=wrap style="padding-top:26px">
 <h1>Irregularities</h1>
 <div class=card id=status style="border:3px solid #b00020">
-<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T02:10:00Z</h2>
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T06:35:00Z</h2>
 <p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is authorized for upload.</b> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.</p>
 <p class=mut>OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound &gt; 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.</p>
 <table>
 <tr><th>Best scored file</th><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> &mdash;
 <b>0.2778</b> OWNER-REPORT (owner-reported score; no submission-page receipt linking the score to these bytes is archived in this checkout) &middot; 37,654 dots &middot; sha256
 <code>c55bafc470054e82&hellip;</code><br><b>already submitted - do not resubmit (a resubmission spends a slot and adds no information)</b></td></tr>
+<tr><th>Latest Unique Session File (<code>H44-1 SPCP</code>, 37,654d)</th><td>ONE-CLICK (research &amp; calibration audit artifact &mdash; 20/20 format checks PASS):
+<a class=btn href="docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif">&#11015; gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.zip">.zip</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif">NaN-twin</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-audit.json">Format Receipt (13/13 + strict CLI PASS)</a>
+&middot; <a href="evidence/h44_spcp_run_card.json">H44 run card</a>
+&middot; <a href="docs/research/h44-spcp-preregistration-20261026.md">pre-registration &amp; 5 hypotheses</a><br>
+<b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>; safe to download for research/calibration without human intervention) &mdash;
+H44-1 (SPCP): SAR-PU Propensity-Debiased Potential-Field Curvature Tensor &amp; Hydrothermal-Conduit Breach (37,654 dots, B=2); <b>37,654</b> dots (0 on catalogue, B=2); sha256 <code>386a4aad59a5c742&hellip;</code><br>
+<span class=mut>Unique submission name: <code>GEMSDOE32-H44-SPCP-38F7995A</code> &middot; Portal note (80/140 chars): <code>H44-1 SPCP SAR-PU curv+conduit 37654d B2 | HR=0.0698 SGMC=0.0777 | DO NOT SUBMIT</code></span>
+<ul>
+<li><b>Highest off-catalogue blind-fault SGMC DTI among all 37,654-dot supervised models across all 9 sites (curing <code>IR-A8A-PU-BIAS-01</code>):</b>
+<code>GEMSDOE32-SGMC-CAL-v3.0</code> (62,703 off-catalogue USGS SGMC fault px, zero SGMC supervision) = <code>0.07774</code>
+(95% CI <code>[0.06919, 0.08564]</code>; raw <code>0.11606</code>), beating the <code>0.2778</code> OWNER-REPORT Champion (<code>0.06412</code>) by paired spatial-block bootstrap &Delta; <code>+0.01328</code> (95% CI <code>[+0.0030, +0.0248]</code>, P=0.998) and beating naive 55-ch binary HistGB (<code>0.04663</code>) by <b>+66.7%</b> (<code>+0.03083</code>, P=1.000).</li>
+<li><b>Why automated verdict is <code>negative</code> / DO NOT SUBMIT (0 weekly slots spent):</b> Shifting 52.41% of dots &gt;2 km into blind basins lowers exposed-scarp <code>GEMSDOE32-HIDE-RECOVER-v3.0</code> (22,232 withheld positives) to <code>HOLDOUT-DTI = 0.06984</code> (95% CI <code>[0.06030, 0.07928]</code>; detached &ge;600 m = <code>0.06364</code>), beating static <code>0.2778</code> OWNER-REPORT Champion (<code>0.00452</code>) but trailing fold-local <code>CTRL-35ch</code> (<code>0.10169</code>) and censorship-matched Champion (<code>0.00302 &lt; 0.00452</code>, <code>IR-32-SARPU-PARETO-01</code>).</li>
+<li><b>289-raster cross-site uniqueness &amp; 55-channel leakage canary PASS:</b> Single-feature canary max oriented AUC = <code>0.5869 &le; 0.90</code> across all 55 channels. Genuine uniqueness PASS across all <b>288</b> detector/submission rasters from all 9 repos (<code>max |Spearman| = 0.1204 &le; 0.90</code>; <code>max 3-px dot overlap = 44.48% &le; 70%</code>; <code>33.75%</code> vs <code>0.2778</code> OWNER-REPORT Champion), while literal 5-px calibration lattice <code>r13-lattice-s5</code> triggers fail-closed stop (<code>99.69% &gt; 70%</code>, <code>IR-42-UNIQ-01</code>).</li>
+</ul></td></tr>
 <tr><th>Arena8a unique file (MDRC, 44,090d)</th><td>ONE-CLICK (audit/research only): <a class=btn href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif">&#11015; gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif</a>
 <a class="btn alt" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip">.zip</a> <a href="docs/downloads/checks-gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif.json">receipt</a>
 &middot; <a href="evidence/arena8a_run_card.json">run card</a> &middot; <a href="docs/research/arena8a-preregistration-and-hypotheses.md">pre-registration &amp; hypotheses</a><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>) &mdash; A8A-H1 Multi-Domain Ridge-Crest Concordance (MDRC, 44,090 dots, B=2);
@@ -44,7 +61,7 @@
 <span class=mut>Archive portal name: <code>GEMSDOE32-EXP3_H38_G1_CORROB-35859E28</code> &middot; Archive note (102/140 chars): <code>GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT</code></span>
 <ul>
 <li><b>Highest leak-free Hide-and-Recover v3.0 score in GEMSDOE32:</b> <code>HOLDOUT-DTI = 0.11696</code>
-(95% spatial-block CI <code>[0.10053, 0.13204]</code>, <b>+17.9%</b> over <code>0.2778</code> Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
+(95% spatial-block CI <code>[0.10053, 0.13204]</code>, <b>+17.9%</b> over <code>0.2778</code> OWNER-REPORT Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
 <li><b>Cross-site uniqueness PASS vs all 26 live-scored detectors</b> (max &le;3-px overlap <code>69.49% &le; 70%</code>; <code>58.78%</code> vs Champion; surface |Spearman| <code>0.4374 &le; 0.90</code>), <b>but fails closed (audit artifact only — DO NOT SUBMIT)</b> because off-catalogue <code>SGMC_cal</code> (<code>0.05037</code>) trails Champion (<code>0.06412</code>) and unexempted &le;3-px check hits local GBDT <code>hcvf2</code> (<code>77.56%</code>) + 5-px calibration lattice <code>r13-lattice-s5</code> (<code>99.71%</code>, <code>IR-32-PIGEONHOLE-01</code>).</li>
 </ul></td></tr>
 <tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; DO NOT SUBMIT - audit artifact only</b> &mdash;
