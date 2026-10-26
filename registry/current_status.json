@@ -1,0 +1,148 @@
+{
+ "schema_version": 1,
+ "updated_utc": "2026-10-26T01:40:00Z",
+ "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
+ "any_file_ok_to_submit": false,
+ "headline": "No file in this repository is authorized for upload.",
+ "gate_rule": "OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound > 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.",
+ "best_scored": {
+  "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+  "score": 0.2778,
+  "evidence_class": "ORGANIZER-CONFIRMED (owner-reported receipt)",
+  "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+  "dots": 37654,
+  "advice": "already submitted - do not resubmit (a resubmission spends a slot and adds no information)"
+ },
+ "newest_unique": {
+  "file": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.zip",
+  "receipt": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.json",
+  "sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
+  "bytes": 121893,
+  "dots": 37654,
+  "submission_name": "gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros",
+  "note": "GEMSDOE32 H42 hanging-wall HWCI 37654 dots B2 | HOLDOUT 0.1529 | id b91008fa | research only",
+  "verdict": "DO NOT SUBMIT",
+  "ok_to_submit": false,
+  "hypothesis": "H42-1 hanging-wall conditional intensity (HWCI)",
+  "gates": {
+   "G1_canary": true,
+   "G2_hypothesis_side_signal": true,
+   "G3_beats_champion_recipe": true,
+   "G4_lane_unique": false,
+   "G5_format": true
+  },
+  "reasons": [
+   "G4 lane gate FAILED on the final dots: 21 registry rasters beyond the space-filling lattice have > 70 % of H42 dots within 3 px (worst GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif), i.e. H42's near-network placement zone is already occupied by GEMSDOE25's lane.",
+   "Diagnostic D4 (reported, not a gate): on the independent SGMC off-catalogue instrument the H42 raster scores 0.0545 vs champion 0.0954 vs random dots 0.0709 (gems57-pooled-hide-v2, paired CIs exclude 0) - the catalogue-hidden gain does not transfer to off-catalogue faults."
+  ],
+  "holdout": {
+   "HWCI": {
+    "dti": 0.1529,
+    "ci95": [
+     0.14,
+     0.1674
+    ]
+   },
+   "SYM": {
+    "dti": 0.1479,
+    "ci95": [
+     0.1349,
+     0.1612
+    ]
+   },
+   "EVID": {
+    "dti": 0.0638,
+    "ci95": [
+     0.054,
+     0.0743
+    ]
+   },
+   "CHAMP_RECIPE": {
+    "dti": 0.1056,
+    "ci95": [
+     0.0936,
+     0.1166
+    ]
+   }
+  },
+  "holdout_label": "HOLDOUT-DTI, gems57-pooled-hide-v2, 22893 withheld positives, 95% CI",
+  "off_catalogue_instrument": {
+   "H42_HWCI_final": {
+    "dti": 0.0545,
+    "ci95": [
+     0.0463,
+     0.0636
+    ]
+   },
+   "CHAMPION_0.2778": {
+    "dti": 0.0954,
+    "ci95": [
+     0.0841,
+     0.1066
+    ]
+   },
+   "RANDOM_37654": {
+    "dti": 0.0709,
+    "ci95": [
+     0.0678,
+     0.0742
+    ]
+   }
+  },
+  "off_catalogue_label": "INSTRUMENT: SGMC faults > 3 px off-catalogue (62122 px), gems57-pooled-hide-v2",
+  "uniqueness": {
+   "registry_rasters": 205,
+   "max_spearman": 0.0594,
+   "max_jaccard": 0.0344,
+   "worst_informative_overlap": 0.8192,
+   "worst_informative_raster": "GEMSDOE25:gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0"
+  },
+  "run_card": "evidence/h42_run_card.json"
+ },
+ "withdrawn": [
+  {
+   "file": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+   "status": "DO NOT SUBMIT",
+   "reason": "IR-42-README-01: champion-family variant (37,298 shared dots, Jaccard 0.803, 84.0% within 3 px); claimed holdout margin 0.14840 vs 0.14801 inside its CI [0.115, 0.182]; SGMC off-catalogue instrument indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013])."
+  },
+  {
+   "file": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+   "status": "DO NOT SUBMIT",
+   "reason": "IR-R6-02 (Round-6 session): 70.24% of dots within 3 px of GEMSDOE28 h28-dotted-ridge exceeds the 70% lane gate; SGMC-calibrated 0.0462 below champion 0.0641."
+  }
+ ],
+ "how_to_submit": "executive-summary.html",
+ "leaderboard_top": {
+  "score": 0.4413,
+  "team": "xiaofanhu",
+  "read_utc": "2026-10-25",
+  "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+ },
+ "knowledge": "knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md",
+ "round6_candidate": {
+  "file": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip",
+  "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+  "dots": 37654,
+  "submission_name": "GEMSDOE32-R6-STEP-23FBBB51",
+  "verdict": "DO NOT SUBMIT - audit artifact only",
+  "origin": "parallel Round-6 session (PR #18); its own run card recorded a positive verdict, withdrawn by the fail-closed release review (PR #21)",
+  "reasons": [
+   "Release review (PR #21, evidence/current_release_review.json): no assigned method paragraph for that session; its B=2 mask was derived from the full catalogue rather than fold-locally, so fold-local hide-and-recover evidence is missing.",
+   "IR-42-INSTR-02 (this session): the SGMC instrument behind its positive verdict does not track live scores outside the champion family - SGMC-tracing files score 0.6483 (GEMSDOE72) and 0.5607 (GEMSDOE29) on it, 6-7x the champion, yet scored 0.0492 and 0.0512 live.",
+   "The review's lattice-overlap reason (97.82% within 3 px of the 13gems calibration lattice) does not discriminate: random dots score 0.9988 and the champion 0.9992 on that test (IR-42-UNIQ-01)."
+  ],
+  "confirmed_independently": [
+   "SGMC off-catalogue instrument (template evaluator): 0.1419 vs champion 0.0954 vs random 0.0702; paired vs champion +0.0465 [+0.0255, +0.0681]",
+   "lane-unique vs 205 registry rasters (worst informative overlap 0.414; max Spearman 0.016)",
+   "format-valid (its own dual validators; zeros variant all-finite in [0,1])"
+  ],
+  "evidence": [
+   "evidence/current_release_review.json",
+   "evidence/round6_run_card.json",
+   "evidence/r6_independent_recheck.json",
+   "evidence/sgmc_instrument_live_counterexamples.json"
+  ]
+ }
+}

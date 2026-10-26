@@ -245,7 +245,7 @@
   {
    "id": "IR-32-SCORE-03",
    "severity": "medium",
-   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts — cf. IR-32-SCORE-01/02).",
+   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
   },
   {
@@ -277,6 +277,42 @@
    "severity": "critical",
    "statement": "Round-6 R6-1 was labeled PROMOTE/OK TO SUBMIT despite full-catalogue B=2 placement leakage in the hide-and-recover test and 97.82% final-dot overlap with a registered calibration raster (>70% limit). Its descriptive pooled holdout DTI is 0.003376 vs 0.004515 incumbent on 22,232 withheld positives, but cannot be used for promotion because the candidate mask was not rebuilt from visible faults.",
    "mitigation": "Verdict changed to negative, upload authorization false, and all site/README notices are fail-closed. Existing TIFF retained for audit only; no new raster or slot used. Rebuild fold-local candidate masks before any future valid experiment."
+  },
+  {
+   "id": "IR-42-README-01",
+   "severity": "high",
+   "statement": "README showed an approval ('OK-to-download-and-submit') banner for gemsdoe32-h32-winning-46090-prune400 directly beneath a note saying no TIF was certified. The file shares 37,298 dots with the 0.2778 champion (Jaccard 0.803; 84.0% within 3 px), its claimed holdout margin (0.14840 vs 0.14801) lay inside its own CI [0.115, 0.182], and on the SGMC off-catalogue instrument it is indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).",
+   "mitigation": "Banner withdrawn; status centralised in registry/current_status.json and rendered as the single top block of README and site; previous primary kept under previous_primaries with withdrawn=true."
+  },
+  {
+   "id": "IR-42-UNIQ-01",
+   "severity": "medium",
+   "statement": "Shared template lane gate (vendor/gems57/uniqueness.py): the calibration lattice 13gems_20261001_r13-lattice-s5 (206,895 px, 4.0% support, 3-px footprint coverage 0.9987) makes the literal '>70% of my dots within 3 px' rule fire for every possible raster (random dots 0.9988, champion 0.9992); representation_class classifies by support (>20%), not by coverage.",
+   "mitigation": "Reported, not patched privately (template is pinned from 57GEMSDOE). Proposed rule: treat registry rasters whose 3-px footprint coverage exceeds 0.70 as uninformative for the overlap test; keep them in the rank test."
+  },
+  {
+   "id": "IR-42-INSTR-01",
+   "severity": "high",
+   "statement": "Catalogue-hidden hide-and-recover (gems57 buffered_component_draw) rewards gap-filling between fragments of the catalogue's own traces: H42-1 gained +0.0473 [+0.0338, +0.0610] HOLDOUT-DTI over the champion recipe yet scored 0.0545 vs champion 0.0954 vs random 0.0709 on SGMC faults >3 px off-catalogue.",
+   "mitigation": "Any lane with catalogue-relational features must also pass an off-catalogue instrument and/or use detached-only hiding (gems57 holdout.build_holdout mode=\"detached\")."
+  },
+  {
+   "id": "IR-42-RUN-01",
+   "severity": "low",
+   "statement": "scripts/run_h42.py applied the dot-overlap statistic to the continuous surface (every footprint pixel counted as a dot), which is guaranteed to fire against any <=4-px lattice raster.",
+   "mitigation": "Declared deviation in evidence/h42_run.json; corrected statistic reported as D3; verdict decided on the final dots and unaffected."
+  },
+  {
+   "id": "IR-42-WRITER-01",
+   "severity": "medium",
+   "statement": "src/gems32/submission.py::audit_geotiff read the GeoTransform but never compared it (or the CRS) with the template, so a shifted grid could pass its 12-point audit.",
+   "mitigation": "Fixed in parallel on main (stricter: audit_geotiff raises on any CRS/shape/transform mismatch, against the template when given, else the documented grid; write_submission_pair passes the template). This branch adopted main's version at merge."
+  },
+  {
+   "id": "IR-42-INSTR-02",
+   "severity": "high",
+   "statement": "The SGMC off-catalogue instrument does not predict live scores outside the champion family: the SGMC-tracing files gemsdoe72-h72-1-sgmc-offcatalogue (0.6483 on the instrument) and gemsdoe29-sgmc-off-catalogue-44k (0.5607) scored 0.0492 and 0.0512 live, while the champion scores 0.0954 there and 0.2778 live. Round-6 promoted R6-1 on this instrument (0.1419 vs 0.0954, independently reproduced).",
+   "mitigation": "R6-1 is DO NOT SUBMIT (audit artifact only) in registry/current_status.json, consistent with the fail-closed release review (evidence/current_release_review.json); files and run cards untouched. Promotion needs agreement of two instruments with opposite biases (catalogue-hidden with detached-only hiding AND off-catalogue) or a live score."
   }
  ]
 }

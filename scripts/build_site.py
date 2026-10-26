@@ -47,45 +47,32 @@ def read(path: str, default=None):
 
 
 def protocol_notice(prefix: str = "") -> str:
-    """Render the session-scoped release decision, failing closed when it is absent."""
-    decision = read("evidence/current_release_review.json", {}) or {}
-    evidence_prefix = "evidence/" if prefix == "docs/" else "../evidence/"
-    fname = "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
-    if decision.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+    """Single authoritative verdict for the top of every page, failing closed.
+
+    Upload is authorized only if BOTH machine-readable decisions agree: evidence/current_release_review.json
+    (parallel review session) and registry/current_status.json (this repository's status source). Rendered before
+    any download button (tests/test_protocol_site.py, tests/test_site.py).
+    """
+    release = read("evidence/current_release_review.json", {}) or {}
+    st = read("registry/current_status.json", {}) or {}
+    authorized = (release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True
+                  and bool(st.get("any_file_ok_to_submit")))
+    up = "../" if prefix == "" else ""
+    if not authorized:
         return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
-<h2>&#128308; DO NOT SUBMIT — current-session release gates are not satisfied</h2>
-<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Strict CRS/shape/transform and finite [0,1] validation passes against a hash-pinned owner mirror, but this does not authorize upload. The prior B=2 holdout used full-catalogue geometry before scoring. Also, 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold); pre-placement correlation against every registry raster remains incomplete. No submission slot was used.</p>
-<p><a href="{prefix}research/protocol-review-20261026.md">Read the three-pass protocol audit</a> · <a href="{prefix}research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="{evidence_prefix}current_release_review.json">machine-readable release decision</a></p>
-</section>"""
-    card = read("evidence/round6_run_card.json", {}) or {}
-    boot = ((card.get("holdout") or {}).get("primary_sgmc") or {})
-    if card.get("verdict") != "promote" or not boot:
-        return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
-<h2>&#128308; DO NOT SUBMIT</h2>
-<p><b>No file currently passes all frozen gates. Downloads are audit artifacts, not upload authorization.</b>
-See <a href="{prefix}research/hypotheses-round6.md">Round-6 preregistration</a>. No slot was used.</p></section>"""
-    return f"""<section class=dl style="border:3px solid #1a7f37; background:#f6fbf7" aria-label="Current submission decision">
-<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; ONE FILE ONLY (Round 6, 2026-10-26)</h2>
-<p><b>Submit this file:</b> <code>{esc(fname)}</code><br>
-<b>Unique submission name:</b> <code>{esc(card.get('submission_name', ''))}</code> &middot;
-<b>Note to paste (93/140 chars):</b> <code>{esc(card.get('note_le140', ''))}</code><br>
-<b>SHA-256:</b> <code>{esc((card.get('raster_sha256') or '')[:16])}&hellip;</code> &middot; 37,654 dots &middot; 0 on catalogue &middot; B=2 &middot; all-finite [0,1] (never triggers <i>&ldquo;Predicted values must be in range [0, 1]&rdquo;</i>)</p>
-<p><a class="btn" style="background:#1a7f37;color:#fff" href="{esc(prefix)}downloads/{esc(fname)}">&#11015; ONE-CLICK DOWNLOAD .TIF</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(fname[:-4])}.zip">.ZIP</a>
-<a href="{esc(prefix)}executive-summary.html">Step-by-step upload guide</a> &middot;
-<a href="{esc(prefix)}research/focus-sites-executive-summary.md">Per-site executive summary (9 focus sites)</a></p>
-<p><b>Why this verdict:</b> the file passed every frozen automated gate without human inspection &mdash;
-leakage canary AUC 0.525 (&le;0.90); <b>[HOLDOUT-DTI]</b> SGMC-exact {boot.get('candidate_sgmc_dti', 0):.4f} vs champion {boot.get('champion_sgmc_dti', 0):.4f}
-(paired diff {boot.get('paired_diff', 0):+.4f}, 95% CI [{boot.get('paired_diff_ci95', [0, 0])[0]:.4f}, {boot.get('paired_diff_ci95', [0, 0])[1]:.4f}],
-{int(boot.get('n_truth_px', 0)):,} withheld truth px); uniqueness max 41.4% within-3px (&le;70%) and max surface &rho; 0.34 (&le;0.90)
-vs every detector raster on disk; dual portal validators PASS. Random controls score 0.074&ndash;0.077 on the same instrument.</p>
-<p><b>What PROMOTE does not mean:</b> no organizer score exists for this file and none is claimed; HOLDOUT-DTI is a local
-proxy (SGMC population), not a leaderboard prediction; promotion is a selector recommendation &mdash; confirm the
-authenticated weekly cap on the submission page before uploading. <b>Every other file on this site is
-<span style="color:#b00020">DO NOT SUBMIT</span></b>: the 0.2778 champion was already submitted (resubmitting wastes a slot),
-and the former GEO-CONDUIT primary was demoted 2026-10-26 (70.24% within-3px vs h28 exceeds the 70% gate; IR-R6-02).</p>
-<p><a href="{prefix}research/hypotheses-round6.md">Frozen preregistration &amp; 5 ranked hypotheses</a> &middot;
-<a href="{prefix}research/standing-brief-20261025.md">Standing brief — read every session</a></p></section>"""
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>{esc(st.get('headline', 'No file in this repository is authorized for upload.'))}</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
+<p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
+<a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="{prefix}executive-summary.html">How a cleared file would be submitted</a></p></section>
+"""
+    return f"""<section class=dl style="border:3px solid #1a7f37" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#9989; Upload authorized &mdash; see the status card</h2>
+<p style="margin:4px 0"><a href="{prefix}index.html#status">Status card</a> &middot; <a href="{prefix}executive-summary.html">Exact steps</a></p></section>
+"""
 
 
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
@@ -131,7 +118,7 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
         page 404s, which is exactly the defect this parameter exists to prevent (IR-34-ROOT-01).
         """
         p = ROOT / rel
-        if not p.exists():
+        if not rel or not p.is_file():      # an empty path resolves to the repo root, which "exists"
             return ""
         c = f' class="{cls}"' if cls else ""
         return f'<a{c} href="{esc(prefix + rel.replace("docs/", ""))}">{esc(label)}</a> '
@@ -176,7 +163,17 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
     anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
     # Round 5 (2026-10-25): the primary has an organizer score now.  The dated status line
     # supersedes the pre-submission one; the original fields are kept in the registry untouched.
-    status_line = sub.get("status_line_2026_10_25") or sub.get("status_line", "")
+    status_line = (sub.get("status_line_current") or sub.get("status_line_2026_10_25")
+                   or sub.get("status_line", ""))
+    verdict_badge = ""
+    if sub.get("verdict"):
+        _v = str(sub.get("verdict", "")).upper()
+        verdict_badge = ('<p style="font-size:1.25em"><b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b> '
+                         '&mdash; every automated gate passed</p>' if sub.get("ok_to_submit") else
+                         '<p style="font-size:1.25em"><b style="color:#b45309">&#128992; EXPLORATION ONLY &mdash; NOT CLEARED</b> '
+                         '&mdash; not an expected improvement; see the status card</p>' if _v.startswith("EXPLORATION") else
+                         '<p style="font-size:1.25em"><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> '
+                         '&mdash; automated gates failed; download for audit / research only</p>')
     _os = sub.get("organizer_score") or {}
     scored_badge = ""
     if _os.get("value") is not None:
@@ -187,12 +184,12 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                         f'(error +{_os.get("projection_error")}).</p>\n')
     return f"""<div class=dl>
 <h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
-{scored_badge}
+{verdict_badge}{scored_badge}
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
 <b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
 <b>Note to paste into the submit form's <em>Note (optional)</em> field
-({len(note)}/200 characters):</b><br>
+({len(note)} characters; protocol limit 140):</b><br>
 <code>{esc(note)}</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
 {int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
@@ -205,6 +202,73 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 
 
 GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
+
+
+def current_status_block(docs_prefix: str = "") -> str:
+    """The single status card (source of truth: registry/current_status.json).
+
+    ``docs_prefix`` follows :func:`download_block`: "" on docs/ pages, "docs/" on root pages.  Files under
+    docs/ are linked relative to docs/; repository files (evidence/, registry/) are linked from the root.
+    """
+    st = read("registry/current_status.json")
+    if not st:
+        return ""
+    up = "../" if docs_prefix == "" else ""
+
+    def href(rel: str) -> str:
+        return (docs_prefix + rel[len("docs/"):]) if rel.startswith("docs/") else (up + rel)
+
+    ok = bool(st.get("any_file_ok_to_submit"))
+    light = ('<b style="color:#0a7d2c">&#9989; A file is cleared</b>' if ok else
+             '<b style="color:#b00020">&#128308; NO &mdash; ' + esc(st.get("headline", "")) + '</b>')
+    b, n = st.get("best_scored", {}), st.get("newest_unique", {})
+    hold = n.get("holdout", {})
+    off = n.get("off_catalogue_instrument", {})
+    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+                    for k, v in hold.items())
+    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+                    for k, v in off.items())
+    reasons = "".join(f"<li>{esc(r)}</li>" for r in n.get("reasons", []))
+    wd = "".join(f"<li><code>{esc(Path(w['file']).name)}</code> &mdash; <b style=\"color:#b00020\">{esc(w['status'])}</b>. "
+                 f"{esc(w['reason'])}</li>" for w in st.get("withdrawn", []))
+    nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
+                '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
+    lb = st.get("leaderboard_top", {})
+    ex = st.get("round6_candidate") or {}
+    expl_row = ""
+    if ex:
+        conf = "".join(f"<li>{esc(c)}</li>" for c in ex.get("confirmed_independently", []))
+        why = "".join(f"<li>{esc(c)}</li>" for c in ex.get("reasons", []))
+        evid = " &middot; ".join(f'<a href="{esc(href(e))}">{esc(Path(e).name)}</a>' for e in ex.get("evidence", []))
+        expl_row = f"""<tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; {esc(ex.get('verdict', ''))}</b> &mdash;
+<a href="{esc(href(ex.get('file', '')))}">{esc(Path(ex.get('file', '')).name)}</a> (audit artifact only)
+&middot; sha256 <code>{esc(ex.get('sha256', '')[:16])}&hellip;</code><br><small>{esc(ex.get('origin', ''))}</small>
+<p><b>Why not authorized:</b></p><ul>{why}</ul>
+<p><b>What this session confirmed independently:</b></p><ul>{conf}</ul><p class=mut>Evidence: {evid}</p></td></tr>"""
+    return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
+<p class=mut>{esc(st.get('gate_rule', ''))}</p>
+<table>
+<tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
+<b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
+<code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+<tr><th>Newest unique file</th><td>ONE-CLICK: <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
+&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a><br>{nverdict} &mdash; {esc(n.get('hypothesis', ''))};
+{int(n.get('dots', 0)):,} dots; sha256 <code>{esc(n.get('sha256', '')[:16])}&hellip;</code>
+<ul>{reasons}</ul>
+<table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
+<table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
+</td></tr>
+{expl_row}
+<tr><th>Withdrawn</th><td><ul>{wd}</ul></td></tr>
+<tr><th>Leaderboard</th><td>public #1 = <b>{lb.get('score')}</b> ({esc(lb.get('team', ''))}), read {esc(lb.get('read_utc', ''))}
+from the <a href="{esc(lb.get('url', ''))}">official leaderboard</a></td></tr>
+</table>
+<p>Why, in full: <a href="{GH}{esc(st.get('knowledge', ''))}">session findings (knowledge/05)</a> &middot;
+<a href="{docs_prefix}executive-summary.html">exact upload steps</a></p>
+</div>"""
 
 
 def _r5_candidate_row(run: dict | None, label: str, gate_text: str, ev_file: str) -> str:
@@ -580,71 +644,92 @@ claim.</p>""")
 
 
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
-    release = read("evidence/current_release_review.json", {}) or {}
-    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
-        rel = "downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
-        artifact = ROOT / "docs" / rel
-        download = (f'<a href="{esc(rel)}">Download the existing TIFF for audit/education only</a>'
-                    if artifact.is_file() else "The historical artifact is not present in this checkout.")
-        return f"""<h2>Submission status — no upload authorized</h2>
-<div class=dl style="border:3px solid #b91c1c"><h2>DO NOT SUBMIT</h2>
-<p>{download}. Its GeoTIFF bytes pass standalone range and metadata checks; however, the method lane for this session is missing, the historic holdout used a full-catalogue B=2 exclusion, and the current review could not reproduce the competition-template comparison.</p>
-<p>Do not use a weekly submission slot. The page will show upload instructions only after a future, lane-authorized experiment passes fold-local hide-and-recover, leakage, uniqueness and format gates and is separately selected.</p>
-<p><a href="research/repo-review-20261026.md">Current review and next steps</a> · <a href="../evidence/current_release_review.json">Machine-readable decision</a></p>
-</div>"""
-    note = esc((sub or {}).get("note", ""))
+    """How to submit, exactly — driven by registry/current_status.json (no hand-typed status)."""
+    st = read("registry/current_status.json") or {}
+    n = st.get("newest_unique", {})
+    ok_any = bool(st.get("any_file_ok_to_submit"))
+    fname = Path(n.get("file", f"{name}.tif")).name
+    note = n.get("note", (sub or {}).get("note", ""))
     fresh = esc(f"{name}-fresh")
-    _stem = name.split("-zeros")[0].split("-nan")[0]
-    _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
-    receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
-                    if _rec else '<span class=mut>not written in this checkout</span>')
-    return f"""<h2 style="margin-top:6px">Submission instructions &mdash; Step-by-Step Contest Guide</h2>
-{arena41_block()}
-{download_block(sub, name)}
-<div class=card><h3>1 · Download the validated file</h3>
-<p>Click the green <b>Download .TIF</b> button above (or download the <code>.zip</code> package).
-The file <code>{esc(name)}.tif</code> is pre-validated by automated 12-point checks:
-single-band float32, EPSG:32611 UTM Zone 11N, 100 m resolution, 3730&times;3292 shape.
-Receipt: {receipt_link}.</p></div>
-
-<div class=card><h3>2 · Upload to DrivenData &mdash; exact portal URL, file, and note</h3>
-<p class=mut>Direct portal link (open in new tab):</p>
+    decision = ('<p style="font-size:1.15em"><b style="color:#0a7d2c">&#9989; A file is cleared.</b> Use only the file '
+                'marked OK TO SUBMIT in the status card.</p>' if ok_any else
+                '<p style="font-size:1.15em"><b style="color:#b00020">&#128308; No upload authorized. DO NOT SUBMIT &mdash; do not '
+                'spend a weekly slot on any new file from this repository.</b> The steps below are the exact procedure '
+                'for the next file whose automated gates all pass.</p>')
+    return f"""<h2 style="margin-top:6px">Make a submission &mdash; executive summary (no upload authorized right now)</h2>
+<p class=mut>Release review: <a href="research/protocol-review-20261026.md">protocol audit</a> &middot;
+<a href="research/repo-review-20261026.md">repository review</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a></p>
+{current_status_block("")}
+<div class=card><h3>0 &middot; Decide (automated, no human inspection)</h3>
+{decision}
+<p class=mut>A file is OK to submit only if its run card shows every gate passed: leakage canary, a holdout win whose
+95&nbsp;% CI excludes zero, lane uniqueness against the registry (rank correlation &le; 0.90 and &le; 70&nbsp;% of dots
+within 3&nbsp;px of any registry raster), and the format validators. Weekly slots are capped by the DrivenData
+submission page (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); slot selection is a
+separate step.</p></div>
+<p><b>This page will show upload instructions only after a future, lane-authorized file passes every gate.</b> Until then the
+procedure below is reference material (inactive) &mdash; no upload authorized.</p>
+<details><summary><b>Reference: the exact procedure for a future authorized file (inactive)</b></summary>
+<div class=card><h3>1 &middot; Download</h3>
+<p>Use the <b><code>-zeros.tif</code></b> (or its <code>.zip</code>, which contains exactly one GeoTIFF). It is
+single-band float32, EPSG:32611, 100&nbsp;m, 3292&times;3730, the template&#x27;s exact geotransform, every pixel finite
+and in [0,&nbsp;1] (0 outside the footprint) &mdash; so it cannot trigger
+&ldquo;Predicted values must be in range [0,&nbsp;1]&rdquo;.</p></div>
+<div class=card><h3>2 &middot; Optional local check (20 s)</h3>
+<pre>git clone https://github.com/buffedlizard55-lab/GEMSDOE32 &amp;&amp; cd GEMSDOE32
+python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/restore_data.py --group core --target-dir .cache/gems_data
+PYTHONPATH=src .venv/bin/python scripts/check_submission.py docs/downloads/{esc(fname)} \\
+    --template .cache/gems_data/sample_submission.tif --strict-finite</pre>
+<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} is fully valid and ready for submission!</code>
+(format only &mdash; it is not a clearance).</p></div>
+<div class=card><h3>3 &middot; Upload on DrivenData</h3>
 <ol>
-<li><b>Portal Submission Page:</b>
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/" target="_blank">https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/</a>
-(Login with your DrivenData credentials).</li>
-<li><b>File to submit:</b> Click <i>Choose File</i> &rarr; select <code>{esc(name)}.tif</code> (or <code>{esc(name)}.zip</code>).</li>
-<li><b>Unique Submission Identifier:</b> <code>GEMSDOE32-R6-STEP-23FBBB51</code></li>
-<li><b>Note (optional):</b> Copy-paste this exact text into the field (fits within the portal character budget):<br>
-<code>{note}</code></li>
-<li>Click <b>Submit</b>. The verification engine evaluates your raster and posts your receipt and score.</li>
-</ol></div>
-
-<div class=card><h3>3 · Why this file avoids &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
-<p>Earlier submission attempts in this competition encountered the portal error:
-<code style="color:#b00020; font-weight:bold;">&ldquo;Predicted values must be in range [0, 1]&rdquo;</code>.
-Our forensic autopsy (<a href="research.html">docs/research/range-error-root-cause-2026-10-03.md</a>) diagnosed the two root causes:</p>
+<li>Open the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/">submissions page</a>
+(login required; competition home: <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/">DOE GEMS Prize</a>).</li>
+<li><em>File</em>: choose the cleared <code>-zeros.tif</code> (or <code>.zip</code>). The form accepts &ldquo;a single-band
+GeoTIFF (.tif) file, or a .zip file containing a single GeoTIFF&rdquo; matching the submission format&#x27;s CRS, shape and
+geotransform.</li>
+<li><em>Note (optional)</em>: paste the file&#x27;s note from its run card (&le; 140 characters, carries the unique content
+id). Example from the newest file: <code>{esc(note)}</code></li>
+<li>Submit, then record the score in <a href="../docs/score-ledger.csv">docs/score-ledger.csv</a> as
+ORGANIZER-CONFIRMED with the submission time.</li></ol></div>
+</details>
+<div class=card><h3>4 &middot; Know the two-round consequence before you click</h3>
+<p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
+before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
+from everyone's submissions. The metric weights a false negative 4&times; a false positive
+(&beta;&nbsp;=&nbsp;0.8 vs &alpha;&nbsp;=&nbsp;0.2) precisely to make novel-but-real predictions
+cheap. Consequences:</p>
 <ul>
-<li><b>Mechanism 1 &mdash; NaNs outside the footprint:</b> When predictions outside the active footprint are written as <code>NaN</code> (the published spec), Python/NumPy whole-array checks like <code>((pred >= 0) & (pred <= 1)).all()</code> return <code>False</code> because any comparison involving <code>NaN</code> evaluates to <code>False</code>.</li>
-<li><b>Mechanism 2 &mdash; Float32 sentinels:</b> In raw feature rasters (e.g. Band 6 <code>tc</code>), unmasked cells hold <code>-3.4028235e+38</code>, which is strictly less than 0.0.</li>
-</ul>
-<p><b>The Guaranteed Fix:</b> The downloaded <code>*-zeros.tif</code> file writes <b>0.0 outside the footprint</b> with <code>nodata=None</code>.
-All <b>12,279,160 / 12,279,160 cells are strictly finite floats in [0.0, 1.0]</b> with <b>0 NaNs anywhere in the raster</b>.
-This file is guaranteed to pass the DrivenData web form without triggering range errors.</p></div>
-
-<div class=card><h3>4 · Know the two-round scoring rules before submitting</h3>
-<p>The competition scores your submission <b>twice</b>: first against the existing known catalogue faults (masked during scoring), then in the final round against an expanded ground truth set that includes panel-verified discoveries. The metric weights false negatives 4&times; false positives (&beta;=0.8 vs &alpha;=0.2), rewarding genuinely new blind fault conduits.</p>
-<ul>
-<li>Weekly limit: 3 scored submissions per week;</li>
-<li>Exactly <b>one</b> final submission file is selected to represent your team in the final prize round;</li>
-<li>All emitted dots on catalogue faults are masked out by DrivenData (earning 0 credit while paying denominator penalties); our file places <b>0 dots on catalogue pixels</b> and enforces a <b>B=2 (200 m) exclusion buffer</b> to eliminate zero-credit waste.</li>
-</ul></div>
-{download_catalogue(fl, sub)}
-<div class=card><h3>5 · Keep the names unique</h3>
+<li>the weekly cap is whatever the DrivenData submission page displays (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); every scored upload spends one;</li>
+<li>exactly <b>one</b> file is selected for the final round and is scored in both rounds, so a file
+that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
+<li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
+than in round 1.</li></ul></div>
+<div class=card><h3>4 · If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>The form requires a single-band raster whose values are between 0 and 1. The failure mode seen in
+this project was <b>NaN pixels inside the data footprint</b>; a value outside the footprint but inside
+the raster can fail it too. Both files offered here are built so that <em>every pixel inside the
+footprint is finite and inside [0,&nbsp;1]</em>, and the difference between them is only what they
+write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload the zeros variant —
+identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
+inferred from the files and the observed error, not quoted from the platform
+(<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
+<div class=card><h3>5 &middot; If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
+<p>Root cause measured in <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause</a>:
+NaN or float32-sentinel pixels inside the scored footprint (3,061 footprint pixels are sentinel-valued in the feature
+raster). Every file published here is written by a fail-closed writer that refuses NaN, &plusmn;inf and out-of-range values,
+and the <code>-zeros</code> variant has no NaN anywhere. If you ever see the error, you uploaded a NaN-outside or a
+foreign file.</p></div>
+<div class=card><h3>6 &middot; Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
 (e.g. <code>{fresh}</code>) rather than overwriting the old one — the score ledger stays auditable.</p>
-</div>"""
+</div>
+<h2>All downloadable files (audit)</h2>
+{download_catalogue(fl, sub)}"""
 
 
 RESEARCH_NOTES = [
@@ -950,15 +1035,24 @@ def main() -> int:
     if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
+        _v = str(sub.get("verdict", ""))
+        _label = ("&#9989; OK TO SUBMIT" if sub.get("ok_to_submit") else
+                  "&#128992; EXPLORATION ONLY, NOT CLEARED" if _v.upper().startswith("EXPLORATION") else
+                  "&#9940; DO NOT SUBMIT")
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
-                f'&#11015; Download the registry-primary GeoTIFF (read its status first)</a>']
+                f'&#11015; ONE-CLICK: headline GeoTIFF &mdash; {_label} (read status)</a>',
+                '<a class="btn alt" href="index.html#status">status</a>']
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)
+    else:
+        # Fail closed: when nothing is authorized the page chrome carries the verdict, not a download.
+        dl_btn = ('<span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> '
+                  '<a class="btn alt" href="index.html#status">status &amp; audit downloads</a>')
 
     pages = {
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           overview(fl, sub, name), "index.html", dl_btn),
+                           current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
         "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
@@ -987,9 +1081,10 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
-{protocol_notice("docs/")}
-{arena41_block("docs/")}
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
+<h2>Historical record</h2>
+{arena41_block("docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the
 irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.html">how to submit, step by step &rarr;</a>
 &nbsp;·&nbsp; <a href="README.md">README</a> &nbsp;·&nbsp; <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">repository</a></div>
@@ -1014,6 +1109,7 @@ irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.
 <meta http-equiv=refresh content="0; url=docs/{target[0]}"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{esc(target[1])}</h1>
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>This page moved.</b> The parallel site layout was retired; the current page is
 <a href="docs/{target[0]}">{esc(target[1])} &rarr;</a>. &nbsp;&middot;&nbsp;
@@ -1030,6 +1126,7 @@ irregularity register &rarr;</a> &nbsp;·&nbsp; <a href="docs/executive-summary.
 <meta http-equiv=refresh content="0; url=docs/{fname}"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{esc(title)}</h1>
+{current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>Full page:</b> <a href="docs/{fname}">{esc(title)} &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>

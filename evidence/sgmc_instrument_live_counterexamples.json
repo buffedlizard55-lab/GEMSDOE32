@@ -1,0 +1,30 @@
+{
+ "instrument": "SGMC off-catalogue (>3 px), template evaluator",
+ "rows": {
+  "G29 sgmc-off-catalogue-44k (live 0.0512)": {
+   "sha256": "9b83158bde01cd5d42e38229d70d01e67cecd2514eeb5fa8d1f3ab6851469dad",
+   "dots": 44090,
+   "sgmc_off_dti": 0.5607092075056423,
+   "coverage": 0.5622287209048528
+  },
+  "G72 h72-1-sgmc-offcatalogue (live 0.0492)": {
+   "sha256": "650b5ad2273f3634c15c0a97840ce36056906d3a2cedb110a77f8708c6783966",
+   "dots": 27823,
+   "sgmc_off_dti": 0.64829799055322,
+   "coverage": 0.6163098434443887
+  },
+  "R6-1 stepprofile (unscored)": {
+   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+   "dots": 37654,
+   "sgmc_off_dti": 0.14189240581423146,
+   "coverage": 0.13290007723600336
+  },
+  "CHAMPION (live 0.2778)": {
+   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+   "dots": 37654,
+   "sgmc_off_dti": 0.09538611460482532,
+   "coverage": 0.0888193667711875
+  }
+ },
+ "reading": "Files that trace SGMC score far higher on this instrument than the champion yet scored ~0.05 live: the instrument does not predict live scores outside the champion family."
+}

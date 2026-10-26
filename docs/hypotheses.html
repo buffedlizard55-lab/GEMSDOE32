@@ -4,11 +4,16 @@
 <header class=top><div class=wrap>
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 <section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
-<h2>&#128308; DO NOT SUBMIT — current-session release gates are not satisfied</h2>
-<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Strict CRS/shape/transform and finite [0,1] validation passes against a hash-pinned owner mirror, but this does not authorize upload. The prior B=2 holdout used full-catalogue geometry before scoring. Also, 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold); pre-placement correlation against every registry raster remains incomplete. No submission slot was used.</p>
-<p><a href="research/protocol-review-20261026.md">Read the three-pass protocol audit</a> · <a href="research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="../evidence/current_release_review.json">machine-readable release decision</a></p>
-</section>
-<div class=dlbtn></div>
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload.</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated 2026-10-26T01:40:00Z.</p>
+<p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
+<a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="executive-summary.html">How a cleared file would be submitted</a></p></section>
+
+<div class=dlbtn><span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> <a class="btn alt" href="index.html#status">status &amp; audit downloads</a></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap><h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
@@ -121,7 +126,27 @@ the slot gate.</p>
 <td>B; a; n; d;  ; 1; 5;  ; (; d; e; p; t; h; _; t; o; _; b; a; s; e; _; s; u; r; f; ); ,;  ; B; a; n; d;  ; 1; 7;  ; (; c; o; n; d; _; s; u; r; f; ); ,;  ; B; a; n; d;  ; 6;  ; (; t; c;  ; r; a; d; i; o; m; e; t; r; i; c;  ; p; o; t; a; s; s; i; u; m; )</td><td>Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos</td>
 <td>Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp</td><td>Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field</td>
 <td>+0.005 to +0.012 HOLDOUT-DTI · cost low-medium (uses bands 6, 15, 17 in prepared stack) · data: obtainable and verified in data/</td>
-<td>registered</td></tr></table>
+<td>registered</td></tr><tr><td>1</td><td><b>H42-1</b><br>Hanging-wall conditional intensity (HWCI): P(new fault | distance, topographically signed side, strike alignment to the nearest visible trace, local scarp evidence)</td>
+<td>visible catalogue geometry; band 12 det_elev (smoothed, side sign); band 19 slope; lidar scarp bands 1-10, 12; bands 2/3/5/13/15/17; cached curvature/ridge/top-hat/coherence channels</td><td>LOQO HistGradientBoosting on evidence + visible-network relational features + side; E[k] tile emission, B=2 from visible</td>
+<td>synthetic/antithetic splays and basinward-stepping piedmont scarps form on the down-thrown side at 0.3-3 km</td><td>57GEMSDOE &#x27;side&#x27; is left/right of an arbitrary strike vector; H19 L1/GEMSDOE33 are along-strike lobes; H37-1 shifted the same dots down-dip</td>
+<td>+0.000..+0.015 (pre-registered, wide) · cost medium · data: all inputs restored and hash-verified</td>
+<td>measured (NEGATIVE - lane duplicate; worse than random off-catalogue)</td></tr><tr><td>2</td><td><b>H42-2</b><br>Lahontan isobath suppression of shoreline mimics</td>
+<td>absolute DEM: USGS 3DEP 1 arc-second (public domain)</td><td>drop lineaments whose along-strike elevation range &lt; ~3 m below the ~1318-1340 m highstand</td>
+<td>removes the main named mimic of lidar scarp detectors in the Lahontan basins (precision lever)</td><td>no contour-parallelism discriminator exists; 62GEMSDOE used the highstand as a datum-offset gauge (owner-reported 0.0000)</td>
+<td>precision-only, unknown · cost high (needs a GitHub-hosted runner to fetch 3DEP) · data: not in restored data; USGS hosts unreachable from this sandbox</td>
+<td>registered (data-blocked in this sandbox)</td></tr><tr><td>3</td><td><b>H42-3</b><br>Playa-floor dead zone</td>
+<td>band 19 slope; lidar relief; band 17 conductivity</td><td>flat, conductive lacustrine floors where scarps are not preserved</td>
+<td>precision: experts cannot map what the surface does not preserve</td><td>not used as an explicit mask before</td>
+<td>small · cost low · data: available</td>
+<td>registered (subsumed by H42-1 inputs)</td></tr><tr><td>4</td><td><b>H42-4</b><br>Anthropogenic-corridor suppression (roads/rail)</td>
+<td>TIGER/Line road distance (GEMSDOE24 audit source)</td><td>road/rail cuts and fills mimic scarps</td>
+<td>precision</td><td>GEMSDOE24 used roads as a nuisance (C2ST) audit</td>
+<td>small · cost low · data: available in GEMSDOE24</td>
+<td>registered (partially tried elsewhere)</td></tr><tr><td>5</td><td><b>H42-5</b><br>Relocated-seismicity lineaments</td>
+<td>USGS ComCat FDSN</td><td>microseismic planes</td>
+<td>sub-surface faults without scarps</td><td>not new; listed for completeness</td>
+<td>low at 300 m tolerance · cost high · data: unreachable from this sandbox</td>
+<td>registered (previously proposed as H33-E/H-F4; data-blocked)</td></tr></table>
 <h2>Promotion rules (preregistered)</h2>
 <ol>
 <li>every hypothesis is registered with its layers, signature, novelty and data status before it is
@@ -147,7 +172,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 00:48 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 00:59 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

@@ -1,0 +1,576 @@
+{
+ "hypothesis": "H42-1 hanging-wall conditional intensity (HWCI) \u2014 P(new fault | distance, topographically signed side, strike alignment to the nearest visible trace, local scarp evidence), fitted by fault-component hide-and-recover.",
+ "mechanism": "Synthetic/antithetic hanging-wall splays and basinward-stepping piedmont scarps form on the down-thrown side of mapped normal faults at 0.3-3 km; the side is signed by smoothed det_elev relative to the nearest visible trace (no dip attribute needed).",
+ "non_fault_mimic": "Pluvial Lake Lahontan shorelines and fan-toe/terrace risers: level, scarp-like steps that lie on the same (basinward) side the hypothesis favours; not separable without absolute elevation.",
+ "holdout": {
+  "HWCI": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "dti": 0.15291794956365676,
+   "ci95": [
+    0.1399617592695118,
+    0.16740642698095798
+   ],
+   "withheld_positive_pixels": 22893
+  },
+  "SYM": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "dti": 0.14788715218356657,
+   "ci95": [
+    0.13490073232858454,
+    0.161239262376026
+   ],
+   "withheld_positive_pixels": 22893
+  },
+  "EVID": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "dti": 0.06378001366447908,
+   "ci95": [
+    0.05397098822195809,
+    0.07428809435425154
+   ],
+   "withheld_positive_pixels": 22893
+  },
+  "CHAMP_RECIPE": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "dti": 0.10564450185732029,
+   "ci95": [
+    0.09357426551429845,
+    0.1166185988408001
+   ],
+   "withheld_positive_pixels": 22893
+  }
+ },
+ "paired_differences_vs_HWCI": {
+  "SYM": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "delta": 0.005030797380090185,
+   "ci95": [
+    0.0006276009145571047,
+    0.009928463981521899
+   ],
+   "withheld_positive_pixels": 22893
+  },
+  "EVID": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "delta": 0.08913793589917768,
+   "ci95": [
+    0.07715991642371046,
+    0.10192470573613772
+   ],
+   "withheld_positive_pixels": 22893
+  },
+  "CHAMP_RECIPE": {
+   "evidence_class": "HOLDOUT-DTI",
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "delta": 0.04727344770633647,
+   "ci95": [
+    0.033806868778040504,
+    0.06100744130184979
+   ],
+   "withheld_positive_pixels": 22893
+  }
+ },
+ "canary": {
+  "passed": true,
+  "worst_feature": "d_perp",
+  "worst_cell_auc": 0.8268357982319292
+ },
+ "correlation_overlap_vs_registry": {
+  "surface": {
+   "phase": "surface-before-placement",
+   "seconds": 121.6,
+   "registry_rasters": 205,
+   "errors": 0,
+   "worst_spearman": 0.1272217436222412,
+   "worst_spearman_submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+   "worst_dot_overlap_literal": 0.9987132726822701,
+   "worst_overlap_submission_literal": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+   "literal": {
+    "worst_spearman_full_footprint": 0.1272217436222412,
+    "worst_spearman_submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+    "worst_forward_overlap": 0.9987132726822701,
+    "worst_overlap_submission": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "forward_overlap_firings": 1,
+    "rho_firings": 0,
+    "duplicate": true,
+    "note": "Keeps the inherited literal support definition. A continuous-surface prior fires on every nonempty candidate, so a firing here is not evidence of duplication; it is reported for completeness."
+   },
+   "like_for_like": {
+    "dot_field_rasters": 205,
+    "continuous_surface_rasters": 0,
+    "worst_forward_overlap_dot_fields": 0.9987132726822701,
+    "worst_forward_overlap_dot_field_submission": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "worst_reverse_overlap": 1.0,
+    "worst_reverse_overlap_submission": "GEMSDOE24:docs/downloads/24gems-doer-fault-guided-k-20261025T220208Z-dedb860f7e83-zeros.tif",
+    "worst_jaccard": 0.04940402018588556,
+    "worst_jaccard_submission": "GEMSDOE31:docs/downloads/gems31-tgj31-transfer-20261025-8d912b23db-DO-NOT-SUBMIT.tif",
+    "forward_overlap_firings": 1,
+    "duplicate": true,
+    "note": "Inherited thresholds, applied to dot fields only; rank correlation still applies to every raster including the continuous surfaces."
+   },
+   "top_overlap_rows": [
+    {
+     "repo": "GEMSDOE24",
+     "submission": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+     "their_dots": 206895,
+     "my_dots_within_3px_of_theirs": 0.9987132726822701,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.0001602263629854065,
+     "jaccard_dot_sets": 0.04003871986790967
+    },
+    {
+     "repo": "GEMSDOE30",
+     "submission": "GEMSDOE30:docs/downloads/gemsdoe30-sgmc-hedge-d10-85k-20261003-ac08b41e-zeros.tif",
+     "their_dots": 85526,
+     "my_dots_within_3px_of_theirs": 0.3188835023134579,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.055142875540006235,
+     "jaccard_dot_sets": 0.01655115665155196
+    },
+    {
+     "repo": "GEMSDOE30",
+     "submission": "GEMSDOE30:docs/downloads/gemsdoe30-sgmc-hedge-d10-85k-20261003-ac08b41e.tif",
+     "their_dots": 85526,
+     "my_dots_within_3px_of_theirs": 0.3188835023134579,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.055142875540006235,
+     "jaccard_dot_sets": 0.01655115665155196
+    },
+    {
+     "repo": "GEMSDOE30",
+     "submission": "GEMSDOE30:docs/downloads/gemsdoe30-h3a-residual-ridge-gate-p400-7a88865b-nan.tif",
+     "their_dots": 78256,
+     "my_dots_within_3px_of_theirs": 0.29108891500574857,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.04172456676297552,
+     "jaccard_dot_sets": 0.015144252214810118
+    },
+    {
+     "repo": "GEMSDOE24",
+     "submission": "GEMSDOE24:inputs/calibration/8GEMSDOE_Hedge-v2_submission.tif",
+     "their_dots": 227507,
+     "my_dots_within_3px_of_theirs": 0.2835643952933144,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": -0.02830827142873411,
+     "jaccard_dot_sets": 0.04402759390506549
+    },
+    {
+     "repo": "GEMSDOE24",
+     "submission": "GEMSDOE24:inputs/calibration/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+     "their_dots": 69281,
+     "my_dots_within_3px_of_theirs": 0.27203532626733157,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.0403293510925526,
+     "jaccard_dot_sets": 0.01340739288609512
+    },
+    {
+     "repo": "GEMSDOE30",
+     "submission": "GEMSDOE30:docs/downloads/gemsdoe30-edge-hybrid-80k-02845bd4-20261003T234340Z-allfinite.tif",
+     "their_dots": 80000,
+     "my_dots_within_3px_of_theirs": 0.26723791760339344,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.009419219999724605,
+     "jaccard_dot_sets": 0.015481754462083538
+    },
+    {
+     "repo": "GEMSDOE30",
+     "submission": "GEMSDOE30:docs/downloads/gemsdoe30-edge-hybrid-80k-02845bd4-nan.tif",
+     "their_dots": 80000,
+     "my_dots_within_3px_of_theirs": 0.26723791760339344,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.009419219999724605,
+     "jaccard_dot_sets": 0.015481754462083538
+    }
+   ],
+   "top_rho_rows": [
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+     "their_dots": 54472,
+     "my_dots_within_3px_of_theirs": 0.18859970046675553,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.1272217436222412,
+     "jaccard_dot_sets": 0.01054152661323268
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-zeros.tif",
+     "their_dots": 54472,
+     "my_dots_within_3px_of_theirs": 0.18859970046675553,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.1272217436222412,
+     "jaccard_dot_sets": 0.01054152661323268
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-1-flank-subscarp-sapd24-20261025-40bfe1d5b1c5-nan.tif",
+     "their_dots": 49041,
+     "my_dots_within_3px_of_theirs": 0.18772227203261696,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.11294515635299235,
+     "jaccard_dot_sets": 0.009490509007187986
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-1-flank-subscarp-sapd24-20261025-40bfe1d5b1c5-zeros.tif",
+     "their_dots": 49041,
+     "my_dots_within_3px_of_theirs": 0.18772227203261696,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.11294515635299235,
+     "jaccard_dot_sets": 0.009490509007187986
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-control-sapd2-4-k3p5-bde7-20261025-9edd6bed8268-nan.tif",
+     "their_dots": 48714,
+     "my_dots_within_3px_of_theirs": 0.1855943048818036,
+     "their_dots_within_3px_of_mine": 1.0,
+     "spearman_full_footprint": 0.11060841744642094,
+     "jaccard_dot_sets": 0.009427227335824219
+    }
+   ],
+   "duplicate": true
+  },
+  "final": {
+   "phase": "final-dots",
+   "seconds": 115.1,
+   "registry_rasters": 205,
+   "errors": 0,
+   "worst_spearman": 0.05937527417557765,
+   "worst_spearman_submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+   "worst_dot_overlap_literal": 0.9982471981728369,
+   "worst_overlap_submission_literal": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+   "literal": {
+    "worst_spearman_full_footprint": 0.05937527417557765,
+    "worst_spearman_submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+    "worst_forward_overlap": 0.9982471981728369,
+    "worst_overlap_submission": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "forward_overlap_firings": 22,
+    "rho_firings": 0,
+    "duplicate": true,
+    "note": "Keeps the inherited literal support definition. A continuous-surface prior fires on every nonempty candidate, so a firing here is not evidence of duplication; it is reported for completeness."
+   },
+   "like_for_like": {
+    "dot_field_rasters": 205,
+    "continuous_surface_rasters": 0,
+    "worst_forward_overlap_dot_fields": 0.9982471981728369,
+    "worst_forward_overlap_dot_field_submission": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+    "worst_reverse_overlap": 0.41118548810856503,
+    "worst_reverse_overlap_submission": "GEMSDOE25:docs/downloads/gems25-h31-aniso-scarp-b2-d2-8-20261025-c213681203f6-nan.tif",
+    "worst_jaccard": 0.03437977184945657,
+    "worst_jaccard_submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+    "forward_overlap_firings": 22,
+    "duplicate": true,
+    "note": "Inherited thresholds, applied to dot fields only; rank correlation still applies to every raster including the continuous surfaces."
+   },
+   "top_overlap_rows": [
+    {
+     "repo": "GEMSDOE24",
+     "submission": "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+     "their_dots": 206895,
+     "my_dots_within_3px_of_theirs": 0.9982471981728369,
+     "their_dots_within_3px_of_mine": 0.07939292878029919,
+     "spearman_full_footprint": -0.00019286719207698983,
+     "jaccard_dot_sets": 0.0061343383060833215
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+     "their_dots": 54472,
+     "my_dots_within_3px_of_theirs": 0.8192223933712222,
+     "their_dots_within_3px_of_mine": 0.3936150682919665,
+     "spearman_full_footprint": 0.05937527417557765,
+     "jaccard_dot_sets": 0.03437977184945657
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-zeros.tif",
+     "their_dots": 54472,
+     "my_dots_within_3px_of_theirs": 0.8192223933712222,
+     "their_dots_within_3px_of_mine": 0.3936150682919665,
+     "spearman_full_footprint": 0.05937527417557765,
+     "jaccard_dot_sets": 0.03437977184945657
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-mscr-multiscale-crest-sapd2-4-k3p5-20261025-dd2bb4b09cd2-nan.tif",
+     "their_dots": 48442,
+     "my_dots_within_3px_of_theirs": 0.807218356615499,
+     "their_dots_within_3px_of_mine": 0.36922505264027083,
+     "spearman_full_footprint": 0.04686831291216856,
+     "jaccard_dot_sets": 0.027913751522242652
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-mscr-multiscale-crest-sapd2-4-k3p5-20261025-dd2bb4b09cd2-zeros.tif",
+     "their_dots": 48442,
+     "my_dots_within_3px_of_theirs": 0.807218356615499,
+     "their_dots_within_3px_of_mine": 0.36922505264027083,
+     "spearman_full_footprint": 0.04686831291216856,
+     "jaccard_dot_sets": 0.027913751522242652
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-aniso-scarp-b2-d2-8-20261025-c213681203f6-nan.tif",
+     "their_dots": 43771,
+     "my_dots_within_3px_of_theirs": 0.8071652414086153,
+     "their_dots_within_3px_of_mine": 0.41118548810856503,
+     "spearman_full_footprint": 0.05536692426478798,
+     "jaccard_dot_sets": 0.03231654749226634
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-aniso-scarp-b2-d2-8-20261025-c213681203f6-zeros.tif",
+     "their_dots": 43771,
+     "my_dots_within_3px_of_theirs": 0.8071652414086153,
+     "their_dots_within_3px_of_mine": 0.41118548810856503,
+     "spearman_full_footprint": 0.05536692426478798,
+     "jaccard_dot_sets": 0.03231654749226634
+    },
+    {
+     "repo": "GEMSDOE24",
+     "submission": "GEMSDOE24:inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+     "their_dots": 174232,
+     "my_dots_within_3px_of_theirs": 0.8038455409783821,
+     "their_dots_within_3px_of_mine": 0.253173929014188,
+     "spearman_full_footprint": 0.049772217193088934,
+     "jaccard_dot_sets": 0.02524822420500513
+    }
+   ],
+   "top_rho_rows": [
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+     "their_dots": 54472,
+     "my_dots_within_3px_of_theirs": 0.8192223933712222,
+     "their_dots_within_3px_of_mine": 0.3936150682919665,
+     "spearman_full_footprint": 0.05937527417557765,
+     "jaccard_dot_sets": 0.03437977184945657
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-zeros.tif",
+     "their_dots": 54472,
+     "my_dots_within_3px_of_theirs": 0.8192223933712222,
+     "their_dots_within_3px_of_mine": 0.3936150682919665,
+     "spearman_full_footprint": 0.05937527417557765,
+     "jaccard_dot_sets": 0.03437977184945657
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-aniso-scarp-b2-d2-8-20261025-c213681203f6-nan.tif",
+     "their_dots": 43771,
+     "my_dots_within_3px_of_theirs": 0.8071652414086153,
+     "their_dots_within_3px_of_mine": 0.41118548810856503,
+     "spearman_full_footprint": 0.05536692426478798,
+     "jaccard_dot_sets": 0.03231654749226634
+    },
+    {
+     "repo": "GEMSDOE25",
+     "submission": "GEMSDOE25:docs/downloads/gems25-h31-aniso-scarp-b2-d2-8-20261025-c213681203f6-zeros.tif",
+     "their_dots": 43771,
+     "my_dots_within_3px_of_theirs": 0.8071652414086153,
+     "their_dots_within_3px_of_mine": 0.41118548810856503,
+     "spearman_full_footprint": 0.05536692426478798,
+     "jaccard_dot_sets": 0.03231654749226634
+    },
+    {
+     "repo": "GEMSDOE30",
+     "submission": "GEMSDOE30:docs/downloads/gemsdoe30-g30s20-disc-60000dots-20261025T224159Z-24de17a6fa-nan.tif",
+     "their_dots": 60000,
+     "my_dots_within_3px_of_theirs": 0.6275030541243958,
+     "their_dots_within_3px_of_mine": 0.39931666666666665,
+     "spearman_full_footprint": 0.05192591643585129,
+     "jaccard_dot_sets": 0.030409825686911748
+    }
+   ],
+   "duplicate": true
+  }
+ },
+ "raster_sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
+ "validator_output": {
+  "template_writer": {
+   "file": "/home/user/GEMSDOE32/docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
+   "bytes": 121893,
+   "sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
+   "meta": {
+    "crs": "EPSG:32611",
+    "shape": [
+     3730,
+     3292
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null,
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "profile_compress": "deflate"
+   },
+   "band_description": [
+    null
+   ],
+   "n_finite": 12279160,
+   "n_nan": 0,
+   "n_infinite": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "mean": 0.0030664964579045773,
+   "emitted_positive_pixels": 37654,
+   "checks": {
+    "single_band": true,
+    "dtype_float32": true,
+    "dimensions_3730x3292": true,
+    "crs_epsg_32611": true,
+    "transform_matches_sample_submission": true,
+    "no_nan_anywhere": true,
+    "no_inf_anywhere": true,
+    "no_sentinel_values": true,
+    "range_0_1_guaranteed": true,
+    "min_ge_0": true,
+    "max_le_1": true,
+    "in_footprint_all_finite": true,
+    "in_footprint_range_0_1": true,
+    "outside_footprint_zero": true,
+    "zero_dots_on_mapped_catalogue": true
+   },
+   "all_checks_passed": true,
+   "validation_class": "local format/range preflight; not organizer acceptance or uniqueness clearance",
+   "on_catalogue_positive_pixels": 0,
+   "in_footprint_positive_pixels": 37654,
+   "footprint_fraction": 0.007286874781441169
+  },
+  "template_report_ok": true,
+  "check_submission_exit": 0,
+  "check_submission_tail": "[PASSED] gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif is fully valid and ready for submission!"
+ },
+ "submission_name": "gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros",
+ "note": "GEMSDOE32 H42 hanging-wall HWCI 37654 dots B2 | HOLDOUT 0.1529 | id b91008fa | research only",
+ "gates": {
+  "G1_canary": true,
+  "G2_hypothesis_side_signal": true,
+  "G3_beats_champion_recipe": true,
+  "G4_lane_unique": false,
+  "G5_format": true
+ },
+ "verdict_reasons": [
+  "G4 lane gate FAILED on the final dots: 21 registry rasters beyond the space-filling lattice have > 70 % of H42 dots within 3 px (worst GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif), i.e. H42's near-network placement zone is already occupied by GEMSDOE25's lane.",
+  "Diagnostic D4 (reported, not a gate): on the independent SGMC off-catalogue instrument the H42 raster scores 0.0545 vs champion 0.0954 vs random dots 0.0709 (gems57-pooled-hide-v2, paired CIs exclude 0) - the catalogue-hidden gain does not transfer to off-catalogue faults."
+ ],
+ "diagnostics_post_run": {
+  "D4_independent_sgmc_off_catalogue": {
+   "truth_pixels": 62122,
+   "evaluator_version": "gems57-pooled-hide-v2",
+   "scores": {
+    "H42_HWCI_final": {
+     "dti": 0.05447094010898104,
+     "ci95": [
+      0.04633382983879226,
+      0.06355989795662013
+     ]
+    },
+    "CHAMPION_0.2778": {
+     "dti": 0.09538611460482535,
+     "ci95": [
+      0.0841102079816557,
+      0.10658875716107591
+     ]
+    },
+    "RANDOM_37654": {
+     "dti": 0.07091178803165195,
+     "ci95": [
+      0.067825478716518,
+      0.07417224131421848
+     ]
+    }
+   },
+   "paired_vs_H42": {
+    "CHAMPION_0.2778": {
+     "delta": -0.04091517449584431,
+     "ci95": [
+      -0.04970274587142784,
+      -0.031868468242845505
+     ]
+    },
+    "RANDOM_37654": {
+     "delta": -0.016440847922670906,
+     "ci95": [
+      -0.026066256406298453,
+      -0.006519388209340283
+     ]
+    }
+   },
+   "reading": "H42 final raster is below the champion AND below random dots on off-catalogue truth: the catalogue-hidden gain is a gap-filling artefact of the instrument, not transferable skill."
+  },
+  "D2_band_matched_null": {
+   "fired_excluding_space_filling": 21,
+   "worst": {
+    "submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+    "their_dots": 54472,
+    "h42_overlap": 0.8192223933712222,
+    "band_null_overlap": 0.5728740638444787,
+    "random_null_overlap": 0.1861688001274765,
+    "champion_overlap": 0.3864662452860254,
+    "coverage": 0.18859970046675553
+   }
+  },
+  "D1_space_filling": {
+   "GEMSDOE24:inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif": {
+    "coverage": 0.9987132726822701,
+    "random_dots_overlap": 0.9986986774313485,
+    "champion_overlap": 0.9991501566898603
+   }
+  },
+  "D3_surface_corrected": {
+   "worst_spearman": 0.1272217436222412,
+   "worst_spearman_submission": "GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif",
+   "top_k": 37654,
+   "worst_topk_overlap_informative": 0.8767461624263027,
+   "worst_topk_overlap_submission": "GEMSDOE24:inputs/calibration/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+   "surface_duplicate_corrected": true
+  },
+  "D5_fragment_geometry": {
+   "question": "How close are withheld components to the visible catalogue (the gap-filling mechanism)?",
+   "per_draw": {
+    "20": {
+     "hidden_components": 606,
+     "comp_nearest_visible_median_px": 3.605551275463989,
+     "comp_within_6px": 0.7524752475247525,
+     "comp_within_10px": 0.8828382838283828,
+     "hidden_pixel_dist_median_px": 9.055385138137417,
+     "random_pixel_dist_median_px": 25.612496949731394
+    },
+    "21": {
+     "hidden_components": 578,
+     "comp_nearest_visible_median_px": 3.605551275463989,
+     "comp_within_6px": 0.7525951557093425,
+     "comp_within_10px": 0.8754325259515571,
+     "hidden_pixel_dist_median_px": 9.848857801796104,
+     "random_pixel_dist_median_px": 26.30589287593181
+    }
+   }
+  }
+ },
+ "verdict": "negative",
+ "ok_to_submit": false,
+ "organizer_confirmed_score": null,
+ "submission_slots_used": 0,
+ "experiments_run": 1,
+ "deviations": [
+  "Surface phase: run_h42.py passed the continuous surface to the dot-overlap test, so every footprint pixel counted as a 'dot'; that statistic is geometrically guaranteed to fire against any <=4-px lattice raster. Reported as D3 with the corrected statistic. G4 is decided by the FINAL-DOT literal rule, which is unaffected.",
+  "Registry scope: 205 unique on-grid rasters from 9 focus repositories at pinned refs (1 off-grid format test excluded); not every GEMSDOE repository.",
+  "Strict protocol reading: under the corrected surface statistic (D3, top-k support overlap 0.877) the lane would have stopped before dot placement; the final file is published only as a DO-NOT-SUBMIT research artifact."
+ ],
+ "elapsed_seconds": 787.9
+}

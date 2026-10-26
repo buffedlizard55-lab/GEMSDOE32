@@ -1,0 +1,98 @@
+{
+ "instrument": "SGMC off-catalogue (>3 px), template gems57 pooled evaluator",
+ "truth_px": 62122,
+ "summary": {
+  "evidence_class": "HOLDOUT-DTI",
+  "evaluator_version": "gems57-pooled-hide-v2",
+  "alpha": 0.2,
+  "beta": 0.8,
+  "triangular_radius_m": 300.0,
+  "pooled": true,
+  "scores": {
+   "R6-1": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.14189240581423165,
+    "ci95": [
+     0.12579361117819057,
+     0.15671766383091262
+    ],
+    "withheld_positive_pixels": 62122,
+    "tpw": 8256.018598055018,
+    "fpw": 34181.29733689206,
+    "fnw": 53865.98140194502
+   },
+   "CHAMPION": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.09538611460482535,
+    "ci95": [
+     0.08460345179352395,
+     0.10642163221165662
+    ],
+    "withheld_positive_pixels": 62122,
+    "tpw": 5517.636702559715,
+    "fpw": 35220.77352594684,
+    "fnw": 56604.363297440315
+   },
+   "RANDOM": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "dti": 0.0702272786944852,
+    "ci95": [
+     0.06719995713529545,
+     0.07331476210674005
+    ],
+    "withheld_positive_pixels": 62122,
+    "tpw": 4054.2241384547738,
+    "fpw": 36108.01361973584,
+    "fnw": 58067.77586154523
+   }
+  },
+  "best_comparable_control": "CHAMPION",
+  "paired_differences": {
+   "CHAMPION": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "delta": 0.0465062912094063,
+    "ci95": [
+     0.025520025984086866,
+     0.06806376328493448
+    ],
+    "withheld_positive_pixels": 62122
+   },
+   "RANDOM": {
+    "evidence_class": "HOLDOUT-DTI",
+    "evaluator_version": "gems57-pooled-hide-v2",
+    "delta": 0.07166512711974646,
+    "ci95": [
+     0.05608765980997078,
+     0.08666537227261784
+    ],
+    "withheld_positive_pixels": 62122
+   }
+  },
+  "bootstrap": {
+   "method": "paired physical spatial-cluster percentile",
+   "clusters": 162,
+   "draws": 1000,
+   "seed": 520810,
+   "confidence": 0.95,
+   "caveat": "Conditional on fitted folds, catalogue labels and fixed budgets; not a leaderboard interval."
+  },
+  "implementation_sha256": {
+   "evaluate_holdout.py": "ad86640b46f3c5fc6b1aceec4c4bfc82d03e35008b37ab2a8ad6076e6810ff3a",
+   "holdout.py": "7a0a84176986190b527aa9c6a84216c2dab4b599f25b1143db5f420e85020ab1",
+   "metric.py": "4afe10cbaa229948520c75194b1ebc32676e72544f05582f0725092b097b4d7f",
+   "spatial.py": "fad7b09db9efc512247b9a176a7e7ce8631e287592b4e07902d0b9c38bed00f8"
+  }
+ },
+ "registry": {
+  "n": 205,
+  "worst_informative_overlap": 0.4136346736070537,
+  "worst_informative": "GEMSDOE32:docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+  "firings_excl_lattice": 0,
+  "max_spearman": 0.016282134936180588,
+  "max_spearman_raster": "GEMSDOE31:docs/downloads/gemsdoe31-h31b-scarp-hessian-20261025-37654-allfinite.tif"
+ }
+}
