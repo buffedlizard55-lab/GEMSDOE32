@@ -29,6 +29,8 @@
 
 ## 0. Standing starting point (2026-10-26)
 
+**Latest repository audit (2026-10-26):** [`docs/research/repo-review-20261026.md`](docs/research/repo-review-20261026.md). The full suite currently reports 142 passed, 5 failed, 10 skipped; the failures are stale candidate projections and literal NaN rendering. No new file is authorized for submission.
+
 **The standing prompt** is recorded verbatim (as supplied) at [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). It is the starting point for every session. Note: the protocol's lane paragraph is absent from that prompt, so the lane is provisional ([`IR-45-LANE-01`](registry/irregularities.json)).
 
 **Focal values:** *Maximize P(Win)* and *Own the Outcome* (see [Arena Core Values](#arena-core-values) below). In practice this session: no file was cleared for upload and no weekly slot was spent, because none beat the holdout bar under one evaluator with a passing uniqueness gate.
