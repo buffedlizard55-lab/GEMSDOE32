@@ -7,8 +7,6 @@
 
 **Latest ARENA49-PCG artifact (`ARENA49-H1-PCG`, genuine-unique):** [`gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif`](docs/downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif) · [ZIP](docs/downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.zip) · [run card](evidence/arena49_pcg_run_card.json) · [prereg](docs/research/arena49-pc-preregistration-20261026.md) · [results + nine-site table](docs/research/arena49-results-and-nine-site-executive-summary-20261026.md). **DOWNLOAD: YES (audit) · SUBMIT: NO YET** (selector + lattice disposition; shared `promotion_decision=promote`, release verdict `negative`). SHA-256 `93c21c4c…f0f`, `35,487` dots, 0 on-catalogue. HOLDOUT-DTI `0.02826 [0.02234, 0.03386]` (flat-mask, 22,232 withheld; not the 0.09920 callable number, not a live projection); SGMC-cal `0.07033 > 0.06412` champion; genuine-unique 43.09% max 3-px, |ρ| 0.0664; literal lattice 1.000 fail-closed. Name `GEMSDOE32-ARENA49-PCG-54E97629`. 0 slots used.
 
-**ARENA48 JXSTEP (parallel, `negative`):** [card](evidence/arena48_jxstep_run_card.json).
-
 **Prior:** H50 ([card](evidence/h50_tmspi_run_card.json)), ARENA47 below — all 🔴 DO NOT SUBMIT.
 
 **Standing prompt (read every session):** [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). Lane this session: `ARENA49-H1-PCG` (IR-ARENA49-LANE-01). See the [repository review](docs/research/repository-review-20261026.md).
