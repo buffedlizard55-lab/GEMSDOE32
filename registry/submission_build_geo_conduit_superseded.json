@@ -1,0 +1,53 @@
+{
+ "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
+ "note": "GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]",
+ "status_line": "PRIMARY = GEMSDOE32-GEO-CONDUIT-2D0D0C5E (20261025T2): Geothermal Dilational Conduit & Step-Over Bridge, 37654 dots, 0 on catalogue, B=2 exclusion, HOLDOUT-DTI 0.0461, SGMC-cal 0.0462. OK TO DOWNLOAD AND SUBMIT.",
+ "file": {
+  "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+  "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+  "bytes": 279680,
+  "positive_px": 37654
+ },
+ "file_zeros": {
+  "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+  "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+  "bytes": 279680
+ },
+ "zip": {
+  "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.zip",
+  "sha256": "126a1f8fd99a97a4ce05c29c3999f34459f11eb332c6dd80cc8d2c1d3d5ffc12",
+  "bytes": 201576
+ },
+ "candidate_id": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E",
+ "tier": 1,
+ "hypothesis": "H-GEO-CONDUIT",
+ "verdict": "promote",
+ "ok_to_submit": true,
+ "on_catalogue_pixels": 0,
+ "catalogue_hidden_mean": 0.007448772962276978,
+ "drift_corrected_holdout_mean": 0.046094324290325346,
+ "sgmc_prevalence_calibrated_dti": 0.04617274804705923,
+ "anchor": {
+  "role": "ANCHOR -- champion comparison",
+  "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+  "note": "0.2778 scored champion (already submitted; do not resubmit)"
+ },
+ "pack": [
+  {
+   "role": "NaN-outside twin of the primary",
+   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif",
+   "sha256": "2ba153e5d86e32745aa0014757d44cc829def41ce8b4a3b3be86b953cc23fee4",
+   "bytes": 332712,
+   "positive_px": 37654,
+   "note": "spec format (identical values inside footprint)"
+  },
+  {
+   "role": "HISTORICAL CHAMPION (already submitted)",
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+   "bytes": 219065,
+   "positive_px": 37654,
+   "note": "0.2778 organizer-confirmed score (for comparison/study only)"
+  }
+ ]
+}

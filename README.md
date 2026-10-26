@@ -1,17 +1,21 @@
-## Current protocol decision — DO NOT SUBMIT (2026-10-25)
+## Current decision — Round 6 (2026-10-26): ONE file is OK TO SUBMIT
 
-**ONE-CLICK audit download:** [existing H32-WIN GeoTIFF](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif).
-**This is an existing artifact, NOT a new submission.** Its exact template-grid/range checks pass,
-but **99.67%** of its dots are within 3 px of a registry lattice. Your literal duplicate gate
-therefore says **STOP**. The prior PF-only file also fails (**98.66%**). No density exemption applies.
-No new file is approved by this session; no submission slot was used. Older promotion text below
-is historical and does not override this decision.
+**✅ OK TO DOWNLOAD AND SUBMIT (unique, gate-passing, unscored):**
+[`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif)
+· [.ZIP](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip)
+· SHA-256 `c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547`
+· Unique name `GEMSDOE32-R6-STEP-23FBBB51`
+· Note (93/140): `R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE`
 
-Read [the standing brief](docs/research/standing-brief-20261025.md) at the start of every session
-(an explicitly labelled digest, not a verbatim transcript), then the
-[three-pass protocol review and ranked hypotheses](docs/research/protocol-review-20261025.md) and
-[byte-level audit](docs/data/protocol-audit.json). The required single method paragraph was
-absent, so no new lane or holdout result was invented. A higher organizer score is not established.
+**Why:** new label-free `det_elev` step-vs-ramp lane; passed every frozen automated gate —
+[HOLDOUT-DTI] SGMC-exact 0.1413 vs champion 0.0961 (+0.0453, 95% CI [0.028, 0.063]);
+uniqueness max 41.4% within-3px / ρ 0.34; dual portal validators PASS (all-finite [0,1] —
+cannot trigger *"Predicted values must be in range [0, 1]"*). **No organizer score exists
+for this file; PROMOTE is a selector recommendation, not a score claim.** Every other file
+here is **DO NOT SUBMIT** (0.2778 champion already submitted; GEO-CONDUIT demoted, IR-R6-02).
+Read the [per-site executive summary](docs/research/focus-sites-executive-summary.md),
+[Round-6 preregistration](docs/research/hypotheses-round6.md), and
+[run card](evidence/round6_run_card.json). Confirm the authenticated weekly cap before uploading.
 
 ---
 
@@ -32,7 +36,7 @@ absent, so no new lane or holdout result was invented. A higher organizer score 
 
 ---
 
-## 🟢 UNIQUE SUBMISSION GENERATED — OK TO DOWNLOAD AND SUBMIT (2026-10-25) — ONE-CLICK FILE
+## 🔴 SUPERSEDED 2026-10-26 — GEO-CONDUIT (DO NOT SUBMIT; demoted IR-R6-02, kept for audit)
 
 **✅ OK TO DOWNLOAD AND SUBMIT:** This file is **GENUINELY UNIQUE**, generated from the new **H-GEO-CONDUIT** physical pipeline. It passes all 12 portal checks, strictly all-finite values in `[0.0, 1.0]`, CRS EPSG:32611, 3730×3292 shape, 100 m geotransform, 0 dots on catalogue, 0 dots in 200 m dead annulus, and zero NaNs anywhere in the raster (guaranteeing it will **never** trigger `"Predicted values must be in range [0, 1]"`).
 

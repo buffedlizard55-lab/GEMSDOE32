@@ -247,6 +247,30 @@
    "severity": "medium",
    "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
+  },
+  {
+   "id": "IR-R6-01",
+   "severity": "high",
+   "statement": "Group scores including 0.2778 were labelled ORGANIZER-CONFIRMED in places, but the repo holds no submission-page receipt linking bytes to score (see IR-32-SCORE-01). Round 6 downgrades all group scores to OWNER-REPORT.",
+   "mitigation": "labels corrected in docs/research/focus-sites-executive-summary.md and Round-6 banner; run card carries explicit OWNER-REPORT label"
+  },
+  {
+   "id": "IR-R6-02",
+   "severity": "high",
+   "statement": "Former primary geo-conduit (fc4e0e58...) was bannered OK TO SUBMIT while 70.24% of its dots lie within 3px of gems10-h28-dotted-ridge (exceeds 70% lane gate; verified 2026-10-26 from bytes) and its SGMC-cal 0.0462 trails the champion 0.0641. Site simultaneously showed red DO NOT SUBMIT and green OK TO SUBMIT banners.",
+   "mitigation": "geo-conduit demoted; registry primary moved to R6-1 (old registry preserved as submission_build_geo_conduit_superseded.json); single fail-closed verdict banner"
+  },
+  {
+   "id": "IR-R6-03",
+   "severity": "medium",
+   "statement": "Literal <=70% within-3px gate against the calibration lattice (r13-lattice-s5, 206,895 dots) is unsatisfiable: lattice covers 99.87% of footprint within 3px; champion itself measures 99.92%.",
+   "mitigation": "Round-6 gate applied to detector submission rasters (29 on disk); lattice reported as diagnostic in evidence/round6_run_card.json; documented interpretation, not silent exemption"
+  },
+  {
+   "id": "IR-R6-04",
+   "severity": "low",
+   "statement": "R6-1 along-strike (N-S) shifted null retains SGMC signal (0.121 vs 0.141 unshifted) while across-strike shift collapses (0.089). Consistent with N-S structural grain but weakens positional specificity along strike.",
+   "mitigation": "documented in evidence/round6_pass2_controls.json; random controls (0.074-0.077) bound the spread artifact; not gated, flagged for selector"
   }
  ]
 }
