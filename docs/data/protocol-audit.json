@@ -1,0 +1,124 @@
+{
+  "schema": 1,
+  "kind": "retrospective audit, not a new experiment",
+  "provenance": "hash-pinned owner mirrors, not organizer-authenticated",
+  "method_lane": null,
+  "new_experiments": 0,
+  "weekly_slots_used": 0,
+  "rule": "literal directional >70% within 3px: log duplicate and STOP; no density exemption",
+  "results": [
+    {
+      "file": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+      "validator": {
+        "filename": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+        "size_bytes": 250142,
+        "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
+        "mode": "zeros",
+        "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+        "crs": "EPSG:32611",
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "nodata": null,
+        "nodata_repr": "None",
+        "emitted_positive_pixels": 46090,
+        "footprint_fraction": 0.008919,
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_finite_pixels": 5167373,
+        "in_footprint_min": 0.0,
+        "in_footprint_max": 1.0,
+        "full_grid_finite_pixels": 12279160,
+        "checks": {
+          "exact_reference_grid_match": true,
+          "single_band": true,
+          "dtype_float32": true,
+          "dimensions_3730x3292": true,
+          "crs_epsg_32611": true,
+          "in_footprint_all_finite": true,
+          "in_footprint_zero_nan": true,
+          "in_footprint_zero_inf": true,
+          "in_footprint_zero_sentinel": true,
+          "in_footprint_range_0_1": true,
+          "outside_footprint_compliant": true,
+          "zero_on_catalogue_leakage": true,
+          "validator_range_0_1_guaranteed": true
+        },
+        "all_checks_passed": true
+      },
+      "registry_reference": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "within_3px_fraction": 0.9967021045779996,
+      "literal_duplicate": true,
+      "surface_rank_correlation": null,
+      "surface_status": "not available; not inferred from dots",
+      "ok_to_submit": false,
+      "verdict": "negative"
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+      "validator": {
+        "filename": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+        "size_bytes": 277724,
+        "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+        "mode": "zeros",
+        "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+        "crs": "EPSG:32611",
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "shape": [
+          3730,
+          3292
+        ],
+        "dtype": "float32",
+        "nodata": null,
+        "nodata_repr": "None",
+        "emitted_positive_pixels": 37654,
+        "footprint_fraction": 0.007287,
+        "on_catalogue_positive_pixels": 0,
+        "in_footprint_finite_pixels": 5167373,
+        "in_footprint_min": 0.0,
+        "in_footprint_max": 1.0,
+        "full_grid_finite_pixels": 12279160,
+        "checks": {
+          "exact_reference_grid_match": true,
+          "single_band": true,
+          "dtype_float32": true,
+          "dimensions_3730x3292": true,
+          "crs_epsg_32611": true,
+          "in_footprint_all_finite": true,
+          "in_footprint_zero_nan": true,
+          "in_footprint_zero_inf": true,
+          "in_footprint_zero_sentinel": true,
+          "in_footprint_range_0_1": true,
+          "outside_footprint_compliant": true,
+          "zero_on_catalogue_leakage": true,
+          "validator_range_0_1_guaranteed": true
+        },
+        "all_checks_passed": true
+      },
+      "registry_reference": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "within_3px_fraction": 0.9866415254687417,
+      "literal_duplicate": true,
+      "surface_rank_correlation": null,
+      "surface_status": "not available; not inferred from dots",
+      "ok_to_submit": false,
+      "verdict": "negative"
+    }
+  ],
+  "ok_to_submit": false
+}

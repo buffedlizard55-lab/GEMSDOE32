@@ -46,6 +46,31 @@ def read(path: str, default=None):
         return default
 
 
+def protocol_notice(prefix: str = "") -> str:
+    """Authoritative status above legacy sections; absence of evidence never means approved."""
+    audit = read("docs/data/protocol-audit.json", {}) or {}
+    rows = "".join(
+        f"<li>{esc(Path(r['file']).name)}: format audit recorded; "
+        f"within 3 px of registry lattice = {r['within_3px_fraction']:.2%}; "
+        f"<b>duplicate — STOP</b></li>"
+        for r in audit.get("results", []) if r.get("literal_duplicate")
+    )
+    return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2>DO NOT SUBMIT — current strict protocol review</h2>
+<p><b>No file is approved by this review. Downloads below are audit artifacts, not upload authorization.</b>
+Older primary/promoted labels below are archived claims and do not override this notice.</p>
+<ul>{rows}</ul>
+<p>No new method lane was supplied; no new prediction or holdout score was invented.
+The dense lattice makes the literal duplicate gate difficult, but we have not weakened it.
+No competition slot was used. Format validity does not establish scientific quality.</p>
+<p><a href="{prefix}research/protocol-review-20261025.md">Ranked hypotheses, verified sources and limitations</a> ·
+<a href="{prefix}research/standing-brief-20261025.md">Standing brief — read every session</a> ·
+<a href="{prefix}data/protocol-audit.json">Exact automated audit</a></p>
+<p>Upload instructions (only after a future candidate passes all gates and selector approval): download
+its all-finite .tif, select it in DrivenData New submission, paste its unique short note, then submit
+within the authenticated weekly cap. Do not upload an archived file or a research report.</p></section>"""
+
+
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
     nav = " ".join(f'<a href="{h}"{" class=active" if h == active else ""}>{t}</a>' for h, t in NAV)
     stamp = time.strftime("%Y-%m-%d %H:%M UTC", time.gmtime())
@@ -54,6 +79,7 @@ def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
 <title>{esc(title)} · {TITLE}</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>{esc(title)}</h1><nav>{nav}</nav>
+{protocol_notice()}
 <div class=dlbtn>{dl_btn}</div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
@@ -891,6 +917,7 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
+{protocol_notice("docs/")}
 {arena41_block("docs/")}
 {download_block(sub, name, "docs/")}
 <div class=card><b>Full site:</b> <a href="docs/index.html">evidence, instruments, hypotheses and the

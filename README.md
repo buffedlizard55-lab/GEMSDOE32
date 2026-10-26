@@ -1,3 +1,20 @@
+## Current protocol decision — DO NOT SUBMIT (2026-10-25)
+
+**ONE-CLICK audit download:** [existing H32-WIN GeoTIFF](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif).
+**This is an existing artifact, NOT a new submission.** Its exact template-grid/range checks pass,
+but **99.67%** of its dots are within 3 px of a registry lattice. Your literal duplicate gate
+therefore says **STOP**. The prior PF-only file also fails (**98.66%**). No density exemption applies.
+No new file is approved by this session; no submission slot was used. Older promotion text below
+is historical and does not override this decision.
+
+Read [the standing brief](docs/research/standing-brief-20261025.md) at the start of every session
+(an explicitly labelled digest, not a verbatim transcript), then the
+[three-pass protocol review and ranked hypotheses](docs/research/protocol-review-20261025.md) and
+[byte-level audit](docs/data/protocol-audit.json). The required single method paragraph was
+absent, so no new lane or holdout result was invented. A higher organizer score is not established.
+
+---
+
 # GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize (DrivenData #306)
 
 **Competition:** [DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/)
