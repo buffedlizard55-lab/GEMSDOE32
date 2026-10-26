@@ -18,9 +18,15 @@ def _read_band(path):
         return ds.read(1).astype(np.float64)
 
 
-from gems32.paths import data_dir
+def _resolve_raw_dir() -> Path:
+    from gems32.paths import data_dir
+    d = data_dir()
+    if (d / "training_features.tif").exists():
+        return d
+    return Path(__file__).resolve().parents[1] / "data" / "raw"
 
-RAW = data_dir()
+
+RAW = _resolve_raw_dir()
 
 
 from gems32.hypotheses33 import (
@@ -32,7 +38,7 @@ from gems32.hypotheses33 import (
 )
 from gems32.live_anchor import LIVE_LEDGER, invert_live_pair, lm_validity_report, removal_gain_bound
 
-DATA = data_dir()
+DATA = RAW
 HAS_DATA = (DATA / "training_features.tif").exists()
 
 

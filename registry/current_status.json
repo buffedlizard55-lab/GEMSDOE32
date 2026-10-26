@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "updated_utc": "2026-10-26T01:45:00Z",
+ "updated_utc": "2026-10-26T02:10:00Z",
  "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
  "any_file_ok_to_submit": false,
  "headline": "No file in this repository is authorized for upload.",
@@ -149,5 +149,115 @@
    "evidence/r6_independent_recheck.json",
    "evidence/sgmc_instrument_live_counterexamples.json"
   ]
+ },
+ "arena8a_candidate": {
+  "file": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip",
+  "receipt": "docs/downloads/checks-gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif.json",
+  "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+  "bytes": 230921,
+  "dots": 44090,
+  "submission_name": "GEMSDOE32-A8A-MDRC-CE1ABD39",
+  "note": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT",
+  "verdict": "DO NOT SUBMIT",
+  "ok_to_submit": false,
+  "hypothesis": "A8A-H1 Multi-Domain Ridge-Crest Concordance (MDRC, 44,090 dots, B=2)",
+  "gates": {
+   "G1_canary": true,
+   "G2_format_01": true,
+   "G3_lane_unique_genuine": true,
+   "G4_visible_only_holdout_vs_ctrl_and_d28": true,
+   "G4_subbar_3x_submodular_random": false,
+   "G5_sgmc_beats_champion": false
+  },
+  "reasons": [
+   "Fold-local visible-only HOLDOUT-DTI (GEMSDOE32-HOLDOUT-v3-visible-only, 22,232 withheld positives) = 0.1068 [0.0877, 0.1285], beating BOTH CTRL-35ch (0.0989) and D2.8 vis-B2 (0.0992, winning 7/8 cells, paired diff 95% CI [+0.0040, +0.0111]), while reaching 2.29x vs the conservative 3.0x submodular-random sub-bar (0.1398).",
+   "Gate G5 FAILED on off-catalogue USGS SGMC faults (62,703 off-cat px): MDRC scores 0.0551 (beating CTRL-35ch 0.0502 by +9.8%), but trails the 0.2778 champion (0.0641) because binary cross-entropy on ~labels treats unmapped pre-Quaternary SGMC faults as y=0 negatives (IR-A8A-PU-BIAS-01; unsupervised D1_LiDAR_Dipole scored 0.1027 and MDRC_Unsup_4Domain scored 0.0765).",
+   "Lane-unique against all 19 genuine detector/submission rasters (pre-placement surface |rho| <= 0.4209 <= 0.90; final within-3px <= 64.96% <= 70%: 52.89% vs 0.2778 champion, 22.06% vs H42, 19.37% vs R6-1, 33.58% vs H-GEO-CONDUIT; literal one-way overlap vs 206,895-dot 5-px calibration lattice is 99.04% vs 99.92% for champion, IR-42-UNIQ-01)."
+  ],
+  "holdout": {
+   "MDRC_Crest_CreditBar_44090": {
+    "dti": 0.1068,
+    "ci95": [
+     0.0877,
+     0.1285
+    ]
+   },
+   "MDRC_Crest_37654": {
+    "dti": 0.1055,
+    "ci95": [
+     0.0857,
+     0.1277
+    ]
+   },
+   "D28_vis_B2_incumbent": {
+    "dti": 0.0992,
+    "ci95": [
+     0.0815,
+     0.1204
+    ]
+   },
+   "CTRL_35ch_OOF": {
+    "dti": 0.0989,
+    "ci95": [
+     0.0802,
+     0.1197
+    ]
+   },
+   "RANDOM_B2_submod": {
+    "dti": 0.0466,
+    "ci95": [
+     0.0369,
+     0.058
+    ]
+   }
+  },
+  "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HOLDOUT-v3-visible-only (fold-local B=2), 22,232 withheld positives, 95% CI",
+  "off_catalogue_instrument": {
+   "D1_LiDAR_Dipole_unsup": {
+    "dti": 0.1027,
+    "ci95": [
+     0.091,
+     0.1145
+    ]
+   },
+   "MDRC_Unsup_4Domain": {
+    "dti": 0.0765,
+    "ci95": [
+     0.0665,
+     0.087
+    ]
+   },
+   "CHAMPION_0.2778": {
+    "dti": 0.0641,
+    "ci95": [
+     0.0555,
+     0.0732
+    ]
+   },
+   "MDRC_Crest_CreditBar_44090": {
+    "dti": 0.0551,
+    "ci95": [
+     0.0472,
+     0.0634
+    ]
+   },
+   "CTRL_35ch_OOF": {
+    "dti": 0.0502,
+    "ci95": [
+     0.0426,
+     0.0582
+    ]
+   }
+  },
+  "off_catalogue_label": "SGMC prevalence-calibrated DTI (>200 m off-catalogue, 62,703 px)",
+  "uniqueness": {
+   "registry_rasters": 20,
+   "max_spearman": 0.4209,
+   "worst_informative_overlap": 0.6496,
+   "worst_informative_raster": "GEMSDOE25/30:d2.8-44090 (52.89% vs 0.2778 champion; 19.37% vs R6-1; 22.06% vs H42)",
+   "calibration_lattice_oneway_fraction": 0.99036
+  },
+  "run_card": "evidence/arena8a_run_card.json"
  }
 }

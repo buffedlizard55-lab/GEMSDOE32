@@ -1,0 +1,39 @@
+{
+  "name": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros",
+  "note": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT",
+  "verdict": "negative",
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "file": {
+    "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+    "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+    "bytes": 230921,
+    "positive_px": 44090
+  },
+  "file_nan": {
+    "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+    "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+    "bytes": 366368,
+    "positive_px": 44090
+  },
+  "zip": {
+    "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip",
+    "sha256": "c87912bfafe839932b02b75ed2edcef181e3e709067b51177b2ef184038fa351",
+    "bytes": 197576
+  },
+  "candidate_id": "GEMSDOE32-A8A-MDRC-CE1ABD39",
+  "hypothesis": "A8A-H1 (MDRC_Crest_CreditBar)",
+  "visible_only_holdout_dti": 0.10679429218467282,
+  "visible_only_holdout_ci95": [
+    0.08764997455315648,
+    0.12850447881966512
+  ],
+  "sgmc_prevalence_calibrated_dti": 0.055092,
+  "anchor_champion": {
+    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+    "zip_path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip",
+    "zip_sha256": "5a6f3ee02e6392089d53361976dbc9d5dec43ef4205001097c6806fe487bef11",
+    "zip_bytes": 186378
+  },
+  "run_card": "evidence/arena8a_run_card.json"
+}

@@ -234,6 +234,33 @@ def current_status_block(docs_prefix: str = "") -> str:
     nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
                 '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
     lb = st.get("leaderboard_top", {})
+    a8a = st.get("arena8a_candidate") or {}
+    a8a_row = ""
+    if a8a:
+        a8a_reasons = "".join(f"<li>{esc(r)}</li>" for r in a8a.get("reasons", []))
+        a8a_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+            for k, v in (a8a.get("holdout") or {}).items()
+        )
+        a8a_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+            for k, v in (a8a.get("off_catalogue_instrument") or {}).items()
+        )
+        fig_rel = "docs/assets/fig_arena8a_mdrc.png"
+        fig_html = (f'<p style="margin:8px 0"><a href="{esc(href(fig_rel))}">'
+                    f'<img src="{esc(href(fig_rel))}" alt="Arena8a MDRC 4-panel diagnostic" '
+                    f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:4px"></a></p>'
+                    if (ROOT / fig_rel).is_file() else "")
+        a8a_row = f"""<tr><th>Arena8a unique file (MDRC, 44,090d)</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(a8a.get('file', '')))}">&#11015; {esc(Path(a8a.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(a8a.get('zip', '')))}">.zip</a> <a href="{esc(href(a8a.get('receipt', '')))}">receipt</a>
+&middot; <a href="{esc(href(a8a.get('run_card', '')))}">run card</a> &middot; <a href="{docs_prefix}research/arena8a-preregistration-and-hypotheses.md">pre-registration &amp; hypotheses</a><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>) &mdash; {esc(a8a.get('hypothesis', ''))};
+{int(a8a.get('dots', 0)):,} dots; sha256 <code>{esc(a8a.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Archive portal name: <code>{esc(a8a.get('submission_name', ''))}</code> &middot; Archive note ({len(str(a8a.get('note', '')))}/140 chars): <code>{esc(a8a.get('note', ''))}</code></span>
+<ul>{a8a_reasons}</ul>
+<table><tr><th colspan=3>{esc(a8a.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{a8a_hrows}</table>
+<table><tr><th colspan=3>{esc(a8a.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{a8a_orows}</table>
+{fig_html}
+</td></tr>"""
     ex = st.get("round6_candidate") or {}
     expl_row = ""
     if ex:
@@ -253,6 +280,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+{a8a_row}
 <tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
 <a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
 &middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a><br>{nverdict} &mdash; {esc(n.get('hypothesis', ''))};
@@ -751,6 +779,10 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("arena8a-preregistration-and-hypotheses.md",
+     "Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest "
+     "concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression "
+     "discovery (IR-A8A-PU-BIAS-01)"),
     ("hypotheses-round5.md", "Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family "
                              "forensics), the five ranked hypotheses, two measured negative lanes "
                              "(H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity "
@@ -1086,6 +1118,11 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     for fname, html_text in pages.items():
         (DOCS / fname).write_text(html_text)
+    if (ROOT / "evidence" / "arena8a_run_card.json").exists():
+        (DOCS / "data").mkdir(parents=True, exist_ok=True)
+        (DOCS / "data" / "arena8a_run_card.json").write_text(
+            (ROOT / "evidence" / "arena8a_run_card.json").read_text()
+        )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy
     # builder, source main:/) to publish the repository root, and the API token available here
