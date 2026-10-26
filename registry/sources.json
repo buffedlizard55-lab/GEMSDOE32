@@ -34,7 +34,7 @@
    "title": "Public leaderboard",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
    "role": "live score feed",
-   "status": "verified 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042"
+   "status": "verified 2026-10-25: #1 xiaofanhu 0.4413 (previously 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042)"
   },
   {
    "id": "rules_pdf",
@@ -48,7 +48,7 @@
    "title": "Official reference solution (U-Net, John Lipor, Portland State)",
    "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
    "role": "baseline model",
-   "status": "cloned 2026-10-04; architecture and TverskyLoss(0.2, 0.8) read from the notebook"
+   "status": "re-verified 2026-10-26 @ commit aebe92f7c8 via GitHub API: Cell 12 filters negative tiles; Cell 19 writes 0.0 outside footprint with nodata=None"
   },
   {
    "id": "geodawn",
@@ -163,11 +163,18 @@
    "status": "read 2026-10-04, sha256 of its download re-verified here"
   },
   {
+   "id": "gemsdoe24_external_mirrors",
+   "title": "USGS 3DEP 1m LiDAR scarp stack, GeoDAWN K/Th/U/TMI_up150, and DOE GDR #1391 rasters (SHA-256-pinned mirrors)",
+   "url": "https://github.com/buffedlizard55-lab/GEMSDOE24/tree/main/data/external",
+   "role": "Round-6 H38-G1..G3 external geophysical & geomorphic layers (lidar_scarp_features_u8.tif, geodawn_rad_u8.tif, geodawn_extensions_u8.tif, gdr_evidence_u8.tif)",
+   "status": "fetched & SHA-256 verified locally 2026-10-26 via scripts/restore_data.py"
+  },
+  {
    "id": "sibling_repos",
-   "title": "Sibling experiment repositories GEMSDOE19/24/25/27/28/29/30/31/33",
+   "title": "Focus 9 sibling experiment repositories (GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36) + 19GEMSDOE & GEMSDOE70",
    "url": "https://github.com/buffedlizard55-lab",
-   "role": "prior experiments, mirrors and evidence; used as priors, never as verification",
-   "status": "listed"
+   "role": "byte-level forensic audit of all 9 focus champions and 27 live-scored submissions (evidence/nine_site_executive_audit_20261026.json)",
+   "status": "audited via GitHub API & SHA-256 verified locally 2026-10-26"
   }
  ]
 }

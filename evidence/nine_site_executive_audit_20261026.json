@@ -1,0 +1,188 @@
+{
+  "generated_utc": "2026-10-26T01:45:00Z",
+  "scope": "Nine focus sites (GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31, GEMSDOE32, GEMSDOE33, GEMSDOE36) plus lineage root 19GEMSDOE, independent benchmark GEMSDOE70, and official drivendataorg/gems-prize-reference-solution",
+  "overall_focus_9_best": {
+    "site": "GEMSDOE32",
+    "submission": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+    "emitted_pixels": 37654,
+    "score": 0.2778,
+    "score_provenance": "ORGANIZER-CONFIRMED (owner-reported DrivenData submission receipt; no cryptographic portal receipt URL in repo — cf. IR-32-SCORE-01/03)",
+    "public_leaderboard_top_20261025": {
+      "rank_1": {"participant": "xiaofanhu", "score": 0.4413},
+      "historical_20261004_rank_1": {"participant": "nchuzhoy", "score": 0.3262},
+      "historical_20261004_rank_3": {"participant": "DARD", "score": 0.3195}
+    }
+  },
+  "proxy_calibration_27_live_submissions": {
+    "n_live_scored_rasters_audited": 27,
+    "live_score_range": [0.0107, 0.2778],
+    "sgmc_prevalence_calibrated_dti_spearman": 0.6755,
+    "sgmc_prevalence_calibrated_dti_p_value": 0.00011,
+    "static_catalogue_hidden_spearman": -0.1747,
+    "repaired_visible_only_b_ladder_spearman": 1.0,
+    "repaired_visible_only_b_ladder": {
+      "B0_D28_live_02600": 0.096743,
+      "B1_SOLO28_live_02708": 0.098977,
+      "B2_CHAMPION_live_02778": 0.099202,
+      "B3_overpruned": 0.097102
+    }
+  },
+  "focus_sites": [
+    {
+      "site": "GEMSDOE24",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE24",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE24/",
+      "head_commit": "27d60e8de7",
+      "best_submission": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "best_sha256_12": "24f500e42b9c",
+      "best_dots": 60069,
+      "best_live_score": 0.2477,
+      "sgmc_cal_dti": 0.06423,
+      "latest_round_artifact": "gems24-rshg1-ridge-skeleton-hydro-gravity-20261025-98f69d771b48-zeros.tif (and gvc1 abe8e51c719d = 0.0859 live)",
+      "latest_gate_status": "DO NOT SUBMIT (gvc1 scored 0.0859 live; RSHG1 stopped at 72.69% > 70% overlap)",
+      "relationship_to_family": "First sparse Poisson-disk thinning (d = 1.5 px, 60,069 dots) of 19GEMSDOE H19-5 (121,131 px, 0.1922 -> 0.2477, +0.0555 DTI). Hosts canonical external data mirrors."
+    },
+    {
+      "site": "GEMSDOE25",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE25",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE25/",
+      "head_commit": "e275a4e935",
+      "best_submission": "dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "best_sha256_12": "91eae1ca51e8",
+      "best_dots": 44090,
+      "best_live_score": 0.2600,
+      "sgmc_cal_dti": 0.06059,
+      "latest_round_artifact": "gems25-h66-mgd-flank-sapd3-0-k3p5-20261025-da617550a0e9-zeros.tif (44,832 px = 0.0742 live)",
+      "latest_gate_status": "DO NOT SUBMIT (pure multi-scale gravity-magnetic discontinuity flank without LiDAR/thermal scored 0.0742 live)",
+      "relationship_to_family": "Kernel-matched d = 2.8 px thinning of H19-5 (44,090 dots, B=0: 0.2477 -> 0.2600, +0.0123 DTI). Exact parent dot set of GEMSDOE30, GEMSDOE31, and GEMSDOE32 champions."
+    },
+    {
+      "site": "GEMSDOE27",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE27",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE27/",
+      "head_commit": "2937f43a51",
+      "best_submission": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "best_sha256_12": "33003374335d",
+      "best_dots": 61328,
+      "best_live_score": 0.2449,
+      "sgmc_cal_dti": 0.06378,
+      "latest_round_artifact": "gems27-h29-hydrothermal-piedmont-celf-20261025-511898747886-allfinite.tif (37,654 px = 0.2190 live; H30 ad5a68bb negative)",
+      "latest_gate_status": "DO NOT SUBMIT (H30 negative; Oct-25 H29 scored 0.2190 live — highest genuine non-H19-5 model among the 9 focus sites)",
+      "relationship_to_family": "Added +1,259 topographic gap-closure bridge pixels onto D1.5 (0.2477 -> 0.2449, -0.0028); later demonstrated that stitched OOF + Frangi + hydrothermal + CELF300m + B=2 reaches 0.2190 independently."
+    },
+    {
+      "site": "GEMSDOE28",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE28",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE28/",
+      "head_commit": "c081fd94ef",
+      "best_submission": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "best_sha256_12": "f86eb44f0dd1",
+      "best_dots": 37660,
+      "best_live_score": 0.2710,
+      "sgmc_cal_dti": 0.06233,
+      "latest_round_artifact": "gems28-s18-mxtp-20261025-3e95505c011a-allfinite.tif (11,082 px = 0.0217 live)",
+      "latest_gate_status": "DO NOT SUBMIT (s18-mxtp under-emitted 11,082 potential-field dots and scored 0.0217 live)",
+      "relationship_to_family": "Second-highest focus site (#2 at 0.2710). Tested four B=1/blind-basin variants on D2.8: RUNG30 (37,660 px, 0.2710) > SOLO-D2.8 (40,199 px, 0.2708) > HF-Euler (37,860 px, 0.2707) > Prethin-Tip-Euler (42,294 px, 0.2649)."
+    },
+    {
+      "site": "GEMSDOE30",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE30",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE30/",
+      "head_commit": "be87a2ab57",
+      "best_submission": "gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+      "best_sha256_12": "67c65649fd85",
+      "best_dots": 44090,
+      "best_live_score": 0.2600,
+      "sgmc_cal_dti": 0.06059,
+      "latest_round_artifact": "gems30-MSDB1-edge44090-20261025-e7856ec3f14a.tif (44,090 px, B=0 = 0.1462 live)",
+      "latest_gate_status": "HOLD / DO NOT SUBMIT (MSDB1 19-band range-front edge detector without B=2 or external LiDAR/GDR scored 0.1462 live)",
+      "relationship_to_family": "Dot-identical to GEMSDOE25 D2.8 (symmetric difference = 0 px, confirming deterministic portal scoring at 0.2600; IR-32-FAM-02). Discovered exact gravity vector reconstruction (Band 18, Band 11) = (+dg/dx, +dg/dy)."
+    },
+    {
+      "site": "GEMSDOE31",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE31",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE31/",
+      "head_commit": "81f90f4bb7",
+      "best_submission": "gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "best_sha256_12": "24f500e42b9c",
+      "best_dots": 40199,
+      "best_live_score": 0.2708,
+      "sgmc_cal_dti": 0.06224,
+      "latest_round_artifact": "gemsdoe31-h31m-basin-step-b2-submod-37654-20261025-6808a6ea-zeros.tif (unsubmitted)",
+      "latest_gate_status": "DO NOT SUBMIT (H31-M stopped by r13-lattice-s5 99.69% overlap gate despite Off-SGMC DTI 0.1010)",
+      "relationship_to_family": "Exact B=1 rung of the nested B-ladder: D2.8 (44,090 px, 0.2600) minus 3,891 dots at d(labels) <= 100 m = 40,199 dots (0.2708, +0.0108 DTI)."
+    },
+    {
+      "site": "GEMSDOE32",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE32",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE32/",
+      "head_commit": "7a97c5a889",
+      "best_submission": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "best_sha256_12": "c55bafc47005",
+      "best_dots": 37654,
+      "best_live_score": 0.2778,
+      "sgmc_cal_dti": 0.06412,
+      "latest_round_artifact": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif (37,654 px; Hide&Recover v3.0 = 0.1170 vs Champion 0.0992, SGMC_cal = 0.0504)",
+      "latest_gate_status": "DO NOT SUBMIT — retain 0.2778 live slot (H38-G1 beats Champion +17.9% on leak-free Hide&Recover and passes <=70% overlap vs all 26 live-scored detectors, max 69.49%, 58.78% vs Champion, but trails on SGMC_cal and hits hcvf2/lattice-s5)",
+      "relationship_to_family": "ALL-9 FOCUS CHAMPION (#1 at 0.2778). Exact B=2 rung: SOLO-D2.8 (40,199 px, 0.2708) minus 2,545 dead-annulus dots in 100 m < d(labels) <= 200 m = 37,654 dots (+0.0070 DTI over B=1, +0.0178 over B=0)."
+    },
+    {
+      "site": "GEMSDOE33",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE33",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE33/",
+      "head_commit": "1a0d6a7033",
+      "best_submission": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+      "best_sha256_12": "0fb30c849f8a",
+      "best_dots": 41865,
+      "best_live_score": 0.2632,
+      "sgmc_cal_dti": 0.06163,
+      "latest_round_artifact": "gemsdoe33-a33-l1-20261025-83534085-zeros.tif (negative)",
+      "latest_gate_status": "DO NOT SUBMIT (A33-L1 negative; 4-experiment budget exhausted cleanly)",
+      "relationship_to_family": "Added analog fault-tip & step-over extensions onto B=1 base (41,865 px, 0.2632 — beating B=0 0.2600 by +0.0032, but diluted -0.0076 below un-extended SOLO-D2.8 0.2708)."
+    },
+    {
+      "site": "GEMSDOE36",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE36",
+      "pages_url": "https://buffedlizard55-lab.github.io/GEMSDOE36/",
+      "head_commit": "92ed62ab72",
+      "best_submission": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "best_sha256_12": "34500f8892c5",
+      "best_dots": 38854,
+      "best_live_score": 0.2750,
+      "sgmc_cal_dti": 0.06378,
+      "latest_round_artifact": "2026-10-26 forensic review (NO-GO, no new slot recommended)",
+      "latest_gate_status": "NO-GO / DO NOT SUBMIT (retains 0.2750 benchmark)",
+      "relationship_to_family": "Second-highest overall (#2 across all 9 sites at 0.2750, behind GEMSDOE32 0.2778). Pixel-exact superset of GEMSDOE32 Champion (37,654 Champion dots + 1,200 Anderson-mechanics additions; Jaccard 0.969, marginal ~0.018 credit/dot < 0.0556 break-even -> -0.0028 DTI)."
+    }
+  ],
+  "external_reference_benchmarks": [
+    {
+      "site": "19GEMSDOE (Lineage Root)",
+      "repo_url": "https://github.com/buffedlizard55-lab/19GEMSDOE",
+      "best_submission": "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
+      "best_dots": 121131,
+      "best_live_score": 0.1922,
+      "sgmc_cal_dti": 0.05079,
+      "role": "Undotted 4-pillar corroborated detector support (1m 3DEP LiDAR + GDR 1391 thermal + geopotential worms + power-law tip/relay) from which every 0.2449-0.2778 Focus-9 champion was thinned/pruned."
+    },
+    {
+      "site": "GEMSDOE70 (Best Independent OOF Detector)",
+      "repo_url": "https://github.com/buffedlizard55-lab/GEMSDOE70",
+      "best_submission": "gems70-p5-dual-submod300-oof38k-20261020.tif",
+      "best_dots": 37654,
+      "best_live_score": 0.2478,
+      "sgmc_cal_dti": 0.08570,
+      "role": "Highest-scoring non-H19-5 independent learned model in the wider group: OOF HistGB fusing 1m 3DEP LiDAR + GDR + Quaternary + SGMC d>=3 + 300 m submodular cover."
+    },
+    {
+      "site": "Official Reference Solution",
+      "repo_url": "https://github.com/drivendataorg/gems-prize-reference-solution",
+      "best_submission": "unet-mc-cv-reference-solution.ipynb @ aebe92f7c8",
+      "best_dots": null,
+      "best_live_score": null,
+      "sgmc_cal_dti": null,
+      "role": "PyTorch ResNet34 U-Net (segmentation-models-pytorch, 128x128 tiles, TverskyLoss alpha=0.2 beta=0.8). Cell 12 skips tiles with labels==0; Cell 19 writes 0.0 outside footprint with nodata=None (-zeros.tif convention)."
+    }
+  ]
+}

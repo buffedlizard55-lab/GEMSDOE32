@@ -1,0 +1,145 @@
+{
+  "protocol_version": "parallel-run-v1-20261026",
+  "hypothesis_id": "H38-G1",
+  "selected_experiment_id": "EXP3_H38_G1_CORROB",
+  "hypothesis": "53-channel buffered spatial-OOF multi-physics detector fusing 1 m 3DEP LiDAR asymmetric & Lahontan-contour-orthogonal scarplets, GeoDAWN K-on-Th metasomatism & tmi-TMI_up150 magnetite-destruction troughs, GDR 1391 geothermometry/vent upflow fields, and 35-channel structural ridges, packed via exact 300 m lazy-greedy submodular coverage outside the B=2 (200 m) dead annulus.",
+  "mechanism": "Captures blind and low-slip (<0.1 mm/yr) Quaternary geothermal fault splays, step-overs, and hydrothermal conduits (<1 m throw invisible on 100 m DEMs) where micro-scarps, K-metasomatism, shallow magnetic oxidation lows, subsurface potential-field steps, and fold-visible fault-tip stress cones corroborate one another.",
+  "named_non_fault_mimic": "Pleistocene Lake Lahontan horizontal wave-cut shoreline benches and symmetric two-bank incised alluvial washes / volcanic flow margins (suppressed via |sin(strike_lidar - azimuth_contour)|, |downface - upface| facing asymmetry, Th-normalized K excess, and multi-pillar corroboration).",
+  "holdout_dti": {
+    "primary_hide_and_recover": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "pooled_dti": 0.116958,
+      "ci95_cluster_bootstrap": [
+        0.100533,
+        0.13204
+      ],
+      "champion_02778_same_evaluator": 0.099202,
+      "champion_02778_ci95": [
+        0.085951,
+        0.112668
+      ],
+      "paired_delta_vs_champion": 0.017756,
+      "paired_delta_ci95": [
+        0.008324,
+        0.027425
+      ]
+    },
+    "secondary_off_catalogue_sgmc": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "n_withheld_positives": 62703,
+      "sgmc_prevalence_calibrated_dti": 0.050374,
+      "ci95_cluster_bootstrap": [
+        0.044672,
+        0.05548
+      ],
+      "sgmc_raw_pooled_dti": 0.07576,
+      "champion_02778_same_evaluator": 0.064121,
+      "champion_02778_ci95": [
+        0.05673,
+        0.071649
+      ],
+      "paired_delta_vs_champion": -0.013747,
+      "paired_delta_ci95": [
+        -0.020128,
+        -0.007059
+      ]
+    }
+  },
+  "leakage_canary": {
+    "n_channels_tested": 53,
+    "max_single_feature_auc": 0.6235,
+    "worst_channel": "coherence_s2",
+    "threshold": 0.9,
+    "passed": true
+  },
+  "registry_uniqueness": {
+    "discrete_peer_detectors": {
+      "max_abs_spearman_pre_placement_surface": 0.43736,
+      "max_abs_spearman_final_dots": 0.12003,
+      "max_dot_overlap_within_3px_pre_placement": 0.92944,
+      "max_dot_overlap_within_3px_final": 0.77556,
+      "nearest_detector": "gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif",
+      "passes_discrete_detector_lane_gate": false
+    },
+    "unexempted_all_rasters_with_lattice_s5": {
+      "max_abs_spearman": 0.43736,
+      "max_dot_overlap_within_3px_final": 0.99713,
+      "nearest_raster": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "pigeonhole_note": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif places 206,895 dots on a 5-px square grid covering 99.8713% of the 5,167,373-px Nevada footprint within <=3 px (leaving only 6,178 border-rim B=2 pixels uncovered); any 37,654-dot map mathematically has >=83.59% overlap with it.",
+      "passes_unexempted_literal_gate": false
+    },
+    "release_gate_decision": {
+      "gates": {
+        "lane": true,
+        "surface": true,
+        "final": false,
+        "canaries": true,
+        "holdout": false,
+        "format": true
+      },
+      "verdict": "negative",
+      "selector_required": true,
+      "slot_used": false
+    }
+  },
+  "raster_filename": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
+  "raster_zip_filename": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.zip",
+  "raster_nan_twin_filename": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
+  "raster_sha256": "6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff",
+  "validator_output": {
+    "all_13_checks_passed": true,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nan_inside_footprint": 0,
+    "full_grid_finite_pixels": 12279160,
+    "in_footprint_finite_pixels": 5167373,
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "values_in_0_1": true,
+    "exact_reference_grid_match": true,
+    "emitted_positive_pixels": 37654,
+    "on_catalogue_positive_pixels": 0,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    }
+  },
+  "submission_name": "GEMSDOE32-EXP3_H38_G1_CORROB-35859E28",
+  "submission_note": "GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT",
+  "submission_note_length": 102,
+  "verdict": "negative",
+  "ok_to_download_and_submit": false,
+  "decision_banner": "DO NOT SUBMIT \u2014 current strict protocol review (unique validated research artifact; retain 0.2778 live slot)",
+  "stop_reasons": [
+    "Secondary off-catalogue SGMC_cal HOLDOUT-DTI (0.05037) trails 0.2778 Champion (0.06412), even though primary Hide-and-Recover v3.0 beats Champion (0.11696 > 0.09920, +17.9% paired delta +0.01776, CI95 [0.008324, 0.027425]).",
+    "Passes <=70% 3-px dot overlap against ALL 26 live-scored detector submissions across GEMSDOE sites (max live-scored detector overlap = 0.6949 <= 0.70 vs gems10-h25-ctx-ridge; 0.5878 vs 0.2778 Champion), but shares 35-channel GBDT backbone overlap (0.7756 > 0.70) with unsubmitted local Round-5 artifact `gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif`.",
+    "Unexempted literal registry gate hits synthetic 5-px calibration grid `13gems_20261001_r13-lattice-s5_v2_nan-outside.tif` (overlap 0.9971 > 0.70 by Pigeonhole coverage 99.8713%)."
+  ]
+}

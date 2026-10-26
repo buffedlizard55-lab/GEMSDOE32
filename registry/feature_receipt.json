@@ -41,7 +41,7 @@
   3730,
   3292
  ],
- "footprint_px": 5165852,
- "path": "/tmp/gems32/work/feature_stack.npy",
- "seconds": 146.8
+ "footprint_px": 5167373,
+ "path": ".cache/gems_work/feature_stack.npy",
+ "seconds": 176.3
 }

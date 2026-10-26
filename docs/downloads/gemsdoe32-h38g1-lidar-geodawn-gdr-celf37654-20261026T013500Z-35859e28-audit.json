@@ -1,0 +1,110 @@
+{
+  "candidate_id": "EXP3_H38_G1_CORROB",
+  "slug": "h38g1-lidar-geodawn-gdr-celf37654",
+  "content_digest8": "35859e28",
+  "description": "3DEP-Deconfounded Multi-Physics OOF + Multi-Pillar Corroboration + Strictly Fold-Visible Fault-Tip/Step-Over Prior + B=2 + 300 m CELF",
+  "submission_note_zeros": "GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT",
+  "submission_note_nan": "GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT",
+  "zeros_tif": {
+    "filename": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
+    "size_bytes": 209987,
+    "sha256": "6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff",
+    "mode": "zeros",
+    "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
+    "size_bytes": 345412,
+    "sha256": "6dd6e37b617181c14948297c58f80b29a91de846c04441add0614d4e51b9b836",
+    "mode": "nan",
+    "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 37654,
+    "footprint_fraction": 0.007287,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.005350769100168383,
+    "catalogue_hidden_per_quadrant": {},
+    "sgmc_prevalence_calibrated_dti": 0.050374156278709,
+    "drift_corrected_holdout_mean": 0.05019496062749913,
+    "drift_corrected_per_quadrant": {},
+    "predicted_leaderboard_dti": null,
+    "ei_drift_corrected": null,
+    "slot_decision": "HOLD-DO-NOT-SUBMIT"
+  }
+}

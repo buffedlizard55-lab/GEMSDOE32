@@ -487,6 +487,90 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif",
+   "bytes": 332712,
+   "sha256": "2ba153e5d86e32745aa0014757d44cc829def41ce8b4a3b3be86b953cc23fee4",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 34092,
+   "off_h19_5_frac": 0.9054018165400755,
+   "catalogue_proxy_T": 1738.4471792043048,
+   "catalogue_proxy_F": 36365.93126893173,
+   "credit_per_unit_mass": 0.04616899078993745,
+   "catalogue_proxy_DTI": 0.030817370427309212,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+   "bytes": 279680,
+   "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 34092,
+   "off_h19_5_frac": 0.9054018165400755,
+   "catalogue_proxy_T": 1738.4471792043048,
+   "catalogue_proxy_F": 36365.93126893173,
+   "credit_per_unit_mass": 0.04616899078993745,
+   "catalogue_proxy_DTI": 0.030817370427309212,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-nan.tif",
    "bytes": 377371,
    "sha256": "d4a4496f12b0f29f3d9f43c700cbd5a30a229b75a6ecc005be59fed0e7a3797c",
@@ -1324,6 +1408,90 @@
    "catalogue_proxy_F": 41894.41480054699,
    "credit_per_unit_mass": 0.021762118790482673,
    "catalogue_proxy_DTI": 0.016163737613473655,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
+   "bytes": 345412,
+   "sha256": "6dd6e37b617181c14948297c58f80b29a91de846c04441add0614d4e51b9b836",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 30578,
+   "off_h19_5_frac": 0.8120783980453604,
+   "catalogue_proxy_T": 465.6212809798235,
+   "catalogue_proxy_F": 37290.33212195223,
+   "credit_per_unit_mass": 0.01236578533435554,
+   "catalogue_proxy_DTI": 0.008264255150685022,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
+   "bytes": 209987,
+   "sha256": "6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 30578,
+   "off_h19_5_frac": 0.8120783980453604,
+   "catalogue_proxy_T": 465.6212809798235,
+   "catalogue_proxy_F": 37290.33212195223,
+   "credit_per_unit_mass": 0.01236578533435554,
+   "catalogue_proxy_DTI": 0.008264255150685022,
    "dots_on_catalogue": 0
   },
   {
