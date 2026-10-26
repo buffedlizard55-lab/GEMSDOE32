@@ -429,13 +429,13 @@
       "expected_dti": "+0.015 to +0.025 HOLDOUT-DTI",
       "cost": "low (built and evaluated on prepared 28-channel physical feature stack)",
       "data_status": "obtainable and verified in data/",
-      "status": "VALIDATED on spatially-blocked holdout set; primary candidate emitted (gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)"
+      "status": "evaluated -> NEGATIVE (IR-32-CONDUIT-01: 0.70245 > 0.70 real-detector overlap vs gems10-h28-dotted-ridge; SGMC 0.04617 < 0.06412 Champion)"
     },
     {
       "id": "H-GEO-4",
       "rank": 4,
       "title": "Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes",
-      "layers": "Band 15 (depth_to_base_surf), Band 17 (cond_surf), Band 6 (tc radiometric potassium)",
+      "layers": "Band 15 (depth_to_base_surf), Band 17 (cond_surf), Band 6 (tc radiometric Total Count)",
       "signature": "Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos",
       "why_off_catalogue": "Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp",
       "differs_from_repo": "Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field",
@@ -445,5 +445,88 @@
       "status": "registered"
     }
   ],
-  "updated_utc": "2026-10-25"
+  "round6_hypotheses_20261026": [
+    {
+      "id": "H36-1",
+      "rank": 1,
+      "title": "True Potential-Field Tilt-Phase, Depth-Persistent Magnetic & Piedmont-Drainage Curvilinear Skeleton (TDR-PDS)",
+      "layers": "Official Bands 2, 3, 5, 6, 7, 8, 9, 11, 12, 13, 15, 17, 18, 19; external/geodawn_extensions_u8.tif (Th/K, U/K, U/Th, TMI_up150); external/lidar_scarp_features_u8.tif",
+      "signature": "True Miller-Singh (1994) tilt angles arctan(tmi_vg/tmi_hg) & arctan(iso_grav_anom_vg/iso_grav_anom_slope), TMI_up150 survival, signed Band-18 half-graben polarity reversal, 16-azimuth drainage-deflection skeleton, and 1 m LiDAR scarplet asymmetry -> 500 m halo-excluded PU spatial-CV HistGB -> Steger 1-px curvilinear crest NMS -> B=2 lazy-greedy 300 m kernel packing (37,654 dots)",
+      "why_off_catalogue": "Blind faults (~39% of known and ~75% of undiscovered Great Basin geothermal systems; OSTI 1148722) lack surface scarps beneath valley fill, yet offset basement/volcanic susceptibility and density contacts (retaining tilt zero-crossings and TMI_up150 gradients) and subtly deflect basin drainages",
+      "differs_from_repo": "Fixes IR-32-BAND-02 (true tilt angle vs Band 6 radiometric TC) and IR-32-BAND-03 (signed d(g)/dx polarity reversals); first use of TMI_up150; replaces 1-px adjacent negative sampling with 500 m PU damage-halo exclusion; applies Steger sub-pixel curvilinear crest NMS before emitter.emit",
+      "expected_dti": "+0.005 to +0.020 HOLDOUT-DTI over Round-5 H-CVF2",
+      "cost": "low-medium (46 cached float16 channels; 3 experiments run within budget)",
+      "data_status": "100% locally cached and SHA-256 verified in registry/data_manifest.json",
+      "measured": {
+        "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-gated",
+        "exp1_H36_1A_visible_holdout_dti": 0.0638,
+        "exp1_H36_1A_sgmc_raw_dti": 0.16421,
+        "exp2_H36_1B_visible_holdout_dti": 0.10482,
+        "exp2_H36_1B_sgmc_raw_dti": 0.06832,
+        "exp3_H36_1C_visible_holdout_dti": 0.10982,
+        "exp3_H36_1C_visible_holdout_ci95": [0.09866, 0.12275],
+        "exp3_H36_1C_censored_d0_dti": 0.07639,
+        "exp3_H36_1C_sgmc_raw_dti": 0.0838,
+        "champion_b2_visible_holdout_dti": 0.0992,
+        "champion_b2_sgmc_raw_dti": 0.09606,
+        "genuine_44_max_abs_spearman": 0.15949,
+        "genuine_44_max_3px_overlap": 0.60437,
+        "leakage_canary_max_auc": 0.58412
+      },
+      "status": "EVALUATED (3/3 experiments) -> UNIQUE VALIDATED GEOTIFF WRITTEN (9ff9d6e2); VERDICT: NEGATIVE (download_ok=true, ok_to_submit=false; SGMC 0.08380 < 0.09606 Champion & literal 5-px calibration lattice stop)"
+    },
+    {
+      "id": "H36-2",
+      "rank": 2,
+      "title": "Quaternary Volcanic-Vent Dike-Swarm & Cation/Silica Geothermometer Azimuthal Feeder Corridors",
+      "layers": "external/gdr_volcanic_vents_in_footprint.csv (21 vents), external/gdr_wellspring_in_footprint.csv (temp_c, geothermquartz_c, geothermchalc_c; dist_known_fault_px excluded), Band 2 (rtp), Band 8 (geod_dilaterate)",
+      "signature": "NNE-SSW (sigma_3 perpendicular) anisotropic structural corridors linking Quaternary vents and >=60 C geothermometers along positive RTP magnetic dike/fault ridges",
+      "why_off_catalogue": "21/21 Quaternary vents and 71% of >=150 C geothermometers sit >300 m from mapped catalogue faults (OSTI 1724109), requiring concealed upper-crustal fault conduits",
+      "differs_from_repo": "H33-1 emitted isotropic circular IDW blobs; H36-2 encodes anisotropic NNE-SSW RTP magnetic ridge corridors",
+      "expected_dti": "+0.002 to +0.008 HOLDOUT-DTI as corroboration channel",
+      "cost": "low (<30 s)",
+      "data_status": "100% locally cached (DOE GDR #1391, DOI: 10.15121/1881483, CC BY 4.0)",
+      "status": "evaluated inside H36-1 feature stack (canary AUC 0.518 <= 0.90)"
+    },
+    {
+      "id": "H36-3",
+      "rank": 3,
+      "title": "Upward-Continuation Spectral Attenuation Ratio (TMI_0 vs TMI_up150)",
+      "layers": "Band 3 (tmi_hg), external/geodawn_extensions_u8.tif Band 4 (TMI_up150)",
+      "signature": "Upward-continuation gradient survival |grad_h(TMI_up150)| / (zpos(log(1+tmi_hg)) + 0.35)",
+      "why_off_catalogue": "Separates deep sub-vertical basement fault contacts (slow upward decay, N~0-0.5) from shallow basaltic talus/cobble dipole noise (rapid z^-3 decay)",
+      "differs_from_repo": "First module in repo to load geodawn_extensions_u8.tif Band 4 (TMI_up150)",
+      "expected_dti": "+0.003 to +0.010 HOLDOUT-DTI when paired with Miller-Singh tilt",
+      "cost": "low (<20 s)",
+      "data_status": "100% locally cached (USGS GeoDAWN DOI: 10.5066/P93LGLVQ)",
+      "status": "evaluated inside H36-1 feature stack (canary AUC <= 0.90)"
+    },
+    {
+      "id": "H36-4",
+      "rank": 4,
+      "title": "Elevation-Residualized Radiometric K/Th + U/Th Redox Fronts Paired with MT Clay-Cap Edges",
+      "layers": "Band 6 (tc), external/geodawn_extensions_u8.tif (Th/K, U/K, U/Th), Band 17 (cond_surf), Band 12 (det_elev)",
+      "signature": "Elevation-residualized Th/K depletion (potassic alteration) + |grad(U/Th)| redox fronts co-aligned with |grad(log(1+cond_surf))|",
+      "why_off_catalogue": "Hydrothermal alteration and redox U precipitation trace fluid-bearing blind faults lacking topographic throw",
+      "differs_from_repo": "Residualizes Th/K against elevation to remove unaltered felsic granite confounding present in H35-D",
+      "expected_dti": "+0.001 to +0.006 HOLDOUT-DTI",
+      "cost": "low (<30 s)",
+      "data_status": "100% locally cached (USGS GeoDAWN DOI: 10.5066/P93LGLVQ)",
+      "status": "evaluated inside H36-1 feature stack (canary AUC 0.5456 <= 0.90)"
+    },
+    {
+      "id": "H36-5",
+      "rank": 5,
+      "title": "Relocated Microseismicity 3-D Plane Updip Projection + 2020 Monte Cristo InSAR Phase-Gradient Lineaments",
+      "layers": "USGS ANSS ComCat FDSN relocated hypocenters (M>=1.0), Ruhl et al. (2021) Monte Cristo catalog, ARIA/ASF Sentinel-1 unwrapped interferograms",
+      "signature": "3-D RANSAC fault-plane fit to relocated hypocenter clusters projected updip to surface/basement + coseismic InSAR phase-gradient ridges",
+      "why_off_catalogue": "Official deq_n100a15/ieq_n100a15 bands use a 100 km kernel (3 km autocorrelation = 0.9935), erasing active unmapped ruptures such as the 2020 Mw 6.5 Monte Cristo splays (DOI: 10.1785/0220200371)",
+      "differs_from_repo": "Never implemented; requires raw point-cloud hypocenters and InSAR phase rasters",
+      "expected_dti": "+0.008 to +0.025 HOLDOUT-DTI if external raw feeds available",
+      "cost": "medium",
+      "data_status": "DATA-BLOCKED in restricted sandbox (earthquake.usgs.gov, zenodo.org, asf.alaska.edu outside sandbox egress allowlist); NOT proposed as viable in this run",
+      "status": "registered (data-blocked in sandbox)"
+    }
+  ],
+  "updated_utc": "2026-10-26"
 }

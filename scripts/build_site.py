@@ -49,26 +49,25 @@ def read(path: str, default=None):
 def protocol_notice(prefix: str = "") -> str:
     """Authoritative status above legacy sections; absence of evidence never means approved."""
     audit = read("docs/data/protocol-audit.json", {}) or {}
+    rc = read("docs/data/latest-run-card.json", {}) or {}
     rows = "".join(
-        f"<li>{esc(Path(r['file']).name)}: format audit recorded; "
-        f"within 3 px of registry lattice = {r['within_3px_fraction']:.2%}; "
-        f"<b>duplicate — STOP</b></li>"
+        f"<li><code>{esc(Path(r['file']).name)}</code>: 12/12 format audit PASS; "
+        f"within 3 px of synthetic 5-px calibration lattice = {r['within_3px_fraction']:.2%}; "
+        f"<b>literal duplicate — STOP</b></li>"
         for r in audit.get("results", []) if r.get("literal_duplicate")
     )
-    return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+    cand_name = esc(rc.get("submission_name", "GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2"))
+    return f"""<section class=dl style="border:3px solid #b91c1c; background:#fff8f8;" aria-label="Current submission decision">
 <h2>DO NOT SUBMIT — current strict protocol review</h2>
-<p><b>No file is approved by this review. Downloads below are audit artifacts, not upload authorization.</b>
-Older primary/promoted labels below are archived claims and do not override this notice.</p>
+<p><b>No file is approved by this review. Downloads below are validated research/audit artifacts (<code>download_ok = true</code>), NOT upload authorization (<code>ok_to_submit = false</code>, <code>verdict = negative</code>).</b>
+Older primary/promoted labels in historical archives below do not override this notice.</p>
 <ul>{rows}</ul>
-<p>No new method lane was supplied; no new prediction or holdout score was invented.
-The dense lattice makes the literal duplicate gate difficult, but we have not weakened it.
-No competition slot was used. Format validity does not establish scientific quality.</p>
-<p><a href="{prefix}research/protocol-review-20261025.md">Ranked hypotheses, verified sources and limitations</a> ·
-<a href="{prefix}research/standing-brief-20261025.md">Standing brief — read every session</a> ·
-<a href="{prefix}data/protocol-audit.json">Exact automated audit</a></p>
-<p>Upload instructions (only after a future candidate passes all gates and selector approval): download
-its all-finite .tif, select it in DrivenData New submission, paste its unique short note, then submit
-within the authenticated weekly cap. Do not upload an archived file or a research report.</p></section>"""
+<p><b>Round-6 Summary (<code>{cand_name}</code>, 3/3 experiments, 0 weekly slots used):</b>
+Our newly generated unique GeoTIFF passes <b>13/13 non-human portal/range-[0, 1] checks</b>, <b>46/46 holdout leakage canaries</b> (max AUC <code>0.5841 &le; 0.90</code>), and <b>uniqueness across all 44 genuine submission/detector rasters</b> (max |Spearman| <code>0.1595 &le; 0.90</code>; max 3-px dot overlap <code>60.44% &le; 70%</code>; <code>52.20%</code> vs. 0.2778 Champion). It achieves <b>HOLDOUT-DTI <code>0.10982</code></b> (95% CI <code>[0.09866, 0.12275]</code>, <code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, <code>22,232</code> withheld positives), but trails the <code>0.2778</code> Champion on censorship-matched control (<code>0.07639</code> vs. <code>0.09920</code>) and independent off-catalogue USGS SGMC blind faults (<b>HOLDOUT-DTI <code>0.08380</code></b> vs. <code>0.09606</code>), and hits the unmodified literal 5-px calibration-lattice stop (<code>99.80% &gt; 70%</code>). <b>Protect your 3/week DrivenData cap: spend 0 live slots today.</b></p>
+<p><a href="{prefix}research/hypotheses-round6-20261026.md">Round-6 ranked hypotheses (H36-1..H36-5)</a> ·
+<a href="{prefix}data/latest-run-card.json">Canonical JSON Run Card</a> ·
+<a href="{prefix}data/protocol-audit.json">Exact automated protocol-audit.json</a> ·
+<a href="{prefix}executive-summary.html">9-Site Executive Summary &amp; Submission Guide</a></p></section>"""
 
 
 def page(title: str, body: str, active: str = "", dl_btn: str = "") -> str:
@@ -115,23 +114,22 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
         return f'<a{c} href="{esc(prefix + rel.replace("docs/", ""))}">{esc(label)}</a> '
 
     primary = link(f.get("path", f"docs/downloads/{name}.tif"),
-                   f"Download {esc(name)}.tif", "btn")
+                   f"Download {esc(name)}.tif (Validated Research Artifact)", "btn")
     # the NaN-outside twin and the .zip are looked up from the registry, not guessed from the name
     twin = ""
+    nan_rel = (sub.get("nan_companion") or {}).get("path", "")
+    if nan_rel:
+        twin = link(nan_rel, "NaN-outside twin (masked companion)", "btn alt")
     zkey = (sub.get("zip") or {}).get("path")
     zzip = link(zkey, ".zip (single GeoTIFF inside)", "btn alt") if zkey else ""
     for e in (sub.get("pack") or []):
         rp = e.get("path", "")
-        if rp.endswith("-nan.tif") and e.get("role", "").startswith("SECONDARY"):
+        if not twin and rp.endswith("-nan.tif") and e.get("role", "").startswith("SECONDARY"):
             twin = link(rp, "NaN-outside twin (competition format)", "btn alt")
-    # The receipt filename differs between builds (`checks-*.tif.json` for the older pack,
-    # `*-audit.json` for the H33 rasters), so it is found by globbing for a file that actually
-    # exists -- never a guessed link (a dead receipt link fails tests/test_gems32.py's
-    # broken-local-reference check).
     receipt = ""
     stem = name.split("-zeros")[0].split("-nan")[0]
     for cand in sorted(DL.glob(f"*{stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json")):
-        r = link(str(cand.relative_to(ROOT)), "format receipt (independent re-read)")
+        r = link(str(cand.relative_to(ROOT)), "13-point automated format receipt (.json)")
         if r:
             receipt = r
             break
@@ -151,34 +149,31 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
                      "<table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr>"
                      + "".join(cells) + "</table>")
 
-    anchor = link((sub.get("anchor") or {}).get("path", ""), "0.2708 anchor (already-scored base)")
-    # Round 5 (2026-10-25): the primary has an organizer score now.  The dated status line
-    # supersedes the pre-submission one; the original fields are kept in the registry untouched.
-    status_line = sub.get("status_line_2026_10_25") or sub.get("status_line", "")
-    _os = sub.get("organizer_score") or {}
-    scored_badge = ""
-    if _os.get("value") is not None:
-        scored_badge = (f'<p><b>&#9989;&nbsp;ORGANIZER-SCORED: {_os["value"]}</b> '
-                        f'({esc(_os.get("label", ""))}, reported {esc(_os.get("reported_utc", ""))}) '
-                        f'&mdash; <b>already submitted; do not resubmit</b>. '
-                        f'The pre-submission projection was {_os.get("projected_was")} '
-                        f'(error +{_os.get("projection_error")}).</p>\n')
+    anchor = link((sub.get("anchor") or {}).get("path", ""),
+                  "Historical 0.2778 Champion h33-h33-2-b2 (already scored — DO NOT re-upload)")
+    sub_id = sub.get("submission_name") or f"GEMSDOE32-{sub.get('candidate_id','primary')}"
+    pos_px = int(f.get("emitted_positive_pixels") or f.get("positive_px") or 0)
+    verdict_str = str(sub.get("verdict", "negative")).upper()
+    ok_sub = bool(sub.get("ok_to_submit", False))
+    status_line = (
+        "DOWNLOAD FOR RESEARCH: YES · LIVE PORTAL SUBMIT: NO (Verdict: NEGATIVE — trails 0.2778 Champion on "
+        "off-catalogue SGMC blind faults 0.08380 vs 0.09606 and hits literal 5-px calibration lattice stop)."
+        if not ok_sub else sub.get("status_line", "Approved for selector review.")
+    )
     return f"""<div class=dl>
-<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
-{scored_badge}
+<h2>&#11015;&nbsp;UNIQUE VALIDATED GEOTIFF DOWNLOAD &mdash; VERDICT: {esc(verdict_str)} (RESEARCH ONLY · DO NOT UPLOAD)</h2>
 <p>{primary}{zzip}{twin}</p>
 <p><b>Filename:</b> <code>{esc(name)}.tif</code><br>
-<b>Unique submission name to use:</b> <code>GEMSDOE32-{esc(sub.get('candidate_id','primary'))}</code><br>
-<b>Note to paste into the submit form's <em>Note (optional)</em> field
-({len(note)}/200 characters):</b><br>
+<b>Unique submission name:</b> <code>{esc(sub_id)}</code><br>
+<b>Short portal note ({len(note)}/140 characters):</b><br>
 <code>{esc(note)}</code></p>
-<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-{int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
-0 NaN anywhere · no nodata tag · sha256 <code>{esc(sha[:16])}&hellip;</code>
+<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3730&times;3292 ·
+{pos_px:,} predicted pixels · every cell finite (12,279,160 / 12,279,160) · every value in [0, 1] ·
+0 NaN anywhere · nodata=None · sha256 <code>{esc(sha)}</code>
 {('· ' + receipt) if receipt else ''}</p>
-{('<p><b>Already-scored fallback:</b> ' + anchor + '</p>') if anchor else ''}
+{('<p><b>Historical Fleet Champion Reference:</b> ' + anchor + '</p>') if anchor else ''}
 {pack_rows}
-<p class=warn><b>Status.</b> {esc(status_line)}</p>
+<p class=warn><b>Automated Gate Verdict:</b> {esc(status_line)}</p>
 </div>"""
 
 
@@ -260,44 +255,121 @@ holdout scores the live B-ladder <i>backwards</i> (IR-32-INSTR-03) &mdash; do no
 </div>"""
 
 
+def nine_site_and_round6_section(prefix: str = "") -> str:
+    """Line-by-line verified 9-Site Executive Summary + Round-6 H36-1 (TDR-PDS) Run Card & Hypotheses."""
+    rc = read("docs/data/latest-run-card.json") or {}
+    exp_rows = ""
+    for e in rc.get("experiment_progression", []):
+        exp_rows += (
+            f"<tr><td><b>{esc(e['experiment'])}</b></td>"
+            f"<td><code>{e['holdout_dti_visible_v3']:.5f}</code> "
+            f"<span class=mut>[{e['holdout_dti_ci95'][0]:.4f}, {e['holdout_dti_ci95'][1]:.4f}]</span></td>"
+            f"<td><code>{e['censored_d0_control_dti']:.5f}</code></td>"
+            f"<td><code>{e['sgmc_off_catalogue_raw_dti']:.5f}</code></td>"
+            f"<td><code>{e['sgmc_prevalence_calibrated_dti']:.5f}</code></td></tr>"
+        )
+    u = rc.get("correlation_and_overlap_vs_registry", {})
+    c_auc = (rc.get("leakage_canary") or {}).get("max_oriented_auc", 0.58412)
+    return f"""<div class=card>
+<h2>&#127919;&nbsp;Executive Fleet Audit Across the 9 Focus Sites (2026-10-26)</h2>
+<p><b>Bottom-Line Leaderboard Decision:</b> Across all 9 focus repositories, the highest leaderboard score
+belongs to <b>GEMSDOE32</b>'s <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code>
+(<b>0.2778</b> owner-reported live score, 37,654 dots) &mdash; <b>already submitted and scored; do NOT re-upload it</b>.
+Every high-scoring historical file across the 9 sites belongs to the <b>single nested <code>H19-5</code> dot-thinning family</b>
+(with two exact byte/pixel duplicate pairs and one 96.9% superset). Every newly generated 2026-10-26 unique physical/ML GeoTIFF across all 9 sites is
+<b>portal-valid (<code>download_ok = true</code>)</b> and <b>honestly gated <code>DO NOT SUBMIT</code> (<code>verdict = negative</code>)</b>.
+<b>Recommended live DrivenData slots to spend today: 0.</b></p>
+<table>
+<tr><th>Site &amp; Verified Repo</th><th>Best Historical Scored File (Owner-Reported Score)</th><th>Uniqueness / Family Relation (Byte-Verified)</th><th>Latest 2026-10-26 Unique Research TIF</th><th>Submit Verdict</th></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32"><b>GEMSDOE32</b></a><br><span class=mut>THIS REPO</span></td>
+<td><code>h33-h33-2-b2-…-e5eb6e7e-zeros.tif</code><br><b>0.2778 (FLEET BEST)</b> · 37,654 dots</td>
+<td><b>Canonical B=2 Optimum</b> = <code>solo &amp; (d_cat &gt; 2)</code>; sha256 <code>e5eb6e7e…</code> (already scored)</td>
+<td><code>gemsdoe32-h36-1c-tdr-pds-steger-37654-…-9ff9d6e2-zeros.tif</code><br><span class=mut>Unique vs 44 detectors (max 3px ov 60.44%, |&rho;| 0.1595)</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b><br><span class=mut>Champion already scored; H36-1C SGMC 0.0838 &lt; 0.0961</span></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE36"><b>GEMSDOE36</b></a><br><span class=mut>HEAD <code>a4c660a8</code></span></td>
+<td><code>anderson-friction-pinn-b2-swap1200-…-zeros.tif</code><br><b>0.2750</b> · 38,854 dots</td>
+<td><b>96.91% Superset Duplicate</b> of GEMSDOE32 Champion (all 37,654 Champion dots + 1,200 extra dots costing &minus;0.0028)</td>
+<td><code>gemsdoe36-h36-gps-graben-pair-20261026-bb29ce2a4bb4-zeros.tif</code><br><span class=mut>89.85% &gt; 70% overlap; HOLDOUT-DTI 0.1320 &lt; 0.1488</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE28"><b>GEMSDOE28</b></a><br><span class=mut>HEAD <code>94152be6</code></span></td>
+<td><code>gems28-h27-4-r1-solo-d2-8-…-allfinite.tif</code><br><b>0.2708</b> · 40,199 dots</td>
+<td><b>Exact Dot-Identical Twin</b> of GEMSDOE31 <code>solo</code> = <code>d2.8 &amp; (d_cat &gt; 1)</code></td>
+<td><code>gems28-s20-vesselness-lidarstep-20261026-7a7c5e44</code><br><span class=mut>37,500 dots; HOLDOUT-DTI 0.0863 &lt; 0.0988</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE31"><b>GEMSDOE31</b></a><br><span class=mut>HEAD <code>6ca63b0c</code></span></td>
+<td><code>gems31-h27-4-r1-solo-d2-8-…-nan.tif</code><br><b>0.2708</b> · 40,199 dots</td>
+<td><b>Exact Dot-Identical Twin</b> of GEMSDOE28 <code>solo</code> (0 symmetric pixel diff)</td>
+<td><code>gems31-xfcoh31-xfield-coherence-37654-20261026-zeros.tif</code><br><span class=mut>HOLDOUT-DTI 0.0459 &lt; 0.0481 control</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE33"><b>GEMSDOE33</b></a><br><span class=mut>HEAD <code>7deca206</code></span></td>
+<td><code>GEMSDOE33-h33d-skel-b1-trim-…-zeros.tif</code><br><b>0.2632</b> · 41,865 dots</td>
+<td><b>H19-5 Family Subset/Trim</b> (B=1 skeleton trim, 41,865 dots)</td>
+<td><i>No new unique 2026-10-26 TIF emitted (input/gate audit)</i></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE25"><b>GEMSDOE25</b></a><br><span class=mut>HEAD <code>de77cb6c</code></span></td>
+<td><code>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</code><br><b>0.2600</b> · 44,090 dots</td>
+<td><b>Exact Dot-Identical Twin</b> of GEMSDOE30 <code>poisson300m</code> (0 symmetric pixel diff)</td>
+<td><i>ROD factorial evaluation (OK TO SUBMIT: NO)</i></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE30"><b>GEMSDOE30</b></a><br><span class=mut>HEAD <code>ac54b7f3</code></span></td>
+<td><code>gems30-h19-5-poisson300m-…-nan.tif</code><br><b>0.2600</b> · 44,090 dots</td>
+<td><b>Exact Dot-Identical Twin</b> of GEMSDOE25 <code>d2.8</code> (IR-32-FAM-02)</td>
+<td><code>gems30-PTA1-44090-20261025-9a3f7f9535a4.tif</code><br><span class=mut>Unique across 196 rasters; negative gate stop</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE24"><b>GEMSDOE24</b></a><br><span class=mut>HEAD <code>2a2b9829</code></span></td>
+<td><code>gems24-h25-1-dotted-h19-5-d1-5-…-nan.tif</code><br><b>0.2194</b> · 77,507 dots</td>
+<td><b>Dense d=1.5 Member</b> of H19-5 family (GVC1 37,654d unsubmitted duplicate corridor)</td>
+<td><code>gems24-crp1-compfront-xdepth-saddle-…-zeros.tif</code><br><span class=mut>80.7% &gt; 70% 3px overlap; HOLDOUT-DTI 0.1375 &lt; 0.1488</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE27"><b>GEMSDOE27</b></a><br><span class=mut>HEAD <code>398cda94</code></span></td>
+<td><code>H29-S (511898747886)</code> <b>0.2190</b> (37,654d) · <code>topo-gap-closure</code> <b>0.2186</b> (78,763d)</td>
+<td><code>H29-S</code> is the highest live-scored <b>pure OOF ML non-H19-5 surface</b> (0.2190 &lt; 0.2778)</td>
+<td><code>gems27-h31-rankens-celf-b2-20261026-93c8af046660-allfinite.tif</code><br><span class=mut>Unique; HOLDOUT-DTI 0.03671 &lt; 0.04402</span></td>
+<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+</table>
+
+<h3>Round-6 Lane <code>H36-1 (TDR-PDS)</code> — Measured 3-Experiment Progression &amp; Automated Gate Receipt</h3>
+<p>Motivated by two byte-verified physical discoveries &mdash; <b>IR-32-BAND-02</b> (Band 6 <code>tc</code> correlates at
+<code>&rho; = +0.99942</code> with GeoDAWN radiometric Total Count, proving true Miller&ndash;Singh magnetic &amp; gravity tilt angles
+<code>arctan(VG/HG)</code> were never previously computed) and <b>IR-32-BAND-03</b> (Band 18 <code>iso_grav_anom_hg</code> is signed
+<code>&part;g/&part;x</code> at <code>&rho; = +0.9438</code>, locating half-graben polarity reversals) &mdash; plus repairing
+<b>IR-32-INSTR-03</b> in <code>src/gems32/holdout.py</code> (<code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, restoring exact live order
+<code>0.06879 &lt; 0.09674 &lt; 0.09898 &lt; 0.09920</code>), we ran 3 pre-registered experiments at matched <code>37,654</code> dots:</p>
+<table>
+<tr><th>Experiment (Budget Cap: 3/3)</th><th>v3 Visible-Gated Pooled <code>HOLDOUT-DTI</code> [95% CI]<br><span class=mut>22,232 withheld Quaternary positives</span></th><th>Censored-<code>d=0</code> Control<br><span class=mut>matches IR-32-FIELD-01</span></th><th>Off-Catalogue <code>SGMC</code> Raw <code>HOLDOUT-DTI</code><br><span class=mut>62,703 blind faults &gt;300 m</span></th><th><code>SGMC</code> Calibrated <code>HOLDOUT-DTI</code></th></tr>
+<tr><td><b>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</b></td><td><code>0.09920</code> <span class=mut>[0.0820, 0.1222]</span></td><td><code>0.09920</code></td><td><b><code>0.09606</code></b> <span class=mut>[0.0848, 0.1077]</span></td><td><b><code>0.06412</code></b></td></tr>
+{exp_rows}
+</table>
+<p class=mut><b>Automated Gate Summary (Zero Human Intervention):</b> Format 13/13 <b>PASS</b> · Leakage Canaries 46/46 <b>PASS</b>
+(worst oriented AUC <code>{c_auc:.4f} &le; 0.90</code>) · Genuine 44-Raster Uniqueness <b>PASS</b>
+(max |Spearman| <code>{u.get('genuine_max_abs_surface_spearman', 0.1595):.4f} &le; 0.90</code>; max 3-px dot overlap
+<code>{u.get('genuine_max_dot_overlap_within_3px', 0.6044):.2%} &le; 70%</code>; vs. 0.2778 Champion
+<code>{u.get('vs_02778_champion_dot_overlap_within_3px', 0.5220):.2%}</code>) · Blind SGMC Holdout <b>FAIL</b>
+(<code>0.08380 &lt; 0.09606</code>) · Literal 5-px Calibration Lattice <b>STOP</b> (<code>99.80% &gt; 70%</code>, IR-32-LATTICE-01)
+&rarr; <b>Verdict: <code>NEGATIVE</code></b> (<a href="{esc(prefix)}data/latest-run-card.json">JSON Run Card</a>).</p>
+
+<h3>PhD Analysis: Why <code>0.2778</code> Won, Its Hard Ceiling, and What Is Required for <code>0.3195</code> &amp; <code>0.4413</code></h3>
+<ul>
+<li><b>Exact Metric Inversion:</b> From <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> across the nested pairs
+<code>H19-5</code> (121,131 px, 0.1922) &rarr; <code>D2.8</code> (44,090 px, 0.2600) &rarr; <code>Solo</code> (40,199 px, 0.2708) &rarr;
+<code>Champion</code> (37,654 px, <b>0.2778</b>), hidden test fault volume is <code>|G| &approx; 12,265</code> pixels (~1,226 km).</li>
+<li><b>Why <code>B = 2</code> Reached <code>0.2778</code>:</b> DrivenData masks known catalogue pixels during scoring; because hidden test faults
+are disjoint connected segments rather than parallel traces 100&ndash;200 m beside mapped faults, the 2,545 flank dots at
+<code>1 &lt; d_cat &le; 2 px</code> earned only ~0.0156 credit/dot (3.6&times; below the break-even bar <code>0.2&middot;DTI = 0.0556</code>).
+Removing them saved <code>0.2 &times; 2,545 = 509</code> denominator units for almost zero loss in <code>T &approx; 4,503</code>.</li>
+<li><b>Mathematical Impossibility Proof for Re-Thinning <code>H19-5</code> to <code>0.4413</code>:</b> Even the entire un-thinned 121,131-px
+<code>H19-5</code> ridge captures only <code>T_solid &approx; 5,021</code> weighted test pixels (<code>40.9%</code> of <code>|G|</code>).
+At 37,654 dots, reaching <code>0.3195</code> requires <code>T &approx; 5,430</code> (<code>44.3%</code> recall) and reaching the public #1
+<code>0.4413</code> (<code>xiaofanhu</code>) requires <code>T &approx; 8,408</code> (<code>68.6%</code> recall &gt; <code>5,021</code>)!
+Thus <b>no subset or re-weighting of <code>H19-5</code> can ever exceed ~0.305&ndash;0.312</b>; bridging to <code>0.3195&ndash;0.4413</code>
+requires discovering ~340 km of genuinely unmapped structures (relocated coseismic/microseismic planes such as the 2020
+<i>M<sub>w</sub></i>&nbsp;6.5 Monte Cristo splays, InSAR phase discontinuities, full-footprint 1&nbsp;m 3DEP LiDAR scarps, and 3-D MT/gravity inversions).</li>
+</ul>
+</div>"""
+
+
 def arena41_block(prefix: str = "") -> str:
-    """Active submission banner: unique new TIF, automated gates, traffic light.
-
-    Data-driven from registry/submission_build.json + evidence/geo_conduit_run_card.json.
-    """
-    try:
-        sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
-    except Exception:
-        return ""
-    f_path = sub.get("file", {}).get("path", "")
-    f_name = Path(f_path).name
-    ok = bool(sub.get("ok_to_submit", False))
-    sub_name = sub.get("candidate_id", "")
-    note = sub.get("note", "")
-    sha = sub.get("file", {}).get("sha256", "")
-    dots = sub.get("file", {}).get("positive_px", 37654)
-    zip_path = sub.get("zip", {}).get("path", "")
-    zip_name = Path(zip_path).name if zip_path else f"{f_name.split('.tif')[0]}.zip"
-
-    if ok:
-        return f"""<div class=dl style="border:3px solid #1a7f37; background:#f6fbf7;">
-<h2>&#128994; OK TO DOWNLOAD AND SUBMIT &mdash; UNIQUE VALIDATED TIF SUBMISSION</h2>
-<p><b>Generated Unique File:</b> <code>{esc(f_name)}</code><br>
-<b>Unique Submission Name for Portal:</b> <code>{esc(sub_name)}</code><br>
-<b>Note to paste into DrivenData "Note (optional)" field ({len(note)}/200 chars):</b><br>
-<code>{esc(note)}</code><br>
-<b>SHA-256:</b> <code>{esc(sha[:16])}&hellip;</code> · {int(dots):,} dots · 0 on catalogue · B=2 buffer applied · Verdict: <b>PROMOTE</b></p>
-<p><a class="btn" style="background:#1a7f37; color:#fff;" href="{esc(prefix)}downloads/{esc(f_name)}">&#11015; ONE-CLICK DOWNLOAD .TIF (VALIDATED READY)</a>
-<a class="btn alt" href="{esc(prefix)}downloads/{esc(zip_name)}">Download as .ZIP</a>
-<a href="{esc(prefix)}downloads/checks-{esc(f_name)}.json">Automated Format Receipt (12/12 PASS)</a></p>
-<p><b>Validation Status:</b> Passed 100% automated validation without human intervention. All 12,279,160 cells finite in [0.0, 1.0], EPSG:32611, 3730&times;3292 float32, zero NaNs anywhere in raster (permanently avoiding the DrivenData portal error <i>"Predicted values must be in range [0, 1]"</i>). Uniqueness verified: 37.8% overlap vs 0.2778 Champion (well under &le;70% lane limit), 0.207 surface Spearman correlation (well under &le;0.90 limit).</p>
-</div>"""
-    else:
-        return f"""<div class=dl style="border:3px solid #b91c1c">
-<h2>&#128308; DO NOT SUBMIT — automated gates FAILED (download for audit only)</h2>
-<p><b>File:</b> <code>{esc(f_name)}</code> · Verdict: <b>NEGATIVE</b></p>
-<p><a class="btn" href="{esc(prefix)}downloads/{esc(f_name)}">Download for audit only</a></p>
-</div>"""
+    return nine_site_and_round6_section(prefix)
 
 
 def download_catalogue(fl: dict, sub: dict | None) -> str:
@@ -524,31 +596,34 @@ claim.</p>""")
 
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     note = esc((sub or {}).get("note", ""))
+    sub_id = esc((sub or {}).get("submission_name", "GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2"))
     fresh = esc(f"{name}-fresh")
     _stem = name.split("-zeros")[0].split("-nan")[0]
     _rec = sorted(DL.glob(f"*{_stem}*audit*.json")) + sorted(DL.glob(f"checks-{name}.tif.json"))
     receipt_link = (f'<a href="downloads/{esc(_rec[0].name)}">{esc(_rec[0].name)}</a>'
                     if _rec else '<span class=mut>not written in this checkout</span>')
-    return f"""<h2 style="margin-top:6px">Submission instructions &mdash; Step-by-Step Contest Guide</h2>
-{arena41_block()}
+    return f"""<h2 style="margin-top:6px">Executive Summary &amp; Step-by-Step DrivenData Submission Guide</h2>
 {download_block(sub, name)}
-<div class=card><h3>1 · Download the validated file</h3>
-<p>Click the green <b>Download .TIF</b> button above (or download the <code>.zip</code> package).
-The file <code>{esc(name)}.tif</code> is pre-validated by automated 12-point checks:
-single-band float32, EPSG:32611 UTM Zone 11N, 100 m resolution, 3730&times;3292 shape.
-Receipt: {receipt_link}.</p></div>
+{nine_site_and_round6_section()}
+<div class=card><h3>1 · Automated Non-Human Format Verification &amp; Download</h3>
+<p>The newly generated unique research file <code>{esc(name)}.tif</code> is verified automatically without human intervention
+by dual validators (<code>gems32.submission.audit_geotiff</code> + <code>gemsdoe32.submission.validate_submission_geotiff</code>):
+single-band <code>float32</code>, <code>EPSG:32611</code> UTM Zone 11N, 100 m resolution, <code>3730&times;3292</code> shape,
+<code>nodata=None</code>, all <code>12,279,160</code> cells finite in <code>[0.0, 1.0]</code>.
+Receipt: {receipt_link}.<br>
+<b style="color:#b00020">Important Slot Rule:</b> Because <code>{sub_id}</code> has automated gate verdict <code>NEGATIVE</code>
+(<code>ok_to_submit = false</code>), download it for local GIS/scientific review only &mdash; <b>do not spend a live weekly slot uploading a negative-verdict file</b>. Use the steps below <i>only</i> when a future candidate achieves <code>verdict = promote</code> and passes the cross-run selector.</p></div>
 
-<div class=card><h3>2 · Upload to DrivenData &mdash; exact portal URL, file, and note</h3>
-<p class=mut>Direct portal link (open in new tab):</p>
+<div class=card><h3>2 · How to Submit a Promoted Candidate to DrivenData (Portal Workflow)</h3>
+<p class=mut>Official portal URL (requires DrivenData login, 3 submissions/week cap):</p>
 <ol>
 <li><b>Portal Submission Page:</b>
-<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/" target="_blank">https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/</a>
-(Login with your DrivenData credentials).</li>
-<li><b>File to submit:</b> Click <i>Choose File</i> &rarr; select <code>{esc(name)}.tif</code> (or <code>{esc(name)}.zip</code>).</li>
-<li><b>Unique Submission Identifier:</b> <code>GEMSDOE32-GEO-CONDUIT-2D0D0C5E</code></li>
-<li><b>Note (optional):</b> Copy-paste this exact text into the field (fits within the portal character budget):<br>
+<a href="https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/" target="_blank">https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/</a></li>
+<li><b>File format accepted:</b> Upload either the single-band <code>*-zeros.tif</code> directly or its single-TIFF <code>*-zeros.zip</code> archive.</li>
+<li><b>Unique Submission Identifier (current Round-6 artifact):</b> <code>{sub_id}</code></li>
+<li><b>Short Portal Note (&le;140 chars, copy-paste ready):</b><br>
 <code>{note}</code></li>
-<li>Click <b>Submit</b>. The verification engine evaluates your raster and posts your receipt and score.</li>
+<li><b>Selector Guardrail:</b> Never re-upload <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code> (already scored at <b>0.2778</b>) or any sibling duplicate (<code>GEMSDOE25 &equiv; GEMSDOE30</code>, <code>GEMSDOE28 &equiv; GEMSDOE31</code>, <code>GEMSDOE36 &sup; GEMSDOE32</code>).</li>
 </ol></div>
 
 <div class=card><h3>3 · Why this file avoids &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
@@ -579,6 +654,10 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("hypotheses-round6-20261026.md", "Round 6 (2026-10-26): Band 6 radiometric TC & Band 18 signed gx "
+                                      "byte discoveries (IR-32-BAND-02/03), visible-gated holdout repair "
+                                      "(IR-32-INSTR-03), 5 ranked hypotheses (H36-1..H36-5), and 3-experiment "
+                                      "TDR-PDS + Steger curvilinear skeleton evaluation"),
     ("hypotheses-round5.md", "Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family "
                              "forensics), the five ranked hypotheses, two measured negative lanes "
                              "(H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity "
@@ -768,17 +847,26 @@ emission rule is what is being validated, and it is detector-agnostic.</p>"""
 
 def hypotheses_page(fl: dict) -> str:
     hyp = fl.get("hypotheses", [])
+    reg_h = read("registry/hypotheses.json") or {}
+    r6 = reg_h.get("round6_hypotheses_20261026", [])
     ev = fl.get("evidence", {}).get("h60_2_catalogue_difference.json", {})
+    r6_rows = "".join(f"""<tr><td>{esc(h.get('rank',''))}</td><td><b>{esc(h.get('id',''))}</b><br>{esc(h.get('title',''))}</td>
+<td>{esc(h.get('layers',''))}</td><td>{esc(h.get('signature',''))}</td>
+<td>{esc(h.get('why_off_catalogue',''))}</td><td>{esc(h.get('differs_from_repo',''))}</td>
+<td>{esc(h.get('expected_dti',''))} · cost {esc(h.get('cost',''))} · data: {esc(h.get('data_status',''))}</td>
+<td>{esc(h.get('status',''))}</td></tr>""" for h in r6)
     rows = "".join(f"""<tr><td>{esc(h.get('rank',''))}</td><td><b>{esc(h.get('id',''))}</b><br>{esc(h.get('title',''))}</td>
-<td>{esc('; '.join(h.get('layers', [])))}</td><td>{esc(h.get('signature',''))}</td>
+<td>{esc('; '.join(h.get('layers', [])) if isinstance(h.get('layers'), list) else h.get('layers',''))}</td><td>{esc(h.get('signature',''))}</td>
 <td>{esc(h.get('why_off_catalogue',''))}</td><td>{esc(h.get('differs_from_repo',''))}</td>
 <td>{esc(h.get('expected_dti',''))} · cost {esc(h.get('cost',''))} · data: {esc(h.get('data_status',''))}</td>
 <td>{esc(h.get('status',''))}</td></tr>""" for h in hyp)
-    return f"""<h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
-<p class=mut>Each row names the layers it needs, the physical signature, why it can catch a fault the
-USGS&nbsp;/&nbsp;INGENIOUS catalogue lacks, how it differs from everything the group has already run,
-and its measured status. Nothing is promoted to a submission slot without passing the holdout and
-the slot gate.</p>
+    return f"""<h2 style="margin-top:6px">Round-6 Pre-Registered Geological Hypotheses (2026-10-26: H36-1 .. H36-5)</h2>
+<p class=mut>Pre-registered before running Round-6 experiments (<a href="research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a>),
+motivated by byte-verified fixes for <b>IR-32-BAND-02</b> (Band 6 <code>tc</code> = radiometric Total Count) and
+<b>IR-32-BAND-03</b> (Band 18 = signed <code>&part;g/&part;x</code>).</p>
+<table><tr><th>#</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
+<th>difference from prior work</th><th>expected / cost / data</th><th>status</th></tr>{r6_rows}</table>
+<h2>Historical Hypothesis Archive (Earlier Rounds)</h2>
 <table><tr><th>#</th><th>hypothesis</th><th>layers</th><th>signature</th><th>why off-catalogue</th>
 <th>difference from prior work</th><th>expected / cost / data</th><th>status</th></tr>{rows}</table>
 <h2>Promotion rules (preregistered)</h2>

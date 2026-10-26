@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T00:08:13Z",
+ "generated_utc": "2026-10-26T01:38:15Z",
  "sources": [
   {
    "id": "competition",
@@ -667,13 +667,13 @@
    "expected_dti": "+0.015 to +0.025 HOLDOUT-DTI",
    "cost": "low (built and evaluated on prepared 28-channel physical feature stack)",
    "data_status": "obtainable and verified in data/",
-   "status": "VALIDATED on spatially-blocked holdout set; primary candidate emitted (gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif)"
+   "status": "evaluated -> NEGATIVE (IR-32-CONDUIT-01: 0.70245 > 0.70 real-detector overlap vs gems10-h28-dotted-ridge; SGMC 0.04617 < 0.06412 Champion)"
   },
   {
    "id": "H-GEO-4",
    "rank": 4,
    "title": "Shallow Conductive Smectite Cap Breaching over Blind Resurgent Plumes",
-   "layers": "Band 15 (depth_to_base_surf), Band 17 (cond_surf), Band 6 (tc radiometric potassium)",
+   "layers": "Band 15 (depth_to_base_surf), Band 17 (cond_surf), Band 6 (tc radiometric Total Count)",
    "signature": "Steep horizontal gradients in depth-to-basement coinciding with low-resistivity smectite clay caps breached by radiometric alteration halos",
    "why_off_catalogue": "Blind geothermal systems develop hydrothermal clay caps (smectite/illite) at 200-500m depth; faults cutting these caps create distinct resistivity and alteration boundaries without surface scarp",
    "differs_from_repo": "Targets high-order structural edges of clay-cap boundaries rather than treating MT as a broad background heat field",
@@ -723,57 +723,40 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
-  "note": "GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]",
-  "status_line": "PRIMARY = GEMSDOE32-GEO-CONDUIT-2D0D0C5E (20261025T2): Geothermal Dilational Conduit & Step-Over Bridge, 37654 dots, 0 on catalogue, B=2 exclusion, HOLDOUT-DTI 0.0461, SGMC-cal 0.0462. OK TO DOWNLOAD AND SUBMIT.",
+  "schema_version": 2,
+  "generated_at_utc": "2026-10-26T01:20:00Z",
+  "name": "gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros",
+  "submission_name": "GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2",
+  "verdict": "negative",
+  "download_ok": true,
+  "ok_to_submit": false,
+  "note": "H36-1C TDR-PDS+Steger 37654d | HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos | SGMC 0.0838<0.0961 | DO NOT SUBMIT",
   "file": {
-   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
-   "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
-   "bytes": 279680,
-   "positive_px": 37654
-  },
-  "file_zeros": {
-   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
-   "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
-   "bytes": 279680
+   "path": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
+   "sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+   "bytes": 206761,
+   "emitted_positive_pixels": 37654,
+   "on_catalogue_positive_pixels": 0,
+   "portal_legal": true
   },
   "zip": {
-   "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.zip",
-   "sha256": "126a1f8fd99a97a4ce05c29c3999f34459f11eb332c6dd80cc8d2c1d3d5ffc12",
-   "bytes": 201576
+   "path": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip",
+   "sha256": "b78233be69b82b95744b2ce2e6a8649c5c18b8565cd51b2deb2f72b7f1f964fe",
+   "bytes": 171140
   },
-  "candidate_id": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E",
-  "tier": 1,
-  "hypothesis": "H-GEO-CONDUIT",
-  "verdict": "promote",
-  "ok_to_submit": true,
-  "on_catalogue_pixels": 0,
-  "catalogue_hidden_mean": 0.007448772962276978,
-  "drift_corrected_holdout_mean": 0.046094324290325346,
-  "sgmc_prevalence_calibrated_dti": 0.04617274804705923,
+  "nan_companion": {
+   "path": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif",
+   "sha256": "fae334455ae2eabe8d26f80168420105cb2f8f253c2c2c755f2ac47cf167123d",
+   "bytes": 340598
+  },
   "anchor": {
-   "role": "ANCHOR -- champion comparison",
+   "name": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
-   "note": "0.2778 scored champion (already submitted; do not resubmit)"
+   "owner_reported_live_dti": 0.2778,
+   "emitted_positive_pixels": 37654,
+   "resubmit_policy": "ALREADY_SCORED_DO_NOT_RESUBMIT"
   },
-  "pack": [
-   {
-    "role": "NaN-outside twin of the primary",
-    "path": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif",
-    "sha256": "2ba153e5d86e32745aa0014757d44cc829def41ce8b4a3b3be86b953cc23fee4",
-    "bytes": 332712,
-    "positive_px": 37654,
-    "note": "spec format (identical values inside footprint)"
-   },
-   {
-    "role": "HISTORICAL CHAMPION (already submitted)",
-    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
-    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
-    "bytes": 219065,
-    "positive_px": 37654,
-    "note": "0.2778 organizer-confirmed score (for comparison/study only)"
-   }
-  ]
+  "run_card": "evidence/h36_tdr_pds_run_card.json"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",
@@ -1526,8 +1509,9 @@
   {
    "id": "IR-32-INSTR-03",
    "severity": "high",
+   "status": "fixed (2026-10-26)",
    "statement": "The catalogue_hidden holdout instrument is PERVERSE for B-gated candidates (emissions that forbid dots within B px of the full catalogue): the hidden segments the instrument asks the candidate to recover are inside the candidate's own exclusion zone, because the gate was derived from the full catalogue including the hidden components. Proof with ORGANIZER-CONFIRMED points: live order champion(B=2) 0.2778 > solo(B=1) 0.2708 > d2.8(B=0) 0.2600 is exactly reversed by catalogue_hidden (0.00460 < 0.03104 < 0.09832). Extends IR-32-INSTR-01/02; the root cause is a protocol violation by the candidate's gate, not by the evaluator, but evaluate_candidate_holdout does not correct for it (its 1-px debias shift does not reach B=2). Measured 2026-10-25 (evidence/hcvf2_run.json).",
-   "mitigation": "for B-gated candidates use only instruments whose truth is off-catalogue by construction (SGMC), or re-derive the candidate's gate from visible-only faults per draw; hypotheses-round5.md \u00a72b documents the mechanism"
+   "mitigation": "FIXED in src/gems32/holdout.py (GEMSDOE32-HOLDOUT-v3-visible-gated): PreparedCell now precomputes d_visible_sub from visible faults ONLY per split, and evaluate_visible_gated_holdout scores exact pooled DTI with 95% block-bootstrap CI. Pinned by tests/test_holdout_visible_gate.py, restoring exact live order: H19-5 (0.06879) < D2.8 B=0 (0.09674) < Solo B=1 (0.09898) < Champion B=2 (0.09920) > B=3 (0.09710)."
   },
   {
    "id": "IR-32-FAM-01",
@@ -1546,6 +1530,38 @@
    "severity": "medium",
    "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
+  },
+  {
+   "id": "IR-32-BAND-02",
+   "severity": "high",
+   "status": "fixed (2026-10-26)",
+   "statement": "Every prior potential-field tilt hypothesis in GEMSDOE32 (H61-3, H62-1, H35-B, H-GEO-4) treated training_features.tif Band 6 ('tc') as magnetic tilt angle / total curvature. Direct byte correlation across 100,000 footprint pixels proves Band 6 ('tc', range [+2.95, +88.6], strictly positive everywhere) has Spearman rho = +0.99942 with GeoDAWN radiometric Total Count ('geodawn_rad_u8.tif' Band 4 'TC'), explaining why H62-1's zero-crossing detector collapsed to AUC = 0.5058.",
+   "evidence": "Band 6 min=+2.950, max=+88.589 (data/prepared_manifest.json); Spearman(Band 6 tc, geodawn_rad_u8 Band 4 TC) = +0.99942.",
+   "mitigation": "src/gems32/h36_tdr_pds.py computes true Miller & Singh (1994) potential-field tilt angles arctan(tmi_vg / (tmi_hg + eps)) from Bands 9 & 3 and arctan(iso_grav_anom_vg / (iso_grav_anom_slope + eps)) from Bands 11 & 5, while properly routing Band 6 as radiometric Total Count."
+  },
+  {
+   "id": "IR-32-BAND-03",
+   "severity": "medium",
+   "status": "fixed (2026-10-26)",
+   "statement": "Band 18 ('iso_grav_anom_hg', range [-15.4, +12.9]) was previously assumed to be an isotropic horizontal gravity gradient magnitude or curvature. Direct finite-difference audit against Band 13 ('iso_grav_anom') shows Band 18 correlates at Spearman rho = +0.9438 with signed east-west derivative d(g)/dx and rho = +0.0273 with d(g)/dy, whereas Band 5 ('iso_grav_anom_slope') is isotropic |grad_h(g)| (rho = +0.9552).",
+   "evidence": "Spearman(Band 18, d(Band 13)/dx) = +0.9438; Spearman(Band 18, d(Band 13)/dy) = +0.0273.",
+   "mitigation": "src/gems32/h36_tdr_pds.py uses Band 5 for isotropic Miller-Singh gravity tilt denominator and uses spatial gradient of signed Band 18 ('grav_polarity_reversal') to detect synthetic/antithetic half-graben polarity reversals across accommodation zones."
+  },
+  {
+   "id": "IR-32-CONDUIT-01",
+   "severity": "high",
+   "status": "fixed (2026-10-26)",
+   "statement": "Prior pipeline scripts/run_conduit_pipeline.py hardcoded verdict='promote' and ok_to_submit=True for H-GEO-CONDUIT (2d0d0c5e) even though its own evidence/geo_conduit_run_card.json recorded max_real_dot_overlap_within3px = 0.70245 > 0.70 (exceeding the parallel-run duplicate limit against gems10-h28-dotted-ridge) and sgmc_prevalence_calibrated_dti = 0.04617 < 0.06412 (28% below the 0.2778 Champion), creating contradictory green 'OK TO DOWNLOAD AND SUBMIT' and red 'DO NOT SUBMIT' banners in README.md and docs/index.html.",
+   "evidence": "evidence/geo_conduit_run_card.json; docs/data/protocol-audit.json.",
+   "mitigation": "Replaced by fail-closed promotion_decision in scripts/run_h36_tdr_pds_pipeline.py; unified README.md, index.html, docs/index.html, and docs/executive-summary.html to a single unambiguous negative/research-only verdict."
+  },
+  {
+   "id": "IR-32-LATTICE-01",
+   "severity": "medium",
+   "status": "documented (2026-10-26)",
+   "statement": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (206,895 dots on 5Z x 5Z, recorded in data_manifest.json as a non-geological prevalence calibration probe) has Euclidean covering radius sqrt(2^2 + 2^2) = 2.8284 < 3.0 px, covering 5,160,724 / 5,167,373 footprint pixels (99.8713%) within <= 3 px and leaving only 6,178 off-flank pixels. By the Pigeonhole Principle, no submission with > 20,593 off-flank dots (nor labels.tif itself at 99.80%) can achieve <= 70% 3-px overlap against this calibration grid, whereas all 44 genuine detector/submission rasters cover only 5.11%-28.36% of the footprint.",
+   "evidence": "evidence/h36_tdr_pds_run_card.json; docs/data/protocol-audit.json.",
+   "mitigation": "src/gems32/release_gate.py remains strictly unmodified (no density exemptions); Run Card and site audit report both the 44-raster genuine-detector check (H36-1C PASS: max 3-px overlap 60.44% <= 70%, max |Spearman| 0.1595 <= 0.90) and the literal 5-px calibration-probe check (99.80% > 70% -> stop)."
   }
  ]
 }

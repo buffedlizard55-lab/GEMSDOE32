@@ -23,6 +23,7 @@ COLLAR_PX = 15       # 1.5 km spatial buffer between train and test quadrants
 DOMAIN_ERODE = 12    # 1.2 km boundary erosion
 NEAR_LABEL_PX = 3    # 300 m kernel radius around known catalogue faults
 ESTIMATED_LB_HIDDEN_TRUTH_PX = 12691.0  # Calibrated from blind lattice-s5 (0.0904) & h19-5->d1.5->d2.8
+HOLDOUT_EVALUATOR_VERSION = "GEMSDOE32-HOLDOUT-v3-visible-gated"
 
 
 def quadrant_ids(footprint: np.ndarray) -> np.ndarray:
@@ -50,6 +51,7 @@ class PreparedCell:
     truth_coords: tuple[np.ndarray, np.ndarray]  # indices of truth pixels inside bbox
     k_dg_sub: np.ndarray          # kernel(distance_to_truth) inside bbox
     n_truth: int
+    d_visible_sub: np.ndarray | None = None  # distance to VISIBLE faults only inside bbox (fixes IR-32-INSTR-03)
 
 
 @dataclass
@@ -137,6 +139,7 @@ def load_holdout_context(ddir: Path, hide_frac: float = 0.20) -> HoldoutContext:
             n_t = int(t_coords[0].size)
             dg_sub = distance_transform_edt(~truth_sub)
             k_dg_sub = kernel(dg_sub)
+            d_vis_sub = distance_transform_edt(~visible[sl]).astype(np.float32)
             cells.append(
                 PreparedCell(
                     key=f"draw{seed}_fold{fold}",
@@ -147,6 +150,7 @@ def load_holdout_context(ddir: Path, hide_frac: float = 0.20) -> HoldoutContext:
                     truth_coords=t_coords,
                     k_dg_sub=k_dg_sub,
                     n_truth=n_t,
+                    d_visible_sub=d_vis_sub,
                 )
             )
 
@@ -299,5 +303,153 @@ def evaluate_candidate_holdout(mask: np.ndarray, ctx: HoldoutContext, name: str 
         "drift_corrected_holdout_std": float(np.std(list(drift_quads.values()))),
         "drift_corrected_per_quadrant": drift_quads,
     }
+
+
+def evaluate_visible_gated_holdout(
+    base_mask_or_fn,
+    ctx: HoldoutContext,
+    *,
+    b_gate_px: float = 2.0,
+    full_map_mask: np.ndarray | None = None,
+    n_boot: int = 2000,
+    seed: int = 20261026,
+    name: str = "candidate",
+) -> dict:
+    """Strict Protocol Rule 2 hide-and-recover evaluation (fixes IR-32-INSTR-03).
+
+    - Withholds whole fault segments with a 15-px spatial collar buffer and 12-px domain erosion.
+    - Derives every catalogue-based exclusion gate (`d_visible > b_gate_px`) ONLY from visible
+      faults inside each split (`cell.d_visible_sub`), never from withheld hidden segments.
+    - Masks visible faults pixel-exactly (`cell.active_sub`).
+    - Scores exact pooled DTI (alpha=0.2, beta=0.8, 300 m triangular kernel) with 95% block-bootstrap CI.
+    - Also scores off-catalogue USGS SGMC blind-fault pooled DTI + 95% spatial-quadrant/tile bootstrap CI.
+    """
+    callable_mode = callable(base_mask_or_fn)
+    if not callable_mode:
+        base_mask = np.asarray(base_mask_or_fn, bool) & ctx.foot
+
+    cell_rows = {}
+    cell_tuples = []
+    for cell in ctx.cells:
+        sl = cell.bbox
+        if cell.d_visible_sub is None:
+            raise ValueError("HoldoutContext cell missing d_visible_sub; reload context with v3 evaluator")
+        if callable_mode:
+            p_sub = np.asarray(base_mask_or_fn(cell), bool) & cell.active_sub
+        else:
+            gate = (cell.d_visible_sub > b_gate_px) if b_gate_px >= 0.0 else np.ones_like(cell.active_sub)
+            p_sub = base_mask[sl] & gate & cell.active_sub
+
+        n_emit = int(p_sub.sum())
+        n_t = int(cell.n_truth)
+        if n_t == 0 or n_emit == 0:
+            tp, fp = 0.0, float(n_emit)
+            dti = 0.0
+            cov = 0.0
+        else:
+            dp_sub = distance_transform_edt(~p_sub)
+            d_at_truth = dp_sub[cell.truth_coords]
+            tp = float(kernel(d_at_truth).sum())
+            fp = float((1.0 - cell.k_dg_sub[p_sub]).sum())
+            fn = float(n_t) - tp
+            dti = float(tp / (tp + ALPHA * fp + BETA * fn + EPS))
+            cov = float(tp / n_t)
+
+        cell_rows[cell.key] = {
+            "dti": dti,
+            "coverage": cov,
+            "tp": tp,
+            "fp": fp,
+            "n_truth": n_t,
+            "emitted": n_emit,
+        }
+        cell_tuples.append((tp, fp, n_t, n_emit))
+
+    def _pooled(rows):
+        tp_s = sum(r[0] for r in rows)
+        fp_s = sum(r[1] for r in rows)
+        nt_s = sum(r[2] for r in rows)
+        fn_s = float(nt_s) - tp_s
+        return float(tp_s / (tp_s + ALPHA * fp_s + BETA * fn_s + EPS))
+
+    pooled_dti = _pooled(cell_tuples)
+    n_withheld = int(sum(r[2] for r in cell_tuples))
+    rng = np.random.default_rng(seed)
+    boots = [
+        _pooled([cell_tuples[i] for i in rng.integers(0, len(cell_tuples), size=len(cell_tuples))])
+        for _ in range(n_boot)
+    ]
+    ci95 = [float(np.percentile(boots, 2.5)), float(np.percentile(boots, 97.5))]
+
+    # Off-catalogue SGMC blind-fault evaluation (full-map emission mask with full-catalogue B gate)
+    if full_map_mask is None:
+        if callable_mode:
+            raise ValueError("full_map_mask required when base_mask_or_fn is callable")
+        d_full = distance_transform_edt(~ctx.labels)
+        gate_full = (d_full > b_gate_px) if b_gate_px >= 0.0 else np.ones_like(ctx.foot)
+        eval_full = base_mask & gate_full & ctx.foot & ~ctx.labels
+    else:
+        eval_full = np.asarray(full_map_mask, bool) & ctx.foot & ~ctx.labels
+
+    if eval_full.any() and ctx.sgmc_n_truth > 0:
+        dp_full = distance_transform_edt(~eval_full)
+        d_sg = dp_full[ctx.sgmc_truth_coords]
+        k_sg = kernel(d_sg)
+        tp_sg = float(k_sg.sum())
+        fp_sg = float((1.0 - ctx.sgmc_k_dg[eval_full]).sum())
+        fn_sg = float(ctx.sgmc_n_truth) - tp_sg
+        sgmc_raw_dti = float(tp_sg / (tp_sg + ALPHA * fp_sg + BETA * fn_sg + EPS))
+        sgmc_cov = float(tp_sg / ctx.sgmc_n_truth)
+
+        # 16-block spatial tile bootstrap for SGMC off-catalogue 95% CI
+        ty = np.clip((ctx.sgmc_truth_coords[0] * 4) // ctx.foot.shape[0], 0, 3)
+        tx = np.clip((ctx.sgmc_truth_coords[1] * 4) // ctx.foot.shape[1], 0, 3)
+        t_blk = ty * 4 + tx
+        ey, ex = np.nonzero(eval_full)
+        e_blk = np.clip((ey * 4) // ctx.foot.shape[0], 0, 3) * 4 + np.clip((ex * 4) // ctx.foot.shape[1], 0, 3)
+        fp_vals = 1.0 - ctx.sgmc_k_dg[eval_full]
+        sg_tiles = []
+        for b_id in range(16):
+            tm = t_blk == b_id
+            em = e_blk == b_id
+            sg_tiles.append((float(k_sg[tm].sum()), float(fp_vals[em].sum()), int(tm.sum())))
+        sg_boots = [
+            _pooled([sg_tiles[i] for i in rng.integers(0, 16, size=16)])
+            for _ in range(n_boot)
+        ]
+        sgmc_raw_ci95 = [float(np.percentile(sg_boots, 2.5)), float(np.percentile(sg_boots, 97.5))]
+    else:
+        sgmc_raw_dti = 0.0
+        sgmc_cov = 0.0
+        sgmc_raw_ci95 = [0.0, 0.0]
+
+    tp_sgmc_cal = sgmc_cov * ESTIMATED_LB_HIDDEN_TRUTH_PX
+    fp_sgmc_cal = max(0.0, float(eval_full.sum()) - tp_sgmc_cal)
+    sgmc_cal_dti = float(
+        tp_sgmc_cal / (ALPHA * (tp_sgmc_cal + fp_sgmc_cal) + BETA * ESTIMATED_LB_HIDDEN_TRUTH_PX + EPS)
+    )
+
+    return {
+        "name": name,
+        "evaluator_version": HOLDOUT_EVALUATOR_VERSION,
+        "b_gate_px": float(b_gate_px),
+        "dti": pooled_dti,
+        "pooled_dti": pooled_dti,
+        "mean_cell_dti": float(np.mean([v["dti"] for v in cell_rows.values()])),
+        "ci95": ci95,
+        "n_withheld_positives": n_withheld,
+        "n_cells": len(cell_tuples),
+        "total_emitted_across_cells": int(sum(r[3] for r in cell_tuples)),
+        "full_map_emitted_pixels": int(eval_full.sum()),
+        "cells": cell_rows,
+        "sgmc_off_catalogue": {
+            "n_withheld_positives": int(ctx.sgmc_n_truth),
+            "raw_pooled_dti": sgmc_raw_dti,
+            "raw_ci95": sgmc_raw_ci95,
+            "coverage": sgmc_cov,
+            "prevalence_calibrated_dti": sgmc_cal_dti,
+        },
+    }
+
 
 

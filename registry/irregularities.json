@@ -227,8 +227,9 @@
   {
    "id": "IR-32-INSTR-03",
    "severity": "high",
+   "status": "fixed (2026-10-26)",
    "statement": "The catalogue_hidden holdout instrument is PERVERSE for B-gated candidates (emissions that forbid dots within B px of the full catalogue): the hidden segments the instrument asks the candidate to recover are inside the candidate's own exclusion zone, because the gate was derived from the full catalogue including the hidden components. Proof with ORGANIZER-CONFIRMED points: live order champion(B=2) 0.2778 > solo(B=1) 0.2708 > d2.8(B=0) 0.2600 is exactly reversed by catalogue_hidden (0.00460 < 0.03104 < 0.09832). Extends IR-32-INSTR-01/02; the root cause is a protocol violation by the candidate's gate, not by the evaluator, but evaluate_candidate_holdout does not correct for it (its 1-px debias shift does not reach B=2). Measured 2026-10-25 (evidence/hcvf2_run.json).",
-   "mitigation": "for B-gated candidates use only instruments whose truth is off-catalogue by construction (SGMC), or re-derive the candidate's gate from visible-only faults per draw; hypotheses-round5.md \u00a72b documents the mechanism"
+   "mitigation": "FIXED in src/gems32/holdout.py (GEMSDOE32-HOLDOUT-v3-visible-gated): PreparedCell now precomputes d_visible_sub from visible faults ONLY per split, and evaluate_visible_gated_holdout scores exact pooled DTI with 95% block-bootstrap CI. Pinned by tests/test_holdout_visible_gate.py, restoring exact live order: H19-5 (0.06879) < D2.8 B=0 (0.09674) < Solo B=1 (0.09898) < Champion B=2 (0.09920) > B=3 (0.09710)."
   },
   {
    "id": "IR-32-FAM-01",
@@ -247,6 +248,38 @@
    "severity": "medium",
    "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
+  },
+  {
+   "id": "IR-32-BAND-02",
+   "severity": "high",
+   "status": "fixed (2026-10-26)",
+   "statement": "Every prior potential-field tilt hypothesis in GEMSDOE32 (H61-3, H62-1, H35-B, H-GEO-4) treated training_features.tif Band 6 ('tc') as magnetic tilt angle / total curvature. Direct byte correlation across 100,000 footprint pixels proves Band 6 ('tc', range [+2.95, +88.6], strictly positive everywhere) has Spearman rho = +0.99942 with GeoDAWN radiometric Total Count ('geodawn_rad_u8.tif' Band 4 'TC'), explaining why H62-1's zero-crossing detector collapsed to AUC = 0.5058.",
+   "evidence": "Band 6 min=+2.950, max=+88.589 (data/prepared_manifest.json); Spearman(Band 6 tc, geodawn_rad_u8 Band 4 TC) = +0.99942.",
+   "mitigation": "src/gems32/h36_tdr_pds.py computes true Miller & Singh (1994) potential-field tilt angles arctan(tmi_vg / (tmi_hg + eps)) from Bands 9 & 3 and arctan(iso_grav_anom_vg / (iso_grav_anom_slope + eps)) from Bands 11 & 5, while properly routing Band 6 as radiometric Total Count."
+  },
+  {
+   "id": "IR-32-BAND-03",
+   "severity": "medium",
+   "status": "fixed (2026-10-26)",
+   "statement": "Band 18 ('iso_grav_anom_hg', range [-15.4, +12.9]) was previously assumed to be an isotropic horizontal gravity gradient magnitude or curvature. Direct finite-difference audit against Band 13 ('iso_grav_anom') shows Band 18 correlates at Spearman rho = +0.9438 with signed east-west derivative d(g)/dx and rho = +0.0273 with d(g)/dy, whereas Band 5 ('iso_grav_anom_slope') is isotropic |grad_h(g)| (rho = +0.9552).",
+   "evidence": "Spearman(Band 18, d(Band 13)/dx) = +0.9438; Spearman(Band 18, d(Band 13)/dy) = +0.0273.",
+   "mitigation": "src/gems32/h36_tdr_pds.py uses Band 5 for isotropic Miller-Singh gravity tilt denominator and uses spatial gradient of signed Band 18 ('grav_polarity_reversal') to detect synthetic/antithetic half-graben polarity reversals across accommodation zones."
+  },
+  {
+   "id": "IR-32-CONDUIT-01",
+   "severity": "high",
+   "status": "fixed (2026-10-26)",
+   "statement": "Prior pipeline scripts/run_conduit_pipeline.py hardcoded verdict='promote' and ok_to_submit=True for H-GEO-CONDUIT (2d0d0c5e) even though its own evidence/geo_conduit_run_card.json recorded max_real_dot_overlap_within3px = 0.70245 > 0.70 (exceeding the parallel-run duplicate limit against gems10-h28-dotted-ridge) and sgmc_prevalence_calibrated_dti = 0.04617 < 0.06412 (28% below the 0.2778 Champion), creating contradictory green 'OK TO DOWNLOAD AND SUBMIT' and red 'DO NOT SUBMIT' banners in README.md and docs/index.html.",
+   "evidence": "evidence/geo_conduit_run_card.json; docs/data/protocol-audit.json.",
+   "mitigation": "Replaced by fail-closed promotion_decision in scripts/run_h36_tdr_pds_pipeline.py; unified README.md, index.html, docs/index.html, and docs/executive-summary.html to a single unambiguous negative/research-only verdict."
+  },
+  {
+   "id": "IR-32-LATTICE-01",
+   "severity": "medium",
+   "status": "documented (2026-10-26)",
+   "statement": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (206,895 dots on 5Z x 5Z, recorded in data_manifest.json as a non-geological prevalence calibration probe) has Euclidean covering radius sqrt(2^2 + 2^2) = 2.8284 < 3.0 px, covering 5,160,724 / 5,167,373 footprint pixels (99.8713%) within <= 3 px and leaving only 6,178 off-flank pixels. By the Pigeonhole Principle, no submission with > 20,593 off-flank dots (nor labels.tif itself at 99.80%) can achieve <= 70% 3-px overlap against this calibration grid, whereas all 44 genuine detector/submission rasters cover only 5.11%-28.36% of the footprint.",
+   "evidence": "evidence/h36_tdr_pds_run_card.json; docs/data/protocol-audit.json.",
+   "mitigation": "src/gems32/release_gate.py remains strictly unmodified (no density exemptions); Run Card and site audit report both the 44-raster genuine-detector check (H36-1C PASS: max 3-px overlap 60.44% <= 70%, max |Spearman| 0.1595 <= 0.90) and the literal 5-px calibration-probe check (99.80% > 70% -> stop)."
   }
  ]
 }
