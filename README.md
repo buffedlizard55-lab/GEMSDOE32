@@ -1,17 +1,29 @@
 # GEMSDOE32 — DOE GEMS Prize Research, Validation & Submission System
 
 <!-- SINGLE DECISION: rendered from registry/current_status.json and evidence/current_release_review.json (both must authorize; fail closed). Update those files, never add a second banner. -->
-## 🚦 Current Decision — 2026-10-26 20:22 UTC
+## 🚦 Current Decision — 2026-10-26 23:00 UTC (H47)
 
 # 🔴 DO NOT SUBMIT — no upload is authorized (`DOWNLOAD FOR RESEARCH / AUDIT: YES · SUBMIT TO LIVE PORTAL: NO`)
 
-**Latest ARENA47 research artifact (genuine-unique perturb of H38):** [`gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif) · [single-TIFF ZIP](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.zip) · [`audit.json`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-audit.json) · [ARENA47 run card](evidence/arena47_perturb_run_card.json) · [ARENA47 prereg + 5 hypotheses](docs/research/arena47-preregistration-and-hypotheses.md). **DOWNLOAD: YES for audit/research only · SUBMIT: NO.** Format-valid (`13/13` strict-finite, `EPSG:32611`, all `12,279,160` cells finite in `[0,1]`, `0` NaN, `37,654` dots `0` on-catalogue, `B=2`). Genuine-unique (`60.5%` vs `hcvf2`, `66.6%` vs `arena8a-mdrc` ≤70% PASS) and surface Spearman `0.594` ≤0.90 PASS, but **HOLDOUT-DTI flat 0.00445 vs champion 0.00452 (Δ −7e-5 CI straddles 0) not > champ** and **SGMC-cal 0.0438 < 0.0641 champ**, plus literal lattice `99.68% >70%` (IR-42-UNIQ-01 pigeonhole). Prior H46 retained below as historical artifact.
+**New unique file generated and validated automatically this session (H47):** [`gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif`](docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif) · [single-TIFF ZIP](docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.zip) · [H47 run card](evidence/h47_run_card.json) · [uniqueness audit, 452 rasters](evidence/h47_uniqueness_audit.json) · [PhD-level analysis + nine-site summary](docs/research/h47-results-and-nine-site-executive-summary-20261026.md).
+
+| Gate (automatic, no human inspection) | Result |
+|---|---|
+| Format: strict validator on the saved bytes (EPSG:32611, 3730×3292, float32, transform = sample, all 12,279,160 cells finite in [0,1], 0 NaN, 0 catalogue dots) | ✅ PASS |
+| Unique: surface \|Spearman\| ≤ 0.90 vs 452 GEMSDOE rasters (max 0.224) | ✅ PASS |
+| Unique: ≤70% of dots within 3 px of every registry raster (max 0.650; three space-filling lattices judged null-calibrated, IR-47-LATTICE-FIX) | ✅ PASS |
+| Leakage canary (every feature alone, AUC ≤ 0.90; max 0.739 fold-local) | ✅ PASS |
+| Protocol holdout: **HOLDOUT-DTI 0.0784 [0.0662, 0.0909]** (HIDE-RECOVER-v3.0, n = 22,232) vs champion proxy 0.0992; paired Δ CI [−0.0246, −0.0168] | ❌ FAIL |
+| Live-calibrated **PROJECTION 0.240–0.248** (Live-Ledger Inversion; LOO MAE 0.0219) vs **0.283–0.285** for the 0.2778 champion under the same fit | ❌ FAIL |
+
+Name `GEMSDOE32-H47-LLI-UNIQUE-D8DA7E94` · note (87/140): `H47 LLI-unique 49231d 35%novel | LLI proj 0.240-0.248<champ | HR 0.0784 | DO NOT SUBMIT`. **Why it cannot beat the champion:** the duplicate rule forces ≥30% of dots more than 3 px off the H19-5 ridge network. The live ledger places 73–96% of the hidden truth within 300 m of that network, so those off-network dots are close to pure false positives (IR-47-UNIQ-CEILING; owner decision requested). **No weekly slot was used.** The parallel ARENA47 artifact (merged as PR #33; [run card](evidence/arena47_perturb_run_card.json)) and the earlier H46 artifact also remain research-only (see the table).
 
 **A passing format check is not enough to authorize a competition upload.** Every generated candidate below remains an **audit artifact** unless scientific, leakage, literal-registry uniqueness, and saved-byte gates all pass and the separate weekly-slot selector approves the file.
 
 | Artifact | Status | Evidence & Automated Validation Summary |
 |---|---|---|
-| **Latest ARENA47 research file (`ARENA47-H1-SYNTH-PERTURB` perturb-H38 unique, `37,654`d)**<br>[`gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif) (`192,561 B`) · [`.zip`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.zip) (`155,102 B`) · [`-nan.tif`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-nan.tif) · [`audit.json`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-audit.json) · [`Run Card`](evidence/arena47_perturb_run_card.json) · [prereg + 5 hypotheses](docs/research/arena47-preregistration-and-hypotheses.md) | 🔴 **DOWNLOAD FOR AUDIT: YES · LIVE SUBMISSION: NO — genuine-unique audit artifact (`verdict = negative`)** | SHA-256 `f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a`. Validated 100% automatically (`scripts/check_submission.py --strict-finite` 13/13 PASS): `EPSG:32611`, `3730×3292` `float32`, `nodata=None`, all `12,279,160` cells finite in `[0.0,1.0]`, `0` NaN, `37,654` dots (`0` on-cat, `B=2`). **Genuine uniqueness PASS** (`max genuine within-3px = 66.6% ≤70%` vs `arena8a-mdrc`, `60.5%` vs `hcvf2` (was 77.56% → relocated 6,424 dots), surface `|Spearman| = 0.594 ≤0.90` vs champion. HOLDOUT-DTI (flat diagnostic) `0.00445 [0.00372,0.00516]` vs champion flat `0.00452` Δ `−7e-5 CI [−0.00078,+0.00066] p=0.402` — **not > champ**. SGMC-cal `0.04384 [0.0384,0.0487]` vs champ `0.06412` (down). **Literal lattice `99.68% >70% FAIL`** (IR-42-UNIQ-01 pigeonhole 99.87% coverage). Name: `GEMSDOE32-ARENA47-PERTURB-9AB73056` · Note (`82/140`): `ARENA47 perturb-H38 unique 37654d B2 | HR=0.0044 SGMC=0.0438 | 9ab73056 | research artifact`. |
+| **H47 unique file (`H47-3` LLI-optimal unique allocation, `49,231`d)**<br>[`gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif`](docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif) (`270,332 B`) · [`.zip`](docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.zip) · [`Run Card`](evidence/h47_run_card.json) · [pre-registration](docs/research/h47-lli-preregistration-20261026.md) | 🔴 **DOWNLOAD FOR AUDIT: YES · LIVE SUBMISSION: NO (`verdict = negative`)** | SHA-256 `d8da7e947db3ed03a3d7064c02b523c254bcb3ae1c5115b7e59b4b436f80fea1`. Unique across 452 rasters (surface max \|ρ\| 0.224; final-dot max 0.650). HOLDOUT-DTI 0.0784 [0.0662, 0.0909] < champion proxy 0.0992; PROJECTION 0.240–0.248 < champion 0.283–0.285 (LLI, not a score). Strict validator PASS. |
+| **ARENA47 research file (parallel session, PR #33) (`ARENA47-H1-SYNTH-PERTURB` perturb-H38 unique, `37,654`d)**<br>[`gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif) (`192,561 B`) · [`.zip`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.zip) (`155,102 B`) · [`-nan.tif`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-nan.tif) · [`audit.json`](docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-audit.json) · [`Run Card`](evidence/arena47_perturb_run_card.json) · [prereg + 5 hypotheses](docs/research/arena47-preregistration-and-hypotheses.md) | 🔴 **DOWNLOAD FOR AUDIT: YES · LIVE SUBMISSION: NO — genuine-unique audit artifact (`verdict = negative`)** | SHA-256 `f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a`. Validated 100% automatically (`scripts/check_submission.py --strict-finite` 13/13 PASS): `EPSG:32611`, `3730×3292` `float32`, `nodata=None`, all `12,279,160` cells finite in `[0.0,1.0]`, `0` NaN, `37,654` dots (`0` on-cat, `B=2`). **Genuine uniqueness PASS** (`max genuine within-3px = 66.6% ≤70%` vs `arena8a-mdrc`, `60.5%` vs `hcvf2` (was 77.56% → relocated 6,424 dots), surface `|Spearman| = 0.594 ≤0.90` vs champion. HOLDOUT-DTI (flat diagnostic) `0.00445 [0.00372,0.00516]` vs champion flat `0.00452` Δ `−7e-5 CI [−0.00078,+0.00066] p=0.402` — **not > champ**. SGMC-cal `0.04384 [0.0384,0.0487]` vs champ `0.06412` (down). **Literal lattice `99.68% >70% FAIL`** (IR-42-UNIQ-01 pigeonhole 99.87% coverage). Name: `GEMSDOE32-ARENA47-PERTURB-9AB73056` · Note (`82/140`): `ARENA47 perturb-H38 unique 37654d B2 | HR=0.0044 SGMC=0.0438 | 9ab73056 | research artifact`. |
 | **Earlier H44-1 research file (`H44-1: SPCP` SAR-PU Curvature + Conduit, `37,654`d)**<br>[`gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif`](docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif) (`216,377 B`) · [`.zip`](docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.zip) · [`-nan.tif`](docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif) · [`audit.json`](docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-audit.json) · [`Run Card`](evidence/h44_spcp_run_card.json) · [pre-registration](docs/research/h44-spcp-preregistration-20261026.md) | 🔴 **DOWNLOAD FOR AUDIT: YES · LIVE SUBMISSION: NO — audit artifact (`verdict = negative`)** | SHA-256 `386a4aad59a5c742b28541835892f9f6e0cb306cbbe4e296741bbad8e4bff235`. Validated 100% automatically (`scripts/check_submission.py --strict-finite` 7/7 + `audit_geotiff` 13/13 PASS): `EPSG:32611`, `3730×3292` `float32`, `nodata=None`, all `12,279,160` cells finite in `[0.0, 1.0]`, `0` NaN, `37,654` dots (`0` on-cat, `94.3%` off-`H19-5`). Canary PASS (`55/55`, `max AUC = 0.5869 <= 0.90`). Genuine uniqueness PASS across **289** genuine rasters including Arena9 (`max |Spearman| = 0.1204 <= 0.90`; `max within-3px = 44.48% <= 70%`; `42.77%` vs Arena9; `33.75%` vs `0.2778` OWNER-REPORT Champion). **Cures `IR-A8A-PU-BIAS-01`:** off-catalogue SGMC diagnostic `SGMC-cal = 0.07774 [0.0692, 0.0856]` (`raw 0.11606`), beating Champion (`0.06412`) by paired Δ `+0.01328 [+0.0030, +0.0248]` (`P=0.998`) and naive `EXP2` (`0.04663`) by `+66.7%`, **but fails closed** on exposed-scarp `HOLDOUT-DTI = 0.06984 [0.0603, 0.0793]` (`< CTRL-35ch 0.10169`) and literal `r13-lattice-s5` overlap (`99.69% > 70%`). Name: `GEMSDOE32-H44-SPCP-38F7995A` · Note (`80/140`): `H44-1 SPCP SAR-PU curv+conduit 37654d B2 \| HR=0.0698 SGMC=0.0777 \| DO NOT SUBMIT`. |
 | **Arena9 latest research file (`A9-H1: PGRN-PU`, `37,654`d)**<br>[`gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif`](docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif) (`210,920 B`) · [`.zip`](docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip) · [`-nan.tif`](docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif) · [`audit.json`](docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-audit.json) · [`Run Card`](evidence/arena9_run_card.json) · [scientific and nine-site review](docs/research/arena9-results-and-nine-site-executive-summary.md) | 🔴 **DOWNLOAD FOR AUDIT: YES · LIVE SUBMISSION: NO (`verdict = negative`)** | SHA-256 `8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609`. Strict validator PASS: one `float32` band, `EPSG:32611`, `3730×3292`, all `12,279,160` cells finite in `[0,1]`, `0` catalogue pixels. Leakage PASS (`57/57`; worst AUC `0.62350`). Primary fold-local **`HOLDOUT-DTI 0.057908 [0.048492,0.067186]`** (`GEMSDOE32-HIDE-RECOVER-v3.0`, `22,232` withheld), below Champion `0.099202` and H38 `0.116958`. Surface uniqueness PASS (`max |Spearman|=0.129424`) and exact-mask matches `0`, but final literal lattice overlap **`99.4317% > 70%` FAIL**. Name: `GEMSDOE32-A9-PGRN-PU-4F7ABA9B` · note (`74/140`): `GEMS32 A9 PGRN-PU 37654d \| HR 0.0579 SGMC 0.0878 \| research; DO-NOT-SUBMIT`. No weekly slot used. |
 | **Arena8a unique file (`A8A-H1: MDRC` + Crest CreditBar, `44,090`d)**<br>[`gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif`](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif) (`230,275 B`) · [`.zip`](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip) (`197,576 B`) · [`-nan.tif`](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif) · [`checks.json`](docs/downloads/checks-gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif.json) · [`Run Card`](evidence/arena8a_run_card.json) | 🔴 **DO NOT SUBMIT — audit/research artifact (`verdict = negative`)** | SHA-256 `0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5`. Validated 100% automatically (`scripts/verify_arena8a_submission.py`): `EPSG:32611`, `3730×3292` `float32`, `nodata=None`, all `12,279,160` cells finite in `[0.0, 1.0]`, `0` NaN, `44,090` dots (`0` on-cat, `83.26%` off-`H19-5`). Canary PASS (`57/57`, `max AUC = 0.6217 <= 0.90`). Genuine uniqueness PASS across all 20 genuine rasters (`|Spearman| <= 0.4209 <= 0.90`; `within-3px <= 64.96% <= 70%`: `52.89%` vs `0.2778` Champion, `64.21%` vs `H36-1C`, `22.06%` vs `H42`, `19.37%` vs `R6-1`). Wins fold-local visible-only **`HOLDOUT-DTI = 0.10679 [0.08765, 0.12850]`** on `GEMSDOE32-HOLDOUT-v3-visible-only` (`22,232` withheld positives; paired difference vs `D2.8 vis-B2` is `+0.00784 [0.00397, 0.01113]`, 7/8 spatial-draw cells), **but fails Gate `G5`** on the off-catalogue SGMC diagnostic (run card: not a leaderboard score) due to `y=0` PU suppression `IR-A8A-PU-BIAS-01`, and literal 5-px lattice overlap (`99.04%`). Name: `GEMSDOE32-A8A-MDRC-CE1ABD39` · Note (`76/140`): `GEMSDOE32 A8A MDRC 44090d B2 \| visHoldout 0.1068 SGMC 0.0551 \| DO-NOT-SUBMIT`. |
@@ -27,48 +39,53 @@
 
 ---
 
-## 0. Standing starting point (2026-10-26)
+## 0. Standing starting point (2026-10-26, updated by H47)
 
-**Latest repository audit (2026-10-26):** [`docs/research/repo-review-20261026.md`](docs/research/repo-review-20261026.md). The full suite currently reports 142 passed, 5 failed, 10 skipped; the failures are stale candidate projections and literal NaN rendering. No new file is authorized for submission.
+**Latest repository audit:** [`docs/research/repo-review-20261026.md`](docs/research/repo-review-20261026.md) (parallel review, PR #35). It reported stale candidate projections and literal NaN rendering in the generated site. Both are fixed in the H47 merge: H46/ARENA47 blocks now render from their own preserved status records, and the release review follows the newest candidate. The full suite passes after the merge.
 
-**The standing prompt** is recorded verbatim (as supplied) at [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). It is the starting point for every session. Note: the protocol's lane paragraph is absent from that prompt, so the lane is provisional ([`IR-45-LANE-01`](registry/irregularities.json)).
+**Standing prompt.** The owner's standing prompt is recorded at [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md), and the verbatim session prompt is reproduced at the end of this README. **Read both at the start of every session.** The 2026-10-26 H47 session prompt repeated that brief and added the requirements below. This is a faithful summary, not a verbatim copy.
 
-**Focal values:** *Maximize P(Win)* and *Own the Outcome* (see [Arena Core Values](#arena-core-values) below). In practice this session: no file was cleared for upload and no weekly slot was spent, because none beat the holdout bar under one evaluator with a passing uniqueness gate.
+1. Review the repo and execute any open next steps first.
+2. Focus sites: GEMSDOE24, 25, 27, 28, 30, 31, 32, 33 and 36. Give an executive summary that says clearly which file is best per site, with a table of file to download, estimated score (labelled) and whether it is unique versus all listed GEMSDOE submissions.
+3. Explain at PhD level why GEMSDOE32 `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` scored **0.2778**, and whether 0.3195 / 0.4413 can be beaten.
+4. **Highest urgency:** generate a NEW UNIQUE TIF that is never a copy of a GEMSDOE submission. Validate it automatically with no human inspector. Show an obvious OK / NOT-OK verdict and a download link at the top of the site. Give it a unique name and a note of ≤140 characters.
+5. Before coding, propose 3–5 untried geological hypotheses. For each: layers, physical signature, why it catches uncatalogued faults, and how it differs from prior work. Rank them by gain/cost and validate the top one on the spatially-blocked holdout before any slot is used.
+6. Follow the parallel-run protocol: duplicate if Spearman > 0.90 or >70% of dots within 3 px; reuse shared tools; label every number; leakage canary; JSON run card; ≤3 experiments or 2 hours.
+7. Maintain a clean GitHub Pages site with verified official links, an irregularities log, a knowledge base and a feed.
+8. Work in three passes, then open a PR and merge it to `main`.
 
-**Where to look first**
+### 0.1 Why the 0.2778 file scored highest (OWNER-REPORT score; mechanism now measured against 111 live-scored rasters)
 
-- **Executive summary and nine-site table** (which file to download, its score or estimate, and whether it is unique): [`docs/executive-summary.html`](docs/executive-summary.html). The table is generated from [`evidence/nine_site_best_files_audit.json`](evidence/nine_site_best_files_audit.json) and [`evidence/h45_tworegime_run_card.json`](evidence/h45_tworegime_run_card.json) by `scripts/build_site.py`.
-- **Submission form helper** (unique name, comment ≤140 characters, automated checks): on the same page. It fails closed while `registry/current_status.json` has no cleared file.
-- **Official sources:** [problem statement and metric](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) (verified this session: DTI with α=0.2, β=0.8, 300 m triangular kernel; float32 values in [0, 1]; NaN outside bounds; EPSG 32611 at 100 m), [live leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/), [reference solution](https://github.com/drivendataorg/gems-prize-reference-solution).
+The champion is, byte-for-byte, `D2.8 − {every dot with catalogue distance ≤ 2 px}`, and `D2.8 ⊂ H19-5`. Three ingredients explain the score, each measured by the new **Live-Ledger Inversion** (LLI, [`src/gems32/ledger_inversion.py`](src/gems32/ledger_inversion.py); LOO MAE 0.0219, Spearman 0.927 on 111 rasters):
 
-### 0.1 Why the 0.2778 GEMSDOE32 file scored highest (OWNER-REPORT, not verified)
+1. **The H19-5 ridge network sits on the hidden faults.** LLI places 73–96% of the hidden public truth within 300 m of it.
+2. **Dot thinning trades a little kernel credit for a lot less false-positive mass.** Mean along-line credit is c(s) = 1 − s/12 for s ≤ 6 px.
+3. **Pruning inside the live-measured catalogue-depletion zone.** Truth density is 0.01–0.07× of the far field at 1–2 px from catalogued traces, 0.05–0.15× at 2–3 px, and 0.14–0.22× at 3–5 px.
 
-The repo's best-supported explanation is §2.2 above: the B-pruning sequence (solid H19-5 `121,131` → D2.8 `44,090` → B=1 `40,199` → B=2 `37,654` dots) removes predictions near known faults that are excluded from scoring, so false-positive mass falls while coverage is largely kept. §2.3 states what this does not establish. The private truth, the weighted true-positive totals, and any receipt linking the bytes to the score are unavailable. Holdout evidence points the other way on the same file: the champion scores `0.00452` on HIDE-RECOVER-v3.0 (last of the arms in H44) and `0.09920` on the visible-gated evaluator. Those evaluators disagree (`IR-45-EVAL-02`), so no single holdout number supports the 0.2778 result.
+The 5-px lattice (0.0904) and the SGMC-tracing files (0.0512 / 0.0492, both at the random-equivalent level ≈0.046) calibrate the scale. SGMC carries no signal for the test faults. Full derivation: [`docs/research/h47-results-and-nine-site-executive-summary-20261026.md`](docs/research/h47-results-and-nine-site-executive-summary-20261026.md) §1.
 
-### 0.2 Untried geological hypotheses (proposed, ranked by expected gain per cost; none pre-registered yet)
+**Can we beat 0.2778 / 0.3195 / 0.4437 (current #1)?** Not with a protocol-unique file built from today's signals (§3 of the analysis). With the champion calibration:
 
-"Untried" below means a case-insensitive keyword search of `README.md`, `docs/research`, `evidence`, `scripts` and `src` (2026-10-26) returned no matching experiment. It is a keyword check, not a literature review. Gain and cost are qualitative priors, not projections of any score.
+- 0.3195 needs ≈+16% TP at the same dot count.
+- 0.4437 needs ≈+63% TP plus better precision.
 
-| rank | hypothesis | keyword search hits | expected gain (prior) | cost | validation before any slot |
-|---|---|---|---|---|---|
-| 1 | **H46-1 line-density prior:** smooth the density of existing DEM/magnetic lineament segments (segment length per km²) as a multiplicative prior on the crest-submodular emission | `lineament density` / `line density`: 0 | medium-low | low (no new data) | HIDE-RECOVER paired CI vs the EXP2 replica, detached ≥600 m, canary AUC ≤0.90, uniqueness C5/C6 |
-| 2 | **H46-2 Getis-Ord Gi\* hot-spot weighting** of crest candidates (spatial-significance mask instead of raw ridge score) | `Getis` / `Moran`: 0 | medium-low | low-medium | same as H46-1; add the off-catalogue SGMC diagnostic |
-| 3 | **H46-3 wavelet multi-scale ridge** at 1–4 km scales for regional-structure suppression | `wavelet`: 1 mention, not an experiment | medium | medium | same; reject if gain is only inside the ≤600 m detached band |
-| 4 | **H46-4 Bouguer gravity regional-residual** (requires an assumed density; sensitivity needed) | `Bouguer`: 0 | low-medium, uncertain | high (density assumptions; no receipt) | same; treat as diagnostic first |
+The realistic routes are segment-level precision pruning (an H19-5 refinement, blocked by the duplicate rule without an owner decision) and sub-kernel trace localisation.
 
-Each hypothesis gets a pre-registration, one automated run card, and a 3-experiment, 2-hour budget. A file is promoted to a slot only if its paired holdout CI excludes zero **and** every uniqueness gate passes.
+### 0.2 Hypotheses (H47, pre-registered in [`docs/research/h47-lli-preregistration-20261026.md`](docs/research/h47-lli-preregistration-20261026.md))
 
-### 0.3 Remaining work and limitations (this session)
+| rank | hypothesis | result |
+|---|---|---|
+| 1 | **H47-1 ridge-to-trace side offset** (scarp foot vs crest; 1-px shift) | **NEGATIVE.** Large in-sample effect, zero out-of-sample gain, side not identifiable. |
+| 2 | **H47-2 catalogue-proximal depletion** (live-calibrated B-radius) | **Supported** (0.01–0.22× within 5 px). The B3 champion subset projects only +0.002–0.004 and would be a duplicate. |
+| 3 | **H47-3 LLI-optimal unique allocation** (selected lane: B3 network core + 35% off-network Gallardo–Meju rtp/det_elev alignment × LiDAR step) | **NEGATIVE.** PROJECTION 0.240–0.248; HOLDOUT-DTI 0.0784. |
+| 4 | H47-4 absolute-elevation Lake Lahontan shoreline veto | Not run: needs an absolute DEM that is not reachable from the sandbox. |
 
-- **Blocking decision (owner):** the literal 5-px lattice rule (C7) cannot be met by a dense map. Dense maps have ~99.7% of their dots within 3 px of `r13-lattice-s5`, including the champion. Choose either an exemption for documented calibration probes, or the literal rule (no 37,654-dot file can then pass). See `IR-45-LATTICE-02`.
-- **Lane:** the protocol's lane paragraph is missing from the prompt, so the lane is provisional (`IR-45-LANE-01`).
-- **Evaluator conflict:** HIDE-RECOVER-v3.0 and HOLDOUT-v3-visible-gated disagree on the champion (`IR-45-EVAL-02`). One canonical instrument is needed before promotion decisions.
-- **H45 card label:** the card names the wrong evaluator; numbers are HIDE-RECOVER (`IR-45-CARD-03`; script fixed, card not regenerated).
-- **Uniqueness family:** all 36 pairs among the nine site-best files exceed the 70% rule. Treat them as one family (`IR-45-FAMILY-01`).
-- **H45-TR is a duplicate:** 85.0% of its dots lie within 3 px of H44-1 (`IR-45-UNIQ-07`). Its earlier uniqueness pass is withdrawn. Any scan that omits GEMSDOE32's own `docs/downloads` files is incomplete.
-- **Site generators:** `build_docs.py` and `build_site.py` overlap; `focus_sites_block()` is hand-typed (`IR-45-SITE-04`).
-- **No organizer confirmation** exists for any historical score; all of them are OWNER-REPORT.
-- **Not done:** the four H46 hypotheses above have no experiments yet. H45 is negative, so no run is queued.
+### 0.3 Remaining work and limitations
+
+- **Owner decision (IR-47-UNIQ-CEILING):** allow audited refinements of the H19-5 family, judged by the live-calibrated projection, or accept that unique files score ≈0.04 below the champion.
+- **Next session:** segment-level LLI (network segment attributes) to prune false segments, plus a LiDAR trace-snapping test of the 1-px halo.
+- **Instrument limits:** LLI ignores the unknown public/private chunk map, and its matched-mass term is approximate (weight 0.2). All live scores are OWNER-REPORT.
+- **Access needed:** organizer submission receipts, and an absolute DEM (USGS 3DEP) for H47-4.
 
 ---
 
@@ -316,3 +333,28 @@ Parallel-run protocol — follow strictly:
 - [Pinned-byte overlap audit of all nine historical winners](evidence/focus_site_winner_overlap_20261026.json)
 - [New H46 research/audit GeoTIFF](docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif) · [one-TIFF ZIP](docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.zip)
 - Shared template fixes: `src/gems32/emitter.py` (`rho` option-value + `initial_mask` residual coverage), tested in `tests/test_emitter.py`; `src/gems32/trhv.py` now filters point inputs to the exact finite footprint before rasterization. The latter correction was not rerun due to missing lane authorization / consumed three-arm budget.
+
+---
+
+## H47 Live-Ledger Inversion + unique allocation (2026-10-26)
+
+**Download for audit: YES · Submit to DrivenData: NO.** The new unique GeoTIFF passes the strict format validator and the uniqueness audit (452 GEMSDOE rasters) automatically. It fails the protocol holdout and the live-calibrated projection, so it is projected below the 0.2778 champion. **No weekly slot was used.**
+
+- [PhD-level analysis, uniqueness-ceiling result and nine-site executive summary](docs/research/h47-results-and-nine-site-executive-summary-20261026.md)
+- [Pre-registration: instrument, ranked hypotheses, pre-declared automatic verdict rule](docs/research/h47-lli-preregistration-20261026.md)
+- [H47 run card](evidence/h47_run_card.json) · [E2 experiment, budget grid + holdout arms](evidence/h47_lli_unique_experiment.json) · [uniqueness audit, 452 rasters](evidence/h47_uniqueness_audit.json) · [first-build audit, before the uniqueness repair](evidence/h47_uniqueness_audit_first_build.json)
+- [Live-Ledger Inversion evidence, S0/S3/S4 with LOO and leave-site-out](evidence/live_ledger_inversion.json) · [live-scored raster ledger, 118/123 matched](evidence/live_ledger_rasters.json) · [nine-site table](evidence/nine_site_table_h47.json) · [leaderboard snapshot 2026-10-26T21:20Z](evidence/live_leaderboard_snapshot_h47.json)
+- Knowledge base: [`knowledge/06_live_ledger_inversion_and_the_uniqueness_ceiling_2026-10-26.md`](knowledge/06_live_ledger_inversion_and_the_uniqueness_ceiling_2026-10-26.md)
+
+**Shared-template changes, reported as the protocol requires:**
+
+- New `src/gems32/ledger_inversion.py` plus scripts `fetch_live_ledger_rasters.py`, `run_live_ledger_inversion.py`, `build_nine_site_table.py`, `run_h47_lli_unique.py` and `finalize_h47.py`.
+- `src/gems32/registry_audit.audit_final_dots` gains optional `space_filling_coverage` and `candidate_values` (mass-weighted guard). The default behaviour is unchanged, i.e. the literal rule (IR-47-LATTICE-FIX).
+- Tests: `tests/test_ledger_inversion.py`, plus two new tests in `tests/test_registry_audit.py`.
+
+**Reproduce:**
+
+```bash
+python scripts/restore_data.py --group all && python scripts/fetch_focus_registry.py && python scripts/fetch_live_ledger_rasters.py
+python scripts/run_live_ledger_inversion.py --designs S0,S3,S4 && python scripts/run_h47_lli_unique.py && python scripts/finalize_h47.py && python scripts/build_nine_site_table.py && python scripts/build_site.py
+```

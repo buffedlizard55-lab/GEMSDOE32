@@ -20,9 +20,11 @@ def test_round6_run_card_and_protocol_contract():
     rc = json.loads(rc_path.read_text())
     latest = json.loads(latest_path.read_text())
     status = json.loads((ROOT / "registry" / "current_status.json").read_text())
-    assert status["newest_unique"]["run_card"] == "evidence/h46_trhv_run_card.json"
+    # The latest run card follows registry/current_status.json's newest candidate (H46 -> H47 on 2026-10-26).
+    newest_card = json.loads((ROOT / status["newest_unique"]["run_card"]).read_text())
     assert latest["verdict"] == "negative"
-    assert latest["candidate_id"] == "H46-1-TRHV"
+    assert latest["candidate_id"] == newest_card["candidate_id"]
+    assert latest["raster_sha256"] == status["newest_unique"]["sha256"]
 
     # Required Parallel-Run Protocol Rule 7 fields
     for k in (

@@ -189,8 +189,11 @@ def test_current_status_and_rendered_site_identify_h46_as_research_only():
     status = json.loads((ROOT / "registry" / "current_status.json").read_text())
     assert status["any_file_ok_to_submit"] is False
     card_file = json.loads(H46_CARD.read_text())["artifacts"]["primary_zeros_tif"]
-    assert status["newest_unique"]["file"] == card_file
-    assert status["newest_unique"]["ok_to_download"] is True
+    # H46 stays a research-only artifact; a later session (H47) may own newest_unique, but nothing is cleared.
+    h46 = status.get("h46_candidate") or status["newest_unique"]
+    assert h46["file"] == card_file
+    assert h46["ok_to_download"] is True
+    assert h46["ok_to_submit"] is False
     assert status["newest_unique"]["ok_to_submit"] is False
     for rel in ("README.md", "docs/index.html", "docs/executive-summary.html", "index.html"):
         text = (ROOT / rel).read_text()
