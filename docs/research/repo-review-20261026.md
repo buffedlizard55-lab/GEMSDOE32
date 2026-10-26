@@ -1,5 +1,9 @@
 # GEMSDOE32 repository review — 2026-10-26
 
+## Post-integration verification — 2026-10-26 04:51 UTC
+
+The branch was merged with the then-current `main` (PRs #25–#26) to clear GitHub conflicts while preserving their release-gate hardening. The generated site was rebuilt and the combined tree passed `.venv/bin/python -m pytest -q`: **117 passed, 9 skipped, 15 warnings**; `git diff --check` passed. The skips still depend on absent source/label/group data, so this is not an end-to-end scientific/holdout run. PR #27 was open at this verification snapshot. No new experiment, holdout, TIFF, slot use, or upload authorization resulted.
+
 ## Corrective review addendum — 2026-10-26 04:45 UTC
 
 This addendum supersedes earlier math, provenance, currentness, and test-status statements below wherever they conflict. The earlier paragraphs remain in the audit trail, but must not be used as the current decision record.
@@ -127,3 +131,17 @@ The prompt cites **0.4413** and later says **0.3195** is the current public high
 - [USGS FDSN Event API](https://earthquake.usgs.gov/fdsnws/event/1/)
 - [EPSG:32611](https://epsg.io/32611)
 - [Tversky index](https://en.wikipedia.org/wiki/Tversky_index)
+
+## Passes for the present review turn (2026-10-26)
+
+### Pass 1 — inspect current state
+
+Read the repository standing brief, generated Pages, source registry, build code, release gate, and test suite. The current release decision remains fail-closed. No feature cache or `data/sample_submission.tif`, labels, or training feature raster is present in the tracked checkout; no experiment or TIF build was attempted.
+
+### Pass 2 — cross-check provenance and generated claims
+
+Found a source-of-truth contradiction in `registry/current_status.json`: the 0.2778 group score was labeled `ORGANIZER-CONFIRMED (owner-reported receipt)` even though `registry/claims.json`, the project irregularity ledger, and the review text explicitly say no submission-page receipt linking those TIFF bytes to that score is archived. Under the standing protocol, an owner report is not organizer-confirmed. Changed the status label to `OWNER-REPORT`, corrected README wording that called it verified, and regenerated the site/feed so the same distinction appears in the published summary. The local hash confirms the archived TIFF bytes, not the organizer's score attribution.
+
+### Pass 3 — verify correction and remaining blockers
+
+Added a regression test that checks the status metadata and owner-claim ledger remain consistent. Ran the site generator and the full suite: **105 passed, 9 skipped, 15 warnings**. Skips depend on absent competition data/cache; they do not represent a fresh end-to-end holdout. The current prompt still supplies no designated single method paragraph, so the lane stop condition remains in force. No candidate TIF was newly generated; existing downloadable rasters are audit/research artifacts and all current release records say **DO NOT SUBMIT**. No weekly submission slot was used.

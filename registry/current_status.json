@@ -8,7 +8,7 @@
  "best_scored": {
   "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
   "score": 0.2778,
-  "evidence_class": "OWNER-REPORT (owner-provided submission-log claim; no organizer receipt linking this raster hash to the score is present in this repository)",
+  "evidence_class": "OWNER-REPORT (owner-provided submission-log claim; no submission-page receipt linking this raster hash to the score is present in this repository)",
   "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
   "dots": 37654,
   "advice": "already submitted - do not resubmit (a resubmission spends a slot and adds no information)"

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 import rasterio
-from gems32.release_gate import compare_registry, promotion_decision
+from gems32.release_gate import compare_registry, promotion_decision, REQUIRED_VALIDATOR_CHECKS
 from gems32.submission import audit_geotiff
 
 
@@ -29,8 +29,9 @@ def test_missing_and_constant_registry_fail_closed():
 
 def test_missing_lane_or_canary_blocks_promotion():
     args = dict(lane='test', surface_check={'passed': True, 'stage': 'surface'}, final_check={'passed': True, 'stage': 'final'},
-                canary_aucs=[.6], holdout={'dti': .2, 'ci95': [.1, .3], 'n_withheld_positives': 10},
-                incumbent={'dti': .1}, same_evaluation=True, validator={'range': True})
+                canary_aucs=[.6], holdout={'dti': .2, 'ci95': [.1, .3], 'n_withheld_positives': 10, 'evaluator_version': 'test-v1'},
+                incumbent={'dti': .1, 'ci95': [.05, .15], 'n_withheld_positives': 10, 'evaluator_version': 'test-v1'}, same_evaluation=True,
+                paired_delta_ci95=[.01, .2], validator=dict.fromkeys(REQUIRED_VALIDATOR_CHECKS, True))
     assert promotion_decision(**args)['verdict'] == 'promote'
     for update in ({'lane': ''}, {'canary_aucs': [.91]}, {'same_evaluation': False},
                    {'validator': {}}, {'holdout': None}):
@@ -82,3 +83,32 @@ def test_audit_rejects_out_of_range_nonfinite_and_fractional_catalogue(tmp_path,
             ds.write(a, 1)
         with pytest.raises(ValueError, match='audit failed'):
             audit_geotiff(out, foot, labels, template_tif=tpl)
+
+
+@pytest.mark.parametrize('change', [
+    {'paired_delta_ci95': None},
+    {'paired_delta_ci95': [-.01, .2]},
+    {'paired_delta_ci95': [0, .2]},
+    {'paired_delta_ci95': [np.nan, .2]},
+    {'paired_delta_ci95': [.2, .1]},
+    {'validator': {'range': True}},
+    {'validator': dict.fromkeys(REQUIRED_VALIDATOR_CHECKS - {'crs_match'}, True)},
+    {'incumbent': {'dti': .1}},
+    {'holdout': {'dti': .2, 'ci95': [.1, .3], 'n_withheld_positives': 10}},
+    {'incumbent': {'dti': .1, 'ci95': [.05, .15], 'n_withheld_positives': 11,
+                   'evaluator_version': 'test-v1'}},
+    {'incumbent': {'dti': .1, 'ci95': [.05, .15], 'n_withheld_positives': 10,
+                   'evaluator_version': 'different-v2'}},
+])
+def test_promotion_requires_complete_matched_evidence(change):
+    args = dict(lane='test', surface_check={'passed': True, 'stage': 'surface'},
+                final_check={'passed': True, 'stage': 'final'}, canary_aucs=[.6],
+                holdout={'dti': .2, 'ci95': [.1, .3], 'n_withheld_positives': 10,
+                         'evaluator_version': 'test-v1'},
+                incumbent={'dti': .1, 'ci95': [.05, .15], 'n_withheld_positives': 10,
+                           'evaluator_version': 'test-v1'},
+                same_evaluation=True, paired_delta_ci95=[.01, .2],
+                validator=dict.fromkeys(REQUIRED_VALIDATOR_CHECKS, True))
+    result = promotion_decision(**(args | change))
+    assert result['verdict'] == 'negative'
+    assert result['selector_required'] and not result['slot_used']
