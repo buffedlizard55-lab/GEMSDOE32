@@ -3,7 +3,8 @@
 import argparse, json, sys, time
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "src"))
 from gems32 import features  # noqa: E402
 from gems32.paths import data_dir, work_dir  # noqa: E402
 
@@ -18,6 +19,10 @@ def main():
     t0 = time.time()
     rec = features.build(a.features, a.out)
     rec["seconds"] = round(time.time() - t0, 1)
+    try:
+        rec["path"] = str(Path(a.out).resolve().relative_to(ROOT))
+    except ValueError:
+        rec["path"] = str(a.out)
     Path(a.receipt).parent.mkdir(parents=True, exist_ok=True)
     Path(a.receipt).write_text(json.dumps(rec, indent=1))
     print(json.dumps({k: v for k, v in rec.items() if k != "channels"}, indent=1))

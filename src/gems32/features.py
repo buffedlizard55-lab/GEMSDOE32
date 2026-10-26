@@ -64,47 +64,81 @@ def _structure_tensor(a, sigma):
     return coh.astype(np.float32), theta.astype(np.float32), np.sqrt(tr).astype(np.float32)
 
 
+def _fill_nearest(raw: np.ndarray, valid: np.ndarray, base_valid: np.ndarray | None = None,
+                  base_idx: tuple[np.ndarray, np.ndarray] | None = None) -> tuple[np.ndarray, tuple[np.ndarray, np.ndarray]]:
+    """Fill non-valid cells with nearest valid neighbour so derivative filters have zero border cliffs."""
+    if not np.any(valid):
+        z = np.zeros(raw.shape, dtype=np.float32)
+        zi = np.zeros(raw.shape, dtype=np.intp)
+        return z, (zi, zi.copy())
+    if base_idx is not None and base_valid is not None and np.array_equal(valid, base_valid):
+        idx = base_idx
+    else:
+        _, idx = ndimage.distance_transform_edt(~valid, return_distances=True, return_indices=True)
+    filled = raw.astype(np.float32, copy=True)
+    bad = ~valid
+    if bad.any():
+        filled[bad] = filled[idx[0][bad], idx[1][bad]]
+    return filled, idx
+
+
 def build(features_path: str | Path, out_path: str | Path, log=print) -> dict:
     """Build the (H, W, F) float32 stack as a disk-backed array; returns a small receipt."""
+    features_path = Path(features_path)
+    out_path = Path(out_path)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
     need = {12, 14, 2, 13, 17, 15}                       # bands used by the derived channels
     kept = {}
     import rasterio
+    sample_path = features_path.parent / "sample_submission.tif"
+    sample_foot = None
+    if sample_path.exists():
+        with rasterio.open(sample_path) as ds_sub:
+            sample_foot = np.isfinite(ds_sub.read(1))
+
+    base_valid = None
+    base_idx = None
     with rasterio.open(features_path) as s:
         h, w, nb = s.height, s.width, s.count
         stack = np.lib.format.open_memmap(out_path, mode="w+", dtype=np.float32,
                                           shape=(h, w, len(CHANNELS) + max(0, nb - 19)))
         for i in range(1, nb + 1):
             raw = s.read(i)
-            footprint = np.isfinite(raw) & (raw > grid.NODATA_F32 * np.float32(0.5)) if i == 1 else footprint
-            a = np.where(raw < grid.NODATA_F32 * np.float32(0.5), np.float32(0.0), raw.astype(np.float32))
+            valid = np.isfinite(raw) & (raw > grid.NODATA_F32 * np.float32(0.5))
+            if i == 1:
+                footprint = sample_foot if sample_foot is not None else valid
+            filled, idx = _fill_nearest(raw, valid, base_valid, base_idx)
+            if base_valid is None:
+                base_valid, base_idx = valid, idx
             del raw
-            stack[:, :, i - 1] = a
+            stack[:, :, i - 1] = np.where(footprint, filled, np.float32(0.0))
             if i in need:
-                kept[i] = a
+                kept[i] = filled
             else:
-                del a
+                del filled
             log(f"  band {i:2d}/{nb} read")
 
     dem = kept[12]
+    fmask = footprint
     c = 19
-    stack[:, :, c] = ndimage.gaussian_laplace(dem, 1.0, mode="nearest"); c += 1
-    stack[:, :, c] = ndimage.gaussian_laplace(dem, 2.5, mode="nearest"); c += 1
+    stack[:, :, c] = np.where(fmask, ndimage.gaussian_laplace(dem, 1.0, mode="nearest"), 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, ndimage.gaussian_laplace(dem, 2.5, mode="nearest"), 0.0); c += 1
     for sigma in (1.0, 2.0, 3.5):
-        stack[:, :, c] = _hessian_ridge(dem, sigma); c += 1
+        stack[:, :, c] = np.where(fmask, _hessian_ridge(dem, sigma), 0.0); c += 1
         log(f"  ridge s={sigma}")
     loc = ndimage.maximum_filter(dem, size=5) - ndimage.minimum_filter(dem, size=5)
-    stack[:, :, c] = loc; c += 1
+    stack[:, :, c] = np.where(fmask, loc, 0.0); c += 1
     tophat = dem - ndimage.grey_opening(dem, size=(5, 5))
-    stack[:, :, c] = tophat; c += 1
-    stack[:, :, c] = _sm(_grad_mag(kept[14]), 1.0); c += 1
-    stack[:, :, c] = _sm(_grad_mag(kept[2]), 1.0); c += 1
-    stack[:, :, c] = _sm(_grad_mag(kept[13]), 1.5); c += 1
-    stack[:, :, c] = _sm(_grad_mag(kept[17]), 1.5); c += 1
-    stack[:, :, c] = _sm(_grad_mag(kept[15]), 1.5); c += 1
+    stack[:, :, c] = np.where(fmask, tophat, 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, _sm(_grad_mag(kept[14]), 1.0), 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, _sm(_grad_mag(kept[2]), 1.0), 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, _sm(_grad_mag(kept[13]), 1.5), 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, _sm(_grad_mag(kept[17]), 1.5), 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, _sm(_grad_mag(kept[15]), 1.5), 0.0); c += 1
     coh, theta, energy = _structure_tensor(dem, 2.0)
-    stack[:, :, c] = coh; c += 1
-    stack[:, :, c] = np.cos(2 * theta); c += 1
-    stack[:, :, c] = np.sin(2 * theta); c += 1
+    stack[:, :, c] = np.where(fmask, coh, 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, np.cos(2 * theta), 0.0); c += 1
+    stack[:, :, c] = np.where(fmask, np.sin(2 * theta), 0.0); c += 1
     stack[:, :, c] = footprint.astype(np.float32); c += 1
     stack.flush()
     return dict(channels=CHANNELS, n_channels=len(CHANNELS), shape=[h, w],

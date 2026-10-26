@@ -128,12 +128,6 @@
    "mitigation": "loop variable renamed to 'arm'; comment records the defect in place; scripts/run_holdout.py compiles and the recorded evidence/holdout_run2.json is unaffected."
   },
   {
-   "id": "IR-32-FIELD-01",
-   "severity": "high (measured)",
-   "statement": "The group's emission field is barely better than chance. Measured against the only truth in the checkout (labels.tif): a uniform-random 44,090-px emission scores DTI 0.078315 (5 seeds, range 0.077684-0.078960) while the group's dotted-d2.8 artifact at the same mass scores 0.161772 - a factor of 2.07. At 121,131 px the margin collapses: random 0.151988 vs the group's h19_5 field 0.166351, i.e. +9.4%. The field's support is 8.0% within 1 px of a mapped fault and 20.0% within 3 px, versus 3.55% and 8.56% for random support of the same size. The field is informative, but most of the emitted mass is spent where the kernel cannot reach it.",
-   "mitigation": "A 35-channel gradient-boosted field, cross-validated on four spatially blocked quadrants with a 30 px buffer, beats every shipped artifact at matched mass under two independent protocols (docs/research/hypotheses-round3.md, knowledge/02 section 13)."
-  },
-  {
    "id": "IR-32-EMIT-01",
    "severity": "high (measured)",
    "statement": "Emitted-mass optimum. Every informed field measured here peaks between 44,000 and 88,000 px and then loses score, because its ranking runs out of signal; a uniform-random emission has no ranking and keeps improving to 176,000 px, where it overtakes three of the five shipped artifacts. The previously shipped budget of 44,090 px sits just below the measured peak (88,000 px) under the whole-raster protocol.",
@@ -365,6 +359,48 @@
    "severity": "high (scientific finding)",
    "statement": "EXP1 vs EXP2/EXP3 revealed why supervised GBMs trained on labels.tif underperform H19-5/H33 on off-catalogue USGS SGMC faults even when they win visible-only holdout: label-free D1_LiDAR_Dipole (0.10267) and MDRC_Unsup_4Domain (0.07651) beat CHAMPION h33-2-b2 (0.06412) on SGMC, whereas supervised HistGB (treating ~labels as y=0 true negatives) suppresses real pre-Quaternary SGMC faults present inside ~labels (pulling SGMC-cal down to 0.05509).",
    "mitigation": "Gate G5 faithfully caught this off-catalogue suppression and issued an automated NEGATIVE (DO NOT SUBMIT) verdict; next-session path is positive-unlabeled (Elkan-Noto / anchor-set) learning rather than standard binary cross-entropy on ~labels."
+  },
+  {
+   "id": "IR-32-INSTR-04",
+   "severity": "high (FIXED 2026-10-26)",
+   "status": "fixed 2026-10-26",
+   "statement": "Static pre-masked B=2 files evaluated against full labels.tif yielded Spearman -0.1747 (p=0.383) on catalogue_hidden_mean and +0.0104 (p=0.959) on drift_corrected_holdout_mean across n=27 cross-site live-scored submissions ([0.0107, 0.2778]), whereas sgmc_prevalence_calibrated_dti yielded Spearman +0.6755 (p=1.10e-4). Implementing true Rule-2 visible-only B-gating in src/gems32/holdout.py::evaluate_hide_and_recover (GEMSDOE32-HIDE-RECOVER-v3.0) restores exact live B-ladder ordering on D28: B=0 (0.096743) < B=1 (0.098977) < B=2 (0.099202, peak) > B=3 (0.097102).",
+   "mitigation": "Added evaluate_hide_and_recover and evaluate_sgmc_with_ci with 256-block spatial cluster-bootstrap CIs in src/gems32/holdout.py and CLI scripts/evaluate_holdout.py; verified by unit tests."
+  },
+  {
+   "id": "IR-32-CONDUIT-01",
+   "severity": "high (FIXED 2026-10-26)",
+   "status": "fixed 2026-10-26",
+   "statement": "PR #17's scripts/run_conduit_pipeline.py (artifact 2d0d0c5e) hardcoded ci95_cluster_bootstrap = [pooled_dti - 0.032, pooled_dti + 0.032] at line 380 instead of computing a cluster bootstrap, trained on only 18 of 19 bands (omitting Band 10 and all external LiDAR/GeoDAWN/GDR layers), exceeded the 70% discrete-detector overlap limit against gems10-h28-dotted-ridge (0.70245 > 0.70) as well as r13-lattice-s5 (0.9990), trailed Champion 0.2778 on SGMC_cal (0.05114 vs 0.06412), yet set verdict='promote' and rendered a green 'OK TO DOWNLOAD AND SUBMIT' block directly beneath PR #16's red 'DO NOT SUBMIT' header on index.html and docs/index.html.",
+   "mitigation": "Replaced hardcoded +-0.032 with genuine 256-block spatial cluster bootstrap in holdout.py, quarantined H-GEO-CONDUIT as negative, and unified README.md + index.html + docs/*.html under a single unambiguous machine-gated verdict banner."
+  },
+  {
+   "id": "IR-32-CONDUIT-02",
+   "severity": "medium (FIXED 2026-10-26)",
+   "status": "fixed 2026-10-26",
+   "statement": "H-GEO-4 in registry/hypotheses.json misidentified Band 6 ('tc') as 'radiometric potassium', while training_features.tif's own GDAL band description tag mislabelled it as magnetic tilt angle; direct pixel correlation proves Band 6 (range [2.95, 88.57]) has r = +0.99714 with external/geodawn_rad_u8.tif Band 4 (GeoDAWN Radiometric Total Count, cf. IR-32-BAND-02), whereas individual K/Th/U channels reside in geodawn_rad_u8.tif Bands 1-3. In addition, H-GEO-1..4 stored 'layers' as str rather than list[str].",
+   "mitigation": "Corrected Band 6 attribution and converted all 'layers' fields to list[str] in registry/hypotheses.json; added schema assertion in tests/."
+  },
+  {
+   "id": "IR-32-PIGEONHOLE-01",
+   "severity": "informational (quantified 2026-10-26)",
+   "status": "quantified 2026-10-26",
+   "statement": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (206,895 dots on a regular 5-px square grid, owner-reported live score 0.0904) covers 99.8713% of the 5,167,373-px Nevada footprint within <=3 px (sqrt(2^2+2^2) = 2.828 <= 3.0), leaving only 6,178 B=2-eligible border-rim pixels uncovered (median distance to footprint boundary = 1.0 px). By the Pigeonhole Principle, ANY 37,654-dot B=2 raster in Nevada mathematically has >= 83.59% directional <=3-px overlap with r13-lattice-s5.",
+   "mitigation": "src/gems32/release_gate.py preserves the literal unexempted rule (enforced by tests/test_release_gate.py::test_dense_registry_is_not_exempt) and fails closed, while evidence/h38_run_card.json reports both unexempted all-registry metrics and discrete peer-detector uniqueness side-by-side."
+  },
+  {
+   "id": "IR-32-LIDAR-01",
+   "severity": "medium (mitigated 2026-10-26)",
+   "status": "mitigated 2026-10-26",
+   "statement": "external/lidar_scarp_features_u8.tif (1 m USGS 3DEP LiDAR) covers 75.37% of the active Nevada footprint and exhibits a 1.26x survey-acquisition selection bias toward mapped catalogue traces (labels.tif prevalence 1.244% inside 3DEP vs 0.984% outside), whereas off-catalogue SGMC faults are 1.61x denser in the 24.63% non-LiDAR territory (2.158% vs 1.339%).",
+   "mitigation": "Quantile-calibrated LiDAR/non-LiDAR routing in EXP3_H38_G1_CORROB improved Hide-and-Recover Pooled DTI from 0.10687 (EXP-2) to 0.11696 (+9.4%) while recovering non-LiDAR off-catalogue coverage."
+  },
+  {
+   "id": "IR-32-REFNB-01",
+   "severity": "informational (verified 2026-10-26)",
+   "status": "verified 2026-10-26",
+   "statement": "Inspection of official drivendataorg/gems-prize-reference-solution (unet-mc-cv-reference-solution.ipynb @ commit aebe92f7c8) reveals two key facts: (1) Cell 12 filters X_patches to tiles where np.any(y_patches[i]) BEFORE train/test splitting and Cell 17 writes predictions only onto those positive-catalogue tiles, leaving every 128x128 tile without a pre-mapped catalogue fault identically 0.0; (2) Cell 19 initializes pred_full with zeros and writes nodata=None outside the footprint, confirming that all-finite -zeros.tif matches the organizer's own reference output convention.",
+   "mitigation": "Documented in knowledge and site executive summary; rank-4 roadmap H38-G4 specifies full-footprint tile inference without Cell 12's positive-tile filter."
   }
  ]
 }

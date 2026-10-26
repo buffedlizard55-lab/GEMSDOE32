@@ -259,5 +259,25 @@
    "calibration_lattice_oneway_fraction": 0.99036
   },
   "run_card": "evidence/arena8a_run_card.json"
+ },
+ "h38_multiphysics_lane": {
+  "file": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.zip",
+  "nan_twin": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
+  "receipt": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-audit.json",
+  "run_card": "evidence/h38_run_card.json",
+  "sha256": "6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff",
+  "bytes": 209987,
+  "dots": 37654,
+  "submission_name": "GEMSDOE32-EXP3_H38_G1_CORROB-35859E28",
+  "note": "GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT",
+  "verdict": "DO NOT SUBMIT",
+  "ok_to_submit": false,
+  "hide_and_recover_pooled_dti": 0.116958,
+  "hide_and_recover_ci95": [
+   0.100533,
+   0.13204
+  ],
+  "sgmc_prevalence_calibrated_dti": 0.050374
  }
 }

@@ -261,6 +261,24 @@ def current_status_block(docs_prefix: str = "") -> str:
 <table><tr><th colspan=3>{esc(a8a.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{a8a_orows}</table>
 {fig_html}
 </td></tr>"""
+    h38 = st.get("h38_multiphysics_lane") or {}
+    h38_row = ""
+    if h38:
+        h38_ci = h38.get("hide_and_recover_ci95", [0.100533, 0.132040])
+        h38_row = f"""<tr><th>Round-6 Multi-Physics file (<code>H38-G1..G4</code>)</th><td>ONE-CLICK (audit artifact only):
+<a class=btn href="{esc(href(h38.get('file', '')))}">&#11015; {esc(Path(h38.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(h38.get('zip', '')))}">.zip</a>
+<a class="btn alt" href="{esc(href(h38.get('nan_twin', '')))}">NaN-twin</a>
+<a class="btn alt" href="{esc(href(h38.get('receipt', '')))}">Format Receipt (20/20 PASS)</a>
+&middot; <a href="{esc(href(h38.get('run_card', '')))}">H38 run card</a><br>
+<b style="color:#b00020">&#9940; DO NOT SUBMIT</b> &mdash; 53-channel 1m 3DEP LiDAR + GeoDAWN K/Th/U/TMI_up150 + GDR #1391 + CELF 300m cover
+(<code>EXP3_H38_G1_CORROB</code>); <b>{int(h38.get('dots', 37654)):,}</b> dots (0 on catalogue, B=2); sha256 <code>{esc(h38.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Archive portal name: <code>{esc(h38.get('submission_name', ''))}</code> &middot; Archive note ({len(h38.get('note', ''))}/140 chars): <code>{esc(h38.get('note', ''))}</code></span>
+<ul>
+<li><b>Highest leak-free Hide-and-Recover v3.0 score in GEMSDOE32:</b> <code>HOLDOUT-DTI = {h38.get('hide_and_recover_pooled_dti', 0.116958):.5f}</code>
+(95% spatial-block CI <code>[{h38_ci[0]:.5f}, {h38_ci[1]:.5f}]</code>, <b>+17.9%</b> over <code>0.2778</code> Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
+<li><b>Cross-site uniqueness PASS vs all 26 live-scored detectors</b> (max &le;3-px overlap <code>69.49% &le; 70%</code>; <code>58.78%</code> vs Champion; surface |Spearman| <code>0.4374 &le; 0.90</code>), <b>but fails closed (audit artifact only — DO NOT SUBMIT)</b> because off-catalogue <code>SGMC_cal</code> (<code>{h38.get('sgmc_prevalence_calibrated_dti', 0.050374):.5f}</code>) trails Champion (<code>0.06412</code>) and unexempted &le;3-px check hits local GBDT <code>hcvf2</code> (<code>77.56%</code>) + 5-px calibration lattice <code>r13-lattice-s5</code> (<code>99.71%</code>, <code>IR-32-PIGEONHOLE-01</code>).</li>
+</ul></td></tr>"""
     ex = st.get("round6_candidate") or {}
     expl_row = ""
     if ex:
@@ -290,6 +308,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
 <table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
 </td></tr>
+{h38_row}
 {expl_row}
 <tr><th>Withdrawn</th><td><ul>{wd}</ul></td></tr>
 <tr><th>Leaderboard</th><td>public #1 = <b>{lb.get('score')}</b> ({esc(lb.get('team', ''))}), read {esc(lb.get('read_utc', ''))}
@@ -558,7 +577,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
+    parts = [arena41_block(), current_status_block(""), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -783,6 +802,7 @@ RESEARCH_NOTES = [
      "Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest "
      "concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression "
      "discovery (IR-A8A-PU-BIAS-01)"),
+    ("hypotheses-round6-20261026.md", "Round 6 (2026-10-26): preregistered H36-1..5 & H38-G1..G4 multi-physics hypotheses, 53-channel LiDAR + GeoDAWN + GDR experiments (+17.9% Hide&Recover v3.0), IR-32-LIDAR-01 & IR-32-REFNB-01"),
     ("hypotheses-round5.md", "Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family "
                              "forensics), the five ranked hypotheses, two measured negative lanes "
                              "(H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity "

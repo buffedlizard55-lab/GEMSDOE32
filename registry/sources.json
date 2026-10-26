@@ -196,6 +196,13 @@
    "url": "https://www.sciencebase.gov/catalog/item/606f657fd34ef99870188ee5",
    "role": "A8A-H5 external surface-rupture vector dataset (Koehler et al., 2021)",
    "status": "official free USGS data release; egress-blocked inside sandbox (deferred)"
+  },
+  {
+   "id": "gemsdoe24_external_mirrors",
+   "title": "USGS 3DEP 1m LiDAR scarp stack, GeoDAWN K/Th/U/TMI_up150, and DOE GDR #1391 rasters (SHA-256-pinned mirrors)",
+   "url": "https://github.com/buffedlizard55-lab/GEMSDOE24/tree/main/data/external",
+   "role": "Round-6 H38-G1..G3 external geophysical & geomorphic layers (lidar_scarp_features_u8.tif, geodawn_rad_u8.tif, geodawn_extensions_u8.tif, gdr_evidence_u8.tif)",
+   "status": "fetched & SHA-256 verified locally 2026-10-26 via scripts/restore_data.py"
   }
  ]
 }

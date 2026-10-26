@@ -33,6 +33,20 @@
 <table><tr><th colspan=3>HOLDOUT-DTI, GEMSDOE32-HOLDOUT-v3-visible-gated (fixes IR-32-INSTR-03), 22232 withheld positives, 95% CI</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr><tr><td>H36-1C (hybrid + Steger)</td><td>0.1098</td><td>[0.0987, 0.1227]</td></tr><tr><td>H36-1B (PU HistGB + Steger)</td><td>0.1048</td><td>[0.0950, 0.1177]</td></tr><tr><td>H36-1A (unsupervised crest)</td><td>0.0638</td><td>[0.0499, 0.0773]</td></tr><tr><td>CHAMPION_0.2778 (raw)</td><td>0.0992</td><td>[0.0820, 0.1222]</td></tr><tr><td>H36-1C (censored d0==0)</td><td>0.0764</td><td>[0.0655, 0.0881]</td></tr></table>
 <table><tr><th colspan=3>HOLDOUT-DTI (off-catalogue USGS SGMC blind faults &gt;300 m, 62703 px), 95% CI</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr><tr><td>H36-1C_TDR_PDS</td><td>0.0838</td><td>[0.0608, 0.1099]</td></tr><tr><td>CHAMPION_0.2778</td><td>0.0961</td><td>[0.0848, 0.1077]</td></tr></table>
 </td></tr>
+<tr><th>Round-6 Multi-Physics file (<code>H38-G1..G4</code>)</th><td>ONE-CLICK (audit artifact only):
+<a class=btn href="docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif">&#11015; gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.zip">.zip</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif">NaN-twin</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-audit.json">Format Receipt (20/20 PASS)</a>
+&middot; <a href="evidence/h38_run_card.json">H38 run card</a><br>
+<b style="color:#b00020">&#9940; DO NOT SUBMIT</b> &mdash; 53-channel 1m 3DEP LiDAR + GeoDAWN K/Th/U/TMI_up150 + GDR #1391 + CELF 300m cover
+(<code>EXP3_H38_G1_CORROB</code>); <b>37,654</b> dots (0 on catalogue, B=2); sha256 <code>6efe140229c46b27&hellip;</code><br>
+<span class=mut>Archive portal name: <code>GEMSDOE32-EXP3_H38_G1_CORROB-35859E28</code> &middot; Archive note (102/140 chars): <code>GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT</code></span>
+<ul>
+<li><b>Highest leak-free Hide-and-Recover v3.0 score in GEMSDOE32:</b> <code>HOLDOUT-DTI = 0.11696</code>
+(95% spatial-block CI <code>[0.10053, 0.13204]</code>, <b>+17.9%</b> over <code>0.2778</code> Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
+<li><b>Cross-site uniqueness PASS vs all 26 live-scored detectors</b> (max &le;3-px overlap <code>69.49% &le; 70%</code>; <code>58.78%</code> vs Champion; surface |Spearman| <code>0.4374 &le; 0.90</code>), <b>but fails closed (audit artifact only — DO NOT SUBMIT)</b> because off-catalogue <code>SGMC_cal</code> (<code>0.05037</code>) trails Champion (<code>0.06412</code>) and unexempted &le;3-px check hits local GBDT <code>hcvf2</code> (<code>77.56%</code>) + 5-px calibration lattice <code>r13-lattice-s5</code> (<code>99.71%</code>, <code>IR-32-PIGEONHOLE-01</code>).</li>
+</ul></td></tr>
 <tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; DO NOT SUBMIT - audit artifact only</b> &mdash;
 <a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a> (audit artifact only)
 &middot; sha256 <code>c7f094c1f4d00f2d&hellip;</code><br><small>parallel Round-6 session (PR #18); its own run card recorded a positive verdict, withdrawn by the fail-closed release review (PR #21)</small>

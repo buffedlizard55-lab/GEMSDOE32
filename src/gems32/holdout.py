@@ -25,6 +25,8 @@ NEAR_LABEL_PX = 3    # 300 m kernel radius around known catalogue faults
 ESTIMATED_LB_HIDDEN_TRUTH_PX = 12691.0  # Calibrated from blind lattice-s5 (0.0904) & h19-5->d1.5->d2.8
 EVALUATOR_VERSION = "GEMSDOE32-HOLDOUT-v3-visible-only"
 HOLDOUT_EVALUATOR_VERSION = "GEMSDOE32-HOLDOUT-v3-visible-gated"
+HIDE_RECOVER_EVALUATOR_VERSION = "GEMSDOE32-HIDE-RECOVER-v3.0"
+SGMC_EVALUATOR_VERSION = "GEMSDOE32-SGMC-CAL-v3.0"
 
 
 def quadrant_ids(footprint: np.ndarray) -> np.ndarray:
@@ -55,6 +57,13 @@ class PreparedCell:
     visible_sub: np.ndarray | None = None
     d_visible_sub: np.ndarray | None = None  # distance to VISIBLE faults only inside bbox (fixes IR-32-INSTR-03)
     visible_full: np.ndarray | None = None
+    d_vis_sub: np.ndarray | None = None
+
+    def __post_init__(self) -> None:
+        if self.d_visible_sub is None and self.d_vis_sub is not None:
+            self.d_visible_sub = self.d_vis_sub
+        elif self.d_vis_sub is None and self.d_visible_sub is not None:
+            self.d_vis_sub = self.d_visible_sub
 
 
 @dataclass
@@ -71,6 +80,7 @@ class HoldoutContext:
     sgmc_n_truth: int
     sgmc_quad_truth_coords: dict[int, tuple[np.ndarray, np.ndarray]]
     sgmc_quad_n_truth: dict[int, int]
+    visible_by_cell: dict[str, np.ndarray] | None = None
 
 
 def read_binary(path: Path) -> np.ndarray:
@@ -572,6 +582,220 @@ def evaluate_visible_gated_holdout(
             "coverage": sgmc_cov,
             "prevalence_calibrated_dti": sgmc_cal_dti,
         },
+    }
+
+
+def _spatial_block_index(ys: np.ndarray, xs: np.ndarray, shape: tuple[int, int], grid_n: int = 16) -> np.ndarray:
+    h, w = shape
+    by = np.minimum((ys * grid_n) // h, grid_n - 1)
+    bx = np.minimum((xs * grid_n) // w, grid_n - 1)
+    return (by * grid_n + bx).astype(np.int32)
+
+
+def _cluster_bootstrap_pooled_dti(
+    tp_vec: np.ndarray,
+    fp_vec: np.ndarray,
+    fn_vec: np.ndarray,
+    active_blocks: np.ndarray,
+    n_boot: int = 1000,
+    seed: int = 20261026,
+) -> tuple[float, list[float], np.ndarray]:
+    tp_a = tp_vec[active_blocks]
+    fp_a = fp_vec[active_blocks]
+    fn_a = fn_vec[active_blocks]
+    tot_tp = float(tp_a.sum())
+    tot_fp = float(fp_a.sum())
+    tot_fn = float(fn_a.sum())
+    pooled = float(tot_tp / (tot_tp + ALPHA * tot_fp + BETA * tot_fn + EPS))
+    k = int(active_blocks.size)
+    if k == 0:
+        return 0.0, [0.0, 0.0], np.zeros(n_boot, dtype=np.float64)
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, k, size=(n_boot, k))
+    btp = tp_a[idx].sum(axis=1)
+    bfp = fp_a[idx].sum(axis=1)
+    bfn = fn_a[idx].sum(axis=1)
+    boots = btp / (btp + ALPHA * bfp + BETA * bfn + EPS)
+    ci95 = [float(np.percentile(boots, 2.5)), float(np.percentile(boots, 97.5))]
+    return pooled, ci95, boots
+
+
+def evaluate_hide_and_recover(
+    pred_or_cells: np.ndarray | dict[str, np.ndarray],
+    ctx: HoldoutContext,
+    b_visible_px: float = 0.0,
+    grid_n: int = 16,
+    n_boot: int = 1000,
+    seed: int = 20261026,
+    name: str = "candidate",
+) -> dict:
+    """Protocol Rule 2 leak-free Hide-and-Recover Pooled DTI evaluator (fixes IR-32-INSTR-03).
+
+    Withholds whole fault segments with a 15-px collar buffer, masks ONLY visible faults pixel-exactly
+    (plus optional ``b_visible_px`` exclusion strictly around visible faults — NEVER hidden faults),
+    and computes exact pooled DTI (alpha=0.2, beta=0.8, 300 m triangular kernel) with a spatial
+    ``grid_n x grid_n`` block cluster-bootstrap 95% CI.
+    """
+    h, w = ctx.foot.shape
+    n_blocks = grid_n * grid_n
+    tp_blk = np.zeros(n_blocks, dtype=np.float64)
+    fp_blk = np.zeros(n_blocks, dtype=np.float64)
+    fn_blk = np.zeros(n_blocks, dtype=np.float64)
+
+    fy, fx = np.nonzero(ctx.foot)
+    active_blocks = np.unique(_spatial_block_index(fy, fx, (h, w), grid_n))
+
+    is_cell_dict = isinstance(pred_or_cells, dict)
+    base_mask = None if is_cell_dict else (np.asarray(pred_or_cells, bool) & ctx.foot)
+
+    folds: dict[str, dict] = {}
+    for cell in ctx.cells:
+        sl = cell.bbox
+        r0, c0 = int(sl[0].start), int(sl[1].start)
+        if is_cell_dict:
+            raw_cell = np.asarray(pred_or_cells[cell.key], bool)
+            sub_in = raw_cell[sl] if raw_cell.shape == (h, w) else raw_cell
+        else:
+            sub_in = base_mask[sl]
+
+        p_sub = sub_in & cell.active_sub
+        if b_visible_px > 0.0 and cell.d_vis_sub is not None:
+            p_sub = p_sub & (cell.d_vis_sub > b_visible_px)
+
+        n_emit = int(p_sub.sum())
+        n_t = cell.n_truth
+        ty_sub, tx_sub = cell.truth_coords
+        t_blk = _spatial_block_index(ty_sub + r0, tx_sub + c0, (h, w), grid_n)
+
+        if n_t == 0:
+            folds[cell.key] = {"dti": 0.0, "tp": 0.0, "fp": float(n_emit), "fn": 0.0, "n_truth": 0, "emitted": n_emit}
+            continue
+
+        if n_emit == 0:
+            np.add.at(fn_blk, t_blk, 1.0)
+            folds[cell.key] = {"dti": 0.0, "tp": 0.0, "fp": 0.0, "fn": float(n_t), "n_truth": n_t, "emitted": 0}
+            continue
+
+        dp_sub = distance_transform_edt(~p_sub)
+        t_cred = kernel(dp_sub[cell.truth_coords]).astype(np.float64)
+        tp = float(t_cred.sum())
+        fn = float(n_t) - tp
+        np.add.at(tp_blk, t_blk, t_cred)
+        np.add.at(fn_blk, t_blk, 1.0 - t_cred)
+
+        py_sub, px_sub = np.nonzero(p_sub)
+        p_blk = _spatial_block_index(py_sub + r0, px_sub + c0, (h, w), grid_n)
+        fp_weights = (1.0 - cell.k_dg_sub[p_sub]).astype(np.float64)
+        fp = float(fp_weights.sum())
+        np.add.at(fp_blk, p_blk, fp_weights)
+
+        dti_c = float(tp / (tp + ALPHA * fp + BETA * fn + EPS))
+        folds[cell.key] = {
+            "dti": dti_c,
+            "coverage": float(tp / n_t),
+            "tp": tp,
+            "fp": fp,
+            "fn": fn,
+            "n_truth": n_t,
+            "emitted": n_emit,
+        }
+
+    pooled, ci95, boots = _cluster_bootstrap_pooled_dti(tp_blk, fp_blk, fn_blk, active_blocks, n_boot=n_boot, seed=seed)
+    n_withheld = int(sum(v["n_truth"] for v in folds.values()))
+    per_quad = {
+        FOLD_NAMES[f]: float(np.mean([folds[f"draw{ds}_fold{f}"]["dti"] for ds in DRAWS]))
+        for f in FOLDS
+    }
+    return {
+        "candidate_id": name,
+        "evaluator_version": HIDE_RECOVER_EVALUATOR_VERSION,
+        "score_label": "HOLDOUT-DTI",
+        "b_visible_px": float(b_visible_px),
+        "n_withheld_positives": n_withheld,
+        "n_spatial_clusters": int(active_blocks.size),
+        "n_bootstrap_reps": int(n_boot),
+        "pooled_dti": pooled,
+        "ci95_cluster_bootstrap": ci95,
+        "fold_mean_dti": float(np.mean([v["dti"] for v in folds.values()])),
+        "per_quadrant_dti": per_quad,
+        "folds": folds,
+        "_block_totals": (tp_blk, fp_blk, fn_blk, active_blocks),
+        "_boots": boots,
+    }
+
+
+def evaluate_sgmc_with_ci(
+    mask: np.ndarray,
+    ctx: HoldoutContext,
+    grid_n: int = 16,
+    n_boot: int = 1000,
+    seed: int = 20261026,
+    name: str = "candidate",
+) -> dict:
+    """Off-catalogue SGMC DTI (raw & prevalence-calibrated) with 256-block spatial cluster-bootstrap 95% CI."""
+    h, w = ctx.foot.shape
+    mask = np.asarray(mask, bool) & ctx.foot & ~ctx.labels
+    n_blocks = grid_n * grid_n
+    tp_blk = np.zeros(n_blocks, dtype=np.float64)
+    fp_blk = np.zeros(n_blocks, dtype=np.float64)
+    fn_blk = np.zeros(n_blocks, dtype=np.float64)
+
+    fy, fx = np.nonzero(ctx.foot)
+    active_blocks = np.unique(_spatial_block_index(fy, fx, (h, w), grid_n))
+
+    ty, tx = ctx.sgmc_truth_coords
+    t_blk = _spatial_block_index(ty, tx, (h, w), grid_n)
+    if mask.any() and ctx.sgmc_n_truth > 0:
+        dp = distance_transform_edt(~mask)
+        t_cred = kernel(dp[ctx.sgmc_truth_coords]).astype(np.float64)
+        np.add.at(tp_blk, t_blk, t_cred)
+        np.add.at(fn_blk, t_blk, 1.0 - t_cred)
+        py, px = np.nonzero(mask)
+        p_blk = _spatial_block_index(py, px, (h, w), grid_n)
+        fp_w = (1.0 - ctx.sgmc_k_dg[mask]).astype(np.float64)
+        np.add.at(fp_blk, p_blk, fp_w)
+    else:
+        np.add.at(fn_blk, t_blk, 1.0)
+
+    raw_pooled, raw_ci95, _ = _cluster_bootstrap_pooled_dti(tp_blk, fp_blk, fn_blk, active_blocks, n_boot=n_boot, seed=seed)
+
+    # Prevalence-calibrated bootstrap over the exact same spatial blocks:
+    r_prev = ESTIMATED_LB_HIDDEN_TRUTH_PX / max(float(ctx.sgmc_n_truth), 1.0)
+    emit_blk = np.zeros(n_blocks, dtype=np.float64)
+    if mask.any():
+        py, px = np.nonzero(mask)
+        np.add.at(emit_blk, _spatial_block_index(py, px, (h, w), grid_n), 1.0)
+    tp_cal_a = tp_blk[active_blocks] * r_prev
+    fn_cal_a = fn_blk[active_blocks] * r_prev
+    emit_a = emit_blk[active_blocks]
+
+    tot_tp_c = float(tp_cal_a.sum())
+    tot_fn_c = float(fn_cal_a.sum())
+    tot_fp_c = max(0.0, float(emit_a.sum()) - tot_tp_c)
+    cal_pooled = float(tot_tp_c / (ALPHA * (tot_tp_c + tot_fp_c) + BETA * (tot_tp_c + tot_fn_c) + EPS))
+
+    rng = np.random.default_rng(seed)
+    k = int(active_blocks.size)
+    idx = rng.integers(0, k, size=(n_boot, k))
+    btp = tp_cal_a[idx].sum(axis=1)
+    bfn = fn_cal_a[idx].sum(axis=1)
+    bemit = emit_a[idx].sum(axis=1)
+    bfp = np.maximum(0.0, bemit - btp)
+    cal_boots = btp / (ALPHA * (btp + bfp) + BETA * (btp + bfn) + EPS)
+    cal_ci95 = [float(np.percentile(cal_boots, 2.5)), float(np.percentile(cal_boots, 97.5))]
+
+    return {
+        "candidate_id": name,
+        "evaluator_version": SGMC_EVALUATOR_VERSION,
+        "score_label": "HOLDOUT-DTI",
+        "n_withheld_positives": int(ctx.sgmc_n_truth),
+        "n_spatial_clusters": k,
+        "n_bootstrap_reps": int(n_boot),
+        "sgmc_raw_pooled_dti": raw_pooled,
+        "sgmc_raw_ci95": raw_ci95,
+        "sgmc_prevalence_calibrated_dti": cal_pooled,
+        "sgmc_calibrated_ci95": cal_ci95,
+        "_cal_boots": cal_boots,
     }
 
 
