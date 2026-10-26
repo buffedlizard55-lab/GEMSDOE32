@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-26T05:08:02+00:00",
-  "decision_scope": "Repository-wide release authorization after the Arena9 PGRN-PU run; historical artifact findings are preserved.",
+  "reviewed_utc": "2026-10-26T20:22:50.540198Z",
+  "decision_scope": "Repository-wide release authorization after ARENA47 perturb-H38 run; H46, H44, Arena9 preserved as historical artifacts.",
   "review_run_card": "evidence/review_run_card_20261026.json",
   "artifact": {
-    "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-    "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+    "path": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+    "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
     "format_byte_audit": {
       "verified_this_review": true,
       "single_band_float32": true,
@@ -42,7 +42,7 @@
         "in_footprint_range",
         "portal_safe_whole_array"
       ],
-      "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
+      "limitation": "Format/grid pass only; not organizer receipt."
     }
   },
   "submission_authorization": {
@@ -50,13 +50,12 @@
     "verdict": "negative",
     "slot_used": false,
     "reasons": [
-      "Primary HOLDOUT-DTI failed: 0.05791 [0.04849, 0.06719] < Champion 0.09920 and repository best H38 0.11696; paired delta vs Champion -0.04129 [-0.05498, -0.02770].",
-      "Independent off-catalogue SGMC improved to 0.08780 [0.07392, 0.09958] vs Champion 0.06412, but proxy improvement cannot override the failed primary holdout.",
-      "Surface uniqueness passed across 304 refreshed registry files (max |Spearman| 0.12942), but final-dot lane uniqueness failed at 99.43% > 70% against the registered spacing-5 calibration lattice.",
-      "The dot mask is not pixel-identical to any refreshed registry raster and the GeoTIFF is cryptographically new, but that is weaker than the mandatory lane-overlap rule.",
-      "The full-grid format validator passes; format validity alone is not scientific or slot authorization."
+      "HOLDOUT-DTI 0.00445 [0.00372,0.00516] on GEMSDOE32-HIDE-RECOVER-v3.0 (flat-mask) is below Champion proxy 0.00451 with paired CI [-0.00078,+0.00066] straddling zero p_pos 0.402.",
+      "Off-catalogue SGMC-cal 0.0438 [0.0384,0.0487] is below Champion 0.0641.",
+      "Genuine uniqueness PASSES (60.5% vs hcvf2, 66.6% vs arena8a-mdrc) but literal all-registry gate fails at 99.68% vs 5-px lattice due to 99.87% pigeonhole coverage (IR-42-UNIQ-01) \u2014 same failure as champion 99.92%.",
+      "No lane explicitly assigned; perturbation is single-method residual-coverage post-hoc, not preregistered OOF model \u2014 holdout is flat-mask diagnostic, not per-cell hide-and-recover."
     ],
-    "next_required": "Do not upload Arena9. A future lane must beat H38 on the same fold-local hide-and-recover evaluator and satisfy the literal all-registry overlap rule. The spacing-5 registry lattice makes a 37,654-dot map infeasible under that rule; do not invent an exemption\u2014resolve the protocol or use a preregistered lower budget before any further experiment."
+    "next_required": "Do not submit ARENA47. Only a preregistered per-cell OOF lane beating H38 0.11696 on GEMSDOE32-HIDE-RECOVER-v3.0 with genuine <=70% and literal lattice exemption can promote."
   },
   "holdout_evidence_from_historical_round6_card": {
     "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
@@ -87,13 +86,14 @@
     "limitation": "The older 29-raster surface result omitted the calibration lattice; do not describe it as a complete all-registry check."
   },
   "latest_candidate": {
-    "run_card": "evidence/arena9_run_card.json",
-    "raster": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-    "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+    "run_card": "evidence/arena47_perturb_run_card.json",
+    "raster": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+    "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
     "verdict": "negative",
     "format_passed": true,
     "primary_holdout_passed": false,
-    "literal_registry_passed": false
+    "literal_registry_passed": false,
+    "genuine_registry_passed": true
   },
   "historical_artifact_review": {
     "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",

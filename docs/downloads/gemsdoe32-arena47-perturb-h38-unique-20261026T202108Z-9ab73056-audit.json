@@ -1,0 +1,46 @@
+{
+  "filename": "gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+  "size_bytes": 192561,
+  "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
+  "mode": "zeros",
+  "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+  "crs": "EPSG:32611",
+  "transform": [
+    100.0,
+    0.0,
+    243350.0,
+    0.0,
+    -100.0,
+    4508550.0
+  ],
+  "shape": [
+    3730,
+    3292
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "nodata_repr": "None",
+  "emitted_positive_pixels": 37654,
+  "footprint_fraction": 0.007287,
+  "on_catalogue_positive_pixels": 0,
+  "in_footprint_finite_pixels": 5167373,
+  "in_footprint_min": 0.0,
+  "in_footprint_max": 1.0,
+  "full_grid_finite_pixels": 12279160,
+  "checks": {
+    "exact_reference_grid_match": true,
+    "single_band": true,
+    "dtype_float32": true,
+    "dimensions_3730x3292": true,
+    "crs_epsg_32611": true,
+    "in_footprint_all_finite": true,
+    "in_footprint_zero_nan": true,
+    "in_footprint_zero_inf": true,
+    "in_footprint_zero_sentinel": true,
+    "in_footprint_range_0_1": true,
+    "outside_footprint_compliant": true,
+    "zero_on_catalogue_leakage": true,
+    "validator_range_0_1_guaranteed": true
+  },
+  "all_checks_passed": true
+}
