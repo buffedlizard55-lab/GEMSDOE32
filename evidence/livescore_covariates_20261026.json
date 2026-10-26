@@ -1,7 +1,7 @@
 {
  "schema_version": 1,
- "arena": "arena49-livescore-covariates",
- "generated_utc": "2026-10-26T22:28:42Z",
+ "arena": "arena51-livescore-covariates",
+ "generated_utc": "2026-10-26T22:49:49Z",
  "kind": "retrospective portfolio audit; no new experiment lane; 0 holdout runs; 0 weekly slots",
  "evidence_class": "OWNER-REPORT-fitted diagnostics. Live scores are the owner's ledger transcription with no organizer receipt binding them to these bytes (IR-32-SCORE-01). Nothing here is a leaderboard-score prediction or upload authorization.",
  "reference_masks": {
@@ -1930,5 +1930,5 @@
   "max_dots_that_could_pass_literal_rule": 22163,
   "rule": "dots_in_holes >= 0.3 * dots  <=>  dots <= holes/0.3"
  },
- "runtime_seconds": 185.1
+ "runtime_seconds": 170.8
 }

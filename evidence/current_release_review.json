@@ -1,25 +1,40 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-26T21:44:20Z",
-  "decision_scope": "Repository-wide release authorization after ARENA48-H1-TMSPI (H50) run; ARENA47/H46/H44 preserved as historical artifacts.",
+  "reviewed_utc": "2026-10-26T23:05:00Z",
+  "decision_scope": "Reconciled by scripts/sync_submission_build.py: the release review still pointed at gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif after a parallel merge advanced the newest candidate; decision remains fail-closed.",
   "review_run_card": "evidence/review_run_card_20261026.json",
   "artifact": {
-    "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
-    "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+    "path": "docs/downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif",
+    "sha256": "93c21c4cc18735aaeea44626b0697d72b96f9048ab817d9f0c5fb27381ef5f0f",
     "format_byte_audit": {
-      "verified_this_review": true,
       "single_band_float32": true,
       "crs": "EPSG:32611",
       "shape": [
         3730,
         3292
       ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
       "nodata": null,
       "finite_cells": 12279160,
       "total_cells": 12279160,
       "min": 0.0,
       "max": 1.0,
-      "positive_pixels": 37121
+      "positive_pixels": 35487,
+      "verified_this_review": true,
+      "note": "Reconciled by scripts/sync_submission_build.py from the pinned validator block in registry/current_status.json after the release review was left pointing at the previous artifact by a parallel merge; sha256 of the on-disk bytes verified."
+    },
+    "reference_grid_reaudit": {
+      "status": "PASS",
+      "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
+      "validator": "scripts/check_submission.py --strict-finite (per registry current_status validator block)",
+      "limitation": "Format/grid pass only; not organizer receipt."
     }
   },
   "submission_authorization": {
@@ -27,10 +42,12 @@
     "verdict": "negative",
     "slot_used": false,
     "reasons": [
-      "HOLDOUT-DTI 0.00445 [0.00372,0.00516] on GEMSDOE32-HIDE-RECOVER-v3.0 (flat-mask) is below Champion proxy 0.00451 with paired CI [-0.00078,+0.00066] straddling zero p_pos 0.402.",
-      "Off-catalogue SGMC-cal 0.0438 [0.0384,0.0487] is below Champion 0.0641.",
-      "Genuine uniqueness PASSES (60.5% vs hcvf2, 66.6% vs arena8a-mdrc) but literal all-registry gate fails at 99.68% vs 5-px lattice due to 99.87% pigeonhole coverage (IR-42-UNIQ-01) \u2014 same failure as champion 99.92%.",
-      "No lane explicitly assigned; perturbation is single-method residual-coverage post-hoc, not preregistered OOF model \u2014 holdout is flat-mask diagnostic, not per-cell hide-and-recover."
+      "Genuine uniqueness PASS: max |Spearman| 0.0664, max 3px 43.09% vs gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif, 16.11% vs 0.2778 champion (limits 0.90 / 70%).",
+      "HOLDOUT-DTI 0.02826 [0.02234, 0.03386] on GEMSDOE32-HOLDOUT-v3-visible-gated (flat mask, 22,232 withheld); paired \u0394 vs same-evaluator champion flat mask +0.02360 [0.01775, 0.02944]. NOT the 0.09920 callable champion number (IR-45-EVAL-02) and NOT a live-score projection.",
+      "SGMC-cal 0.07033 > champion 0.06412 \u2014 no off-catalogue regression (first genuine-unique candidate here to clear both).",
+      "Literal lattice overlap 1.000 \u2014 FAIL-CLOSED under the literal rule (IR-42-UNIQ-01 pigeonhole; champion/random also ~0.999). Selector disposition required.",
+      "Canary PASS (5/5, max AUC 0.5531 <= 0.90). Format strict-finite PASS, all 12,279,160 cells finite in [0,1], 0 on-catalogue, 0 within 2 px.",
+      "promotion_decision=promote on the shared gates, but ok_to_submit=false: separate weekly-slot selector required. 0 weekly slots used."
     ],
     "next_required": "Do not submit ARENA47. Only a preregistered per-cell OOF lane beating H38 0.11696 on GEMSDOE32-HIDE-RECOVER-v3.0 with genuine <=70% and literal lattice exemption can promote.",
     "ok_to_download_for_research": true,
@@ -65,9 +82,9 @@
     "limitation": "The older 29-raster surface result omitted the calibration lattice; do not describe it as a complete all-registry check."
   },
   "latest_candidate": {
-    "run_card": "evidence/h50_tmspi_run_card.json",
+    "run_card": "evidence/arena49_pcg_run_card.json",
     "raster": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
-    "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+    "sha256": "93c21c4cc18735aaeea44626b0697d72b96f9048ab817d9f0c5fb27381ef5f0f",
     "verdict": "negative",
     "format_passed": true,
     "primary_holdout_passed": false,

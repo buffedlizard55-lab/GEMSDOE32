@@ -1,4 +1,4 @@
-# Arena49 — Live-score covariate audit and nine-site executive decision (2026-10-26)
+# Arena51 — Live-score covariate audit and nine-site executive decision (2026-10-26)
 
 **Session:** Arena `arena/b4675e19-gemsdoe32` · **Date:** 2026-10-26 (evening UTC)
 **Kind:** retrospective portfolio audit. **No new experiment lane was assigned in this session's
@@ -32,15 +32,25 @@ extra scored rasters pinned at [`registry/extra_scored_manifest.json`](../../reg
 **Is any file in this repository OK to download and submit to the competition right now? NO.**
 
 1. **Nothing new is authorized.** `registry/current_status.json` keeps
-   `any_file_ok_to_submit = false`; the newest research artifact (H50 TM-SPI, merged to `main` by
-   a parallel session during this one) is a genuine-unique, format-valid GeoTIFF whose SGMC-cal
-   0.0164 loses to the champion's 0.0641 and whose literal lattice gate fail-closes; the parallel
-   H47 session's Live-Ledger Inversion projects its own unique candidate *below* the champion
-   (PROJECTION 0.240–0.248 vs 0.283–0.285). Every research TIFF in `docs/downloads/` — ARENA47,
-   H50, H47, H46, H44, Arena9, Arena8a, H38 … — carries a recorded DO-NOT-SUBMIT verdict.
-   This session's audit is complementary to H47's LLI: LLI models hidden-truth density strata from
-   111 rasters and produces PROJECTIONS; Arena49 fits intrinsic raster covariates and quantifies
-   the family ceiling, the champion's above-trend residual, and the exact lattice bound below.
+   `any_file_ok_to_submit = false`. The newest research artifact is now **ARENA49-PCG** (a
+   phase-congruency skeleton, merged to `main` by a parallel session while this one was in
+   flight): it is the first genuine-unique candidate to beat the champion on **both** recorded
+   instruments — visible-gated HOLDOUT-DTI `0.02826` vs the champion's same-evaluator
+   `0.00452` (paired Δ `+0.0236 [+0.0178, +0.0294]`) and SGMC-cal `0.07033` vs `0.06412` —
+   and its run card records gate-level `promote` **with `selector_required: true` and an
+   overall `negative` verdict**, i.e. held for the weekly-slot selector, not authorized. Two
+   cautions apply before treating it as the answer: (a) its run-card registry-comparison block
+   is **empty**, and at 37,654 dots the literal lattice rule is mathematically impassable
+   (§2.3), so its `final=true` gate necessarily excluded the lattice — precisely the exemption
+   IR-51-LATTICE-01 reserves for an explicit owner decision; (b) every previous non-family
+   "instrument winner" in this portfolio scored ≤ `0.2478` live (OWNER-REPORT), so a live gain
+   over `0.2778` is possible but not supported by precedent. The prior artifacts (H50 TM-SPI:
+   SGMC-cal 0.0164 < 0.0641; H47's LLI projection for its own unique candidate 0.240–0.248 vs
+   the champion's 0.283–0.285) all carry recorded negative verdicts, as do ARENA47, H46, H44,
+   Arena9, Arena8a, H38 …. This audit is complementary to H47's LLI: LLI models hidden-truth
+   density strata from 111 rasters and produces PROJECTIONS; Arena51 fits intrinsic raster
+   covariates and quantifies the family ceiling, the champion's above-trend residual, and the
+   exact lattice bound below.
 2. **The best historical file is already scored.** `h33-h33-2-b2` (0.2778 OWNER-REPORT) was
    already submitted. Resubmitting it spends one of the 3-per-week slots and adds no information.
 3. **All nine focus-site "winners" are one family, byte-verified.** The nine best historical
@@ -156,11 +166,11 @@ silent exemption by one session.
 ## 3. Nine-site executive table (which file, what estimate, unique or not, submit or not)
 
 Scores are OWNER-REPORT actuals (the only defensible "estimate" for an already-scored file).
-The "Arena49 LOO" column is the instrument's held-out prediction from the *other 47* masks —
+The "Arena51 LOO" column is the instrument's held-out prediction from the *other 47* masks —
 a cross-check of the instrument, **not** a score estimate for a future submission. "Unique?" is
 against the other eight site-best files and the genuine registry per the 70%/3-px rule.
 
-| Site | Best file to download (audit) | Dots | Score (OWNER-REPORT) | Arena49 LOO | Unique? | Submit? |
+| Site | Best file to download (audit) | Dots | Score (OWNER-REPORT) | Arena51 LOO | Unique? | Submit? |
 |---|---|---:|---:|---:|---|---|
 | GEMSDOE32 | [`gemsdoe32-h33-h33-2-b2-…-e5eb6e7e-zeros.tif`](../downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) | 37,654 | **0.2778** | 0.2782 | NO — family (86.7%+ vs all eight) | **NO — already submitted; do not resubmit** |
 | GEMSDOE36 | `anderson-geothermal-pinn-38854` | 38,854 | 0.2750 | 0.2730 | NO — champion + 1,200 dots | NO |
@@ -194,7 +204,11 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
    submodular PU ensembles, geothermal belief covers, Euler deconvolution, SGMC tracing — top
    out at 0.2478 OWNER-REPORT. Every one of them discovered *some* off-catalogue structure and
    none of it converted into champion-level live score (the newest addition, GEMSDOE27's
-   hydrothermal-piedmont CELF at 0.2190 OWNER-REPORT, is the fifth-best non-family result). The gap to the champion (0.030) is the
+   hydrothermal-piedmont CELF at 0.2190 OWNER-REPORT, is the fifth-best non-family result).
+   This is the measured counterweight to the ARENA49-PCG instrument result above: the local
+   instruments have never yet been validated by a non-family live score above 0.2478, so if the
+   selector ever spends a slot on PCG, its live score is the decisive experiment — and the
+   portfolio audit says the prior is that it lands in the 0.19–0.25 band, not above 0.2778. The gap to the champion (0.030) is the
    measured price of trading family coverage for novelty under this metric.
 3. **The real target is 0.4437, and it is not a thinning target.** The public #1's margin over
    our best (+0.166) is 16× the champion's own above-trend residual. Whoever leads has found
@@ -245,7 +259,7 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
 
 ```json
 {
-  "session": "arena/b4675e19-gemsdoe32 (Arena49)",
+  "session": "arena/b4675e19-gemsdoe32 (Arena51)",
   "hypothesis": "H48-A: owner-reported live DTI is explained principally by H19-5 family membership, dot count within the family, and catalogue-proximity covariates; non-family detectors plateau below the family.",
   "mechanism": "DTI = T/(0.2*(T+S-M)+0.8*|G|): uncredited mass is penalized 0.2 per unit, so family thinning removes sub-break-even mass; family membership is therefore the dominant score covariate.",
   "named_non_fault_mimic_or_confound": "OWNER-REPORT transcription error; lineage collinearity (family masks are nested thinnings); >=0.10 fetch selection; n=48 observational fit.",
@@ -253,7 +267,7 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
   "holdout_dti": "not applicable - no candidate generated this session; prior repo best unchanged: H38 0.116958 [0.100533, 0.132040] on GEMSDOE32-HIDE-RECOVER-v3.0, 22232 withheld",
   "correlation_and_overlap_vs_registry": "no new raster placed; the 48 fitted masks were deduplicated by dot-mask digest (3 cross-site byte-identical pairs found: 0.2600, 0.2708, 0.1563)",
   "raster_sha256": "none generated this session",
-  "validator_output": "no new raster; suite green after IR-49-SYNC-01/02 repairs and the H50-merge reconciliation (189 passed, 3 skipped)",
+  "validator_output": "no new raster; suite green after IR-49-SYNC-01/02 repairs and the H50-merge reconciliation (197 passed, 3 skipped)",
   "submission_name": "NONE - no file authorized",
   "submission_note": "n/a",
   "key_results": {

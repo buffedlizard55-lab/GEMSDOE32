@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Arena49: live-score covariate audit across every locally pinned, owner-scored submission.
+"""Arena51: live-score covariate audit across every locally pinned, owner-scored submission.
 
 RETROSPECTIVE PORTFOLIO AUDIT — not a new experiment lane, no holdout runs, no weekly slots.
 Every fitted score is OWNER-REPORT from docs/score-ledger.csv (IR-32-SCORE-01: no organizer
@@ -237,7 +237,7 @@ def main() -> int:
 
     result = {
         "schema_version": 1,
-        "arena": "arena49-livescore-covariates",
+        "arena": "arena51-livescore-covariates",
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
         "kind": "retrospective portfolio audit; no new experiment lane; 0 holdout runs; 0 weekly slots",
         "evidence_class": (

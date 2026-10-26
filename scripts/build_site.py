@@ -255,10 +255,15 @@ def current_status_block(docs_prefix: str = "") -> str:
     b, n = st.get("best_scored", {}), st.get("newest_unique", {})
     hold = n.get("holdout", {})
     off = n.get("off_catalogue_instrument", {})
-    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
-                    for k, v in hold.items())
-    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
-                    for k, v in off.items())
+# Defensive (template fix, ARENA48/ARENA49): entries without ci95 render an em dash, never crash.
+    def _ci(v):
+        c_ = v.get("ci95") if isinstance(v, dict) else None
+        return f"[{c_[0]:.4f}, {c_[1]:.4f}]" if c_ and len(c_) == 2 else "— (no CI recorded)"
+
+    hrows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>{_ci(v)}</td></tr>"
+                    for k, v in hold.items() if isinstance(v, dict) and "dti" in v)
+    orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>{_ci(v)}</td></tr>"
+                    for k, v in off.items() if isinstance(v, dict) and "dti" in v)
     reasons = "".join(f"<li>{esc(r)}</li>" for r in n.get("reasons", []))
     wd = "".join(f"<li><code>{esc(Path(w['file']).name)}</code> &mdash; <b style=\"color:#b00020\">{esc(w['status'])}</b>. "
                  f"{esc(w['reason'])}</li>" for w in st.get("withdrawn", []))
@@ -688,6 +693,31 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             f'failed: {esc(", ".join(fails) or "none")}; C6 re-check: {"FAIL" if not unique_genuine else "pass"}. '
             f'Research download only.</td></tr>'
         )
+    a49 = ""
+    rc49 = read("evidence/arena49_pcg_run_card.json") or {}
+    st49 = read("registry/current_status.json", {}) or {}
+    nu49 = st49.get("newest_unique", {}) or {}
+    if rc49 and nu49.get("run_card") == "evidence/arena49_pcg_run_card.json":
+        _vg = rc49.get("holdout_dti", {}).get("primary_visible_gated", {})
+        _sg = rc49.get("holdout_dti", {}).get("sgmc_off_catalogue", {})
+        _uq = rc49.get("correlation_and_overlap_vs_registry", {})
+        _zf = rc49.get("raster_filename", "")
+        _ci = _vg.get("ci95") or [0, 0]
+        a49 = (
+            f'<tr style="background:#eef7ee"><td><b>NEW: ARENA49-PCG</b><br><span class=mut>GEMSDOE32, this session</span></td>'
+            f'<td><a href="downloads/{esc(_zf)}"><code>{esc(_zf)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
+            f'<td>{int(rc49.get("validator_output", {}).get("positive_pixels", 0)):,}</td>'
+            f'<td><i>none</i> &mdash; not a score</td>'
+            f'<td>HOLDOUT-DTI {_vg.get("pooled_dti", 0):.4f} [{_ci[0]:.4f}, {_ci[1]:.4f}] '
+            f'(n={int(_vg.get("n_withheld_positives", 0)):,}, {_vg.get("evaluator_version", "")}); off-catalogue SGMC-cal '
+            f'{_sg.get("sgmc_prevalence_calibrated_dti", 0):.4f} vs champion 0.0641 (diagnostic, not a score)</td>'
+            f'<td><b>YES</b> vs {int(_uq.get("n_files_checked", 0))} registry rasters (surface |&rho;| '
+            f'{float(_uq.get("max_genuine_abs_spearman") or 0):.4f} &le;0.90; max 3-px '
+            f'{100*float(_uq.get("max_genuine_3px_dot_overlap") or 0):.1f}% &le;70%). Literal lattice: <b>FAIL</b> (IR-42-UNIQ-01)</td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT YET</b> &mdash; shared promotion_decision '
+            f'<code>{esc(str(rc49.get("promotion_decision_verdict", rc49.get("verdict", ""))))}</code>, release verdict '
+            f'<code>{esc(str(rc49.get("verdict", "")))}</code>; separate selector + lattice disposition required. Research download only.</td></tr>'
+        )
     return (
         '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
         '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
@@ -696,7 +726,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
         'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
         '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
-        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + '</table>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + '</table>'
         '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
         '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
         '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
@@ -739,15 +769,16 @@ def focus_sites_block() -> str:
             f'all nine winner masks exceed the 70% pairwise stop. {esc("Exact mask duplicate" if repo in {"GEMSDOE25", "GEMSDOE30"} else "Same H19-5 thinning/pruning family")}</td></tr>'
         )
 
-    # H46-specific block: render from H46's own preserved status record, never from whatever file is newest
-    candidate = status.get("h46_candidate") or status.get("newest_unique", {})
+    # Current-candidate block: render from registry/current_status.json newest_unique
+    # (template fix, ARENA49 — previously hard-coded to H50/H46 keys and numbers).
+    candidate = status.get("newest_unique", {})
     cand_file = Path(candidate.get("file", "")).name
     cand_href = candidate.get("file", "").replace("docs/", "", 1)
 
     def _fmt_arm(v: dict) -> str:
         """Format one holdout arm; missing metrics render as an em dash, never as 0.00000.
 
-        IR-49-SYNC-02: the previous renderer printed ``nan [0.00000, 0.00000]`` whenever the
+        IR-51-SYNC-02: the previous renderer printed ``nan [0.00000, 0.00000]`` whenever the
         newest candidate lacked an H46-specific field, i.e. missing data was displayed as a
         measured zero.  Missing is missing.
         """
@@ -771,19 +802,30 @@ def focus_sites_block() -> str:
     uniq = candidate.get("uniqueness", {}) or {}
     validator = candidate.get("validator", {}) or {}
     reasons = "".join(f"<li>{esc(r)}</li>" for r in candidate.get("reasons", []))
-    # Derive the candidate's own results report from its preregistration path when that file
-    # exists (h50-tmspi-preregistration-*.md -> h50-results-and-nine-site-executive-summary-*.md);
-    # otherwise fall back to the standing H46 nine-site review.
-    report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
-    _pr = candidate.get("preregistration", "")
-    if _pr:
-        _guess = _pr.replace("docs/research/", "research/").replace(
-            "-preregistration-", "-results-and-nine-site-executive-summary-")
-        if (DOCS / _guess.replace("research/", "")).is_file():
-            report_link = _guess
+    # Prefer an explicit results_doc key on the candidate; otherwise derive the results report
+    # from its preregistration path when that file exists; else fall back to the standing H46 review.
+    _rd = candidate.get("results_doc")
+    if _rd and (DOCS / _rd.replace("docs/research/", "research/").replace("research/", "")).is_file():
+        report_link = _rd.replace("docs/research/", "research/")
+    else:
+        report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
+        _pr = candidate.get("preregistration", "")
+        if _pr:
+            _guess = _pr.replace("docs/research/", "research/").replace(
+                "-preregistration-", "-results-and-nine-site-executive-summary-")
+            if (DOCS / _guess.replace("research/", "")).is_file():
+                report_link = _guess
     prereg_link = candidate.get("preregistration", "")
     prereg_html = (f' &middot; <a href="{esc(prereg_link.replace("docs/", ""))}">pre-registration</a>'
                    if prereg_link else "")
+    cand_label = candidate.get("submission_name", cand_file)
+    _primary_arm = next((v for v in (h or {}).values()
+                         if isinstance(v, dict) and isinstance(v.get("dti"), (int, float))), {})
+    dti = float(_primary_arm.get("dti", 0.0))
+    canary = candidate.get("canary", {})
+    canary_txt = (f"{canary.get('n_pass', canary.get('n_channels', '?'))}/{canary.get('n_channels', '?')} PASS; "
+                  f"max AUC {float(canary.get('max_auc', float('nan'))):.4f} &le; 0.90"
+                  if canary else "see run card")
     fmt_ok = bool(validator.get("strict_cli_passed")) and bool(validator.get("geotiff_13_checks_passed"))
     candidate_block = f"""<div class=card style="border:2px solid #b91c1c">
 <h3>Current generated file — research/audit download only</h3>
@@ -795,11 +837,13 @@ def focus_sites_block() -> str:
 <tr><td>HOLDOUT-DTI — {esc(candidate.get('holdout_label','GEMSDOE32-HIDE-RECOVER-v3.0'))}</td><td><b>{_fmt_arm(next(iter(h.values()), {}))}</b> (first arm; all arms below)</td><td>Local evaluator result only. Not a leaderboard score estimate.</td></tr>
 {_arm_rows(h)}
 <tr><td>Off-catalogue diagnostic — {esc(candidate.get('off_catalogue_label',''))}</td><td>{_arm_rows(off) or '&mdash;'}</td><td>Auxiliary diagnostic; not a leaderboard score.</td></tr>
+<tr><td>Leakage canary</td><td>{canary_txt}</td><td>Canary pass does not establish scientific improvement.</td></tr>
 <tr><td>Unique vs genuine registry rasters</td><td>max within-3-px {100*float(uniq.get('max_genuine_3px_overlap', 0) or 0):.2f}%; surface max |&rho;| {float(uniq.get('max_abs_spearman', 0) or 0):.3f}</td><td>{'PASS' if uniq.get('genuine_final_dots_passed') and uniq.get('preplacement_surface_passed') else 'FAIL'} versus genuine submission rasters only.</td></tr>
 <tr><td>Literal full registry (incl. 5-px calibration lattice)</td><td>{100*float(uniq.get('literal_lattice_overlap', 0) or 0):.3f}% within 3 px of r13-lattice-s5</td><td><b>{'PASS' if uniq.get('literal_all_registry_passed') else 'FAIL'}</b> (&gt;70% stop); no calibration-lattice exemption (IR-42-UNIQ-01).</td></tr>
 <tr><td>Saved-byte validator</td><td>{'PASS' if fmt_ok else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
 <ul>{reasons}</ul>
 <p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> Verdict <code>{esc(candidate.get('verdict','negative'))}</code>; no release gate has authorized this or any other file for upload. <b>0 weekly slots used.</b></p></div>"""
+
     min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
     return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
 <p>Historical submission scores were supplied in the owner prompt / owner project records; no organizer receipt in this checkout binds each exact file hash to its score. They are therefore <b>OWNER-REPORTED</b>, not ORGANIZER-CONFIRMED. The files below are linked to pinned sibling-repository commits and are for historical review, not new uploads. Their exact positive masks, hashes, dot counts, and pairwise 3-px directed overlap were re-read from the pinned GeoTIFFs in <a href="../evidence/focus_site_winner_overlap_20261026.json">this machine receipt</a>.</p>
@@ -809,7 +853,7 @@ def focus_sites_block() -> str:
 <p><b>Lineage result:</b> the lowest directional 3-px overlap among the nine best historical masks is <b>{min_pair:.2f}%</b>, still above the requested 70% stop. GEMSDOE25 and GEMSDOE30 are dot-identical (44,090 dots); GEMSDOE31 is the 40,199-dot B1 parent of GEMSDOE32 B2 (removing 2,545 dots); GEMSDOE36 contains all 37,654 GEMSDOE32 B2 dots plus 1,200. These are one closely related H19-5 thinning/pruning family, not nine independent detector wins.</p>
 <h3>Why GEMSDOE32’s `0.2778` might have led this family — not a causal proof</h3>
 <p>The official distance-weighted Tversky objective with &alpha;=0.2, &beta;=0.8, 300 m triangular kernel penalizes uncredited prediction mass. The byte-verified family sequence is consistent with thinning redundant ribbon mass and pruning predictions near known-catalogue faults, while retaining off-catalogue coverage. The score-to-file values remain OWNER-REPORTED and private truth is unavailable here, so that mechanism is plausible, not proven. The exact metric identity is <code>DTI = T / (0.2(T+S−M)+0.8|G|)</code>; see the [metric implementation](../src/gems32/metric.py) and [DrivenData problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).</p>
-<p><b>Recommendation:</b> no new TIFF is cleared for a weekly slot. The `0.2778` historical claim is already submitted and should not be resubmitted. H46’s <b>HOLDOUT-DTI 0.109361</b> is an evaluator result, not an expected leaderboard score; the artifact is explicitly research-only. Do not translate any holdout value into a projected live score.</p></div>"""
+<p><b>Recommendation:</b> no new TIFF is cleared for a weekly slot by this page. The `0.2778` historical claim is already submitted and should not be resubmitted. The newest candidate ({esc(cand_label)}) is genuine-unique and format-valid with <b>HOLDOUT-DTI {dti:.5f}</b> on the flat-mask instrument — an evaluator result, not an expected leaderboard score — and is held for the separate selector plus the IR-42-UNIQ-01 lattice disposition. Do not translate any holdout value into a projected live score.</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -1083,11 +1127,11 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
-    ("arena49-livescore-covariates-20261026.md",
-     "Arena49 (2026-10-26): live-score covariate audit of all 53 unique owner-scored masks — "
+    ("arena51-livescore-covariates-20261026.md",
+     "Arena51 (2026-10-26): live-score covariate audit of all 53 unique owner-scored masks — "
      "family membership dominates (ρ=+0.844), non-family ceiling 0.2478 (n=36), champion +0.010 "
      "above its family's dot-count trend, and the exact lattice bound (>22,163 dots can never "
-     "pass the literal rule; IR-49-LATTICE-01) — plus the nine-site executive decision table"),
+     "pass the literal rule; IR-51-LATTICE-01) — plus the nine-site executive decision table"),
     ("h46-results-and-nine-site-executive-summary-20261026.md",
      "H46 exploratory result and nine-site byte audit: no authorized lane, preregistration deviations, "
      "HOLDOUT-DTI below H38, literal lattice stop, and DO NOT SUBMIT"),
@@ -1412,6 +1456,8 @@ def main() -> int:
         )
     if (ROOT / "evidence" / "h47_run_card.json").exists():
         (DOCS / "data" / "h47_run_card.json").write_text((ROOT / "evidence" / "h47_run_card.json").read_text())
+    if (ROOT / "evidence" / "arena49_pcg_run_card.json").exists():
+        (DOCS / "data" / "arena49_pcg_run_card.json").write_text((ROOT / "evidence" / "arena49_pcg_run_card.json").read_text())
     if (ROOT / "evidence" / "h46_trhv_run_card.json").exists():
         (DOCS / "data" / "h46_trhv_run_card.json").write_text(
             (ROOT / "evidence" / "h46_trhv_run_card.json").read_text()
