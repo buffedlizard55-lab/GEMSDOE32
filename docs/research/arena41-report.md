@@ -108,7 +108,7 @@ by re-reading the bytes, `gemsdoe32.submission.validate_submission_geotiff(stric
   (186,378 B, tif sha unchanged); registry updated. `evidence/arena41_pass2_audit.json`.
 - **IR-A41-SITE-01 (fixed):** site/README called the champion "UNSCORED / no organiser score
   exists"; brief now reports 0.2778. Corrected to OWNER-REPORTED (no receipt in checkout) + do-not-resubmit.
-- **IR-A41-LB-01:** brief cites both 0.4413 and 0.3195 as "the" leader. 0.4413 is current
+- **IR-A41-LB-01:** brief cites both 0.4413 and 0.3195 as "the" leader. 0.4413 was the latest stored snapshot at that time (2026-10-25)
   ORGANIZER-CONFIRMED (2026-10-25); 0.3195 is the 2026-10-03 snapshot. Coincidentally 0.4413 is
   also this repo's refuted LM artifact number (IR-33-LM-01) — unrelated.
 - **IR-A41-UNIQ-01:** parallel-protocol one-directional within-3px rule fails for any file vs

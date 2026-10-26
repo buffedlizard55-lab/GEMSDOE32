@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T02:14:19Z",
+ "generated_utc": "2026-10-26T04:48:40Z",
  "sources": [
   {
    "id": "competition",
@@ -211,67 +211,28 @@
   {
    "rank": 1,
    "participant": "xiaofanhu",
-   "score": 0.4413,
-   "submissions": 30
+   "score": 0.4437,
+   "submissions": 31,
+   "last_activity": "1h 18min ago"
   },
   {
    "rank": 2,
    "participant": "cfld__",
    "score": 0.3916,
-   "submissions": 17
+   "submissions": 17,
+   "last_activity": "2d ago"
   },
   {
    "rank": 3,
    "participant": "Batik Shirt Brothers",
    "score": 0.3904,
-   "submissions": 51
-  },
-  {
-   "rank": 4,
-   "participant": "BrandenKMurray",
-   "score": 0.3724,
-   "submissions": 31
-  },
-  {
-   "rank": 5,
-   "participant": "No Fault of Our Own",
-   "score": 0.3539,
-   "submissions": 42
-  },
-  {
-   "rank": 6,
-   "participant": "JerryDataWorks",
-   "score": 0.3418,
-   "submissions": 22
-  },
-  {
-   "rank": 7,
-   "participant": "alexoktaba",
-   "score": 0.3416,
-   "submissions": 34
-  },
-  {
-   "rank": 8,
-   "participant": "DARD",
-   "score": 0.3398,
-   "submissions": 27
-  },
-  {
-   "rank": 9,
-   "participant": "Azazel",
-   "score": 0.3379,
-   "submissions": 8
-  },
-  {
-   "rank": 10,
-   "participant": "joeyfezster",
-   "score": 0.3375,
-   "submissions": 38
+   "submissions": 51,
+   "last_activity": "3d 5h ago"
   }
  ],
- "leaderboard_observed_utc": "2026-10-25",
+ "leaderboard_observed_utc": "2026-10-26T04:32:28Z",
  "leaderboard_verified": true,
- "leaderboard_snapshots": 3,
+ "leaderboard_snapshots": 4,
  "hypotheses": [
   {
    "id": "H33-1",
@@ -1905,8 +1866,8 @@
   {
    "id": "IR-32-SCORE-01",
    "severity": "high",
-   "statement": "Every live score in the group's ledger (0.2477, 0.2600, 0.1922, ...) is an owner/leaderboard-row report, not an organizer receipt linking those bytes to that row. The public leaderboard rows verified today (nchuzhoy 0.3262, DARD 0.3195) are the only scores this repository treats as observed, and they are observed for *other* teams, not for our files.",
-   "mitigation": "registry/submissions.json keeps 'claim' and 'verified' fields separate; the site prints the distinction on every card"
+   "statement": "All group/site submission scores, including GEMSDOE32 H33-B2 0.2778, are OWNER-REPORT unless an organizer submission receipt links the exact file/hash to the score. No such receipt is stored here. The public leaderboard is independently page-verified, not a score for our files: 2026-10-26 live observation is xiaofanhu #1 at 0.4437 (evidence/live_leaderboard_snapshot_20261026.json); 0.4413 is the 2026-10-25 observation and 0.3195 is historical early-October.",
+   "mitigation": "Keep owner-file claims as OWNER-REPORT; label local experiments HOLDOUT-DTI with evaluator/version, withheld positives, and CI; use ORGANIZER-CONFIRMED only when a submission-page receipt is copied and linked. Keep public leaderboard observations timestamped in registry/leaderboard_history.jsonl and never infer private/final scores."
   },
   {
    "id": "IR-32-PROXY-01",
@@ -2117,7 +2078,7 @@
   {
    "id": "IR-32-FAM-01",
    "severity": "medium",
-   "statement": "The GEMSDOE36 'anderson-geothermal-pinn' artifact (ORGANIZER-CONFIRMED 0.2750) is not an independent method at the dot level: its 38,854 dots contain ALL 37,654 dots of the GEMSDOE32 champion h33-2-b2 (exact-dot Jaccard 0.969; champion subset relation verified pixel-exactly, evidence/registry_overlap.json). Cross-method consensus arguments built on these two artifacts would be circular.",
+   "statement": "The GEMSDOE36 'anderson-geothermal-pinn' artifact (OWNER-REPORT 0.2750) is not an independent method at the dot level: its 38,854 dots contain ALL 37,654 dots of the GEMSDOE32 champion h33-2-b2 (exact-dot Jaccard 0.969; champion subset relation verified pixel-exactly, evidence/registry_overlap.json). Cross-method consensus arguments built on these two artifacts would be circular.",
    "mitigation": "recorded here and in observations.jsonl; any future ensemble claim must first pass a subset/overlap audit (scripts/analyze_registry_overlap.py)"
   },
   {
@@ -2129,8 +2090,8 @@
   {
    "id": "IR-32-SCORE-03",
    "severity": "medium",
-   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
-   "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
+   "statement": "Historical correction note: earlier README/site text incorrectly used 'NO ORGANISER SCORE EXISTS' despite an owner-provided score report, and then incorrectly elevated the owner-reported h33-2-b2 0.2778 to ORGANIZER-CONFIRMED without a stored receipt. Current status: 0.2778 is OWNER-REPORT only (IR-32-SCORE-01); official public leaderboard snapshots are separate observations, with 2026-10-26 #1 xiaofanhu 0.4437 and 2026-10-25 #1 0.4413.",
+   "mitigation": "Current labels and snapshots corrected in README.md, registry/current_status.json, registry/leaderboard_history.jsonl, and evidence/live_leaderboard_snapshot_20261026.json. Preserve this entry as history of the two earlier opposing errors."
   },
   {
    "id": "IR-R6-01",
@@ -2240,8 +2201,8 @@
   {
    "id": "IR-A8A-DUP-PRIMARY-01",
    "severity": "high (FIXED 2026-10-26)",
-   "statement": "Prior registry/submission_build.json headlined H32-WIN-46090 (D2.8 minus 400 speckles + 2400 dots, ~94.8% within-3px overlap with D2.8, violating the Parallel-Run <=70% uniqueness rule), carried a 0-byte all-zeros zip hash (0000...0000), and still claimed 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository' despite h33-h33-2-b2's owner-reported 0.2778 receipt.",
-   "mitigation": "registry/submission_build.json updated to point to the genuinely unique Arena8a deliverable (surface |rho|=0.4209, within-3px=64.96%<=70%, verified 197,576-byte zip sha256 c87912bf...), stamped clearly with automated verdict NEGATIVE / DO-NOT-SUBMIT, while recording h33-h33-2-b2 (0.2778, verified 186,378-byte zip sha256 5a6f3ee0...) accurately as the already-submitted portfolio champion."
+   "statement": "Prior registry/submission_build.json headlined H32-WIN-46090 (D2.8 minus 400 speckles + 2400 dots, ~94.8% within-3px overlap with D2.8, violating the Parallel-Run <=70% uniqueness rule), carried a 0-byte all-zeros zip hash (0000...0000), and still claimed 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository' despite the owner's reported 0.2778 (no receipt in this checkout).",
+   "mitigation": "registry/submission_build.json updated to point to the genuinely unique Arena8a deliverable (surface |rho|=0.4209, within-3px=64.96%<=70%, verified 197,576-byte zip sha256 c87912bf...), stamped clearly with automated verdict NEGATIVE / DO-NOT-SUBMIT, while recording h33-h33-2-b2 (0.2778 OWNER-REPORT; archive zip sha256 5a6f3ee0...) as a previously reported portfolio entry."
   },
   {
    "id": "IR-A8A-PU-BIAS-01",
@@ -2290,6 +2251,12 @@
    "status": "verified 2026-10-26",
    "statement": "Inspection of official drivendataorg/gems-prize-reference-solution (unet-mc-cv-reference-solution.ipynb @ commit aebe92f7c8) reveals two key facts: (1) Cell 12 filters X_patches to tiles where np.any(y_patches[i]) BEFORE train/test splitting and Cell 17 writes predictions only onto those positive-catalogue tiles, leaving every 128x128 tile without a pre-mapped catalogue fault identically 0.0; (2) Cell 19 initializes pred_full with zeros and writes nodata=None outside the footprint, confirming that all-finite -zeros.tif matches the organizer's own reference output convention.",
    "mitigation": "Documented in knowledge and site executive summary; rank-4 roadmap H38-G4 specifies full-footprint tile inference without Cell 12's positive-tile filter."
+  },
+  {
+   "id": "IR-32-MATH-01",
+   "severity": "high (fixed in shared metric docs 2026-10-26)",
+   "statement": "Several live README/site passages and docs/research/score-ceiling-analysis.md used an incorrect DTI denominator simplification (0.8*T + 0.2*|P| + 0.8*|G|) and treated alpha*s/(1-alpha*s) as the universal marginal inclusion threshold. The exact metric is T/(T + alpha*FP + beta*FN) = T/(alpha*(T+S-M)+beta*|G|). For a single new pixel contributing its full kernel credit to previously uncovered truth, the idealized threshold is k>alpha*s; partially covered fields require the actual delta TP/FP/FN condition. Prior exact hidden TP/recall/score-ceiling claims derived from the bad identity are withdrawn.",
+   "mitigation": "Corrected src/gems32/metric.py and emission.py scope notes, README.md, docs/research/score-ceiling-analysis.md, and scripts/build_site.py. Added a regression test showing that a pixel can pass the isolated scalar bar yet reduce DTI when it only marginally improves already-covered truth. Historical estimates not independently re-derived are explicitly not used as projections."
   }
  ]
 }
