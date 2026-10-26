@@ -117,11 +117,18 @@ Paired: H42 − champion = −0.0409 [−0.0497, −0.0319]; H42 − random = �
 The instrument orders the B-ladder correctly (d2.8 < solo < champion) but cannot resolve ±0.003 (it puts
 Anderson above the champion, the reverse of the live order).
 
+**Measured fragment geometry (D5, `evidence/h42_run.json`).** In both draws the median withheld component's nearest visible fault pixel is **3.6 px** away (just outside the 3-px context collar); 75 % of withheld components lie within 6 px and 88 % within 10 px of the visible catalogue; withheld pixels sit a median 9–10 px from visible faults versus 26 px for random pixels of the same regions.
+
 **Mechanism.** USGS/INGENIOUS traces rasterise into many small 8-connected fragments; withholding 20 % of
 components mostly withholds *pieces of systems whose other pieces stay visible 3–10 px away*. A model given
 "distance / offset to the nearest visible trace" learns to fill those gaps — and the instrument pays for it.
 Genuinely new faults are, by construction, not pieces of mapped traces, and the live B-ladder says they are
-rarely within 200 m of one. The skill does not transfer: H42's dots hug the network (median 580 m) and miss
+rarely within 200 m of one.
+
+**Caveat (stated, not hidden).** The SGMC off-catalogue truth is, by definition, absent within 3 px of mapped traces
+and represents mostly map-scale bedrock faults; it cannot represent near-trace continuations, which the organizers
+do count as new faults ([forum 11536](https://community.drivendata.org/raw/11536)). D4 + D5 + the live B-ladder are
+therefore strong evidence that H42's holdout gain would not transfer — not a proof. The skill does not transfer: H42's dots hug the network (median 580 m) and miss
 off-catalogue faults more often than random dots do.
 
 **Rule for every lane that uses catalogue-relational features** (proposed for the shared template, not
