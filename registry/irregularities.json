@@ -227,8 +227,8 @@
   {
    "id": "IR-32-INSTR-03",
    "severity": "high",
-   "statement": "The catalogue_hidden holdout instrument is PERVERSE for B-gated candidates (emissions that forbid dots within B px of the full catalogue): the hidden segments the instrument asks the candidate to recover are inside the candidate's own exclusion zone, because the gate was derived from the full catalogue including the hidden components. Proof with ORGANIZER-CONFIRMED points: live order champion(B=2) 0.2778 > solo(B=1) 0.2708 > d2.8(B=0) 0.2600 is exactly reversed by catalogue_hidden (0.00460 < 0.03104 < 0.09832). Extends IR-32-INSTR-01/02; the root cause is a protocol violation by the candidate's gate, not by the evaluator, but evaluate_candidate_holdout does not correct for it (its 1-px debias shift does not reach B=2). Measured 2026-10-25 (evidence/hcvf2_run.json).",
-   "mitigation": "for B-gated candidates use only instruments whose truth is off-catalogue by construction (SGMC), or re-derive the candidate's gate from visible-only faults per draw; hypotheses-round5.md \u00a72b documents the mechanism"
+   "statement": "The catalogue-hidden holdout is invalid for B-gated candidates if the B exclusion is computed from the full catalogue before folds are evaluated: hidden segments can influence placement. Round-6 R6-1 did exactly this; its fixed mask is passed to evaluate_candidate_holdout, which does not rebuild the gate from visible faults. Previously reported score ordering comparisons are owner-reported, not ORGANIZER-CONFIRMED.",
+   "mitigation": "Rebuild every catalogue-dependent operation, including distance buffers, from visible faults within each fold; then exact-mask visible pixels and compute pooled DTI. Do not substitute an off-catalogue proxy for the required hide-and-recover gate."
   },
   {
    "id": "IR-32-FAM-01",
@@ -258,13 +258,13 @@
    "id": "IR-R6-02",
    "severity": "high",
    "statement": "Former primary geo-conduit (fc4e0e58...) was bannered OK TO SUBMIT while 70.24% of its dots lie within 3px of gems10-h28-dotted-ridge (exceeds 70% lane gate; verified 2026-10-26 from bytes) and its SGMC-cal 0.0462 trails the champion 0.0641. Site simultaneously showed red DO NOT SUBMIT and green OK TO SUBMIT banners.",
-   "mitigation": "geo-conduit demoted; registry primary moved to R6-1 (old registry preserved as submission_build_geo_conduit_superseded.json); single fail-closed verdict banner"
+   "mitigation": "GEO-CONDUIT remains demoted and audit-only; R6-1 was later also demoted by IR-R6-05. Current release status is fail-closed DO NOT SUBMIT."
   },
   {
    "id": "IR-R6-03",
    "severity": "medium",
-   "statement": "Literal <=70% within-3px gate against the calibration lattice (r13-lattice-s5, 206,895 dots) is unsatisfiable: lattice covers 99.87% of footprint within 3px; champion itself measures 99.92%.",
-   "mitigation": "Round-6 gate applied to detector submission rasters (29 on disk); lattice reported as diagnostic in evidence/round6_run_card.json; documented interpretation, not silent exemption"
+   "statement": "The prior R6 report exempted the dense calibration lattice from the literal <=70% gate, although the user protocol said any registry raster and gave no density exemption. R6-1 has 97.82% of final dots within 3 px of this registered raster and therefore fails the literal rule.",
+   "mitigation": "Do not exclude the lattice or any other registry raster unless the protocol is explicitly revised. Keep all artifacts audit-only when this literal gate fails."
   },
   {
    "id": "IR-R6-04",
@@ -273,9 +273,15 @@
    "mitigation": "documented in evidence/round6_pass2_controls.json; random controls (0.074-0.077) bound the spread artifact; not gated, flagged for selector"
   },
   {
+   "id": "IR-R6-05",
+   "severity": "critical",
+   "statement": "Round-6 R6-1 was labeled PROMOTE/OK TO SUBMIT despite full-catalogue B=2 placement leakage in the hide-and-recover test and 97.82% final-dot overlap with a registered calibration raster (>70% limit). Its descriptive pooled holdout DTI is 0.003376 vs 0.004515 incumbent on 22,232 withheld positives, but cannot be used for promotion because the candidate mask was not rebuilt from visible faults.",
+   "mitigation": "Verdict changed to negative, upload authorization false, and all site/README notices are fail-closed. Existing TIFF retained for audit only; no new raster or slot used. Rebuild fold-local candidate masks before any future valid experiment."
+  },
+  {
    "id": "IR-42-README-01",
    "severity": "high",
-   "statement": "README showed '\u2705 OK TO DOWNLOAD AND SUBMIT' for gemsdoe32-h32-winning-46090-prune400 directly beneath a note saying no TIF was certified. The file shares 37,298 dots with the 0.2778 champion (Jaccard 0.803; 84.0% within 3 px), its claimed holdout margin (0.14840 vs 0.14801) lay inside its own CI [0.115, 0.182], and on the SGMC off-catalogue instrument it is indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).",
+   "statement": "README showed an approval ('OK-to-download-and-submit') banner for gemsdoe32-h32-winning-46090-prune400 directly beneath a note saying no TIF was certified. The file shares 37,298 dots with the 0.2778 champion (Jaccard 0.803; 84.0% within 3 px), its claimed holdout margin (0.14840 vs 0.14801) lay inside its own CI [0.115, 0.182], and on the SGMC off-catalogue instrument it is indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).",
    "mitigation": "Banner withdrawn; status centralised in registry/current_status.json and rendered as the single top block of README and site; previous primary kept under previous_primaries with withdrawn=true."
   },
   {
@@ -306,7 +312,7 @@
    "id": "IR-42-INSTR-02",
    "severity": "high",
    "statement": "The SGMC off-catalogue instrument does not predict live scores outside the champion family: the SGMC-tracing files gemsdoe72-h72-1-sgmc-offcatalogue (0.6483 on the instrument) and gemsdoe29-sgmc-off-catalogue-44k (0.5607) scored 0.0492 and 0.0512 live, while the champion scores 0.0954 there and 0.2778 live. Round-6 promoted R6-1 on this instrument (0.1419 vs 0.0954, independently reproduced).",
-   "mitigation": "R6-1 downgraded to 'NOT CLEARED - exploration query only' in registry/current_status.json (files and run card untouched). Promotion now needs agreement of two instruments with opposite biases (catalogue-hidden with detached-only hiding AND off-catalogue) or a live score. Evidence: evidence/sgmc_instrument_live_counterexamples.json, evidence/r6_independent_recheck.json."
+   "mitigation": "R6-1 is DO NOT SUBMIT (audit artifact only) in registry/current_status.json, consistent with the fail-closed release review (evidence/current_release_review.json); files and run cards untouched. Promotion needs agreement of two instruments with opposite biases (catalogue-hidden with detached-only hiding AND off-catalogue) or a live score."
   }
  ]
 }

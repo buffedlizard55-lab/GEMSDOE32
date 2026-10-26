@@ -47,26 +47,31 @@ def read(path: str, default=None):
 
 
 def protocol_notice(prefix: str = "") -> str:
-    """Compact authoritative verdict for the top of every page (source: registry/current_status.json).
+    """Single authoritative verdict for the top of every page, failing closed.
 
-    Renders before any download button so the decision is read first (tests/test_protocol_site.py).
-    Fail-closed: a missing or unreadable status file renders DO NOT SUBMIT.
+    Upload is authorized only if BOTH machine-readable decisions agree: evidence/current_release_review.json
+    (parallel review session) and registry/current_status.json (this repository's status source). Rendered before
+    any download button (tests/test_protocol_site.py, tests/test_site.py).
     """
+    release = read("evidence/current_release_review.json", {}) or {}
     st = read("registry/current_status.json", {}) or {}
-    ok = bool(st.get("any_file_ok_to_submit"))
+    authorized = (release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True
+                  and bool(st.get("any_file_ok_to_submit")))
     up = "../" if prefix == "" else ""
-    if not st:
-        return ('<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">'
-                '<h2>&#128308; DO NOT SUBMIT</h2><p>Status file missing; no file is authorised.</p></section>')
-    expl = st.get("exploration_option") or {}
-    expl_txt = (f"<br>&#128992; Exploration option for the selector (not an expected improvement): "
-                f"<code>{esc(Path(expl.get('file', '')).name)}</code>." if expl else "")
-    head = ("&#9989; OK TO SUBMIT &mdash; see the status card" if ok else
-            "&#128308; DO NOT SUBMIT any new file as an expected improvement over 0.2778")
-    return f"""<section class=dl style="border:3px solid {'#1a7f37' if ok else '#b91c1c'}" aria-label="Current submission decision">
-<h2 style="margin:4px 0">{head}</h2>
-<p style="margin:4px 0">{esc(st.get('headline', ''))} (updated {esc(st.get('updated_utc', ''))}){expl_txt}
-<a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot; <a href="{prefix}executive-summary.html">How to submit</a></p></section>
+    if not authorized:
+        return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>{esc(st.get('headline', 'No file in this repository is authorized for upload.'))}</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
+<p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
+<a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="{prefix}executive-summary.html">How a cleared file would be submitted</a></p></section>
+"""
+    return f"""<section class=dl style="border:3px solid #1a7f37" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#9989; Upload authorized &mdash; see the status card</h2>
+<p style="margin:4px 0"><a href="{prefix}index.html#status">Status card</a> &middot; <a href="{prefix}executive-summary.html">Exact steps</a></p></section>
 """
 
 
@@ -96,6 +101,11 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
     if not sub:
         return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
                 'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        # The authoritative red notice and audit-only link are rendered by protocol_notice/arena41_block.
+        # Do not add another generic submission button here.
+        return ""
     f = sub.get("file", {})
     sha = (f.get("sha256") or "")
     note = sub.get("note", "")
@@ -224,18 +234,17 @@ def current_status_block(docs_prefix: str = "") -> str:
     nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
                 '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
     lb = st.get("leaderboard_top", {})
-    ex = st.get("exploration_option") or {}
+    ex = st.get("round6_candidate") or {}
     expl_row = ""
     if ex:
         conf = "".join(f"<li>{esc(c)}</li>" for c in ex.get("confirmed_independently", []))
+        why = "".join(f"<li>{esc(c)}</li>" for c in ex.get("reasons", []))
         evid = " &middot; ".join(f'<a href="{esc(href(e))}">{esc(Path(e).name)}</a>' for e in ex.get("evidence", []))
-        expl_row = f"""<tr><th>Exploration option</th><td><b style="color:#b45309">&#128992; {esc(ex.get('verdict', ''))}</b> &mdash;
-<a class="btn alt" href="{esc(href(ex.get('file', '')))}">&#11015; {esc(Path(ex.get('file', '')).name)}</a>
-<a href="{esc(href(ex.get('zip', '')))}">.zip</a> &middot; unique name <code>{esc(ex.get('submission_name', ''))}</code>
+        expl_row = f"""<tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; {esc(ex.get('verdict', ''))}</b> &mdash;
+<a href="{esc(href(ex.get('file', '')))}">{esc(Path(ex.get('file', '')).name)}</a> (audit artifact only)
 &middot; sha256 <code>{esc(ex.get('sha256', '')[:16])}&hellip;</code><br><small>{esc(ex.get('origin', ''))}</small>
-<p><b>Why not cleared:</b> {esc(ex.get('why_not_cleared', ''))}</p>
-<p><b>Confirmed independently:</b></p><ul>{conf}</ul>
-<p><b>Selector guidance:</b> {esc(ex.get('selector_guidance', ''))}</p><p class=mut>Evidence: {evid}</p></td></tr>"""
+<p><b>Why not authorized:</b></p><ul>{why}</ul>
+<p><b>What this session confirmed independently:</b></p><ul>{conf}</ul><p class=mut>Evidence: {evid}</p></td></tr>"""
     return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
 <h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
 <p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
@@ -346,6 +355,18 @@ def arena41_block(prefix: str = "") -> str:
         sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
     except Exception:
         return ""
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        rel = "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+        artifact = ROOT / rel
+        sha = (release.get("artifact") or {}).get("sha256", "")
+        audit_link = (f'<a href="{esc(prefix + rel.replace("docs/", ""))}">'
+                      f'Download audit artifact only: {esc(artifact.name)}</a>' if artifact.is_file() else "")
+        return f"""<div class=dl style="border:3px solid #b91c1c">
+<h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
+<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>{esc(sha)}</code>.</p>
+<p>{audit_link}</p>
+</div>"""
     f_path = sub.get("file", {}).get("path", "")
     f_name = Path(f_path).name
     ok = bool(sub.get("ok_to_submit", False))
@@ -469,20 +490,17 @@ def focus_sites_block() -> str:
         ("GEMSDOE28", "h36-1-rung30-blind-r1", "0.2710", "Best of a ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649): all one family.", "DO NOT SUBMIT (already scored)"),
         ("GEMSDOE30", "d28-poisson300m-offcat-44090", "0.2600", "Dot-identical to GEMSDOE25 d2.8 (same score = scorer determinism check).", "DO NOT SUBMIT (duplicate)"),
         ("GEMSDOE31", "h27-4-solo-d28", "0.2708", "Same 8acb75e1 solo lineage as GEMSDOE28.", "DO NOT SUBMIT (duplicate lineage)"),
-        ("GEMSDOE32", "h33-h33-2-b2 (champion) + NEW R6-1 STEP", "0.2778 / unscored", "Champion = ladder end (B=2). R6-1 is the only gate-passing unique unscored file.", "Champion: DO NOT RESUBMIT. R6-1: OK TO SUBMIT"),
+        ("GEMSDOE32", "h33-h33-2-b2 (champion) + archived R6-1 STEP", "0.2778 / unscored", "Champion = ladder end (B=2). The R6-1 raster is a format-valid historical audit artifact; its current release gates are not satisfied.", "Champion: DO NOT RESUBMIT. R6-1: DO NOT SUBMIT"),
         ("GEMSDOE33", "h33d-analog-tip-stepover-r30", "0.2632", "Tip/step-over analog lane; below champion.", "DO NOT SUBMIT"),
         ("GEMSDOE36", "anderson-geothermal-pinn-38854", "0.2750", "Contains ALL 37,654 champion dots +1,200 (extras cost -0.0028). Not independent.", "DO NOT SUBMIT (champion superset)"),
     ]
     trs = "".join(f"<tr><td><b>{esc(a)}</b></td><td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>" for a, b, c, d, e in rows)
-    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; the 9 focus sites: which file is best, and what to submit</h2>
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; highest reported files across the 9 focus sites and current status</h2>
 <p>Every score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; this repo holds no organizer
 receipt linking bytes to score &mdash; IR-32-SCORE-01). Full analysis:
 <a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a>.</p>
 <table><tr><th>site</th><th>its best submission</th><th>score</th><th>what it is</th><th>verdict today</th></tr>{trs}</table>
-<p><b>Bottom line:</b> the proven best file (0.2778 champion) is already submitted &mdash; resubmitting it wastes a weekly
-slot on a duplicate. The only unique, unscored file that has beaten the champion on the fair local instrument is the
-green-banner <b>R6-1 STEP</b> file above. No other site's best file should be submitted: each is already scored,
-a duplicate of another site's file, or a superseded parent of the champion.</p></div>"""
+<p><b>Bottom line:</b> the 0.2778 champion is an OWNER-REPORT score and is reported as already submitted; do not resubmit it. The archived R6-1 STEP artifact is unique under its historical registry comparison and format-valid, but the current review found no authorized lane and no compliant fold-isolated promotion result: <b>DO NOT SUBMIT</b>. The other listed files are reported scored, duplicated or superseded; the available evidence does not establish an organizer-confirmed score-to-bytes receipt.</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -494,7 +512,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), round5_section(), f"""<div class=dl>
+    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -635,10 +653,13 @@ def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     fresh = esc(f"{name}-fresh")
     decision = ('<p style="font-size:1.15em"><b style="color:#0a7d2c">&#9989; A file is cleared.</b> Use only the file '
                 'marked OK TO SUBMIT in the status card.</p>' if ok_any else
-                '<p style="font-size:1.15em"><b style="color:#b00020">&#128308; Nothing is cleared right now &mdash; do not '
+                '<p style="font-size:1.15em"><b style="color:#b00020">&#128308; No upload authorized. DO NOT SUBMIT &mdash; do not '
                 'spend a weekly slot on any new file from this repository.</b> The steps below are the exact procedure '
                 'for the next file whose automated gates all pass.</p>')
-    return f"""<h2 style="margin-top:6px">Make a submission &mdash; executive summary</h2>
+    return f"""<h2 style="margin-top:6px">Make a submission &mdash; executive summary (no upload authorized right now)</h2>
+<p class=mut>Release review: <a href="research/protocol-review-20261026.md">protocol audit</a> &middot;
+<a href="research/repo-review-20261026.md">repository review</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a></p>
 {current_status_block("")}
 <div class=card><h3>0 &middot; Decide (automated, no human inspection)</h3>
 {decision}
@@ -647,6 +668,9 @@ def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
 within 3&nbsp;px of any registry raster), and the format validators. Weekly slots are capped by the DrivenData
 submission page (<a href="https://community.drivendata.org/raw/11553">staff, forum 11553</a>); slot selection is a
 separate step.</p></div>
+<p><b>This page will show upload instructions only after a future, lane-authorized file passes every gate.</b> Until then the
+procedure below is reference material (inactive) &mdash; no upload authorized.</p>
+<details><summary><b>Reference: the exact procedure for a future authorized file (inactive)</b></summary>
 <div class=card><h3>1 &middot; Download</h3>
 <p>Use the <b><code>-zeros.tif</code></b> (or its <code>.zip</code>, which contains exactly one GeoTIFF). It is
 single-band float32, EPSG:32611, 100&nbsp;m, 3292&times;3730, the template&#x27;s exact geotransform, every pixel finite
@@ -671,6 +695,7 @@ geotransform.</li>
 id). Example from the newest file: <code>{esc(note)}</code></li>
 <li>Submit, then record the score in <a href="../docs/score-ledger.csv">docs/score-ledger.csv</a> as
 ORGANIZER-CONFIRMED with the submission time.</li></ol></div>
+</details>
 <div class=card><h3>4 &middot; Know the two-round consequence before you click</h3>
 <p>The competition scores your chosen file <b>twice</b>: first against the faults the experts mapped
 before the competition, then against an <em>expanded</em> set that includes faults the panel verifies
@@ -1006,7 +1031,8 @@ def main() -> int:
     # one-click download at the very top of the site, and the safest way to guarantee that is to put
     # it in the page chrome rather than in one page's body.
     dl_btn = ""
-    if sub:
+    release = read("evidence/current_release_review.json", {}) or {}
+    if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
         _v = str(sub.get("verdict", ""))
@@ -1019,6 +1045,10 @@ def main() -> int:
         if _zp and (ROOT / _zp).is_file():
             _btn.append(f'<a class="btn alt" href="{esc(_zp.replace("docs/", ""))}">.zip</a>')
         dl_btn = " ".join(_btn)
+    else:
+        # Fail closed: when nothing is authorized the page chrome carries the verdict, not a download.
+        dl_btn = ('<span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> '
+                  '<a class="btn alt" href="index.html#status">status &amp; audit downloads</a>')
 
     pages = {
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",

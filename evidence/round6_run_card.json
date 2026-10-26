@@ -16,7 +16,9 @@
       ],
       "n_truth_px": 62703,
       "n_truth_components": 2143,
-      "ci_note": "FP held at full-truth value; CI is a lower bound on width"
+      "ci_note": "95% paired component-bootstrap CI for proxy difference; false-positive term held fixed, so interval width is a lower bound",
+      "label": "SGMC proxy DTI, not competition score and not catalogue hide-and-recover HOLDOUT-DTI",
+      "n_sgmc_truth_pixels": 62703
     },
     "gate_a_pass": true,
     "catalogue_hidden_pooled_candidate": {
@@ -29,7 +31,10 @@
       "fp": 65451.89395384824,
       "fn": 22127.68225199887,
       "n_withheld_positives": 22232,
-      "n_cells": 8
+      "n_cells": 8,
+      "label": "HOLDOUT-DTI (leakage-affected; inadmissible for promotion)",
+      "evaluator_version": "gems32.holdout draws 20/21; 4 spatial quadrants; 15 px collar; 12 px erosion; alpha=0.2, beta=0.8; 300 m triangular kernel",
+      "ci_note": "95% cluster-bootstrap CI; separate interval, not a paired candidate-minus-incumbent interval"
     },
     "catalogue_hidden_pooled_champion": {
       "pooled_dti": 0.00451537871535044,
@@ -41,7 +46,10 @@
       "fp": 70578.55765039964,
       "fn": 22087.823294439804,
       "n_withheld_positives": 22232,
-      "n_cells": 8
+      "n_cells": 8,
+      "label": "HOLDOUT-DTI incumbent comparator (same leakage-affected protocol)",
+      "evaluator_version": "gems32.holdout draws 20/21; 4 spatial quadrants; 15 px collar; 12 px erosion; alpha=0.2, beta=0.8; 300 m triangular kernel",
+      "ci_note": "95% cluster-bootstrap CI; separate interval, not a paired candidate-minus-incumbent interval"
     },
     "catalogue_hidden_note": "REPORTED ONLY: provably perverse for B-gated files (IR-32-INSTR-03); never gated.",
     "candidate_full": {
@@ -723,16 +731,92 @@
       "zero_on_catalogue_leakage": true,
       "validator_range_0_1_guaranteed": true
     },
-    "all_checks_passed": true
+    "all_checks_passed": true,
+    "independent_recheck_2026_10_26": {
+      "passed": true,
+      "sample_submission_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "lattice_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+      "method": "Fetched codeload archive at pinned GEMSDOE24 commit; extracted only template/existing_faults/lattice and verified SHA-256 against registry/data_manifest.json; strict validator run on candidate bytes."
+    }
   },
   "submission_name": "GEMSDOE32-R6-STEP-23FBBB51",
-  "note_le140": "R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE",
-  "note_chars": 93,
-  "verdict": "promote",
-  "ok_to_download_and_submit": true,
+  "note_le140": "R6-1 STEP 37654d | audit artifact only | failed required holdout/registry overlap gates | NOT FOR UPLOAD",
+  "note_chars": 104,
+  "verdict": "negative",
+  "ok_to_download_and_submit": false,
   "slot_used": false,
-  "selector_required": true,
+  "selector_required": false,
   "champion_live_score_label": "0.2778 [OWNER-REPORT; no receipt in repo, IR-32-SCORE-01]",
   "candidate_live_score": "NONE - never submitted; no organizer score exists. HOLDOUT-DTI is not a leaderboard score.",
-  "runtime_s": 118.7
+  "runtime_s": 118.7,
+  "protocol_review": {
+    "review_date_utc": "2026-10-26",
+    "decision": "negative",
+    "release_authorized": false,
+    "failed_gates": [
+      {
+        "gate": "required spatial hide-and-recover holdout",
+        "finding": "The candidate mask was emitted once using distance from the full catalogue (B=2), then scored against folds. The evaluator does not rebuild this catalogue-derived exclusion using only each fold's visible faults. This leaks held-out catalogue geometry into candidate placement, so the result is not an admissible hide-and-recover estimate.",
+        "observed_candidate_pooled_dti": 0.0033763239250124547,
+        "observed_incumbent_pooled_dti": 0.00451537871535044,
+        "n_withheld_positives": 22232,
+        "candidate_ci95": [
+          0.0025123785219746527,
+          0.004534956346077028
+        ],
+        "incumbent_ci95": [
+          0.003943270699615557,
+          0.005250104404946791
+        ],
+        "note": "Even as a descriptive, leakage-affected comparison, candidate point estimate is below incumbent. It is not a promotable score."
+      },
+      {
+        "gate": "literal registry-dot overlap <= 70% within 3 px",
+        "finding": "The previously excluded calibration lattice is a registry raster. The run card reports 97.8169649971% of candidate dots within 3 px of it. The protocol says any registry raster and provides no lattice exemption.",
+        "candidate_within3px_fraction": 0.9781696499707866,
+        "limit": 0.7,
+        "registry_raster": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif"
+      },
+      {
+        "gate": "pre-placement surface correlation against every registry raster",
+        "finding": "The stored surface scan compares against 29 detector rasters. The calibration raster excluded from the final-dot gate is not present in the surface comparison list, and no surface correlation value against it is recorded. Therefore the required all-registry pre-placement check is incomplete; no value is inferred.",
+        "measured_surface_registry_count": 29,
+        "unmeasured_registry_surface": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+        "spearman": null,
+        "status": "incomplete; cannot pass"
+      }
+    ],
+    "scope_note": "No fresh experiment or raster was generated during this review. The existing R6 file is retained for audit only; do not upload it. No organizer score is claimed.",
+    "passed_checks": [
+      {
+        "gate": "independent submission-format/template validation",
+        "command": "GEMS_DATA_DIR=.cache/gems_data PYTHONPATH=src python scripts/check_submission.py --strict-finite docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+        "passed": true,
+        "reference_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8d30a40454d35cbc",
+        "candidate_sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+        "crs": "EPSG:32611",
+        "shape": [
+          3730,
+          3292
+        ],
+        "transform": [
+          100.0,
+          0.0,
+          243350.0,
+          0.0,
+          -100.0,
+          4508550.0
+        ],
+        "dtype": "float32",
+        "bands": 1,
+        "nodata": null,
+        "all_12279160_cells_finite": true,
+        "whole_array_min": 0.0,
+        "whole_array_max": 1.0,
+        "positive_pixels": 37654
+      }
+    ],
+    "all_registry_surface_check_complete": false,
+    "all_registry_final_dot_check_complete": false
+  }
 }

@@ -1,7 +1,7 @@
 {
  "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
- "note": "R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE",
- "status_line": "PRIMARY = GEMSDOE32-R6-STEP-23FBBB51 (Round-6 R6-1 step detector): 37654 dots, 0 on catalogue, B=2 exclusion, HOLDOUT-DTI SGMC-exact 0.1413 vs champion 0.0961. PROMOTE (selector recommendation; no organizer score exists).",
+ "note": "AUDIT ONLY \u2014 NOT AUTHORIZED FOR SUBMISSION; current lane and compliant hide-and-recover gates are missing.",
+ "status_line": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established.",
  "file": {
   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
@@ -21,7 +21,7 @@
  "candidate_id": "GEMSDOE32-R6-STEP-23FBBB51",
  "tier": 1,
  "hypothesis": "R6-1-STEP-PROFILE",
- "verdict": "EXPLORATION ONLY - NOT CLEARED",
+ "verdict": "negative",
  "ok_to_submit": false,
  "on_catalogue_pixels": 0,
  "catalogue_hidden_mean": 0.003579525583570572,
@@ -44,9 +44,10 @@
  ],
  "supersedes": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E demoted 2026-10-26: 70.24% within-3px vs h28-dotted-ridge exceeds 70% lane gate; SGMC-cal 0.0462 below champion 0.0641 (IR-R6-02). Preserved as registry/submission_build_geo_conduit_superseded.json",
  "evidence": "evidence/round6_run_card.json + evidence/round6_pass2_controls.json",
+ "historical_run_verdict": "promote",
+ "historical_ok_to_submit": true,
+ "current_release_review": "evidence/current_release_review.json",
  "schema_note": "Registry primary = the file the site headlines. It is NOT an approval: read 'verdict' / 'ok_to_submit'. Source of truth: registry/current_status.json.",
- "round6_session_verdict": "promote",
- "status_line_current": "NOT CLEARED - exploration query only (IR-42-INSTR-02): R6-1's PROMOTE rested on the SGMC instrument, on which SGMC-tracing files score 6-7x the champion yet scored ~0.05 live. Independently confirmed here: unique, format-valid, SGMC +0.0465 [+0.0255, +0.0681] vs champion. No organizer score exists.",
  "previous_primaries": [
   {
    "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
@@ -151,5 +152,7 @@
    "run_card": "evidence/h42_run_card.json",
    "status_line": "DO NOT SUBMIT (automated gates, no human inspection): G1 canary, G2/G3 holdout and G5 format PASS, but G4 lane uniqueness FAILS (82% of dots within 3 px of GEMSDOE25 h38-greedy-credit) and, as a reported diagnostic, the file is worse than random dots on the independent SGMC off-catalogue instrument (0.0545 vs 0.0709; champion 0.0954). Run card: evidence/h42_run_card.json."
   }
- ]
+ ],
+ "round6_session_verdict": "promote",
+ "status_line_current": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established. Independently (this session): SGMC +0.0465 [+0.0255, +0.0681] vs champion, but that instrument does not track live scores outside the champion family (IR-42-INSTR-02)."
 }

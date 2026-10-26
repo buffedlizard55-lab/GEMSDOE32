@@ -4,11 +4,16 @@
 <header class=top><div class=wrap>
 <h1>Leaderboard and the size of the gap</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html">Hypotheses</a> <a href="leaderboard.html" class=active>Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 <section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
-<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT any new file as an expected improvement over 0.2778</h2>
-<p style="margin:4px 0">No file in this repository is cleared as an expected improvement over the 0.2778 champion. (updated 2026-10-26T01:10:00Z)<br>&#128992; Exploration option for the selector (not an expected improvement): <code>gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</code>.
-<a href="index.html#status">Full status &amp; evidence</a> &middot; <a href="executive-summary.html">How to submit</a></p></section>
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload.</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated 2026-10-26T01:40:00Z.</p>
+<p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
+<a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="executive-summary.html">How a cleared file would be submitted</a></p></section>
 
-<div class=dlbtn><a class="btn" href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">&#11015; ONE-CLICK: headline GeoTIFF &mdash; &#128992; EXPLORATION ONLY, NOT CLEARED (read status)</a> <a class="btn alt" href="index.html#status">status</a> <a class="btn alt" href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip">.zip</a></div>
+<div class=dlbtn><span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> <a class="btn alt" href="index.html#status">status &amp; audit downloads</a></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap><h2 style="margin-top:6px">Public leaderboard <span class=pill>verified read</span></h2>
@@ -21,7 +26,7 @@
 <p class=mut>These are numbers the owner recorded from submission screens. No organizer receipt links
 those bytes to those rows (<a href="irregularities.html">IR-32-SCORE-01</a>). They are kept apart from
 the verified rows above on purpose.</p>
-<table><tr><th>id</th><th>file</th><th>emitted px</th><th>score</th><th>byte check here</th></tr><tr><td>claim-d28-0260</td><td>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</td><td>44090</td><td>0.26</td><td>not re-verified here</td></tr><tr><td>claim-d15-02477</td><td>d1-5 variant of H19-5 (owner mirror)</td><td>60069</td><td>0.2477</td><td>not re-verified here</td></tr><tr><td>claim-h195-01922</td><td>gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif</td><td>121131</td><td>0.1922</td><td>not re-verified here</td></tr><tr><td>claim-doe26-01223</td><td>26GEMSDOE detector-product emission</td><td></td><td>0.1223</td><td>not re-verified here</td></tr></table>
+<table><tr><th>id</th><th>file</th><th>emitted px</th><th>score</th><th>byte check here</th></tr><tr><td>claim-d28-0260</td><td>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</td><td>44090</td><td>0.26</td><td>not re-verified here</td></tr><tr><td>claim-d15-02477</td><td>d1-5 variant of H19-5 (owner mirror)</td><td>60069</td><td>0.2477</td><td>not re-verified here</td></tr><tr><td>claim-h195-01922</td><td>gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif</td><td>121131</td><td>0.1922</td><td>not re-verified here</td></tr><tr><td>claim-doe26-01223</td><td>26GEMSDOE detector-product emission</td><td></td><td>0.1223</td><td>not re-verified here</td></tr><tr><td>claim-h33-b2-02778</td><td>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</td><td>37654</td><td>0.2778</td><td>not re-verified here</td></tr></table>
 <h2>How the gap is read</h2>
 <p>Through the metric's own arithmetic (see <a href="research.html">research</a>), a score difference
 at constant emitted mass is a difference in <em>mean credit per pixel</em>: the leader's file earns
@@ -30,7 +35,7 @@ gap, not an emission-style gap — and it is why this repository spends its effo
 rule and on registering detector hypotheses with honest data status instead of re-tuning dot
 spacing.</p></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 00:51 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 00:59 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

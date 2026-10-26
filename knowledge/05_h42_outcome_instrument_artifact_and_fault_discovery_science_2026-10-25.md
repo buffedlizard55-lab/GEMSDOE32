@@ -18,8 +18,9 @@ or **user-report**. Nothing here is a leaderboard projection. Machine-readable r
    It shares 37,298 exact dots with the champion (Jaccard 0.803; 84.0 % of its dots within 3 px of the
    champion's), its claimed holdout margin (0.14840 vs 0.14801) sat inside its own CI [0.115, 0.182], and on
    the independent instrument it is indistinguishable from the champion (Δ +0.0001 [−0.0010, +0.0013]).
-4. **R6-1 (parallel Round-6 session, merged into main as PR #18) is downgraded to "not cleared — exploration query only".**
-   Its PROMOTE rested on the SGMC off-catalogue instrument. This session reproduced its margin independently (+0.0465
+4. **R6-1 (parallel Round-6 session, PR #18) is DO NOT SUBMIT — audit artifact only.** The fail-closed release review
+   (PR #21: no assigned lane paragraph; non-fold-local B=2) and this session's instrument evidence agree.
+   Its positive run-card verdict rested on the SGMC off-catalogue instrument. This session reproduced its margin independently (+0.0465
    [+0.0255, +0.0681] vs the champion; unique; format-valid), but that instrument does not track live scores outside the
    champion family (§3b, IR-42-INSTR-02).
 5. **The most important finding is about the instruments, not the hypotheses**: catalogue-hidden

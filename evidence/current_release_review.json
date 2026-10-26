@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-26",
+  "decision_scope": "Current session release authorization; does not rewrite the historical Round-6 run card.",
+  "review_run_card": "evidence/review_run_card_20261026.json",
+  "artifact": {
+    "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+    "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+    "format_byte_audit": {
+      "verified_this_review": true,
+      "single_band_float32": true,
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "finite_cells": 12279160,
+      "total_cells": 12279160,
+      "min": 0.0,
+      "max": 1.0,
+      "positive_pixels": 37654
+    },
+    "reference_grid_reaudit": {
+      "status": "PASS",
+      "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
+      "reference_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8d30a40454d35cbc",
+      "validator": "scripts/check_submission.py --strict-finite",
+      "checks": [
+        "exact CRS",
+        "exact shape",
+        "exact affine transform",
+        "single float32 band",
+        "no nodata tag",
+        "all cells finite",
+        "whole-array values in [0,1]"
+      ],
+      "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
+    }
+  },
+  "submission_authorization": {
+    "ok_to_download_and_submit": false,
+    "verdict": "negative",
+    "slot_used": false,
+    "reasons": [
+      "No single method-lane paragraph or authenticated slot-selection authorization is present in the current review context; do not choose a lane or spend a slot by inference.",
+      "The historical Round-6 B=2 candidate mask used full-catalogue geometry before holdout scoring, so the required fold-specific visible-fault-only rebuild and hide-and-recover test is not established.",
+      "The stored catalogue-hidden HOLDOUT-DTI is leakage-affected and below the incumbent; the external SGMC proxy cannot substitute for the required compliant holdout.",
+      "The literal final-dot duplicate rule fails: 36,832 of 37,654 candidate dots (0.9781696499707866) lie within 3 px of the registered calibration lattice, above the 0.70 stop threshold.",
+      "Pre-placement surface-rank correlation against every registry raster, including the calibration lattice, was not measured; the all-registry surface gate is incomplete.",
+      "Training features, labels, external proxy layers, and the cached feature stack remain unavailable, so no fresh compliant candidate can be rebuilt."
+    ],
+    "next_required": "Obtain the designated lane/slot authorization; restore and verify the missing source feature data; rebuild B-derived geometry fold-by-fold from visible faults only with the shared evaluator/writer; compute pre-placement surface correlation against every registry raster and final-dot overlap; then validate the emitted TIFF. Do not submit the current artifact."
+  },
+  "holdout_evidence_from_historical_round6_card": {
+    "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
+    "evaluator": "gems32.holdout draws 20/21, four spatial quadrants, 15 px collar, 12 px domain erosion; alpha=0.2, beta=0.8, R=3 px; pooled across 8 draw-fold cells",
+    "withheld_positives": 22232,
+    "candidate_dti": 0.0033763239250124547,
+    "candidate_ci95": [
+      0.0025123785219746527,
+      0.004534956346077028
+    ],
+    "incumbent_dti": 0.00451537871535044,
+    "incumbent_ci95": [
+      0.003943270699615557,
+      0.005250104404946791
+    ],
+    "limitation": "These are recorded results from the historical run card; because the candidate's catalogue exclusion was computed from full labels rather than rebuilt per withheld fold, they are not accepted as protocol-compliant promotion evidence."
+  },
+  "uniqueness_evidence_from_historical_round6_card": {
+    "evidence_class": "HISTORICAL lane checks are incomplete; direct calibration-lattice overlap is a current audit finding, not a complete all-registry pass.",
+    "historical_surface_max_spearman": 0.34013434998861647,
+    "historical_surface_registry_rasters_compared": 29,
+    "calibration_lattice_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "final_calibration_lattice_within_3px_fraction": 0.9781696499707866,
+    "candidate_dots_within_3px": 36832,
+    "candidate_dots_total": 37654,
+    "threshold": 0.7,
+    "preplacement_all_registry_surface_check_complete": false,
+    "limitation": "The older 29-raster surface result omitted the calibration lattice; do not describe it as a complete all-registry check."
+  }
+}

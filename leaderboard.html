@@ -7,8 +7,8 @@
 <main class=wrap style="padding-top:26px">
 <h1>Leaderboard</h1>
 <div class=card id=status style="border:3px solid #b00020">
-<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T01:10:00Z</h2>
-<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is cleared as an expected improvement over the 0.2778 champion.</b> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.</p>
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T01:40:00Z</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is authorized for upload.</b> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.</p>
 <p class=mut>OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound &gt; 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.</p>
 <table>
 <tr><th>Best scored file</th><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> &mdash;
@@ -22,13 +22,11 @@
 <table><tr><th colspan=3>HOLDOUT-DTI, gems57-pooled-hide-v2, 22893 withheld positives, 95% CI</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr><tr><td>HWCI</td><td>0.1529</td><td>[0.1400, 0.1674]</td></tr><tr><td>SYM</td><td>0.1479</td><td>[0.1349, 0.1612]</td></tr><tr><td>EVID</td><td>0.0638</td><td>[0.0540, 0.0743]</td></tr><tr><td>CHAMP_RECIPE</td><td>0.1056</td><td>[0.0936, 0.1166]</td></tr></table>
 <table><tr><th colspan=3>INSTRUMENT: SGMC faults &gt; 3 px off-catalogue (62122 px), gems57-pooled-hide-v2</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr><tr><td>H42_HWCI_final</td><td>0.0545</td><td>[0.0463, 0.0636]</td></tr><tr><td>CHAMPION_0.2778</td><td>0.0954</td><td>[0.0841, 0.1066]</td></tr><tr><td>RANDOM_37654</td><td>0.0709</td><td>[0.0678, 0.0742]</td></tr></table>
 </td></tr>
-<tr><th>Exploration option</th><td><b style="color:#b45309">&#128992; NOT CLEARED - exploration query only</b> &mdash;
-<a class="btn alt" href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">&#11015; gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a>
-<a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip">.zip</a> &middot; unique name <code>GEMSDOE32-R6-STEP-23FBBB51</code>
-&middot; sha256 <code>c7f094c1f4d00f2d&hellip;</code><br><small>parallel Round-6 session (merged to main as PR #18); run card evidence/round6_run_card.json says promote</small>
-<p><b>Why not cleared:</b> IR-42-INSTR-02: the SGMC instrument that promoted it does not predict live scores outside the champion family - SGMC-tracing files score 0.6483 (GEMSDOE72) and 0.5607 (GEMSDOE29) on it, 6-7x the champion, yet scored 0.0492 and 0.0512 live. A higher SGMC score is therefore not evidence of a higher live score.</p>
-<p><b>Confirmed independently:</b></p><ul><li>SGMC off-catalogue instrument (template evaluator): 0.1419 vs champion 0.0954 vs random 0.0702; paired vs champion +0.0465 [+0.0255, +0.0681]</li><li>lane-unique vs 205 registry rasters (worst informative overlap 0.414; max Spearman 0.016)</li><li>format-valid (its own dual validators; zeros variant all-finite in [0,1])</li></ul>
-<p><b>Selector guidance:</b> If a weekly slot is spent on exploration, this is the most informative unscored file (orthogonal, far-from-network lane; median 25 px from mapped traces). Expect a result below 0.2778 more likely than above; do not select it as the final two-round file without a live score.</p><p class=mut>Evidence: <a href="evidence/round6_run_card.json">round6_run_card.json</a> &middot; <a href="evidence/r6_independent_recheck.json">r6_independent_recheck.json</a> &middot; <a href="evidence/sgmc_instrument_live_counterexamples.json">sgmc_instrument_live_counterexamples.json</a></p></td></tr>
+<tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; DO NOT SUBMIT - audit artifact only</b> &mdash;
+<a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a> (audit artifact only)
+&middot; sha256 <code>c7f094c1f4d00f2d&hellip;</code><br><small>parallel Round-6 session (PR #18); its own run card recorded a positive verdict, withdrawn by the fail-closed release review (PR #21)</small>
+<p><b>Why not authorized:</b></p><ul><li>Release review (PR #21, evidence/current_release_review.json): no assigned method paragraph for that session; its B=2 mask was derived from the full catalogue rather than fold-locally, so fold-local hide-and-recover evidence is missing.</li><li>IR-42-INSTR-02 (this session): the SGMC instrument behind its positive verdict does not track live scores outside the champion family - SGMC-tracing files score 0.6483 (GEMSDOE72) and 0.5607 (GEMSDOE29) on it, 6-7x the champion, yet scored 0.0492 and 0.0512 live.</li><li>The review&#x27;s lattice-overlap reason (97.82% within 3 px of the 13gems calibration lattice) does not discriminate: random dots score 0.9988 and the champion 0.9992 on that test (IR-42-UNIQ-01).</li></ul>
+<p><b>What this session confirmed independently:</b></p><ul><li>SGMC off-catalogue instrument (template evaluator): 0.1419 vs champion 0.0954 vs random 0.0702; paired vs champion +0.0465 [+0.0255, +0.0681]</li><li>lane-unique vs 205 registry rasters (worst informative overlap 0.414; max Spearman 0.016)</li><li>format-valid (its own dual validators; zeros variant all-finite in [0,1])</li></ul><p class=mut>Evidence: <a href="evidence/current_release_review.json">current_release_review.json</a> &middot; <a href="evidence/round6_run_card.json">round6_run_card.json</a> &middot; <a href="evidence/r6_independent_recheck.json">r6_independent_recheck.json</a> &middot; <a href="evidence/sgmc_instrument_live_counterexamples.json">sgmc_instrument_live_counterexamples.json</a></p></td></tr>
 <tr><th>Withdrawn</th><td><ul><li><code>gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</code> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b>. IR-42-README-01: champion-family variant (37,298 shared dots, Jaccard 0.803, 84.0% within 3 px); claimed holdout margin 0.14840 vs 0.14801 inside its CI [0.115, 0.182]; SGMC off-catalogue instrument indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).</li><li><code>gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif</code> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b>. IR-R6-02 (Round-6 session): 70.24% of dots within 3 px of GEMSDOE28 h28-dotted-ridge exceeds the 70% lane gate; SGMC-calibrated 0.0462 below champion 0.0641.</li></ul></td></tr>
 <tr><th>Leaderboard</th><td>public #1 = <b>0.4413</b> (xiaofanhu), read 2026-10-25
 from the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">official leaderboard</a></td></tr>
@@ -36,23 +34,7 @@ from the <a href="https://www.drivendata.org/competitions/306/competition-doe-ge
 <p>Why, in full: <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md">session findings (knowledge/05)</a> &middot;
 <a href="docs/executive-summary.html">exact upload steps</a></p>
 </div>
-<div class=dl>
-<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
-<p style="font-size:1.25em"><b style="color:#b45309">&#128992; EXPLORATION ONLY &mdash; NOT CLEARED</b> &mdash; not an expected improvement; see the status card</p>
-<p><a class="btn" href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Download gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a> <a class="btn alt" href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip">.zip (single GeoTIFF inside)</a> </p>
-<p><b>Filename:</b> <code>gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</code><br>
-<b>Unique submission name to use:</b> <code>GEMSDOE32-GEMSDOE32-R6-STEP-23FBBB51</code><br>
-<b>Note to paste into the submit form's <em>Note (optional)</em> field
-(93 characters; protocol limit 140):</b><br>
-<code>R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE</code></p>
-<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-37,654 predicted pixels · every cell finite · every value in [0, 1] ·
-0 NaN anywhere · no nodata tag · sha256 <code>c7f094c1f4d00f2d&hellip;</code>
-· <a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-audit.json">format receipt (independent re-read)</a> </p>
-<p><b>Already-scored fallback:</b> <a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">0.2708 anchor (already-scored base)</a> </p>
-<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>NaN-outside twin of the primary</b></td><td><a href="docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif">gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif</a> </td><td class=mut>20318b52084a60be&hellip;</td><td class=mut></td></tr></table>
-<p class=warn><b>Status.</b> NOT CLEARED - exploration query only (IR-42-INSTR-02): R6-1&#x27;s PROMOTE rested on the SGMC instrument, on which SGMC-tracing files score 6-7x the champion yet scored ~0.05 live. Independently confirmed here: unique, format-valid, SGMC +0.0465 [+0.0255, +0.0681] vs champion. No organizer score exists.</p>
-</div>
+
 <div class=card><b>Full page:</b> <a href="docs/leaderboard.html">Leaderboard &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="README.md">README</a></div>

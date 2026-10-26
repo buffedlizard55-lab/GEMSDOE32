@@ -1,4 +1,6 @@
-# Executive summary — the 9 focus sites, the 0.2778 champion, and what to submit next
+# Executive summary — the 9 focus sites, the 0.2778 champion, and submission status
+
+> **CURRENT REVIEW OVERRIDES THE HISTORICAL ROUND-6 PROMOTION BELOW: DO NOT SUBMIT THE R6-1 TIFF.** Strict format/grid validation passes against a hash-pinned owner mirror, but the TIFF is not unique under the literal registry rule: 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold). The earlier 41.36% result omitted that lattice. In addition, the B=2 mask used full-catalogue geometry before holdout evaluation, and fold-local hide-and-recover evidence is not established. It is audit-only. See [`protocol-review-20261026.md`](protocol-review-20261026.md), [`repo-review-20261026.md`](repo-review-20261026.md), and [`evidence/current_release_review.json`](../../evidence/current_release_review.json).
 
 **Date:** 2026-10-26 · **Round:** 6 · **Competition:** DOE GEMS Prize (DrivenData #306)
 **Evidence classes (used on every number):** `[OWNER-REPORT]` = recorded from a
@@ -21,7 +23,7 @@ bytes on disk in this session (reproduce: `scripts/run_round6.py`).
 | [GEMSDOE28](https://buffedlizard55-lab.github.io/GEMSDOE28/) | `h36-1-rung30-blind-r1-…-b531dae0a36f` | **0.2710** | Best of a four-file ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649). The cluster is one family at slightly different prunes, not four independent methods. | **No** — already scored; family exhausted |
 | [GEMSDOE30](https://buffedlizard55-lab.github.io/GEMSDOE30/) | `d28-poisson300m-offcat-44090-…-91eae1ca` | 0.2600 | **Dot-for-dot identical to GEMSDOE25's d2.8** (same 44,090 dots, same score — a free determinism check on the scorer, IR-32-FAM-02). Later lane 0.1462. | **No** — exact duplicate of GEMSDOE25 |
 | [GEMSDOE31](https://buffedlizard55-lab.github.io/GEMSDOE31/docs/) | `h27-4-solo-d28-…-8acb75e1` (40,199) | 0.2708 | The B=1 solo file — same `8acb75e1` lineage as GEMSDOE28's solo. | **No** — duplicate lineage, already scored |
-| [GEMSDOE32](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html) | `h33-h33-2-b2-…-e5eb6e7e-zeros` (37,654) | **0.2778 — group best** | Solo minus its 2,545 dots within 200 m of the catalogue (B=2). End of the subtraction ladder (§2). | **No** — already submitted; resubmitting is a duplicate that wastes a slot. **Submit the new R6-1 file instead (§4)** |
+| [GEMSDOE32](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html) | `h33-h33-2-b2-…-e5eb6e7e-zeros` (37,654) | **0.2778 — group best** | Solo minus its 2,545 dots within 200 m of the catalogue (B=2). End of the subtraction ladder (§2). | **No** — historical entry; do not resubmit. R6-1 also fails the current literal uniqueness and holdout gates (§4). |
 | [GEMSDOE33](https://buffedlizard55-lab.github.io/GEMSDOE33/) | `h33d-analog-tip-stepover-r30-…-cb490425926e` (41,865) | 0.2632 | Fault-tip/step-over analog lane. Genuinely different geometry, but below the champion. | **No** — already scored lower |
 | [GEMSDOE36](https://buffedlizard55-lab.github.io/GEMSDOE36/docs/) | `anderson-geothermal-pinn-38854-…-9b9ea4e6-zeros` (38,854) | 0.2750 | **Contains all 37,654 champion dots + 1,200 extras** (champion ⊂ Anderson exactly, IR-32-FAM-01). The extras cost −0.0028. The "PINN" framing adds no independent discovery over the champion. | **No** — champion superset, already scored lower |
 
@@ -66,51 +68,24 @@ it (the newest compilation is already inside the given catalogue: 59,064 of
 
 ## 3. Five ranked hypotheses (full text: `hypotheses-round6.md`)
 
-1. **R6-1 Step-profile scarp detector** — BUILT this round (§4). `det_elev`
-   step-vs-ramp profile geometry. Viable now, low cost.
-2. **R6-2 Cross-gradient phase pairing** (mag×gravity gradient angle). Viable now.
-3. **R6-3 Nuisance-residualised conductivity ridge**. Viable now.
+1. **R6-1 Step-profile scarp detector** — historical artifact only (§4). `det_elev`
+   step-vs-ramp profile geometry. Existing run is invalidated by full-catalogue B=2 construction and literal lattice overlap; do not promote.
+2. **R6-2 Cross-gradient phase pairing** (mag×gravity gradient angle). Research hypothesis only; not currently testable without the feature stack.
+3. **R6-3 Nuisance-residualised conductivity ridge**. Research hypothesis only; not currently testable without the feature stack.
 4. **R6-4 Relocated microseismicity lineaments** — free official USGS FDSN
    source named; **blocked in this sandbox** (allowlist), fetcher ready.
 5. **R6-5 1 m LiDAR scarplet chains** — free official USGS 3DEP source named;
    **blocked in this sandbox**. Neither blocked idea is claimed viable here.
 
-## 4. The new unique submission (Round-6 Experiment 1 — frozen gates, all automated)
+## 4. Historical R6-1 artifact — format PASS, submission NOT authorized
 
-- **File (ONE-CLICK):** [`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](../downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif) · [.ZIP](../downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip) · SHA-256 `c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547`
-- **Unique name:** `GEMSDOE32-R6-STEP-23FBBB51`
-- **Note (93/140 chars):** `R6-1 STEP 37654d B2 zeros | det_elev step-vs-ramp | SGMC-DTI 0.1413 vs champ 0.0961 | PROMOTE`
-- **Method (new lane):** label-free signed cross-profile step detector on
-  `det_elev` only (step-vs-ramp concentration × structure-tensor coherence),
-  champion emission geometry (B=2, Poisson 2.8 px, 37,654 dots). Mimic named:
-  Lake Lahontan shoreline terraces / road cuts.
-- **Validation without human inspection (all `[HOLDOUT-DTI]` or byte audits):**
-  - Leakage canary: field AUC 0.5250 ≤ 0.90 ✓ (bands 12/19: 0.4842 / 0.5569)
-  - SGMC off-catalogue exact DTI **0.14131 vs champion 0.09606**, paired diff
-    +0.04525, 95 % CI [0.02814, 0.06266] (2,143 components, 62,703 truth px;
-    FP-held CI = lower bound on width) ✓
-  - Random controls (same budget/gate): 0.07397 / 0.07738 — below champion,
-    far below candidate ⇒ positional signal, not spread artifact ✓
-  - Uniqueness: max 41.4 % dots within 3 px of any detector raster (≤70 %),
-    19.1 % vs champion; max surface Spearman 0.34 (≤0.90); checked pre- and
-    post-placement vs 29 rasters ✓ (calibration lattice diagnostic only —
-    it covers 99.87 % of the footprint, IR-R6-03)
-  - Portal: 12-point audit **and** independent `--strict-finite` validator
-    PASS — single-band float32, EPSG:32611, 3730×3292, sample transform,
-    all 12,279,160 cells finite in [0,1], nodata=None ⇒ cannot trigger
-    `"Predicted values must be in range [0, 1]"` ✓
-  - Catalogue-hidden holdout (reported, never gated — perverse for B-gated
-    files, IR-32-INSTR-03): pooled 0.00338 vs champion 0.00452 (22,232
-    withheld positives). Drift-corrected: 0.04578 vs 0.04504.
-- **Verdict: PROMOTE** (selector recommendation). **No organizer score exists
-  for this file and none is claimed.** SGMC skill does not guarantee live
-  skill (SGMC is pre-Quaternary-inclusive; two live SGMC-tracing files scored
-  ≈0.05). The honest claim is narrower and sufficient: *this is the only
-  unique unscored file that has beaten the champion on the fair local
-  instrument at matched mass* — therefore it, and no other file on any of the
-  nine sites, is the rational next slot spend (Maximize P(Win)). Confirm the
-  authenticated weekly cap before uploading. Upload steps:
-  [executive-summary page](../executive-summary.html).
+- **Artifact:** [`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](../downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif) · SHA-256 `c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547`.
+- **Strict format/grid audit:** one float32 band, EPSG:32611, 3730×3292, exact transform, all 12,279,160 cells finite and in [0,1], nodata unset, 37,654 positive cells. Strict validator passes against the sample template restored from a SHA-256-pinned owner mirror; that mirror is not organizer-authenticated.
+- **Current verdict: DO NOT SUBMIT.** The B=2 exclusion was generated from the full catalogue (`distance_transform_edt(~labels)`) before hide-and-recover evaluation. The required fold-local re-emission using only visible catalogue faults was not established. Separately, 36,832/37,654 final dots (97.82%) are within 3 px of the registered calibration lattice (70% stop threshold), and pre-placement surface correlation against every registry raster is incomplete.
+- **Historical result only — [HOLDOUT-DTI, `gems32.holdout` draws 20/21, 4 quadrants × 2 draws, pooled across 8 cells, 22,232 withheld positives, 95% cluster-bootstrap CI]:** candidate 0.00338 [0.00251, 0.00453] vs incumbent 0.00452 [0.00394, 0.00525]. Because the candidate was built with the full-label buffer, these numbers are not accepted as compliant promotion evidence.
+- The previous run's primary comparison was against SGMC off-catalogue truth, not the mandated fold-local hide-and-recover gate. No organizer score exists for the R6 artifact. No weekly slot was used.
+- The historical comparison against 29 detector rasters recorded max surface Spearman 0.3401 and max final-dot within-3-pixel fraction 41.36%, but omitted the registered calibration lattice. Direct audit against that lattice is 97.82% within 3 px. No pre-placement correlation against every registry raster is recorded; the older numbers do not pass the current all-registry uniqueness gate.
+- **Next step:** obtain the explicit lane/slot authorization; restore the missing training features, labels and cache; run the shared fold-isolated evaluator with all catalogue-derived steps recomputed from visible faults only; measure pre-placement surface correlation against every registry raster; then check final-dot overlap and validate the emitted TIFF. Do not spend a slot before a separate selector approves it.
 
 ## 5. Irregularities flagged this round
 
