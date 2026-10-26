@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T06:57:17Z",
+ "generated_utc": "2026-10-26T07:06:16Z",
  "sources": [
   {
    "id": "competition",
@@ -253,67 +253,28 @@
   {
    "rank": 1,
    "participant": "xiaofanhu",
-   "score": 0.4413,
-   "submissions": 30
+   "score": 0.4437,
+   "submissions": 31,
+   "last_activity": "1h 18min ago"
   },
   {
    "rank": 2,
    "participant": "cfld__",
    "score": 0.3916,
-   "submissions": 17
+   "submissions": 17,
+   "last_activity": "2d ago"
   },
   {
    "rank": 3,
    "participant": "Batik Shirt Brothers",
    "score": 0.3904,
-   "submissions": 51
-  },
-  {
-   "rank": 4,
-   "participant": "BrandenKMurray",
-   "score": 0.3724,
-   "submissions": 31
-  },
-  {
-   "rank": 5,
-   "participant": "No Fault of Our Own",
-   "score": 0.3539,
-   "submissions": 42
-  },
-  {
-   "rank": 6,
-   "participant": "JerryDataWorks",
-   "score": 0.3418,
-   "submissions": 22
-  },
-  {
-   "rank": 7,
-   "participant": "alexoktaba",
-   "score": 0.3416,
-   "submissions": 34
-  },
-  {
-   "rank": 8,
-   "participant": "DARD",
-   "score": 0.3398,
-   "submissions": 27
-  },
-  {
-   "rank": 9,
-   "participant": "Azazel",
-   "score": 0.3379,
-   "submissions": 8
-  },
-  {
-   "rank": 10,
-   "participant": "joeyfezster",
-   "score": 0.3375,
-   "submissions": 38
+   "submissions": 51,
+   "last_activity": "3d 5h ago"
   }
  ],
- "leaderboard_observed_utc": "2026-10-25",
+ "leaderboard_observed_utc": "2026-10-26T04:32:28Z",
  "leaderboard_verified": true,
- "leaderboard_snapshots": 3,
+ "leaderboard_snapshots": 4,
  "hypotheses": [
   {
    "id": "H33-1",
@@ -1320,36 +1281,34 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
-  "note": "AUDIT ONLY \u2014 NOT AUTHORIZED FOR SUBMISSION; current lane and compliant hide-and-recover gates are missing.",
-  "status_line": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established.",
+  "name": "gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros",
+  "note": "GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT",
+  "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
   "file": {
-   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
-   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
-   "bytes": 201127,
+   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+   "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+   "bytes": 210920,
    "positive_px": 37654
   },
   "file_zeros": {
-   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
-   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
-   "bytes": 201127
+   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+   "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+   "bytes": 210920
   },
   "zip": {
-   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.zip",
-   "sha256": "245e8288c33d4989cca82906999d536323e54219817f3dc790d244cf3fc84c41",
-   "bytes": 166196
+   "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip",
+   "sha256": "13ec74ccaef6dac73bc3acf8ecf2c4c8e3dfe2c1078bbdf1a2e629997905528b",
+   "bytes": 177020
   },
-  "candidate_id": "GEMSDOE32-R6-STEP-23FBBB51",
+  "candidate_id": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
   "tier": 1,
-  "hypothesis": "R6-1-STEP-PROFILE",
+  "hypothesis": "A9-H1-MDRC-PGRN-PU",
   "verdict": "negative",
   "ok_to_submit": false,
   "on_catalogue_pixels": 0,
-  "catalogue_hidden_mean": 0.003579525583570572,
-  "drift_corrected_holdout_mean": 0.045775095546370465,
-  "sgmc_prevalence_calibrated_dti": 0.09486806944757353,
-  "sgmc_exact_dti": 0.14131435805047032,
-  "sgmc_exact_champion_dti": 0.09606004283619353,
+  "catalogue_hidden_mean": 0.057907939861141074,
+  "drift_corrected_holdout_mean": 0.057907939861141074,
+  "sgmc_prevalence_calibrated_dti": 0.08780043882036752,
   "anchor": {
    "role": "ANCHOR -- champion comparison (already submitted; do not resubmit)",
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -1357,19 +1316,25 @@
   },
   "pack": [
    {
-    "role": "NaN-outside twin of the primary",
-    "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif",
-    "sha256": "20318b52084a60be13040bcce5b8099208fc75b8e85640bf61e7d0c3309693e4",
-    "bytes": 335167
+    "role": "NaN-outside archival twin; not portal-safe under strict-finite mode",
+    "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif",
+    "sha256": "03eee6fb55ad98040a8887dec10767558b26d6cb10461defc46bc9f3c4bb5c02",
+    "bytes": 345698
    }
   ],
   "supersedes": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E demoted 2026-10-26: 70.24% within-3px vs h28-dotted-ridge exceeds 70% lane gate; SGMC-cal 0.0462 below champion 0.0641 (IR-R6-02). Preserved as registry/submission_build_geo_conduit_superseded.json",
-  "evidence": "evidence/round6_run_card.json + evidence/round6_pass2_controls.json",
-  "historical_run_verdict": "promote",
-  "historical_ok_to_submit": true,
+  "evidence": "evidence/arena9_run_card.json",
+  "historical_run_verdict": "negative",
+  "historical_ok_to_submit": false,
   "current_release_review": "evidence/current_release_review.json",
   "schema_note": "Registry primary = the file the site headlines. It is NOT an approval: read 'verdict' / 'ok_to_submit'. Source of truth: registry/current_status.json.",
   "previous_primaries": [
+   {
+    "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
+    "record": "evidence/round6_run_card.json",
+    "withdrawn": true,
+    "reason": "Superseded as the headline audit artifact by Arena9; remains DO NOT SUBMIT."
+   },
    {
     "name": "gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros",
     "record": "registry/submission_build_geo_conduit_superseded.json",
@@ -1488,8 +1453,9 @@
    }
   ],
   "round6_session_verdict": "promote",
-  "status_line_current": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established. Independently (this session): SGMC +0.0465 [+0.0255, +0.0681] vs champion, but that instrument does not track live scores outside the champion family (IR-42-INSTR-02).",
-  "arena8a_candidate": "registry/arena8a_submission.json"
+  "status_line_current": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
+  "arena8a_candidate": "registry/arena8a_submission.json",
+  "arena9_candidate": "evidence/arena9_run_card.json"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",
@@ -2164,8 +2130,8 @@
     "worst_channel": "curv_s2"
    },
    "correlation_and_overlap_vs_registry": {
-    "n_unique_rasters_checked": 289,
-    "n_genuine_rasters_checked": 288,
+    "n_unique_rasters_checked": 290,
+    "n_genuine_rasters_checked": 289,
     "genuine_pre_placement_surface_passed": true,
     "genuine_final_dots_passed": true,
     "max_abs_surface_spearman": 0.120401,
@@ -2200,7 +2166,16 @@
      "dots_spearman": -0.000483,
      "within_3px_fraction": 0.996893
     },
-    "literal_all_rasters_final_passed": false
+    "literal_all_rasters_final_passed": false,
+    "arena9_peer_comparison": {
+     "name": "GEMSDOE32:docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+     "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+     "other_dots": 37654,
+     "surface_spearman": 0.087676,
+     "dots_spearman": 0.02693,
+     "within_3px_fraction": 0.427657,
+     "exact_shared_dots": 1281
+    }
    },
    "artifacts": {
     "primary_zeros_tif": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",
@@ -2552,15 +2527,15 @@
  },
  "current_status": {
   "schema_version": 1,
-  "updated_utc": "2026-10-26T06:35:00Z",
+  "updated_utc": "2026-10-26T05:08:02+00:00",
   "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
   "any_file_ok_to_submit": false,
-  "headline": "No file in this repository is authorized for upload.",
+  "headline": "No file in this repository is authorized for upload; Arena9 is a format-valid negative result.",
   "gate_rule": "OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound > 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.",
   "best_scored": {
    "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
    "score": 0.2778,
-   "evidence_class": "OWNER-REPORT (owner-reported score; no submission-page receipt linking the score to these bytes is archived in this checkout)",
+   "evidence_class": "OWNER-REPORT (owner-provided submission-log claim; no submission-page receipt linking this raster hash to the score is present in this repository)",
    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
    "dots": 37654,
    "advice": "already submitted - do not resubmit (a resubmission spends a slot and adds no information)"
@@ -2671,10 +2646,12 @@
   ],
   "how_to_submit": "executive-summary.html",
   "leaderboard_top": {
-   "score": 0.4413,
+   "score": 0.4437,
    "team": "xiaofanhu",
-   "read_utc": "2026-10-25",
-   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+   "rank": 1,
+   "read_utc": "2026-10-26T04:32:28Z",
+   "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+   "source_note": "Direct official public page read at 2026-10-26T04:32:28Z; at that timestamp xiaofanhu was #1 at 0.4437. This supersedes the cached 2026-10-25 snapshot of 0.4413; 0.3195 is an older historical figure in the supplied prompt. Public observation only, not a score for this team or a private/final-round result."
   },
   "knowledge": "knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md",
   "round6_candidate": {
@@ -2832,6 +2809,84 @@
    ],
    "sgmc_prevalence_calibrated_dti": 0.050374
   },
+  "arena9_candidate": {
+   "file": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+   "zip": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.zip",
+   "receipt": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-audit.json",
+   "run_card": "evidence/arena9_run_card.json",
+   "preregistration": "docs/research/arena9-preregistration-and-hypotheses.md",
+   "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+   "bytes": 210920,
+   "dots": 37654,
+   "submission_name": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
+   "note": "GEMS32 A9 PGRN-PU 37654d | HR 0.0579 SGMC 0.0878 | research; DO-NOT-SUBMIT",
+   "verdict": "DO NOT SUBMIT",
+   "ok_to_download": true,
+   "ok_to_submit": false,
+   "hypothesis": "A9-H1 physics-guarded reliable-negative PU on the 57-channel MDRC stack",
+   "reasons": [
+    "Primary HOLDOUT-DTI failed: 0.05791 [0.04849, 0.06719] < Champion 0.09920 and repository best H38 0.11696; paired delta vs Champion -0.04129 [-0.05498, -0.02770].",
+    "Independent off-catalogue SGMC improved to 0.08780 [0.07392, 0.09958] vs Champion 0.06412, but proxy improvement cannot override the failed primary holdout.",
+    "Surface uniqueness passed across 304 refreshed registry files (max |Spearman| 0.12942), but final-dot lane uniqueness failed at 99.43% > 70% against the registered spacing-5 calibration lattice.",
+    "The dot mask is not pixel-identical to any refreshed registry raster and the GeoTIFF is cryptographically new, but that is weaker than the mandatory lane-overlap rule.",
+    "The full-grid format validator passes; format validity alone is not scientific or slot authorization."
+   ],
+   "holdout": {
+    "A9 PGRN80": {
+     "dti": 0.057907939861141074,
+     "ci95": [
+      0.048492161901158015,
+      0.06718644625080894
+     ]
+    },
+    "0.2778 Champion": {
+     "dti": 0.09920232315251679,
+     "ci95": [
+      0.08623342632409434,
+      0.11260559078337257
+     ]
+    },
+    "H38 repository best": {
+     "dti": 0.116958,
+     "ci95": [
+      0.100533,
+      0.13204
+     ]
+    }
+   },
+   "holdout_label": "HOLDOUT-DTI (GEMSDOE32-HIDE-RECOVER-v3.0, 22232 withheld positives, 95% spatial-block CI)",
+   "off_catalogue_instrument": {
+    "A9 PGRN80": {
+     "dti": 0.08780043882036752,
+     "ci95": [
+      0.07392258988292762,
+      0.09958457095904728
+     ]
+    },
+    "0.2778 Champion": {
+     "dti": 0.0641209376417646,
+     "ci95": [
+      0.05667573628390423,
+      0.07177500521629192
+     ]
+    }
+   },
+   "off_catalogue_label": "HOLDOUT-DTI (GEMSDOE32-SGMC-CAL-v3.0, 62703 off-catalogue SGMC positives, 95% spatial-block CI)",
+   "surface_worst_abs_spearman": 0.12942373916290661,
+   "final_worst_abs_spearman": 0.07198093548723625,
+   "final_worst_within_3px": 0.9943166728634408,
+   "registry_rasters": 304,
+   "exact_mask_matches": 0,
+   "format_test_registry_irregularities": 1,
+   "gates": {
+    "G1_leakage_canary": true,
+    "G2_holdout_beats_champion_and_repo_best": false,
+    "G3_sgmc_beats_champion": true,
+    "G4_surface_registry_unique": true,
+    "G4_final_registry_unique": false,
+    "G5_format_and_range": true
+   }
+  },
   "h44_spcp_lane": {
    "file": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",
    "zip": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.zip",
@@ -2917,7 +2972,9 @@
      "dots_spearman": -0.000483,
      "within_3px_fraction": 0.996893
     },
-    "literal_all_rasters_final_passed": false
+    "literal_all_rasters_final_passed": false,
+    "genuine_rasters_checked": 289,
+    "vs_arena9_within_3px": 0.4277
    }
   }
  },
@@ -2937,8 +2994,8 @@
   {
    "id": "IR-32-SCORE-01",
    "severity": "high",
-   "statement": "Every live score in the group's ledger (0.2477, 0.2600, 0.1922, ...) is an owner/leaderboard-row report, not an organizer receipt linking those bytes to that row. The public leaderboard rows verified today (nchuzhoy 0.3262, DARD 0.3195) are the only scores this repository treats as observed, and they are observed for *other* teams, not for our files.",
-   "mitigation": "registry/submissions.json keeps 'claim' and 'verified' fields separate; the site prints the distinction on every card"
+   "statement": "All group/site submission scores, including GEMSDOE32 H33-B2 0.2778, are OWNER-REPORT unless an organizer submission receipt links the exact file/hash to the score. No such receipt is stored here. The public leaderboard is independently page-verified, not a score for our files: 2026-10-26 live observation is xiaofanhu #1 at 0.4437 (evidence/live_leaderboard_snapshot_20261026.json); 0.4413 is the 2026-10-25 observation and 0.3195 is historical early-October.",
+   "mitigation": "Keep owner-file claims as OWNER-REPORT; label local experiments HOLDOUT-DTI with evaluator/version, withheld positives, and CI; use ORGANIZER-CONFIRMED only when a submission-page receipt is copied and linked. Keep public leaderboard observations timestamped in registry/leaderboard_history.jsonl and never infer private/final scores."
   },
   {
    "id": "IR-32-PROXY-01",
@@ -3149,7 +3206,7 @@
   {
    "id": "IR-32-FAM-01",
    "severity": "medium",
-   "statement": "The GEMSDOE36 'anderson-geothermal-pinn' artifact (ORGANIZER-CONFIRMED 0.2750) is not an independent method at the dot level: its 38,854 dots contain ALL 37,654 dots of the GEMSDOE32 champion h33-2-b2 (exact-dot Jaccard 0.969; champion subset relation verified pixel-exactly, evidence/registry_overlap.json). Cross-method consensus arguments built on these two artifacts would be circular.",
+   "statement": "The GEMSDOE36 'anderson-geothermal-pinn' artifact (OWNER-REPORT 0.2750) is not an independent method at the dot level: its 38,854 dots contain ALL 37,654 dots of the GEMSDOE32 champion h33-2-b2 (exact-dot Jaccard 0.969; champion subset relation verified pixel-exactly, evidence/registry_overlap.json). Cross-method consensus arguments built on these two artifacts would be circular.",
    "mitigation": "recorded here and in observations.jsonl; any future ensemble claim must first pass a subset/overlap audit (scripts/analyze_registry_overlap.py)"
   },
   {
@@ -3274,8 +3331,8 @@
   {
    "id": "IR-A8A-DUP-PRIMARY-01",
    "severity": "high (FIXED 2026-10-26)",
-   "statement": "Prior registry/submission_build.json headlined H32-WIN-46090 (D2.8 minus 400 speckles + 2400 dots, ~94.8% within-3px overlap with D2.8, violating the Parallel-Run <=70% uniqueness rule), carried a 0-byte all-zeros zip hash (0000...0000), and still claimed 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository' despite h33-h33-2-b2's owner-reported 0.2778 receipt.",
-   "mitigation": "registry/submission_build.json updated to point to the genuinely unique Arena8a deliverable (surface |rho|=0.4209, within-3px=64.96%<=70%, verified 197,576-byte zip sha256 c87912bf...), stamped clearly with automated verdict NEGATIVE / DO-NOT-SUBMIT, while recording h33-h33-2-b2 (0.2778, verified 186,378-byte zip sha256 5a6f3ee0...) accurately as the already-submitted portfolio champion."
+   "statement": "Prior registry/submission_build.json headlined H32-WIN-46090 (D2.8 minus 400 speckles + 2400 dots, ~94.8% within-3px overlap with D2.8, violating the Parallel-Run <=70% uniqueness rule), carried a 0-byte all-zeros zip hash (0000...0000), and still claimed 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository' despite the owner's reported 0.2778 (no receipt in this checkout).",
+   "mitigation": "registry/submission_build.json updated to point to the genuinely unique Arena8a deliverable (surface |rho|=0.4209, within-3px=64.96%<=70%, verified 197,576-byte zip sha256 c87912bf...), stamped clearly with automated verdict NEGATIVE / DO-NOT-SUBMIT, while recording h33-h33-2-b2 (0.2778 OWNER-REPORT; archive zip sha256 5a6f3ee0...) as a previously reported portfolio entry."
   },
   {
    "id": "IR-A8A-PU-BIAS-01",
@@ -3324,6 +3381,12 @@
    "status": "verified 2026-10-26",
    "statement": "Inspection of official drivendataorg/gems-prize-reference-solution (unet-mc-cv-reference-solution.ipynb @ commit aebe92f7c8) reveals two key facts: (1) Cell 12 filters X_patches to tiles where np.any(y_patches[i]) BEFORE train/test splitting and Cell 17 writes predictions only onto those positive-catalogue tiles, leaving every 128x128 tile without a pre-mapped catalogue fault identically 0.0; (2) Cell 19 initializes pred_full with zeros and writes nodata=None outside the footprint, confirming that all-finite -zeros.tif matches the organizer's own reference output convention.",
    "mitigation": "Documented in knowledge and site executive summary; rank-4 roadmap H38-G4 specifies full-footprint tile inference without Cell 12's positive-tile filter."
+  },
+  {
+   "id": "IR-32-MATH-01",
+   "severity": "high (fixed in shared metric docs 2026-10-26)",
+   "statement": "Several live README/site passages and docs/research/score-ceiling-analysis.md used an incorrect DTI denominator simplification (0.8*T + 0.2*|P| + 0.8*|G|) and treated alpha*s/(1-alpha*s) as the universal marginal inclusion threshold. The exact metric is T/(T + alpha*FP + beta*FN) = T/(alpha*(T+S-M)+beta*|G|). For a single new pixel contributing its full kernel credit to previously uncovered truth, the idealized threshold is k>alpha*s; partially covered fields require the actual delta TP/FP/FN condition. Prior exact hidden TP/recall/score-ceiling claims derived from the bad identity are withdrawn.",
+   "mitigation": "Corrected src/gems32/metric.py and emission.py scope notes, README.md, docs/research/score-ceiling-analysis.md, and scripts/build_site.py. Added a regression test showing that a pixel can pass the isolated scalar bar yet reduce DTI when it only marginally improves already-covered truth. Historical estimates not independently re-derived are explicitly not used as projections."
   },
   {
    "id": "IR-32-DOC-BAND05-01",

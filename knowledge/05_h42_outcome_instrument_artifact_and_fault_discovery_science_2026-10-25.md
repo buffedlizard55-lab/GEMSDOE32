@@ -1,14 +1,16 @@
-# H42 outcome, the "gap-filling" instrument artefact, and what fault-discovery science says (2026-10-25)
+# H42 outcome and the gap-filling instrument artefact (archived 2026-10-25)
+
+> **Correction, 2026-10-26:** this is a historical research note, not a current release decision. The portfolio score `0.2778` is **OWNER-REPORT**, not ORGANIZER-CONFIRMED: no exact-byte receipt is stored here. Hidden-truth/recall inversions and score-reachability estimates elsewhere in the archive are withdrawn after correction of the metric algebra; do not use this note to authorize an upload. Current decision: **DO NOT SUBMIT**. See [`knowledge/02_the_ceiling_and_the_instrument.md`](02_the_ceiling_and_the_instrument.md) and [`evidence/current_release_review.json`](../evidence/current_release_review.json).
 
 *Reusable knowledge. Every number is labelled: **HOLDOUT-DTI** (evaluator, withheld positives, 95 % CI),
-**INSTRUMENT** (an independent local proxy, labelled with its truth set), **ORGANIZER-CONFIRMED (owner-reported)**,
+**INSTRUMENT** (an independent local proxy, labelled with its truth set), **OWNER-REPORT**,
 or **user-report**. Nothing here is a leaderboard projection. Machine-readable receipts:
 `evidence/h42_run.json`, `evidence/h42_run_card.json`, `evidence/h42_sgmc_offcatalogue_check.json`.*
 
 ## 0. Bottom line
 
 1. **No new file is cleared for a weekly slot.** The group's best remains
-   `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` = **0.2778** (ORGANIZER-CONFIRMED, owner-reported; already
+   `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` = **0.2778** (OWNER-REPORT; already
    submitted — do not resubmit).
 2. **H42-1 (hanging-wall conditional intensity) is negative.** It beat the champion recipe on the
    catalogue-hidden holdout by a wide margin, but (a) it failed the parallel-run lane gate and (b) on an
@@ -27,7 +29,7 @@ or **user-report**. Nothing here is a leaderboard projection. Machine-readable r
    hide-and-recover rewards *gap-filling between fragments of the catalogue's own traces*. A model can gain
    +45 % HOLDOUT-DTI over the champion recipe and still lose to random dots off-catalogue (§3).
 
-## 1. Why `h33-2-b2` scored 0.2778 (re-verified from bytes and primary sources this session)
+## 1. Plausible explanation for the reported 0.2778 (not a causal proof or receipt verification)
 
 * **Construction (measured):** H19-5 (121,131 px) ⊃ d2.8 (44,090; raster-order thinning at 2.8 px) ⊃ solo
   (40,199 = d2.8 minus dots ≤ 1 px from the catalogue) ⊃ champion (37,654 = solo minus dots ≤ 2 px). Checked
@@ -36,18 +38,13 @@ or **user-report**. Nothing here is a leaderboard projection. Machine-readable r
   thermal/geochemical conduits (GDR 1391), 1 m / 10 m lidar openness + local-relief scarps, geopotential
   "worms" — with 1-px ridge NMS at a 2.45 % budget ([19GEMSDOE README](https://github.com/buffedlizard55-lab/19GEMSDOE)).
 * **Metric algebra** ([official page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)):
-  with binary dots, `DTI = T / (0.2·(T + F) + 0.8·|G|)`; adding one dot of realised kernel credit `k` raises
-  DTI iff `k > 0.2·DTI` (0.0556 at 0.2778).
+  with binary dots, `DTI = T / (0.2·(T + F) + 0.8·|G|)`. Only for a new dot whose full kernel credit `k` is assigned to previously uncovered truth is the break-even `k > 0.2·DTI` (0.05556 at 0.2778); for general changes use `ΔTP·D > TP·(ΔTP + 0.2ΔFP + 0.8ΔFN)`.
 * **Why removing near-catalogue dots helped:** DrivenData staff confirmed that *pixels* of known faults are
   masked ([forum 11516](https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516)) —
   only the pixels, not a buffer. A dot 100–200 m from a mapped trace is therefore scored, and it pays full FP
   unless a *new* fault lies within 300 m of it. The live ladder 0.2600 → 0.2708 → 0.2778 (owner-reported)
-  says such dots earned far below the bar: new faults are rarely within 200 m of mapped traces.
-* **What it takes to go further:** at fixed mass and |G|, `T + F ≈ S` for thin dots, so DTI ∝ T. Reaching
-  the 2026-10-25 public #1 (0.4413, [leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/))
-  from 0.2778 needs ≈ +59 % credit per dot at the same mass — a better *detector*, not more subtraction.
-  Further B-gating (B = 3) is a champion-family subset (lane duplicate) with an expected effect of a few
-  thousandths either way (knowledge/03).
+  is consistent with pruning low-credit mass, but without private truth or a receipt linking exact bytes to scores it cannot estimate per-dot credit or establish causality.
+* **What is identifiable:** no hidden-truth mass, weighted TP/FP/FN, recall, or exact requirement to reach another score can be recovered from the reported ladder alone. The former +59% credit-per-dot reachability estimate is withdrawn because it relied on superseded algebra. Further B-gating would be a champion-family subset and is not an authorized or unique lane.
 
 ## 2. The H42-1 experiment (pre-registered: `knowledge/04_…md`, commit `86de6eb`)
 

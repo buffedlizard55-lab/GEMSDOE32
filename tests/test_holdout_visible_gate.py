@@ -71,6 +71,21 @@ def test_visible_gated_holdout_synthetic_no_cache():
     assert r2["pooled_dti"] == pytest.approx(1.0)
 
 
+def test_loaded_context_exposes_exact_fold_visible_catalogues():
+    """Shared callers must never reconstruct a fold catalogue from full labels."""
+    ctx = load_holdout_context(_ddir())
+    assert ctx.visible_by_cell is not None
+    assert set(ctx.visible_by_cell) == {cell.key for cell in ctx.cells}
+    for cell in ctx.cells:
+        visible = ctx.visible_by_cell[cell.key]
+        assert visible.shape == ctx.foot.shape
+        assert np.array_equal(visible, cell.visible_full)
+        assert not np.any(visible & ~ctx.labels)
+        hidden_rows, hidden_cols = cell.truth_coords
+        rs, cs = cell.bbox
+        assert not visible[rs, cs][hidden_rows, hidden_cols].any()
+
+
 def test_visible_gated_holdout_restores_exact_live_b_ladder():
     """Fixes IR-32-INSTR-03: deriving B-gates only from visible faults per split
     restores the exact 4-point live leaderboard ordering (0.1922 < 0.2600 < 0.2708 < 0.2778)

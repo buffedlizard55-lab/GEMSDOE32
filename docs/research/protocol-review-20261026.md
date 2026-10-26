@@ -61,7 +61,7 @@ The request supplies 0.2778 for GEMSDOE32's H33-2-B2, with other reported top sc
 - Current organizer score: none available for this artifact.
 - Current weekly submission cap: not checked; never infer it from an old README.
 - Next permitted experiment requires (i) source data and actual cached feature stack in the configured location, (ii) a shared fold-aware candidate builder/evaluator that reconstructs all catalogue-derived masking from visible faults per split, (iii) a pre-placement and final-dot comparison against every registry raster, including the lattice, and (iv) exact sample-template validation on the written TIFF. Only then can a fresh unique raster be considered.
-- The user-provided request has conflicting leaderboard snapshots (0.3195 and 0.4413); this review has no authenticated current DrivenData response or score receipt.
+- The user-provided request had conflicting leaderboard snapshots (0.3195 and 0.4413). The official public page was subsequently read at `2026-10-26T04:32:28Z`: #1 xiaofanhu at 0.4437, preserved in `evidence/live_leaderboard_snapshot_20261026.json`. This is a public leaderboard snapshot, not an owner score receipt or final/private-round result.
 
 ## Verification record
 

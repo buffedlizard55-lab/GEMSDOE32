@@ -5,9 +5,10 @@
 <h1>Research: the metric, the decision rule, and the evidence</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html" class=active>Research</a> <a href="hypotheses.html">Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 <section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
-<p style="margin:4px 0"><b>No file in this repository is authorized for upload.</b>
-The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
-Updated 2026-10-26T06:35:00Z.</p>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload; Arena9 is a format-valid negative result.</b>
+Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
+Updated 2026-10-26T05:08:02+00:00.</p>
+<p style="margin:7px 0"><a class=btn href="downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif">&#11015; Download latest generated GeoTIFF for research/audit</a> <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>
 <p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
 <a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
@@ -54,15 +55,10 @@ the fast implementation against it; it also reproduces the published worked exam
 <p><code>FNw = |G| − TPw</code> exactly, so with <code>T = TPw</code>, <code>S = &sum;p</code> and
 <code>M = &sum;<sub>x</sub> p(x)·max<sub>g</sub>k</code>:</p>
 <p style="text-align:center"><code>DTI = T / ( 0.2·(T + S − M) + 0.8·|G| )</code></p>
-<p>Adding one unit of mass at weight <code>k</code> therefore changes the denominator by exactly 0.2,
-giving the <b>credit bar</b>:</p>
-<p style="text-align:center"><code>add mass &hArr; k &gt; 0.2·DTI</code></p>
-<p>At the group's claimed 0.2600 the bar is <b>0.0520</b>; at the public leader's
-0.4413 it is
-<b>0.0883</b>. The group's own
-measured marginal credit per added dot was 0.0548 — the file sits within a few percent of its own
-optimum, which is the strongest available evidence that the dotted file is not leaving easy points
-on the table.</p></div>
+<p>For an added binary pixel that contributes its full kernel credit <code>k</code> to previously uncovered truth, the denominator rises by 0.2. In this idealized case the <b>break-even</b> is:</p>
+<p style="text-align:center"><code>k &gt; 0.2·DTI</code></p>
+<p>For a general addition to partially covered truth, test the actual marginal TP/FP/FN changes; the scalar bar is not universal.</p>
+<p>At the group's claimed 0.2600 the idealized bar is <b>0.0520</b>. The group's reported mean marginal credit per added dot was 0.0548; this is not the same quantity and does not establish an optimum.</p></div>
 <h2>2 · Why the dotted file won, quantitatively</h2>
 <p>From 121,131 emitted pixels (solid H19-5) to 44,090 (dotted D2.8) the mean credit per pixel rose
 from 0.0520 to 0.0893 (owner-reported) while the total mass fell by 64&nbsp;%. The metric's own
@@ -101,64 +97,16 @@ every given-catalogue pixel (by construction) and only
 enriched on the off-catalogue SGMC set versus the footprint background, with
 <b>2014</b> of its 121,131 pixels sitting there.
 That is the measured size of the discovery lane this system could still open.</p>
-<h2>6 · Round 4 (H33): the live-anchored removal rule, and what it killed</h2>
-<p>The single most informative measurement available to this project is a pair of the group's own
-files that differ by <b>exactly one mechanism</b>: the dotted D2.8 emission
-(<code>GEMS28-H27-4-R1-SOLO-D2.8</code>, 40,199 dots, owner-reported live score
-<b>0.2600</b>) and its catalogue-flank prune at B&nbsp;=&nbsp;1
-(40,199&nbsp;&minus;&nbsp;3,891&nbsp;=&nbsp;36,308 dots, owner-reported live score
-<b>0.2708</b>). <code>existing_faults.tif</code> is byte-identical to <code>labels.tif</code>, so
-the "blind" prune removed exactly the 3,891 dots within 100&nbsp;m of the published catalogue and
-nothing else. Inverting that pair through the official metric under a zero-credit assumption
-recovers the live true-positive weight, the live false-positive mass, and therefore a
-<b>credit-loss budget</b> for any further removal.</p>
-<table>
-<tr><th>quantity recovered by the inversion</th><th>value</th><th>what it means</th></tr>
-<tr><td>weighted true positives, TP<sub>w</sub></td><td>5,073.3</td><td>the live set's credit mass</td></tr>
-<tr><td>denominator, D</td><td>18,734.4</td><td>implies |G| = 12,226 hidden truth pixels</td></tr>
-<tr><td>mean credit per emitted dot</td><td>0.1262</td><td>the group's live efficiency</td></tr>
-<tr><td>implied weighted recall</td><td>0.4150</td><td>41.5 % of the hidden set's weight</td></tr>
-<tr><td>credit-loss budget at B = 1</td><td>210.7</td><td>how much weighted credit a removal may burn</td></tr>
-<tr><td>live break-even bar &tau;<sub>live</sub></td><td>0.05416</td><td>a new dot must beat this to pay for itself</td></tr>
-</table>
-<p><b>The rule that falls out of it</b> (implemented in <code>src/gems32/live_anchor.py</code>): a
-removal of <code>dn</code> dots that costs <code>dS</code> units of off-catalogue weighted credit and
-removes <code>dTP<sub>g</sub></code> units of on-catalogue credit is a live gain iff
-<code>dS &lt; TP_w · (0.2·dn &minus; 0.8(dS &minus; dTP_g)) / D</code>. The gate used for every
-submission decision is the <b>safety factor</b> = budget &divide; measured cost; a removal arm is
-slot-eligible only at safety &ge; 2.0.</p>
-<h3>What round 4 measured, arm by arm</h3>
-<table>
-<tr><th>arm</th><th>dots</th><th>live-mirror &Delta;DTI</th><th>folds</th><th>credit/dot</th><th>safety</th><th>verdict</th></tr>
-<tr><td>base &mdash; GEMS28-H27-4-R1-SOLO-D2.8</td><td>40,199</td><td>0.263051</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the anchor</td></tr>
-<tr><td>D2.8 emission (live 0.2600)</td><td>44,090</td><td>0.251593</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the other anchor</td></tr>
-<tr><td><b>H33-2-B2 (catalogue flank B = 2)</b></td><td><b>37,654</b></td><td><b>+0.004870</b></td><td><b>4/4</b></td><td>&mdash;</td><td><b>2.08</b></td><td class=ok><b>WINNER &mdash; shipped primary</b></td></tr>
-<tr><td>H33-2-B3 (catalogue flank B = 3)</td><td>35,483</td><td>+0.001317</td><td>3/4</td><td>&mdash;</td><td>1.27</td><td class=bad>rejected: safety &lt; 2.0</td></tr>
-<tr><td>H33-2B2 + H33-1</td><td>38,554</td><td>+0.004978</td><td>4/4</td><td>&mdash;</td><td>&mdash;</td><td>slot-eligible secondary</td></tr>
-<tr><td>H33-1-P600A1800 (geothermometry)</td><td>41,999</td><td>+0.002639</td><td>2/4</td><td>0.00541</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-<tr><td>H33-1-P300A900 (geothermometry)</td><td>41,099</td><td>+0.000524</td><td>2/4</td><td>0.00215</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-<tr><td>H33-5-P300A900 (tip / step-over)</td><td>41,099</td><td>+0.001870</td><td>3/4</td><td>0.00767</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-</table>
-<p><b>Why B = 2 and not B = 1 or B = 3.</b> B = 1 is already live-tested and produced 0.2708.
-B = 2 removes 2,545 further dots (6.3 % of the mass) for 58.6 units of off-catalogue weighted credit
-(1.5 %) against a budget of 125.1 &mdash; safety 2.08 &mdash; and improves the live-mirror margin in
-all four quadrants. B = 3 spends the budget down to safety 1.27 and only wins 3 of 4 quadrants, so it
-is rejected. The group only ever tested B = 1 live; <b>B = 2 is a new, non-obvious operating
-point.</b></p>
-<h3>IR-33-LM-01: the drift finding that bounds what the live mirror may decide</h3>
-<p>Outside its validated regime the live mirror (LM-cal) ranks a 7,943-dot "safe-mass-pruned"
-variant at <b>0.4413</b> &mdash; 1.35&times; the entire public leaderboard's top score. The live
-record refutes that number. For the pruned file not to exceed 0.3262, <b>at least 16 % of the 0.2708
-emission's weighted credit must sit on dots the off-catalogue truth model calls credit-neutral</b>.
-LM-cal is therefore licensed only for small, mechanism-matched perturbations of a live-scored base
-(40&nbsp;k&ndash;62&nbsp;k dots), which is exactly why the slot gate requires the live-anchored safety
-factor in addition to the mirror margin.</p>
+<h2>6 · Portfolio score attribution and the historical B-pruning hypothesis</h2>
+<p>The portfolio records list a nested H19-5 family with owner-reported values: H19-5 (121,131 dots; 0.1922), D2.8 (44,090; 0.2600), solo/B=1 (40,199; 0.2708), and H33/B=2 (37,654; 0.2778). No submission-page receipt linking the exact TIFF hashes to these scores is stored here; they are <b>OWNER-REPORT</b>, not <b>ORGANIZER-CONFIRMED</b> or <b>HOLDOUT-DTI</b>.</p>
+<p>A plausible but unproven mechanism is that pruning can remove prediction mass with little hidden-truth credit while preserving useful coverage. The hidden truth is unavailable, so the archived score sequence does not identify per-dot credit, hidden TP/FP/FN, recall, or the causal contribution of B=2. Earlier live-anchor inversions, credit-loss budgets, and exact reachability estimates used unsupported assumptions and are withdrawn; do not use them to promote a candidate. The corrected equations and evidence limits are in <a href="research/why-02778-analysis-20261025.md">the metric review</a> and <a href="research/score-ceiling-analysis.md">the archived score-ceiling analysis</a>.</p>
+<p>No new compliant holdout was run in this checkout because the competition rasters and cached feature stack are absent. Existing candidate TIFFs remain audit artifacts with <b>DO NOT SUBMIT</b> verdicts. No new candidate or score projection is being offered.</p>
 <h2>7 · Research notes (readable on GitHub, one click each)</h2>
 <p class=mut>Every number on this site is produced by a script in <code>scripts/</code> and stored in
 <code>evidence/</code> or <code>registry/</code>. These are the write-ups, in the order they were
 made. They are Markdown, so the links open them rendered on GitHub rather than as a download.</p>
 <table><tr><th>note</th><th>what it establishes</th></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/h44-spcp-preregistration-20261026.md">h44-spcp-preregistration-20261026.md</a></td><td>H44-1 SPCP (2026-10-26): pre-registered 5 untried geological/geothermal-vent hypotheses (H44-1..H44-5), Phillips (2007) potential-field curvature tensor + hydrothermal conduit + Bekker-Davis SAR-PU propensity debiasing (+66.7% off-catalogue SGMC lift curing IR-A8A-PU-BIAS-01, paired +0.0133 [+0.0030, +0.0248] over 0.2778 OWNER-REPORT Champion), and IR-32-DOC-BAND05-01 fix</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/arena8a-preregistration-and-hypotheses.md">arena8a-preregistration-and-hypotheses.md</a></td><td>Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression discovery (IR-A8A-PU-BIAS-01)</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a></td><td>Round 6 (2026-10-26): preregistered H36-1..5 &amp; H38-G1..G4 multi-physics hypotheses, 53-channel LiDAR + GeoDAWN + GDR experiments (+17.9% Hide&amp;Recover v3.0), IR-32-LIDAR-01 &amp; IR-32-REFNB-01</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round5.md">hypotheses-round5.md</a></td><td>Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family forensics), the five ranked hypotheses, two measured negative lanes (H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity (IR-32-INSTR-03)</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round4.md">hypotheses-round4.md</a></td><td>Round 4 (H33-1..H33-5): the live-anchored removal rule, the winning flank-B=2 arm, the two falsified addition arms, and IR-33-LM-01</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round3.md">hypotheses-round3.md</a></td><td>Round 3 (H62-1..H62-5): transform only layers that are still raw fields; the rank-1 candidate was falsified by its own falsifier</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round2.md">hypotheses-round2.md</a></td><td>Round 2 (H60-1..H60-5): the catalogue-difference audit</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/why-d28-scored-026.md">why-d28-scored-026.md</a></td><td>Why the dotted D2.8 file scored what it did</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/verification-2026-10-04.md">verification-2026-10-04.md</a></td><td>the source-verification pass and what could not be verified</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause-2026-10-03.md</a></td><td>root cause of the portal&#x27;s &quot;Predicted values must be in range [0, 1]&quot; error</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/score-ceiling-analysis.md">score-ceiling-analysis.md</a></td><td>the perfect-knowledge ceiling and the recall needed to lead</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/geothermal-vents-knowledge.md">geothermal-vents-knowledge.md</a></td><td>the measured GDR volcanic-vent and wellspring statistics</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/shipped_audit.json">shipped_audit.json</a></td><td>the per-file portal-legality audit of every artifact on disk</td></tr></table>
+<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/h44-spcp-preregistration-20261026.md">h44-spcp-preregistration-20261026.md</a></td><td>H44-1..H44-5 (2026-10-26): SAR-PU propensity-debiased potential-field curvature tensor &amp; hydrothermal-conduit breach (SGMC-cal 0.07774 beating Champion 0.06412, P=0.998; cures IR-A8A-PU-BIAS-01)</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/arena9-results-and-nine-site-executive-summary.md">arena9-results-and-nine-site-executive-summary.md</a></td><td>Arena9 result and refreshed nine-site executive review: PGRN-PU negative, 304-raster literal uniqueness stop, strict saved-byte validation, lineage audit, and no-slot decision</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/arena9-preregistration-and-hypotheses.md">arena9-preregistration-and-hypotheses.md</a></td><td>Arena9 frozen A9-H1..H5 ranking, physical mechanisms, named mimics, costs, lane, and gates</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/arena8a-preregistration-and-hypotheses.md">arena8a-preregistration-and-hypotheses.md</a></td><td>Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression discovery (IR-A8A-PU-BIAS-01)</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a></td><td>Round 6 (2026-10-26): preregistered H36-1..5 &amp; H38-G1..G4 multi-physics hypotheses, 53-channel LiDAR + GeoDAWN + GDR experiments (+17.9% Hide&amp;Recover v3.0), IR-32-LIDAR-01 &amp; IR-32-REFNB-01</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round5.md">hypotheses-round5.md</a></td><td>Round 5 (2026-10-25): why the champion scored 0.2778 (nested-family forensics), the five ranked hypotheses, two measured negative lanes (H-CVF2, H-SUP-SGMC), and the catalogue-hidden instrument perversity (IR-32-INSTR-03)</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round4.md">hypotheses-round4.md</a></td><td>Round 4 (H33-1..H33-5): the live-anchored removal rule, the winning flank-B=2 arm, the two falsified addition arms, and IR-33-LM-01</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round3.md">hypotheses-round3.md</a></td><td>Round 3 (H62-1..H62-5): transform only layers that are still raw fields; the rank-1 candidate was falsified by its own falsifier</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/hypotheses-round2.md">hypotheses-round2.md</a></td><td>Round 2 (H60-1..H60-5): the catalogue-difference audit</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/why-d28-scored-026.md">why-d28-scored-026.md</a></td><td>Why the dotted D2.8 file scored what it did</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/verification-2026-10-04.md">verification-2026-10-04.md</a></td><td>the source-verification pass and what could not be verified</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause-2026-10-03.md</a></td><td>root cause of the portal&#x27;s &quot;Predicted values must be in range [0, 1]&quot; error</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/score-ceiling-analysis.md">score-ceiling-analysis.md</a></td><td>the perfect-knowledge ceiling and the recall needed to lead</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/geothermal-vents-knowledge.md">geothermal-vents-knowledge.md</a></td><td>the measured GDR volcanic-vent and wellspring statistics</td></tr><tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/shipped_audit.json">shipped_audit.json</a></td><td>the per-file portal-legality audit of every artifact on disk</td></tr></table>
 <h2>8 · Method and reproducibility</h2>
 <pre>pip install -r requirements.txt
 bash scripts/fetch_mirrors.sh       # hash-verified fetch of every pinned mirror (GitHub API)
@@ -177,7 +125,7 @@ on a CPU-only box for the emission arms; the detector used there is a gradient-b
 U-Net of the official reference solution, because this sandbox has 2&nbsp;vCPU and no GPU. The
 emission rule is what is being validated, and it is detector-agnostic.</p></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 06:58 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 07:06 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

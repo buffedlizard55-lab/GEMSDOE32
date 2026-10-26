@@ -1,0 +1,28 @@
+{
+  "schema_version": "gems-preregistration-v1",
+  "frozen_utc": "2026-10-26T04:05:00Z",
+  "branch": "arena/70e716e8-gemsdoe32",
+  "lane_id": "A9-H1-MDRC-PGRN-PU",
+  "selected_hypothesis": "Physics-Guarded Reliable-Negative Positive-Unlabeled learning on the 57-channel Multi-Domain Ridge-Crest Concordance stack",
+  "mechanism": "Use fold-visible catalogue pixels only as positives; use only >500 m, low label-free MDRC-concordance unlabelled pixels as reliable negatives; protect high-concordance unlabelled geology; spatial OOF HistGB, physical gate, crest sharpening, visible-only B=2, exact 300 m CELF.",
+  "named_non_fault_mimic": "Fluvial terrace risers, incised alluvial-fan channels, intact volcanic-flow margins, and lithologic contacts.",
+  "experiments": [
+    {"id": "EXP1_PGRN80", "reliable_negative_quantile": 0.80},
+    {"id": "EXP2_PGRN60", "reliable_negative_quantile": 0.60},
+    {"id": "EXP3_PGRN_BAG", "ensemble_quantiles": [0.60, 0.70, 0.80]}
+  ],
+  "selection_rule": "Highest GEMSDOE32-HIDE-RECOVER-v3.0 pooled DTI; SGMC is never used for arm selection.",
+  "gates": {
+    "leakage_canary_two_polarity_auc_max": 0.90,
+    "holdout_must_exceed": ["CHAMPION_h33-2-b2 exact evaluator", "H38-G1 repository best 0.11696"],
+    "sgmc_calibrated_must_exceed": 0.06412,
+    "surface_abs_spearman_max": 0.90,
+    "final_abs_spearman_max": 0.90,
+    "final_directional_overlap_3px_max": 0.70,
+    "strict_finite_range": [0.0, 1.0],
+    "weekly_slots_used": 0
+  },
+  "budget": {"max_experiments": 3, "max_runtime_hours": 2},
+  "external_data_needed": false,
+  "prose_record": "docs/research/arena9-preregistration-and-hypotheses.md"
+}

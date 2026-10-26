@@ -59,11 +59,20 @@ def protocol_notice(prefix: str = "") -> str:
                   and bool(st.get("any_file_ok_to_submit")))
     up = "../" if prefix == "" else ""
     if not authorized:
+        a9 = st.get("arena9_candidate") or {}
+        a9_name = Path(a9.get("file", "")).name
+        a9_download = (
+            f'<p style="margin:7px 0"><a class=btn href="downloads/{esc(a9_name)}">'
+            f'&#11015; Download latest generated GeoTIFF for research/audit</a> '
+            f'<b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>'
+            if a9_name else ""
+        )
         return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
 <p style="margin:4px 0"><b>{esc(st.get('headline', 'No file in this repository is authorized for upload.'))}</b>
-The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
 Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
+{a9_download}
 <p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
 <a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
@@ -234,6 +243,35 @@ def current_status_block(docs_prefix: str = "") -> str:
     nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
                 '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
     lb = st.get("leaderboard_top", {})
+    a9 = st.get("arena9_candidate") or {}
+    a9_row = ""
+    if a9:
+        a9_reasons = "".join(f"<li>{esc(r)}</li>" for r in a9.get("reasons", []))
+        a9_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (a9.get("holdout") or {}).items()
+        )
+        a9_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (a9.get("off_catalogue_instrument") or {}).items()
+        )
+        a9_row = f"""<tr><th>Latest generated GeoTIFF (<code>A9-H1 PGRN-PU</code>)</th><td>
+<a class=btn href="{esc(href(a9.get('file', '')))}">&#11015; Download GeoTIFF (research/audit only)</a>
+<a class="btn alt" href="{esc(href(a9.get('zip', '')))}">single-TIFF .zip</a>
+<a href="{esc(href(a9.get('receipt', '')))}">format receipt</a> &middot;
+<a href="{esc(href(a9.get('run_card', '')))}">JSON run card</a> &middot;
+<a href="{esc(href(a9.get('preregistration', '')))}">pre-registration + 5 ranked hypotheses</a> &middot;
+<a href="{docs_prefix}research/arena9-results-and-nine-site-executive-summary.md">scientific + nine-site review</a><br>
+<b style="color:#b00020;font-size:1.15em">&#9940; DOWNLOAD FOR RESEARCH: YES &middot; SUBMIT TO DRIVENDATA: NO</b><br>
+{esc(a9.get('hypothesis', ''))}; {int(a9.get('dots', 0)):,} dots; sha256 <code>{esc(a9.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Unique name: <code>{esc(a9.get('submission_name', ''))}</code> &middot; note ({len(a9.get('note', ''))}/140): <code>{esc(a9.get('note', ''))}</code></span>
+<ul>{a9_reasons}</ul>
+<table><tr><th colspan=3>{esc(a9.get('holdout_label', ''))}</th></tr><tr><th>arm/control</th><th>DTI</th><th>95% CI</th></tr>{a9_hrows}</table>
+<table><tr><th colspan=3>{esc(a9.get('off_catalogue_label', ''))}</th></tr><tr><th>arm/control</th><th>DTI</th><th>95% CI</th></tr>{a9_orows}</table>
+<p class=warn><b>Uniqueness wording:</b> SHA/content and final dot mask are new (0 exact registry-mask matches), and the pre-placement surface passes
+(<code>max |rho|={a9.get('surface_worst_abs_spearman', 0):.5f}</code>), but this is <b>not protocol-unique</b> because
+<code>{a9.get('final_worst_within_3px', 0):.2%}</code> of final dots fall within 3 px of the registered spacing-5 lattice (&gt;70%).</p>
+</td></tr>"""
     a8a = st.get("arena8a_candidate") or {}
     a8a_row = ""
     if a8a:
@@ -261,30 +299,6 @@ def current_status_block(docs_prefix: str = "") -> str:
 <table><tr><th colspan=3>{esc(a8a.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{a8a_orows}</table>
 {fig_html}
 </td></tr>"""
-    h44 = st.get("h44_spcp_lane") or {}
-    h44_row = ""
-    if h44:
-        h44_hr_ci = h44.get("hide_and_recover_ci95", [0.060297, 0.079276])
-        h44_sg_ci = h44.get("sgmc_calibrated_ci95", [0.069192, 0.085644])
-        h44_sg_d = h44.get("sgmc_paired_delta_vs_champion", {})
-        h44_u = h44.get("uniqueness", {})
-        h44_row = f"""<tr><th>Latest Unique Session File (<code>H44-1 SPCP</code>, 37,654d)</th><td>ONE-CLICK (research &amp; calibration audit artifact &mdash; 20/20 format checks PASS):
-<a class=btn href="{esc(href(h44.get('file', '')))}">&#11015; {esc(Path(h44.get('file', '')).name)}</a>
-<a class="btn alt" href="{esc(href(h44.get('zip', '')))}">.zip</a>
-<a class="btn alt" href="{esc(href(h44.get('nan_twin', '')))}">NaN-twin</a>
-<a class="btn alt" href="{esc(href(h44.get('receipt', '')))}">Format Receipt (13/13 + strict CLI PASS)</a>
-&middot; <a href="{esc(href(h44.get('run_card', '')))}">H44 run card</a>
-&middot; <a href="{docs_prefix}research/h44-spcp-preregistration-20261026.md">pre-registration &amp; 5 hypotheses</a><br>
-<b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>; safe to download for research/calibration without human intervention) &mdash;
-{esc(h44.get('hypothesis', ''))}; <b>{int(h44.get('dots', 37654)):,}</b> dots (0 on catalogue, B=2); sha256 <code>{esc(h44.get('sha256', '')[:16])}&hellip;</code><br>
-<span class=mut>Unique submission name: <code>{esc(h44.get('submission_name', ''))}</code> &middot; Portal note ({len(str(h44.get('note', '')))}/140 chars): <code>{esc(h44.get('note', ''))}</code></span>
-<ul>
-<li><b>Highest off-catalogue blind-fault SGMC DTI among all 37,654-dot supervised models across all 9 sites (curing <code>IR-A8A-PU-BIAS-01</code>):</b>
-<code>GEMSDOE32-SGMC-CAL-v3.0</code> (62,703 off-catalogue USGS SGMC fault px, zero SGMC supervision) = <code>{h44.get('sgmc_prevalence_calibrated_dti', 0.077736):.5f}</code>
-(95% CI <code>[{h44_sg_ci[0]:.5f}, {h44_sg_ci[1]:.5f}]</code>; raw <code>{h44.get('sgmc_raw_pooled_dti', 0.116056):.5f}</code>), beating the <code>0.2778</code> OWNER-REPORT Champion (<code>0.06412</code>) by paired spatial-block bootstrap &Delta; <code>+{h44_sg_d.get('mean_boot_delta', 0.01328):.5f}</code> (95% CI <code>[+{h44_sg_d.get('ci95', [0.003, 0.0248])[0]:.4f}, +{h44_sg_d.get('ci95', [0.003, 0.0248])[1]:.4f}]</code>, P=0.998) and beating naive 55-ch binary HistGB (<code>0.04663</code>) by <b>+66.7%</b> (<code>+0.03083</code>, P=1.000).</li>
-<li><b>Why automated verdict is <code>negative</code> / DO NOT SUBMIT (0 weekly slots spent):</b> Shifting 52.41% of dots &gt;2 km into blind basins lowers exposed-scarp <code>GEMSDOE32-HIDE-RECOVER-v3.0</code> (22,232 withheld positives) to <code>HOLDOUT-DTI = {h44.get('hide_and_recover_pooled_dti', 0.069841):.5f}</code> (95% CI <code>[{h44_hr_ci[0]:.5f}, {h44_hr_ci[1]:.5f}]</code>; detached &ge;600 m = <code>{h44.get('detached_600m_dti', 0.063641):.5f}</code>), beating static <code>0.2778</code> OWNER-REPORT Champion (<code>0.00452</code>) but trailing fold-local <code>CTRL-35ch</code> (<code>0.10169</code>) and censorship-matched Champion (<code>0.00302 &lt; 0.00452</code>, <code>IR-32-SARPU-PARETO-01</code>).</li>
-<li><b>289-raster cross-site uniqueness &amp; 55-channel leakage canary PASS:</b> Single-feature canary max oriented AUC = <code>0.5869 &le; 0.90</code> across all 55 channels. Genuine uniqueness PASS across all <b>288</b> detector/submission rasters from all 9 repos (<code>max |Spearman| = {h44_u.get('max_abs_surface_spearman', 0.1204):.4f} &le; 0.90</code>; <code>max 3-px dot overlap = {h44_u.get('max_genuine_3px_dot_overlap', 0.4448)*100:.2f}% &le; 70%</code>; <code>33.75%</code> vs <code>0.2778</code> OWNER-REPORT Champion), while literal 5-px calibration lattice <code>r13-lattice-s5</code> triggers fail-closed stop (<code>99.69% &gt; 70%</code>, <code>IR-42-UNIQ-01</code>).</li>
-</ul></td></tr>"""
     h38 = st.get("h38_multiphysics_lane") or {}
     h38_row = ""
     if h38:
@@ -300,7 +314,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <span class=mut>Archive portal name: <code>{esc(h38.get('submission_name', ''))}</code> &middot; Archive note ({len(h38.get('note', ''))}/140 chars): <code>{esc(h38.get('note', ''))}</code></span>
 <ul>
 <li><b>Highest leak-free Hide-and-Recover v3.0 score in GEMSDOE32:</b> <code>HOLDOUT-DTI = {h38.get('hide_and_recover_pooled_dti', 0.116958):.5f}</code>
-(95% spatial-block CI <code>[{h38_ci[0]:.5f}, {h38_ci[1]:.5f}]</code>, <b>+17.9%</b> over <code>0.2778</code> OWNER-REPORT Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
+(95% spatial-block CI <code>[{h38_ci[0]:.5f}, {h38_ci[1]:.5f}]</code>, <b>+17.9%</b> over <code>0.2778</code> Champion <code>0.09920</code>, paired &Delta; <code>+0.01776 [+0.00832, +0.02743]</code>); 53-channel Leakage Canary PASS (worst feature AUC <code>0.6235 &le; 0.90</code>); <code>IR-32-LIDAR-01</code> quantile routing (+9.4%).</li>
 <li><b>Cross-site uniqueness PASS vs all 26 live-scored detectors</b> (max &le;3-px overlap <code>69.49% &le; 70%</code>; <code>58.78%</code> vs Champion; surface |Spearman| <code>0.4374 &le; 0.90</code>), <b>but fails closed (audit artifact only — DO NOT SUBMIT)</b> because off-catalogue <code>SGMC_cal</code> (<code>{h38.get('sgmc_prevalence_calibrated_dti', 0.050374):.5f}</code>) trails Champion (<code>0.06412</code>) and unexempted &le;3-px check hits local GBDT <code>hcvf2</code> (<code>77.56%</code>) + 5-px calibration lattice <code>r13-lattice-s5</code> (<code>99.71%</code>, <code>IR-32-PIGEONHOLE-01</code>).</li>
 </ul></td></tr>"""
     ex = st.get("round6_candidate") or {}
@@ -314,6 +328,32 @@ def current_status_block(docs_prefix: str = "") -> str:
 &middot; sha256 <code>{esc(ex.get('sha256', '')[:16])}&hellip;</code><br><small>{esc(ex.get('origin', ''))}</small>
 <p><b>Why not authorized:</b></p><ul>{why}</ul>
 <p><b>What this session confirmed independently:</b></p><ul>{conf}</ul><p class=mut>Evidence: {evid}</p></td></tr>"""
+    h44 = st.get("h44_spcp_lane") or {}
+    h44_row = ""
+    if h44:
+        h44_reasons = "".join(f"<li>{esc(r)}</li>" for r in h44.get("reasons", []))
+        h44_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (h44.get("holdout") or {}).items()
+        )
+        h44_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (h44.get("off_catalogue_instrument") or {}).items()
+        )
+        h44_row = f"""<tr><th>Latest SPCP + SAR-PU file (<code>H44-1</code>, 37,654d)</th><td>
+<a class=btn href="{esc(href(h44.get('file', '')))}">&#11015; Download {esc(Path(h44.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(h44.get('zip', '')))}">single-TIFF .zip</a>
+<a class="btn alt" href="{esc(href(h44.get('nan_twin', '')))}">NaN-twin</a>
+<a href="{esc(href(h44.get('receipt', '')))}">format receipt (13/13 PASS)</a> &middot;
+<a href="{esc(href(h44.get('run_card', '')))}">JSON run card</a> &middot;
+<a href="{docs_prefix}research/h44-spcp-preregistration-20261026.md">pre-registration + H44-1..H44-5</a><br>
+<b style="color:#b00020;font-size:1.15em">&#9940; DO NOT SUBMIT &mdash; audit/research artifact (<code>verdict = negative</code>; DOWNLOAD FOR RESEARCH: YES &middot; SUBMIT TO DRIVENDATA: NO)</b><br>
+{esc(h44.get('hypothesis', ''))}; <b>{int(h44.get('dots', 37654)):,}</b> dots (0 on catalogue, B=2); sha256 <code>{esc(h44.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Unique name: <code>{esc(h44.get('submission_name', ''))}</code> &middot; note ({len(str(h44.get('note', '')))}/140): <code>{esc(h44.get('note', ''))}</code></span>
+<ul>{h44_reasons}</ul>
+<table><tr><th colspan=3>{esc(h44.get('holdout_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h44_hrows}</table>
+<table><tr><th colspan=3>{esc(h44.get('off_catalogue_label', ''))}</th></tr><tr><th>arm / control</th><th>DTI</th><th>95% CI</th></tr>{h44_orows}</table>
+</td></tr>"""
     return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
 <h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
 <p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
@@ -323,6 +363,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
 {h44_row}
+{a9_row}
 {a8a_row}
 <tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
 <a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
@@ -386,26 +427,22 @@ def round5_section() -> str:
     return f"""<div class=dl>
 <h2>&#128300;&nbsp;ROUND 5 (2026-10-25) &mdash; why the champion scored 0.2778, and two new unique files</h2>
 <p><b>Round-5 verdict:</b> the champion file <code>h33-2-b2-…-e5eb6e7e-zeros.tif</code> is already
-submitted and scored <b>0.2778</b> (ORGANIZER-CONFIRMED, owner-reported) — do not resubmit it. The
+has the highest reported focus-site score (<b>0.2778 OWNER-REPORT</b>; no score-to-byte organizer receipt is stored here) — do not resubmit it. The
 two round-5 files below are <b>unique and format-valid</b> but both measured <b>worse than the
 champion</b> on the fair local instrument, so both are labelled
 <b style="color:#b00020">DO NOT SUBMIT</b>. The one-click primary elsewhere on this page is a
 <i>separate parallel lane's</i> artifact (promoted on the drift instrument, IR-32-INSTR-01/03
 caveats apply) — round 5 neither promotes nor blocks it; promotion to a weekly slot is the
 selector's step, and this section never spends one.</p>
-<h3>Why h33-2-b2 got the group's highest score (measured from the bytes)</h3>
+<h3>Why the historical record suggests sparse H19-5 descendants may have scored better</h3>
 <ul>
 <li>The whole top cluster is <b>one nested family</b>: H19-5 (121,131 dots, 0.1922) &sup; d2.8 (44,090,
 0.2600) &sup; solo (40,199, 0.2708) &sup; champion (37,654, <b>0.2778</b>). Every gain came from
 <i>removing</i> dots. The champion's construction is {nested} pixel-exactly: the 0.2708 base minus its
 2,545 dots within 200&nbsp;m of the catalogue.</li>
-<li>Mechanism: the scorer masks known faults, so near-catalogue dots almost never earn (implied
-&approx;0.006&ndash;0.016 credit/dot) but always pay &alpha;=0.2 in the denominator; the break-even bar at
-0.2778 is <code>k &gt; 0.2&middot;DTI = 0.0556</code>. B=2 was the first file with <b>zero</b> dots inside 200&nbsp;m.</li>
-<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750) <b>contains all 37,654 champion dots</b>
-+ 1,200 more &mdash; those extras cost &minus;0.0028 (IR-32-FAM-01).</li>
-<li>Beating 0.2778 therefore needs <b>better-placed mass, not more or less of the same mass</b>: at the
-same 37,654 dots, +8% mean credit reaches 0.30; the public #1 (0.4413, read 2026-10-25) needs &approx;+59%.</li>
+<li>Possible mechanism, not proven cause: if near-catalogue predictions earn little hidden-truth credit because known faults are masked, they still add false-positive mass, so pruning could help. The private truth is unavailable and no per-dot hidden credit is inferred. The <code>k &gt; 0.2&middot;DTI = 0.05556</code> bar is only the idealized isolated-pixel case; arbitrary additions require the full marginal TP/FP/FN condition. The B=2 file is recorded as excluding dots inside 200&nbsp;m of the catalogue.</li>
+<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750 OWNER-REPORT) is recorded as containing all 37,654 champion dots plus 1,200 more (IR-32-FAM-01); this is a byte-forensics claim, not an organizer receipt.</li>
+<li>Beating the reported 0.2778 likely requires better-ranked coverage of faults absent from the training catalogue, not merely changing density on the same field. The public leaderboard is dynamic; the current timestamped observation appears in the status card.</li>
 </ul>
 <h3>The two unique round-5 candidates (new lanes, honestly measured)</h3>
 <table><tr><th>candidate</th><th>validation gates (all numbers HOLDOUT-DTI unless labelled)</th></tr>
@@ -555,54 +592,42 @@ same metric; only the objective changed.</p>
 
 
 def focus_sites_block() -> str:
-    """Per-site executive summary for the 9 focus sites + H44-1 SPCP & H36-1C audits (all historical scores OWNER-REPORT)."""
+    """Per-site executive summary for the 9 focus sites + Round-6 H36-1C audit (all historical scores OWNER-REPORT)."""
     rows = [
-        ("GEMSDOE24", "17496743a969", "h25-1-dotted-h19-5-d1-5 (60,069d) / H24-DPRF1 (37,654d)", "0.2477 [OWNER-REPORT] / unscored", "2026-10-26 DPRF1 (c1257c1d..., 37,654d): SGMC-cal 0.05505, 45.6% within 3 px of 0.2778 OWNER-REPORT Champion; blocked by lattice-s5.", "DO NOT SUBMIT"),
-        ("GEMSDOE25", "88a29e094989", "dotted-h19-5-d2-8 (44,090d) / H71-HGPC (59,472d)", "0.2600 [OWNER-REPORT] / unscored", "d2.8 parent of 0.2778 OWNER-REPORT Champion (dot-identical to GEMSDOE30); 2026-10-26 H71 (44ee6028...) SGMC-cal 0.05158.", "DO NOT SUBMIT (superseded / dup 30)"),
-        ("GEMSDOE27", "426426b402f9", "topo-gap (0.2449) / H29-S (0.2190) [OWNER-REPORT]", "0.2449 / 0.2190 [OWNER-REPORT]", "H29-S (51189874..., 37,654d) is #1 live-scored non-H19-5 unique upload (0.2190 OWNER-REPORT); 2026-10-26 H31-1 SGMC-cal 0.06047.", "DO NOT SUBMIT"),
-        ("GEMSDOE28", "348ff086e29b", "h36-1-rung30 (0.2710) / solo-8acb75e1 (0.2708) [OWNER-REPORT]", "0.2710 / 0.2708 [OWNER-REPORT]", "40,199d solo base identical to GEMSDOE31; 2026-10-26 S20-NCHC (1d629d6c..., 40,071d) SGMC-cal 0.06327.", "DO NOT SUBMIT (already scored / dup 31)"),
-        ("GEMSDOE30", "73db382d3c99", "d28-poisson300m-offcat-44090 / FFL-1 (44,090d)", "0.2600 [OWNER-REPORT] / unscored", "Exact 44,090-dot duplicate of GEMSDOE25; 2026-10-26 FFL-1 (79506070...) 78.3% duplicate, SGMC-cal 0.06205.", "DO NOT SUBMIT (duplicate of 25)"),
-        ("GEMSDOE31", "e6e85b357914", "h27-4-solo-d28-8acb75e1 / H31-S (37,654d)", "0.2708 [OWNER-REPORT] / unscored", "Exact 40,199-dot duplicate of GEMSDOE28; 2026-10-26 H31-S (186d35d8...) SGMC-cal 0.05658.", "DO NOT SUBMIT (duplicate of 28)"),
-        ("GEMSDOE32", "9e55d5d61cb7", "h33-h33-2-b2 (Champion) + H44-1 SPCP (38f7995a)", "0.2778 [OWNER-REPORT] / unscored", "Best across all 9 sites (37,654d, B=2). New H44-1 SPCP sets supervised 9-site high on blind SGMC-cal (0.07774 > 0.06412, p=0.998) but trails CTRL-35ch on exposed scarps.", "Champion: DO NOT RESUBMIT · H44-1 / H36-1C / R6-1: DO NOT SUBMIT"),
-        ("GEMSDOE33", "fded53840662", "h33d-analog-tip-stepover-r30 / A33-R2-CSHT (37,654d)", "0.2632 [OWNER-REPORT] / unscored", "Unique 50,023d analog below 0.2778 OWNER-REPORT; 2026-10-26 A33-R2-CSHT (14ab452c...) SGMC-cal 0.04698, surface dup blocked.", "DO NOT SUBMIT"),
-        ("GEMSDOE36", "4938a123133b", "anderson-geothermal-pinn-38854 / ATVR-36 (37,654d)", "0.2750 [OWNER-REPORT] / unscored", "Contains all 37,654 dots of 0.2778 OWNER-REPORT Champion + 1,200 (-0.0028); 2026-10-26 ATVR-36 (54f493f4...) SGMC-cal 0.03658.", "DO NOT SUBMIT (champion superset)"),
+        ("GEMSDOE24", "17496743", "h25-1-dotted-h19-5-d1-5", "0.2477", "H24-DPRF1 HOLDOUT-DTI 0.16379 [0.15045,0.17739]; selector negative; refreshed lattice overlap 99.56%.", "DO NOT SUBMIT"),
+        ("GEMSDOE25", "66b97bc9", "dotted-h19-5-d2-8-e56ea318af89", "0.2600", "Dot-identical to GEMSDOE30; H71-HGPC failed holdout versus H35 and has 100% lattice overlap.", "DO NOT SUBMIT"),
+        ("GEMSDOE27", "426426b4", "topo-gap (0.2449) / H29-S (0.2190)", "0.2449 / 0.2190", "Site H31 promotion used 27 rasters; refreshed literal lattice overlap is 99.61%, so this stricter protocol stops it.", "DO NOT SUBMIT HERE"),
+        ("GEMSDOE28", "348ff086", "h36-1-rung30 / solo-d2.8", "0.2710 / 0.2708", "H19-5 pruning lineage; S20-NCHC HOLDOUT-DTI 0.13126 below same-run baseline 0.14443.", "DO NOT SUBMIT"),
+        ("GEMSDOE30", "73db382d", "d28-poisson300m-offcat-44090", "0.2600", "Exact GEMSDOE25 duplicate; latest FFL-1 is duplicate-stopped and TAD paired CI crossed zero.", "DO NOT SUBMIT"),
+        ("GEMSDOE31", "e6e85b35", "h27-4-solo-d28-8acb75e1", "0.2708", "Exact GEMSDOE28 lineage; current H31-S is research-only and lattice-duplicate.", "DO NOT SUBMIT"),
+        ("GEMSDOE32", "174c1c3f + Arena9", "h33-h33-2-b2", "0.2778", "Arena9 is content-new but primary HOLDOUT-DTI 0.05791 trails H38 0.11696 and final lattice overlap is 99.43%.", "DO NOT RESUBMIT / DO NOT SUBMIT A9"),
+        ("GEMSDOE33", "565d663a", "h33d-analog-tip-stepover-r30", "0.2632", "A33-R3-LLC tied/trailed CSHT on confirmation; paired CIs cross zero and selector found no eligible raster.", "DO NOT SUBMIT"),
+        ("GEMSDOE36", "4aa901be", "anderson-geothermal-pinn-38854", "0.2750", "Champion superset lineage; MTO-36 paired CI crosses zero and all-reference lattice overlap reaches 100%.", "DO NOT SUBMIT"),
     ]
     trs = "".join(
         f'<tr><td><b><a href="https://github.com/buffedlizard55-lab/{esc(a)}">{esc(a)}</a></b><br><code class=mut>{esc(hd)}</code></td>'
         f"<td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>"
         for a, hd, b, c, d, e in rows
     )
-    h44_exp = read("evidence/h44_spcp_experiments.json") or {}
-    h44_trs = ""
-    for label, arm_d in [
-        ("Baseline: 0.2778 OWNER-REPORT Champion (static B=2)", (h44_exp.get("baselines") or {}).get("CHAMPION_02778")),
-        ("Control: CTRL_35CH_OOF (35-ch naive HistGB)", (h44_exp.get("baselines") or {}).get("CTRL_35CH_OOF")),
-        ("EXP 1/3: EXP1_H44_UNSUP_SPCP (label-free curvature + conduit)", (h44_exp.get("experiments") or {}).get("EXP1_H44_UNSUP_SPCP")),
-        ("EXP 2/3: EXP2_H44_NAIVE_BIN55 (55-ch naive y=0 HistGB)", (h44_exp.get("experiments") or {}).get("EXP2_H44_NAIVE_BIN55")),
-        ("EXP 3/3: EXP3_H44_SARPU_SPCP (SAR-PU propensity-debiased SPCP)", (h44_exp.get("experiments") or {}).get("EXP3_H44_SARPU_SPCP")),
-    ]:
-        if arm_d:
-            hr_d = arm_d["hide_and_recover_v3"]
-            det_d = arm_d["detached_600m_segments"]
-            sg_d = arm_d["sgmc_off_catalogue_v3"]
-            h44_trs += (
-                f"<tr><td><b>{esc(label)}</b></td>"
-                f"<td>{hr_d['pooled_dti']:.5f} [{hr_d['ci95'][0]:.4f}, {hr_d['ci95'][1]:.4f}]</td>"
-                f"<td>{det_d['pooled_dti']:.5f}</td>"
-                f"<td>{sg_d['raw_pooled_dti']:.5f} / <b>{sg_d['prevalence_calibrated_dti']:.5f}</b> "
-                f"[{sg_d['calibrated_ci95'][0]:.4f}, {sg_d['calibrated_ci95'][1]:.4f}]</td></tr>"
-            )
-    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; live 2026-10-26 audit across all 9 focus sites &amp; PhD 0.2778 [OWNER-REPORT] &rarr; 0.3195 &rarr; 0.4413 analysis</h2>
-<p>Every historical score below is <b>[OWNER-REPORT (no submission-page receipt in repo)]</b> (IR-32-SCORE-01; IR-32-SCORE-03: <code>0.3195</code> is the 2026-10-03 early leader <code>DARD</code>, while public #1 <code>xiaofanhu</code> holds <b>0.4413</b> as of 2026-10-25). Full reports:
-<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a> &middot;
-<a href="research/h44-spcp-preregistration-20261026.md">h44-spcp-preregistration-20261026.md</a>.</p>
-<table><tr><th>site &amp; 2026-10-26 HEAD</th><th>best historical / newest 2026-10-26 TIF</th><th>score</th><th>byte forensics &amp; 2026-10-26 cross-site evaluation</th><th>verdict today</th></tr>{trs}</table>
-<h3>PhD metric algebra: why <code>h33-h33-2-b2</code> achieved 0.2778 [OWNER-REPORT] and what 0.3195 / 0.4413 require</h3>
-<p>Under <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> with hidden truth <code>|G| &approx; 12,265</code> px, solid <code>H19-5</code> (121,131 px, 0.1922 OWNER-REPORT) captured only <code>T &approx; 5,021</code> weighted truth pixels (40.9% recall), algebraically capping every subset of <code>H19-5</code> below ~0.312. Removing 2,545 flank dots within <code>1 &lt; d_cat &le; 2 px</code> (200 m) raised 0.2708 [OWNER-REPORT] &rarr; <b>0.2778 [OWNER-REPORT (no submission-page receipt in repo)]</b> (<code>T &approx; 4,503</code>) because known-catalogue masking prevents flank dots from clearing the marginal break-even bar <code>&Delta;T &gt; 0.25&middot;DTI/(1&minus;0.8&middot;DTI) = 0.0893</code>. Reaching <b>0.3195</b> at 37,654 dots requires <code>T &approx; 5,430</code> (+20.6% recall) and public #1 <b>0.4413</b> requires <code>T &approx; 8,408</code> (68.6% recall) via genuinely off-catalogue blind-fault physics.</p>
-<h3>Session H44-1 (SPCP) 3-experiment ablation at matched 37,654-dot B=2 budget (<code>GEMSDOE32-HIDE-RECOVER-v3.0</code> &amp; <code>GEMSDOE32-SGMC-CAL-v3.0</code>)</h3>
-<table><tr><th>arm (37,654 dots, B=2)</th><th>HOLDOUT-DTI (Hide&amp;Recover v3.0, n=22,232)</th><th>Detached &ge;600m (n=15,504)</th><th>Off-catalogue SGMC raw / calibrated DTI (n=62,703)</th></tr>
-{h44_trs}</table>
-<p><b>Bottom line:</b> <code>GEMSDOE32</code> <code>h33-h33-2-b2</code> (0.2778 OWNER-REPORT, already scored &mdash; do not resubmit) remains the strongest entry across all 9 sites. New <code>H44-1 SPCP</code> (<code>38f7995a</code>), <code>H36-1C</code> (<code>9ff9d6e2</code>), and <code>R6-1</code> (<code>23fbbb51</code>) are 100% automated-validator-verified research/audit GeoTIFFs &mdash; <b>DO NOT SUBMIT</b> (spend 0 weekly DrivenData slots today).</p></div>"""
+    rc = read("evidence/h36_tdr_pds_run_card.json") or {}
+    exp_rows = "".join(
+        f"<tr><td><b>{esc(r.get('experiment',''))}</b></td><td>{r.get('holdout_dti_visible_v3',0):.5f} "
+        f"[{r.get('holdout_dti_ci95',[0,0])[0]:.4f}, {r.get('holdout_dti_ci95',[0,0])[1]:.4f}]</td>"
+        f"<td>{r.get('censored_d0_control_dti',0):.5f}</td><td>{r.get('sgmc_off_catalogue_raw_dti',0):.5f}</td></tr>"
+        for r in rc.get("experiment_progression", [])
+    )
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; nine focus sites and the 0.2778 owner-reported portfolio high</h2>
+<p>Every historical group score below is <b>[OWNER-REPORT]</b>; no organizer receipt binds each archived raster hash to the reported score. The supplied `0.3195` is a dated historical public-leader observation, not the current leader. Current official public page read: <b>#{int((read('registry/current_status.json', {}) or {}).get('leaderboard_top', {}).get('rank', 1))} = {(read('registry/current_status.json', {}) or {}).get('leaderboard_top', {}).get('score', 'unknown')}</b> ({esc((read('registry/current_status.json', {}) or {}).get('leaderboard_top', {}).get('team', 'unknown'))}). See the timestamped evidence. Full reports:
+<a href="research/arena9-results-and-nine-site-executive-summary.md">current Arena9 + nine-site review</a> &middot;
+<a href="../evidence/focus_sites_release_review_20261026.json">pinned source receipt</a>.</p>
+<table><tr><th>site &amp; HEAD</th><th>best historical submission</th><th>score</th><th>byte forensics &amp; 2026-10-26 status</th><th>verdict today</th></tr>{trs}</table>
+<h3>Metric mechanism: why sparse descendants can beat their thick parent</h3>
+<p>The correct identity is <code>DTI = TP / (TP + 0.2 FP + 0.8 FN) = T / (0.2(T + S - M) + 0.8|G|)</code>. The nested H19-5 &rarr; D2.8 &rarr; B=1 &rarr; B=2 file lineage is recorded in the audit; thinning can reduce false-positive mass while retaining credit. Since the private truth and organizer score-to-file receipts are unavailable here, this is a plausible mechanism, not causal proof. Earlier hidden-TP/recall estimates based on a non-equivalent denominator were withdrawn; no exact reachability claim is made for 0.3195 or the current public leader.</p>
+<h3>Historical Round-6 H36-1 progression (<code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, 22,232 withheld positives)</h3>
+<table><tr><th>experiment</th><th>HOLDOUT-DTI (v3-vis, 95% CI)</th><th>censored d0 control</th><th>off-catalogue SGMC DTI</th></tr>
+<tr><td>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</td><td>0.09920 [0.0820, 0.1222]</td><td>0.09920</td><td>0.09606</td></tr>
+{exp_rows}</table>
+<p><b>Bottom line:</b> <code>h33-h33-2-b2</code> has the strongest focus-site score claim (0.2778 OWNER-REPORT) but is already recorded as submitted. Arena9 is the latest format-valid audit artifact and failed primary holdout and literal lane uniqueness. <b>DO NOT SUBMIT any reviewed new file; spend 0 weekly slots today.</b></p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -648,7 +673,7 @@ scarce weekly submission is worth spending.</p>
 <div class=card><h3>Verified in this repository</h3><ul>
 <li>the published metric formula, the published worked example, and the identity
 <code>DTI = T/(0.2(T+S−M)+0.8|G|)</code> (the suite runs in CI on every push: <code>pytest tests -q</code>);</li>
-<li>the credit bar <code>k &gt; 0.2·DTI</code> that every emitted pixel must clear;</li>
+<li>the idealized isolated-pixel bar <code>k &gt; 0.2·DTI</code> (general additions require marginal TP/FP/FN);</li>
 <li>the byte identity (sha256) of every raster this site offers;</li>
 <li>the official source links on the <a href="sources.html">sources</a> page.</li></ul></div>
 <div class=card><h3>Not claimed</h3><ul>
@@ -659,20 +684,8 @@ scarce weekly submission is worth spending.</p>
 <li>the submitted file is a candidate, <b>not</b> a proven improvement.</li></ul></div>
 </div>
 <h2>The brief's question, answered</h2>
-<p><b>Why did the dotted H19-5 file score highest?</b> Because the metric is a budget: every unit of
-prediction mass that is not the best cover of a truth pixel costs 0.2, and one that is earns at most
-1. Thinning a thick surface while keeping its geometry removes mass that was already covered — it
-raises the credit per emitted pixel and moves the file to the point where the marginal pixel's
-credit equals the break-even bar. The group measured that break-even empirically at
-<b>0.0548</b>&nbsp;credit per dot; this repository derives the same number from the published
-formula, <code>0.2·0.26 = 0.0520</code>. Two independent routes, one answer.</p>
-<p><b>Can we beat {esc(lb_top['score'] if lb_top else 'the leader')}?</b> Only by raising the
-<em>credit density</em> of the top of the ranking: at the same emitted mass the leader needs
-≈25&nbsp;% more mean credit per pixel than the group's best field delivers. No public catalogue can
-supply that — the newest public compilation is already inside the given catalogue
-({esc(fl.get('evidence', {}).get('h60_2_catalogue_difference.json', {}).get('gdr_qfaults_v2', {}).get('px_total', 59065))}
-px, of which all but one lie within 300&nbsp;m of it). The path is a better detector plus the
-two-round objective, and the plan is <a href="hypotheses.html">ranked here</a>.</p>"""]
+<p><b>Why might thinning help?</b> The DTI charges uncredited prediction mass through its false-positive term. If thinning removes predictions that contribute little marginal hidden-truth credit while retaining useful coverage, the score can rise. The recorded nested file lineage is consistent with that mechanism, but private truth and an exact-byte organizer receipt are absent, so the historical 0.2778 attribution is OWNER-REPORT and causality is unproved.</p>
+<p><b>Is improvement over the reported 0.2778 supported?</b> No new compliant holdout was run in this checkout: the competition rasters and cached feature stack are absent. Existing alternatives are audit-only or negative, and none is authorized to spend a slot. Keep the release verdict <b>DO NOT SUBMIT</b>; a new candidate must beat the compliant holdout incumbent with its uncertainty and pass all registry, leakage, format, and independent-selector gates before a score improvement is supported. The research backlog is <a href="hypotheses.html">here</a>.</p>"""]
 
     parts.append(model_mc_section(fl))
     if hold:
@@ -721,12 +734,10 @@ claim.</p>""")
 
     gap_txt = ""
     if lb_top and best_claim:
-        gap = float(lb_top["score"]) - float(best_claim["score"])
-        need = (float(lb_top["score"]) / float(best_claim["score"]) - 1) * 100
-        gap_txt = (f"<p>The gap to the public leader is <b>{gap:+.4f}</b> — a "
-                   f"<b>{need:+.1f}&nbsp;%</b> increase in the score, which through the metric's own "
-                   f"arithmetic is a similar increase in mean credit per emitted pixel at constant "
-                   f"mass.</p>")
+        gap_txt = (f"<p>Comparison is descriptive only: the portfolio value {float(best_claim['score']):.4f} is OWNER-REPORT, "
+                   f"while the public {esc(lb_top.get('participant', 'leader'))} value {float(lb_top['score']):.4f} "
+                   f"is a timestamped observation of another participant. Their difference is not a predicted score, "
+                   f"hidden-truth estimate, or evidence that a new method can close the gap.</p>")
     parts.append(f"""<h2>Where we stand</h2>
 <div class=grid>
 <div class=card><h3>Public leaderboard <span class=pill>verified read</span></h3>
@@ -748,7 +759,7 @@ claim.</p>""")
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     """How to submit, exactly — driven by registry/current_status.json (no hand-typed status)."""
     st = read("registry/current_status.json") or {}
-    n = st.get("newest_unique", {})
+    n = st.get("arena9_candidate") or st.get("newest_unique", {})
     ok_any = bool(st.get("any_file_ok_to_submit"))
     fname = Path(n.get("file", f"{name}.tif")).name
     note = n.get("note", (sub or {}).get("note", ""))
@@ -784,7 +795,7 @@ python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/restore_data.py --group core --target-dir .cache/gems_data
 PYTHONPATH=src .venv/bin/python scripts/check_submission.py docs/downloads/{esc(fname)} \\
     --template .cache/gems_data/sample_submission.tif --strict-finite</pre>
-<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} is fully valid and ready for submission!</code>
+<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} passes automated format/range validation. This is not scientific or weekly-slot authorization.</code>
 (format only &mdash; it is not a clearance).</p></div>
 <div class=card><h3>3 &middot; Upload on DrivenData</h3>
 <ol>
@@ -810,21 +821,16 @@ cheap. Consequences:</p>
 that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
 <li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
 than in round 1.</li></ul></div>
-<div class=card><h3>4 · If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
-<p>The form requires a single-band raster whose values are between 0 and 1. The failure mode seen in
-this project was <b>NaN pixels inside the data footprint</b>; a value outside the footprint but inside
-the raster can fail it too. Both files offered here are built so that <em>every pixel inside the
-footprint is finite and inside [0,&nbsp;1]</em>, and the difference between them is only what they
-write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload the zeros variant —
-identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
-inferred from the files and the observed error, not quoted from the platform
-(<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
 <div class=card><h3>5 &middot; If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
-<p>Root cause measured in <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause</a>:
-NaN or float32-sentinel pixels inside the scored footprint (3,061 footprint pixels are sentinel-valued in the feature
-raster). Every file published here is written by a fail-closed writer that refuses NaN, &plusmn;inf and out-of-range values,
-and the <code>-zeros</code> variant has no NaN anywhere. If you ever see the error, you uploaded a NaN-outside or a
-foreign file.</p></div>
+<p>The measured root cause was NaN or float32-sentinel pixels inside the scored footprint; a value outside
+the footprint but inside the raster may fail too. For any future authorized candidate, select its
+<code>-zeros.tif</code> variant: it has identical predictions to the archival NaN twin but writes finite 0.0
+outside the footprint and therefore contains no NaNs anywhere. The fail-closed writer rejects non-finite,
+sentinel, and out-of-range footprint values, and <code>check_submission.py --strict-finite</code> verifies the
+whole saved array. Do not use format guidance to upload a negative research artifact. The exact portal
+validator is not public, so this explanation is inferred from measured files and the observed error, not
+quoted from the platform (<a href="irregularities.html">IR-32-VERIFY-01</a> ·
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">root-cause record</a>).</p></div>
 <div class=card><h3>6 &middot; Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
@@ -836,10 +842,13 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 RESEARCH_NOTES = [
     ("h44-spcp-preregistration-20261026.md",
-     "H44-1 SPCP (2026-10-26): pre-registered 5 untried geological/geothermal-vent hypotheses (H44-1..H44-5), "
-     "Phillips (2007) potential-field curvature tensor + hydrothermal conduit + Bekker-Davis SAR-PU propensity "
-     "debiasing (+66.7% off-catalogue SGMC lift curing IR-A8A-PU-BIAS-01, paired +0.0133 [+0.0030, +0.0248] over "
-     "0.2778 OWNER-REPORT Champion), and IR-32-DOC-BAND05-01 fix"),
+     "H44-1..H44-5 (2026-10-26): SAR-PU propensity-debiased potential-field curvature tensor & "
+     "hydrothermal-conduit breach (SGMC-cal 0.07774 beating Champion 0.06412, P=0.998; cures IR-A8A-PU-BIAS-01)"),
+    ("arena9-results-and-nine-site-executive-summary.md",
+     "Arena9 result and refreshed nine-site executive review: PGRN-PU negative, 304-raster literal "
+     "uniqueness stop, strict saved-byte validation, lineage audit, and no-slot decision"),
+    ("arena9-preregistration-and-hypotheses.md",
+     "Arena9 frozen A9-H1..H5 ranking, physical mechanisms, named mimics, costs, lane, and gates"),
     ("arena8a-preregistration-and-hypotheses.md",
      "Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest "
      "concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression "
@@ -908,15 +917,10 @@ the fast implementation against it; it also reproduces the published worked exam
 <p><code>FNw = |G| − TPw</code> exactly, so with <code>T = TPw</code>, <code>S = &sum;p</code> and
 <code>M = &sum;<sub>x</sub> p(x)·max<sub>g</sub>k</code>:</p>
 <p style="text-align:center"><code>DTI = T / ( 0.2·(T + S − M) + 0.8·|G| )</code></p>
-<p>Adding one unit of mass at weight <code>k</code> therefore changes the denominator by exactly 0.2,
-giving the <b>credit bar</b>:</p>
-<p style="text-align:center"><code>add mass &hArr; k &gt; 0.2·DTI</code></p>
-<p>At the group's claimed 0.2600 the bar is <b>0.0520</b>; at the public leader's
-{esc((fl.get('leaderboard') or [{}])[0].get('score', 0.3262))} it is
-<b>{0.2 * float((fl.get('leaderboard') or [{}])[0].get('score', 0.3262)):.4f}</b>. The group's own
-measured marginal credit per added dot was 0.0548 — the file sits within a few percent of its own
-optimum, which is the strongest available evidence that the dotted file is not leaving easy points
-on the table.</p></div>
+<p>For an added binary pixel that contributes its full kernel credit <code>k</code> to previously uncovered truth, the denominator rises by 0.2. In this idealized case the <b>break-even</b> is:</p>
+<p style="text-align:center"><code>k &gt; 0.2·DTI</code></p>
+<p>For a general addition to partially covered truth, test the actual marginal TP/FP/FN changes; the scalar bar is not universal.</p>
+<p>At the group's claimed 0.2600 the idealized bar is <b>0.0520</b>. The group's reported mean marginal credit per added dot was 0.0548; this is not the same quantity and does not establish an optimum.</p></div>
 <h2>2 · Why the dotted file won, quantitatively</h2>
 <p>From 121,131 emitted pixels (solid H19-5) to 44,090 (dotted D2.8) the mean credit per pixel rose
 from 0.0520 to 0.0893 (owner-reported) while the total mass fell by 64&nbsp;%. The metric's own
@@ -955,58 +959,10 @@ every given-catalogue pixel (by construction) and only
 enriched on the off-catalogue SGMC set versus the footprint background, with
 <b>{esc(ev.get('emitted_on_sgmc_off_catalogue_px', 2014))}</b> of its 121,131 pixels sitting there.
 That is the measured size of the discovery lane this system could still open.</p>
-<h2>6 · Round 4 (H33): the live-anchored removal rule, and what it killed</h2>
-<p>The single most informative measurement available to this project is a pair of the group's own
-files that differ by <b>exactly one mechanism</b>: the dotted D2.8 emission
-(<code>GEMS28-H27-4-R1-SOLO-D2.8</code>, 40,199 dots, owner-reported live score
-<b>0.2600</b>) and its catalogue-flank prune at B&nbsp;=&nbsp;1
-(40,199&nbsp;&minus;&nbsp;3,891&nbsp;=&nbsp;36,308 dots, owner-reported live score
-<b>0.2708</b>). <code>existing_faults.tif</code> is byte-identical to <code>labels.tif</code>, so
-the "blind" prune removed exactly the 3,891 dots within 100&nbsp;m of the published catalogue and
-nothing else. Inverting that pair through the official metric under a zero-credit assumption
-recovers the live true-positive weight, the live false-positive mass, and therefore a
-<b>credit-loss budget</b> for any further removal.</p>
-<table>
-<tr><th>quantity recovered by the inversion</th><th>value</th><th>what it means</th></tr>
-<tr><td>weighted true positives, TP<sub>w</sub></td><td>5,073.3</td><td>the live set's credit mass</td></tr>
-<tr><td>denominator, D</td><td>18,734.4</td><td>implies |G| = 12,226 hidden truth pixels</td></tr>
-<tr><td>mean credit per emitted dot</td><td>0.1262</td><td>the group's live efficiency</td></tr>
-<tr><td>implied weighted recall</td><td>0.4150</td><td>41.5 % of the hidden set's weight</td></tr>
-<tr><td>credit-loss budget at B = 1</td><td>210.7</td><td>how much weighted credit a removal may burn</td></tr>
-<tr><td>live break-even bar &tau;<sub>live</sub></td><td>0.05416</td><td>a new dot must beat this to pay for itself</td></tr>
-</table>
-<p><b>The rule that falls out of it</b> (implemented in <code>src/gems32/live_anchor.py</code>): a
-removal of <code>dn</code> dots that costs <code>dS</code> units of off-catalogue weighted credit and
-removes <code>dTP<sub>g</sub></code> units of on-catalogue credit is a live gain iff
-<code>dS &lt; TP_w · (0.2·dn &minus; 0.8(dS &minus; dTP_g)) / D</code>. The gate used for every
-submission decision is the <b>safety factor</b> = budget &divide; measured cost; a removal arm is
-slot-eligible only at safety &ge; 2.0.</p>
-<h3>What round 4 measured, arm by arm</h3>
-<table>
-<tr><th>arm</th><th>dots</th><th>live-mirror &Delta;DTI</th><th>folds</th><th>credit/dot</th><th>safety</th><th>verdict</th></tr>
-<tr><td>base &mdash; GEMS28-H27-4-R1-SOLO-D2.8</td><td>40,199</td><td>0.263051</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the anchor</td></tr>
-<tr><td>D2.8 emission (live 0.2600)</td><td>44,090</td><td>0.251593</td><td>&mdash;</td><td>&mdash;</td><td>&mdash;</td><td>the other anchor</td></tr>
-<tr><td><b>H33-2-B2 (catalogue flank B = 2)</b></td><td><b>37,654</b></td><td><b>+0.004870</b></td><td><b>4/4</b></td><td>&mdash;</td><td><b>2.08</b></td><td class=ok><b>WINNER &mdash; shipped primary</b></td></tr>
-<tr><td>H33-2-B3 (catalogue flank B = 3)</td><td>35,483</td><td>+0.001317</td><td>3/4</td><td>&mdash;</td><td>1.27</td><td class=bad>rejected: safety &lt; 2.0</td></tr>
-<tr><td>H33-2B2 + H33-1</td><td>38,554</td><td>+0.004978</td><td>4/4</td><td>&mdash;</td><td>&mdash;</td><td>slot-eligible secondary</td></tr>
-<tr><td>H33-1-P600A1800 (geothermometry)</td><td>41,999</td><td>+0.002639</td><td>2/4</td><td>0.00541</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-<tr><td>H33-1-P300A900 (geothermometry)</td><td>41,099</td><td>+0.000524</td><td>2/4</td><td>0.00215</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-<tr><td>H33-5-P300A900 (tip / step-over)</td><td>41,099</td><td>+0.001870</td><td>3/4</td><td>0.00767</td><td>&mdash;</td><td class=bad>FALSIFIED as an addition arm</td></tr>
-</table>
-<p><b>Why B = 2 and not B = 1 or B = 3.</b> B = 1 is already live-tested and produced 0.2708.
-B = 2 removes 2,545 further dots (6.3 % of the mass) for 58.6 units of off-catalogue weighted credit
-(1.5 %) against a budget of 125.1 &mdash; safety 2.08 &mdash; and improves the live-mirror margin in
-all four quadrants. B = 3 spends the budget down to safety 1.27 and only wins 3 of 4 quadrants, so it
-is rejected. The group only ever tested B = 1 live; <b>B = 2 is a new, non-obvious operating
-point.</b></p>
-<h3>IR-33-LM-01: the drift finding that bounds what the live mirror may decide</h3>
-<p>Outside its validated regime the live mirror (LM-cal) ranks a 7,943-dot "safe-mass-pruned"
-variant at <b>0.4413</b> &mdash; 1.35&times; the entire public leaderboard's top score. The live
-record refutes that number. For the pruned file not to exceed 0.3262, <b>at least 16 % of the 0.2708
-emission's weighted credit must sit on dots the off-catalogue truth model calls credit-neutral</b>.
-LM-cal is therefore licensed only for small, mechanism-matched perturbations of a live-scored base
-(40&nbsp;k&ndash;62&nbsp;k dots), which is exactly why the slot gate requires the live-anchored safety
-factor in addition to the mirror margin.</p>
+<h2>6 · Portfolio score attribution and the historical B-pruning hypothesis</h2>
+<p>The portfolio records list a nested H19-5 family with owner-reported values: H19-5 (121,131 dots; 0.1922), D2.8 (44,090; 0.2600), solo/B=1 (40,199; 0.2708), and H33/B=2 (37,654; 0.2778). No submission-page receipt linking the exact TIFF hashes to these scores is stored here; they are <b>OWNER-REPORT</b>, not <b>ORGANIZER-CONFIRMED</b> or <b>HOLDOUT-DTI</b>.</p>
+<p>A plausible but unproven mechanism is that pruning can remove prediction mass with little hidden-truth credit while preserving useful coverage. The hidden truth is unavailable, so the archived score sequence does not identify per-dot credit, hidden TP/FP/FN, recall, or the causal contribution of B=2. Earlier live-anchor inversions, credit-loss budgets, and exact reachability estimates used unsupported assumptions and are withdrawn; do not use them to promote a candidate. The corrected equations and evidence limits are in <a href="research/why-02778-analysis-20261025.md">the metric review</a> and <a href="research/score-ceiling-analysis.md">the archived score-ceiling analysis</a>.</p>
+<p>No new compliant holdout was run in this checkout because the competition rasters and cached feature stack are absent. Existing candidate TIFFs remain audit artifacts with <b>DO NOT SUBMIT</b> verdicts. No new candidate or score projection is being offered.</p>
 <h2>7 · Research notes (readable on GitHub, one click each)</h2>
 <p class=mut>Every number on this site is produced by a script in <code>scripts/</code> and stored in
 <code>evidence/</code> or <code>registry/</code>. These are the write-ups, in the order they were
@@ -1180,13 +1136,16 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     for fname, html_text in pages.items():
         (DOCS / fname).write_text(html_text)
+    (DOCS / "data").mkdir(parents=True, exist_ok=True)
+    if (ROOT / "evidence" / "arena9_run_card.json").exists():
+        arena9_text = (ROOT / "evidence" / "arena9_run_card.json").read_text()
+        (DOCS / "data" / "arena9_run_card.json").write_text(arena9_text)
+        (DOCS / "data" / "latest-run-card.json").write_text(arena9_text)
     if (ROOT / "evidence" / "arena8a_run_card.json").exists():
-        (DOCS / "data").mkdir(parents=True, exist_ok=True)
         (DOCS / "data" / "arena8a_run_card.json").write_text(
             (ROOT / "evidence" / "arena8a_run_card.json").read_text()
         )
     if (ROOT / "evidence" / "h44_spcp_run_card.json").exists():
-        (DOCS / "data").mkdir(parents=True, exist_ok=True)
         (DOCS / "data" / "h44_spcp_run_card.json").write_text(
             (ROOT / "evidence" / "h44_spcp_run_card.json").read_text()
         )

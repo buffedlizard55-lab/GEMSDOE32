@@ -148,8 +148,8 @@
     "worst_channel": "curv_s2"
   },
   "correlation_and_overlap_vs_registry": {
-    "n_unique_rasters_checked": 289,
-    "n_genuine_rasters_checked": 288,
+    "n_unique_rasters_checked": 290,
+    "n_genuine_rasters_checked": 289,
     "genuine_pre_placement_surface_passed": true,
     "genuine_final_dots_passed": true,
     "max_abs_surface_spearman": 0.120401,
@@ -184,7 +184,16 @@
       "dots_spearman": -0.000483,
       "within_3px_fraction": 0.996893
     },
-    "literal_all_rasters_final_passed": false
+    "literal_all_rasters_final_passed": false,
+    "arena9_peer_comparison": {
+      "name": "GEMSDOE32:docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+      "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+      "other_dots": 37654,
+      "surface_spearman": 0.087676,
+      "dots_spearman": 0.02693,
+      "within_3px_fraction": 0.427657,
+      "exact_shared_dots": 1281
+    }
   },
   "artifacts": {
     "primary_zeros_tif": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",

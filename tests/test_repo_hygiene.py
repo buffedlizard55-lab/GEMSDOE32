@@ -82,5 +82,5 @@ def test_readme_leads_with_the_current_fail_closed_decision():
     head = text[:6000]
     assert "DO NOT SUBMIT" in head
     assert "audit artifact" in head.lower()
-    assert "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif" in head
+    assert "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif" in head
     assert "not enough to authorize a competition upload" in head.lower()

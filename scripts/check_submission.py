@@ -37,7 +37,10 @@ def main() -> int:
 
     print(json.dumps(report.to_dict(), indent=2))
     if report.passed:
-        print(f"\n[PASSED] {args.geotiff.name} is fully valid and ready for submission!")
+        print(
+            f"\n[PASSED] {args.geotiff.name} passes automated format/range validation. "
+            "This is not scientific or weekly-slot authorization."
+        )
         return 0
     else:
         print(f"\n[FAILED] {args.geotiff.name} failed one or more validation checks.", file=sys.stderr)
