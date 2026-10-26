@@ -167,5 +167,6 @@
   }
  ],
  "round6_session_verdict": "promote",
- "status_line_current": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established. Independently (this session): SGMC +0.0465 [+0.0255, +0.0681] vs champion, but that instrument does not track live scores outside the champion family (IR-42-INSTR-02)."
+ "status_line_current": "DO NOT SUBMIT: format-valid historical R6-1 artifact only; current-session lane is absent and fold-local hide-and-recover promotion evidence is not established. Independently (this session): SGMC +0.0465 [+0.0255, +0.0681] vs champion, but that instrument does not track live scores outside the champion family (IR-42-INSTR-02).",
+ "arena8a_candidate": "registry/arena8a_submission.json"
 }

@@ -15,6 +15,7 @@ def main():
     ap.add_argument("--out", default=str(work_dir() / "feature_stack.npy"))
     ap.add_argument("--receipt", default="registry/feature_receipt.json")
     a = ap.parse_args()
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     rec = features.build(a.features, a.out)
     rec["seconds"] = round(time.time() - t0, 1)

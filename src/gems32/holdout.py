@@ -23,6 +23,7 @@ COLLAR_PX = 15       # 1.5 km spatial buffer between train and test quadrants
 DOMAIN_ERODE = 12    # 1.2 km boundary erosion
 NEAR_LABEL_PX = 3    # 300 m kernel radius around known catalogue faults
 ESTIMATED_LB_HIDDEN_TRUTH_PX = 12691.0  # Calibrated from blind lattice-s5 (0.0904) & h19-5->d1.5->d2.8
+EVALUATOR_VERSION = "GEMSDOE32-HOLDOUT-v3-visible-only"
 HOLDOUT_EVALUATOR_VERSION = "GEMSDOE32-HOLDOUT-v3-visible-gated"
 HIDE_RECOVER_EVALUATOR_VERSION = "GEMSDOE32-HIDE-RECOVER-v3.0"
 SGMC_EVALUATOR_VERSION = "GEMSDOE32-SGMC-CAL-v3.0"
@@ -53,7 +54,9 @@ class PreparedCell:
     truth_coords: tuple[np.ndarray, np.ndarray]  # indices of truth pixels inside bbox
     k_dg_sub: np.ndarray          # kernel(distance_to_truth) inside bbox
     n_truth: int
+    visible_sub: np.ndarray | None = None
     d_visible_sub: np.ndarray | None = None  # distance to VISIBLE faults only inside bbox (fixes IR-32-INSTR-03)
+    visible_full: np.ndarray | None = None
     d_vis_sub: np.ndarray | None = None
 
     def __post_init__(self) -> None:
@@ -149,7 +152,12 @@ def load_holdout_context(ddir: Path, hide_frac: float = 0.20) -> HoldoutContext:
             n_t = int(t_coords[0].size)
             dg_sub = distance_transform_edt(~truth_sub)
             k_dg_sub = kernel(dg_sub)
-            d_vis_sub = distance_transform_edt(~visible[sl]).astype(np.float32)
+            vis_sub = visible[sl].copy()
+            d_vis_sub = (
+                distance_transform_edt(~vis_sub).astype(np.float32)
+                if vis_sub.any()
+                else np.full(vis_sub.shape, 999.0, dtype=np.float32)
+            )
             cells.append(
                 PreparedCell(
                     key=f"draw{seed}_fold{fold}",
@@ -160,7 +168,9 @@ def load_holdout_context(ddir: Path, hide_frac: float = 0.20) -> HoldoutContext:
                     truth_coords=t_coords,
                     k_dg_sub=k_dg_sub,
                     n_truth=n_t,
+                    visible_sub=vis_sub,
                     d_visible_sub=d_vis_sub,
+                    visible_full=visible.copy(),
                 )
             )
 
@@ -312,6 +322,119 @@ def evaluate_candidate_holdout(mask: np.ndarray, ctx: HoldoutContext, name: str 
         "drift_corrected_holdout_mean": drift_corrected_mean,
         "drift_corrected_holdout_std": float(np.std(list(drift_quads.values()))),
         "drift_corrected_per_quadrant": drift_quads,
+    }
+
+
+def pooled_dti_from_cells(folds: dict, n_boot: int = 2000, seed: int = 32) -> dict:
+    """Compute exact pooled DTI (alpha=0.2, beta=0.8, 300 m kernel) and 95% cluster bootstrap CI."""
+    cells = [(float(v["tp"]), float(v["fp"]), int(v["n_truth"])) for v in folds.values()]
+    tp = sum(c[0] for c in cells)
+    fp = sum(c[1] for c in cells)
+    n_truth = sum(c[2] for c in cells)
+    fn = float(n_truth) - tp
+    dti_val = float(tp / (tp + ALPHA * fp + BETA * fn + EPS)) if n_truth > 0 else 0.0
+
+    rng = np.random.default_rng(seed)
+    n_c = len(cells)
+    boots = []
+    if n_c > 0 and n_truth > 0:
+        for _ in range(n_boot):
+            pick = [cells[i] for i in rng.integers(0, n_c, n_c)]
+            btp = sum(c[0] for c in pick)
+            bfp = sum(c[1] for c in pick)
+            bn = sum(c[2] for c in pick)
+            boots.append(btp / (btp + ALPHA * bfp + BETA * (bn - btp) + EPS))
+        lo, hi = np.percentile(boots, [2.5, 97.5])
+    else:
+        lo, hi = 0.0, 0.0
+
+    return {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": EVALUATOR_VERSION,
+        "pooled_dti": dti_val,
+        "ci95": [float(lo), float(hi)],
+        "tp": float(tp),
+        "fp": float(fp),
+        "fn": float(fn),
+        "n_withheld_positives": int(n_truth),
+        "n_cells": int(n_c),
+        "ci_method": f"cluster bootstrap over {n_c} holdout cells (draws 20/21 x 4 quadrants), {n_boot} reps",
+    }
+
+
+def evaluate_visible_only_holdout(
+    cell_masks: dict[str, np.ndarray] | np.ndarray,
+    ctx: HoldoutContext,
+    b_collar_px: float = 2.0,
+    name: str = "candidate",
+    n_boot: int = 2000,
+    seed: int = 32,
+) -> dict:
+    """True hide-and-recover evaluator fixing IR-32-INSTR-03 in the shared template.
+
+    In every holdout cell (seed, fold):
+      1. Whole fault components are withheld with a 15-px (1.5 km) collar buffer.
+      2. Catalogue-based exclusion (`d_visible_sub > b_collar_px`) is derived STRICTLY from that
+         cell's `visible` faults — NEVER from the withheld test faults (`hidden_full`).
+      3. Visible faults are masked pixel-exactly (`active_sub = domain[sl] & ~visible[sl]`).
+      4. Pooled DTI (alpha=0.2, beta=0.8, 300 m triangular kernel) is computed across all 8 cells.
+    """
+    folds: dict[str, dict] = {}
+    is_dict = isinstance(cell_masks, dict)
+
+    for cell in ctx.cells:
+        sl = cell.bbox
+        raw_m = cell_masks[cell.key] if is_dict else cell_masks
+        m_sub = np.asarray(raw_m[sl], dtype=bool)
+        if b_collar_px > 0.0 and cell.d_visible_sub is not None:
+            m_sub = m_sub & (cell.d_visible_sub > float(b_collar_px))
+        p_sub = m_sub & cell.active_sub
+        n_emit = int(p_sub.sum())
+        n_t = cell.n_truth
+        if n_t == 0 or n_emit == 0:
+            folds[cell.key] = {
+                "dti": 0.0,
+                "coverage": 0.0,
+                "tp": 0.0,
+                "fp": float(n_emit),
+                "n_truth": n_t,
+                "emitted": n_emit,
+            }
+            continue
+
+        dp_sub = distance_transform_edt(~p_sub)
+        d_at_truth = dp_sub[cell.truth_coords]
+        tp = float(kernel(d_at_truth).sum())
+        fn = float(n_t) - tp
+        fp = float((1.0 - cell.k_dg_sub[p_sub]).sum())
+        dti_val = float(tp / (tp + ALPHA * fp + BETA * fn + EPS))
+        folds[cell.key] = {
+            "dti": dti_val,
+            "coverage": float(tp / n_t),
+            "tp": tp,
+            "fp": fp,
+            "n_truth": n_t,
+            "emitted": n_emit,
+        }
+
+    pooled = pooled_dti_from_cells(folds, n_boot=n_boot, seed=seed)
+    present_folds = sorted({c.fold for c in ctx.cells})
+    per_quad = {
+        (FOLD_NAMES[f] if 0 <= f < len(FOLD_NAMES) else f"F{f}"): float(
+            np.mean([c["dti"] for c_obj, c in zip(ctx.cells, folds.values()) if c_obj.fold == f])
+        )
+        for f in present_folds
+    }
+    return {
+        "candidate_id": name,
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": EVALUATOR_VERSION,
+        "b_collar_px": float(b_collar_px),
+        "pooled": pooled,
+        "mean_cell_dti": float(np.mean([v["dti"] for v in folds.values()])),
+        "per_quadrant_dti": per_quad,
+        "total_emitted_across_cells": int(sum(v["emitted"] for v in folds.values())),
+        "cells": folds,
     }
 
 

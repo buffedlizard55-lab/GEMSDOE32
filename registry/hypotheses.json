@@ -709,6 +709,97 @@
       "preregistration": "docs/research/hypotheses-round6-20261026.md"
     },
     {
+      "id": "A8A-H1",
+      "rank": 1,
+      "status": "measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE \u2014 DO NOT SUBMIT)",
+      "title": "Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits",
+      "layers": [
+        "lidar_scarp_features_u8 (b2 step_max, b3/b4 lapneg*lappos, b7/b8 |downface-upface|, b9 cross, b10 coh100, b11 strike, b12 valid)",
+        "training_features (rtp b2, tmi b1, tmi_hg b3, iso_grav_anom b13, grav_hg b18, depth_to_base_surf b15, cond_surf b17, det_elev b12, geod_shearrate b8)",
+        "geodawn_rad_u8 (K, eU, eTh) + gdr_wellspring_in_footprint.csv (temp_c, na_k_c, chalcedony_c; dist_known_fault_px dropped)"
+      ],
+      "signature": "One-sided 1 m LiDAR crest-toe dipole (missing tiles routed via native NaN) concordant with true Miller-Singh (1994) RTP/TMI tilt-zero lineaments, gravity/MT basement steps, and K/Th + geothermometer halos; sharpened onto 1-px cross-strike crests",
+      "why_off_catalogue": "Catches sub-metre degraded scarps on valid 3DEP tiles and covered sub-alluvial transfer/step-over faults where >=2 subsurface/hydrothermal domains align; dual-head piedmont weighting mitigates range-front domain shift",
+      "differs_from_repo": "Fixes IR-32-BAND6-TC-01 (Band 6 is radiometric TC, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR mis-indexing + 24.6% missing-tile zeros); adds 1-px cross-strike crest sharpening; Mimic: fluvial terrace risers / gullies (suppressed by |downface-upface| & >=2-domain gate)",
+      "expected_dti": "HOLDOUT-DTI 0.10679 [0.08765, 0.12850] (beats CTRL 0.09893 & D2.8 0.09920; SGMC-cal 0.05509 < 0.06412)",
+      "cost": "3/3 session experiments (~14 min CPU)",
+      "data_status": "all inputs hash-pinned in .cache/gems_data",
+      "implementation": "src/gems32/mdrc.py; scripts/arena8a_run_experiments.py; evidence/arena8a_run_card.json",
+      "measured": {
+        "visible_only_holdout_dti_44090": 0.10679,
+        "visible_only_holdout_dti_37654": 0.10552,
+        "ctrl_35ch_visible_only_holdout": 0.09893,
+        "d28_vis_b2_holdout": 0.0992,
+        "unsupervised_4domain_sgmc_cal": 0.07651,
+        "supervised_sgmc_cal": 0.05509
+      },
+      "verdict": "NEGATIVE (DO NOT SPEND SLOT): beats CTRL-35ch and D2.8 on visible-only HOLDOUT-DTI (7/8 cells), but supervised y=0 training on incomplete catalogue suppresses pre-Quaternary SGMC faults (0.05509 < 0.06412)."
+    },
+    {
+      "id": "A8A-H2",
+      "rank": 2,
+      "status": "preregistered (channel tested inside MDRC; standalone PU arm deferred)",
+      "title": "Salem RTP Magnetic Tilt-Depth vs Gravity Basement-Depth Discordance (Intra-Basin Faulted Volcanics)",
+      "layers": [
+        "rtp (2), depth_to_base_surf (15), iso_grav_anom (13), grav_hg (18), mag_up150 (geodawn_extensions_u8)"
+      ],
+      "signature": "Half-width between +/-pi/4 Miller-Singh RTP tilt contours (z_tilt) strictly shallower than gravity depth_to_base_surf (z_tilt << z_base) along a persistence ridge",
+      "why_off_catalogue": "Detects blind intra-basin faulted Neogene basalts/tuffs buried 100-400 m beneath playa/alluvial cover above 1.5-3 km Mesozoic basement, invisible to surface mapping",
+      "differs_from_repo": "First quantitative comparison of Salem et al. (2007) magnetic source depth against gravity basement depth; Mimic: un-faulted buried volcanic flow margins / dikes",
+      "expected_dti": "medium (+0.003 to +0.008 in PU ensemble)",
+      "cost": "low (derived from cached rasters)",
+      "data_status": "in-repo hash-pinned",
+      "verdict": "Channel mag_salem_tilt_depth_discord verified leak-free in EXP1 canary; standalone positive-unlabeled test queued for next session."
+    },
+    {
+      "id": "A8A-H3",
+      "rank": 3,
+      "status": "preregistered (solo Domain IV measured in EXP1: HOLDOUT-DTI 0.04346, SGMC 0.04669)",
+      "title": "Potassic Alteration Edge (K/Th) + Magnetite-Destruction Trough + MT Smectite Clay-Cap Boundary",
+      "layers": [
+        "geodawn_rad_u8 (K, eTh, eU), rtp (2), tmi_hg (3), cond_surf (17), gdr_wellspring_in_footprint.csv, gdr_volcanic_vents_in_footprint.csv"
+      ],
+      "signature": "High K/eTh potassic/adularia alteration gradient co-located with RTP demagnetization trough, MT cond_surf clay-cap edge, and >60 C geothermometer outflow",
+      "why_off_catalogue": "Upwelling geothermal brines sulfidize magnetite and enrich potassium along blind permeable fault intersections even without Quaternary surface rupture",
+      "differs_from_repo": "Pairs K/Th compositional gradients with magnetite-destruction troughs and label-free GDR geothermometers (dropping dist_known_fault_px); Mimic: un-faulted rhyolite tuff contacts & evaporitic playa clays",
+      "expected_dti": "solo HOLDOUT-DTI 0.04346; SGMC-cal 0.04669",
+      "cost": "low",
+      "data_status": "in-repo hash-pinned",
+      "verdict": "Solo unsupervised Domain IV measured in EXP1; strongest as a corroborating hydrothermal gate rather than standalone detector."
+    },
+    {
+      "id": "A8A-H4",
+      "rank": 4,
+      "status": "preregistered (deferred under 3-experiment budget)",
+      "title": "Walker Lane Transtensional Strike-Deflection & Relay-Ramp Curvature",
+      "layers": [
+        "lidar_scarp_features_u8 (b10 coh100, b11 strike, b12 valid), geod_shearrate (8), geod_2ndinv (9), det_elev (12)"
+      ],
+      "signature": "High angular gradient of doubled-angle scarp strike |grad(cos 2theta, sin 2theta)| inside elevated geodetic shear-rate zones (>70th pct) with saddle curvature",
+      "why_off_catalogue": "Regional catalogues map master range-bounding faults as disconnected lines, systematically omitting curved 0.5-3 km accommodation faults across relay ramps where geothermal permeability peaks",
+      "differs_from_repo": "Prior relay bridges (GEMSDOE27 T-v2, H33-5) extrapolate synthetically from mapped fault tips (violating B-gates or blind to unmapped pairs); A8A-H4 measures strike rotation directly from 1 m LiDAR; Mimic: Lake Lahontan pluvial shorelines",
+      "expected_dti": "targeted local gain in Walker Lane transtensional step-overs",
+      "cost": "low",
+      "data_status": "in-repo hash-pinned",
+      "verdict": "Deferred to respect strict 3-experiment parallel-run budget."
+    },
+    {
+      "id": "A8A-H5",
+      "rank": 5,
+      "status": "DATA-BLOCKED in sandbox (official free USGS URLs verified)",
+      "title": "Sub-Kilometre Relocated Microseismic Planes & 2020 M6.5 Monte Cristo Range Distributed Surface Ruptures",
+      "layers": [
+        "USGS ComCat FDSN Event API (earthquake.usgs.gov/fdsnws/event/1/query), USGS ScienceBase 606f657fd34ef99870188ee5, Zenodo 5302368, ieq_n100a15 (16)"
+      ],
+      "signature": "RANSAC-fitted planar epicentre/hypocentre alignments (<500 m localization) + Koehler et al. (2021) field-mapped sinistral/oblique 2020 MCRE rupture traces",
+      "why_off_catalogue": "Directly images active seismogenic faults at 2-12 km depth and the 28 km 2020 Monte Cristo rupture across previously unmapped Candelaria/playa faults where Band 16 (100 km kernel, r_3km=0.9935) is spatially constant",
+      "differs_from_repo": "Replaces 100 km blurred seismic band with sub-km event alignments paired with RTP/LiDAR corroboration; Mimic: mining blasts & un-faulted geothermal swarm clouds",
+      "expected_dti": "high in SE Walker Lane / Monte Cristo domain once prefetched",
+      "cost": "external prefetch step required outside sandbox",
+      "data_status": "official free public-domain USGS/Zenodo URLs verified; blocked by sandbox egress allowlist",
+      "verdict": "Explicitly flagged DATA-BLOCKED in this sandbox; ready for CI/host prefetch."
+    },
+    {
       "id": "H38-G1",
       "rank": 1,
       "title": "Multi-Physics Hydrothermal-LiDAR-Subsurface Corroborated OOF Detector + Fold-Visible Tip/Relay Mechanics",

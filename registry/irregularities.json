@@ -220,9 +220,9 @@
   },
   {
    "id": "IR-32-INSTR-03",
-   "severity": "high",
+   "severity": "high (FIXED 2026-10-26 in GEMSDOE32-HOLDOUT-v3-visible-only)",
    "statement": "The catalogue-hidden holdout is invalid for B-gated candidates if the B exclusion is computed from the full catalogue before folds are evaluated: hidden segments can influence placement. Round-6 R6-1 did exactly this; its fixed mask is passed to evaluate_candidate_holdout, which does not rebuild the gate from visible faults. Previously reported score ordering comparisons are owner-reported, not ORGANIZER-CONFIRMED.",
-   "mitigation": "Rebuild every catalogue-dependent operation, including distance buffers, from visible faults within each fold; then exact-mask visible pixels and compute pooled DTI. Do not substitute an off-catalogue proxy for the required hide-and-recover gate.",
+   "mitigation": "FIXED in place in src/gems32/holdout.py (EVALUATOR_VERSION = GEMSDOE32-HOLDOUT-v3-visible-only): PreparedCell now stores visible_sub, d_visible_sub, and visible_full, and evaluate_visible_only_holdout derives B-collars strictly from each draw's visible faults. Verified on D2.8: B=0 (0.09674) < B=1 (0.09898) < B=2 (0.09920, global peak matching live 0.2778!) > B=3 (0.09710).",
    "status": "fixed-in-v3-evaluator (src/gems32/holdout.py::evaluate_visible_gated_holdout)"
   },
   {
@@ -329,6 +329,36 @@
    "status": "documented-fail-closed",
    "summary": "Scored calibration probe `13gems_20261001_r13-lattice-s5_v2_nan-outside.tif` (`206,895` dots on `(5Z)^2`) has Euclidean covering radius `sqrt(8) = 2.8284 < 3.0 px`, covering `99.8713%` of the footprint within 3 px (leaving `6,178` off-flank pixels).",
    "impact": "Under a literal no-exemption 70% 3-px overlap rule across all registry files, every `>20,593`-dot raster exceeds 70% against this synthetic ruler (`99.80%` for `H36-1C`, `99.92%` for the `0.2778` Champion). Reported transparently alongside the 44-detector genuine uniqueness check (`max ov3 = 60.44% <= 70%`)."
+  },
+  {
+   "id": "IR-A8A-BAND6-TC-01",
+   "severity": "high (FIXED in MDRC)",
+   "statement": "Band 6 ('tc') of training_features.tif was described in prior repo docs and IR-32-REDUND-01 / H62-1 as a 'magnetic tilt-angle derivative for edge detection'. Byte-level correlation against GeoDAWN external rasters proves Band 6 is airborne gamma-ray Radiometric Total Count (TC, Pearson r = +0.997140 with geodawn_rad_u8.tif Band 4 TC) and has near-zero correlation (r = +0.012796) with true Miller-Singh magnetic tilt arctan(V/H). This directly explains why H62-1 (taking zero-crossings of Band 6) failed at 0.5058 AUC.",
+   "mitigation": "src/gems32/mdrc.py computes true Miller-Singh (1994) magnetic tilt zero-crossings and Salem tilt-depth directly from Band 2 (rtp) and Band 1 (tmi) via FFT vertical derivatives, while treating Band 6 and geodawn_rad_u8 K/U/Th as radiometric lithology/alteration channels."
+  },
+  {
+   "id": "IR-A8A-LIDAR-BANDS-01",
+   "severity": "high (FIXED in MDRC)",
+   "statement": "lidar_scarp_features_u8.tif has 12 uint8 bands where Band 12 ('valid') is >0 on only 75.37% of the submission footprint (24.63% missing 3DEP 1 m LiDAR tiles encoded as 0). Prior src/gems32/h35_new.py read bands (1, 2, 5) assuming (ex_max, step_max, coh) without checking Band 12 valid, conflating missing LiDAR tiles with scarp-free terrain and mis-indexing Band 5 (p90_grad) as coherence (Band 10).",
+   "mitigation": "src/gems32/mdrc.py reads exact band descriptions (b2 step_max, b3/b4 lapneg/lappos, b7/b8 downface/upface, b9 cross, b10 coh100, b11 strike, b12 valid) and sets missing tiles (b12 == 0) to native NaN for HistGradientBoostingClassifier missing-value routing."
+  },
+  {
+   "id": "IR-A8A-GDR-LEAK-01",
+   "severity": "high (mitigated & unit-tested)",
+   "statement": "Both gdr_wellspring_in_footprint.csv (27,092 rows) and gdr_volcanic_vents_in_footprint.csv (21 rows) contain a precomputed column named dist_known_fault_px derived from the full fault catalogue. Including that column in any feature or halo leaks withheld test faults.",
+   "mitigation": "src/gems32/mdrc.py explicitly drops dist_known_fault_px, asserts 'dist_known_fault_px' is absent before rasterization, and verifies all 57 channels via EXP1 leakage canary (max AUC = 0.62173 <= 0.90)."
+  },
+  {
+   "id": "IR-A8A-DUP-PRIMARY-01",
+   "severity": "high (FIXED 2026-10-26)",
+   "statement": "Prior registry/submission_build.json headlined H32-WIN-46090 (D2.8 minus 400 speckles + 2400 dots, ~94.8% within-3px overlap with D2.8, violating the Parallel-Run <=70% uniqueness rule), carried a 0-byte all-zeros zip hash (0000...0000), and still claimed 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository' despite h33-h33-2-b2's owner-reported 0.2778 receipt.",
+   "mitigation": "registry/submission_build.json updated to point to the genuinely unique Arena8a deliverable (surface |rho|=0.4209, within-3px=64.96%<=70%, verified 197,576-byte zip sha256 c87912bf...), stamped clearly with automated verdict NEGATIVE / DO-NOT-SUBMIT, while recording h33-h33-2-b2 (0.2778, verified 186,378-byte zip sha256 5a6f3ee0...) accurately as the already-submitted portfolio champion."
+  },
+  {
+   "id": "IR-A8A-PU-BIAS-01",
+   "severity": "high (scientific finding)",
+   "statement": "EXP1 vs EXP2/EXP3 revealed why supervised GBMs trained on labels.tif underperform H19-5/H33 on off-catalogue USGS SGMC faults even when they win visible-only holdout: label-free D1_LiDAR_Dipole (0.10267) and MDRC_Unsup_4Domain (0.07651) beat CHAMPION h33-2-b2 (0.06412) on SGMC, whereas supervised HistGB (treating ~labels as y=0 true negatives) suppresses real pre-Quaternary SGMC faults present inside ~labels (pulling SGMC-cal down to 0.05509).",
+   "mitigation": "Gate G5 faithfully caught this off-catalogue suppression and issued an automated NEGATIVE (DO NOT SUBMIT) verdict; next-session path is positive-unlabeled (Elkan-Noto / anchor-set) learning rather than standard binary cross-entropy on ~labels."
   },
   {
    "id": "IR-32-INSTR-04",
