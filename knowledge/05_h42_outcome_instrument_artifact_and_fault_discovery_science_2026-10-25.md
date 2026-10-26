@@ -146,11 +146,12 @@ patched privately): pass an off-catalogue instrument as well as the catalogue-hi
   ([USGS](https://www.usgs.gov/publications/lake-level-variation-lahontan-basin-past-50000-years)); the
   highstand shoreline is 1338.5 m in the Jessup embayment
   ([Adams & Wesnousky 1998, GSA Bull.](https://pubs.geoscienceworld.org/gsa/gsabulletin/article/110/10/1318/183306/shoreline-processes-and-the-age-of-the-lake))
-  and varies ~1318–1340 m across the basin from isostatic rebound. Wave-cut shorelines are level, scarp-like
+  and varies from ~1340 m near the basin centre to ~1318 m at its northern edge from isostatic rebound and tilting
+  ([Adams et al., summarised in this 2008 paper](https://www.researchgate.net/publication/247987548_Late_Pleistocene_and_Early_Holocene_lake-level_fluctuations_in_the_Lahontan_Basin_Nevada_Implications_for_the_distribution_of_archaeological_sites)). Wave-cut shorelines are level, scarp-like
   steps that any lidar scarp detector fires on. A contour-parallelism (isobath) filter needs *absolute*
   elevation, which is not in the provided bands (band 12 is detrended); 62GEMSDOE's Lahontan *datum-offset*
   lane ([PR #9](https://github.com/buffedlizard55-lab/62GEMSDOE/pull/9)) is related prior work (owner-reported
-  0.0000).
+  0.0000; single transcription, not cross-checked).
 * **Scoring rules that shape strategy** (DrivenData staff): public score is one pooled index over the public
   subset ([11550](https://community.drivendata.org/raw/11550)); same metric, no extra fault weighting, for
   public, private and Phase 2, whose labels can be added/removed/changed
@@ -190,3 +191,18 @@ patched privately): pass an off-catalogue instrument as well as the catalogue-hi
 3. **Absolute DEM (USGS 3DEP 1 arc-second, public domain) via the same runner** → H42-2 Lahontan isobath
    suppression as a precision filter on an off-catalogue-validated field.
 4. Propose the IR-42-UNIQ-01 coverage rule to the 57GEMSDOE template owner.
+
+## 8. Reproduce (clean checkout, CPU only, ~25 min)
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+.venv/bin/python scripts/restore_data.py --group all --target-dir .cache/gems_data      # 23 files, SHA-256 verified
+.venv/bin/python scripts/build_features.py --features .cache/gems_data/training_features.tif \
+    --out .cache/gems_work/feature_stack.npy --receipt registry/feature_receipt.json      # ~3 min
+.venv/bin/python scripts/fetch_focus_registry.py                                          # 222 registry rasters
+.venv/bin/python scripts/run_h42.py        # folds, canary, LOQO arms, pooled bootstrap, final raster, gates, writer
+.venv/bin/python scripts/h42_finalize.py   # diagnostics D1-D4 and the run card
+```
+
+The writer refuses to overwrite, and the file name carries a UTC stamp, so a re-run writes a new file rather than
+replacing the published one. Library versions used are recorded in `evidence/h42_run.json → environment`.

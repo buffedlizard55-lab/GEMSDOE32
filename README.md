@@ -20,7 +20,7 @@ recipe's 0.1056 [0.0936, 0.1166] (gems57-pooled-hide-v2, 22,893 withheld positiv
 *gap-filling artefact* of the catalogue-hidden instrument: off-catalogue it loses to random dots. Full analysis,
 why 0.2778 won, and the fault-discovery science: [knowledge/05](knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md).
 Earlier anatomy of the champion: [knowledge/03](knowledge/03_why_02778_and_the_anatomy_of_the_family.md) ·
-score ledger (138 rows, provenance per row): [docs/score-ledger.csv](docs/score-ledger.csv).
+score ledger (139 rows, provenance per row): [docs/score-ledger.csv](docs/score-ledger.csv).
 
 **Competition:** [DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/)
 · **Problem description & metric:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
@@ -76,6 +76,8 @@ brief is preserved in the section "🧭 Read this first, every session" further 
    remaining work and limitations; work on the previous session's next steps first.
 
 ---
+
+> **Historical record below.** Everything after this line is the earlier sessions' log, kept for audit. Where it conflicts with the 🚦 status block at the top (or with `registry/current_status.json`), the status block wins.
 
 ## 🔴 ROUND 5 — READ FIRST (2026-10-25): the champion scored 0.2778; two new unique files are DO-NOT-SUBMIT
 

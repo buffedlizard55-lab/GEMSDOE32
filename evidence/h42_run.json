@@ -1565,5 +1565,13 @@
  "verdict_reasons": [
   "G4 lane gate FAILED on the final dots: 21 registry rasters beyond the space-filling lattice have > 70 % of H42 dots within 3 px (worst GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif), i.e. H42's near-network placement zone is already occupied by GEMSDOE25's lane.",
   "Diagnostic D4 (reported, not a gate): on the independent SGMC off-catalogue instrument the H42 raster scores 0.0545 vs champion 0.0954 vs random dots 0.0709 (gems57-pooled-hide-v2, paired CIs exclude 0) - the catalogue-hidden gain does not transfer to off-catalogue faults."
- ]
+ ],
+ "environment": {
+  "python": "3.11.2",
+  "numpy": "2.4.6",
+  "scipy": "1.17.1",
+  "scikit_learn": "1.9.1",
+  "rasterio": "1.4.4",
+  "cpu": "2 vCPU sandbox, 3.8 GiB RAM"
+ }
 }
