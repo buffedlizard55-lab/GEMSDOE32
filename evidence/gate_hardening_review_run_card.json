@@ -1,0 +1,31 @@
+{
+  "kind": "infrastructure review; no geological experiment",
+  "hypothesis": "Incomplete evidence could incorrectly recommend promotion in the shared gate.",
+  "mechanism": "Require paired improvement uncertainty, matching HOLDOUT-DTI provenance and named format checks.",
+  "named_non_fault_mimic": "Lake Lahontan shoreline terraces can mimic elevation-step fault signatures; not tested here.",
+  "holdout_dti": null,
+  "holdout_ci95": null,
+  "evaluator_version": null,
+  "n_withheld_positives": null,
+  "correlation_overlap_vs_registry": null,
+  "raster_sha256": null,
+  "validator_output": {
+    "raster_validated_this_run": false,
+    "no_nan_inside_footprint": null,
+    "values_in_0_1": null,
+    "crs_shape_transform_match": null,
+    "pytest_passed": 115,
+    "pytest_skipped": 9
+  },
+  "submission_name": null,
+  "submission_note": "Audit only: no new raster, no assigned geology lane, no upload authorized.",
+  "verdict": "negative",
+  "new_experiments": 0,
+  "weekly_slots_used": 0,
+  "limitations": [
+    "Prompt omits the designated method paragraph.",
+    "Feature cache and source rasters are not present in this checkout.",
+    "Current organizer receipts and leaderboard were not independently authenticated.",
+    "Legacy pipeline callers must provide paired CI and named validator evidence before promotion."
+  ]
+}
