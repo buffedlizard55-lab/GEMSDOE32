@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T07:06:16Z",
+ "generated_utc": "2026-10-26T17:05:53Z",
  "sources": [
   {
    "id": "competition",
@@ -3399,6 +3399,72 @@
    "severity": "high (scientific finding 2026-10-26)",
    "statement": "Controlled 3-experiment ablation in H44-1 (SPCP) at matched 37,654-dot B=2 budget isolated the exact exposed-scarp vs blind-basin Pareto frontier caused by positive-unlabeled catalogue bias (IR-A8A-PU-BIAS-01): adding 20 physical curvature/hydrothermal/LiDAR channels under naive binary HistGB (EXP2) raised Hide-and-Recover v3.0 from 0.10169 (CTRL-35ch) to 0.10770 while crashing off-catalogue USGS SGMC calibrated DTI from 0.08032 (EXP1 unsupervised) down to 0.04663; replacing naive binary training with fold-local Bekker-Davis SAR-PU propensity debiasing (EXP3) restored SGMC calibrated DTI to 0.07774 (+0.03083 over EXP2, p=1.000; +0.01328 [+0.0030, +0.0248] over 0.2778 Champion, p=0.998) by shifting 52.4% of dots >2 km into blind basins, at the trade-off of lowering exposed-scarp Hide-and-Recover v3.0 to 0.06984.",
    "mitigation": "Automated fail-closed gate properly classified EXP3 as negative / DO NOT SUBMIT (spending 0 weekly slots), while preserving the validated GeoTIFF (386a4aad59a5...) and SAR-PU propensity estimator in src/gems32/spcp.py for two-regime split-budget fusion."
+  },
+  {
+   "id": "IR-45-LANE-01",
+   "severity": "high (protocol)",
+   "statement": "The PARALLEL-RUN PROTOCOL in the 2026-10-26 prompt says 'Your lane is the single method paragraph below', but no such paragraph is present in the supplied prompt. Lane membership therefore cannot be verified against the protocol. H45-1 was run as the README section 8.4 next step #1 (two-regime split-budget) and is declared provisional.",
+   "mitigation": "Owner to confirm or replace the lane. Rule 1 (surface and final-dot duplicate gates) is enforced regardless of lane. Pre-registration: docs/research/h45-tworegime-preregistration-20261026.md section 0."
+  },
+  {
+   "id": "IR-45-LATTICE-02",
+   "severity": "high (blocks every candidate)",
+   "statement": "Bytes-verified 2026-10-26: the 13gems r13-lattice-s5 registry raster (a GEMSDOE13 leaderboard entry, 0.0904) has 206,895 positive footprint pixels and 99.87% of footprint pixels lie within 3 px of one of its dots (6,649 footprint pixels are farther than 3 px from every lattice dot). The leaderboard-scored champion GEMSDOE32 h33-2-b2 (0.2778) has 99.915% of its dots within 3 px of that lattice, so the literal 70% rule fails the champion itself. Under the literal rule a map with N dots passes only if at least 30% of its dots sit on the 6,649 lattice-free pixels, i.e. N <= ~22,163; that is an evasion of a probe raster, not a diversity test, and it was NOT applied.",
+   "mitigation": "Owner decision required: either (a) exempt registry rasters whose dots form a regular calibration grid (role=calibration_probe, documented), or (b) keep the literal rule and accept that no 37,654-dot map can pass. Until decided, every candidate is DO NOT SUBMIT on C7. Evidence: evidence/h45_tworegime_run_card.json (criteria C7) and this entry."
+  },
+  {
+   "id": "IR-45-REGISTRY-01",
+   "severity": "high (silent coverage gap in a shared tool)",
+   "statement": "scripts/run_h44_spcp.py::scan_full_registry skipped every manifest entry whose local file was missing (if p.exists()) without recording it. With .cache/registry un-restored the scan silently checked only the handful of scored files, while the run card still described a 289-raster check. Fixed in the shared tool: missing entries are now returned as missing_local_registry_entries; H45 fails closed (coverage_complete) if any manifest raster is absent.",
+   "mitigation": "scripts/restore_pinned_registry.py materialises all 304 manifest rasters at their pinned refs with SHA-256 verification (fail-closed). Earlier H44/Arena9 uniqueness numbers were computed by the same function; they should be re-run before being cited as complete-registry results."
+  },
+  {
+   "id": "IR-45-LEADERBOARD-01",
+   "severity": "medium (reporting)",
+   "statement": "The 2026-10-26 prompt quotes the leaderboard top as 0.4413 in one place and 0.3195 in another. The public DrivenData leaderboard page read at 2026-10-26 (this session) shows #1 xiaofanhu at 0.4437 and #2 cfld__ at 0.3916. Those are public observations, not organizer receipts for any GEMSDOE file.",
+   "mitigation": "Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/ . Re-read before quoting. The 0.3195 figure has no source in the repo."
+  },
+  {
+   "id": "IR-45-FAMILY-01",
+   "severity": "high (uniqueness)",
+   "statement": "Byte-level audit of the nine submitted-variant files (evidence/nine_site_best_files_audit.json): all 36 pairs exceed the 70% directional 3-px rule in at least one direction (minimum of the two directions is still 0.9731). GEMSDOE30 is dot-identical to GEMSDOE25 (exact set equality, 44,090 dots). Champion dots are an exact subset of GEMSDOE25 (37,654 of 37,654) and of GEMSDOE36 (1,200 extra dots).",
+   "mitigation": "Treat the nine site-best files as one discovery family for uniqueness purposes. A new file is unique only if it passes the 70% rule against every genuine registry raster (H45 run card, uniqueness block)."
+  },
+  {
+   "id": "IR-45-EVAL-02",
+   "severity": "high (instrument)",
+   "statement": "Two holdout evaluators in this repository rank the same champion file in opposite directions: GEMSDOE32-HIDE-RECOVER-v3.0 gives the champion 0.00452 (H44 table), while GEMSDOE32-HOLDOUT-v3-visible-gated gives 0.09920 (release review). Holdout numbers from different evaluators must not be compared or used to promote.",
+   "mitigation": "H45 uses HIDE-RECOVER-v3.0 (the evaluator in which the H44 arms were measured) and states this limitation in its preregistration. The evaluator conflict is open and needs one canonical instrument before any promotion decision."
+  },
+  {
+   "id": "IR-45-CARD-03",
+   "severity": "medium (evidence labelling)",
+   "statement": "evidence/h45_tworegime_run_card.json names the holdout evaluator as 'GEMSDOE32-HOLDOUT-v3-visible-gated' (from src/gems32/holdout.py::HOLDOUT_EVALUATOR_VERSION), but every holdout arm number in that card (HR and SGMC) is HIDE-RECOVER-v3.0 (the same values as evidence/h44_spcp_run_card.json, which records GEMSDOE32-HIDE-RECOVER-v3.0; replica deltas <= 4.2e-7). The label is a script bug; the numbers are not affected. Script fixed for future runs (scripts/run_h45_tworegime.py now uses HIDE_RECOVER_EVALUATOR_VERSION). The committed card is NOT regenerated, to keep the single 26-minute experiment's receipt intact.",
+   "mitigation": "Read the H45 holdout numbers as HIDE-RECOVER-v3.0. Do not cite the card's evaluator field."
+  },
+  {
+   "id": "IR-45-SITE-04",
+   "severity": "medium (maintainability)",
+   "statement": "Two generators write overlapping docs pages: scripts/build_site.py (used by CI) and scripts/build_docs.py (not in CI). build_docs.py's docstring says it writes README.md but the script never does. focus_sites_block() in build_site.py contains hand-typed rows, not generated from evidence. The new nine_site_table_block() is generated from evidence/nine_site_best_files_audit.json and evidence/h45_tworegime_run_card.json.",
+   "mitigation": "Retire build_docs.py or make it call build_site.py; replace focus_sites_block() rows with generated data in a follow-up. Not changed in this session to limit scope."
+  },
+  {
+   "id": "IR-45-PRIZE-05",
+   "severity": "low (reporting)",
+   "statement": "Official DrivenData problem page (https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) lists an Initial Prize Round of $50,000 (top 5 at $10,000 each) and a Final Prize Round of $250,000 (top 5 at $100K, $70K, $40K, $25K, $15K). Any prize figure in older notes should be checked against this page.",
+   "mitigation": "Cite the official page, not the prompt, for prize amounts."
+  },
+  {
+   "id": "IR-45-UNIQ-07",
+   "severity": "high (withdraws an earlier uniqueness claim)",
+   "statement": "The H45-TR run card (evidence/h45_tworegime_run_card.json) records C5 and C6 as PASSED against 286 genuine registry rasters. That scan read only the manifest entries that existed at run time (288 unique hashes) and never saw GEMSDOE32's own docs/downloads files. Re-check against the current registry (evidence/h45_uniqueness_recheck_20261026.json; 307 unique targets incl. every docs/downloads TIF; both overlap directions): surface max |rho| 0.5118 (pass); final dots: 85.0% of the H45-TR dots lie within 3 px of GEMSDOE32 H44-1 (38f7995a, zeros and nan variants share dots) (FAIL vs the 70% limit). The literal lattice share is 99.69% (C7 fail). Result: H45-TR is a protocol DUPLICATE of H44-1 and is logged as such. The run card's C6 value is stale and should not be cited.",
+   "mitigation": "Use scripts/recheck_h45_uniqueness.py for any candidate, not the manifest-only scan. Any future uniqueness claim must state the target count and whether docs/downloads was included."
+  },
+  {
+   "id": "IR-45-COLLISION-06",
+   "severity": "medium (labelling; parallel work)",
+   "statement": "A parallel session pushed PR #30 to main (commit 6bba7a2, 2026-10-26) titled 'H45-1 kernel-spacing: 3 holdout experiments (falsified) ...', with run card evidence/h45_kernel_spacing_run_card.json (HIDE-RECOVER 0.1009; DO NOT SUBMIT). This session's two-regime work is also labelled 'H45-1'. Both are real and separate; the labels collide.",
+   "mitigation": "This session's lane is referred to as H45-TR (two-regime). The kernel-spacing lane keeps H45-1 (KS). Both are negative/DO NOT SUBMIT. Neither file is cleared."
   }
  ]
 }
