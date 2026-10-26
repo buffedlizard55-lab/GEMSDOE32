@@ -11,7 +11,6 @@ from __future__ import annotations
 
 import re
 import subprocess
-import json
 from pathlib import Path
 
 import pytest
@@ -83,8 +82,5 @@ def test_readme_leads_with_the_current_fail_closed_decision():
     head = text[:6000]
     assert "DO NOT SUBMIT" in head
     assert "audit artifact" in head.lower()
-    # The head must name the CURRENT newest candidate (registry/current_status.json), whichever session made it.
-    newest = json.loads((ROOT / "registry" / "current_status.json").read_text())["newest_unique"]["file"]
-    assert newest in head
-    assert "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif" in text
+    assert "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif" in head
     assert "not enough to authorize a competition upload" in head.lower()

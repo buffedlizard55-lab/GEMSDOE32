@@ -1,141 +1,120 @@
 {
- "schema_version": 1,
- "reviewed_utc": "2026-10-26T21:31:11Z",
- "decision_scope": "Repository-wide release authorization after the H47 Live-Ledger Inversion run; ARENA47, H46, H44, Arena9 preserved as historical artifacts.",
- "review_run_card": "evidence/review_run_card_20261026.json",
- "artifact": {
-  "path": "docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif",
-  "sha256": "d8da7e947db3ed03a3d7064c02b523c254bcb3ae1c5115b7e59b4b436f80fea1",
-  "format_byte_audit": {
-   "verified_this_review": true,
-   "single_band_float32": true,
-   "crs": "EPSG:32611",
-   "shape": [
-    3730,
-    3292
-   ],
-   "transform": [
-    100.0,
-    0.0,
-    243350.0,
-    0.0,
-    -100.0,
-    4508550.0
-   ],
-   "nodata": null,
-   "finite_cells": 12279160,
-   "total_cells": 12279160,
-   "min": 0.0,
-   "max": 1.0,
-   "positive_pixels": 49231,
-   "validator": "scripts/check_submission.py --strict-finite (exit 0)",
-   "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
-  }
- },
- "submission_authorization": {
-  "ok_to_download_and_submit": false,
-  "verdict": "negative",
-  "slot_used": false,
-  "reasons": [
-   "HOLDOUT-DTI 0.0784 [0.0662, 0.0909] on GEMSDOE32-HIDE-RECOVER-v3.0 (fold-local rebuild, 22,232 withheld) is below the champion proxy 0.0992; paired delta CI [-0.0246, -0.0168].",
-   "Live-calibrated PROJECTION (LLI-S3, 111 live-scored rasters, LOO MAE 0.0219) 0.240-0.248 vs 0.283-0.285 for the 0.2778 champion under the same fit.",
-   "Uniqueness PASSES across 452 rasters (surface max |rho| 0.224; final-dot max 0.650 vs every non-space-filling raster); the literal rule fails only on space-filling rasters (5-px lattice, 2 pindrop maps), judged null-calibrated (IR-47-LATTICE-FIX).",
-   "Strict format validator passes on the saved bytes; format validity is not scientific or slot authorization."
-  ],
-  "next_required": "Do not upload H47. Owner decision IR-47-UNIQ-CEILING (duplicate rule vs the dense H19-5 network) is required before refinement candidates can be judged; any future candidate needs a paired HOLDOUT-DTI win and an LLI projection at or above the champion's."
- },
- "holdout_evidence_from_historical_round6_card": {
-  "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
-  "evaluator": "gems32.holdout draws 20/21, four spatial quadrants, 15 px collar, 12 px domain erosion; alpha=0.2, beta=0.8, R=3 px; pooled across 8 draw-fold cells",
-  "withheld_positives": 22232,
-  "candidate_dti": 0.0033763239250124547,
-  "candidate_ci95": [
-   0.0025123785219746527,
-   0.004534956346077028
-  ],
-  "incumbent_dti": 0.00451537871535044,
-  "incumbent_ci95": [
-   0.003943270699615557,
-   0.005250104404946791
-  ],
-  "limitation": "These are recorded results from the historical run card; because the candidate's catalogue exclusion was computed from full labels rather than rebuilt per withheld fold, they are not accepted as protocol-compliant promotion evidence."
- },
- "uniqueness_evidence_from_historical_round6_card": {
-  "evidence_class": "HISTORICAL lane checks are incomplete; direct calibration-lattice overlap is a current audit finding, not a complete all-registry pass.",
-  "historical_surface_max_spearman": 0.34013434998861647,
-  "historical_surface_registry_rasters_compared": 29,
-  "calibration_lattice_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
-  "final_calibration_lattice_within_3px_fraction": 0.9781696499707866,
-  "candidate_dots_within_3px": 36832,
-  "candidate_dots_total": 37654,
-  "threshold": 0.7,
-  "preplacement_all_registry_surface_check_complete": false,
-  "limitation": "The older 29-raster surface result omitted the calibration lattice; do not describe it as a complete all-registry check."
- },
- "latest_candidate": {
-  "run_card": "evidence/h47_run_card.json",
-  "raster": "docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif",
-  "sha256": "d8da7e947db3ed03a3d7064c02b523c254bcb3ae1c5115b7e59b4b436f80fea1",
-  "verdict": "negative",
-  "format_passed": true,
-  "primary_holdout_passed": false,
-  "live_calibrated_projection_passed": false,
-  "literal_registry_passed": false,
-  "genuine_registry_passed": true
- },
- "historical_artifact_review": {
-  "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
-  "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
-  "format_byte_audit": {
-   "verified_this_review": true,
-   "single_band_float32": true,
-   "crs": "EPSG:32611",
-   "shape": [
-    3730,
-    3292
-   ],
-   "transform": [
-    100.0,
-    0.0,
-    243350.0,
-    0.0,
-    -100.0,
-    4508550.0
-   ],
-   "nodata": null,
-   "finite_cells": 12279160,
-   "total_cells": 12279160,
-   "min": 0.0,
-   "max": 1.0,
-   "positive_pixels": 37654
+  "schema_version": 1,
+  "reviewed_utc": "2026-10-26T21:44:20Z",
+  "decision_scope": "Repository-wide release authorization after ARENA48-H1-TMSPI (H50) run; ARENA47/H46/H44 preserved as historical artifacts.",
+  "review_run_card": "evidence/review_run_card_20261026.json",
+  "artifact": {
+    "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
+    "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+    "format_byte_audit": {
+      "verified_this_review": true,
+      "single_band_float32": true,
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "nodata": null,
+      "finite_cells": 12279160,
+      "total_cells": 12279160,
+      "min": 0.0,
+      "max": 1.0,
+      "positive_pixels": 37121
+    }
   },
-  "reference_grid_reaudit": {
-   "status": "PASS",
-   "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
-   "reference_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8d30a40454d35cbc",
-   "validator": "scripts/check_submission.py --strict-finite",
-   "checks": [
-    "exact CRS",
-    "exact shape",
-    "exact affine transform",
-    "single float32 band",
-    "no nodata tag",
-    "all cells finite",
-    "whole-array values in [0,1]"
-   ],
-   "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
+  "submission_authorization": {
+    "ok_to_download_and_submit": false,
+    "verdict": "negative",
+    "slot_used": false,
+    "reasons": [
+      "HOLDOUT-DTI 0.00445 [0.00372,0.00516] on GEMSDOE32-HIDE-RECOVER-v3.0 (flat-mask) is below Champion proxy 0.00451 with paired CI [-0.00078,+0.00066] straddling zero p_pos 0.402.",
+      "Off-catalogue SGMC-cal 0.0438 [0.0384,0.0487] is below Champion 0.0641.",
+      "Genuine uniqueness PASSES (60.5% vs hcvf2, 66.6% vs arena8a-mdrc) but literal all-registry gate fails at 99.68% vs 5-px lattice due to 99.87% pigeonhole coverage (IR-42-UNIQ-01) \u2014 same failure as champion 99.92%.",
+      "No lane explicitly assigned; perturbation is single-method residual-coverage post-hoc, not preregistered OOF model \u2014 holdout is flat-mask diagnostic, not per-cell hide-and-recover."
+    ],
+    "next_required": "Do not submit ARENA47. Only a preregistered per-cell OOF lane beating H38 0.11696 on GEMSDOE32-HIDE-RECOVER-v3.0 with genuine <=70% and literal lattice exemption can promote.",
+    "ok_to_download_for_research": true,
+    "reason": "DO NOT SUBMIT \u2014 audit/research artifact (verdict=negative): unique vs genuine local rasters (max 3px 18.5% vs h45-kernelspacing, |rho|=0.0095) and format-valid, but SGMC-cal 0.0164 < champion 0.0641, absolute HOLDOUT-DTI 0.0126 is a flat-mask instrument (same 0.0045 as champion on this evaluator, not the 0.0992 callable), and the literal lattice raster is absent so that gate fail-closes (IR-42-UNIQ-01). 0 weekly slots used."
+  },
+  "holdout_evidence_from_historical_round6_card": {
+    "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
+    "evaluator": "gems32.holdout draws 20/21, four spatial quadrants, 15 px collar, 12 px domain erosion; alpha=0.2, beta=0.8, R=3 px; pooled across 8 draw-fold cells",
+    "withheld_positives": 22232,
+    "candidate_dti": 0.0033763239250124547,
+    "candidate_ci95": [
+      0.0025123785219746527,
+      0.004534956346077028
+    ],
+    "incumbent_dti": 0.00451537871535044,
+    "incumbent_ci95": [
+      0.003943270699615557,
+      0.005250104404946791
+    ],
+    "limitation": "These are recorded results from the historical run card; because the candidate's catalogue exclusion was computed from full labels rather than rebuilt per withheld fold, they are not accepted as protocol-compliant promotion evidence."
+  },
+  "uniqueness_evidence_from_historical_round6_card": {
+    "evidence_class": "HISTORICAL lane checks are incomplete; direct calibration-lattice overlap is a current audit finding, not a complete all-registry pass.",
+    "historical_surface_max_spearman": 0.34013434998861647,
+    "historical_surface_registry_rasters_compared": 29,
+    "calibration_lattice_sha256": "b4570b406efec198eb2f4d142ad8d0d6184b14b66f2f52b5c4d697f0647dc9b2",
+    "final_calibration_lattice_within_3px_fraction": 0.9781696499707866,
+    "candidate_dots_within_3px": 36832,
+    "candidate_dots_total": 37654,
+    "threshold": 0.7,
+    "preplacement_all_registry_surface_check_complete": false,
+    "limitation": "The older 29-raster surface result omitted the calibration lattice; do not describe it as a complete all-registry check."
+  },
+  "latest_candidate": {
+    "run_card": "evidence/arena47_perturb_run_card.json",
+    "raster": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+    "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
+    "verdict": "negative",
+    "format_passed": true,
+    "primary_holdout_passed": false,
+    "literal_registry_passed": false,
+    "genuine_registry_passed": true
+  },
+  "historical_artifact_review": {
+    "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+    "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+    "format_byte_audit": {
+      "verified_this_review": true,
+      "single_band_float32": true,
+      "crs": "EPSG:32611",
+      "shape": [
+        3730,
+        3292
+      ],
+      "transform": [
+        100.0,
+        0.0,
+        243350.0,
+        0.0,
+        -100.0,
+        4508550.0
+      ],
+      "nodata": null,
+      "finite_cells": 12279160,
+      "total_cells": 12279160,
+      "min": 0.0,
+      "max": 1.0,
+      "positive_pixels": 37654
+    },
+    "reference_grid_reaudit": {
+      "status": "PASS",
+      "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
+      "reference_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8d30a40454d35cbc",
+      "validator": "scripts/check_submission.py --strict-finite",
+      "checks": [
+        "exact CRS",
+        "exact shape",
+        "exact affine transform",
+        "single float32 band",
+        "no nodata tag",
+        "all cells finite",
+        "whole-array values in [0,1]"
+      ],
+      "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
+    }
   }
- },
- "previous_latest_candidates": [
-  {
-   "run_card": "evidence/arena47_perturb_run_card.json",
-   "raster": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
-   "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
-   "verdict": "negative",
-   "format_passed": true,
-   "primary_holdout_passed": false,
-   "literal_registry_passed": false,
-   "genuine_registry_passed": true
-  }
- ]
 }
