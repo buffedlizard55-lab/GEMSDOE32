@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "verified_files_count": 23,
-  "storage_root": ".cache/gems_data",
+  "storage_root": "/home/user/GEMSDOE32/.cache/gems_data",
   "files": [
     {
       "id": "training_features",
