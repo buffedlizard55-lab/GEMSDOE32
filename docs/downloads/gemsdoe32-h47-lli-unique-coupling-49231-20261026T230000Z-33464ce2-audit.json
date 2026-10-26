@@ -1,0 +1,113 @@
+{
+ "candidate_id": "GEMSDOE32-H47-LLI-UNIQUE",
+ "slug": "h47-lli-unique-coupling-49231",
+ "content_digest8": "33464ce2",
+ "description": "H47-3 LLI-optimal unique allocation",
+ "submission_note_zeros": "H47 LLI-unique 49231d 35%novel | LLI proj 0.240-0.248<champ | HR 0.0784 | DO NOT SUBMIT",
+ "submission_note_nan": "H47 LLI-unique 49231d 35%novel | LLI proj 0.240-0.248<champ | HR 0.0784 | DO NOT SUBMIT",
+ "zeros_tif": {
+  "filename": "gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif",
+  "size_bytes": 270332,
+  "sha256": "d8da7e947db3ed03a3d7064c02b523c254bcb3ae1c5115b7e59b4b436f80fea1",
+  "mode": "zeros",
+  "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "nodata_repr": "None",
+  "emitted_positive_pixels": 49231,
+  "footprint_fraction": 0.009527,
+  "on_catalogue_positive_pixels": 0,
+  "in_footprint_finite_pixels": 5167373,
+  "in_footprint_min": 0.0,
+  "in_footprint_max": 1.0,
+  "full_grid_finite_pixels": 12279160,
+  "checks": {
+   "exact_reference_grid_match": true,
+   "single_band": true,
+   "dtype_float32": true,
+   "dimensions_3730x3292": true,
+   "crs_epsg_32611": true,
+   "in_footprint_all_finite": true,
+   "in_footprint_zero_nan": true,
+   "in_footprint_zero_inf": true,
+   "in_footprint_zero_sentinel": true,
+   "in_footprint_range_0_1": true,
+   "outside_footprint_compliant": true,
+   "zero_on_catalogue_leakage": true,
+   "validator_range_0_1_guaranteed": true
+  },
+  "all_checks_passed": true
+ },
+ "nan_tif": {
+  "filename": "gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-nan.tif",
+  "size_bytes": 406364,
+  "sha256": "96874c5aa8b3594ebd02424f69aeb5e74991b8cdd2f55541222717199e5e47e1",
+  "mode": "nan",
+  "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
+  "crs": "EPSG:32611",
+  "transform": [
+   100.0,
+   0.0,
+   243350.0,
+   0.0,
+   -100.0,
+   4508550.0
+  ],
+  "shape": [
+   3730,
+   3292
+  ],
+  "dtype": "float32",
+  "nodata": null,
+  "nodata_repr": "nan",
+  "emitted_positive_pixels": 49231,
+  "footprint_fraction": 0.009527,
+  "on_catalogue_positive_pixels": 0,
+  "in_footprint_finite_pixels": 5167373,
+  "in_footprint_min": 0.0,
+  "in_footprint_max": 1.0,
+  "full_grid_finite_pixels": 5167373,
+  "checks": {
+   "exact_reference_grid_match": true,
+   "single_band": true,
+   "dtype_float32": true,
+   "dimensions_3730x3292": true,
+   "crs_epsg_32611": true,
+   "in_footprint_all_finite": true,
+   "in_footprint_zero_nan": true,
+   "in_footprint_zero_inf": true,
+   "in_footprint_zero_sentinel": true,
+   "in_footprint_range_0_1": true,
+   "outside_footprint_compliant": true,
+   "zero_on_catalogue_leakage": true,
+   "validator_range_0_1_guaranteed": true
+  },
+  "all_checks_passed": true
+ },
+ "holdout_metrics": {
+  "catalogue_hidden_mean": 0.0,
+  "catalogue_hidden_per_quadrant": {},
+  "sgmc_prevalence_calibrated_dti": 0.0,
+  "drift_corrected_holdout_mean": 0.0,
+  "drift_corrected_per_quadrant": {},
+  "predicted_leaderboard_dti": null,
+  "ei_drift_corrected": null,
+  "slot_decision": "HOLD-DO-NOT-SUBMIT"
+ },
+ "nan_tif_removed": true,
+ "nan_tif_removed_reason": "NaN-outside variants triggered the portal error 'Predicted values must be in range [0, 1]' (docs/research/range-error-root-cause-2026-10-03.md); only the -zeros.tif and its single-TIFF .zip are published.",
+ "verdict": "DO NOT SUBMIT (automatic: fails protocol-holdout and live-calibrated-projection gates; see evidence/h47_run_card.json)"
+}

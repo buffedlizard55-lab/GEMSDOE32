@@ -48,3 +48,13 @@
 > Create a executive summary subpage that explains exactly how to make a submission into the contest.
 > Create a github page for this repo that has clean ui, user friendly, simple and easy to use.  It should be organized and clean.
 > The single remaining blocker to training is data placement: run `bash scripts/download_competition_data.sh` on any unrestricted machine into `data/`, then `python scripts/prepare_data.py` — after that the full train→inference→validate pipeline is ready to run.
+
+---
+
+## Session addendum (2026-10-26, `arena/8b5ffdb0-gemsdoe32`)
+
+The conversation remains the authority. This session's assigned lane paragraph (Protocol Rule 1; the source prompt still has no method paragraph, `IR-45-LANE-01`):
+
+> ARENA48-H1-TMSPI — Unsupervised dual-field Thurston–Smith (1997) source-parameter local-wavenumber contact skeleton: compute Miller–Singh TDR on magnetics (`tmi_vg`, `tmi_hg`) and isostatic gravity (`iso_grav_anom_vg`, `iso_grav_anom_slope`) solely as the parent of \(k=|\nabla\mathrm{TDR}|\), retain Euler-\(N\approx 0\) contacts in the 0.4–6 km SPI depth window, weight by the Wijns (2005) theta-map edge strength, take the geometric mean of magnetic and gravity contact credibilities, skeletonize, and pack ~37k dots by exact 300 m CELF. Catalogue rasters are never read during feature construction.
+
+Run card: `evidence/h50_tmspi_run_card.json`. Verdict: **negative** / **DO NOT SUBMIT**. Unique TIF generated. 0 weekly slots used.

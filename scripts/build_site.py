@@ -213,6 +213,28 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
 
 
+
+def previous_artifacts_block(docs_prefix: str = "") -> str:
+    """Earlier research-only artifacts (H46 and history), rendered from registry/current_status.json."""
+    st = read("registry/current_status.json") or {}
+    up = "../" if docs_prefix == "" else ""
+
+    def href(rel: str) -> str:
+        return (docs_prefix + rel[len("docs/"):]) if rel.startswith("docs/") else (up + rel)
+
+    items = []
+    h46 = st.get("h46_candidate")
+    if h46 and h46.get("file"):
+        items.append(f'<li><b>H46</b> <a href="{esc(href(h46["file"]))}"><code>{esc(Path(h46["file"]).name)}</code></a> &mdash; '
+                     f'<b style="color:#b00020">DO NOT SUBMIT</b> (research/audit only; <a href="{esc(href(h46.get("run_card", "")))}">run card</a>)</li>')
+    for hist in st.get("history_newest_unique", []):
+        if hist.get("file") and (not h46 or hist.get("file") != h46.get("file")):
+            items.append(f'<li><a href="{esc(href(hist["file"]))}"><code>{esc(Path(hist["file"]).name)}</code></a> &mdash; '
+                         f'<b style="color:#b00020">DO NOT SUBMIT</b></li>')
+    if not items:
+        return ""
+    return '<div class=card><b>Earlier research-only artifacts (never cleared for upload):</b><ul>' + "".join(items) + "</ul></div>"
+
 def current_status_block(docs_prefix: str = "") -> str:
     """The single status card (source of truth: registry/current_status.json).
 
@@ -721,31 +743,41 @@ def focus_sites_block() -> str:
             f'all nine winner masks exceed the 70% pairwise stop. {esc("Exact mask duplicate" if repo in {"GEMSDOE25", "GEMSDOE30"} else "Same H19-5 thinning/pruning family")}</td></tr>'
         )
 
-    candidate = status.get("newest_unique", {})
+    # H46-specific block: render from H46's own preserved status record, never from whatever file is newest
+    candidate = status.get("h46_candidate") or status.get("newest_unique", {})
     cand_file = Path(candidate.get("file", "")).name
     cand_href = candidate.get("file", "").replace("docs/", "", 1)
     h = candidate.get("holdout", {})
-    h46 = h.get("H46-1-TRHV-exploratory", {})
-    h38 = h.get("prior H38 repo best", {})
-    sg = (candidate.get("off_catalogue_instrument", {}).get("H46-1-TRHV-exploratory", {}))
+    primary = h.get("H50-TM-SPI") or h.get("H46-1-TRHV-exploratory") or (next(iter(h.values())) if h else {})
+    champ_flat = h.get("champion_flat_same_evaluator") or h.get("prior H38 repo best") or {}
+    sg = (candidate.get("off_catalogue_instrument", {}).get("H50-TM-SPI")
+          or candidate.get("off_catalogue_instrument", {}).get("H46-1-TRHV-exploratory")
+          or {})
     sg_champ = (candidate.get("off_catalogue_instrument", {}).get("0.2778 Champion proxy", {}))
     uniq = candidate.get("uniqueness", {})
     validator = candidate.get("validator", {})
-    report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
+    report_link = "research/h50-results-and-nine-site-executive-summary-20261026.md"
+    n_pos = int(primary.get("n_withheld_positives", 22232))
+    ev = primary.get("evaluator_version", "GEMSDOE32-HOLDOUT-v3-visible-gated")
+    ci = primary.get("ci95") or [0.0, 0.0]
+    dti = float(primary.get("dti", 0.0))
+    lattice_pct = 100.0 * float(uniq.get("lattice_overlap") or uniq.get("literal_lattice_overlap") or 0.0)
+    genuine_ov = 100.0 * float(uniq.get("max_genuine_3px_dot_overlap") or 0.0)
+    genuine_rho = float(uniq.get("max_genuine_abs_spearman_continuous_surface") or uniq.get("max_genuine_abs_spearman") or 0.0)
     candidate_block = f"""<div class=card style="border:2px solid #b91c1c">
 <h3>Current generated file — research/audit download only</h3>
 <p><a class=btn href="{esc(cand_href)}">&#11015; Download {esc(cand_file)}</a>
-&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h46_trhv_run_card.json'))}">H46 run card</a>
-&middot; <a href="{report_link}">three-pass review &amp; nine-site audit</a></p>
+&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h50_tmspi_run_card.json'))}">run card</a>
+&middot; <a href="{report_link}">H50 results &amp; nine-site audit</a></p>
 <p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes local format validation, but the scientific/protocol gates fail. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
 <table><tr><th>Metric / status</th><th>Measured result</th><th>Interpretation</th></tr>
-<tr><td>HOLDOUT-DTI — {esc(h46.get('evaluator_version','GEMSDOE32-HIDE-RECOVER-v3.0'))}, {int(h46.get('n_withheld_positives',0)):,} withheld positives, 95% spatial-block CI</td><td><b>{h46.get('dti',float('nan')):.5f} [{h46.get('ci95',[0,0])[0]:.5f}, {h46.get('ci95',[0,0])[1]:.5f}]</b></td><td>Exploratory only. It is below the prior same-evaluator H38 repo best {h38.get('dti',float('nan')):.5f}; no paired H38 bootstrap is archived. Not a leaderboard score estimate.</td></tr>
-<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td>{sg.get('dti',float('nan')):.5f} [{sg.get('ci95',[0,0])[0]:.5f}, {sg.get('ci95',[0,0])[1]:.5f}] vs Champion {sg_champ.get('dti',float('nan')):.5f}</td><td>Paired difference is negative; this auxiliary diagnostic is not a leaderboard score.</td></tr>
-<tr><td>Leakage canary</td><td>63/63 PASS; max AUC 0.586868 &le; 0.90</td><td>Canary pass does not establish scientific improvement.</td></tr>
-<tr><td>Unique vs nine historical winners</td><td>&le; 54.58% within 3 px; surface max |&rho;| 0.166685</td><td>PASS versus those nine winners only.</td></tr>
-<tr><td>Literal full registry</td><td>{100*uniq.get('literal_lattice_overlap',0):.3f}% within 3 px of r13-lattice-s5</td><td><b>FAIL</b> (&gt;70% stop); no calibration-lattice exemption.</td></tr>
+<tr><td>HOLDOUT-DTI — {esc(ev)}, {n_pos:,} withheld positives, 95% spatial-block CI</td><td><b>{dti:.5f} [{ci[0]:.5f}, {ci[1]:.5f}]</b></td><td>Flat-mask instrument. Same-evaluator champion flat mask {float(champ_flat.get('dti', float('nan'))):.5f}. Not a leaderboard score estimate. Not the 0.09920 callable champion number.</td></tr>
+<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td>{float(sg.get('dti', float('nan'))):.5f} [{(sg.get('ci95') or [0,0])[0]:.5f}, {(sg.get('ci95') or [0,0])[1]:.5f}] vs Champion {float(sg_champ.get('dti', float('nan'))):.5f}</td><td>Off-catalogue diagnostic trails the champion; not a leaderboard score.</td></tr>
+<tr><td>Leakage canary</td><td>9/9 PASS; max AUC 0.5206 &le; 0.90</td><td>Canary pass does not establish scientific improvement.</td></tr>
+<tr><td>Unique vs genuine local rasters</td><td>max 3-px {genuine_ov:.2f}%; surface |&rho;| {genuine_rho:.4f}</td><td>PASS versus genuine detectors (&le;70% / &le;0.90).</td></tr>
+<tr><td>Literal full registry</td><td>{lattice_pct:.3f}% lattice overlap (raster absent locally)</td><td><b>FAIL-CLOSED</b> (&gt;70% stop / missing lattice); no calibration-lattice exemption (IR-42-UNIQ-01).</td></tr>
 <tr><td>Saved-byte validator</td><td>{'PASS' if validator.get('strict_cli_passed') and validator.get('geotiff_13_checks_passed') else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
-<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> The active prompt did not contain an explicit method paragraph assigning this lane; the run also departed from its frozen allocation/data filters. The point-estimate holdout is below H38 and the literal lattice gate fails. <b>0 weekly slots used.</b></p></div>"""
+<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> H50 is genuine-unique and format-valid but SGMC-cal loses, the flat-mask HOLDOUT-DTI is not a live-score claim, and the literal lattice gate fail-closes. <b>0 weekly slots used.</b></p></div>"""
 
     min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
     return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
@@ -1313,9 +1345,11 @@ def main() -> int:
                   '<a class="btn alt" href="index.html#status">status &amp; audit downloads</a>')
 
     pages = {
+        # H47 was superseded by later generated candidates. Do not render its archived banner
+        # ahead of the current_status.json decision; stale download links can look actionable.
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
-        "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
+                           previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
+        "executive-summary.html": page("Make a submission (executive summary)", previous_artifacts_block("") + exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
                               research(fl, sub, name), "research.html", dl_btn),
@@ -1350,6 +1384,8 @@ def main() -> int:
         (DOCS / "data" / "h44_spcp_run_card.json").write_text(
             (ROOT / "evidence" / "h44_spcp_run_card.json").read_text()
         )
+    if (ROOT / "evidence" / "h47_run_card.json").exists():
+        (DOCS / "data" / "h47_run_card.json").write_text((ROOT / "evidence" / "h47_run_card.json").read_text())
     if (ROOT / "evidence" / "h46_trhv_run_card.json").exists():
         (DOCS / "data" / "h46_trhv_run_card.json").write_text(
             (ROOT / "evidence" / "h46_trhv_run_card.json").read_text()
@@ -1367,6 +1403,7 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
+{previous_artifacts_block("docs/")}
 {current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <h2>Historical record</h2>

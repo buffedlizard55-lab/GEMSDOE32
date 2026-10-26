@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-26T20:22:50.540198Z",
-  "decision_scope": "Repository-wide release authorization after ARENA47 perturb-H38 run; H46, H44, Arena9 preserved as historical artifacts.",
+  "reviewed_utc": "2026-10-26T21:44:20Z",
+  "decision_scope": "Repository-wide release authorization after ARENA48-H1-TMSPI (H50) run; ARENA47/H46/H44 preserved as historical artifacts.",
   "review_run_card": "evidence/review_run_card_20261026.json",
   "artifact": {
-    "path": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
-    "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
+    "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
+    "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
     "format_byte_audit": {
       "verified_this_review": true,
       "single_band_float32": true,
@@ -14,35 +14,12 @@
         3730,
         3292
       ],
-      "transform": [
-        100.0,
-        0.0,
-        243350.0,
-        0.0,
-        -100.0,
-        4508550.0
-      ],
       "nodata": null,
       "finite_cells": 12279160,
       "total_cells": 12279160,
       "min": 0.0,
       "max": 1.0,
-      "positive_pixels": 37654
-    },
-    "reference_grid_reaudit": {
-      "status": "PASS",
-      "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
-      "validator": "scripts/check_submission.py --strict-finite",
-      "checks": [
-        "dimensions",
-        "band_count",
-        "crs",
-        "transform",
-        "dtype",
-        "in_footprint_range",
-        "portal_safe_whole_array"
-      ],
-      "limitation": "Format/grid pass only; not organizer receipt."
+      "positive_pixels": 37121
     }
   },
   "submission_authorization": {
@@ -55,7 +32,9 @@
       "Genuine uniqueness PASSES (60.5% vs hcvf2, 66.6% vs arena8a-mdrc) but literal all-registry gate fails at 99.68% vs 5-px lattice due to 99.87% pigeonhole coverage (IR-42-UNIQ-01) \u2014 same failure as champion 99.92%.",
       "No lane explicitly assigned; perturbation is single-method residual-coverage post-hoc, not preregistered OOF model \u2014 holdout is flat-mask diagnostic, not per-cell hide-and-recover."
     ],
-    "next_required": "Do not submit ARENA47. Only a preregistered per-cell OOF lane beating H38 0.11696 on GEMSDOE32-HIDE-RECOVER-v3.0 with genuine <=70% and literal lattice exemption can promote."
+    "next_required": "Do not submit ARENA47. Only a preregistered per-cell OOF lane beating H38 0.11696 on GEMSDOE32-HIDE-RECOVER-v3.0 with genuine <=70% and literal lattice exemption can promote.",
+    "ok_to_download_for_research": true,
+    "reason": "DO NOT SUBMIT \u2014 audit/research artifact (verdict=negative): unique vs genuine local rasters (max 3px 18.5% vs h45-kernelspacing, |rho|=0.0095) and format-valid, but SGMC-cal 0.0164 < champion 0.0641, absolute HOLDOUT-DTI 0.0126 is a flat-mask instrument (same 0.0045 as champion on this evaluator, not the 0.0992 callable), and the literal lattice raster is absent so that gate fail-closes (IR-42-UNIQ-01). 0 weekly slots used."
   },
   "holdout_evidence_from_historical_round6_card": {
     "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",

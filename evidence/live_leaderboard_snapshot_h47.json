@@ -1,0 +1,144 @@
+{
+ "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+ "observed_utc": "2026-10-26T21:20:39Z",
+ "method": "direct page read by the H47 session (fetch tool); first 22 rows transcribed",
+ "evidence_class": "public leaderboard observation (other teams; not organizer receipts for this team)",
+ "rows": [
+  {
+   "rank": 1,
+   "participant": "xiaofanhu",
+   "score": 0.4437,
+   "submissions": 31
+  },
+  {
+   "rank": 2,
+   "participant": "cfld__",
+   "score": 0.3916,
+   "submissions": 17
+  },
+  {
+   "rank": 3,
+   "participant": "Batik Shirt Brothers",
+   "score": 0.3904,
+   "submissions": 53
+  },
+  {
+   "rank": 4,
+   "participant": "BrandenKMurray",
+   "score": 0.3724,
+   "submissions": 32
+  },
+  {
+   "rank": 5,
+   "participant": "No Fault of Our Own",
+   "score": 0.3561,
+   "submissions": 44
+  },
+  {
+   "rank": 6,
+   "participant": "JerryDataWorks",
+   "score": 0.3418,
+   "submissions": 22
+  },
+  {
+   "rank": 7,
+   "participant": "alexoktaba",
+   "score": 0.3416,
+   "submissions": 34
+  },
+  {
+   "rank": 8,
+   "participant": "joeyfezster",
+   "score": 0.3413,
+   "submissions": 39
+  },
+  {
+   "rank": 9,
+   "participant": "DARD",
+   "score": 0.3398,
+   "submissions": 28
+  },
+  {
+   "rank": 10,
+   "participant": "Azazel",
+   "score": 0.3379,
+   "submissions": 9
+  },
+  {
+   "rank": 11,
+   "participant": "yifanxu",
+   "score": 0.3335,
+   "submissions": 11
+  },
+  {
+   "rank": 12,
+   "participant": "notmyfault",
+   "score": 0.3334,
+   "submissions": 38
+  },
+  {
+   "rank": 13,
+   "participant": "newway",
+   "score": 0.3328,
+   "submissions": 13
+  },
+  {
+   "rank": 14,
+   "participant": "ohyeah",
+   "score": 0.3318,
+   "submissions": 11
+  },
+  {
+   "rank": 15,
+   "participant": "ruping",
+   "score": 0.3314,
+   "submissions": 13
+  },
+  {
+   "rank": 16,
+   "participant": "giles",
+   "score": 0.3313,
+   "submissions": 11
+  },
+  {
+   "rank": 17,
+   "participant": "li002666",
+   "score": 0.3312,
+   "submissions": 11
+  },
+  {
+   "rank": 18,
+   "participant": "baobao",
+   "score": 0.3308,
+   "submissions": 13
+  },
+  {
+   "rank": 19,
+   "participant": "mzoorob",
+   "score": 0.3304,
+   "submissions": 45
+  },
+  {
+   "rank": 20,
+   "participant": "shixing",
+   "score": 0.3273,
+   "submissions": 12
+  },
+  {
+   "rank": 21,
+   "participant": "nchuzhoy",
+   "score": 0.3262,
+   "submissions": 7
+  },
+  {
+   "rank": 22,
+   "participant": "kinghorton42",
+   "score": 0.3261,
+   "submissions": 11
+  }
+ ],
+ "notes": [
+  "0.4413 (cached 2026-10-25) and 0.3195 (historical rank-1) cited in the prompt are superseded by 0.4437 at this read.",
+  "0.2778 (OWNER-REPORT) is below rank 22 (0.3261) at this read."
+ ]
+}

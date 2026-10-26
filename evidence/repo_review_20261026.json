@@ -1,0 +1,54 @@
+{
+  "reviewed_utc": "2026-10-26",
+  "branch": "arena/be8389e8-gemsdoe32",
+  "review_type": "repository consistency and test review; no new experiment",
+  "test_command": ".venv/bin/pytest -q",
+  "test_result": {
+    "passed": 142,
+    "failed": 5,
+    "skipped": 10,
+    "warnings": 21
+  },
+  "failures": [
+    {
+      "test": "tests/test_arena9_release.py::test_arena9_saved_bytes_and_release_projections_agree",
+      "issue": "Test expects Arena9 latest; current release points to ARENA47."
+    },
+    {
+      "test": "tests/test_h46_trhv.py::test_current_status_and_rendered_site_identify_h46_as_research_only",
+      "issue": "Test expects H46 latest; current status points to ARENA47."
+    },
+    {
+      "test": "tests/test_round6_deliverables.py::test_no_contradictory_promote_banner_when_gate_is_negative",
+      "issue": "Generated page includes literal nan values and zero-looking CI bounds."
+    },
+    {
+      "test": "tests/test_round6_h36.py::test_round6_run_card_and_protocol_contract",
+      "issue": "Test expects H46 run card as latest; current status points to ARENA47."
+    },
+    {
+      "test": "tests/test_site.py::test_submission_metadata_is_not_authorized_and_notes_remain_bounded",
+      "issue": "registry/submission_build.json points to Arena9 while current release review points to ARENA47."
+    }
+  ],
+  "release": {
+    "any_file_ok_to_submit": false,
+    "latest_candidate_verdict": "negative",
+    "weekly_slot_used": false,
+    "historical_best_focus_nine": {
+      "site": "GEMSDOE32",
+      "reported_score": 0.2778,
+      "evidence_class": "OWNER-REPORT"
+    }
+  },
+  "data_availability": {
+    "competition_training_rasters_present": false,
+    "data_directory_contains_only": [
+      "holdout_surrogate_log.csv",
+      "holdout_surrogate_log.json",
+      "prepared_manifest.json",
+      "restore_receipt.json"
+    ]
+  },
+  "recommendation": "Do not submit a new TIFF. Reconcile status-driven projections and non-finite metric rendering, then rerun the complete tests before further experiments."
+}
