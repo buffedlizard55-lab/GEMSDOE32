@@ -30,14 +30,17 @@ import rasterio
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 from gems32 import metric as M  # noqa: E402
+from gems32.paths import data_dir  # noqa: E402
 
-TPL = ROOT / "data" / "raw" / "sample_submission.tif"
-LAB = ROOT / "data" / "raw" / "labels.tif"
+_DDIR = ROOT / "data" / "raw" if (ROOT / "data" / "raw" / "sample_submission.tif").exists() else data_dir()
+TPL = _DDIR / "sample_submission.tif"
+LAB = _DDIR / "labels.tif"
 DOWN = ROOT / "docs" / "downloads"
 
 # belief fields an artifact can be packed from, for the off-support measure
+_H195_ALT = _DDIR / "scored" / "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif"
 FIELDS = {
-    "h19_5": ROOT / "data" / "raw" / "h19_5.tif",
+    "h19_5": (_DDIR / "h19_5.tif") if (_DDIR / "h19_5.tif").exists() else _H195_ALT,
 }
 
 

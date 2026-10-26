@@ -1,6 +1,6 @@
 {
  "schema_version": 1,
- "updated_utc": "2026-10-26T01:40:00Z",
+ "updated_utc": "2026-10-26T01:45:00Z",
  "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
  "any_file_ok_to_submit": false,
  "headline": "No file in this repository is authorized for upload.",
@@ -14,93 +14,98 @@
   "advice": "already submitted - do not resubmit (a resubmission spends a slot and adds no information)"
  },
  "newest_unique": {
-  "file": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
-  "zip": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.zip",
-  "receipt": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.json",
-  "sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
-  "bytes": 121893,
+  "file": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
+  "zip": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip",
+  "receipt": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-audit.json",
+  "sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+  "bytes": 206761,
   "dots": 37654,
-  "submission_name": "gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros",
-  "note": "GEMSDOE32 H42 hanging-wall HWCI 37654 dots B2 | HOLDOUT 0.1529 | id b91008fa | research only",
+  "submission_name": "GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2",
+  "note": "H36-1C TDR-PDS+Steger 37654d | HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos | SGMC 0.0838<0.0961 | DO NOT SUBMIT",
   "verdict": "DO NOT SUBMIT",
   "ok_to_submit": false,
-  "hypothesis": "H42-1 hanging-wall conditional intensity (HWCI)",
+  "hypothesis": "H36-1C True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS + Steger Crest)",
   "gates": {
    "G1_canary": true,
-   "G2_hypothesis_side_signal": true,
-   "G3_beats_champion_recipe": true,
-   "G4_lane_unique": false,
+   "G2_visible_v3_holdout_raw": true,
+   "G3_censorship_matched_and_sgmc": false,
+   "G4_genuine_44_rasters_unique": true,
+   "G4_literal_5px_lattice_stop": false,
    "G5_format": true
   },
   "reasons": [
-   "G4 lane gate FAILED on the final dots: 21 registry rasters beyond the space-filling lattice have > 70 % of H42 dots within 3 px (worst GEMSDOE25:docs/downloads/gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0-nan.tif), i.e. H42's near-network placement zone is already occupied by GEMSDOE25's lane.",
-   "Diagnostic D4 (reported, not a gate): on the independent SGMC off-catalogue instrument the H42 raster scores 0.0545 vs champion 0.0954 vs random dots 0.0709 (gems57-pooled-hide-v2, paired CIs exclude 0) - the catalogue-hidden gain does not transfer to off-catalogue faults."
+   "G3 censorship-matched & off-catalogue blind-fault check FAILED to beat the 0.2778 Champion: H36-1C scores 0.1098 [0.0987, 0.1227] vs raw Champion 0.0992 [0.0820, 0.1222] on GEMSDOE32-HOLDOUT-v3-visible-gated, but under identical d_hidden==0 censorship (IR-32-FIELD-01) scores 0.0764 < 0.0992, and on off-catalogue USGS SGMC blind faults (>300 m) scores 0.0838 [0.0608, 0.1099] < Champion 0.0961 [0.0848, 0.1077].",
+   "G4 genuine uniqueness PASSED across all 44 genuine submission/detector rasters (max |Spearman| = 0.1595 <= 0.90; max 3-px overlap = 60.44% <= 70%; 52.20% vs 0.2778 Champion), while the literal no-exemption 5-px calibration lattice (13gems r13-lattice-s5, covering 99.87% of footprint) registers 99.80% > 70% (IR-32-LATTICE-01)."
   ],
   "holdout": {
-   "HWCI": {
-    "dti": 0.1529,
+   "H36-1C (hybrid + Steger)": {
+    "dti": 0.1098,
     "ci95": [
-     0.14,
-     0.1674
+     0.0987,
+     0.1227
     ]
    },
-   "SYM": {
-    "dti": 0.1479,
+   "H36-1B (PU HistGB + Steger)": {
+    "dti": 0.1048,
     "ci95": [
-     0.1349,
-     0.1612
+     0.095,
+     0.1177
     ]
    },
-   "EVID": {
+   "H36-1A (unsupervised crest)": {
     "dti": 0.0638,
     "ci95": [
-     0.054,
-     0.0743
+     0.0499,
+     0.0773
     ]
    },
-   "CHAMP_RECIPE": {
-    "dti": 0.1056,
+   "CHAMPION_0.2778 (raw)": {
+    "dti": 0.0992,
     "ci95": [
-     0.0936,
-     0.1166
+     0.082,
+     0.1222
+    ]
+   },
+   "H36-1C (censored d0==0)": {
+    "dti": 0.0764,
+    "ci95": [
+     0.0655,
+     0.0881
     ]
    }
   },
-  "holdout_label": "HOLDOUT-DTI, gems57-pooled-hide-v2, 22893 withheld positives, 95% CI",
+  "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HOLDOUT-v3-visible-gated (fixes IR-32-INSTR-03), 22232 withheld positives, 95% CI",
   "off_catalogue_instrument": {
-   "H42_HWCI_final": {
-    "dti": 0.0545,
+   "H36-1C_TDR_PDS": {
+    "dti": 0.0838,
     "ci95": [
-     0.0463,
-     0.0636
+     0.0608,
+     0.1099
     ]
    },
    "CHAMPION_0.2778": {
-    "dti": 0.0954,
+    "dti": 0.0961,
     "ci95": [
-     0.0841,
-     0.1066
-    ]
-   },
-   "RANDOM_37654": {
-    "dti": 0.0709,
-    "ci95": [
-     0.0678,
-     0.0742
+     0.0848,
+     0.1077
     ]
    }
   },
-  "off_catalogue_label": "INSTRUMENT: SGMC faults > 3 px off-catalogue (62122 px), gems57-pooled-hide-v2",
+  "off_catalogue_label": "HOLDOUT-DTI (off-catalogue USGS SGMC blind faults >300 m, 62703 px), 95% CI",
   "uniqueness": {
-   "registry_rasters": 205,
-   "max_spearman": 0.0594,
-   "max_jaccard": 0.0344,
-   "worst_informative_overlap": 0.8192,
-   "worst_informative_raster": "GEMSDOE25:gems25-h38-greedy-credit-k3p5-20261025-18de99d38bb0"
+   "registry_rasters": 44,
+   "max_spearman": 0.1595,
+   "worst_informative_overlap": 0.6044,
+   "worst_informative_raster": "gems16-h16-1-topo-geophys-baseline-ridges-20260930-df20f65e"
   },
-  "run_card": "evidence/h42_run_card.json"
+  "run_card": "evidence/h36_tdr_pds_run_card.json"
  },
  "withdrawn": [
+  {
+   "file": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
+   "status": "DO NOT SUBMIT",
+   "reason": "H42-1 HWCI (parallel session): HOLDOUT-DTI 0.1529 [0.1400, 0.1674] on gems57-pooled-hide-v2, but failed G4 lane gate (81.9% within 3 px of GEMSDOE25 h38-greedy-credit > 70%) and scored 0.0545 < random 0.0709 on off-catalogue SGMC (IR-42-INSTR-01)."
+  },
   {
    "file": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
    "status": "DO NOT SUBMIT",

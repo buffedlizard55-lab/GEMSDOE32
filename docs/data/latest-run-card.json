@@ -1,0 +1,213 @@
+{
+  "schema_version": "gems-parallel-runcard-v2",
+  "generated_at_utc": "2026-10-26T01:20:00Z",
+  "candidate_id": "H36-1C",
+  "lane_id": "H36-1-TDR-PDS",
+  "hypothesis": "H36-1 (TDR-PDS): Blind and piedmont-concealed Great Basin geothermal faults missing from the USGS/INGENIOUS Quaternary scarp catalogue produce co-located depth-independent zero-crossings in true Miller-Singh (1994) magnetic and isostatic-gravity tilt angles (arctan(tmi_vg/tmi_hg) and arctan(iso_grav_anom_vg/iso_grav_anom_slope), fixing IR-32-BAND-02), survive 150 m upward continuation (TMI_up150), reverse half-graben d(g)/dx polarity across synthetic/antithetic accommodation zones (Band 18, fixing IR-32-BAND-03), and subtly deflect 16-azimuth basin drainages and 1 m 3DEP LiDAR piedmont scarplets.",
+  "mechanism": "46 physical channels (0 catalogue features; CSV dist_known_fault_px strictly excluded) -> spatially-blocked 4-quadrant (1.5 km collar) Positive-Unlabeled HistGB ensemble excluding the 500 m fault-damage halo from negative sampling -> geometric-mean fusion (P_PU^0.65 * R_phys^0.35) with multi-physics scarp/drainage/tilt intensity -> Steger (1998) sub-pixel transverse Hessian eigenvector Non-Maximum Suppression onto 1-px curvilinear crests -> B=2 (200 m) visible-fault exclusion -> exact submodular lazy-greedy 300 m triangular-kernel packing (37,654 dots).",
+  "named_non_fault_mimic": "Unaltered Mesozoic granitic/Tertiary ash-flow tuff lithologic contacts, Lahontan paleoshoreline beach ridges (1,330 m contour), and symmetric dendritic mountain-interior bedrock stream divides.",
+  "experiments_used": 3,
+  "experiments_budget_cap": 3,
+  "weekly_slots_used": 0,
+  "experiment_progression": [
+    {
+      "experiment": "Exp 1 \u2014 H36-1A (Unsupervised Multi-Physics Curvilinear Crest)",
+      "holdout_dti_visible_v3": 0.0638,
+      "holdout_dti_ci95": [
+        0.04994,
+        0.07726
+      ],
+      "censored_d0_control_dti": 0.04336,
+      "sgmc_off_catalogue_raw_dti": 0.16421,
+      "sgmc_prevalence_calibrated_dti": 0.11054
+    },
+    {
+      "experiment": "Exp 2 \u2014 H36-1B (500m Halo-Excluded PU Spatial-CV HistGB + Steger Crest)",
+      "holdout_dti_visible_v3": 0.10482,
+      "holdout_dti_ci95": [
+        0.09502,
+        0.1177
+      ],
+      "censored_d0_control_dti": 0.0741,
+      "sgmc_off_catalogue_raw_dti": 0.06832,
+      "sgmc_prevalence_calibrated_dti": 0.04542
+    },
+    {
+      "experiment": "Exp 3 \u2014 H36-1C (Geometric-Mean PU * Multi-Physics Hybrid + Steger Crest)",
+      "holdout_dti_visible_v3": 0.10982,
+      "holdout_dti_ci95": [
+        0.09866,
+        0.12275
+      ],
+      "censored_d0_control_dti": 0.07639,
+      "sgmc_off_catalogue_raw_dti": 0.0838,
+      "sgmc_prevalence_calibrated_dti": 0.05585
+    }
+  ],
+  "holdout_dti": {
+    "metric_label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-gated",
+    "primary_visible_gated_pooled": {
+      "dti": 0.109817,
+      "ci95": [
+        0.098661,
+        0.122749
+      ],
+      "n_withheld_positives": 22232,
+      "champion_b2_dti": 0.099202,
+      "champion_b2_ci95": [
+        0.082024,
+        0.122186
+      ],
+      "delta_vs_raw_champion": 0.010615,
+      "censorship_matched_d0_zeroed_dti": 0.07639,
+      "censorship_note": "H19-5/Champion had d_catalogue==0 zeroed prior to export (IR-32-FIELD-01); when H36-1C is subjected to the identical d_hidden==0 censorship, its pooled DTI is 0.07639 < 0.09920."
+    },
+    "off_catalogue_sgmc_blind_faults": {
+      "metric_label": "HOLDOUT-DTI (USGS SGMC off-catalogue >300 m)",
+      "dti": 0.083798,
+      "ci95": [
+        0.060789,
+        0.109933
+      ],
+      "n_withheld_positives": 62703,
+      "prevalence_calibrated_dti": 0.055848,
+      "champion_b2_dti": 0.09606,
+      "champion_b2_ci95": [
+        0.084818,
+        0.107735
+      ],
+      "champion_b2_prevalence_calibrated_dti": 0.064121,
+      "beats_champion_on_blind_faults": false
+    }
+  },
+  "leakage_canary": {
+    "passed": true,
+    "threshold_auc": 0.9,
+    "n_features_tested": 46,
+    "max_oriented_auc": 0.58412,
+    "max_feature": "dem_break_neg"
+  },
+  "correlation_and_overlap_vs_registry": {
+    "genuine_detector_rasters_checked": 44,
+    "genuine_surface_gate_passed": true,
+    "genuine_max_abs_surface_spearman": 0.159491,
+    "genuine_max_surface_peer": "scored/gems19-h19-4-multiline-corroborated-openness-thermal-pop-20260930-691e4dfa-nan.tif",
+    "genuine_final_dot_gate_passed": true,
+    "genuine_max_dot_overlap_within_3px": 0.604371,
+    "genuine_max_dot_peer": "scored/gems16-h16-1-topo-geophys-baseline-ridges-20260930-df20f65e-nan.tif",
+    "vs_02778_champion_spearman": 0.080447,
+    "vs_02778_champion_dot_overlap_within_3px": 0.522016,
+    "literal_calibration_lattice_probe": {
+      "registry": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "spearman": -0.000134,
+      "within_3px_fraction": 0.998008,
+      "duplicate_under_no_exemption_rule": true,
+      "explanation": "13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (206,895 dots on 5Z x 5Z) has Euclidean covering radius sqrt(8)=2.828 < 3.0 px, covering 99.8713% of the footprint (leaving 6,178 off-flank pixels), so every >20,593-dot submission exceeds 0.70 against this calibration ruler."
+    }
+  },
+  "artifacts": {
+    "primary_zeros_tif": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
+    "primary_zeros_sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+    "primary_zeros_size_bytes": 206761,
+    "nan_companion_tif": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif",
+    "nan_companion_sha256": "fae334455ae2eabe8d26f80168420105cb2f8f253c2c2c755f2ac47cf167123d",
+    "nan_companion_size_bytes": 340598,
+    "zip_archive": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip",
+    "zip_sha256": "b78233be69b82b95744b2ce2e6a8649c5c18b8565cd51b2deb2f72b7f1f964fe",
+    "zip_size_bytes": 171140,
+    "audit_receipt_json": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-audit.json",
+    "emitted_positive_pixels": 37654,
+    "on_catalogue_positive_pixels": 0
+  },
+  "raster_sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+  "validator_output": {
+    "validated_without_human_intervention": true,
+    "prevents_portal_range_01_error": true,
+    "gems32_audit_geotiff_passed": true,
+    "gems32_audit_checks": {
+      "exact_reference_grid_match": true,
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "gemsdoe32_portal_validator_passed": true,
+    "gemsdoe32_portal_checks": [
+      {
+        "name": "dimensions",
+        "passed": true,
+        "detail": "shape (3730, 3292) (expected (3730, 3292))"
+      },
+      {
+        "name": "band_count",
+        "passed": true,
+        "detail": "bands: 1 (expected 1)"
+      },
+      {
+        "name": "crs",
+        "passed": true,
+        "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+      },
+      {
+        "name": "transform",
+        "passed": true,
+        "detail": "transform matched template"
+      },
+      {
+        "name": "dtype",
+        "passed": true,
+        "detail": "dtype: float32 (expected float32)"
+      },
+      {
+        "name": "in_footprint_range",
+        "passed": true,
+        "detail": "in-footprint range [0.0000, 1.0000], all finite"
+      },
+      {
+        "name": "portal_safe_whole_array",
+        "passed": true,
+        "detail": "whole-array range [0.0000, 1.0000], finite=True"
+      }
+    ],
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "full_grid_finite_pixels": 12279160,
+    "min_value": 0.0,
+    "max_value": 1.0,
+    "nan_pixels": 0
+  },
+  "submission_name": "GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2",
+  "submission_note": "H36-1C TDR-PDS+Steger 37654d | HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos | SGMC 0.0838<0.0961 | DO NOT SUBMIT",
+  "submission_note_length": 118,
+  "promotion_decision": {
+    "gates": {
+      "lane": true,
+      "surface": true,
+      "final": false,
+      "canaries": true,
+      "holdout": false,
+      "format": true
+    },
+    "verdict": "negative",
+    "selector_required": true,
+    "slot_used": false
+  },
+  "download_ok": true,
+  "ok_to_submit": false,
+  "verdict": "negative",
+  "verdict_summary": "UNIQUE PORTAL-VALID RESEARCH GEOTIFF GENERATED (DOWNLOAD: YES \u00b7 LIVE SUBMIT: NO \u2014 VERDICT: NEGATIVE). Passes 13/13 format/range-[0,1] checks, 46/46 leakage canaries (max AUC 0.5841 <= 0.90), and uniqueness across all 44 genuine submission/detector rasters (max |Spearman| 0.1595 <= 0.90; max 3-px dot overlap 60.44% <= 70%; 52.20% vs 0.2778 Champion). Achieves 0.10982 [0.0987, 0.1227] on v3 visible-gated HOLDOUT-DTI (+10.7% over raw Champion 0.09920), but trails the 0.2778 Champion on censorship-matched d0 control (0.07639 vs 0.09920) and independent off-catalogue USGS SGMC blind faults (0.08380 vs 0.09606), and triggers the literal no-exemption 5-px calibration-lattice stop (99.80% > 70%). Protect weekly DrivenData slots: do not upload."
+}
