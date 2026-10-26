@@ -32,16 +32,15 @@ sys.path.insert(0, str(ROOT / "src"))
 from gems32 import metric as M  # noqa: E402
 from gems32.paths import data_dir  # noqa: E402
 
-_DDIR = data_dir()
+_DDIR = ROOT / "data" / "raw" if (ROOT / "data" / "raw" / "sample_submission.tif").exists() else data_dir()
 TPL = _DDIR / "sample_submission.tif"
 LAB = _DDIR / "labels.tif"
 DOWN = ROOT / "docs" / "downloads"
 
 # belief fields an artifact can be packed from, for the off-support measure
+_H195_ALT = _DDIR / "scored" / "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif"
 FIELDS = {
-    "h19_5": _DDIR / "scored" / "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif"
-    if (_DDIR / "scored" / "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif").exists()
-    else _DDIR / "h19_5.tif",
+    "h19_5": (_DDIR / "h19_5.tif") if (_DDIR / "h19_5.tif").exists() else _H195_ALT,
 }
 
 

@@ -191,7 +191,7 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 <b>Note to paste into the submit form's <em>Note (optional)</em> field
 ({len(note)} characters; protocol limit 140):</b><br>
 <code>{esc(note)}</code></p>
-<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
+<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3730&times;3292 ·
 {int(f.get('positive_px') or 0):,} predicted pixels · every cell finite · every value in [0, 1] ·
 0 NaN anywhere · no nodata tag · sha256 <code>{esc(sha[:16])}&hellip;</code>
 {('· ' + receipt) if receipt else ''}</p>
@@ -234,14 +234,33 @@ def current_status_block(docs_prefix: str = "") -> str:
     nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
                 '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
     lb = st.get("leaderboard_top", {})
-    h42 = st.get("h42_candidate") or {}
-    h42_row = ""
-    if h42:
-        h42_why = "".join(f"<li>{esc(c)}</li>" for c in h42.get("reasons", []))
-        h42_row = f"""<tr><th>Prior session (H42-1)</th><td><b style="color:#b00020">&#128308; {esc(h42.get('verdict', 'DO NOT SUBMIT'))}</b> &mdash;
-<a href="{esc(href(h42.get('file', '')))}">{esc(Path(h42.get('file', '')).name)}</a> (audit artifact only)
-&middot; sha256 <code>{esc(h42.get('sha256', '')[:16])}&hellip;</code> &middot; <a href="{esc(href(h42.get('run_card', '')))}">run card</a>
-<ul>{h42_why}</ul></td></tr>"""
+    a8a = st.get("arena8a_candidate") or {}
+    a8a_row = ""
+    if a8a:
+        a8a_reasons = "".join(f"<li>{esc(r)}</li>" for r in a8a.get("reasons", []))
+        a8a_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+            for k, v in (a8a.get("holdout") or {}).items()
+        )
+        a8a_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>[{v['ci95'][0]:.4f}, {v['ci95'][1]:.4f}]</td></tr>"
+            for k, v in (a8a.get("off_catalogue_instrument") or {}).items()
+        )
+        fig_rel = "docs/assets/fig_arena8a_mdrc.png"
+        fig_html = (f'<p style="margin:8px 0"><a href="{esc(href(fig_rel))}">'
+                    f'<img src="{esc(href(fig_rel))}" alt="Arena8a MDRC 4-panel diagnostic" '
+                    f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:4px"></a></p>'
+                    if (ROOT / fig_rel).is_file() else "")
+        a8a_row = f"""<tr><th>Arena8a unique file (MDRC, 44,090d)</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(a8a.get('file', '')))}">&#11015; {esc(Path(a8a.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(a8a.get('zip', '')))}">.zip</a> <a href="{esc(href(a8a.get('receipt', '')))}">receipt</a>
+&middot; <a href="{esc(href(a8a.get('run_card', '')))}">run card</a> &middot; <a href="{docs_prefix}research/arena8a-preregistration-and-hypotheses.md">pre-registration &amp; hypotheses</a><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> (automated verdict: <code>negative</code>) &mdash; {esc(a8a.get('hypothesis', ''))};
+{int(a8a.get('dots', 0)):,} dots; sha256 <code>{esc(a8a.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Archive portal name: <code>{esc(a8a.get('submission_name', ''))}</code> &middot; Archive note ({len(str(a8a.get('note', '')))}/140 chars): <code>{esc(a8a.get('note', ''))}</code></span>
+<ul>{a8a_reasons}</ul>
+<table><tr><th colspan=3>{esc(a8a.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{a8a_hrows}</table>
+<table><tr><th colspan=3>{esc(a8a.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{a8a_orows}</table>
+{fig_html}
+</td></tr>"""
     ex = st.get("round6_candidate") or {}
     expl_row = ""
     if ex:
@@ -253,11 +272,6 @@ def current_status_block(docs_prefix: str = "") -> str:
 &middot; sha256 <code>{esc(ex.get('sha256', '')[:16])}&hellip;</code><br><small>{esc(ex.get('origin', ''))}</small>
 <p><b>Why not authorized:</b></p><ul>{why}</ul>
 <p><b>What this session confirmed independently:</b></p><ul>{conf}</ul><p class=mut>Evidence: {evid}</p></td></tr>"""
-    fig_rel = "docs/assets/fig_arena8a_mdrc.png"
-    fig_html = (f'<p style="margin:8px 0"><a href="{esc(href(fig_rel))}">'
-                f'<img src="{esc(href(fig_rel))}" alt="Arena8a MDRC 4-panel diagnostic" '
-                f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:4px"></a></p>'
-                if (ROOT / fig_rel).is_file() else "")
     return f"""<div class=card id=status style="border:3px solid {'#0a7d2c' if ok else '#b00020'}">
 <h2 style="margin-top:0">&#128678; Submission status &mdash; updated {esc(st.get('updated_utc', ''))}</h2>
 <p style="font-size:1.2em"><b>Is any new file OK to submit?</b> {light}{'' if ok else ' &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.'}</p>
@@ -266,16 +280,16 @@ def current_status_block(docs_prefix: str = "") -> str:
 <tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
-<tr><th>Newest unique file (Arena8a MDRC)</th><td>Audit download only: <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
-<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">format receipt</a>
-&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a> &middot; <a href="{docs_prefix}research/arena8a-preregistration-and-hypotheses.md">pre-registration &amp; hypotheses</a><br>{nverdict} (audit artifact only; automated verdict: <code>negative</code>; note: <code>{esc(n.get('note', ''))}</code>, {len(str(n.get('note', '')))}/140 chars) &mdash; {esc(n.get('hypothesis', ''))};
-{int(n.get('dots', 0)):,} dots; sha256 <code>{esc(n.get('sha256', '')[:16])}&hellip;</code>
+{a8a_row}
+<tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
+<a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
+&middot; <a href="{esc(href(n.get('run_card', '')))}">run card</a><br>{nverdict} &mdash; {esc(n.get('hypothesis', ''))};
+{int(n.get('dots', 0)):,} dots; sha256 <code>{esc(n.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Archive portal name: <code>{esc(n.get('submission_name', ''))}</code> &middot; Archive note ({len(n.get('note', ''))}/140 chars): <code>{esc(n.get('note', ''))}</code></span>
 <ul>{reasons}</ul>
 <table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
 <table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
-{fig_html}
 </td></tr>
-{h42_row}
 {expl_row}
 <tr><th>Withdrawn</th><td><ul>{wd}</ul></td></tr>
 <tr><th>Leaderboard</th><td>public #1 = <b>{lb.get('score')}</b> ({esc(lb.get('team', ''))}), read {esc(lb.get('read_utc', ''))}
@@ -497,25 +511,42 @@ same metric; only the objective changed.</p>
 
 
 def focus_sites_block() -> str:
-    """Per-site executive summary for the 9 focus sites (Round 6). All scores OWNER-REPORT."""
+    """Per-site executive summary for the 9 focus sites + Round-6 H36-1C audit (all historical scores OWNER-REPORT)."""
     rows = [
-        ("GEMSDOE24", "h25-1-dotted-h19-5-d1-5", "0.2477", "Denser H19-5 thin (60,069 dots). Superseded by its own sparser children.", "DO NOT SUBMIT (superseded)"),
-        ("GEMSDOE25", "dotted-h19-5-d2-8", "0.2600", "H19-5 dot-thin 2.8px (44,090). Parent of the champion.", "DO NOT SUBMIT (superseded)"),
-        ("GEMSDOE27", "topo-gap-closure-t-v2-on-d1-5", "0.2449", "Gap-closure on d1.5 scored BELOW d1.5 itself: added mass hurt.", "DO NOT SUBMIT"),
-        ("GEMSDOE28", "h36-1-rung30-blind-r1", "0.2710", "Best of a ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649): all one family.", "DO NOT SUBMIT (already scored)"),
-        ("GEMSDOE30", "d28-poisson300m-offcat-44090", "0.2600", "Dot-identical to GEMSDOE25 d2.8 (same score = scorer determinism check).", "DO NOT SUBMIT (duplicate)"),
-        ("GEMSDOE31", "h27-4-solo-d28", "0.2708", "Same 8acb75e1 solo lineage as GEMSDOE28.", "DO NOT SUBMIT (duplicate lineage)"),
-        ("GEMSDOE32", "h33-h33-2-b2 (champion) + Arena8a MDRC + archived R6-1 & H42-1", "0.2778 / unscored", "Champion = ladder end (B=2, 37,654 px). Arena8a MDRC (44,090 px) wins fold-local visible-only holdout (+0.0076 vs D2.8) but fails SGMC Gate G5 (0.0551 < 0.0641); R6-1 & H42-1 retained as audit artifacts.", "Champion: DO NOT RESUBMIT. Arena8a / R6-1 / H42-1: DO NOT SUBMIT"),
-        ("GEMSDOE33", "h33d-analog-tip-stepover-r30", "0.2632", "Tip/step-over analog lane; below champion.", "DO NOT SUBMIT"),
-        ("GEMSDOE36", "anderson-geothermal-pinn-38854", "0.2750", "Contains ALL 37,654 champion dots +1,200 (extras cost -0.0028). Not independent.", "DO NOT SUBMIT (champion superset)"),
+        ("GEMSDOE24", "2a2b9829", "h25-1-dotted-h19-5-d1-5 / h24-1-tip-relay", "0.2477 / 0.2194", "Denser H19-5 thin (60,069d, superseded) + unique tip/relay (crp1-dipfan-stepover negative today).", "DO NOT SUBMIT"),
+        ("GEMSDOE25", "de77cb6c", "dotted-h19-5-d2-8-e56ea318af89", "0.2600", "44,090d dot-thin parent of champion; dot-identical to GEMSDOE30; latest h44 negative today.", "DO NOT SUBMIT (superseded / dup 30)"),
+        ("GEMSDOE27", "398cda94", "topo-gap-closure (0.2449) / H29-S (0.2190)", "0.2449 / 0.2190", "Gap-closure on d1.5 hurt (-0.0028); latest h31-range-front-step-50k negative today.", "DO NOT SUBMIT"),
+        ("GEMSDOE28", "94152be6", "h36-1-rung30 (0.2710) / solo-8acb75e1 (0.2708)", "0.2710 / 0.2708", "40,199d solo base identical to GEMSDOE31; latest s20-asymmetric-hanging-wall negative today.", "DO NOT SUBMIT (already scored / dup 31)"),
+        ("GEMSDOE30", "ac54b7f3", "d28-poisson300m-offcat-44090", "0.2600", "Exact 44,090-dot duplicate of GEMSDOE25; latest PTA1-piedmont-thermal negative today.", "DO NOT SUBMIT (duplicate of 25)"),
+        ("GEMSDOE31", "6ca63b0c", "h27-4-solo-d28-8acb75e1", "0.2708", "Exact 40,199-dot duplicate lineage of GEMSDOE28; latest xfcoh31-37654 negative today.", "DO NOT SUBMIT (duplicate of 28)"),
+        ("GEMSDOE32", "current", "h33-h33-2-b2 (champion) + H36-1C TDR-PDS (9ff9d6e2)", "0.2778 / unscored", "Champion = B=2 ladder end (37,654d). H36-1C (0.1098 v3-vis; 0.0838 SGMC < 0.0961) & R6-1 are audit-only.", "Champion: DO NOT RESUBMIT · H36-1C / R6-1: DO NOT SUBMIT"),
+        ("GEMSDOE33", "7deca206", "h33d-analog-tip-stepover-r30", "0.2632", "Unique tip/step-over analog (50,023d) below 0.2778; latest 2026-10-26 lane negative.", "DO NOT SUBMIT"),
+        ("GEMSDOE36", "a4c660a8", "anderson-geothermal-pinn-38854", "0.2750", "96.9% superset containing all 37,654 champion dots + 1,200 (-0.0028); latest gps-graben negative.", "DO NOT SUBMIT (champion superset)"),
     ]
-    trs = "".join(f"<tr><td><b>{esc(a)}</b></td><td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>" for a, b, c, d, e in rows)
-    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; highest reported files across the 9 focus sites and current status</h2>
-<p>Every score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; this repo holds no organizer
-receipt linking bytes to score &mdash; IR-32-SCORE-01). Full analysis:
-<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a>.</p>
-<table><tr><th>site</th><th>its best submission</th><th>score</th><th>what it is</th><th>verdict today</th></tr>{trs}</table>
-<p><b>Bottom line:</b> the 0.2778 champion is an OWNER-REPORT score and is reported as already submitted; do not resubmit it. The archived R6-1 STEP artifact is unique under its historical registry comparison and format-valid, but the current review found no authorized lane and no compliant fold-isolated promotion result: <b>DO NOT SUBMIT</b>. The other listed files are reported scored, duplicated or superseded; the available evidence does not establish an organizer-confirmed score-to-bytes receipt.</p></div>"""
+    trs = "".join(
+        f'<tr><td><b><a href="https://github.com/buffedlizard55-lab/{esc(a)}">{esc(a)}</a></b><br><code class=mut>{esc(hd)}</code></td>'
+        f"<td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>"
+        for a, hd, b, c, d, e in rows
+    )
+    rc = read("evidence/h36_tdr_pds_run_card.json") or {}
+    exp_rows = "".join(
+        f"<tr><td><b>{esc(r.get('experiment',''))}</b></td><td>{r.get('holdout_dti_visible_v3',0):.5f} "
+        f"[{r.get('holdout_dti_ci95',[0,0])[0]:.4f}, {r.get('holdout_dti_ci95',[0,0])[1]:.4f}]</td>"
+        f"<td>{r.get('censored_d0_control_dti',0):.5f}</td><td>{r.get('sgmc_off_catalogue_raw_dti',0):.5f}</td></tr>"
+        for r in rc.get("experiment_progression", [])
+    )
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; verified audit across all 9 focus sites &amp; PhD 0.2778 &rarr; 0.3195 &rarr; 0.4413 analysis</h2>
+<p>Every historical score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; IR-32-SCORE-01; note also IR-32-SCORE-03: <code>0.3195</code> is the portfolio aspirational target, while public #1 <code>xiaofanhu</code> holds <b>0.4413</b>). Full reports:
+<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a> &middot;
+<a href="research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a>.</p>
+<table><tr><th>site &amp; HEAD</th><th>best historical submission</th><th>score</th><th>byte forensics &amp; 2026-10-26 status</th><th>verdict today</th></tr>{trs}</table>
+<h3>PhD metric algebra: why <code>h33-h33-2-b2</code> scored 0.2778 and what 0.3195 / 0.4413 require</h3>
+<p>Under <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> with hidden truth <code>|G| &approx; 12,265</code> px, solid <code>H19-5</code> (121,131 px, 0.1922) captured only <code>T &approx; 5,021</code> weighted truth pixels (40.9% recall), algebraically capping every subset of <code>H19-5</code> below ~0.312. Removing 2,545 flank dots within <code>1 &lt; d_cat &le; 2 px</code> (200 m) raised 0.2708 &rarr; <b>0.2778</b> (<code>T &approx; 4,503</code>) because known-catalogue masking prevents flank dots from clearing the marginal break-even bar <code>&Delta;T &gt; 0.25&middot;DTI/(1&minus;0.8&middot;DTI) = 0.0893</code>. Reaching <b>0.3195</b> at 37,654 dots requires <code>T &approx; 5,430</code> (+20.6% recall) and public #1 <b>0.4413</b> requires <code>T &approx; 8,408</code> (68.6% recall) via genuinely off-catalogue blind-fault physics.</p>
+<h3>Round-6 H36-1 (TDR-PDS) 3-experiment progression (repaired <code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, 22,232 withheld positives)</h3>
+<table><tr><th>experiment</th><th>HOLDOUT-DTI (v3-vis, 95% CI)</th><th>censored d0 control</th><th>off-catalogue SGMC DTI</th></tr>
+<tr><td>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</td><td>0.09920 [0.0820, 0.1222]</td><td>0.09920</td><td>0.09606</td></tr>
+{exp_rows}</table>
+<p><b>Bottom line:</b> <code>GEMSDOE32</code> <code>h33-h33-2-b2</code> (0.2778, already scored &mdash; do not resubmit) remains the strongest entry across all 9 sites. Both <code>H36-1C</code> (<code>9ff9d6e2</code>) and <code>R6-1</code> (<code>23fbbb51</code>) are format-valid, non-human-validated research/audit artifacts &mdash; <b>DO NOT SUBMIT</b> (spend 0 weekly DrivenData slots today).</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:

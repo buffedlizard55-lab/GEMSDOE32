@@ -589,6 +589,107 @@
    "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
   },
   {
+   "id": "H36-1",
+   "rank": 1,
+   "status": "measured \u2014 negative (H36-1C: HOLDOUT-DTI 0.10982 [0.0987, 0.1227] v3-vis; cens_d0 0.07639 < 0.09920; SGMC 0.08380 < 0.09606)",
+   "title": "True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS)",
+   "layers": [
+    "tmi_vg",
+    "tmi_hg",
+    "tmi",
+    "iso_grav_anom_vg",
+    "iso_grav_anom_slope",
+    "iso_grav_anom_hg",
+    "dem",
+    "lidar_3dep_1m_scarps.tif"
+   ],
+   "signature": "arctan(tmi_vg/tmi_hg) & arctan(iso_grav_anom_vg/iso_grav_anom_slope) zero-contours surviving 150 m upward continuation + Band-18 d(g)/dx polarity reversal + 16-azimuth drainage/LiDAR scarp break",
+   "why_off_catalogue": "Depth-independent Miller-Singh (1994) tilt zero-contours resolve buried Range-Front/accommodation steps beneath Quaternary alluvial fans; fixes IR-32-BAND-02 and IR-32-BAND-03",
+   "differs_from_repo": "Zero catalogue features (dist_known_fault_px excluded); 500 m halo-excluded PU Spatial-CV HistGB x R_phys + Steger (1998) sub-pixel curvilinear crest NMS",
+   "expected_dti": "HOLDOUT-DTI 0.10982 [0.0987, 0.1227] (v3-vis, 22,232 pos); SGMC 0.08380 [0.0608, 0.1099] vs Champion 0.09606 -> DO NOT SUBMIT",
+   "cost": "medium (~18 min across 3 experiments)",
+   "data_status": "all layers verified locally in .cache/gems_data/",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-2",
+   "rank": 2,
+   "status": "registered (untried; next priority)",
+   "title": "Anisotropic Potential-Field Horizontal-Gradient Curvature Tensor (Phillips-Hansen Strike-Coherent Basement Steps)",
+   "layers": [
+    "iso_grav_anom_slope",
+    "tmi_hg",
+    "dem",
+    "2m_temp"
+   ],
+   "signature": "Transverse Hessian eigenvalue lambda_min of smoothed |grad g_iso| and |grad TMI| aligned within <=20 deg of regional Basin-and-Range strike",
+   "why_off_catalogue": "Resolves pure basement density/magnetization contact curvature beneath featureless playa floors without topographic scarps",
+   "differs_from_repo": "Prior code applied Frangi/Meijering ridge filters only to DEM; potential-field gradients were only used as isotropic point scalars",
+   "expected_dti": "+0.005 to +0.015 HOLDOUT-DTI over isotropic potential-field baselines",
+   "cost": "low-medium (~15 min)",
+   "data_status": "all layers in training_features.tif",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-3",
+   "rank": 3,
+   "status": "registered (untried)",
+   "title": "Hydrothermal Demagnetization Trough + K/eTh Argillic/Adularia Alteration Halo Along Structural Corridors",
+   "layers": [
+    "tmi",
+    "tmi_rtp",
+    "tmi_hg",
+    "k",
+    "eth",
+    "eu",
+    "tc",
+    "tgt_geotherm"
+   ],
+   "signature": "Narrow linear magnetic-susceptibility destruction trough flanked by elevated K/eTh ratio and geothermal heat-flow anomaly",
+   "why_off_catalogue": "Geothermally active blind conduits destroy magnetite -> hematite/pyrite and enrich K without Quaternary surface rupture",
+   "differs_from_repo": "Correctly treats Band 6 tc as radiometric Total Count (fixing IR-32-BAND-02) rather than terrain correction",
+   "expected_dti": "+0.004 to +0.012 HOLDOUT-DTI on geothermal corridors",
+   "cost": "low (~10 min)",
+   "data_status": "all layers in training_features.tif",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-4",
+   "rank": 4,
+   "status": "registered (untried)",
+   "title": "Half-Graben Accommodation-Zone Polarity-Reversal Saddle Detector (Synthetic-to-Antithetic Transfer Zones)",
+   "layers": [
+    "iso_grav_anom_hg",
+    "iso_grav_anom_slope",
+    "iso_grav_anom",
+    "dem"
+   ],
+   "signature": "Along-strike sign reversal in Band 18 (signed d(g_iso)/dx) between opposing-polarity half-grabens",
+   "why_off_catalogue": "Faulds & Hinz (2015) accommodation/transfer zones host >50% of Great Basin blind geothermal systems with distributed strain and minimal surface scarps",
+   "differs_from_repo": "First formulation exploiting Band 18 signed E-W gravity derivative polarity flips (IR-32-BAND-03)",
+   "expected_dti": "+0.003 to +0.010 HOLDOUT-DTI in transfer-zone corridors",
+   "cost": "low (~10 min)",
+   "data_status": "all layers in training_features.tif",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-5",
+   "rank": 5,
+   "status": "registered (data-blocked in sandbox)",
+   "title": "Sentinel-1 Ascending/Descending InSAR Phase-Gradient & UNR Magnetotelluric Subsurface Conductivity Boundaries",
+   "layers": [
+    "ASF Sentinel-1 ARIA/OPERA LOS velocity",
+    "USGS/DOE Great Basin MT resistivity"
+   ],
+   "signature": "Aseismic creep / groundwater-barrier InSAR LOS velocity steps + subvertical <10 ohm-m conductive fault-gouge zones",
+   "why_off_catalogue": "Directly images fluid-filled permeable fault zones at 0.5-3 km reservoir depth beneath intact Holocene playa fill",
+   "differs_from_repo": "Orthogonal physical observables (radar deformation & EM conductivity)",
+   "expected_dti": "unmeasured (data-blocked in sandbox)",
+   "cost": "blocked in sandbox",
+   "data_status": "outbound network restricted to github.com/pypi.org/npmjs.org; sciencebase.gov & asf.alaska.edu unreachable",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
    "id": "A8A-H1",
    "rank": 1,
    "status": "measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE \u2014 DO NOT SUBMIT)",

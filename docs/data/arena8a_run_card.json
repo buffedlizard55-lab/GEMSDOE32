@@ -260,6 +260,10 @@
       }
     },
     "post_merge_sibling_audit_2026_10_26": {
+      "H36_1C_TDR_PDS": {
+        "ref_dots": 37654,
+        "cand_in_3px_ref": 0.64207
+      },
       "H42_HWCI": {
         "ref_dots": 37654,
         "spearman": 0.06003,

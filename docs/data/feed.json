@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T01:58:25Z",
+ "generated_utc": "2026-10-26T02:06:35Z",
  "sources": [
   {
    "id": "competition",
@@ -853,6 +853,107 @@
    "cost": "high",
    "data_status": "unreachable from this sandbox",
    "preregistration": "knowledge/04_preregistration_h42_hanging_wall_2026-10-25.md"
+  },
+  {
+   "id": "H36-1",
+   "rank": 1,
+   "status": "measured \u2014 negative (H36-1C: HOLDOUT-DTI 0.10982 [0.0987, 0.1227] v3-vis; cens_d0 0.07639 < 0.09920; SGMC 0.08380 < 0.09606)",
+   "title": "True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS)",
+   "layers": [
+    "tmi_vg",
+    "tmi_hg",
+    "tmi",
+    "iso_grav_anom_vg",
+    "iso_grav_anom_slope",
+    "iso_grav_anom_hg",
+    "dem",
+    "lidar_3dep_1m_scarps.tif"
+   ],
+   "signature": "arctan(tmi_vg/tmi_hg) & arctan(iso_grav_anom_vg/iso_grav_anom_slope) zero-contours surviving 150 m upward continuation + Band-18 d(g)/dx polarity reversal + 16-azimuth drainage/LiDAR scarp break",
+   "why_off_catalogue": "Depth-independent Miller-Singh (1994) tilt zero-contours resolve buried Range-Front/accommodation steps beneath Quaternary alluvial fans; fixes IR-32-BAND-02 and IR-32-BAND-03",
+   "differs_from_repo": "Zero catalogue features (dist_known_fault_px excluded); 500 m halo-excluded PU Spatial-CV HistGB x R_phys + Steger (1998) sub-pixel curvilinear crest NMS",
+   "expected_dti": "HOLDOUT-DTI 0.10982 [0.0987, 0.1227] (v3-vis, 22,232 pos); SGMC 0.08380 [0.0608, 0.1099] vs Champion 0.09606 -> DO NOT SUBMIT",
+   "cost": "medium (~18 min across 3 experiments)",
+   "data_status": "all layers verified locally in .cache/gems_data/",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-2",
+   "rank": 2,
+   "status": "registered (untried; next priority)",
+   "title": "Anisotropic Potential-Field Horizontal-Gradient Curvature Tensor (Phillips-Hansen Strike-Coherent Basement Steps)",
+   "layers": [
+    "iso_grav_anom_slope",
+    "tmi_hg",
+    "dem",
+    "2m_temp"
+   ],
+   "signature": "Transverse Hessian eigenvalue lambda_min of smoothed |grad g_iso| and |grad TMI| aligned within <=20 deg of regional Basin-and-Range strike",
+   "why_off_catalogue": "Resolves pure basement density/magnetization contact curvature beneath featureless playa floors without topographic scarps",
+   "differs_from_repo": "Prior code applied Frangi/Meijering ridge filters only to DEM; potential-field gradients were only used as isotropic point scalars",
+   "expected_dti": "+0.005 to +0.015 HOLDOUT-DTI over isotropic potential-field baselines",
+   "cost": "low-medium (~15 min)",
+   "data_status": "all layers in training_features.tif",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-3",
+   "rank": 3,
+   "status": "registered (untried)",
+   "title": "Hydrothermal Demagnetization Trough + K/eTh Argillic/Adularia Alteration Halo Along Structural Corridors",
+   "layers": [
+    "tmi",
+    "tmi_rtp",
+    "tmi_hg",
+    "k",
+    "eth",
+    "eu",
+    "tc",
+    "tgt_geotherm"
+   ],
+   "signature": "Narrow linear magnetic-susceptibility destruction trough flanked by elevated K/eTh ratio and geothermal heat-flow anomaly",
+   "why_off_catalogue": "Geothermally active blind conduits destroy magnetite -> hematite/pyrite and enrich K without Quaternary surface rupture",
+   "differs_from_repo": "Correctly treats Band 6 tc as radiometric Total Count (fixing IR-32-BAND-02) rather than terrain correction",
+   "expected_dti": "+0.004 to +0.012 HOLDOUT-DTI on geothermal corridors",
+   "cost": "low (~10 min)",
+   "data_status": "all layers in training_features.tif",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-4",
+   "rank": 4,
+   "status": "registered (untried)",
+   "title": "Half-Graben Accommodation-Zone Polarity-Reversal Saddle Detector (Synthetic-to-Antithetic Transfer Zones)",
+   "layers": [
+    "iso_grav_anom_hg",
+    "iso_grav_anom_slope",
+    "iso_grav_anom",
+    "dem"
+   ],
+   "signature": "Along-strike sign reversal in Band 18 (signed d(g_iso)/dx) between opposing-polarity half-grabens",
+   "why_off_catalogue": "Faulds & Hinz (2015) accommodation/transfer zones host >50% of Great Basin blind geothermal systems with distributed strain and minimal surface scarps",
+   "differs_from_repo": "First formulation exploiting Band 18 signed E-W gravity derivative polarity flips (IR-32-BAND-03)",
+   "expected_dti": "+0.003 to +0.010 HOLDOUT-DTI in transfer-zone corridors",
+   "cost": "low (~10 min)",
+   "data_status": "all layers in training_features.tif",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
+  },
+  {
+   "id": "H36-5",
+   "rank": 5,
+   "status": "registered (data-blocked in sandbox)",
+   "title": "Sentinel-1 Ascending/Descending InSAR Phase-Gradient & UNR Magnetotelluric Subsurface Conductivity Boundaries",
+   "layers": [
+    "ASF Sentinel-1 ARIA/OPERA LOS velocity",
+    "USGS/DOE Great Basin MT resistivity"
+   ],
+   "signature": "Aseismic creep / groundwater-barrier InSAR LOS velocity steps + subvertical <10 ohm-m conductive fault-gouge zones",
+   "why_off_catalogue": "Directly images fluid-filled permeable fault zones at 0.5-3 km reservoir depth beneath intact Holocene playa fill",
+   "differs_from_repo": "Orthogonal physical observables (radar deformation & EM conductivity)",
+   "expected_dti": "unmeasured (data-blocked in sandbox)",
+   "cost": "blocked in sandbox",
+   "data_status": "outbound network restricted to github.com/pypi.org/npmjs.org; sciencebase.gov & asf.alaska.edu unreachable",
+   "preregistration": "docs/research/hypotheses-round6-20261026.md"
   },
   {
    "id": "A8A-H1",
@@ -1906,7 +2007,8 @@
    "id": "IR-32-INSTR-03",
    "severity": "high (FIXED 2026-10-26 in GEMSDOE32-HOLDOUT-v3-visible-only)",
    "statement": "The catalogue-hidden holdout is invalid for B-gated candidates if the B exclusion is computed from the full catalogue before folds are evaluated: hidden segments can influence placement. Round-6 R6-1 did exactly this; its fixed mask is passed to evaluate_candidate_holdout, which does not rebuild the gate from visible faults. Previously reported score ordering comparisons are owner-reported, not ORGANIZER-CONFIRMED.",
-   "mitigation": "FIXED in place in src/gems32/holdout.py (EVALUATOR_VERSION = GEMSDOE32-HOLDOUT-v3-visible-only): PreparedCell now stores visible_sub, d_visible_sub, and visible_full, and evaluate_visible_only_holdout derives B-collars strictly from each draw's visible faults. Verified on D2.8: B=0 (0.09674) < B=1 (0.09898) < B=2 (0.09920, global peak matching live 0.2778!) > B=3 (0.09710)."
+   "mitigation": "FIXED in place in src/gems32/holdout.py (EVALUATOR_VERSION = GEMSDOE32-HOLDOUT-v3-visible-only): PreparedCell now stores visible_sub, d_visible_sub, and visible_full, and evaluate_visible_only_holdout derives B-collars strictly from each draw's visible faults. Verified on D2.8: B=0 (0.09674) < B=1 (0.09898) < B=2 (0.09920, global peak matching live 0.2778!) > B=3 (0.09710).",
+   "status": "fixed-in-v3-evaluator (src/gems32/holdout.py::evaluate_visible_gated_holdout)"
   },
   {
    "id": "IR-32-FAM-01",
@@ -1991,6 +2093,27 @@
    "severity": "high",
    "statement": "The SGMC off-catalogue instrument does not predict live scores outside the champion family: the SGMC-tracing files gemsdoe72-h72-1-sgmc-offcatalogue (0.6483 on the instrument) and gemsdoe29-sgmc-off-catalogue-44k (0.5607) scored 0.0492 and 0.0512 live, while the champion scores 0.0954 there and 0.2778 live. Round-6 promoted R6-1 on this instrument (0.1419 vs 0.0954, independently reproduced).",
    "mitigation": "R6-1 is DO NOT SUBMIT (audit artifact only) in registry/current_status.json, consistent with the fail-closed release review (evidence/current_release_review.json); files and run cards untouched. Promotion needs agreement of two instruments with opposite biases (catalogue-hidden with detached-only hiding AND off-catalogue) or a live score."
+  },
+  {
+   "id": "IR-32-BAND-02",
+   "severity": "high",
+   "status": "fixed-in-h36-tdr-pds",
+   "summary": "Band 6 (`tc`) in `training_features.tif` is Airborne Radiometric Total Count (`rho = +0.99942` with `0.41*K + 0.48*eTh + 0.21*eU`), NOT gravity Terrain Correction \u2014 prior hypotheses dividing `tc/dem` computed radiometric-over-elevation ratios.",
+   "impact": "Invalidated physical mechanism of prior `tc`-as-terrain-correction features; fixed in `src/gems32/h36_tdr_pds.py`."
+  },
+  {
+   "id": "IR-32-BAND-03",
+   "severity": "medium",
+   "status": "fixed-in-h36-tdr-pds",
+   "summary": "Band 17 (`iso_grav_anom_slope`) is total horizontal gravity gradient `sqrt((dg/dx)^2+(dg/dy)^2)` (`>=0`, `rho=+0.9557`), while Band 18 (`iso_grav_anom_hg`) is the signed E-W derivative `dg/dx` (`min=-2.21, max=+1.93`, `rho=+0.9438`).",
+   "impact": "Using `|iso_grav_anom_hg|` for gravity tilt missed E-W-striking transfer faults and threw away half-graben polarity sign; fixed in `src/gems32/h36_tdr_pds.py`."
+  },
+  {
+   "id": "IR-32-LATTICE-01",
+   "severity": "medium",
+   "status": "documented-fail-closed",
+   "summary": "Scored calibration probe `13gems_20261001_r13-lattice-s5_v2_nan-outside.tif` (`206,895` dots on `(5Z)^2`) has Euclidean covering radius `sqrt(8) = 2.8284 < 3.0 px`, covering `99.8713%` of the footprint within 3 px (leaving `6,178` off-flank pixels).",
+   "impact": "Under a literal no-exemption 70% 3-px overlap rule across all registry files, every `>20,593`-dot raster exceeds 70% against this synthetic ruler (`99.80%` for `H36-1C`, `99.92%` for the `0.2778` Champion). Reported transparently alongside the 44-detector genuine uniqueness check (`max ov3 = 60.44% <= 70%`)."
   },
   {
    "id": "IR-A8A-BAND6-TC-01",

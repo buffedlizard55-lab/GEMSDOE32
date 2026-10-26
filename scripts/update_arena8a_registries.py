@@ -25,6 +25,7 @@ def main() -> int:
     nan_bytes = (ROOT / nan_rel).stat().st_size
 
     rc["correlation_and_overlap_vs_registry"]["post_merge_sibling_audit_2026_10_26"] = {
+        "H36_1C_TDR_PDS": {"ref_dots": 37654, "cand_in_3px_ref": 0.64207},
         "H42_HWCI": {"ref_dots": 37654, "spearman": 0.06003, "cand_in_3px_ref": 0.22064, "ref_in_3px_cand": 0.42551, "sym_within_3px": 0.22064},
         "R6_STEPPROFILE": {"ref_dots": 37654, "spearman": 0.00251, "cand_in_3px_ref": 0.19367, "ref_in_3px_cand": 0.21520, "sym_within_3px": 0.19367},
         "H_GEO_CONDUIT": {"ref_dots": 37654, "spearman": 0.07314, "cand_in_3px_ref": 0.33575, "ref_in_3px_cand": 0.41252, "sym_within_3px": 0.33575},
@@ -88,16 +89,13 @@ def main() -> int:
     sub_build["arena8a_candidate"] = "registry/arena8a_submission.json"
     sub_build_path.write_text(json.dumps(sub_build, indent=2) + "\n")
 
-    # Update registry/current_status.json: promote Arena8a MDRC to newest_unique (DO NOT SUBMIT) while keeping h42_candidate & round6_candidate
+    # Update registry/current_status.json: add arena8a_candidate while keeping newest_unique (H36-1C contract) + round6_candidate intact
     cs_path = ROOT / "registry" / "current_status.json"
     if cs_path.exists():
         cs = json.loads(cs_path.read_text())
-        prev_newest = cs.get("newest_unique") or {}
-        if prev_newest and "h42-hwci" in str(prev_newest.get("file", "")) and "h42_candidate" not in cs:
-            cs["h42_candidate"] = prev_newest
-        cs["updated_utc"] = "2026-10-26T02:05:00Z"
+        cs["updated_utc"] = "2026-10-26T02:10:00Z"
         cs["any_file_ok_to_submit"] = False
-        cs["newest_unique"] = {
+        cs["arena8a_candidate"] = {
             "file": tif_rel,
             "zip": zip_rel,
             "receipt": f"docs/downloads/checks-{Path(tif_rel).name}.json",

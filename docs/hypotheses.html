@@ -7,7 +7,7 @@
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
 <p style="margin:4px 0"><b>No file in this repository is authorized for upload.</b>
 The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
-Updated 2026-10-26T02:05:00Z.</p>
+Updated 2026-10-26T02:10:00Z.</p>
 <p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
 <a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
@@ -146,7 +146,27 @@ the slot gate.</p>
 <td>USGS ComCat FDSN</td><td>microseismic planes</td>
 <td>sub-surface faults without scarps</td><td>not new; listed for completeness</td>
 <td>low at 300 m tolerance · cost high · data: unreachable from this sandbox</td>
-<td>registered (previously proposed as H33-E/H-F4; data-blocked)</td></tr><tr><td>1</td><td><b>A8A-H1</b><br>Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits</td>
+<td>registered (previously proposed as H33-E/H-F4; data-blocked)</td></tr><tr><td>1</td><td><b>H36-1</b><br>True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS)</td>
+<td>tmi_vg; tmi_hg; tmi; iso_grav_anom_vg; iso_grav_anom_slope; iso_grav_anom_hg; dem; lidar_3dep_1m_scarps.tif</td><td>arctan(tmi_vg/tmi_hg) &amp; arctan(iso_grav_anom_vg/iso_grav_anom_slope) zero-contours surviving 150 m upward continuation + Band-18 d(g)/dx polarity reversal + 16-azimuth drainage/LiDAR scarp break</td>
+<td>Depth-independent Miller-Singh (1994) tilt zero-contours resolve buried Range-Front/accommodation steps beneath Quaternary alluvial fans; fixes IR-32-BAND-02 and IR-32-BAND-03</td><td>Zero catalogue features (dist_known_fault_px excluded); 500 m halo-excluded PU Spatial-CV HistGB x R_phys + Steger (1998) sub-pixel curvilinear crest NMS</td>
+<td>HOLDOUT-DTI 0.10982 [0.0987, 0.1227] (v3-vis, 22,232 pos); SGMC 0.08380 [0.0608, 0.1099] vs Champion 0.09606 -&gt; DO NOT SUBMIT · cost medium (~18 min across 3 experiments) · data: all layers verified locally in .cache/gems_data/</td>
+<td>measured — negative (H36-1C: HOLDOUT-DTI 0.10982 [0.0987, 0.1227] v3-vis; cens_d0 0.07639 &lt; 0.09920; SGMC 0.08380 &lt; 0.09606)</td></tr><tr><td>2</td><td><b>H36-2</b><br>Anisotropic Potential-Field Horizontal-Gradient Curvature Tensor (Phillips-Hansen Strike-Coherent Basement Steps)</td>
+<td>iso_grav_anom_slope; tmi_hg; dem; 2m_temp</td><td>Transverse Hessian eigenvalue lambda_min of smoothed |grad g_iso| and |grad TMI| aligned within &lt;=20 deg of regional Basin-and-Range strike</td>
+<td>Resolves pure basement density/magnetization contact curvature beneath featureless playa floors without topographic scarps</td><td>Prior code applied Frangi/Meijering ridge filters only to DEM; potential-field gradients were only used as isotropic point scalars</td>
+<td>+0.005 to +0.015 HOLDOUT-DTI over isotropic potential-field baselines · cost low-medium (~15 min) · data: all layers in training_features.tif</td>
+<td>registered (untried; next priority)</td></tr><tr><td>3</td><td><b>H36-3</b><br>Hydrothermal Demagnetization Trough + K/eTh Argillic/Adularia Alteration Halo Along Structural Corridors</td>
+<td>tmi; tmi_rtp; tmi_hg; k; eth; eu; tc; tgt_geotherm</td><td>Narrow linear magnetic-susceptibility destruction trough flanked by elevated K/eTh ratio and geothermal heat-flow anomaly</td>
+<td>Geothermally active blind conduits destroy magnetite -&gt; hematite/pyrite and enrich K without Quaternary surface rupture</td><td>Correctly treats Band 6 tc as radiometric Total Count (fixing IR-32-BAND-02) rather than terrain correction</td>
+<td>+0.004 to +0.012 HOLDOUT-DTI on geothermal corridors · cost low (~10 min) · data: all layers in training_features.tif</td>
+<td>registered (untried)</td></tr><tr><td>4</td><td><b>H36-4</b><br>Half-Graben Accommodation-Zone Polarity-Reversal Saddle Detector (Synthetic-to-Antithetic Transfer Zones)</td>
+<td>iso_grav_anom_hg; iso_grav_anom_slope; iso_grav_anom; dem</td><td>Along-strike sign reversal in Band 18 (signed d(g_iso)/dx) between opposing-polarity half-grabens</td>
+<td>Faulds &amp; Hinz (2015) accommodation/transfer zones host &gt;50% of Great Basin blind geothermal systems with distributed strain and minimal surface scarps</td><td>First formulation exploiting Band 18 signed E-W gravity derivative polarity flips (IR-32-BAND-03)</td>
+<td>+0.003 to +0.010 HOLDOUT-DTI in transfer-zone corridors · cost low (~10 min) · data: all layers in training_features.tif</td>
+<td>registered (untried)</td></tr><tr><td>5</td><td><b>H36-5</b><br>Sentinel-1 Ascending/Descending InSAR Phase-Gradient &amp; UNR Magnetotelluric Subsurface Conductivity Boundaries</td>
+<td>ASF Sentinel-1 ARIA/OPERA LOS velocity; USGS/DOE Great Basin MT resistivity</td><td>Aseismic creep / groundwater-barrier InSAR LOS velocity steps + subvertical &lt;10 ohm-m conductive fault-gouge zones</td>
+<td>Directly images fluid-filled permeable fault zones at 0.5-3 km reservoir depth beneath intact Holocene playa fill</td><td>Orthogonal physical observables (radar deformation &amp; EM conductivity)</td>
+<td>unmeasured (data-blocked in sandbox) · cost blocked in sandbox · data: outbound network restricted to github.com/pypi.org/npmjs.org; sciencebase.gov &amp; asf.alaska.edu unreachable</td>
+<td>registered (data-blocked in sandbox)</td></tr><tr><td>1</td><td><b>A8A-H1</b><br>Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits</td>
 <td>lidar_scarp_features_u8 (b2 step_max, b3/b4 lapneg*lappos, b7/b8 |downface-upface|, b9 cross, b10 coh100, b11 strike, b12 valid); training_features (rtp b2, tmi b1, tmi_hg b3, iso_grav_anom b13, grav_hg b18, depth_to_base_surf b15, cond_surf b17, det_elev b12, geod_shearrate b8); geodawn_rad_u8 (K, eU, eTh) + gdr_wellspring_in_footprint.csv (temp_c, na_k_c, chalcedony_c; dist_known_fault_px dropped)</td><td>One-sided 1 m LiDAR crest-toe dipole (missing tiles routed via native NaN) concordant with true Miller-Singh (1994) RTP/TMI tilt-zero lineaments, gravity/MT basement steps, and K/Th + geothermometer halos; sharpened onto 1-px cross-strike crests</td>
 <td>Catches sub-metre degraded scarps on valid 3DEP tiles and covered sub-alluvial transfer/step-over faults where &gt;=2 subsurface/hydrothermal domains align; dual-head piedmont weighting mitigates range-front domain shift</td><td>Fixes IR-32-BAND6-TC-01 (Band 6 is radiometric TC, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR mis-indexing + 24.6% missing-tile zeros); adds 1-px cross-strike crest sharpening; Mimic: fluvial terrace risers / gullies (suppressed by |downface-upface| &amp; &gt;=2-domain gate)</td>
 <td>HOLDOUT-DTI 0.10679 [0.08765, 0.12850] (beats CTRL 0.09893 &amp; D2.8 0.09920; SGMC-cal 0.05509 &lt; 0.06412) · cost 3/3 session experiments (~14 min CPU) · data: all inputs hash-pinned in .cache/gems_data</td>
@@ -192,7 +212,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 01:58 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 02:06 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

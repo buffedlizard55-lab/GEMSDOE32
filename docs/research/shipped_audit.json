@@ -1495,6 +1495,90 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif",
+   "bytes": 340598,
+   "sha256": "fae334455ae2eabe8d26f80168420105cb2f8f253c2c2c755f2ac47cf167123d",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31570,
+   "off_h19_5_frac": 0.8384235406596908,
+   "catalogue_proxy_T": 294.691680072385,
+   "catalogue_proxy_F": 37434.39631317385,
+   "credit_per_unit_mass": 0.007826304776979471,
+   "catalogue_proxy_DTI": 0.0052309454314421475,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
+   "bytes": 206761,
+   "sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31570,
+   "off_h19_5_frac": 0.8384235406596908,
+   "catalogue_proxy_T": 294.691680072385,
+   "catalogue_proxy_F": 37434.39631317385,
+   "credit_per_unit_mass": 0.007826304776979471,
+   "catalogue_proxy_DTI": 0.0052309454314421475,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
    "bytes": 121893,
    "sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
@@ -1788,5 +1872,6 @@
    "catalogue_proxy_DTI": 0.005534373596565496,
    "dots_on_catalogue": 0
   }
- ]
+ ],
+ "portal_illegal": []
 }
