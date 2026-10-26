@@ -64,15 +64,15 @@ def test_round6_run_card_and_protocol_contract():
 
 def test_round6_unique_geotiff_and_zip_portal_ready():
     rc = json.loads((ROOT / "evidence" / "h36_tdr_pds_run_card.json").read_text())
-    sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
+    st = json.loads((ROOT / "registry" / "current_status.json").read_text())["newest_unique"]
 
     tif_path = ROOT / rc["artifacts"]["primary_zeros_tif"]
     nan_path = ROOT / rc["artifacts"]["nan_companion_tif"]
     zip_path = ROOT / rc["artifacts"]["zip_archive"]
 
     assert tif_path.is_file() and nan_path.is_file() and zip_path.is_file()
-    assert sub["file"]["path"] == rc["artifacts"]["primary_zeros_tif"]
-    assert sha256_file(tif_path) == rc["raster_sha256"] == sub["file"]["sha256"]
+    assert st["file"] == rc["artifacts"]["primary_zeros_tif"]
+    assert sha256_file(tif_path) == rc["raster_sha256"] == st["sha256"]
 
     with rasterio.open(tif_path) as ds:
         assert str(ds.crs) == "EPSG:32611"

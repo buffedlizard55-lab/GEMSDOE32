@@ -528,46 +528,20 @@ def main() -> int:
     ev_path.write_text(json.dumps(run_card, indent=2, allow_nan=False) + "\n", encoding="utf-8")
     latest_path.write_text(json.dumps(run_card, indent=2, allow_nan=False) + "\n", encoding="utf-8")
 
-    # 7. Update registry/submission_build.json honestly (verdict="negative", ok_to_submit=False)
-    sub_build = {
-        "schema_version": 2,
-        "generated_at_utc": "2026-10-26T01:20:00Z",
-        "name": stem,
-        "submission_name": run_card["submission_name"],
-        "verdict": "negative",
-        "download_ok": True,
-        "ok_to_submit": False,
-        "note": note_short,
-        "file": {
-            "path": f"docs/downloads/{zeros_name}",
-            "sha256": audit_zeros["sha256"],
-            "bytes": audit_zeros["size_bytes"],
-            "emitted_positive_pixels": audit_zeros["emitted_positive_pixels"],
-            "on_catalogue_positive_pixels": 0,
-            "portal_legal": True,
-        },
-        "zip": {
-            "path": f"docs/downloads/{stem}.zip",
-            "sha256": run_card["artifacts"]["zip_sha256"],
-            "bytes": run_card["artifacts"]["zip_size_bytes"],
-        },
-        "nan_companion": {
-            "path": f"docs/downloads/{nan_name}",
-            "sha256": bundle["nan_tif"]["sha256"],
-            "bytes": bundle["nan_tif"]["size_bytes"],
-        },
-        "anchor": {
-            "name": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros",
-            "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
-            "owner_reported_live_dti": 0.2778,
-            "emitted_positive_pixels": 37654,
-            "resubmit_policy": "ALREADY_SCORED_DO_NOT_RESUBMIT",
-        },
-        "run_card": "evidence/h36_tdr_pds_run_card.json",
-    }
-    (ROOT / "registry" / "submission_build.json").write_text(
-        json.dumps(sub_build, indent=2, allow_nan=False) + "\n", encoding="utf-8"
-    )
+    # 7. Sync registry/current_status.json newest_unique (keeping submission_build.json pinned to current_release_review.json)
+    st_path = ROOT / "registry" / "current_status.json"
+    if st_path.is_file():
+        st = json.loads(st_path.read_text(encoding="utf-8"))
+        st["newest_unique"]["file"] = f"docs/downloads/{zeros_name}"
+        st["newest_unique"]["zip"] = f"docs/downloads/{stem}.zip"
+        st["newest_unique"]["sha256"] = audit_zeros["sha256"]
+        st["newest_unique"]["bytes"] = audit_zeros["size_bytes"]
+        st["newest_unique"]["submission_name"] = run_card["submission_name"]
+        st["newest_unique"]["note"] = note_short
+        st["newest_unique"]["ok_to_submit"] = False
+        st["newest_unique"]["verdict"] = "DO NOT SUBMIT"
+        st["newest_unique"]["run_card"] = "evidence/h36_tdr_pds_run_card.json"
+        st_path.write_text(json.dumps(st, indent=1, allow_nan=False) + "\n", encoding="utf-8")
 
     print(f"Wrote unique GeoTIFF: {zeros_path.relative_to(ROOT)} ({audit_zeros['size_bytes']:,} B)")
     print(f"SHA-256: {audit_zeros['sha256']}")

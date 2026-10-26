@@ -3,165 +3,65 @@
 <title>GEMSDOE32 - a fault-discovery system for the DOE GEMS Prize · GEMSDOE32</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>GEMSDOE32 - a fault-discovery system for the DOE GEMS Prize</h1><nav><a href="index.html" class=active>Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html">Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
-<section class=dl style="border:3px solid #b91c1c; background:#fff8f8;" aria-label="Current submission decision">
-<h2>DO NOT SUBMIT — current strict protocol review</h2>
-<p><b>No file is approved by this review. Downloads below are validated research/audit artifacts (<code>download_ok = true</code>), NOT upload authorization (<code>ok_to_submit = false</code>, <code>verdict = negative</code>).</b>
-Older primary/promoted labels in historical archives below do not override this notice.</p>
-<ul><li><code>gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif</code>: 12/12 format audit PASS; within 3 px of synthetic 5-px calibration lattice = 99.80%; <b>literal duplicate — STOP</b></li><li><code>gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif</code>: 12/12 format audit PASS; within 3 px of synthetic 5-px calibration lattice = 98.66%; <b>literal duplicate — STOP</b></li></ul>
-<p><b>Round-6 Summary (<code>GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2</code>, 3/3 experiments, 0 weekly slots used):</b>
-Our newly generated unique GeoTIFF passes <b>13/13 non-human portal/range-[0, 1] checks</b>, <b>46/46 holdout leakage canaries</b> (max AUC <code>0.5841 &le; 0.90</code>), and <b>uniqueness across all 44 genuine submission/detector rasters</b> (max |Spearman| <code>0.1595 &le; 0.90</code>; max 3-px dot overlap <code>60.44% &le; 70%</code>; <code>52.20%</code> vs. 0.2778 Champion). It achieves <b>HOLDOUT-DTI <code>0.10982</code></b> (95% CI <code>[0.09866, 0.12275]</code>, <code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, <code>22,232</code> withheld positives), but trails the <code>0.2778</code> Champion on censorship-matched control (<code>0.07639</code> vs. <code>0.09920</code>) and independent off-catalogue USGS SGMC blind faults (<b>HOLDOUT-DTI <code>0.08380</code></b> vs. <code>0.09606</code>), and hits the unmodified literal 5-px calibration-lattice stop (<code>99.80% &gt; 70%</code>). <b>Protect your 3/week DrivenData cap: spend 0 live slots today.</b></p>
-<p><a href="research/hypotheses-round6-20261026.md">Round-6 ranked hypotheses (H36-1..H36-5)</a> ·
-<a href="data/latest-run-card.json">Canonical JSON Run Card</a> ·
-<a href="data/protocol-audit.json">Exact automated protocol-audit.json</a> ·
-<a href="executive-summary.html">9-Site Executive Summary &amp; Submission Guide</a></p></section>
-<div class=dlbtn><a class="btn" href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif">&#11015; Download the registry-primary GeoTIFF (read its status first)</a> <a class="btn alt" href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip">.zip</a></div>
+<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
+<p style="margin:4px 0"><b>No file in this repository is authorized for upload.</b>
+The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Updated 2026-10-26T01:45:00Z.</p>
+<p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
+<a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
+<a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
+<a href="executive-summary.html">How a cleared file would be submitted</a></p></section>
+
+<div class=dlbtn><span class="btn" style="background:#b91c1c;color:#fff">&#128308; DO NOT SUBMIT &mdash; no upload authorized</span> <a class="btn alt" href="index.html#status">status &amp; audit downloads</a></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
-<main class=wrap><div class=card>
-<h2>&#127919;&nbsp;Executive Fleet Audit Across the 9 Focus Sites (2026-10-26)</h2>
-<p><b>Bottom-Line Leaderboard Decision:</b> Across all 9 focus repositories, the highest leaderboard score
-belongs to <b>GEMSDOE32</b>'s <code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code>
-(<b>0.2778</b> owner-reported live score, 37,654 dots) &mdash; <b>already submitted and scored; do NOT re-upload it</b>.
-Every high-scoring historical file across the 9 sites belongs to the <b>single nested <code>H19-5</code> dot-thinning family</b>
-(with two exact byte/pixel duplicate pairs and one 96.9% superset). Every newly generated 2026-10-26 unique physical/ML GeoTIFF across all 9 sites is
-<b>portal-valid (<code>download_ok = true</code>)</b> and <b>honestly gated <code>DO NOT SUBMIT</code> (<code>verdict = negative</code>)</b>.
-<b>Recommended live DrivenData slots to spend today: 0.</b></p>
+<main class=wrap><div class=card id=status style="border:3px solid #b00020">
+<h2 style="margin-top:0">&#128678; Submission status &mdash; updated 2026-10-26T01:45:00Z</h2>
+<p style="font-size:1.2em"><b>Is any new file OK to submit?</b> <b style="color:#b00020">&#128308; NO &mdash; No file in this repository is authorized for upload.</b> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b> anything below as an expected improvement.</p>
+<p class=mut>OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound &gt; 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.</p>
 <table>
-<tr><th>Site &amp; Verified Repo</th><th>Best Historical Scored File (Owner-Reported Score)</th><th>Uniqueness / Family Relation (Byte-Verified)</th><th>Latest 2026-10-26 Unique Research TIF</th><th>Submit Verdict</th></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE32"><b>GEMSDOE32</b></a><br><span class=mut>THIS REPO</span></td>
-<td><code>h33-h33-2-b2-…-e5eb6e7e-zeros.tif</code><br><b>0.2778 (FLEET BEST)</b> · 37,654 dots</td>
-<td><b>Canonical B=2 Optimum</b> = <code>solo &amp; (d_cat &gt; 2)</code>; sha256 <code>e5eb6e7e…</code> (already scored)</td>
-<td><code>gemsdoe32-h36-1c-tdr-pds-steger-37654-…-9ff9d6e2-zeros.tif</code><br><span class=mut>Unique vs 44 detectors (max 3px ov 60.44%, |&rho;| 0.1595)</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b><br><span class=mut>Champion already scored; H36-1C SGMC 0.0838 &lt; 0.0961</span></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE36"><b>GEMSDOE36</b></a><br><span class=mut>HEAD <code>a4c660a8</code></span></td>
-<td><code>anderson-friction-pinn-b2-swap1200-…-zeros.tif</code><br><b>0.2750</b> · 38,854 dots</td>
-<td><b>96.91% Superset Duplicate</b> of GEMSDOE32 Champion (all 37,654 Champion dots + 1,200 extra dots costing &minus;0.0028)</td>
-<td><code>gemsdoe36-h36-gps-graben-pair-20261026-bb29ce2a4bb4-zeros.tif</code><br><span class=mut>89.85% &gt; 70% overlap; HOLDOUT-DTI 0.1320 &lt; 0.1488</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE28"><b>GEMSDOE28</b></a><br><span class=mut>HEAD <code>94152be6</code></span></td>
-<td><code>gems28-h27-4-r1-solo-d2-8-…-allfinite.tif</code><br><b>0.2708</b> · 40,199 dots</td>
-<td><b>Exact Dot-Identical Twin</b> of GEMSDOE31 <code>solo</code> = <code>d2.8 &amp; (d_cat &gt; 1)</code></td>
-<td><code>gems28-s20-vesselness-lidarstep-20261026-7a7c5e44</code><br><span class=mut>37,500 dots; HOLDOUT-DTI 0.0863 &lt; 0.0988</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE31"><b>GEMSDOE31</b></a><br><span class=mut>HEAD <code>6ca63b0c</code></span></td>
-<td><code>gems31-h27-4-r1-solo-d2-8-…-nan.tif</code><br><b>0.2708</b> · 40,199 dots</td>
-<td><b>Exact Dot-Identical Twin</b> of GEMSDOE28 <code>solo</code> (0 symmetric pixel diff)</td>
-<td><code>gems31-xfcoh31-xfield-coherence-37654-20261026-zeros.tif</code><br><span class=mut>HOLDOUT-DTI 0.0459 &lt; 0.0481 control</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE33"><b>GEMSDOE33</b></a><br><span class=mut>HEAD <code>7deca206</code></span></td>
-<td><code>GEMSDOE33-h33d-skel-b1-trim-…-zeros.tif</code><br><b>0.2632</b> · 41,865 dots</td>
-<td><b>H19-5 Family Subset/Trim</b> (B=1 skeleton trim, 41,865 dots)</td>
-<td><i>No new unique 2026-10-26 TIF emitted (input/gate audit)</i></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE25"><b>GEMSDOE25</b></a><br><span class=mut>HEAD <code>de77cb6c</code></span></td>
-<td><code>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</code><br><b>0.2600</b> · 44,090 dots</td>
-<td><b>Exact Dot-Identical Twin</b> of GEMSDOE30 <code>poisson300m</code> (0 symmetric pixel diff)</td>
-<td><i>ROD factorial evaluation (OK TO SUBMIT: NO)</i></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE30"><b>GEMSDOE30</b></a><br><span class=mut>HEAD <code>ac54b7f3</code></span></td>
-<td><code>gems30-h19-5-poisson300m-…-nan.tif</code><br><b>0.2600</b> · 44,090 dots</td>
-<td><b>Exact Dot-Identical Twin</b> of GEMSDOE25 <code>d2.8</code> (IR-32-FAM-02)</td>
-<td><code>gems30-PTA1-44090-20261025-9a3f7f9535a4.tif</code><br><span class=mut>Unique across 196 rasters; negative gate stop</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE24"><b>GEMSDOE24</b></a><br><span class=mut>HEAD <code>2a2b9829</code></span></td>
-<td><code>gems24-h25-1-dotted-h19-5-d1-5-…-nan.tif</code><br><b>0.2194</b> · 77,507 dots</td>
-<td><b>Dense d=1.5 Member</b> of H19-5 family (GVC1 37,654d unsubmitted duplicate corridor)</td>
-<td><code>gems24-crp1-compfront-xdepth-saddle-…-zeros.tif</code><br><span class=mut>80.7% &gt; 70% 3px overlap; HOLDOUT-DTI 0.1375 &lt; 0.1488</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
-<tr><td><a href="https://github.com/buffedlizard55-lab/GEMSDOE27"><b>GEMSDOE27</b></a><br><span class=mut>HEAD <code>398cda94</code></span></td>
-<td><code>H29-S (511898747886)</code> <b>0.2190</b> (37,654d) · <code>topo-gap-closure</code> <b>0.2186</b> (78,763d)</td>
-<td><code>H29-S</code> is the highest live-scored <b>pure OOF ML non-H19-5 surface</b> (0.2190 &lt; 0.2778)</td>
-<td><code>gems27-h31-rankens-celf-b2-20261026-93c8af046660-allfinite.tif</code><br><span class=mut>Unique; HOLDOUT-DTI 0.03671 &lt; 0.04402</span></td>
-<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>
+<tr><th>Best scored file</th><td><a href="downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> &mdash;
+<b>0.2778</b> ORGANIZER-CONFIRMED (owner-reported receipt) &middot; 37,654 dots &middot; sha256
+<code>c55bafc470054e82&hellip;</code><br><b>already submitted - do not resubmit (a resubmission spends a slot and adds no information)</b></td></tr>
+<tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif">&#11015; gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif</a>
+<a class="btn alt" href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip">.zip</a> <a href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-audit.json">receipt</a>
+&middot; <a href="../evidence/h36_tdr_pds_run_card.json">run card</a><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b> &mdash; H36-1C True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS + Steger Crest);
+37,654 dots; sha256 <code>f75ac7ae172eed08&hellip;</code><br>
+<span class=mut>Archive portal name: <code>GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2</code> &middot; Archive note (118/140 chars): <code>H36-1C TDR-PDS+Steger 37654d | HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos | SGMC 0.0838&lt;0.0961 | DO NOT SUBMIT</code></span>
+<ul><li>G3 censorship-matched &amp; off-catalogue blind-fault check FAILED to beat the 0.2778 Champion: H36-1C scores 0.1098 [0.0987, 0.1227] vs raw Champion 0.0992 [0.0820, 0.1222] on GEMSDOE32-HOLDOUT-v3-visible-gated, but under identical d_hidden==0 censorship (IR-32-FIELD-01) scores 0.0764 &lt; 0.0992, and on off-catalogue USGS SGMC blind faults (&gt;300 m) scores 0.0838 [0.0608, 0.1099] &lt; Champion 0.0961 [0.0848, 0.1077].</li><li>G4 genuine uniqueness PASSED across all 44 genuine submission/detector rasters (max |Spearman| = 0.1595 &lt;= 0.90; max 3-px overlap = 60.44% &lt;= 70%; 52.20% vs 0.2778 Champion), while the literal no-exemption 5-px calibration lattice (13gems r13-lattice-s5, covering 99.87% of footprint) registers 99.80% &gt; 70% (IR-32-LATTICE-01).</li></ul>
+<table><tr><th colspan=3>HOLDOUT-DTI, GEMSDOE32-HOLDOUT-v3-visible-gated (fixes IR-32-INSTR-03), 22232 withheld positives, 95% CI</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr><tr><td>H36-1C (hybrid + Steger)</td><td>0.1098</td><td>[0.0987, 0.1227]</td></tr><tr><td>H36-1B (PU HistGB + Steger)</td><td>0.1048</td><td>[0.0950, 0.1177]</td></tr><tr><td>H36-1A (unsupervised crest)</td><td>0.0638</td><td>[0.0499, 0.0773]</td></tr><tr><td>CHAMPION_0.2778 (raw)</td><td>0.0992</td><td>[0.0820, 0.1222]</td></tr><tr><td>H36-1C (censored d0==0)</td><td>0.0764</td><td>[0.0655, 0.0881]</td></tr></table>
+<table><tr><th colspan=3>HOLDOUT-DTI (off-catalogue USGS SGMC blind faults &gt;300 m, 62703 px), 95% CI</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr><tr><td>H36-1C_TDR_PDS</td><td>0.0838</td><td>[0.0608, 0.1099]</td></tr><tr><td>CHAMPION_0.2778</td><td>0.0961</td><td>[0.0848, 0.1077]</td></tr></table>
+</td></tr>
+<tr><th>Round-6 candidate</th><td><b style="color:#b00020">&#128308; DO NOT SUBMIT - audit artifact only</b> &mdash;
+<a href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a> (audit artifact only)
+&middot; sha256 <code>c7f094c1f4d00f2d&hellip;</code><br><small>parallel Round-6 session (PR #18); its own run card recorded a positive verdict, withdrawn by the fail-closed release review (PR #21)</small>
+<p><b>Why not authorized:</b></p><ul><li>Release review (PR #21, evidence/current_release_review.json): no assigned method paragraph for that session; its B=2 mask was derived from the full catalogue rather than fold-locally, so fold-local hide-and-recover evidence is missing.</li><li>IR-42-INSTR-02 (this session): the SGMC instrument behind its positive verdict does not track live scores outside the champion family - SGMC-tracing files score 0.6483 (GEMSDOE72) and 0.5607 (GEMSDOE29) on it, 6-7x the champion, yet scored 0.0492 and 0.0512 live.</li><li>The review&#x27;s lattice-overlap reason (97.82% within 3 px of the 13gems calibration lattice) does not discriminate: random dots score 0.9988 and the champion 0.9992 on that test (IR-42-UNIQ-01).</li></ul>
+<p><b>What this session confirmed independently:</b></p><ul><li>SGMC off-catalogue instrument (template evaluator): 0.1419 vs champion 0.0954 vs random 0.0702; paired vs champion +0.0465 [+0.0255, +0.0681]</li><li>lane-unique vs 205 registry rasters (worst informative overlap 0.414; max Spearman 0.016)</li><li>format-valid (its own dual validators; zeros variant all-finite in [0,1])</li></ul><p class=mut>Evidence: <a href="../evidence/current_release_review.json">current_release_review.json</a> &middot; <a href="../evidence/round6_run_card.json">round6_run_card.json</a> &middot; <a href="../evidence/r6_independent_recheck.json">r6_independent_recheck.json</a> &middot; <a href="../evidence/sgmc_instrument_live_counterexamples.json">sgmc_instrument_live_counterexamples.json</a></p></td></tr>
+<tr><th>Withdrawn</th><td><ul><li><code>gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif</code> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b>. H42-1 HWCI (parallel session): HOLDOUT-DTI 0.1529 [0.1400, 0.1674] on gems57-pooled-hide-v2, but failed G4 lane gate (81.9% within 3 px of GEMSDOE25 h38-greedy-credit &gt; 70%) and scored 0.0545 &lt; random 0.0709 on off-catalogue SGMC (IR-42-INSTR-01).</li><li><code>gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</code> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b>. IR-42-README-01: champion-family variant (37,298 shared dots, Jaccard 0.803, 84.0% within 3 px); claimed holdout margin 0.14840 vs 0.14801 inside its CI [0.115, 0.182]; SGMC off-catalogue instrument indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).</li><li><code>gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif</code> &mdash; <b style="color:#b00020">DO NOT SUBMIT</b>. IR-R6-02 (Round-6 session): 70.24% of dots within 3 px of GEMSDOE28 h28-dotted-ridge exceeds the 70% lane gate; SGMC-calibrated 0.0462 below champion 0.0641.</li></ul></td></tr>
+<tr><th>Leaderboard</th><td>public #1 = <b>0.4413</b> (xiaofanhu), read 2026-10-25
+from the <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">official leaderboard</a></td></tr>
 </table>
-
-<h3>Round-6 Lane <code>H36-1 (TDR-PDS)</code> — Measured 3-Experiment Progression &amp; Automated Gate Receipt</h3>
-<p>Motivated by two byte-verified physical discoveries &mdash; <b>IR-32-BAND-02</b> (Band 6 <code>tc</code> correlates at
-<code>&rho; = +0.99942</code> with GeoDAWN radiometric Total Count, proving true Miller&ndash;Singh magnetic &amp; gravity tilt angles
-<code>arctan(VG/HG)</code> were never previously computed) and <b>IR-32-BAND-03</b> (Band 18 <code>iso_grav_anom_hg</code> is signed
-<code>&part;g/&part;x</code> at <code>&rho; = +0.9438</code>, locating half-graben polarity reversals) &mdash; plus repairing
-<b>IR-32-INSTR-03</b> in <code>src/gems32/holdout.py</code> (<code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, restoring exact live order
-<code>0.06879 &lt; 0.09674 &lt; 0.09898 &lt; 0.09920</code>), we ran 3 pre-registered experiments at matched <code>37,654</code> dots:</p>
-<table>
-<tr><th>Experiment (Budget Cap: 3/3)</th><th>v3 Visible-Gated Pooled <code>HOLDOUT-DTI</code> [95% CI]<br><span class=mut>22,232 withheld Quaternary positives</span></th><th>Censored-<code>d=0</code> Control<br><span class=mut>matches IR-32-FIELD-01</span></th><th>Off-Catalogue <code>SGMC</code> Raw <code>HOLDOUT-DTI</code><br><span class=mut>62,703 blind faults &gt;300 m</span></th><th><code>SGMC</code> Calibrated <code>HOLDOUT-DTI</code></th></tr>
-<tr><td><b>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</b></td><td><code>0.09920</code> <span class=mut>[0.0820, 0.1222]</span></td><td><code>0.09920</code></td><td><b><code>0.09606</code></b> <span class=mut>[0.0848, 0.1077]</span></td><td><b><code>0.06412</code></b></td></tr>
-<tr><td><b>Exp 1 — H36-1A (Unsupervised Multi-Physics Curvilinear Crest)</b></td><td><code>0.06380</code> <span class=mut>[0.0499, 0.0773]</span></td><td><code>0.04336</code></td><td><code>0.16421</code></td><td><code>0.11054</code></td></tr><tr><td><b>Exp 2 — H36-1B (500m Halo-Excluded PU Spatial-CV HistGB + Steger Crest)</b></td><td><code>0.10482</code> <span class=mut>[0.0950, 0.1177]</span></td><td><code>0.07410</code></td><td><code>0.06832</code></td><td><code>0.04542</code></td></tr><tr><td><b>Exp 3 — H36-1C (Geometric-Mean PU * Multi-Physics Hybrid + Steger Crest)</b></td><td><code>0.10982</code> <span class=mut>[0.0987, 0.1227]</span></td><td><code>0.07639</code></td><td><code>0.08380</code></td><td><code>0.05585</code></td></tr>
-</table>
-<p class=mut><b>Automated Gate Summary (Zero Human Intervention):</b> Format 13/13 <b>PASS</b> · Leakage Canaries 46/46 <b>PASS</b>
-(worst oriented AUC <code>0.5841 &le; 0.90</code>) · Genuine 44-Raster Uniqueness <b>PASS</b>
-(max |Spearman| <code>0.1595 &le; 0.90</code>; max 3-px dot overlap
-<code>60.44% &le; 70%</code>; vs. 0.2778 Champion
-<code>52.20%</code>) · Blind SGMC Holdout <b>FAIL</b>
-(<code>0.08380 &lt; 0.09606</code>) · Literal 5-px Calibration Lattice <b>STOP</b> (<code>99.80% &gt; 70%</code>, IR-32-LATTICE-01)
-&rarr; <b>Verdict: <code>NEGATIVE</code></b> (<a href="data/latest-run-card.json">JSON Run Card</a>).</p>
-
-<h3>PhD Analysis: Why <code>0.2778</code> Won, Its Hard Ceiling, and What Is Required for <code>0.3195</code> &amp; <code>0.4413</code></h3>
-<ul>
-<li><b>Exact Metric Inversion:</b> From <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> across the nested pairs
-<code>H19-5</code> (121,131 px, 0.1922) &rarr; <code>D2.8</code> (44,090 px, 0.2600) &rarr; <code>Solo</code> (40,199 px, 0.2708) &rarr;
-<code>Champion</code> (37,654 px, <b>0.2778</b>), hidden test fault volume is <code>|G| &approx; 12,265</code> pixels (~1,226 km).</li>
-<li><b>Why <code>B = 2</code> Reached <code>0.2778</code>:</b> DrivenData masks known catalogue pixels during scoring; because hidden test faults
-are disjoint connected segments rather than parallel traces 100&ndash;200 m beside mapped faults, the 2,545 flank dots at
-<code>1 &lt; d_cat &le; 2 px</code> earned only ~0.0156 credit/dot (3.6&times; below the break-even bar <code>0.2&middot;DTI = 0.0556</code>).
-Removing them saved <code>0.2 &times; 2,545 = 509</code> denominator units for almost zero loss in <code>T &approx; 4,503</code>.</li>
-<li><b>Mathematical Impossibility Proof for Re-Thinning <code>H19-5</code> to <code>0.4413</code>:</b> Even the entire un-thinned 121,131-px
-<code>H19-5</code> ridge captures only <code>T_solid &approx; 5,021</code> weighted test pixels (<code>40.9%</code> of <code>|G|</code>).
-At 37,654 dots, reaching <code>0.3195</code> requires <code>T &approx; 5,430</code> (<code>44.3%</code> recall) and reaching the public #1
-<code>0.4413</code> (<code>xiaofanhu</code>) requires <code>T &approx; 8,408</code> (<code>68.6%</code> recall &gt; <code>5,021</code>)!
-Thus <b>no subset or re-weighting of <code>H19-5</code> can ever exceed ~0.305&ndash;0.312</b>; bridging to <code>0.3195&ndash;0.4413</code>
-requires discovering ~340 km of genuinely unmapped structures (relocated coseismic/microseismic planes such as the 2020
-<i>M<sub>w</sub></i>&nbsp;6.5 Monte Cristo splays, InSAR phase discontinuities, full-footprint 1&nbsp;m 3DEP LiDAR scarps, and 3-D MT/gravity inversions).</li>
-</ul>
+<p>Why, in full: <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/knowledge/05_h42_outcome_instrument_artifact_and_fault_discovery_science_2026-10-25.md">session findings (knowledge/05)</a> &middot;
+<a href="executive-summary.html">exact upload steps</a></p>
+</div><div class=dl style="border:3px solid #b91c1c">
+<h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
+<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547</code>.</p>
+<p><a href="downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif">Download audit artifact only: gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif</a></p>
 </div>
-<div class=dl>
-<h2>&#11015;&nbsp;UNIQUE VALIDATED GEOTIFF DOWNLOAD &mdash; VERDICT: NEGATIVE (RESEARCH ONLY · DO NOT UPLOAD)</h2>
-<p><a class="btn" href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif">Download gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif (Validated Research Artifact)</a> <a class="btn alt" href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip">.zip (single GeoTIFF inside)</a> <a class="btn alt" href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif">NaN-outside twin (masked companion)</a> </p>
-<p><b>Filename:</b> <code>gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif</code><br>
-<b>Unique submission name:</b> <code>GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2</code><br>
-<b>Short portal note (118/140 characters):</b><br>
-<code>H36-1C TDR-PDS+Steger 37654d | HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos | SGMC 0.0838&lt;0.0961 | DO NOT SUBMIT</code></p>
-<p class=mut>single band · float32 · EPSG:32611 · 100 m · 3730&times;3292 ·
-37,654 predicted pixels · every cell finite (12,279,160 / 12,279,160) · every value in [0, 1] ·
-0 NaN anywhere · nodata=None · sha256 <code>f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c</code>
-· <a href="downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-audit.json">13-point automated format receipt (.json)</a> </p>
-<p><b>Historical Fleet Champion Reference:</b> <a href="downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">Historical 0.2778 Champion h33-h33-2-b2 (already scored — DO NOT re-upload)</a> </p>
 
-<p class=warn><b>Automated Gate Verdict:</b> DOWNLOAD FOR RESEARCH: YES · LIVE PORTAL SUBMIT: NO (Verdict: NEGATIVE — trails 0.2778 Champion on off-catalogue SGMC blind faults 0.08380 vs 0.09606 and hits literal 5-px calibration lattice stop).</p>
-</div>
-<div class=dl>
-<h2>&#128300;&nbsp;ROUND 5 (2026-10-25) &mdash; why the champion scored 0.2778, and two new unique files</h2>
-<p><b>Round-5 verdict:</b> the champion file <code>h33-2-b2-…-e5eb6e7e-zeros.tif</code> is already
-submitted and scored <b>0.2778</b> (ORGANIZER-CONFIRMED, owner-reported) — do not resubmit it. The
-two round-5 files below are <b>unique and format-valid</b> but both measured <b>worse than the
-champion</b> on the fair local instrument, so both are labelled
-<b style="color:#b00020">DO NOT SUBMIT</b>. The one-click primary elsewhere on this page is a
-<i>separate parallel lane's</i> artifact (promoted on the drift instrument, IR-32-INSTR-01/03
-caveats apply) — round 5 neither promotes nor blocks it; promotion to a weekly slot is the
-selector's step, and this section never spends one.</p>
-<h3>Why h33-2-b2 got the group's highest score (measured from the bytes)</h3>
-<ul>
-<li>The whole top cluster is <b>one nested family</b>: H19-5 (121,131 dots, 0.1922) &sup; d2.8 (44,090,
-0.2600) &sup; solo (40,199, 0.2708) &sup; champion (37,654, <b>0.2778</b>). Every gain came from
-<i>removing</i> dots. The champion's construction is verified pixel-exactly: the 0.2708 base minus its
-2,545 dots within 200&nbsp;m of the catalogue.</li>
-<li>Mechanism: the scorer masks known faults, so near-catalogue dots almost never earn (implied
-&approx;0.006&ndash;0.016 credit/dot) but always pay &alpha;=0.2 in the denominator; the break-even bar at
-0.2778 is <code>k &gt; 0.2&middot;DTI = 0.0556</code>. B=2 was the first file with <b>zero</b> dots inside 200&nbsp;m.</li>
-<li>The runner-up (GEMSDOE36 &ldquo;Anderson PINN&rdquo;, 0.2750) <b>contains all 37,654 champion dots</b>
-+ 1,200 more &mdash; those extras cost &minus;0.0028 (IR-32-FAM-01).</li>
-<li>Beating 0.2778 therefore needs <b>better-placed mass, not more or less of the same mass</b>: at the
-same 37,654 dots, +8% mean credit reaches 0.30; the public #1 (0.4413, read 2026-10-25) needs &approx;+59%.</li>
-</ul>
-<h3>The two unique round-5 candidates (new lanes, honestly measured)</h3>
-<table><tr><th>candidate</th><th>validation gates (all numbers HOLDOUT-DTI unless labelled)</th></tr>
-<tr><td><b>H-CVF2 — CV-GBM 35-channel field, B=2, greedy max-coverage</b><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b></td><td>HOLDOUT-DTI @37,654 dots: SGMC-cal 0.05876 vs champion 0.06412; catalogue-hidden pooled 0.00075 (instrument perverse for B-gated files, IR-32-INSTR-03). Unique lane: 49.7% of dots within 3 px of the champion (champion family: &amp;ge;92.6%). Format: 12/12 audit checks pass.<br><span class=mut><a href="downloads/gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-zeros.tif">download .tif</a> · sha256 <code>5d65591a23df&hellip;</code> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/hcvf2_run.json">full receipt</a></span></td></tr>
-<tr><td><b>H-SUP-SGMC — CV-GBM + SGMC-north supervision</b><br><b style="color:#b00020">&#9940; DO NOT SUBMIT</b></td><td>Held-out SOUTH SGMC DTI 0.07517 vs champion 0.09289 (paired diff 95% CI [-0.03453560633425292, 0.0032577945996472924]). Unique lane + format-valid, but worse where it matters.<br><span class=mut><a href="downloads/gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-zeros.tif">download .tif</a> · sha256 <code>e20d00b8d600&hellip;</code> · <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/hsupsgmc_run.json">full receipt</a></span></td></tr>
-</table>
-<p class=mut>Method, frozen gates and falsifiers: <a href="research/hypotheses-round5.md">hypotheses-round5.md</a>.
-Forensic overlap anatomy: <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/evidence/registry_overlap.json">registry_overlap.json</a>
-(reproduce: <code>scripts/analyze_registry_overlap.py</code>). Instrument warning: the catalogue-hidden
-holdout scores the live B-ladder <i>backwards</i> (IR-32-INSTR-03) &mdash; do not gate B-pruned files on it.</p>
-</div>
+<div class=dl><h2>&#128202; Executive summary &mdash; verified audit across all 9 focus sites &amp; PhD 0.2778 &rarr; 0.3195 &rarr; 0.4413 analysis</h2>
+<p>Every historical score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; IR-32-SCORE-01; note also IR-32-SCORE-03: <code>0.3195</code> is the portfolio aspirational target, while public #1 <code>xiaofanhu</code> holds <b>0.4413</b>). Full reports:
+<a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a> &middot;
+<a href="research/hypotheses-round6-20261026.md">hypotheses-round6-20261026.md</a>.</p>
+<table><tr><th>site &amp; HEAD</th><th>best historical submission</th><th>score</th><th>byte forensics &amp; 2026-10-26 status</th><th>verdict today</th></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE24">GEMSDOE24</a></b><br><code class=mut>2a2b9829</code></td><td><code>h25-1-dotted-h19-5-d1-5 / h24-1-tip-relay</code></td><td>0.2477 / 0.2194</td><td>Denser H19-5 thin (60,069d, superseded) + unique tip/relay (crp1-dipfan-stepover negative today).</td><td><b>DO NOT SUBMIT</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE25">GEMSDOE25</a></b><br><code class=mut>de77cb6c</code></td><td><code>dotted-h19-5-d2-8-e56ea318af89</code></td><td>0.2600</td><td>44,090d dot-thin parent of champion; dot-identical to GEMSDOE30; latest h44 negative today.</td><td><b>DO NOT SUBMIT (superseded / dup 30)</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE27">GEMSDOE27</a></b><br><code class=mut>398cda94</code></td><td><code>topo-gap-closure (0.2449) / H29-S (0.2190)</code></td><td>0.2449 / 0.2190</td><td>Gap-closure on d1.5 hurt (-0.0028); latest h31-range-front-step-50k negative today.</td><td><b>DO NOT SUBMIT</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE28">GEMSDOE28</a></b><br><code class=mut>94152be6</code></td><td><code>h36-1-rung30 (0.2710) / solo-8acb75e1 (0.2708)</code></td><td>0.2710 / 0.2708</td><td>40,199d solo base identical to GEMSDOE31; latest s20-asymmetric-hanging-wall negative today.</td><td><b>DO NOT SUBMIT (already scored / dup 31)</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE30">GEMSDOE30</a></b><br><code class=mut>ac54b7f3</code></td><td><code>d28-poisson300m-offcat-44090</code></td><td>0.2600</td><td>Exact 44,090-dot duplicate of GEMSDOE25; latest PTA1-piedmont-thermal negative today.</td><td><b>DO NOT SUBMIT (duplicate of 25)</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE31">GEMSDOE31</a></b><br><code class=mut>6ca63b0c</code></td><td><code>h27-4-solo-d28-8acb75e1</code></td><td>0.2708</td><td>Exact 40,199-dot duplicate lineage of GEMSDOE28; latest xfcoh31-37654 negative today.</td><td><b>DO NOT SUBMIT (duplicate of 28)</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE32">GEMSDOE32</a></b><br><code class=mut>current</code></td><td><code>h33-h33-2-b2 (champion) + H36-1C TDR-PDS (9ff9d6e2)</code></td><td>0.2778 / unscored</td><td>Champion = B=2 ladder end (37,654d). H36-1C (0.1098 v3-vis; 0.0838 SGMC &lt; 0.0961) &amp; R6-1 are audit-only.</td><td><b>Champion: DO NOT RESUBMIT · H36-1C / R6-1: DO NOT SUBMIT</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE33">GEMSDOE33</a></b><br><code class=mut>7deca206</code></td><td><code>h33d-analog-tip-stepover-r30</code></td><td>0.2632</td><td>Unique tip/step-over analog (50,023d) below 0.2778; latest 2026-10-26 lane negative.</td><td><b>DO NOT SUBMIT</b></td></tr><tr><td><b><a href="https://github.com/buffedlizard55-lab/GEMSDOE36">GEMSDOE36</a></b><br><code class=mut>a4c660a8</code></td><td><code>anderson-geothermal-pinn-38854</code></td><td>0.2750</td><td>96.9% superset containing all 37,654 champion dots + 1,200 (-0.0028); latest gps-graben negative.</td><td><b>DO NOT SUBMIT (champion superset)</b></td></tr></table>
+<h3>PhD metric algebra: why <code>h33-h33-2-b2</code> scored 0.2778 and what 0.3195 / 0.4413 require</h3>
+<p>Under <code>DTI = T / (0.8&middot;T + 0.2&middot;|P| + 0.8&middot;|G|)</code> with hidden truth <code>|G| &approx; 12,265</code> px, solid <code>H19-5</code> (121,131 px, 0.1922) captured only <code>T &approx; 5,021</code> weighted truth pixels (40.9% recall), algebraically capping every subset of <code>H19-5</code> below ~0.312. Removing 2,545 flank dots within <code>1 &lt; d_cat &le; 2 px</code> (200 m) raised 0.2708 &rarr; <b>0.2778</b> (<code>T &approx; 4,503</code>) because known-catalogue masking prevents flank dots from clearing the marginal break-even bar <code>&Delta;T &gt; 0.25&middot;DTI/(1&minus;0.8&middot;DTI) = 0.0893</code>. Reaching <b>0.3195</b> at 37,654 dots requires <code>T &approx; 5,430</code> (+20.6% recall) and public #1 <b>0.4413</b> requires <code>T &approx; 8,408</code> (68.6% recall) via genuinely off-catalogue blind-fault physics.</p>
+<h3>Round-6 H36-1 (TDR-PDS) 3-experiment progression (repaired <code>GEMSDOE32-HOLDOUT-v3-visible-gated</code>, 22,232 withheld positives)</h3>
+<table><tr><th>experiment</th><th>HOLDOUT-DTI (v3-vis, 95% CI)</th><th>censored d0 control</th><th>off-catalogue SGMC DTI</th></tr>
+<tr><td>Baseline: 0.2778 Champion (<code>h33-h33-2-b2</code>)</td><td>0.09920 [0.0820, 0.1222]</td><td>0.09920</td><td>0.09606</td></tr>
+<tr><td><b>Exp 1 — H36-1A (Unsupervised Multi-Physics Curvilinear Crest)</b></td><td>0.06380 [0.0499, 0.0773]</td><td>0.04336</td><td>0.16421</td></tr><tr><td><b>Exp 2 — H36-1B (500m Halo-Excluded PU Spatial-CV HistGB + Steger Crest)</b></td><td>0.10482 [0.0950, 0.1177]</td><td>0.07410</td><td>0.06832</td></tr><tr><td><b>Exp 3 — H36-1C (Geometric-Mean PU * Multi-Physics Hybrid + Steger Crest)</b></td><td>0.10982 [0.0987, 0.1227]</td><td>0.07639</td><td>0.08380</td></tr></table>
+<p><b>Bottom line:</b> <code>GEMSDOE32</code> <code>h33-h33-2-b2</code> (0.2778, already scored &mdash; do not resubmit) remains the strongest entry across all 9 sites. Both <code>H36-1C</code> (<code>9ff9d6e2</code>) and <code>R6-1</code> (<code>23fbbb51</code>) are format-valid, non-human-validated research/audit artifacts &mdash; <b>DO NOT SUBMIT</b> (spend 0 weekly DrivenData slots today).</p></div>
 <div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
@@ -201,7 +101,7 @@ scarce weekly submission is worth spending.</p>
 <li>the official source links on the <a href="sources.html">sources</a> page.</li></ul></div>
 <div class=card><h3>Not claimed</h3><ul>
 <li>no score in this repository is organizer-verified; the group's own numbers are labelled
-<em>claim</em> (4 of them, see <a href="leaderboard.html">leaderboard</a>);</li>
+<em>claim</em> (5 of them, see <a href="leaderboard.html">leaderboard</a>);</li>
 <li>the holdout's truth is the visible catalogue, so it <em>cannot</em> reward a genuinely new fault
 (IR-32-PROXY-01);</li>
 <li>the submitted file is a candidate, <b>not</b> a proven improvement.</li></ul></div>
@@ -276,16 +176,16 @@ claim.</p>
 <small>read 2026-10-25 from the official page; 3 snapshots stored</small></p>
 <p><a href="leaderboard.html">all rows &rarr;</a></p></div>
 <div class=card><h3>Group's own best <span class=pill>owner claim</span></h3>
-<p><code>gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif</code><br>
-<b>0.26</b> · 44090 px</p>
-<p>The gap to the public leader is <b>+0.1813</b> — a <b>+69.7&nbsp;%</b> increase in the score, which through the metric's own arithmetic is a similar increase in mean credit per emitted pixel at constant mass.</p></div>
+<p><code>gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</code><br>
+<b>0.2778</b> · 37654 px</p>
+<p>The gap to the public leader is <b>+0.1635</b> — a <b>+58.9&nbsp;%</b> increase in the score, which through the metric's own arithmetic is a similar increase in mean credit per emitted pixel at constant mass.</p></div>
 </div>
-<p class=mut>Irregularities flagged for review: 43 —
+<p class=mut>Irregularities flagged for review: 53 —
 <a href="irregularities.html">see the register</a>.</p>
 <h2>Sources</h2>
 <table><tr><th>id</th><th>source</th><th>status recorded here</th></tr><tr><td>competition</td><td>DOE GEMS Prize - overview</td><td>verified 2026-10-04</td></tr><tr><td>problem</td><td>Problem description, metric and submission format (verbatim source of metric.py)</td><td>verified 2026-10-04 (fetched twice; worked example TP=3.00 FP=1.89 FN=2.00 -&gt; 0.60 reproduced in tests)</td></tr><tr><td>about</td><td>About / additional resources</td><td>listed (not fetched)</td></tr><tr><td>data</td><td>Data download page (login-walled)</td><td>login required; not accessed from this repository</td></tr><tr><td>leaderboard</td><td>Public leaderboard</td><td>verified 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042</td></tr><tr><td>rules_pdf</td><td>GEMS rules PDF (NLR document 96647)</td><td>mirrored in the group&#x27;s repos with sha256 50d854b1e0239fe6... (GEMSDOE28 docs/data/feed.json)</td></tr><tr><td>reference_solution</td><td>Official reference solution (U-Net, John Lipor, Portland State)</td><td>cloned 2026-10-04; architecture and TverskyLoss(0.2, 0.8) read from the notebook</td></tr><tr><td>geodawn</td><td>GeoDAWN airborne magnetic and radiometric surveys, NW Great Basin</td><td>listed</td></tr><tr><td>sciencebase_area</td><td>GeoDAWN study-area item</td><td>listed</td></tr><tr><td>gbcge</td><td>Great Basin Center for Geothermal Energy - INGENIOUS project</td><td>listed</td></tr><tr><td>mcre_srl</td><td>Koehler et al. 2021, Field response and surface rupture of the 2020 M6.5 Monte Cristo Range earthquake, SRL 92(2A) 823-829</td><td>verified 2026-10-04 via USGS Publications Warehouse record 70217872</td></tr><tr><td>mcre_bssa</td><td>Liu et al. 2021, Seismic and geodetic analysis of the 2020 Mw 6.5 MCRE, BSSA 111(6)</td><td>verified 2026-10-04</td></tr><tr><td>mcre_nbmg</td><td>NBMG Monte Cristo Range earthquake data (surface rupture maps)</td><td>listed; not reachable from this sandbox (unknown host) - CI fetch step required</td></tr><tr><td>mcre_reloc</td><td>Ruhl et al. relocated Monte Cristo seismicity catalogue</td><td>listed</td></tr><tr><td>usgs_qfaults</td><td>USGS Quaternary Fault and Fold Database</td><td>listed</td></tr><tr><td>nbmg_ingenious_rest</td><td>NBMG Qfaults-INGENIOUS ArcGIS REST service (1,179 features in footprint)</td><td>verified by the group 2026-10-03 (docs/data/vector_faults_status.json, sha256 4d6efc7bb365...)</td></tr><tr><td>gdr1391</td><td>GDR submission 1391 - Nevada geothermal data</td><td>listed</td></tr><tr><td>3dep</td><td>USGS 3DEP / The National Map elevation (1 m DEM links given by the competition)</td><td>link table mirrored in the group&#x27;s GEMSDOE repo (data/dem_links.json, sha256 8804dbff8754...)</td></tr><tr><td>comcat</td><td>USGS ANSS Comprehensive Earthquake Catalog (ComCat)</td><td>listed; not reachable from this sandbox</td></tr><tr><td>nbmg_ingenious_service</td><td>NBMG QFaults (INGENIOUS 6-27-2023) ArcGIS REST layer</td><td>listed, not fetched here</td></tr><tr><td>gdr_qfaults_v2_raster</td><td>GDR QFaults v2 traces rasterised to the competition grid (owner mirror, sha256-pinned)</td><td>verified locally 2026-10-04</td></tr><tr><td>usgs_sgmc_raster</td><td>USGS SGMC faults rasterised to the competition grid (owner mirror, sha256-pinned)</td><td>verified locally 2026-10-04</td></tr><tr><td>gemsdoe25_site</td><td>Owner site for the dotted H19-5 artifact (source of the 0.2600 owner claim and the H28 truth-model parameters)</td><td>read 2026-10-04, sha256 of its download re-verified here</td></tr><tr><td>sibling_repos</td><td>Sibling experiment repositories GEMSDOE19/24/25/27/28/29/30/31/33</td><td>listed</td></tr></table></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 01:38 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 01:47 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·
