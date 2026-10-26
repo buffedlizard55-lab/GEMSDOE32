@@ -40,13 +40,22 @@ def audit_geotiff(
     mode: str = "zeros",
     template_tif: Path | None = None,
 ) -> dict:
-    """Strict 12-point DrivenData submission validator audit (+2 template checks when ``template_tif`` is given).
-
-    IR-42-WRITER-01 (2026-10-25): the audit used to read the GeoTransform without comparing it with anything,
-    so a shifted grid could pass.  When ``template_tif`` is supplied, CRS and GeoTransform must now equal the
-    template's exactly (the portal requires "the submission format's CRS, shape, and geotransform").
-    """
+    """Strict 12-point DrivenData submission validator audit."""
+    if mode not in {"zeros", "nan"}:
+        raise ValueError("mode must be zeros or nan")
+    # Legacy callers use the documented historical grid. Writers must use the actual template.
+    expected_crs = rasterio.crs.CRS.from_epsg(32611)
+    expected_shape = (EXPECTED_HEIGHT, EXPECTED_WIDTH)
+    expected_transform = rasterio.transform.from_origin(243350, 4508550, 100, 100)
+    if template_tif is not None:
+        with rasterio.open(template_tif) as tpl:
+            expected_crs, expected_shape, expected_transform = tpl.crs, tpl.shape, tpl.transform
     with rasterio.open(tif_path) as src:
+        if (src.crs != expected_crs or src.shape != expected_shape
+                or src.transform != expected_transform):
+            raise ValueError("Submission CRS/shape/transform mismatch against reference grid")
+        if foot.shape != src.shape or labels.shape != src.shape or not foot.any():
+            raise ValueError("Invalid footprint or labels shape")
         arr = src.read(1)
         crs_str = str(src.crs)
         transform_tuple = tuple(round(float(x), 4) for x in src.transform)[:6]
@@ -80,9 +89,10 @@ def audit_geotiff(
         out_foot_ok = bool(np.all(np.isnan(out_foot)))
 
     emitted_dots = int((in_foot > 0.5).sum())
-    on_catalogue_dots = int(((arr > 0.5) & labels).sum())
+    on_catalogue_dots = int(((arr > 0) & labels).sum())
 
     checks = {
+        "exact_reference_grid_match": True,
         "single_band": count == 1,
         "dtype_float32": dtypes[0] == "float32",
         "dimensions_3730x3292": (height == EXPECTED_HEIGHT and width == EXPECTED_WIDTH),
@@ -96,10 +106,6 @@ def audit_geotiff(
         "zero_on_catalogue_leakage": on_catalogue_dots == 0,
         "validator_range_0_1_guaranteed": full_grid_in_01,
     }
-    if template_tif is not None:
-        with rasterio.open(template_tif) as tpl, rasterio.open(tif_path) as sub:
-            checks["crs_matches_template"] = bool(sub.crs == tpl.crs)
-            checks["transform_matches_template"] = bool(sub.transform == tpl.transform)
     all_passed = all(checks.values())
     if not all_passed:
         failed = [k for k, v in checks.items() if not v]
@@ -110,6 +116,7 @@ def audit_geotiff(
         "size_bytes": tif_path.stat().st_size,
         "sha256": sha256_file(tif_path),
         "mode": mode,
+        "geometry_reference": str(template_tif) if template_tif else "documented historical grid (not freshly authenticated)",
         "crs": crs_str,
         "transform": list(transform_tuple),
         "shape": [height, width],

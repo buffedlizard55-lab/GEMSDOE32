@@ -249,6 +249,30 @@
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
   },
   {
+   "id": "IR-R6-01",
+   "severity": "high",
+   "statement": "Group scores including 0.2778 were labelled ORGANIZER-CONFIRMED in places, but the repo holds no submission-page receipt linking bytes to score (see IR-32-SCORE-01). Round 6 downgrades all group scores to OWNER-REPORT.",
+   "mitigation": "labels corrected in docs/research/focus-sites-executive-summary.md and Round-6 banner; run card carries explicit OWNER-REPORT label"
+  },
+  {
+   "id": "IR-R6-02",
+   "severity": "high",
+   "statement": "Former primary geo-conduit (fc4e0e58...) was bannered OK TO SUBMIT while 70.24% of its dots lie within 3px of gems10-h28-dotted-ridge (exceeds 70% lane gate; verified 2026-10-26 from bytes) and its SGMC-cal 0.0462 trails the champion 0.0641. Site simultaneously showed red DO NOT SUBMIT and green OK TO SUBMIT banners.",
+   "mitigation": "geo-conduit demoted; registry primary moved to R6-1 (old registry preserved as submission_build_geo_conduit_superseded.json); single fail-closed verdict banner"
+  },
+  {
+   "id": "IR-R6-03",
+   "severity": "medium",
+   "statement": "Literal <=70% within-3px gate against the calibration lattice (r13-lattice-s5, 206,895 dots) is unsatisfiable: lattice covers 99.87% of footprint within 3px; champion itself measures 99.92%.",
+   "mitigation": "Round-6 gate applied to detector submission rasters (29 on disk); lattice reported as diagnostic in evidence/round6_run_card.json; documented interpretation, not silent exemption"
+  },
+  {
+   "id": "IR-R6-04",
+   "severity": "low",
+   "statement": "R6-1 along-strike (N-S) shifted null retains SGMC signal (0.121 vs 0.141 unshifted) while across-strike shift collapses (0.089). Consistent with N-S structural grain but weakens positional specificity along strike.",
+   "mitigation": "documented in evidence/round6_pass2_controls.json; random controls (0.074-0.077) bound the spread artifact; not gated, flagged for selector"
+  },
+  {
    "id": "IR-42-README-01",
    "severity": "high",
    "statement": "README showed '\u2705 OK TO DOWNLOAD AND SUBMIT' for gemsdoe32-h32-winning-46090-prune400 directly beneath a note saying no TIF was certified. The file shares 37,298 dots with the 0.2778 champion (Jaccard 0.803; 84.0% within 3 px), its claimed holdout margin (0.14840 vs 0.14801) lay inside its own CI [0.115, 0.182], and on the SGMC off-catalogue instrument it is indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).",
@@ -276,7 +300,13 @@
    "id": "IR-42-WRITER-01",
    "severity": "medium",
    "statement": "src/gems32/submission.py::audit_geotiff read the GeoTransform but never compared it (or the CRS) with the template, so a shifted grid could pass its 12-point audit.",
-   "mitigation": "Fixed: optional template_tif argument adds crs_matches_template and transform_matches_template checks; write_submission_pair passes the template."
+   "mitigation": "Fixed in parallel on main (stricter: audit_geotiff raises on any CRS/shape/transform mismatch, against the template when given, else the documented grid; write_submission_pair passes the template). This branch adopted main's version at merge."
+  },
+  {
+   "id": "IR-42-INSTR-02",
+   "severity": "high",
+   "statement": "The SGMC off-catalogue instrument does not predict live scores outside the champion family: the SGMC-tracing files gemsdoe72-h72-1-sgmc-offcatalogue (0.6483 on the instrument) and gemsdoe29-sgmc-off-catalogue-44k (0.5607) scored 0.0492 and 0.0512 live, while the champion scores 0.0954 there and 0.2778 live. Round-6 promoted R6-1 on this instrument (0.1419 vs 0.0954, independently reproduced).",
+   "mitigation": "R6-1 downgraded to 'NOT CLEARED - exploration query only' in registry/current_status.json (files and run card untouched). Promotion now needs agreement of two instruments with opposite biases (catalogue-hidden with detached-only hiding AND off-catalogue) or a live score. Evidence: evidence/sgmc_instrument_live_counterexamples.json, evidence/r6_independent_recheck.json."
   }
  ]
 }

@@ -18,7 +18,11 @@ or **user-report**. Nothing here is a leaderboard projection. Machine-readable r
    It shares 37,298 exact dots with the champion (Jaccard 0.803; 84.0 % of its dots within 3 px of the
    champion's), its claimed holdout margin (0.14840 vs 0.14801) sat inside its own CI [0.115, 0.182], and on
    the independent instrument it is indistinguishable from the champion (Δ +0.0001 [−0.0010, +0.0013]).
-4. **The most important finding is about the instrument, not the hypothesis**: catalogue-hidden
+4. **R6-1 (parallel Round-6 session, merged into main as PR #18) is downgraded to "not cleared — exploration query only".**
+   Its PROMOTE rested on the SGMC off-catalogue instrument. This session reproduced its margin independently (+0.0465
+   [+0.0255, +0.0681] vs the champion; unique; format-valid), but that instrument does not track live scores outside the
+   champion family (§3b, IR-42-INSTR-02).
+5. **The most important finding is about the instruments, not the hypotheses**: catalogue-hidden
    hide-and-recover rewards *gap-filling between fragments of the catalogue's own traces*. A model can gain
    +45 % HOLDOUT-DTI over the champion recipe and still lose to random dots off-catalogue (§3).
 
@@ -131,6 +135,23 @@ do count as new faults ([forum 11536](https://community.drivendata.org/raw/11536
 therefore strong evidence that H42's holdout gain would not transfer — not a proof. The skill does not transfer: H42's dots hug the network (median 580 m) and miss
 off-catalogue faults more often than random dots do.
 
+### 3b. The SGMC instrument is biased the other way (IR-42-INSTR-02)
+
+Same instrument, same evaluator (`evidence/sgmc_instrument_live_counterexamples.json`):
+
+| file | SGMC off-catalogue DTI | live (owner-reported) |
+|---|---|---|
+| GEMSDOE72 `h72-1-sgmc-offcatalogue` (traces SGMC) | **0.6483** | **0.0492** |
+| GEMSDOE29 `sgmc-off-catalogue-44k` (traces SGMC) | **0.5607** | **0.0512** |
+| R6-1 `r6-stepprofile-b2` (Round 6) | 0.1419 | unscored |
+| champion `h33-2-b2` | 0.0954 | **0.2778** |
+
+Files 6–7× better than the champion on this instrument scored ~5.5× worse live. The instrument rewards alignment with
+map-scale SGMC faults, which the live test evidently does not. **The two local instruments are biased in opposite
+directions** — catalogue-hidden rewards near-network gap-filling (H42 wins), SGMC rewards SGMC alignment (tracers and
+R6-1 win) — and only the champion family, which has live scores, is reasonable on both. Promotion should require
+agreement of both instruments (with detached-only hiding for the first) or a live score.
+
 **Rule for every lane that uses catalogue-relational features** (proposed for the shared template, not
 patched privately): pass an off-catalogue instrument as well as the catalogue-hidden one, and/or withhold
 *detached* components only (the template's `holdout.build_holdout(mode="detached")` already implements a
@@ -186,6 +207,7 @@ patched privately): pass an off-catalogue instrument as well as the catalogue-hi
 | IR-42-README-01 | README showed "✅ OK TO DOWNLOAD AND SUBMIT" for `h32-winning-46090-prune400` directly beneath a note saying no TIF was certified; the file is a champion-family variant (Jaccard 0.803) whose margin was inside its CI | banner withdrawn; status centralised in one top block |
 | IR-42-UNIQ-01 | shared template's lane gate: the calibration lattice `13gems…r13-lattice-s5` (3-px coverage 0.9987) makes the literal 70 % rule fire for *every* raster (random 0.9988); `representation_class` classifies by support (> 20 %), not coverage | reported, template not patched privately; proposed fix: treat rasters with 3-px coverage > 0.70 as uninformative for the overlap test (keep them in the rank test) |
 | IR-42-INSTR-01 | catalogue-hidden hide-and-recover rewards gap-filling; H42 +0.047 HOLDOUT-DTI vs −0.041 on SGMC off-catalogue and −0.016 vs random | relational lanes need an off-catalogue gate or detached-only hiding |
+| IR-42-INSTR-02 | the SGMC off-catalogue instrument is anti-predictive outside the champion family (tracers 0.56–0.65 on it, ~0.05 live); Round-6 promoted R6-1 on it | R6-1 downgraded to exploration-only in `registry/current_status.json`; two-instrument agreement or a live score required |
 | IR-42-RUN-01 | `run_h42.py` applied the dot-overlap statistic to the continuous surface (every pixel a "dot") | declared deviation; corrected statistic reported as D3; verdict unaffected (decided on final dots) |
 | IR-42-WRITER-01 | `src/gems32/submission.py::audit_geotiff` read but never compared the GeoTransform/CRS with the template | fixed (template comparison added when a template path is supplied) |
 

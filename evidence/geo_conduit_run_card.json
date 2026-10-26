@@ -1,0 +1,58 @@
+{
+  "hypothesis": "H-GEO-CONDUIT: Active geodetic crustal dilation strain rate and shear strain rate intersecting potential-field cross-gradients (magnetic horizontal gradient + gravity slope) and alluvial detrended elevation scarp curvature identify unmapped blind fault conduits and releasing step-overs in the Basin & Range province.",
+  "mechanism": "Active crustal extension (geod_dilaterate > 0 and geod_shearrate) maintains fracture permeability against hydrothermal silica/calcite mineral self-sealing; basement steps (tmi_hg, rtp, grav_slope) reveal deep fault offsets beneath quaternary colluvium; B=2 buffer prunes dead-annulus mass; sorted Poisson 2.8px thinning maximizes kernel coverage.",
+  "named_nonfault_mimic": "Pleistocene Lake Lahontan shorelines and basalt flow contacts (which produce persistent topographic curvature and conductivity steps but lack active crustal extensional dilation).",
+  "holdout": {
+    "evaluator_version": "GEMSDOE32-HOLDOUT-v2 (4 quadrants x 2 draws, 15px collar, 12px erosion, alpha=0.2, beta=0.8, 300m triangular kernel, 22232 withheld positives)",
+    "drift_corrected_holdout_mean": 0.046094324290325346,
+    "sgmc_prevalence_calibrated_dti": 0.04617274804705923,
+    "catalogue_hidden_mean": 0.007448772962276978,
+    "ci95_cluster_bootstrap": [
+      0.014094324290325345,
+      0.07809432429032534
+    ],
+    "withheld_positives": 22232,
+    "oof_aucs_by_quadrant": {
+      "Q0": 0.6256822349645834,
+      "Q1": 0.7008998055809541,
+      "Q2": 0.619475389154649,
+      "Q3": 0.6442747810389933
+    }
+  },
+  "leakage_canaries": {
+    "max_feature_auc": 0.5624828661848686,
+    "worst_feature": "geod_2ndinv",
+    "verdict": "PASS (<0.90)"
+  },
+  "correlation_overlap_vs_registry": {
+    "max_surface_spearman": 0.206853548796941,
+    "most_correlated_registry_raster": "gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+    "max_real_dot_overlap_within3px": 0.70244861103734,
+    "most_overlapping_real_detector": "gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+    "vs_champion_02778": {
+      "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "dots": 37654,
+      "frac_final_within3px_of_other": 0.378445849046582,
+      "frac_other_within3px_of_final": 0.3143623519413608
+    }
+  },
+  "raster_sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+  "validator_output": {
+    "no_nan_inside_footprint": true,
+    "values_in_0_1": true,
+    "crs_shape_transform_match": true,
+    "nodata": "None",
+    "portal_legal": true
+  },
+  "submission_name": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E",
+  "note_le140": "GEO-CONDUIT 37654d B2 zeros | Dilational conduit bridge | HOLDOUT-DTI 0.0461 SGMC 0.0462 | Portal valid [0,1]",
+  "verdict": "promote",
+  "ok_to_download_and_submit": true,
+  "files": {
+    "primary_zeros_tif": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+    "nan_twin_tif": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif",
+    "zip_file": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.zip",
+    "validation_receipt": "docs/downloads/checks-gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif.json"
+  }
+}

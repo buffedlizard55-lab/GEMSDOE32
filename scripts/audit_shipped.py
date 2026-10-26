@@ -140,7 +140,12 @@ def main() -> int:
         verdict = None
         if role == "PRIMARY" and sub.get("verdict"):
             verdict = sub["verdict"]
-        if any(fn == Path((w.get("file") or {}).get("path", "")).name for w in sub.get("previous_primaries", [])):
+        for o in sub.get("other_unique_files", []):
+            if fn == Path((o.get("file") or {}).get("path", "")).name:
+                role, verdict = "OTHER UNIQUE FILE", o.get("verdict")
+        _wd = {Path((w.get("file") or {}).get("path", "")).name for w in sub.get("previous_primaries", [])}
+        _wd |= {f"{w['name']}.tif" for w in sub.get("previous_primaries", []) if w.get("name")}
+        if fn in _wd:
             role, verdict = "WITHDRAWN PRIMARY", "DO NOT SUBMIT"
         bundles.append({
             "role": role,

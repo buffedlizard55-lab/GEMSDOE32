@@ -8,12 +8,14 @@ import sys
 from pathlib import Path
 
 from gemsdoe32.submission import validate_submission_geotiff
+from gems32.paths import data_dir
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("geotiff", type=Path, help="Path to submission GeoTIFF to validate")
-    parser.add_argument("--template", type=Path, default=Path("data/raw/sample_submission.tif"), help="Path to reference template")
+    default_tpl = data_dir() / "sample_submission.tif"
+    parser.add_argument("--template", type=Path, default=default_tpl, help="Path to reference template")
     parser.add_argument("--strict-finite", action="store_true", help="Check whole-array finite range [0, 1] for portal safety")
     args = parser.parse_args()
 
