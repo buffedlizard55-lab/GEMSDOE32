@@ -47,11 +47,18 @@ def read(path: str, default=None):
 
 
 def protocol_notice(prefix: str = "") -> str:
-    """Single authoritative verdict (Round 6, 2026-10-26). Fail-closed: anything
-    other than a promote verdict in evidence/round6_run_card.json renders DO NOT SUBMIT."""
+    """Render the session-scoped release decision, failing closed when it is absent."""
+    decision = read("evidence/current_release_review.json", {}) or {}
+    evidence_prefix = "evidence/" if prefix == "docs/" else "../evidence/"
+    fname = "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+    if decision.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
+<h2>&#128308; DO NOT SUBMIT — current-session release gates are not satisfied</h2>
+<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Its file-format/range check passed, but that does not authorize upload. The current method lane is missing, the prior B=2 holdout used the full catalogue mask, and the required fold-local hide-and-recover evidence was not established. No submission slot was used.</p>
+<p><a href="{prefix}research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="{evidence_prefix}current_release_review.json">machine-readable release decision</a></p>
+</section>"""
     card = read("evidence/round6_run_card.json", {}) or {}
     boot = ((card.get("holdout") or {}).get("primary_sgmc") or {})
-    fname = "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
     if card.get("verdict") != "promote" or not boot:
         return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2>&#128308; DO NOT SUBMIT</h2>
@@ -107,6 +114,11 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
     if not sub:
         return ('<div class=dl><h2>Submission GeoTIFF</h2><p class=mut>Not built in this checkout. '
                 'Run <code>python3 scripts/build_submission.py</code>.</p></div>')
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        # The authoritative red notice and audit-only link are rendered by protocol_notice/arena41_block.
+        # Do not add another generic submission button here.
+        return ""
     f = sub.get("file", {})
     sha = (f.get("sha256") or "")
     note = sub.get("note", "")
@@ -279,6 +291,18 @@ def arena41_block(prefix: str = "") -> str:
         sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
     except Exception:
         return ""
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        rel = "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+        artifact = ROOT / rel
+        sha = (release.get("artifact") or {}).get("sha256", "")
+        audit_link = (f'<a href="{esc(prefix + rel.replace("docs/", ""))}">'
+                      f'Download audit artifact only: {esc(artifact.name)}</a>' if artifact.is_file() else "")
+        return f"""<div class=dl style="border:3px solid #b91c1c">
+<h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
+<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>{esc(sha)}</code>.</p>
+<p>{audit_link}</p>
+</div>"""
     f_path = sub.get("file", {}).get("path", "")
     f_name = Path(f_path).name
     ok = bool(sub.get("ok_to_submit", False))
@@ -402,20 +426,17 @@ def focus_sites_block() -> str:
         ("GEMSDOE28", "h36-1-rung30-blind-r1", "0.2710", "Best of a ~0.27 cluster (solo 0.2708, h38-1 0.2707, h32-1 0.2649): all one family.", "DO NOT SUBMIT (already scored)"),
         ("GEMSDOE30", "d28-poisson300m-offcat-44090", "0.2600", "Dot-identical to GEMSDOE25 d2.8 (same score = scorer determinism check).", "DO NOT SUBMIT (duplicate)"),
         ("GEMSDOE31", "h27-4-solo-d28", "0.2708", "Same 8acb75e1 solo lineage as GEMSDOE28.", "DO NOT SUBMIT (duplicate lineage)"),
-        ("GEMSDOE32", "h33-h33-2-b2 (champion) + NEW R6-1 STEP", "0.2778 / unscored", "Champion = ladder end (B=2). R6-1 is the only gate-passing unique unscored file.", "Champion: DO NOT RESUBMIT. R6-1: OK TO SUBMIT"),
+        ("GEMSDOE32", "h33-h33-2-b2 (champion) + archived R6-1 STEP", "0.2778 / unscored", "Champion = ladder end (B=2). The R6-1 raster is a format-valid historical audit artifact; its current release gates are not satisfied.", "Champion: DO NOT RESUBMIT. R6-1: DO NOT SUBMIT"),
         ("GEMSDOE33", "h33d-analog-tip-stepover-r30", "0.2632", "Tip/step-over analog lane; below champion.", "DO NOT SUBMIT"),
         ("GEMSDOE36", "anderson-geothermal-pinn-38854", "0.2750", "Contains ALL 37,654 champion dots +1,200 (extras cost -0.0028). Not independent.", "DO NOT SUBMIT (champion superset)"),
     ]
     trs = "".join(f"<tr><td><b>{esc(a)}</b></td><td><code>{esc(b)}</code></td><td>{esc(c)}</td><td>{esc(d)}</td><td><b>{esc(e)}</b></td></tr>" for a, b, c, d, e in rows)
-    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; the 9 focus sites: which file is best, and what to submit</h2>
+    return f"""<div class=dl><h2>&#128202; Executive summary &mdash; highest reported files across the 9 focus sites and current status</h2>
 <p>Every score below is <b>[OWNER-REPORT]</b> (recorded from a submission screen; this repo holds no organizer
 receipt linking bytes to score &mdash; IR-32-SCORE-01). Full analysis:
 <a href="research/focus-sites-executive-summary.md">focus-sites-executive-summary.md</a>.</p>
 <table><tr><th>site</th><th>its best submission</th><th>score</th><th>what it is</th><th>verdict today</th></tr>{trs}</table>
-<p><b>Bottom line:</b> the proven best file (0.2778 champion) is already submitted &mdash; resubmitting it wastes a weekly
-slot on a duplicate. The only unique, unscored file that has beaten the champion on the fair local instrument is the
-green-banner <b>R6-1 STEP</b> file above. No other site's best file should be submitted: each is already scored,
-a duplicate of another site's file, or a superseded parent of the champion.</p></div>"""
+<p><b>Bottom line:</b> the 0.2778 champion is an OWNER-REPORT score and is reported as already submitted; do not resubmit it. The archived R6-1 STEP artifact is unique under its historical registry comparison and format-valid, but the current review found no authorized lane and no compliant fold-isolated promotion result: <b>DO NOT SUBMIT</b>. The other listed files are reported scored, duplicated or superseded; the available evidence does not establish an organizer-confirmed score-to-bytes receipt.</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -427,7 +448,7 @@ def overview(fl: dict, sub: dict | None, name: str) -> str:
     best_claim = max((c for c in claims), key=lambda c: c.get("score", 0), default=None)
     rows = "".join(f"<tr><td>{esc(s['id'])}</td><td>{esc(s['title'])}</td>"
                    f"<td>{esc(s.get('status',''))}</td></tr>" for s in fl.get("sources", []))
-    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), round5_section(), f"""<div class=dl>
+    parts = [arena41_block(), download_block(sub, name), focus_sites_block(), f"""<div class=dl>
 <h2>&#9888;&nbsp;The portal error <code>"Predicted values must be in range [0, 1]"</code> &mdash; fixed, and here is exactly how</h2>
 <p>DrivenData rejects a submission whose values fall outside <code>[0, 1]</code>, and it also rejects
 a raster whose <b>nodata tag</b> is a large negative sentinel such as
@@ -559,6 +580,18 @@ claim.</p>""")
 
 
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
+    release = read("evidence/current_release_review.json", {}) or {}
+    if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
+        rel = "downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+        artifact = ROOT / "docs" / rel
+        download = (f'<a href="{esc(rel)}">Download the existing TIFF for audit/education only</a>'
+                    if artifact.is_file() else "The historical artifact is not present in this checkout.")
+        return f"""<h2>Submission status — no upload authorized</h2>
+<div class=dl style="border:3px solid #b91c1c"><h2>DO NOT SUBMIT</h2>
+<p>{download}. Its GeoTIFF bytes pass standalone range and metadata checks; however, the method lane for this session is missing, the historic holdout used a full-catalogue B=2 exclusion, and the current review could not reproduce the competition-template comparison.</p>
+<p>Do not use a weekly submission slot. The page will show upload instructions only after a future, lane-authorized experiment passes fold-local hide-and-recover, leakage, uniqueness and format gates and is separately selected.</p>
+<p><a href="research/repo-review-20261026.md">Current review and next steps</a> · <a href="../evidence/current_release_review.json">Machine-readable decision</a></p>
+</div>"""
     note = esc((sub or {}).get("note", ""))
     fresh = esc(f"{name}-fresh")
     _stem = name.split("-zeros")[0].split("-nan")[0]
@@ -913,7 +946,8 @@ def main() -> int:
     # one-click download at the very top of the site, and the safest way to guarantee that is to put
     # it in the page chrome rather than in one page's body.
     dl_btn = ""
-    if sub:
+    release = read("evidence/current_release_review.json", {}) or {}
+    if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:
         _f = sub.get("file", {})
         _zp = (sub.get("zip") or {}).get("path")
         _btn = [f'<a class="btn" href="{esc(_f.get("path", "").replace("docs/", ""))}">'
