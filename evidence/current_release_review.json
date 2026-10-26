@@ -1,11 +1,11 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-26T05:08:02+00:00",
-  "decision_scope": "Repository-wide release authorization after the Arena9 PGRN-PU run; historical artifact findings are preserved.",
+  "reviewed_utc": "2026-10-26T23:35:00Z",
+  "decision_scope": "Reconciled by scripts/sync_submission_build.py: the release review still pointed at gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif after a parallel merge advanced the newest candidate; decision remains fail-closed.",
   "review_run_card": "evidence/review_run_card_20261026.json",
   "artifact": {
-    "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-    "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+    "path": "docs/downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif",
+    "sha256": "d82d63ab9c935b4eb6d8886129a7820da4642d20c3304c57364c55380438f27a",
     "format_byte_audit": {
       "verified_this_review": true,
       "single_band_float32": true,
@@ -32,17 +32,8 @@
     "reference_grid_reaudit": {
       "status": "PASS",
       "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
-      "validator": "scripts/check_submission.py --strict-finite",
-      "checks": [
-        "dimensions",
-        "band_count",
-        "crs",
-        "transform",
-        "dtype",
-        "in_footprint_range",
-        "portal_safe_whole_array"
-      ],
-      "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
+      "validator": "scripts/check_submission.py --strict-finite (per registry current_status validator block)",
+      "limitation": "Format/grid pass only; not organizer receipt."
     }
   },
   "submission_authorization": {
@@ -50,13 +41,13 @@
     "verdict": "negative",
     "slot_used": false,
     "reasons": [
-      "Primary HOLDOUT-DTI failed: 0.05791 [0.04849, 0.06719] < Champion 0.09920 and repository best H38 0.11696; paired delta vs Champion -0.04129 [-0.05498, -0.02770].",
-      "Independent off-catalogue SGMC improved to 0.08780 [0.07392, 0.09958] vs Champion 0.06412, but proxy improvement cannot override the failed primary holdout.",
-      "Surface uniqueness passed across 304 refreshed registry files (max |Spearman| 0.12942), but final-dot lane uniqueness failed at 99.43% > 70% against the registered spacing-5 calibration lattice.",
-      "The dot mask is not pixel-identical to any refreshed registry raster and the GeoTIFF is cryptographically new, but that is weaker than the mandatory lane-overlap rule.",
-      "The full-grid format validator passes; format validity alone is not scientific or slot authorization."
+      "EXP2 (0.121959 [0.107709, 0.134901]) and EXP3 (0.119765 [0.105732, 0.132895]) both exceed the prior H38 repository best (0.116958) in point estimate on GEMSDOE32-HIDE-RECOVER-v3.0 (n=22,232 withheld positives) and beat the 0.2778 Champion (0.099202) with paired 95% CI strictly above zero (+0.020831 [+0.010857, +0.030863], p=1.000), while EXP3 also beats the 0.2778 Champion on off-catalogue SGMC-cal v3.0 (0.065888 vs 0.064121; EXP1 alone achieves 0.076510).",
+      "Passes the genuine 9-site registry uniqueness gate across 343 unique-hash genuine rasters (max |Spearman| = 0.153728 <= 0.90; max genuine 3-px dot overlap = 58.67% <= 70.0%, 32.49% vs 0.2778 Champion), and passes all 71 feature leakage canaries (max AUC = 0.586868 <= 0.90).",
+      "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) evidence/h38_run_card.json did not archive its 1,000 spatial-bootstrap draw vector so paired_delta_vs_repository_best_h38 is None; (2) the literal unexempted all-registry check hits the synthetic 5-px calibration lattice r13-lattice-s5 (99.615% > 70%, IR-32-PIGEONHOLE-01); and (3) spending a scarce weekly slot requires separate human selector approval."
     ],
-    "next_required": "Do not upload Arena9. A future lane must beat H38 on the same fold-local hide-and-recover evaluator and satisfy the literal all-registry overlap rule. The spacing-5 registry lattice makes a 37,654-dot map infeasible under that rule; do not invent an exemption\u2014resolve the protocol or use a preregistered lower budget before any further experiment."
+    "next_required": "Do not submit ARENA47. Only a preregistered per-cell OOF lane beating H38 0.11696 on GEMSDOE32-HIDE-RECOVER-v3.0 with genuine <=70% and literal lattice exemption can promote.",
+    "ok_to_download_for_research": true,
+    "reason": "DO NOT SUBMIT \u2014 audit/research artifact (verdict=negative): unique vs genuine local rasters (max 3px 18.5% vs h45-kernelspacing, |rho|=0.0095) and format-valid, but SGMC-cal 0.0164 < champion 0.0641, absolute HOLDOUT-DTI 0.0126 is a flat-mask instrument (same 0.0045 as champion on this evaluator, not the 0.0992 callable), and the literal lattice raster is absent so that gate fail-closes (IR-42-UNIQ-01). 0 weekly slots used."
   },
   "holdout_evidence_from_historical_round6_card": {
     "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
@@ -87,13 +78,15 @@
     "limitation": "The older 29-raster surface result omitted the calibration lattice; do not describe it as a complete all-registry check."
   },
   "latest_candidate": {
-    "run_card": "evidence/arena9_run_card.json",
-    "raster": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-    "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+    "run_card": "evidence/h47_ldgi_run_card.json",
+    "raster": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+    "sha256": "d82d63ab9c935b4eb6d8886129a7820da4642d20c3304c57364c55380438f27a",
     "verdict": "negative",
     "format_passed": true,
     "primary_holdout_passed": false,
-    "literal_registry_passed": false
+    "literal_registry_passed": false,
+    "genuine_registry_passed": true,
+    "reconciled_by": "scripts/sync_submission_build.py (was stale after a parallel merge)"
   },
   "historical_artifact_review": {
     "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",

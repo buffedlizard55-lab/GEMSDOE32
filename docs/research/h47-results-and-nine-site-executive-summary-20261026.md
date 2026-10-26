@@ -1,111 +1,214 @@
-# Three-Pass Review, H47-1 (LDGI-WCR) Dual-Horizon Results & Nine-Site Executive Summary (2026-10-26)
+# H47 — Why 0.2778 won, what the live ledger says about the hidden faults, and why no unique file beats it yet
 
-**Session Branch:** `arena/e0dc405d-gemsdoe32`  
-**Date (UTC):** `2026-10-26`  
-**Pre-Registered Single Lane:** `H47-1` (`LDGI-WCR`: Lineament-Density, Getis-Ord $G_i^*$, Bivariate Moran's $I$ & Multi-Scale 2-D Ricker Wavelet Dual-Horizon Allocation)  
-**Pre-Registration Document:** [`docs/research/h47-ldgi-preregistration-20261026.md`](h47-ldgi-preregistration-20261026.md)  
-**Machine-Readable Run Card:** [`evidence/h47_ldgi_run_card.json`](../../evidence/h47_ldgi_run_card.json) | [`docs/data/latest-run-card.json`](../data/latest-run-card.json)  
-**3-Experiment Ablation Receipt:** [`evidence/h47_ldgi_experiments.json`](../../evidence/h47_ldgi_experiments.json)  
-**Generated GeoTIFF (100% Automated Validation PASS):** [`docs/downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif`](../downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif) (`SHA-256: d82d63ab9c935b4eb6d8886129a7820da4642d20c3304c57364c55380438f27a`)  
-**Release Gate Verdict:** **`negative` — DO NOT SUBMIT (`HOLD — DOWNLOAD FOR RESEARCH ONLY`, `0` weekly slots spent)**
+**Session:** 2026-10-26 (H47). **Branch:** `arena/f6961c02-gemsdoe32`.
 
----
+**Evidence labels:** live scores are **OWNER-REPORT** (owner-supplied submission log; no organizer
+receipts in this repository). **HOLDOUT-DTI** values give evaluator, n withheld positives, and 95% CI.
+**PROJECTION** marks live-calibrated model output for an unscored raster. A projection is never a score.
 
-## 1. Executive Decision & One-Click Download Summary
+## 0. Bottom line
 
-1. **Automated Format & Portal-Legality Verification (`13/13` checks PASS, `0` human intervention):**
-   - **File:** [`docs/downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif`](../downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif) (`.zip`: [`...-zeros.zip`](../downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.zip), receipt: [`...-audit.json`](../downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-audit.json)).
-   - **Properties:** Single-band `float32`, `EPSG:32611`, `3730 × 3292` (`100 m` pixels), exact geotransform `(100.0, 0.0, 243350.0, 0.0, -100.0, 4508550.0)`, `nodata=None`, **`0` NaN inside footprint**, **`0` NaN anywhere in the `12,279,160`-pixel array**, values strictly in `[0.0, 1.0]`, **`37,654` predicted dots (`18,846` Stage-1 Horizon-A + `18,808` Stage-2 Horizon-B `LDGI` off-catalogue dots)**, **`0` dots on known catalogue faults (`B = 2`, $>200\text{ m}$)**.
-2. **Scientific & Holdout Breakthrough (`H47-1` vs. All Prior Sessions):**
-   - **`EXP2_H47_EXPOSED71_GI` (`HOLDOUT-DTI`, `GEMSDOE32-HIDE-RECOVER-v3.0`, $n=22,232$ withheld positives):** Achieves **`0.121959` (`95% CI [0.107709, 0.134901]`)** — the **highest leak-free `GEMSDOE32-HIDE-RECOVER-v3.0` score ever recorded in this repository**, beating `H38` (`0.116958`, point $\Delta = +0.005001$), `EXP1_H46` (`0.117156` pre-fix / `0.115430` post-audit), `H46-1` (`0.109361`), `CTRL_35CH_OOF` (`0.101794`), and the `0.2778` Champion (`0.099202`, paired spatial-block $\Delta = +0.022950 [+0.013043, +0.032891]$, $P(\Delta > 0) = 1.000$).
-   - **`EXP1_H47_UNSUP_LDGI_CREST` (`HOLDOUT-DTI`, `GEMSDOE32-SGMC-CAL-v3.0`, $n=62,703$ off-catalogue USGS SGMC positives):** Achieves **`0.076510` (`95% CI [0.064668, 0.086451]`, raw `0.114403`)**, beating the `0.2778` Champion (`0.064121`, $+19.3\%$, $P(\Delta > 0) = 0.965$), `EXP2_H46_VENT_SARPU63` (`0.074529`), `H38` (`0.050374`), and `H46-1` (`0.044756`).
-   - **`EXP3_H47_DUAL_HORIZON_LDGI` (Shipped Research GeoTIFF):** Simultaneously beats **both** benchmarks and passes the genuine 9-site registry uniqueness gate:
-     - **`GEMSDOE32-HIDE-RECOVER-v3.0` (`HOLDOUT-DTI`, $n=22,232$):** **`0.119765` (`95% CI [0.105732, 0.132895]`)** — beating `H38` (`0.116958`, point $\Delta = +0.002807$), `EXP1_H46` (`0.117156` pre-fix / `0.115430` post-audit), `H46-1` (`0.109361`), `CTRL_35CH_OOF` (`+0.018243 [+0.009835, +0.025531]`, $p=1.000$), and the `0.2778` Champion (`0.099202`, paired $\Delta = +0.020831 [+0.010857, +0.030863]$, $p=1.000$).
-     - **`GEMSDOE32-SGMC-CAL-v3.0` (`HOLDOUT-DTI`, $n=62,703$):** **`0.065888` (`95% CI [0.057664, 0.072551]`, raw `0.098751`)** — beating the `0.2778` Champion (`0.064121`), `H38` (`0.050374`, $+30.8\%$), `EXP2_H47_EXPOSED71_GI` (`0.045491`, paired lift $+0.019935 [+0.012371, +0.027448]$, $p=1.000$), and `H46-1` (`0.044756`, $+47.2\%$).
-     - **Genuine 362-Raster Registry Uniqueness (`PASS`):** Pre-placement surface `max |Spearman| = 0.153728 <= 0.90`; final-dot `max genuine 3-px overlap = 0.586657 <= 0.70` (`58.67%` vs `H46-1`, `32.49%` vs `0.2778` Champion across `343` genuine unique-hash rasters).
-3. **Why Fail-Closed Verdict Remains `DO NOT SUBMIT` (`verdict: "negative"`):**
-   - Although `EXP3_H47_DUAL_HORIZON_LDGI` exceeds `H38` (`0.119765 > 0.116958`) in point estimate on the exact same `GEMSDOE32-HIDE-RECOVER-v3.0` evaluator and exceeds the `0.2778` Champion on both `HIDE-RECOVER-v3.0` and `SGMC-CAL-v3.0`, (a) `evidence/h38_run_card.json` did not archive its 1,000 spatial-bootstrap draw vector so `paired_delta_vs_repository_best_h38` is `None`, (b) the literal unexempted registry includes the synthetic `206,895`-dot 5-px calibration lattice `13gems_20261001_r13-lattice-s5_v2_nan-outside.tif` (`99.61%` 3-px coverage of the footprint), and (c) spending a scarce weekly competition slot (`5/week`) requires separate human selector approval.
+| Question | Answer |
+|---|---|
+| Unique TIF generated this session? | **Yes.** [`gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif`](../downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif) ([single-TIFF .zip](../downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.zip)). SHA-256 `d8da7e94…80fea1`, 49,231 dots. |
+| Validated automatically? | **Yes, no human step.** Strict validator: EPSG:32611, 3730×3292, float32, transform equal to the sample, all 12,279,160 cells finite in [0,1], 0 NaN, 0 catalogue dots. Uniqueness checked against **452 GEMSDOE rasters**: surface max \|ρ\| = 0.224; max final-dot overlap with any non-space-filling raster = 0.650. |
+| **OK to submit?** | 🔴 **NO.** It fails two pre-declared performance gates. It is projected to score *below* the 0.2778 champion: PROJECTION 0.240–0.248 vs 0.283–0.285 for the champion under the same fit. Its HOLDOUT-DTI is 0.0784 vs 0.0992 for the champion proxy. **Download for research/audit only.** |
+| Best file across the nine focus sites | GEMSDOE32 `h33-h33-2-b2-…-e5eb6e7e-zeros` (**0.2778, OWNER-REPORT**). It has already been submitted, so do **not** resubmit it. |
+| Can a unique file beat 0.2778 with today's signals? | **Not with the signals tested.** §3 explains this with live-ledger evidence. |
 
----
+## 1. Why the GEMSDOE32 `h33-h33-2-b2` file scored 0.2778 (the GEMSDOE best)
 
-## 2. Why `GEMSDOE32` (`0.2778`) Led All 9 Focus Sites & How to Beat `0.2778` / `0.3195` Toward `0.4437`
+### 1.1 The metric rewards sparse, well-placed dots
 
-### 2.1 Exact DTI Algebra & B-Pruning Proof
-The official DrivenData DOE GEMS metric ([Problem Description p. 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)) is the Distance-Weighted Tversky Index with $\alpha = 0.2$, $\beta = 0.8$, and triangular kernel $k(d) = \max(1 - d / 300\text{ m}, 0)$:
-$$\text{DTI}(p, G) = \frac{T}{T + 0.2\,\text{FP}_w + 0.8\,\text{FN}_w + \varepsilon} = \frac{T}{0.2\,(T + S - M) + 0.8\,|G| + \varepsilon}$$
-where $T = \sum_{g \in G} \max_x p(x)\,k(d(x, g))$, $S = \sum_x p(x)$, and $M = \sum_x p(x)\,\max_{g \in G} k(d(x, g))$.
-- An added binary dot $x_0$ with zero marginal coverage on $G$ ($\Delta T = 0, \Delta M = 0, \Delta S = 1$) strictly increases the denominator by $+0.2$, lowering $\text{DTI}$.
-- Across the 9 focus sites (`GEMSDOE24..36`), every historical top score belongs to a single nested `H19-5` thinning/pruning chain:
-  - `H19-5` (`121,131` px, `0.1922 [OWNER-REPORT]`) $\supset$ `D2.8` (`44,090` px, `0.2600 [OWNER-REPORT]`, `GEMSDOE25`/`GEMSDOE30`) $\supset$ `solo / B=1` (`40,199` px, `0.2708 [OWNER-REPORT]`, `GEMSDOE31`) $\supset$ `H33-2-B2` (`37,654` px, **`0.2778 [OWNER-REPORT]`**, `GEMSDOE32`).
-- Byte-exact verification confirms `GEMSDOE32`'s `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` equals `GEMSDOE31`'s `solo` minus `2,545` dots within $d \le 200\text{ m}$ (`2 px`) of the training catalogue (`labels.tif`), and equals `GEMSDOE25`'s `D2.8` (`44,090` dots) minus `6,436` dots at $1\text{–}2\text{ px}$ of `labels.tif`. Because organizers mask training-catalogue pixels when scoring hidden faults, those `6,436` near-catalogue flank dots contributed false-positive denominator mass $\alpha(S - M)$ with minimal new hidden-fault coverage $\Delta T$.
+The official metric ([page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/), verified verbatim this session) is
 
-### 2.2 Resolving the `d28` (`0.099202`) vs. Static `B=2` (`0.004515`) Holdout Paradox (`IR-47-HORIZON-01`)
-In this session we measured the exact distance-to-catalogue distribution of `d28` (`44,090` dots) vs. static `b2` (`37,654` dots):
-- `d28` and `b2` are **pixel-identical on all `37,654` dots at $d_{\text{lab}} > 2\text{ px}$**; `d28` simply retains `6,436` additional dots at $1 < d_{\text{lab}} \le 2\text{ px}$ (`100–200 m` from `labels.tif`).
-- When `GEMSDOE32-HIDE-RECOVER-v3.0` withholds `20%` of `labels.tif` as the test truth $G_{\text{test}}$, those `6,436` `1–2 px` flank dots in `d28` sit inside the $300\text{ m}$ (`3 px`) kernel of the withheld `20%` of `labels.tif` and account for **`95.4%` (`0.094687 / 0.099202`)** of `d28`'s `HIDE-RECOVER-v3.0` score! Static `b2` (`0.004515`) already had those `6,436` dots removed against full `labels.tif`.
-- More broadly, measuring the distance from every evaluation positive to the visible fault mask $V$ reveals a fundamental **Two-Horizon Domain Shift**:
+TP_w = Σ_g max_x p(x)k(d(x,g)), FP_w = Σ_x p(x)[1 − max_g k(d(x,g))], FN_w = |G| − TP_w,
+DTI = TP_w / (TP_w + 0.2 FP_w + 0.8 FN_w), with k(d) = max(0, 1 − d/3 px).
 
-| Evaluation Benchmark | Positive Population | $\le 3\text{ px}$ of $V$ | $3\text{–}9\text{ px}$ of $V$ | $9\text{–}20\text{ px}$ of $V$ | $> 20\text{ px}$ ($>2\text{ km}$) of $V$ |
-|---|---|---:|---:|---:|---:|
-| **`GEMSDOE32-HIDE-RECOVER-v3.0`** | $n = 22,232$ withheld active-catalogue px (`20%` of `labels.tif` censored per fold) | `12.6%` | **`33.1%`** | **`34.3%`** | `20.0%` |
-| **`GEMSDOE32-SGMC-CAL-v3.0`** | $n = 62,703$ off-catalogue USGS SGMC fault px (`0%` of `labels.tif` censored; $>300\text{ m}$ from `labels.tif`) | `0.0%` | `19.2%` | `25.8%` | **`55.0%`** |
+Known USGS/INGENIOUS pixels are excluded from evaluation ([staff #11516](https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516)).
+The public score is **one pooled index** over the public chunks ([staff #11550](https://community.drivendata.org/raw/11550)).
 
-Because `80.0%` of `HIDE-RECOVER-v3.0` positives lie within $2\text{ km}$ (`20 px`) of visible faults (`Horizon A`), whereas `55.0%` of `SGMC-CAL-v3.0` positives lie beyond $2\text{ km}$ (`Horizon B`), any fixed single-regime allocation trades off one benchmark against the other.
+Two exact consequences explain most of the H19-5 → 0.2778 ladder:
 
----
+* **Dotting.** Take binary dots spaced s px along a truth line. Each truth pixel's credit is
+  1 − u/3, where u is its along-line distance to the nearest dot, so the mean credit is
+  c(s) = 1 − s/12 for s ≤ 6 px. A dot therefore earns s·c(s) = s − s²/12 truth credit, which peaks
+  at 3.0 when s = 6. Off truth, each dot still costs 1 unit of FP mass, so cutting mass by a factor s
+  while keeping ~77% of the line credit (s ≈ 2.8) raises DTI whenever most of the mass is false
+  positive.
+* **Break-even.** An isolated binary dot that adds credit k to otherwise uncovered truth raises DTI
+  iff k > α·DTI. At DTI 0.2778 that bar is 0.0556 (`src/gems32/metric.py`; `tests/test_metric.py`
+  covers the partial-coverage case).
 
-## 3. Code Audit Findings & Why `H47-1` Solved Both `H46-1` Failure Modes
+### 1.2 Three ingredients, each now measured against the live ledger
 
-1. **`IR-46-PLAYA-01` (Why `H46-1` Stage 2 Collapsed to `SGMC-cal = 0.044756`):**
-   - `H46-1` (`src/gems32/trhv.py`) weighted its Stage-2 field by `(0.30 + 0.70 * burial_prior)`, where `burial_prior` (`spcp_stack[:, :, 16]`) is `flat_basin * dist_to_range * sed_thick`. That multiplier forced Stage-2 dots onto flat, unlocalized playa centers where no bedrock/range-front SGMC faults exist (`SGMC-cal = 0.044756 < 0.064121` Champion).
-   - **Fix in `H47-1`:** `ldgi.build_ldgi_crest_unsup_surface` removes `piedmont_burial` completely and instead applies the `LDGI` multi-domain structural-corridor envelope (`rho_lin`, `gi_star`, `wav_ricker`, `moran_i`, `inter_rel`, `dip_vent`) as a multiplicative weight on **sharp `100 m` topographic/gravity/magnetic ridge crests** (`0.58*spcp_unsup + 0.18*lidar_clean + 0.14*pf_concord + 0.10*svd_wall`), achieving **`SGMC-cal = 0.076510`** (`EXP1_H47_UNSUP_LDGI_CREST`).
-2. **`IR-46-COLLISION-01` (Why Naive Two-Regime Splits Collide at `> 70%` 3-px Overlap):**
-   - `H46-1` (`6437b275-zeros.tif`) emitted `72%` (`27,111` dots) from `s63`, resulting in `84.64%` 3-px overlap with `H45` during the prior audit and `78.45%–82.40%` overlap whenever a new candidate emits $\ge 85\%$ of its full-map dots from `s63`.
-   - **Fix in `H47-1` (`Catalogue-Completeness Adaptive Allocation`, `CCAA`):** We defined the leak-free **Catalogue-to-Lineament Completeness Ratio**:
-     $$\eta(V) = \frac{|V \cap \text{foot}|}{\sum_{x \in \text{foot}} \rho_{\text{lin}}(x)}$$
-     which depends **only** on the visible fault mask $V$ (`cell.visible_full` on holdout folds, `ctx.labels` on the full map) and the label-free geophysical lineament density $\rho_{\text{lin}}$ (`ldgi_stack[:, :, 0]`).
-     - On the 8 censored OOF folds (`20%` of catalogue withheld), $\eta(\text{cell.visible\_full}) \in [0.062656, 0.063054]$, so the closed-form linear law $f_A(\eta) = \text{clip}(0.50 + 0.42\frac{0.0784 - \eta}{0.0784 - 0.0627}, 0.50, 0.92)$ allocates $f_A \in [0.9105, 0.9200]$ to Horizon A (`HR = 0.119765`).
-     - On the uncensored full map (`0%` of active catalogue withheld), $\eta(\text{ctx.labels}) = 0.078381$, so $f_A(\eta) = 0.5005$ allocates `18,846` dots (`50.05%`) to Horizon A and `18,808` dots (`49.95%`) to Horizon B (`ldgi_crest_unsup` via `emitter.emit(..., initial_mask=dots_a)`), achieving **`SGMC-cal = 0.065888 > 0.064121` Champion** and reducing worst genuine 3-px registry overlap to **`58.67% <= 70.0%`**.
+The champion is **exactly** `D2.8 minus every dot with Euclidean distance ≤ 2 px to the catalogue`.
+`D2.8` is ⊂ H19-5 (121,131 px). This was verified this session on the restored bytes: 6,436 dots
+removed (3,891 at d = 1, 1,201 at d = √2, 1,344 at d = 2), leaving 37,654.
 
----
+1. **A ridge network that sits on the hidden faults.** H19-5 (19GEMSDOE) is the Hessian ridge-NMS
+   centerline of a four-line fused score: power-law tip/relay stress, GDR thermal/geochemistry,
+   1 m/10 m DEM openness/LRM scarps, and gravity/magnetic "worms". It uses a 2.45% budget. The new
+   Live-Ledger Inversion (§2) estimates that **73–96% of the hidden public truth lies within 300 m of
+   this network**, concentrated in its 1-px halo (stratum density 50–1,400× the far-field
+   reference). The range depends on regularisation.
+2. **Dot thinning** (H19-5 solid 0.1922 → D1.5 0.2477 → D2.8 0.2600) is the c(s) trade-off in §1.1.
+3. **Pruning inside the catalogue-depletion zone** (D2.8 0.2600 → B1 0.2708 → B2 0.2778). LLI
+   measures the live truth density near catalogued traces at **0.01–0.07× (1–2 px)**,
+   **0.05–0.15× (2–3 px)** and **0.14–0.22× (3–5 px)** of the far-field density, and ≈1× beyond 5 px.
+   This holds across every fit and regularisation tested. Dots there are almost pure false positives,
+   so removing them lowers the denominator and barely touches TP.
 
-## 4. Complete 3-Experiment Results (`H47-1-LDGI`)
+### 1.3 Calibration facts (MODEL-INFERENCE from OWNER-REPORT scores; reproducible)
 
-All numbers below are `HOLDOUT-DTI` computed by `gems32.holdout` (`scripts/run_h47_ldgi.py`, `evidence/h47_ldgi_experiments.json`):
+* The 5-px calibration lattice scored **0.0904** live. Under a uniform-truth model that implies about
+  12.3k public truth pixels at full-footprint scale (lattice mean credit 0.3752 per truth pixel). LLI
+  fits give |G| ≈ 17–18k because they let density concentrate near the network.
+* A **spatially random** raster would score ≈ 0.042–0.046 with 37,654 dots and ≈ 0.045–0.047 with
+  44,090 dots. The SGMC-tracing files (0.0512, 0.0492) are at the random level. **SGMC bedrock faults
+  carry essentially no information about the test faults.** This explains the documented SGMC
+  instrument failure (IR-42-INSTR-02).
+* The champion is ≈ 6.5× the random-equivalent DTI for its dot count.
 
-| Arm / Baseline | Full-Map Dots | `GEMSDOE32-HIDE-RECOVER-v3.0` (`n=22,232`, 95% CI) | Censored $d_{\text{hid}}>2\text{ px}$ (`n=22,232`) | Detached $\ge 600\text{ m}$ (`n=15,504`) | `GEMSDOE32-SGMC-CAL-v3.0` (`n=62,703` Calibrated, 95% CI) | `SGMC` Raw Pooled DTI |
-|---|---:|---:|---:|---:|---:|---:|
-| **`0.2778` Champion (`h33-2-b2` / `d2.8` parent)** | `37,654` | `0.099202 [0.085951, 0.112668]` | `0.004515 [0.003835, 0.005232]` | `0.094324 [0.079248, 0.109825]` | `0.064121 [0.056730, 0.071649]` | `0.096060` |
-| **`CTRL_35CH_OOF` (35-ch Fold-Local Control)** | `37,654` | `0.101794 [0.088269, 0.114563]` | `0.004966 [0.004225, 0.005725]` | `0.073145 [0.061547, 0.083786]` | `0.044594 [0.038928, 0.049915]` | `0.066841` |
-| **Prior Repo-Best `EXP3_H38_G1_CORROB` (`H38`)** | `37,654` | `0.116958 [0.100533, 0.132040]` | — | — | `0.050374` | — |
-| **Prior `EXP1_H46_EXPOSED63` (Post-Audit Repaired)** | `37,654` | `0.115430 [0.098717, 0.130376]` | `0.005926` | `0.089490` | `0.045792` | `0.068616` |
-| **Prior `EXP3_H46_TRHV_TWOREGIME` (`H46-1`)** | `37,654` | `0.109361 [0.094695, 0.122341]` | `0.005390` | `0.087836` | `0.044756 [0.039243, 0.050114]` | `0.067069` |
-| **`EXP1_H47_UNSUP_LDGI_CREST` (Exp 1/3)** | `37,654` | `0.032934 [0.028191, 0.037677]` | `0.001888 [0.001531, 0.002267]` | `0.028281 [0.023502, 0.032998]` | **`0.076510 [0.064668, 0.086451]`** | **`0.114403`** |
-| **`EXP2_H47_EXPOSED71_GI` (Exp 2/3)** | `37,654` | **`0.121959 [0.107709, 0.134901]`** | **`0.006025 [0.005116, 0.006954]`** | **`0.091870 [0.077710, 0.105882]`** | `0.045491 [0.038282, 0.052267]` | `0.068186` |
-| **`EXP3_H47_DUAL_HORIZON_LDGI` (Exp 3/3, Shipped Research TIF)** | `37,654` | **`0.119765 [0.105732, 0.132895]`** | **`0.005812 [0.004926, 0.006707]`** | **`0.091842 [0.077733, 0.105853]`** | **`0.065888 [0.057664, 0.072551]`** | **`0.098751`** |
+### 1.4 What cannot be inferred
 
-### Paired Spatial-Block Bootstrap Contrasts (`1,000` Replicates)
-- **`EXP2_H47_EXPOSED71_GI` vs. `0.2778` Champion (`HIDE-RECOVER-v3.0`):** $\Delta = +0.022950$, `95% CI [+0.013043, +0.032891]`, $P(\Delta > 0) = 1.000$.
-- **`EXP3_H47_DUAL_HORIZON_LDGI` vs. `0.2778` Champion (`HIDE-RECOVER-v3.0`):** $\Delta = +0.020831$, `95% CI [+0.010857, +0.030863]`, $P(\Delta > 0) = 1.000$.
-- **`EXP3_H47_DUAL_HORIZON_LDGI` vs. `CTRL_35CH_OOF` (`HIDE-RECOVER-v3.0`):** $\Delta = +0.018243$, `95% CI [+0.009835, +0.025531]`, $P(\Delta > 0) = 1.000$.
-- **`EXP3_H47_DUAL_HORIZON_LDGI` vs. `EXP2_H47_EXPOSED71_GI` (`SGMC-CAL-v3.0` Dual-Horizon Lift):** $\Delta = +0.019935$, `95% CI [+0.012371, +0.027448]`, $P(\Delta > 0) = 1.000$.
-- **`EXP1_H47_UNSUP_LDGI_CREST` vs. `0.2778` Champion (`SGMC-CAL-v3.0`):** $\Delta = +0.011860$, `95% CI [-0.000774, +0.025158]`, $P(\Delta > 0) = 0.965$.
+The hidden truth, the public/private chunk map, and per-submission receipts are unavailable. LLI
+estimates are **stratum averages**. They say nothing about a detector that is far better than average
+inside a stratum, and they inherit any error in the owner-reported scores.
 
----
+## 2. New shared instrument: Live-Ledger Inversion (LLI)
 
-## 5. Refreshed Nine-Site Executive Summary (`GEMSDOE24..36`, `362` Manifest Rasters)
+`src/gems32/ledger_inversion.py`, `scripts/run_live_ledger_inversion.py`, inputs located by
+`scripts/fetch_live_ledger_rasters.py`.
 
-All 9 focus repositories were fetched at their latest `2026-10-26` `main` commits (`scripts/fetch_focus_registry.py`, [`evidence/nine_site_refreshed_audit_20261026.json`](../../evidence/nine_site_refreshed_audit_20261026.json)):
+* **Inputs.** 118 of 123 owner-reported live scores were matched to exact GeoTIFF bytes in the GEMSDOE
+  repositories by conservative filename matching; 5 rows were left unmatched rather than guessed.
+  After collapsing identical masks, **111 distinct rasters** remain (`evidence/live_ledger_rasters.json`).
+* **Identity.** E[TP_w] and E[|G|] are exactly linear in the truth-inclusion map π. The matched mass
+  uses the exact line-truth max/sum ratio (1/3), which is tested against the exact metric in
+  `tests/test_ledger_inversion.py`. Each live score is one equation.
+* **Model.** π is a log-additive function of feature strata only, never location. The fit is
+  multi-start bounded least squares on DTI, with warm-started leave-one-out and leave-site-out
+  validation.
 
-| Focus Site (`main` HEAD) | Historical Best `[OWNER-REPORT]` | Latest `2026-10-26` Candidate Inspected | Emitted Dots (`On-Cat`) | Static `HIDE-RECOVER-v3.0` `[HOLDOUT-DTI]` | `SGMC-CAL-v3.0` `[HOLDOUT-DTI]` | $\le 3\text{ px}$ vs `0.2778` Champ | $\le 3\text{ px}$ vs `H47-1` (`0eb8a25c`) | Status / Action |
-|---|---:|---|---:|---:|---:|---:|---:|---|
-| **`GEMSDOE24`** (`5cfab742e641`) | `0.2449` (`d1.5`, `96,743`d) | `gemsdoe24-vent-quat-bridge-20261026-0dc7d188-zeros.tif` | `46,458` (`0`) | `0.003382 [0.002802, 0.003999]` | `0.088855 [0.075772, 0.099787]` | `24.16%` | `25.92%` | Historical `0.2449` in `H19-5` family; do not resubmit |
-| **`GEMSDOE25`** (`bfb2dfd52fa9`) | `0.2600` (`d2.8`, `44,090`d) | `gemsdoe25-h71-hgpc-blind-b2-sapd3-k3p5-20261026-zeros.tif` | `37,654` (`0`) | `0.003283 [0.002692, 0.003835]` | `0.075101 [0.065067, 0.083705]` | `22.74%` | `30.52%` | Historical `0.2600` byte-identical to `GEMSDOE30`; do not resubmit |
-| **`GEMSDOE27`** (`f1e32afd124f`) | `0.2498` (`gap-closure`, `97,813`d) | `gems27-h31-rankens-celf-b2-20261026-4fa5358bf4eb-zeros.tif` | `37,654` (`0`) | `0.004407 [0.003706, 0.005167]` | `0.067225 [0.056630, 0.076272]` | `61.43%` | `34.13%` | Historical `0.2498` in `H19-5` family; do not resubmit |
-| **`GEMSDOE28`** (`9c1be21bc2ab`) | `0.2587` (`r3-blind`, `40,199`d) | `gemsdoe28-s20-nchc-20261026-845bc7b3-zeros.tif` | `37,654` (`0`) | `0.003571 [0.003042, 0.004141]` | `0.089098 [0.077274, 0.098924]` | `26.58%` | `36.32%` | Historical `0.2587` in `H19-5` family; do not resubmit |
-| **`GEMSDOE30`** (`35ce89137882`) | `0.2600` (`poisson-d2.8`, `44,090`d) | `gemsdoe30-geothermal-corridor-offcat-d3-20261026-26dd2b77-zeros.tif` | `37,654` (`0`) | `0.003063 [0.002460, 0.003684]` | `0.081904 [0.071535, 0.091079]` | `21.48%` | `28.58%` | Historical `0.2600` byte-identical to `GEMSDOE25`; do not resubmit |
-| **`GEMSDOE31`** (`78f9bf3201b5`) | `0.2708` (`solo`, `40,199`d) | `gemsdoe31-h31s-udap-sslic-37654-20261026T161306Z-de618268-zeros.tif` | `37,654` (`0`) | `0.002639 [0.002226, 0.003084]` | `0.068089 [0.059886, 0.076002]` | `22.71%` | `24.63%` | Historical `0.2708` is `B=1` parent of `GEMSDOE32`; do not resubmit |
-| **`GEMSDOE32`** (`45ee207185f7`) | **`0.2778`** (`h33-2-b2`, `37,654`d) | `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` | `37,654` (`0`) | `0.099202 [0.085951, 0.112668]` (fold-collared `d2.8` parent; `0.004515` static) | `0.064121 [0.056730, 0.071649]` | `100.00%` | `32.49%` | **Highest historical score (`0.2778 [OWNER-REPORT]`) — already submitted; do not resubmit** |
-| **`GEMSDOE33`** (`a24fb7cd5594`) | `0.2725` (`b2+tips`, `38,404`d) | `gemsdoe33-g33-tilt-gravity-lidar-coherence-20261026-507d4fc3-zeros.tif` | `37,654` (`0`) | `0.001781 [0.001268, 0.002375]` | `0.092890 [0.078556, 0.104571]` | `14.11%` | `20.09%` | Historical `0.2725` contains `100%` of `GEMSDOE32` `B=2` + `750` dots |
-| **`GEMSDOE36`** (`b90418f3895d`) | `0.2750` (`b2+pinn`, `38,854`d) | `gemsdoe36-mto36-ortho-contact-20261026-bf644b74-zeros.tif` | `40,199` (`0`) | `0.002460 [0.002016, 0.002975]` | `0.074750 [0.064592, 0.084623]` | `22.27%` | `23.43%` | Historical `0.2750` contains `100%` of `GEMSDOE32` `B=2` + `1,200` dots |
-| **NEW: `GEMSDOE32` `H47-1-LDGI` (This Session)** | *unsubmitted* | [`gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif`](../downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif) | `37,654` (`0`) | **`0.119765 [0.105732, 0.132895]`** (`EXP2`: **`0.121959`**) | **`0.065888 [0.057664, 0.072551]`** (`EXP1`: **`0.076510`**) | `32.49%` | `100.00%` | **Genuine uniqueness PASS (`58.67% <= 70%`, `|rho|=0.1537 <= 0.90`); `HOLD — DO NOT SUBMIT` (`verdict = negative`)** |
+| design (strata) | params | LOO MAE | LOO Spearman | leave-site-out MAE / ρ |
+|---|---|---|---|---|
+| S0: d_catalogue (8) × d_H19-5 (5) | 12 | 0.0221 | 0.926 | 0.0224 / 0.925 |
+| **S3: d_catalogue (6) × d_H19-5 (9 halo bins)** | 14 | **0.0219** | **0.927** | **0.0223 / 0.923** |
+| S4: S3 with halo split by up/down-slope side | 15 | 0.0222 | 0.923 | 0.0226 / 0.919 |
+| S0 + slope / LiDAR step / SGMC (each) | 13–19 | 0.0223–0.0241 | 0.907–0.926 | no gain |
+
+The fit reproduces the live B-ladder order (D2.8 < B1 < B2). It over-predicts the champion family by
++0.005 to +0.007; the champion projects at 0.2831–0.2845 against 0.2778 live. Use LLI for **ranking
+and go/no-go**, with ±0.022 (MAE) and ±0.052 (q90) error bands. Do not use it as a score.
+
+## 3. The uniqueness ceiling: why no tested unique file beats the champion
+
+The protocol's duplicate rule (≤70% of dots within 3 px of **each** registry raster) applies to the
+dense H19-5 network itself (121,131 px; a registry raster via GEMSDOE24 `inputs/`). Any protocol-unique
+file must therefore place **≥30% of its dots more than 3 px from the network**. LLI puts only 4–27% of
+the hidden truth there, spread over ~4.6 M pixels. Off-network strata are worth **0.002–0.018 expected
+credit per dot**, against the **0.0556** break-even. Each such dot adds ≈0.2 to the denominator and
+almost nothing to TP.
+
+**E2 confirmed this directly** (`evidence/h47_lli_unique_experiment.json`):
+
+* Budget sweep: 15 configurations; core 16k–32k dots; novel share fixed at 35%.
+* Best unique configuration: **PROJECTION 0.2402–0.2476**, versus 0.2831–0.2845 for the champion.
+* **HOLDOUT-DTI** (GEMSDOE32-HIDE-RECOVER-v3.0, 22,232 withheld positives):
+  * H47: 0.0784 [0.0662, 0.0909].
+  * Champion proxy: 0.0992 [0.0860, 0.1127].
+  * Paired Δ CI [−0.0246, −0.0168].
+  * The novel component alone costs Δ CI [−0.0164, −0.0095] relative to core-only (0.0915).
+
+**What would beat 0.2778, 0.3195 or 0.4437.** This uses the identity with the champion calibration
+(TP ≈ 5.06k on |G| ≈ 12.7k at 37,654 dots). It is MODEL-INFERENCE, not a forecast:
+
+* **0.3195** needs about +16% TP at the same dot count, or the same TP with about 32% fewer dots,
+  all of them removed false positives.
+* **0.4437** (current #1) needs about +63% TP at the same dot count. It cannot be reached by pruning
+  alone; it needs better recall *and* better precision.
+
+**Realistic routes** (next sessions):
+
+* (a) **Segment-level precision.** Fit LLI on *segment attributes* of the network and prune false
+  segments. This is a refinement of the H19-5 family and is blocked by the duplicate rule unless the
+  owner allows refinements (owner decision, IR-47-UNIQ-CEILING).
+* (b) **Sub-kernel localisation of traces.** The 1-px halo finding suggests centerlines sit ~100 m
+  off the traces, but the side is not identifiable from the ledger (E1). This needs a trace-snapping
+  method, e.g. from 1 m LiDAR.
+* (c) **Off-network recall.** This needs ≥7× stratum-average lift. No tested signal achieves that.
+
+## 4. Hypotheses (pre-registered in `docs/research/h47-lli-preregistration-20261026.md`)
+
+| id | result |
+|---|---|
+| H47-1 ridge-to-trace side offset | **NEGATIVE.** A large in-sample "upslope" effect (358×) gave **zero** out-of-sample gain: LOO 0.0222 → 0.0222; the 53 most asymmetric rasters 0.0217 vs 0.0217; r(asymmetry, score) = −0.07. In a later multi-start fit the side flips between bands, so it is not identifiable. |
+| H47-2 catalogue-proximal depletion | **Supported** in every fit (0.01–0.22× within 5 px). A B3 champion subset projects +0.002 to +0.004, which is inside the error band and would be a protocol duplicate. |
+| H47-3 LLI-optimal unique allocation (selected lane) | **NEGATIVE** (E2 above). |
+| H47-4 absolute-elevation shoreline veto | Not run: needs an absolute DEM. `det_elev` is detrended, and DEM download hosts are not reachable from this sandbox. |
+
+**Experiments used:** 2 of 3. E3 was not triggered, because the pre-registered trigger required E2 to
+be within the LOO MAE of the champion projection.
+
+## 5. Nine-site executive summary
+
+These are the best OWNER-REPORT files per site. "Unique" means no byte- or mask-identical alias and
+≤70% within 3 px of every other restored live-scored GEMSDOE submission. Space-filling rasters with
+≥70% footprint coverage are excluded from the max because they overlap every map. The estimate is the
+LLI leave-one-out PROJECTION. Source: `evidence/nine_site_table_h47.json`.
+
+| Site | Best file (download) | Live score | LLI LOO estimate (projection) | Unique vs all listed? |
+|---|---|---|---|---|
+| **GEMSDOE32** | [`h33-h33-2-b2…e5eb6e7e-zeros`](https://github.com/buffedlizard55-lab/GEMSDOE32/raw/45ee207185f72804497f7a7a392ad2c43e168f02/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) | **0.2778** | 0.285 | **No.** 25 listed files >70%, e.g. G29 wormrank-d28. Already submitted. |
+| GEMSDOE36 | `anderson-geothermal-pinn-38854` | 0.2750 | 0.283 | **No.** Champion + 1,200 dots; 25 files >70%. |
+| GEMSDOE28 | `h36-1-rung30-blind-r1` | 0.2710 | 0.277 | **No** (27 files >70%). |
+| GEMSDOE31 | `h27-4-solo-d28` | 0.2708 | 0.279 | **No.** Byte-identical mask to G28 `h27-4-r1-solo`. |
+| GEMSDOE33 | `h33d-analog-tip-stepover-r30` | 0.2632 | 0.278 | **No** (27 files >70%). |
+| GEMSDOE25 | `dotted-h19-5-d2-8` | 0.2600 | 0.271 | **No.** Identical to G30 `d28-poisson300m` and G29 `efd28-repro`. |
+| GEMSDOE30 | `d28-poisson300m-offcat-44090` | 0.2600 | 0.271 | **No** (identical to G25). |
+| GEMSDOE24 | `h25-1-dotted-h19-5-d1-5` | 0.2477 | 0.268 | **No** (26 files >70%). |
+| GEMSDOE27 | `topo-gap-closure-t-v2-on-d1-5` | 0.2449 | 0.266 | **No** (26 files >70%). |
+| **GEMSDOE32 (new, H47)** | [`h47-lli-unique…33464ce2-zeros`](../downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif) | unscored | **0.240–0.248** | **Yes** (max 0.650; 452 rasters). 🔴 **Not OK to submit.** |
+
+All nine historical bests are one H19-5 family.
+
+## 6. Irregularities flagged this session
+
+See `registry/irregularities.json`, ids `IR-47-*`:
+
+* **IR-47-LANE-01:** the prompt's lane paragraph is absent; the H47 lane is self-declared.
+* **IR-47-LATTICE-FIX:** the literal 3-px rule is unsatisfiable against space-filling rasters. A
+  null-calibrated rule is implemented in the shared `registry_audit`, the literal result is still
+  reported, and a mass-weighted guard is added.
+* **IR-47-UNIQ-CEILING:** the duplicate rule vs the dense H19-5 network forces ≥30% off-network dots,
+  and live evidence says those are near-worthless. Owner decision requested.
+* **IR-47-TARGETS:** 0.4413 (cached) and 0.3195 (historical) are superseded. The live #1 read at
+  2026-10-26T21:20Z is **0.4437**.
+* **IR-47-PRIZES:** the problem page now describes $50k Initial / $250k Final pools. The prompt cites
+  $175k / $395k.
+* **IR-47-ALIAS:** byte-identical masks under different names (G25 = G30 = G29 efd28-repro;
+  G31 = G28 h27-4-r1-solo).
+* **IR-47-G77:** GEMSDOE77 lists a file named `gems85-…`.
+* **IR-47-UNSCORED:** G91 `S18-UNIQUE` and the G86/G88 entries have no score.
+* **IR-47-LEDGER-GAPS:** 5 ledger rows (GEMSDOE, GEMSDOE4, 21GEMSDOE, GEMSDOE64, GEMSDOE79) could not be
+  matched unambiguously and were excluded, not guessed.
+
+## 7. Remaining work, limitations, access needed
+
+* **Owner decisions:**
+  * The duplicate rule for H19-5-family refinements (IR-47-UNIQ-CEILING).
+  * Whether the space-filling exemption is acceptable (IR-47-LATTICE-FIX).
+* **Access:**
+  * Organizer submission receipts. Every live score here is OWNER-REPORT.
+  * An absolute DEM (USGS 3DEP) for H47-4. Not reachable from this sandbox (only GitHub/PyPI hosts).
+* **Next session (highest expected value):**
+  * Segment-level LLI: attributes of each network segment (length, strike vs regional fabric, LiDAR
+    step, coupling, catalogue distance), fitted on the ~30 champion-family variants with different
+    segment subsets.
+  * A LiDAR-based trace-snapping test for the 1-px halo.
+* **Limitations:**
+  * The LLI ignores the unknown public/private chunk map, which is the likely source of most of its
+    residual error.
+  * The matched-mass term is approximate (weight 0.2).
+  * Owner-reported scores are unverified.

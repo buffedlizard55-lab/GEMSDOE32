@@ -1,0 +1,37 @@
+{
+ "label": "PROJECTION (LLI-S3; not a score)",
+ "projections": {
+  "champion_B2 (live 0.2778)": {
+   "S3_loo_selected_ridge1e-5": 0.2843,
+   "S3_ridge1e-4": 0.2831,
+   "S3_ridge1e-3": 0.2845
+  },
+  "champion_B3_subset (duplicate; not allowed)": {
+   "S3_loo_selected_ridge1e-5": 0.2884,
+   "S3_ridge1e-4": 0.286,
+   "S3_ridge1e-3": 0.2846
+  },
+  "H47 unique candidate": {
+   "S3_loo_selected_ridge1e-5": 0.2407,
+   "S3_ridge1e-4": 0.2402,
+   "S3_ridge1e-3": 0.2476
+  }
+ },
+ "loo_selected": {
+  "ridge": 1e-05,
+  "loo": {
+   "mae": 0.02194541449612522,
+   "rmse": 0.03200731224179911,
+   "max_abs_err": 0.11406295754621354,
+   "spearman": 0.9267236462593216,
+   "abs_err_q90": 0.05420053128522437
+  },
+  "leave_site_out": {
+   "mae": 0.02234471596410571,
+   "rmse": 0.03230961049191979,
+   "max_abs_err": 0.11406295754621354,
+   "spearman": 0.9232750375490387,
+   "abs_err_q90": 0.05558225130568792
+  }
+ }
+}

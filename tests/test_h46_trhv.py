@@ -185,15 +185,27 @@ def test_h46_runner_fails_closed_without_an_explicit_lane_assignment():
     assert "no explicit H46-1-TRHV method paragraph" in result.stderr
 
 
-def test_current_status_and_rendered_site_identify_h46_as_research_only():
+def test_current_status_and_rendered_site_identify_current_candidate_as_research_only():
+    """The *current* newest candidate (whatever it is) must be research-only everywhere.
+
+    This was originally pinned to the H46 file; the ARENA47 merge superseded H46 and the pin
+    went stale (IR-48-SYNC-01).  The durable contract is self-consistency: the newest
+    candidate is downloadable for audit, never authorized, and named by README and the site.
+    """
     status = json.loads((ROOT / "registry" / "current_status.json").read_text())
     assert status["any_file_ok_to_submit"] is False
+    newest = status["newest_unique"]
+    assert newest["ok_to_download"] is True
+    assert newest["ok_to_submit"] is False
+    assert (ROOT / newest["file"]).is_file()
+    # H46 remains documented as a historical artifact even once superseded.
     card_file = json.loads(H46_CARD.read_text())["artifacts"]["primary_zeros_tif"]
-    assert status["h46_candidate"]["file"] == card_file
-    assert status["h46_candidate"]["ok_to_download"] is True
-    assert status["h46_candidate"]["ok_to_submit"] is False
+    assert (ROOT / card_file).is_file()
     for rel in ("README.md", "docs/index.html", "docs/executive-summary.html", "index.html"):
         text = (ROOT / rel).read_text()
         assert "DO NOT SUBMIT" in text
-        assert "H46" in text
-        assert Path(card_file).name in text
+        assert Path(newest["file"]).name in text
+    # H46 stays documented as a historical artifact where the research record lives
+    # (the root landing page and the executive summary do not carry research history).
+    for rel in ("README.md", "docs/index.html"):
+        assert "H46" in (ROOT / rel).read_text()

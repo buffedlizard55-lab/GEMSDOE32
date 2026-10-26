@@ -436,5 +436,6 @@
   },
   "download_for_research_ok": true,
   "ok_to_submit": false,
-  "verdict": "negative"
+  "verdict": "negative",
+  "results_doc": "docs/research/h47-ldgi-results-and-nine-site-executive-summary-20261026.md"
 }
