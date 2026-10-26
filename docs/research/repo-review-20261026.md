@@ -1,5 +1,7 @@
 # GEMSDOE32 repository review — 2026-10-26
 
+> **Same-day addendum:** After this inventory was written, the pinned owner-mirror archive restored `sample_submission.tif` and the calibration lattice into the ignored cache. The strict exact-grid/finite-range validator now passes, but this does not change the negative release decision. A direct final-dot audit found 36,832/37,654 (97.82%) within 3 px of the lattice, exceeding the 70% stop threshold; the earlier 41.36%/29-raster summary omitted this registered raster. Pre-placement all-registry surface correlation remains incomplete. The final merged build/tests passed (90 passed, 8 skipped; 15 warnings); the skips require unavailable training/label/group artifacts. See the later [three-pass protocol review](protocol-review-20261026.md) and updated [current release decision](../../evidence/current_release_review.json).
+
 ## Decision first
 
 **DO NOT SUBMIT the current Round-6 TIF.** Its file-format properties are valid when read from the published bytes, but the current run has no method-lane paragraph and the historical promotion evidence does not satisfy the required fold-specific hide-and-recover protocol. This is a process-validation failure, not a claim that the raster is malformed. The artifact is retained for audit and education; its historical score/proxy fields are not an authorization.

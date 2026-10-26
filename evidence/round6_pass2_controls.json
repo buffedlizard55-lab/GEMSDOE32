@@ -48,5 +48,5 @@
     "order": "NW,NE,SW,SE",
     "reading": "gain concentrated in eastern half (NE, SE); SW favours champion"
   },
-  "interpretation": "Random controls (0.074-0.077) sit below champion (0.096) and far below candidate (0.141): the SGMC gain is positional signal, not spread artifact. SGMC remains a proxy population (pre-Quaternary-inclusive); two live SGMC-tracing files scored ~0.05, so SGMC skill does not guarantee live skill. Verdict stays PROMOTE per frozen gates, as selector recommendation only."
+  "interpretation": "These controls show positional association against the SGMC proxy, not a compliant competition holdout or organizer score. The candidate mask used distance from the full catalogue, including withheld faults, and the literal registry-dot overlap gate fails against the calibration raster. Verdict: NEGATIVE / DO NOT SUBMIT; audit only."
 }

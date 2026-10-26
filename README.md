@@ -9,10 +9,11 @@ The file below is a real, uniquely named GeoTIFF and its bytes pass the recorded
 - **Audit artifact only (not upload-authorized):** [`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif)
 - SHA-256: `c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547`
 - Automated byte check in this review: single-band float32, EPSG:32611, 3730×3292, all 12,279,160 cells finite, range [0,1], nodata unset, 37,654 positive cells.
-- **Grid caveat:** the competition template is not present in this checkout, so the previous exact-template geometry comparison could not be rerun from source data in this review.
+- **Grid validation:** the strict submission checker now passes against the SHA-256-pinned sample template restored from the owner mirror (`2176d08e…54d35cbc`). This verifies exact CRS, shape, transform, dtype, and whole-array finite `[0,1]` values; mirror provenance is not organizer authentication and format validity is not release approval.
+- **Uniqueness failure:** 36,832 / 37,654 final dots (97.82%) lie within 3 px of the registered calibration lattice, exceeding the literal 70% stop threshold. The pre-placement surface-correlation comparison against every registry raster is incomplete.
 - No new submission slot was used. No organizer score is claimed for this candidate.
 
-The full audit and blockers are in [`docs/research/repo-review-20261026.md`](docs/research/repo-review-20261026.md), the session review card is [`evidence/review_run_card_20261026.json`](evidence/review_run_card_20261026.json), and the machine-readable decision is [`evidence/current_release_review.json`](evidence/current_release_review.json). The historical Round-6 evidence remains preserved at [`evidence/round6_run_card.json`](evidence/round6_run_card.json); it is not the current release authorization.
+The full audit and blockers are in [`docs/research/protocol-review-20261026.md`](docs/research/protocol-review-20261026.md) and [`docs/research/repo-review-20261026.md`](docs/research/repo-review-20261026.md); the session review card is [`evidence/review_run_card_20261026.json`](evidence/review_run_card_20261026.json), and the machine-readable decision is [`evidence/current_release_review.json`](evidence/current_release_review.json). The original Round-6 measurements remain in [`evidence/round6_run_card.json`](evidence/round6_run_card.json), whose release verdict is now explicitly negative; the separate current-session authorization is in the review card.
 
 ## Standing project brief — read before every session
 
@@ -63,7 +64,7 @@ To regenerate the Pages content from the registry and evidence:
 python scripts/build_site.py
 ```
 
-Competition data access requires the user's DrivenData login and is not present in this checkout. Restore the hash-pinned data/cache before rerunning any holdout or exact-grid validator. Never spend a competition slot based only on this repository's local proxy metrics.
+Training features, labels, external proxy layers and the cached feature stack are not present in this checkout, so no fresh holdout candidate can be built. The sample template is restored only from a hash-pinned owner mirror; exact-grid validation of an existing artifact is possible, but that is not organizer authentication. Never spend a competition slot based only on this repository's local proxy metrics.
 
 ## Official references
 

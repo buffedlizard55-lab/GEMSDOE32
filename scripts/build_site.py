@@ -54,8 +54,8 @@ def protocol_notice(prefix: str = "") -> str:
     if decision.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
         return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2>&#128308; DO NOT SUBMIT — current-session release gates are not satisfied</h2>
-<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Its file-format/range check passed, but that does not authorize upload. The current method lane is missing, the prior B=2 holdout used the full catalogue mask, and the required fold-local hide-and-recover evidence was not established. No submission slot was used.</p>
-<p><a href="{prefix}research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="{evidence_prefix}current_release_review.json">machine-readable release decision</a></p>
+<p><b>The Round-6 GeoTIFF is retained as an audit artifact only.</b> Strict CRS/shape/transform and finite [0,1] validation passes against a hash-pinned owner mirror, but this does not authorize upload. The prior B=2 holdout used full-catalogue geometry before scoring. Also, 97.82% of final dots lie within 3 px of the registered calibration lattice (70% stop threshold); pre-placement correlation against every registry raster remains incomplete. No submission slot was used.</p>
+<p><a href="{prefix}research/protocol-review-20261026.md">Read the three-pass protocol audit</a> · <a href="{prefix}research/repo-review-20261026.md">Read the review and required next steps</a> · <a href="{evidence_prefix}current_release_review.json">machine-readable release decision</a></p>
 </section>"""
     card = read("evidence/round6_run_card.json", {}) or {}
     boot = ((card.get("holdout") or {}).get("primary_sgmc") or {})
