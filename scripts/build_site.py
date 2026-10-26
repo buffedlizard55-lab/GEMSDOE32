@@ -214,89 +214,6 @@ GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
 
 
 
-def h47_banner(docs_prefix: str = "") -> str:
-    """Top-of-page verdict for the newest unique file + nine-site table (sources: evidence/h47_run_card.json,
-    evidence/nine_site_table_h47.json, evidence/h47_lli_projections.json). Nothing hand-typed."""
-    card = read("evidence/h47_run_card.json")
-    if not card:
-        return ""
-    up = "../" if docs_prefix == "" else ""
-
-    def href(rel: str) -> str:
-        return (docs_prefix + rel[len("docs/"):]) if rel.startswith("docs/") else (up + rel)
-
-    ok = bool(card.get("ok_to_submit"))
-    r = card["raster"]
-    verdict = ('<div style="background:#0a7d2c;color:#fff;padding:14px 18px;border-radius:8px;font-size:1.35em">'
-               '&#9989; OK TO SUBMIT &mdash; every automated gate passed</div>' if ok else
-               '<div style="background:#b91c1c;color:#fff;padding:14px 18px;border-radius:8px;font-size:1.35em">'
-               '&#128308; DO NOT SUBMIT &mdash; the new unique file is valid but projected <b>below</b> the 0.2778 champion'
-               '<br><span style="font-size:.75em">DOWNLOAD FOR RESEARCH/AUDIT: YES &middot; SUBMIT TO DRIVENDATA: NO &middot; '
-               'automatic verdict, no human inspection</span></div>')
-    gate_names = {
-        "1_format_strict_validator": "Format (strict validator on saved bytes: CRS/shape/transform/float32, all cells finite in [0,1])",
-        "2_uniqueness_surface": "Unique: surface rank-correlation &le; 0.90 vs every registry raster",
-        "2_uniqueness_final_dots_null_calibrated": "Unique: &le; 70% of dots within 3 px of every registry raster (space-filling rasters null-calibrated)",
-        "2b_uniqueness_literal_no_exemption": "Literal rule with no exemption (informational: fails only on space-filling lattices)",
-        "3_leakage_canary": "Leakage canary: every feature alone AUC &le; 0.90",
-        "4_protocol_holdout_paired_win_and_above_H38": "Protocol holdout: paired win vs champion proxy and above repo best (HIDE-RECOVER-v3.0)",
-        "5_lli_projection_beats_champion": "Live-calibrated projection (LLI) &ge; champion under the same fit",
-    }
-    grows = "".join(
-        f'<tr><td>{gate_names.get(k, esc(k))}</td><td><b style="color:{"#0a7d2c" if v else "#b00020"}">'
-        f'{"PASS" if v else "FAIL"}</b></td></tr>' for k, v in card.get("gates", {}).items())
-    h = card.get("holdout_dti", {})
-    pj = card.get("live_calibrated_projection", {})
-    sv = pj.get("saved_bytes", {})
-    cp = pj.get("champion_same_fit", {})
-    u = card.get("registry_uniqueness", {})
-    nine = read("evidence/nine_site_table_h47.json") or {}
-    nrows = ""
-    for row in nine.get("rows", []):
-        est = row.get("lli_loo_estimate")
-        uniq = row.get("unique_vs_all_listed")
-        alias = row.get("byte_or_mask_identical_aliases") or []
-        why = (f'{row.get("n_other_listed_over_70pct", 0)} listed files &gt;70% within 3 px'
-               + (f'; byte-identical to {esc(alias[0].split(":")[0])}' if alias else ""))
-        nrows += (f'<tr><td>{esc(row["site"])}</td><td><a href="{esc(row["download_url"])}">{esc(row["submission"])}</a></td>'
-                  f'<td><b>{row["live_score"]:.4f}</b> <span class=mut>OWNER-REPORT</span></td>'
-                  f'<td>{"" if est is None else f"{est:.3f}"} <span class=mut>projection</span></td>'
-                  f'<td>{"&#9989; unique" if uniq else "&#10060; duplicate family"}<br><span class=mut>{why}</span></td></tr>')
-    lo_h = min(sv.values()) if sv else 0.0
-    hi_h = max(sv.values()) if sv else 0.0
-    lo_c = min(cp.values()) if cp else 0.0
-    hi_c = max(cp.values()) if cp else 0.0
-    nrows += (f'<tr style="background:#fff7ed"><td><b>GEMSDOE32 (new H47)</b></td><td><a href="{esc(href(r["file"]))}">'
-              f'{esc(Path(r["file"]).name)}</a></td><td>unscored</td><td><b>{lo_h:.3f}&ndash;{hi_h:.3f}</b> '
-              f'<span class=mut>projection</span></td><td>&#9989; unique (max {u.get("max_within_3px_non_space_filling", 0):.3f}, '
-              f'{u.get("registry_rasters", 0)} rasters)<br><b style="color:#b00020">NOT OK to submit</b></td></tr>')
-    hh = h.get("H47-3", {})
-    hc = h.get("champion proxy (D2.8 + fold-local B2)", {})
-    return f"""<section id="h47" class=card style="border:3px solid {'#0a7d2c' if ok else '#b91c1c'}">
-<h2 style="margin-top:0">Is there a file to submit today?</h2>
-{verdict}
-<p style="margin:12px 0"><a class=btn href="{esc(href(r['file']))}">&#11015; Download the new unique GeoTIFF (research/audit)</a>
-<a class="btn alt" href="{esc(href(r['zip']))}">single-TIFF .zip</a>
-<a href="{esc(href('evidence/h47_run_card.json'))}">JSON run card</a> &middot;
-<a href="{esc(href('evidence/h47_uniqueness_audit.json'))}">uniqueness audit (452 rasters)</a> &middot;
-<a href="{docs_prefix}research/h47-lli-preregistration-20261026.md">pre-registration</a> &middot;
-<a href="{docs_prefix}research/h47-results-and-nine-site-executive-summary-20261026.md">PhD-level analysis</a></p>
-<p><code>{esc(Path(r['file']).name)}</code> &middot; {int(r['dots']):,} dots &middot; {int(r['bytes']):,} B &middot; sha256 <code>{esc(r['sha256'][:16])}&hellip;</code><br>
-Unique name: <code>{esc(card.get('submission_name', ''))}</code> &middot; note ({card.get('submission_note_chars', 0)}/140): <code>{esc(card.get('submission_note', ''))}</code></p>
-<p><b>Why not:</b> live-calibrated PROJECTION <b>{lo_h:.3f}&ndash;{hi_h:.3f}</b> vs <b>{lo_c:.3f}&ndash;{hi_c:.3f}</b> for the 0.2778 champion under the same fit
-(LLI, 111 live-scored rasters, LOO MAE {pj.get('loo_mae', 0):.4f}); HOLDOUT-DTI ({esc(h.get('evaluator_version', ''))}, n={int(h.get('n_withheld_positives', 0)):,})
-<b>{hh.get('dti', 0):.4f}</b> [{hh.get('ci95', [0, 0])[0]:.4f}, {hh.get('ci95', [0, 0])[1]:.4f}] vs champion proxy {hc.get('dti', 0):.4f}.
-The duplicate rule forces &ge;30% of dots off the H19-5 network, where the live ledger finds little hidden truth (IR-47-UNIQ-CEILING).</p>
-<table><tr><th>Automated gate</th><th>Result</th></tr>{grows}</table>
-<h3>Nine focus sites &mdash; best file, score, estimate, uniqueness</h3>
-<p class=mut>Score = owner-reported live score (no organizer receipts here). Estimate = LLI leave-one-out PROJECTION, not a score.
-Unique = no byte-identical alias and &le;70% of dots within 3 px of every other listed GEMSDOE submission.
-<b>Best overall: GEMSDOE32 h33-h33-2-b2 (0.2778) &mdash; already submitted; do not resubmit.</b></p>
-<table><tr><th>Site</th><th>Best file (download)</th><th>Live score</th><th>Estimate</th><th>Unique?</th></tr>{nrows}</table>
-</section>
-"""
-
-
 def previous_artifacts_block(docs_prefix: str = "") -> str:
     """Earlier research-only artifacts (H46 and history), rendered from registry/current_status.json."""
     st = read("registry/current_status.json") or {}
@@ -1424,9 +1341,11 @@ def main() -> int:
                   '<a class="btn alt" href="index.html#status">status &amp; audit downloads</a>')
 
     pages = {
+        # H47 was superseded by later generated candidates. Do not render its archived banner
+        # ahead of the current_status.json decision; stale download links can look actionable.
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           h47_banner("") + previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
-        "executive-summary.html": page("Make a submission (executive summary)", h47_banner("") + previous_artifacts_block("") + exec_summary(fl, sub, name),
+                           previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
+        "executive-summary.html": page("Make a submission (executive summary)", previous_artifacts_block("") + exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
                               research(fl, sub, name), "research.html", dl_btn),
@@ -1480,7 +1399,6 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
-{h47_banner("docs/")}
 {previous_artifacts_block("docs/")}
 {current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
