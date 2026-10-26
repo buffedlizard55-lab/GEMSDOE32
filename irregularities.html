@@ -6,22 +6,56 @@
 <meta http-equiv=refresh content="0; url=docs/irregularities.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>Irregularities</h1>
+<div class=dl style="border:3px solid #dc2626">
+<h2>&#128994; OK TO DOWNLOAD (UNIQUE [0,1] TIF) &nbsp;&middot;&nbsp; &#128308; DO NOT SUBMIT TO PORTAL SLOT (AUTOMATED NEGATIVE)</h2>
+<p><b>Latest Unique Session Deliverable (Arena8a MDRC, 2026-10-26):</b> <code>gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif</code><br>
+<b>Unique Submission Name:</b> <code>GEMSDOE32-A8A-MDRC-CE1ABD39</code> &middot;
+<b>Note (76/140 chars):</b> <code>GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT</code><br>
+<b>SHA-256:</b> <code>0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5</code> &middot;
+<b>Emitted Dots:</b> 44,090 binary {0.0, 1.0} px (0 NaN, 0 on-catalogue, 0 &le;200 m)</p>
+<p><a class="btn" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif">&#11015; Download Unique Arena8a GeoTIFF (-zeros.tif)</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip">.zip (197,576 B)</a>
+<a class="btn alt" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif">NaN-outside twin</a>
+<a href="docs/downloads/checks-gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif.json">strict [0,1] validator receipt</a> &middot;
+<a href="docs/data/arena8a_run_card.json">JSON Run Card</a></p>
+<p><b>Automated Zero-Human-Intervention Gates:</b> <b>G1</b>: <span style="color:#059669">PASS</span> &middot; <b>G2</b>: <span style="color:#059669">PASS</span> &middot; <b>G3</b>: <span style="color:#059669">PASS</span> &middot; <b>G4</b>: <span style="color:#dc2626">FAIL</span> &middot; <b>G5</b>: <span style="color:#dc2626">FAIL</span>
+&nbsp;(re-verify anytime: <code>.venv/bin/python scripts/verify_arena8a_submission.py</code>)</p>
+<ul>
+<li><b>Repaired Visible-Only Holdout (<code>GEMSDOE32-HOLDOUT-v3-visible-only</code>, 22,232 withheld px):</b>
+<b>HOLDOUT-DTI = 0.10679</b> [95% CI 0.08765, 0.12850] &mdash;
+<b>beats both CTRL-35ch (0.09893) and
+D2.8 vis-B2 (0.09920)</b>, winning
+<b>7/8</b> spatial-draw cells vs D2.8 (paired &Delta; 95% CI
+[+0.00397, +0.01113]), while reaching 2.29&times; vs the frozen 3.0&times; submodular-random sub-bar (0.13981 &rarr; G4 conservative FAIL).</li>
+<li><b>Lane Uniqueness (PASS):</b> pre-placement belief Spearman |&rho;| &le; <b>0.4209</b> (&le;0.90);
+within-3px overlap &le; <b>64.96%</b> across all genuine models (&le;70%; only
+<b>52.89%</b> vs the 0.2778 champion).</li>
+<li><b>Why Automated Verdict = NEGATIVE (do not spend a weekly slot):</b> on off-catalogue USGS SGMC (62,703 px),
+supervised <code>HistGB</code> (<code>y=0</code> on <code>~labels</code>) beats CTRL-35ch (<b>0.05509</b> vs
+0.05019) after 1-px crest sharpening, <b>but trails the 0.2778 champion
+(0.06412, Gate G5 FAIL)</b> because binary negative sampling treats unmapped pre-Quaternary
+faults inside <code>~labels</code> as true negatives (proven by EXP1, where label-free 1 m LiDAR dipole scored <b>0.10267</b> and label-free
+4-domain MDRC scored <b>0.07651</b> &gt; 0.06412). Reigning live-scored portfolio champion remains <code>h33-h33-2-b2</code> (<b>0.2778</b>, already submitted &mdash; do not resubmit).</li>
+</ul>
+<p style="margin-top:12px"><a href="docs/assets/fig_arena8a_mdrc.png"><img src="docs/assets/fig_arena8a_mdrc.png" alt="Arena8a MDRC 4-panel validation audit" style="max-width:100%;border:1px solid #cbd5e1;border-radius:6px"></a></p>
+</div>
 <div class=dl>
-<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS STATUS BELOW BEFORE UPLOADING</h2>
+<h2>&#11015;&nbsp;ONE-CLICK FILE &mdash; READ ITS AUTOMATED GATE VERDICT BEFORE UPLOADING</h2>
+<p style="padding:10px 12px;border-radius:6px;background:#fef2f2;border:2px solid #dc2626"><b>&#128994; OK TO DOWNLOAD (100% PORTAL-SAFE [0,1] UNIQUE TIF) &nbsp;&middot;&nbsp; &#128308; DO NOT SUBMIT TO PORTAL SLOT (AUTOMATED VERDICT: NEGATIVE)</b></p>
 
-<p><a class="btn" href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif">Download gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</a> <a class="btn alt" href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip">.zip (single GeoTIFF inside)</a> </p>
-<p><b>Filename:</b> <code>gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif</code><br>
-<b>Unique submission name to use:</b> <code>GEMSDOE32-H32-WIN-46090</code><br>
+<p><a class="btn" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif">Download gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif</a> <a class="btn alt" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip">.zip (single GeoTIFF inside)</a> <a class="btn alt" href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif">NaN-outside twin (competition format)</a> </p>
+<p><b>Filename:</b> <code>gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif</code><br>
+<b>Unique submission name to use:</b> <code>GEMSDOE32-A8A-MDRC-CE1ABD39</code><br>
 <b>Note to paste into the submit form's <em>Note (optional)</em> field
-(101/200 characters):</b><br>
-<code>H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606</code></p>
+(76/140 characters):</b><br>
+<code>GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT</code></p>
 <p class=mut>single band · float32 · EPSG:32611 · 100 m · 3292&times;3730 ·
-46,090 predicted pixels · every cell finite · every value in [0, 1] ·
-0 NaN anywhere · no nodata tag · sha256 <code>04fd8a73eb584dd1&hellip;</code>
-· <a href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-audit.json">format receipt (independent re-read)</a> </p>
-<p><b>Already-scored fallback:</b> <a href="docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif">0.2708 anchor (already-scored base)</a> </p>
-<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>SECONDARY (Tier 2 - previous primary)</b></td><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> </td><td class=mut>c55bafc470054e82&hellip;</td><td class=mut>Previous primary: 0.2708 base minus 2px flank (B=2), 37654 dots, 0 within 200m of catalogue, live-mirror +0.00487 safety 2.08 projected 0.2747</td></tr><tr><td><b>NaN-outside twin of the primary</b></td><td><a href="docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif">gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif</a> </td><td class=mut>fe01ebd3961d6911&hellip;</td><td class=mut>the competition&#x27;s own format (identical values inside footprint)</td></tr></table>
-<p class=warn><b>Status.</b> PRIMARY = H32-WIN-46090 (2026-10-25): D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 dots, 0 on catalogue. HOLDOUT-DTI 0.14840 vs incumbent 0.14801, cat_hidden 0.09847 vs 0.09832, SGMC 0.06061 vs 0.06059 — beats all three holdout instruments. NO ORGANISER SCORE EXISTS for this or any artifact in this repository.</p>
+44,090 predicted pixels · every cell finite · every value in [0, 1] ·
+0 NaN anywhere · no nodata tag · sha256 <code>0bbb3128c0e91a5f&hellip;</code>
+· <a href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-audit.json">format receipt (independent re-read)</a> </p>
+<p><b>Already-scored fallback:</b> <a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">0.2778 portfolio champion (already-scored reference — do not resubmit)</a> </p>
+<h3>Identification pack &mdash; the other two queries</h3><table><tr><th>slot</th><th>file</th><th>sha256</th><th>what it gives</th></tr><tr><td><b>SECONDARY — NaN-outside twin of Arena8a unique deliverable</b></td><td><a href="docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif">gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif</a> </td><td class=mut>c0bb0fe390fb58bd&hellip;</td><td class=mut>Identical 44,090 in-footprint binary predictions; NaN outside footprint (DO NOT SUBMIT — research audit twin)</td></tr><tr><td><b>HISTORICAL PORTFOLIO CHAMPION (0.2778 — ALREADY SUBMITTED, DO NOT RESUBMIT)</b></td><td><a href="docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif">gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif</a> </td><td class=mut>c55bafc470054e82&hellip;</td><td class=mut>ORGANIZER-CONFIRMED 0.2778 (owner receipt 2026-10-25); valid ZIP 186,378 B sha256 5a6f3ee0...</td></tr></table>
+<p class=warn><b>Status.</b> LATEST UNIQUE SESSION DELIVERABLE = GEMSDOE32-A8A-MDRC-CE1ABD39 (2026-10-26): OK TO DOWNLOAD = YES (12/12 + strict [0,1] GeoTIFF checks PASS, unique lane PASS) · OK TO SUBMIT TO PORTAL = NO — AUTOMATED VERDICT: NEGATIVE (DO NOT SPEND WEEKLY SLOT). Repaired visible-only HOLDOUT-DTI = 0.10679 (beats CTRL-35ch 0.09893 &amp; D2.8 vis-B2 0.09920; 7/8 cells won vs D2.8), but off-catalogue SGMC = 0.05509 &lt; 0.2778 champion (0.06412, Gate G5 FAIL). Reigning live-scored portfolio champion remains h33-h33-2-b2 (0.2778 ORGANIZER-CONFIRMED owner receipt; already submitted — do not resubmit).</p>
 </div>
 <div class=card><b>Full page:</b> <a href="docs/irregularities.html">Irregularities &rarr;</a>
 &nbsp;&middot;&nbsp; <a href="docs/index.html">whole site &rarr;</a>

@@ -1,0 +1,117 @@
+{
+  "experiment": "EXP2_spatially_blocked_oof_ctrl_vs_mdrc",
+  "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+  "elapsed_seconds": 596.9,
+  "oof_quadrant_aucs": {
+    "NW": {
+      "ctrl_35ch_auc": 0.69083,
+      "mdrc_raw_auc": 0.68948,
+      "mdrc_corrob_auc": 0.69496
+    },
+    "NE": {
+      "ctrl_35ch_auc": 0.71565,
+      "mdrc_raw_auc": 0.74384,
+      "mdrc_corrob_auc": 0.73488
+    },
+    "SW": {
+      "ctrl_35ch_auc": 0.59389,
+      "mdrc_raw_auc": 0.6014,
+      "mdrc_corrob_auc": 0.60572
+    },
+    "SE": {
+      "ctrl_35ch_auc": 0.66937,
+      "mdrc_raw_auc": 0.68847,
+      "mdrc_corrob_auc": 0.6901
+    }
+  },
+  "ctrl_35ch_oof_37654": {
+    "visible_only_holdout": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.09892956118334087,
+      "ci95": [
+        0.07463537087163725,
+        0.12579617650600652
+      ],
+      "tp": 3166.131153990178,
+      "fp": 67925.33704735746,
+      "fn": 19065.86884600982,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "per_quadrant_holdout": {
+      "NW": 0.11122654725694542,
+      "NE": 0.12121776821850822,
+      "SW": 0.05211679238902714,
+      "SE": 0.1234048159894841
+    },
+    "sgmc_prevalence_calibrated_dti": 0.05018976547480881,
+    "sgmc_off_catalogue_raw_dti": 0.0754846510941048,
+    "sgmc_off_catalogue_coverage": 0.06993426339534545
+  },
+  "mdrc_dualoof_unsharpened_37654": {
+    "visible_only_holdout": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.09947463816563554,
+      "ci95": [
+        0.07662716135612774,
+        0.12373286941487587
+      ],
+      "tp": 3166.1450342430444,
+      "fp": 67049.1849958238,
+      "fn": 19065.854965756957,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "per_quadrant_holdout": {
+      "NW": 0.11314635491255134,
+      "NE": 0.11897300379760573,
+      "SW": 0.05270505918426777,
+      "SE": 0.12596256417202742
+    },
+    "paired_vs_ctrl_35ch": {
+      "mean_cell_dti_diff": 0.0007052645531218397,
+      "ci95_cell_dti_diff": [
+        -0.00427663611867988,
+        0.0056997105206355045
+      ],
+      "cells_won": 4,
+      "n_cells": 8,
+      "per_cell_diff": {
+        "draw20_fold0": -0.00133,
+        "draw20_fold1": 0.006208,
+        "draw20_fold2": 0.00216,
+        "draw20_fold3": -0.007852,
+        "draw21_fold0": 0.00517,
+        "draw21_fold1": -0.010698,
+        "draw21_fold2": -0.000983,
+        "draw21_fold3": 0.012967
+      }
+    },
+    "paired_vs_d28_vis_b2": {
+      "mean_cell_dti_diff": 0.0015019026290255498,
+      "ci95_cell_dti_diff": [
+        -0.006128559550775355,
+        0.00897433161851996
+      ],
+      "cells_won": 5,
+      "n_cells": 8,
+      "per_cell_diff": {
+        "draw20_fold0": 0.021023,
+        "draw20_fold1": 0.005711,
+        "draw20_fold2": -0.01439,
+        "draw20_fold3": -0.003953,
+        "draw21_fold0": 0.002755,
+        "draw21_fold1": 0.006649,
+        "draw21_fold2": -0.013198,
+        "draw21_fold3": 0.007417
+      }
+    },
+    "sgmc_prevalence_calibrated_dti": 0.04221529021802,
+    "sgmc_off_catalogue_raw_dti": 0.06356539540789291,
+    "sgmc_off_catalogue_coverage": 0.05882265432979108
+  }
+}

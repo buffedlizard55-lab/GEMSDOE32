@@ -1,0 +1,542 @@
+{
+  "experiment": "EXP1_canary_b_ladder_and_solo_domains",
+  "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+  "elapsed_seconds": 737.5,
+  "extra_stack_meta": {
+    "extra_channels": [
+      "lidar_valid_flag",
+      "lidar_step_max",
+      "lidar_crest_toe_dipole",
+      "lidar_onesided_polarity",
+      "lidar_cross_tectonic",
+      "lidar_coh100",
+      "lidar_strike_cos2",
+      "lidar_strike_sin2",
+      "lidar_tectonic_scarp_score",
+      "lidar_scarp_chain_500m",
+      "mag_true_rtp_tilt_zero",
+      "mag_true_tmi_tilt_zero",
+      "mag_salem_tilt_depth_discord",
+      "mag_up150_residual_ridge",
+      "grav_vg_zero_hg_ridge",
+      "grav_basement_step_align",
+      "mt_cond_basement_edge",
+      "piedmont_concealment_index",
+      "rad_k_over_th_alteration_edge",
+      "rad_uth_redox_anom",
+      "hydrothermal_demag_claycap",
+      "gdr_geotherm_transtension_halo"
+    ],
+    "n_extra_channels": 22,
+    "shape": [
+      3730,
+      3292,
+      22
+    ],
+    "lidar_valid_fraction_in_footprint": 0.7536634185300732,
+    "path": "/home/user/GEMSDOE32/.cache/gems_work/mdrc_extra_stack.npy",
+    "build_seconds": 112.8
+  },
+  "leakage_canary": {
+    "n_channels_tested": 57,
+    "threshold_auc": 0.9,
+    "worst_channel": "coherence_s2",
+    "worst_auc": 0.62173,
+    "passed": true,
+    "channels": {
+      "band01": {
+        "auc_pooled": 0.50857,
+        "auc_max_quadrant": 0.53674,
+        "finite_fraction": 1.0
+      },
+      "band02": {
+        "auc_pooled": 0.50169,
+        "auc_max_quadrant": 0.52116,
+        "finite_fraction": 1.0
+      },
+      "band03": {
+        "auc_pooled": 0.52632,
+        "auc_max_quadrant": 0.53524,
+        "finite_fraction": 1.0
+      },
+      "band04": {
+        "auc_pooled": 0.57019,
+        "auc_max_quadrant": 0.55196,
+        "finite_fraction": 1.0
+      },
+      "band05": {
+        "auc_pooled": 0.53285,
+        "auc_max_quadrant": 0.58814,
+        "finite_fraction": 1.0
+      },
+      "band06": {
+        "auc_pooled": 0.55331,
+        "auc_max_quadrant": 0.60063,
+        "finite_fraction": 1.0
+      },
+      "band07": {
+        "auc_pooled": 0.56891,
+        "auc_max_quadrant": 0.55771,
+        "finite_fraction": 1.0
+      },
+      "band08": {
+        "auc_pooled": 0.52575,
+        "auc_max_quadrant": 0.53803,
+        "finite_fraction": 1.0
+      },
+      "band09": {
+        "auc_pooled": 0.51351,
+        "auc_max_quadrant": 0.51985,
+        "finite_fraction": 1.0
+      },
+      "band10": {
+        "auc_pooled": 0.55041,
+        "auc_max_quadrant": 0.53125,
+        "finite_fraction": 1.0
+      },
+      "band11": {
+        "auc_pooled": 0.52753,
+        "auc_max_quadrant": 0.5442,
+        "finite_fraction": 1.0
+      },
+      "band12": {
+        "auc_pooled": 0.5152,
+        "auc_max_quadrant": 0.56858,
+        "finite_fraction": 1.0
+      },
+      "band13": {
+        "auc_pooled": 0.53985,
+        "auc_max_quadrant": 0.53183,
+        "finite_fraction": 1.0
+      },
+      "band14": {
+        "auc_pooled": 0.51086,
+        "auc_max_quadrant": 0.52331,
+        "finite_fraction": 1.0
+      },
+      "band15": {
+        "auc_pooled": 0.51151,
+        "auc_max_quadrant": 0.52551,
+        "finite_fraction": 1.0
+      },
+      "band16": {
+        "auc_pooled": 0.56842,
+        "auc_max_quadrant": 0.56856,
+        "finite_fraction": 1.0
+      },
+      "band17": {
+        "auc_pooled": 0.51815,
+        "auc_max_quadrant": 0.5371,
+        "finite_fraction": 1.0
+      },
+      "band18": {
+        "auc_pooled": 0.50019,
+        "auc_max_quadrant": 0.57772,
+        "finite_fraction": 1.0
+      },
+      "band19": {
+        "auc_pooled": 0.55683,
+        "auc_max_quadrant": 0.60087,
+        "finite_fraction": 1.0
+      },
+      "curv_s1": {
+        "auc_pooled": 0.56453,
+        "auc_max_quadrant": 0.58143,
+        "finite_fraction": 1.0
+      },
+      "curv_s2": {
+        "auc_pooled": 0.58027,
+        "auc_max_quadrant": 0.61601,
+        "finite_fraction": 1.0
+      },
+      "ridge_s1": {
+        "auc_pooled": 0.50746,
+        "auc_max_quadrant": 0.51087,
+        "finite_fraction": 1.0
+      },
+      "ridge_s2": {
+        "auc_pooled": 0.51061,
+        "auc_max_quadrant": 0.51736,
+        "finite_fraction": 1.0
+      },
+      "ridge_s3": {
+        "auc_pooled": 0.51154,
+        "auc_max_quadrant": 0.51554,
+        "finite_fraction": 1.0
+      },
+      "relief5": {
+        "auc_pooled": 0.56296,
+        "auc_max_quadrant": 0.61513,
+        "finite_fraction": 1.0
+      },
+      "tophat2": {
+        "auc_pooled": 0.52287,
+        "auc_max_quadrant": 0.55247,
+        "finite_fraction": 1.0
+      },
+      "tmi_edge": {
+        "auc_pooled": 0.52826,
+        "auc_max_quadrant": 0.54095,
+        "finite_fraction": 1.0
+      },
+      "rtp_edge": {
+        "auc_pooled": 0.53209,
+        "auc_max_quadrant": 0.5418,
+        "finite_fraction": 1.0
+      },
+      "grav_edge": {
+        "auc_pooled": 0.53871,
+        "auc_max_quadrant": 0.59008,
+        "finite_fraction": 1.0
+      },
+      "cond_edge": {
+        "auc_pooled": 0.5064,
+        "auc_max_quadrant": 0.51435,
+        "finite_fraction": 1.0
+      },
+      "depth_grad": {
+        "auc_pooled": 0.53284,
+        "auc_max_quadrant": 0.56444,
+        "finite_fraction": 1.0
+      },
+      "coherence_s2": {
+        "auc_pooled": 0.55894,
+        "auc_max_quadrant": 0.62173,
+        "finite_fraction": 1.0
+      },
+      "strike_cos": {
+        "auc_pooled": 0.56258,
+        "auc_max_quadrant": 0.59716,
+        "finite_fraction": 1.0
+      },
+      "strike_sin": {
+        "auc_pooled": 0.51901,
+        "auc_max_quadrant": 0.55883,
+        "finite_fraction": 1.0
+      },
+      "footprint": {
+        "auc_pooled": 0.5005,
+        "auc_max_quadrant": 0.50067,
+        "finite_fraction": 1.0
+      },
+      "lidar_valid_flag": {
+        "auc_pooled": 0.52065,
+        "auc_max_quadrant": 0.51914,
+        "finite_fraction": 1.0
+      },
+      "lidar_step_max": {
+        "auc_pooled": 0.56611,
+        "auc_max_quadrant": 0.5754,
+        "finite_fraction": 0.76173
+      },
+      "lidar_crest_toe_dipole": {
+        "auc_pooled": 0.57348,
+        "auc_max_quadrant": 0.59038,
+        "finite_fraction": 0.76173
+      },
+      "lidar_onesided_polarity": {
+        "auc_pooled": 0.5767,
+        "auc_max_quadrant": 0.58986,
+        "finite_fraction": 0.76173
+      },
+      "lidar_cross_tectonic": {
+        "auc_pooled": 0.57093,
+        "auc_max_quadrant": 0.59399,
+        "finite_fraction": 0.76173
+      },
+      "lidar_coh100": {
+        "auc_pooled": 0.51947,
+        "auc_max_quadrant": 0.54286,
+        "finite_fraction": 0.76173
+      },
+      "lidar_strike_cos2": {
+        "auc_pooled": 0.52581,
+        "auc_max_quadrant": 0.5471,
+        "finite_fraction": 0.76173
+      },
+      "lidar_strike_sin2": {
+        "auc_pooled": 0.5105,
+        "auc_max_quadrant": 0.53292,
+        "finite_fraction": 0.76173
+      },
+      "lidar_tectonic_scarp_score": {
+        "auc_pooled": 0.54622,
+        "auc_max_quadrant": 0.56212,
+        "finite_fraction": 1.0
+      },
+      "lidar_scarp_chain_500m": {
+        "auc_pooled": 0.54881,
+        "auc_max_quadrant": 0.57262,
+        "finite_fraction": 1.0
+      },
+      "mag_true_rtp_tilt_zero": {
+        "auc_pooled": 0.5252,
+        "auc_max_quadrant": 0.53396,
+        "finite_fraction": 1.0
+      },
+      "mag_true_tmi_tilt_zero": {
+        "auc_pooled": 0.51932,
+        "auc_max_quadrant": 0.52917,
+        "finite_fraction": 1.0
+      },
+      "mag_salem_tilt_depth_discord": {
+        "auc_pooled": 0.51178,
+        "auc_max_quadrant": 0.511,
+        "finite_fraction": 1.0
+      },
+      "mag_up150_residual_ridge": {
+        "auc_pooled": 0.50779,
+        "auc_max_quadrant": 0.5271,
+        "finite_fraction": 1.0
+      },
+      "grav_vg_zero_hg_ridge": {
+        "auc_pooled": 0.51858,
+        "auc_max_quadrant": 0.53752,
+        "finite_fraction": 1.0
+      },
+      "grav_basement_step_align": {
+        "auc_pooled": 0.52688,
+        "auc_max_quadrant": 0.55473,
+        "finite_fraction": 1.0
+      },
+      "mt_cond_basement_edge": {
+        "auc_pooled": 0.50853,
+        "auc_max_quadrant": 0.51951,
+        "finite_fraction": 1.0
+      },
+      "piedmont_concealment_index": {
+        "auc_pooled": 0.50743,
+        "auc_max_quadrant": 0.52962,
+        "finite_fraction": 1.0
+      },
+      "rad_k_over_th_alteration_edge": {
+        "auc_pooled": 0.51766,
+        "auc_max_quadrant": 0.52963,
+        "finite_fraction": 1.0
+      },
+      "rad_uth_redox_anom": {
+        "auc_pooled": 0.51676,
+        "auc_max_quadrant": 0.53806,
+        "finite_fraction": 1.0
+      },
+      "hydrothermal_demag_claycap": {
+        "auc_pooled": 0.52147,
+        "auc_max_quadrant": 0.54039,
+        "finite_fraction": 1.0
+      },
+      "gdr_geotherm_transtension_halo": {
+        "auc_pooled": 0.5549,
+        "auc_max_quadrant": 0.54533,
+        "finite_fraction": 1.0
+      }
+    }
+  },
+  "repaired_visible_only_b_ladder_on_d28": {
+    "B=0": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.09674330401596998,
+      "ci95": [
+        0.08071023174967387,
+        0.11590781844887063
+      ],
+      "tp": 3351.5030116836397,
+      "fp": 80936.77514697774,
+      "fn": 18880.49698831636,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "B=1": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.098976786336064,
+      "ci95": [
+        0.08209773829163303,
+        0.11903597895126533
+      ],
+      "tp": 3316.998205568401,
+      "fp": 75319.45444830565,
+      "fn": 18915.0017944316,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "B=2": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.09920232315251677,
+      "ci95": [
+        0.0814887112450371,
+        0.12041224428978062
+      ],
+      "tp": 3247.808156756495,
+      "fp": 71520.36616383943,
+      "fn": 18984.191843243505,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "B=3": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.09710241154121899,
+      "ci95": [
+        0.07971753329449768,
+        0.11787862459374646
+      ],
+      "tp": 3113.944647892092,
+      "fp": 68301.37733903168,
+      "fn": 19118.05535210791,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    }
+  },
+  "random_b2_baseline": {
+    "visible_only_holdout": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.04660248720629149,
+      "ci95": [
+        0.04221427317681799,
+        0.050677406712362295
+      ],
+      "tp": 1489.607086113372,
+      "fp": 69402.94922018932,
+      "fn": 20742.39291388663,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "sgmc_prevalence_calibrated_dti": 0.052210570973056224
+  },
+  "champion_benchmarks": {
+    "CHAMPION_h33-2-b2_sgmc_cal": 0.06412093764176459,
+    "CHAMPION_h33-2-b2_sgmc_raw": 0.09606004283619353,
+    "CHAMPION_h33-2-b2_sgmc_cov": 0.08934591544258991,
+    "D28_vis_B2_holdout": {
+      "evidence_class": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+      "pooled_dti": 0.09920232315251677,
+      "ci95": [
+        0.0814887112450371,
+        0.12041224428978062
+      ],
+      "tp": 3247.808156756495,
+      "fp": 71520.36616383943,
+      "fn": 18984.191843243505,
+      "n_withheld_positives": 22232,
+      "n_cells": 8,
+      "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+    },
+    "D28_sgmc_cal": 0.06059248997356903
+  },
+  "solo_unsupervised_domains": {
+    "D1_LiDAR_Dipole": {
+      "visible_only_holdout": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+        "pooled_dti": 0.03689919435842224,
+        "ci95": [
+          0.02811378431158861,
+          0.04397650549694983
+        ],
+        "tp": 1176.210745480339,
+        "fp": 69277.41884447154,
+        "fn": 21055.78925451966,
+        "n_withheld_positives": 22232,
+        "n_cells": 8,
+        "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+      },
+      "sgmc_prevalence_calibrated_dti": 0.10266943916775927,
+      "sgmc_off_catalogue_raw_dti": 0.15274236524508616,
+      "sgmc_off_catalogue_coverage": 0.1430592777926868,
+      "emitted_full_b2_dots": 37654
+    },
+    "D2_True_Mag_Tilt": {
+      "visible_only_holdout": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+        "pooled_dti": 0.046547499778408795,
+        "ci95": [
+          0.029718334689089843,
+          0.059148118649169114
+        ],
+        "tp": 1483.6257143658543,
+        "fp": 68955.22765356078,
+        "fn": 20748.374285634145,
+        "n_withheld_positives": 22232,
+        "n_cells": 8,
+        "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+      },
+      "sgmc_prevalence_calibrated_dti": 0.04838753658208958,
+      "sgmc_off_catalogue_raw_dti": 0.0726842025596971,
+      "sgmc_off_catalogue_coverage": 0.06742304325136234,
+      "emitted_full_b2_dots": 37654
+    },
+    "D3_Grav_MT_Step": {
+      "visible_only_holdout": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+        "pooled_dti": 0.036896185854398286,
+        "ci95": [
+          0.022081363743377692,
+          0.05447237286071778
+        ],
+        "tp": 1108.1040542040491,
+        "fp": 60129.01851116204,
+        "fn": 21123.89594579595,
+        "n_withheld_positives": 22232,
+        "n_cells": 8,
+        "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+      },
+      "sgmc_prevalence_calibrated_dti": 0.0158685702463482,
+      "sgmc_off_catalogue_raw_dti": 0.023977876520298938,
+      "sgmc_off_catalogue_coverage": 0.02211121651629683,
+      "emitted_full_b2_dots": 37654
+    },
+    "D4_Hydrothermal_Alt": {
+      "visible_only_holdout": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+        "pooled_dti": 0.04345542319470953,
+        "ci95": [
+          0.03410643307612028,
+          0.05080349238638463
+        ],
+        "tp": 1366.4536272401838,
+        "fp": 66930.2984040025,
+        "fn": 20865.546372759818,
+        "n_withheld_positives": 22232,
+        "n_cells": 8,
+        "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+      },
+      "sgmc_prevalence_calibrated_dti": 0.046691650700339975,
+      "sgmc_off_catalogue_raw_dti": 0.07016250781677359,
+      "sgmc_off_catalogue_coverage": 0.0650600011287158,
+      "emitted_full_b2_dots": 37654
+    },
+    "MDRC_Unsup_4Domain": {
+      "visible_only_holdout": {
+        "evidence_class": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HOLDOUT-v3-visible-only",
+        "pooled_dti": 0.04830359479011155,
+        "ci95": [
+          0.03384800566933873,
+          0.05718212517801756
+        ],
+        "tp": 1499.3879901320793,
+        "fp": 64777.208753361796,
+        "fn": 20732.61200986792,
+        "n_withheld_positives": 22232,
+        "n_cells": 8,
+        "ci_method": "cluster bootstrap over 8 holdout cells (draws 20/21 x 4 quadrants), 2000 reps"
+      },
+      "sgmc_prevalence_calibrated_dti": 0.07650665140197163,
+      "sgmc_off_catalogue_raw_dti": 0.11438893562765819,
+      "sgmc_off_catalogue_coverage": 0.10660413054384255,
+      "emitted_full_b2_dots": 37654
+    }
+  }
+}

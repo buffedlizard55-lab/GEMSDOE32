@@ -3,7 +3,7 @@
 <title>Candidate hypotheses, ranked · GEMSDOE32</title><link rel=stylesheet href=assets/site.css></head><body>
 <header class=top><div class=wrap>
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
-<div class=dlbtn><a class="btn" href="downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif">&#11015; Download the registry-primary GeoTIFF (read its status first)</a> <a class="btn alt" href="downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip">.zip</a></div>
+<div class=dlbtn><a class="btn" href="downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif">&#11015; Download the registry-primary GeoTIFF (read its status first)</a> <a class="btn alt" href="downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip">.zip</a></div>
 </div></header>
 <div class=values><div class=wrap><b>Core Values.</b> <b>Maximize P(Win)</b> — every weekly submission slot is an experiment, not a lottery ticket. <b>Own the Outcome</b> — every claim here carries an evidence class, and the defect in our own previously-shipped primary was measured, published and replaced rather than quietly dropped.</div></div>
 <main class=wrap><h2 style="margin-top:6px">The five candidates, ranked by expected value per unit of cost</h2>
@@ -100,7 +100,27 @@ the slot gate.</p>
 <td>19 official bands; USGS SGMC faults raster (hash-pinned) as extra positives, north quadrants only</td><td>appearance learning from catalogue + SGMC-off-catalogue (north); validated on held-out south SGMC</td>
 <td>SGMC is pre-Quaternary-inclusive — real faults the Quaternary catalogue omits</td><td>first use of SGMC as supervision (vs the two failed live SGMC-tracing attempts, 0.0512/0.0492)</td>
 <td> · cost  · data: </td>
-<td>measured (NEGATIVE — not promoted)</td></tr></table>
+<td>measured (NEGATIVE — not promoted)</td></tr><tr><td>1</td><td><b>A8A-H1</b><br>Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits</td>
+<td>lidar_scarp_features_u8 (b2 step_max, b3/b4 lapneg*lappos, b7/b8 |downface-upface|, b9 cross, b10 coh100, b11 strike, b12 valid); training_features (rtp b2, tmi b1, tmi_hg b3, iso_grav_anom b13, grav_hg b18, depth_to_base_surf b15, cond_surf b17, det_elev b12, geod_shearrate b8); geodawn_rad_u8 (K, eU, eTh) + gdr_wellspring_in_footprint.csv (temp_c, na_k_c, chalcedony_c; dist_known_fault_px dropped)</td><td>One-sided 1 m LiDAR crest-toe dipole (missing tiles routed via native NaN) concordant with true Miller-Singh (1994) RTP/TMI tilt-zero lineaments, gravity/MT basement steps, and K/Th + geothermometer halos; sharpened onto 1-px cross-strike crests</td>
+<td>Catches sub-metre degraded scarps on valid 3DEP tiles and covered sub-alluvial transfer/step-over faults where &gt;=2 subsurface/hydrothermal domains align; dual-head piedmont weighting mitigates range-front domain shift</td><td>Fixes IR-32-BAND6-TC-01 (Band 6 is radiometric TC, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR mis-indexing + 24.6% missing-tile zeros); adds 1-px cross-strike crest sharpening; Mimic: fluvial terrace risers / gullies (suppressed by |downface-upface| &amp; &gt;=2-domain gate)</td>
+<td>HOLDOUT-DTI 0.10679 [0.08765, 0.12850] (beats CTRL 0.09893 &amp; D2.8 0.09920; SGMC-cal 0.05509 &lt; 0.06412) · cost 3/3 session experiments (~14 min CPU) · data: all inputs hash-pinned in .cache/gems_data</td>
+<td>measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE — DO NOT SUBMIT)</td></tr><tr><td>2</td><td><b>A8A-H2</b><br>Salem RTP Magnetic Tilt-Depth vs Gravity Basement-Depth Discordance (Intra-Basin Faulted Volcanics)</td>
+<td>rtp (2), depth_to_base_surf (15), iso_grav_anom (13), grav_hg (18), mag_up150 (geodawn_extensions_u8)</td><td>Half-width between +/-pi/4 Miller-Singh RTP tilt contours (z_tilt) strictly shallower than gravity depth_to_base_surf (z_tilt &lt;&lt; z_base) along a persistence ridge</td>
+<td>Detects blind intra-basin faulted Neogene basalts/tuffs buried 100-400 m beneath playa/alluvial cover above 1.5-3 km Mesozoic basement, invisible to surface mapping</td><td>First quantitative comparison of Salem et al. (2007) magnetic source depth against gravity basement depth; Mimic: un-faulted buried volcanic flow margins / dikes</td>
+<td>medium (+0.003 to +0.008 in PU ensemble) · cost low (derived from cached rasters) · data: in-repo hash-pinned</td>
+<td>preregistered (channel tested inside MDRC; standalone PU arm deferred)</td></tr><tr><td>3</td><td><b>A8A-H3</b><br>Potassic Alteration Edge (K/Th) + Magnetite-Destruction Trough + MT Smectite Clay-Cap Boundary</td>
+<td>geodawn_rad_u8 (K, eTh, eU), rtp (2), tmi_hg (3), cond_surf (17), gdr_wellspring_in_footprint.csv, gdr_volcanic_vents_in_footprint.csv</td><td>High K/eTh potassic/adularia alteration gradient co-located with RTP demagnetization trough, MT cond_surf clay-cap edge, and &gt;60 C geothermometer outflow</td>
+<td>Upwelling geothermal brines sulfidize magnetite and enrich potassium along blind permeable fault intersections even without Quaternary surface rupture</td><td>Pairs K/Th compositional gradients with magnetite-destruction troughs and label-free GDR geothermometers (dropping dist_known_fault_px); Mimic: un-faulted rhyolite tuff contacts &amp; evaporitic playa clays</td>
+<td>solo HOLDOUT-DTI 0.04346; SGMC-cal 0.04669 · cost low · data: in-repo hash-pinned</td>
+<td>preregistered (solo Domain IV measured in EXP1: HOLDOUT-DTI 0.04346, SGMC 0.04669)</td></tr><tr><td>4</td><td><b>A8A-H4</b><br>Walker Lane Transtensional Strike-Deflection &amp; Relay-Ramp Curvature</td>
+<td>lidar_scarp_features_u8 (b10 coh100, b11 strike, b12 valid), geod_shearrate (8), geod_2ndinv (9), det_elev (12)</td><td>High angular gradient of doubled-angle scarp strike |grad(cos 2theta, sin 2theta)| inside elevated geodetic shear-rate zones (&gt;70th pct) with saddle curvature</td>
+<td>Regional catalogues map master range-bounding faults as disconnected lines, systematically omitting curved 0.5-3 km accommodation faults across relay ramps where geothermal permeability peaks</td><td>Prior relay bridges (GEMSDOE27 T-v2, H33-5) extrapolate synthetically from mapped fault tips (violating B-gates or blind to unmapped pairs); A8A-H4 measures strike rotation directly from 1 m LiDAR; Mimic: Lake Lahontan pluvial shorelines</td>
+<td>targeted local gain in Walker Lane transtensional step-overs · cost low · data: in-repo hash-pinned</td>
+<td>preregistered (deferred under 3-experiment budget)</td></tr><tr><td>5</td><td><b>A8A-H5</b><br>Sub-Kilometre Relocated Microseismic Planes &amp; 2020 M6.5 Monte Cristo Range Distributed Surface Ruptures</td>
+<td>USGS ComCat FDSN Event API (earthquake.usgs.gov/fdsnws/event/1/query), USGS ScienceBase 606f657fd34ef99870188ee5, Zenodo 5302368, ieq_n100a15 (16)</td><td>RANSAC-fitted planar epicentre/hypocentre alignments (&lt;500 m localization) + Koehler et al. (2021) field-mapped sinistral/oblique 2020 MCRE rupture traces</td>
+<td>Directly images active seismogenic faults at 2-12 km depth and the 28 km 2020 Monte Cristo rupture across previously unmapped Candelaria/playa faults where Band 16 (100 km kernel, r_3km=0.9935) is spatially constant</td><td>Replaces 100 km blurred seismic band with sub-km event alignments paired with RTP/LiDAR corroboration; Mimic: mining blasts &amp; un-faulted geothermal swarm clouds</td>
+<td>high in SE Walker Lane / Monte Cristo domain once prefetched · cost external prefetch step required outside sandbox · data: official free public-domain USGS/Zenodo URLs verified; blocked by sandbox egress allowlist</td>
+<td>DATA-BLOCKED in sandbox (official free USGS URLs verified)</td></tr></table>
 <h2>Promotion rules (preregistered)</h2>
 <ol>
 <li>every hypothesis is registered with its layers, signature, novelty and data status before it is
@@ -126,7 +146,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-25 20:48 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 01:45 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

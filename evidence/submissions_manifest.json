@@ -1,10 +1,10 @@
 {
-  "generated_at_utc": "2026-10-25T20:49:41Z",
+  "generated_at_utc": "2026-10-26T01:45:32Z",
   "generated_by": "scripts/audit_shipped.py (refreshed from the files on disk)",
   "validator_range_fix_verified": true,
   "portal_illegal": [],
-  "primary": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros",
-  "note": "H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606",
+  "primary": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros",
+  "note": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT",
   "submissions": [
     {
       "role": "AVAILABLE",
@@ -107,7 +107,7 @@
       "receipt": null
     },
     {
-      "role": "ANCHOR (already-scored base)",
+      "role": "AVAILABLE",
       "file": "gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
       "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
       "bytes": 806758,
@@ -183,6 +183,46 @@
       "dtype": "float32",
       "credit_per_unit_mass": 0.04380758402909605,
       "catalogue_proxy_DTI": 0.02924343115723746,
+      "dots_on_catalogue": 0,
+      "receipt": null
+    },
+    {
+      "role": "AVAILABLE",
+      "file": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+      "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+      "bytes": 366368,
+      "emitted_px": 44090,
+      "portal_legal": true,
+      "finite_cells": 5167373,
+      "range_violations": 0,
+      "nan_cells": 7111787,
+      "min": 0.0,
+      "max": 1.0,
+      "nodata": NaN,
+      "crs": "EPSG:32611",
+      "dtype": "float32",
+      "credit_per_unit_mass": 0.006796775668285364,
+      "catalogue_proxy_DTI": 0.005200591698149851,
+      "dots_on_catalogue": 0,
+      "receipt": null
+    },
+    {
+      "role": "PRIMARY",
+      "file": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+      "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+      "bytes": 230921,
+      "emitted_px": 44090,
+      "portal_legal": true,
+      "finite_cells": 12279160,
+      "range_violations": 0,
+      "nan_cells": 0,
+      "min": 0.0,
+      "max": 1.0,
+      "nodata": null,
+      "crs": "EPSG:32611",
+      "dtype": "float32",
+      "credit_per_unit_mass": 0.006796775668285364,
+      "catalogue_proxy_DTI": 0.005200591698149851,
       "dots_on_catalogue": 0,
       "receipt": null
     },
@@ -287,7 +327,7 @@
       "receipt": null
     },
     {
-      "role": "PRIMARY",
+      "role": "AVAILABLE",
       "file": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
       "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
       "bytes": 250142,
@@ -527,7 +567,7 @@
       "receipt": null
     },
     {
-      "role": "AVAILABLE",
+      "role": "ANCHOR (already-scored base)",
       "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
       "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
       "bytes": 219065,

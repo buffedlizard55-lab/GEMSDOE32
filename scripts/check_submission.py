@@ -7,13 +7,18 @@ import json
 import sys
 from pathlib import Path
 
-from gemsdoe32.submission import validate_submission_geotiff
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT / "src") not in sys.path:
+    sys.path.insert(0, str(ROOT / "src"))
+
+from gems32.paths import data_dir  # noqa: E402
+from gemsdoe32.submission import validate_submission_geotiff  # noqa: E402
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("geotiff", type=Path, help="Path to submission GeoTIFF to validate")
-    parser.add_argument("--template", type=Path, default=Path("data/raw/sample_submission.tif"), help="Path to reference template")
+    parser.add_argument("--template", type=Path, default=data_dir() / "sample_submission.tif", help="Path to reference template")
     parser.add_argument("--strict-finite", action="store_true", help="Check whole-array finite range [0, 1] for portal safety")
     args = parser.parse_args()
 

@@ -1,66 +1,63 @@
 {
- "name": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros",
- "note": "H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606",
- "status_line": "PRIMARY = H32-WIN-46090 (2026-10-25): D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 dots, 0 on catalogue. HOLDOUT-DTI 0.14840 vs incumbent 0.14801, cat_hidden 0.09847 vs 0.09832, SGMC 0.06061 vs 0.06059 — beats all three holdout instruments. NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
+ "name": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros",
+ "note": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT",
+ "verdict": "negative",
+ "ok_to_download": true,
+ "ok_to_submit": false,
+ "status_line": "LATEST UNIQUE SESSION DELIVERABLE = GEMSDOE32-A8A-MDRC-CE1ABD39 (2026-10-26): OK TO DOWNLOAD = YES (100% portal-legal [0, 1] float32, 0 NaN, genuinely unique: pre-placement surface |rho|=0.4209<=0.90, within-3px=64.96%<=70%; 52.89% vs 0.2778 champion). OK TO SPEND WEEKLY LEADERBOARD SLOT = NO \u2014 AUTOMATED VERDICT: NEGATIVE (DO NOT SUBMIT). Beats both CTRL-35ch (0.09893) and D2.8 vis-B2 (0.09920) on repaired visible-only HOLDOUT-DTI at 0.10679 [95% CI 0.08765, 0.12850] (7/8 cells won vs D2.8), and beats CTRL-35ch on off-catalogue SGMC (0.05509 vs 0.05019), but fails Gate G5 vs CHAMPION h33-2-b2 on off-catalogue SGMC (0.05509 < 0.06412). Keep reigning 0.2778 champion; do not waste a weekly slot.",
+ "status_line_2026_10_25": "LATEST UNIQUE SESSION DELIVERABLE = GEMSDOE32-A8A-MDRC-CE1ABD39 (2026-10-26): OK TO DOWNLOAD = YES (12/12 + strict [0,1] GeoTIFF checks PASS, unique lane PASS) \u00b7 OK TO SUBMIT TO PORTAL = NO \u2014 AUTOMATED VERDICT: NEGATIVE (DO NOT SPEND WEEKLY SLOT). Repaired visible-only HOLDOUT-DTI = 0.10679 (beats CTRL-35ch 0.09893 & D2.8 vis-B2 0.09920; 7/8 cells won vs D2.8), but off-catalogue SGMC = 0.05509 < 0.2778 champion (0.06412, Gate G5 FAIL). Reigning live-scored portfolio champion remains h33-h33-2-b2 (0.2778 ORGANIZER-CONFIRMED owner receipt; already submitted \u2014 do not resubmit).",
  "file": {
-  "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
-  "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
-  "bytes": 250142,
-  "positive_px": 46090
+  "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+  "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+  "bytes": 230921,
+  "positive_px": 44090
  },
  "file_zeros": {
-  "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
-  "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
-  "bytes": 250142
+  "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+  "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+  "bytes": 230921
  },
  "zip": {
-  "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip",
-  "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-  "bytes": 0
+  "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip",
+  "sha256": "c87912bfafe839932b02b75ed2edcef181e3e709067b51177b2ef184038fa351",
+  "bytes": 197576
  },
- "candidate_id": "H32-WIN-46090",
- "tier": 1,
- "hypothesis": "H32-WinningVariant",
- "selection_rule": {
-  "tier_1": "beats the owner-reported 0.2600 incumbent on ALL THREE holdout instruments (catalogue_hidden_mean, sgmc_prevalence_calibrated_dti, drift_corrected_holdout_mean) AND 0 on_catalogue_pixels ==0",
-  "tier_2": "live-anchored gate (LM-cal +margin in 4/4 quadrants over live-scored base, safety >=2.0)"
- },
- "lm": {
-  "mean": 0.2679205315698004,
-  "margin_vs_base": 0.004869544019442784,
-  "folds_beat_base": 4
- },
- "live_anchor": {
-  "dn": 2545,
-  "d_credit": 65.09227269807448,
-  "safety_factor": 2.08,
-  "projected_dti_if_live_credit_matches": 0.27467315976932155
- },
- "catalogue_hidden_mean": 0.09847015183645208,
- "drift_corrected_holdout_mean": 0.14840079268764622,
- "sgmc_prevalence_calibrated_dti": 0.06061200769577,
+ "candidate_id": "A8A-MDRC-CE1ABD39",
+ "tier": 0,
+ "hypothesis": "A8A-H1 (MDRC_Crest_CreditBar)",
+ "visible_only_holdout_dti": 0.10679429218467282,
+ "visible_only_holdout_ci95": [
+  0.08764997455315648,
+  0.12850447881966512
+ ],
+ "catalogue_hidden_mean": null,
+ "drift_corrected_holdout_mean": null,
+ "sgmc_prevalence_calibrated_dti": 0.055092,
  "on_catalogue_pixels": 0,
  "anchor": {
-  "role": "ANCHOR -- the group's best live-scored emission",
-  "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-  "note": "in-footprint bit-identical to the owner-reported 0.2708 / 0.2600 emissions"
+  "role": "PORTFOLIO LIVE CHAMPION (0.2778 ORGANIZER-CONFIRMED \u2014 already submitted; do not resubmit)",
+  "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+  "zip_path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip",
+  "zip_sha256": "5a6f3ee02e6392089d53361976dbc9d5dec43ef4205001097c6806fe487bef11",
+  "zip_bytes": 186378,
+  "note": "37,654 dots; B=2 prune of solo (0.2708); highest-scoring artifact across all GEMSDOE sites"
  },
  "pack": [
   {
-   "role": "SECONDARY (Tier 2 - previous primary)",
+   "role": "SECONDARY \u2014 NaN-outside twin of Arena8a unique deliverable",
+   "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+   "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+   "bytes": 366368,
+   "positive_px": 44090,
+   "note": "Identical 44,090 in-footprint binary predictions; NaN outside footprint (DO NOT SUBMIT \u2014 research audit twin)"
+  },
+  {
+   "role": "HISTORICAL PORTFOLIO CHAMPION (0.2778 \u2014 ALREADY SUBMITTED, DO NOT RESUBMIT)",
    "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
    "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
    "bytes": 219065,
    "positive_px": 37654,
-   "note": "Previous primary: 0.2708 base minus 2px flank (B=2), 37654 dots, 0 within 200m of catalogue, live-mirror +0.00487 safety 2.08 projected 0.2747"
-  },
-  {
-   "role": "NaN-outside twin of the primary",
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
-   "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",
-   "bytes": 379333,
-   "positive_px": 46090,
-   "note": "the competition's own format (identical values inside footprint)"
+   "note": "ORGANIZER-CONFIRMED 0.2778 (owner receipt 2026-10-25); valid ZIP 186,378 B sha256 5a6f3ee0..."
   },
   {
    "role": "AVAILABLE DOWNLOAD",
@@ -68,9 +65,9 @@
    "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
    "bytes": 1603424,
    "positive_px": 44090,
-   "note": "kept for audit trail"
+   "note": "kept for audit trail (0.2600 owner-reported parent)"
   }
  ],
- "rule": "H32 winning variant: D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 total",
- "provenance": "built 2026-10-25 from GEMSDOE32-HOLDOUT-v2, 22232 withheld positives, all 12 portal checks PASS, leakage AUC 0.55 <0.90"
+ "rule": "Fixes IR-32-BAND6-TC-01 (Band 6 is gamma-ray Total Count, r=0.9971, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR missing-tile mask + |downface-upface| one-sided scarp polarity); trains spatially-blocked 4-quadrant OOF dual-head HistGB (general + piedmont concealment propensity) gated by >=2-domain physical corroboration, sharpened onto 1-px cross-strike crests, and emitted via B=2 off-catalogue collar + exact 300 m triangular-kernel lazy-greedy submodular coverage.",
+ "provenance": "built 2026-10-26T01:20:01.096310+00:00 on arena/8a2ac062-gemsdoe32 from GEMSDOE32-HOLDOUT-v3-visible-only, 22,232 withheld positives, 12/12 + strict [0,1] checks PASS, canary max AUC 0.62173 <= 0.90"
 }

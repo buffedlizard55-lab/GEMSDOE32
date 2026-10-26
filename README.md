@@ -1,24 +1,66 @@
-# GEMSDOE32 — an auditable fault-discovery system for the DOE GEMS Prize (DrivenData #306)
+# GEMSDOE32 — Auditable Fault-Discovery & Automated Submission System for the DOE GEMS Prize (DrivenData #306)
 
-> **Repository review update (2026-10-25, current checkout): no new TIF was generated or certified in this run.** The competition source rasters and feature-stack cache are absent from `data/`/`work/`, so a fresh, independently evaluated unique submission cannot be produced here. Existing downloadable GeoTIFFs are historical artifacts; their names, hashes, and format-validation receipts do not establish uniqueness against all GEMSDOE registries or predict a score. Do not treat the older “OK TO DOWNLOAD AND SUBMIT” banner below as clearance for a new weekly slot. See the [current review, hypothesis shortlist, blockers and run card](docs/research/session-review-2026-10-25.md). No slot should be spent until the required holdout/duplicate gates have been run on a fresh candidate.
+## 🟢 OK TO DOWNLOAD (UNIQUE `[0, 1]` TIF) · 🔴 DO NOT SUBMIT TO PORTAL SLOT (AUTOMATED VERDICT: `NEGATIVE`, 2026-10-26) — ONE-CLICK FILE
 
-> **Project starting brief — read before every project change:** maximize the probability of a scientifically defensible competition result; own outcomes end-to-end; investigate the strongest submissions from GEMSDOE24/25/27/28/30/31/32/33/36 without copying them; generate a genuinely unique submission GeoTIFF only after validated experimentation; and make any downloadable file clearly distinguishable as validated, unscored, or not ready. Research and claims must be traceable to official sources or explicitly labelled as user-provided/owner-reported/proxy. No hallucinated scores or causal explanations. Use the shared cached feature stack, evaluator and writer; test every feature alone for leakage (AUC > 0.90 is a stop-and-investigate signal); spatially withhold whole fault segments with a buffer, derive catalogue features only from visible faults, mask those faults pixel-exactly, and evaluate pooled DTI with alpha=0.2, beta=0.8 and a 300 m triangular kernel. Label every reported number as HOLDOUT-DTI (include evaluator version, withheld-positive count and 95% CI) or ORGANIZER-CONFIRMED (submission receipt); projections are never scores. Check correlation and dot overlap against registry rasters before placement and on final output; if rank-correlation >0.90 or >70% of dots are within 3 px of one registry raster, record a duplicate and stop. Do not spend/select a weekly slot without beating valid holdout best; slot selection is separate and obeys the live weekly cap. A valid deliverable needs a unique name, <=140-character note, GeoTIFF matching sample CRS/shape/transform, no NaN in footprint and predictions in [0,1]. Preserve negative results. Full review and current blockers: [2026-10-25 repository review](docs/research/session-review-2026-10-25.md). This brief is the durable operational distillation of the project request; consult the linked review and evidence before acting.
+**[⬇ ONE-CLICK Download Unique Arena8a GeoTIFF: `gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif`](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif)**
+· **[ZIP (`197,576 B`)](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip)**
+· **[NaN-outside twin](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif)**
+· **[12/12 Audit](docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-audit.json)**
+· **[Strict `[0,1]` Receipt](docs/downloads/checks-gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif.json)**
+· **[JSON Run Card](evidence/arena8a_run_card.json)**
+· **[Executive Summary & Submit Guide](docs/executive-summary.html)**
+
+- **Automated Zero-Human-Intervention Verdict (`scripts/verify_arena8a_submission.py`):**
+  - **OK TO DOWNLOAD FOR RESEARCH / FORMAT AUDIT:** **YES** (`EPSG:32611`, `3730×3292`, single-band `float32`, `nodata=None`, `12,279,160 / 12,279,160` cells finite, `min=0.0`, `max=1.0`, `0` NaN, `0` on-catalogue dots, `0` dots `≤200 m` of catalogue — permanently eliminates `"Predicted values must be in range [0, 1]"`).
+  - **OK TO SPEND A LIVE WEEKLY SUBMISSION SLOT:** **NO — AUTOMATED VERDICT: `NEGATIVE` (`DO-NOT-SUBMIT`)**. Keep the reigning portfolio champion [`gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) (**`0.2778` `ORGANIZER-CONFIRMED` owner receipt** — already submitted; do not resubmit).
+  - **SHA-256 (`-zeros.tif`):** `0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5` (`230,967` bytes, `44,090` binary `{0.0, 1.0}` px)
+  - **Unique Submission Name:** `GEMSDOE32-A8A-MDRC-CE1ABD39`
+  - **Copy-Paste Note (`76 / 140` chars):** `GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT`
+- **Automated Gate Summary (`evidence/arena8a_run_card.json`, 3/3 experiments executed):**
+  - **G1 Leakage Canary (`AUC ≤ 0.90` across all 57 channels):** **PASS** (max solo AUC = `0.62173` on `coherence_s2`; `dist_known_fault_px` dropped and guarded).
+  - **G2 Portal Format & Strict `[0, 1]` Range:** **PASS** (`12/12` `gems32.submission` checks + `gemsdoe32.submission` strict whole-grid finite validator).
+  - **G3 Pre-Placement & Post-Placement Lane Uniqueness:** **PASS** (pre-placement surface `|Spearman ρ| ≤ 0.42088 ≤ 0.90`; final-dot within-3px overlap `≤ 64.96% ≤ 70%` across all genuine models; **`52.89%`** vs the `0.2778` champion and **`54.84%`** vs `D2.8`).
+  - **G4 Repaired Visible-Only Spatially-Blocked Holdout (`GEMSDOE32-HOLDOUT-v3-visible-only`, `22,232` withheld px):** **`HOLDOUT-DTI = 0.10679`** `[95% CI 0.08765, 0.12850]` (`0.10552` at matched `37,654` dots) — **beats both `CTRL-35ch` (`0.09893`) and `D2.8 vis-B2` (`0.09920`)**, winning **`7 / 8`** spatial-draw cells vs `D2.8` (paired Δ 95% CI `[+0.00397, +0.01113]`), while falling short of the frozen `3×` submodular-random sub-bar (`0.13981`, `2.29×` achieved → **FAIL**).
+  - **G5 Off-Catalogue USGS SGMC Benchmark (`62,703` off-catalogue px, 0 SGMC labels in training):** **`HOLDOUT-DTI = 0.05509`** — beats `CTRL-35ch` (`0.05019`, `+9.8%`), **but trails `CHAMPION h33-2-b2` (`0.06412` → FAIL)** because supervised `y=0` training on `~labels` treats unmapped pre-Quaternary faults as negatives (proven in `EXP1`, where label-free `D1_LiDAR_Dipole` scored **`0.10267`** and label-free `MDRC_Unsup_4Domain` scored **`0.07651`** `> 0.06412`).
+
+![Arena8a MDRC 4-Panel Validation & Gate Audit](docs/assets/fig_arena8a_mdrc.png)
+
+### Focused Nine-Site Portfolio Review (`GEMSDOE24..36` & Official DrivenData Leaderboard, verified 2026-10-26)
+
+| Site / Source | Strongest / Latest Artifact | Emitted Px | Score / Local Metric | Evidence Class & Automated Gate Verdict |
+|---|---|---:|---|---|
+| [DrivenData #306](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) | `#1 xiaofanhu` (2026-10-25) / `#1 DARD` (2026-10-03) | — | **`0.4413`** / `0.3195` | `OFFICIAL-LEADERBOARD-SNAPSHOT` (marginal bar `k > 0.0883` / `0.0639`) |
+| **[GEMSDOE32](https://github.com/buffedlizard55-lab/GEMSDOE32) (Champion)** | `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` | `37,654` | **`0.2778`** | `ORGANIZER-CONFIRMED (owner receipt)` · **PORTFOLIO BEST** (`solo` minus `≤200 m` of cat; already submitted) |
+| **[GEMSDOE32](https://github.com/buffedlizard55-lab/GEMSDOE32) (Arena8a New)** | `arena8a-mdrc-crestbar-b2-44090-…-ce1abd39-zeros` | `44,090` | visHoldout **`0.1068`** / SGMC `0.0551` | `HOLDOUT-DTI` (`v3-visible-only`, `22,232` px) · **DOWNLOAD YES / SUBMIT NO (`negative`)** |
+| [GEMSDOE36](https://github.com/buffedlizard55-lab/GEMSDOE36) | `anderson-geothermal-pinn-38854` / `h36-gps-graben-pair` | `38,854` | **`0.2750`** / HOLDOUT `0.1320` | `OWNER-REPORTED` (`= champion ∪ 1,200` dots, `−0.0028`, `IR-32-FAM-01`) / 2026-10-26 `DO_NOT_SUBMIT` |
+| [GEMSDOE28](https://github.com/buffedlizard55-lab/GEMSDOE28) | `h36-1-rung30-blind-r1` / `h27-4-r1-solo-d2-8` | `37,660` / `40,199` | **`0.2710`** / **`0.2708`** | `OWNER-REPORTED` (`B=1` parent of champion) / 2026-10-26 `S20V` `DO_NOT_SUBMIT` |
+| [GEMSDOE31](https://github.com/buffedlizard55-lab/GEMSDOE31) | `h27-4-solo-d28` / `xfcoh31-xfield-coherence` | `40,199` / `37,654` | **`0.2708`** / HOLDOUT `0.0459` | `OWNER-REPORTED` (same `solo` `B=1` family) / 2026-10-26 `DO_NOT_SUBMIT` |
+| [GEMSDOE33](https://github.com/buffedlizard55-lab/GEMSDOE33) | `h33d-analog-tip-stepover-r30-cb490425926e` | `41,865` | **`0.2632`** | `OWNER-REPORTED` (`H19-5` family + tip/stepover) / 2026-10-25 no new TIF |
+| [GEMSDOE25](https://github.com/buffedlizard55-lab/GEMSDOE25) & [30](https://github.com/buffedlizard55-lab/GEMSDOE30) | `dotted-h19-5-d2-8` == `d28-poisson300m-offcat-44090` | `44,090` | **`0.2600`** | `OWNER-REPORTED` (byte-identical pair, `IR-32-FAM-02`) / 2026-10-26 `H71` & `FFL1` `DO_NOT_SUBMIT` |
+| [GEMSDOE24](https://github.com/buffedlizard55-lab/GEMSDOE24) | `h25-1-dotted-h19-5-d1-5` / `cup1-compfront` | `60,069` / `37,654` | **`0.2477`** / UNSCORED | `OWNER-REPORTED` (`1.5 px` thinning of `H19-5`) / 2026-10-26 `CUP1` `DO_NOT_SUBMIT` |
+| [GEMSDOE27](https://github.com/buffedlizard55-lab/GEMSDOE27) | `topo-gap-closure-t-v2-on-d1-5` / `h30-1-updip-35k` | `61,328` / `35,200` | **`0.2449`** / HOLDOUT `0.0942` | `OWNER-REPORTED` / 2026-10-25 `H30-1` locally approved in GEMSDOE27 (unscored) |
+
+<details>
+<summary><b>Active Standing Prompt Specification (stored in <code>README.md</code> per user requirement — click to expand)</b></summary>
+
+1. **Core Values:** **Maximize P(Win)** (weigh tradeoffs, assess risk, treat weekly slots as experiments to maximize probability of winning) and **Own the Outcome** (own results end-to-end, act without waiting for permission, verify line-by-line with official links, flag all irregularities, zero hallucinations).
+2. **Nine-Site Forensic Review:** Focus on the highest-scoring submissions from `GEMSDOE24`, `GEMSDOE25`, `GEMSDOE27`, `GEMSDOE28`, `GEMSDOE30`, `GEMSDOE31`, `GEMSDOE32`, `GEMSDOE33`, and `GEMSDOE36` for DrivenData DOE GEMS (`https://www.drivendata.org/competitions/306/competition-doe-gems/`); explain why and how `GEMSDOE32`'s `h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros` achieved `0.2778` (vs public `#1` `0.4413` / historical `0.3195`) and whether/how a submission can score higher.
+3. **3–5 Untested Geological Hypotheses:** Name specific layers, physical signature, why it catches faults missing from USGS/INGENIOUS catalogues, how it differs from existing implementations, named non-fault mimic, and rank by expected DTI gain vs cost; verify free official external datasets if proposed (full specification: [`docs/research/arena8a-preregistration-and-hypotheses.md`](docs/research/arena8a-preregistration-and-hypotheses.md)).
+4. **Parallel-Run Protocol & Automated Inspection:**
+   - **Lane Uniqueness:** Never copy a prior submission; check BOTH continuous surface before placement AND final emitted dots (`|Spearman ρ| ≤ 0.90` and `within-3px ≤ 70%`).
+   - **Reuse, Don't Rebuild:** Reuse cached feature stack, shared holdout evaluator (`GEMSDOE32-HOLDOUT-v3-visible-only`, withholding whole fault segments with buffer, deriving catalogue features strictly from visible faults, masking visible faults pixel-exactly, scoring pooled DTI with `α=0.2, β=0.8`, `300 m` triangular kernel), and fail-closed GeoTIFF writer (`[0, 1]`, `EPSG:32611`, `3730×3292`, `float32`, `0 NaN`); repair shared tools in place when defective.
+   - **Evidence Discipline & Leakage Canary:** Label every number `HOLDOUT-DTI` (evaluator version, withheld count, 95% CI) or `ORGANIZER-CONFIRMED`; test every channel solo (`AUC > 0.90` = leakage).
+   - **Zero Human Inspection & Budget:** Automated project-side validation (`scripts/verify_arena8a_submission.py`) must make `promote` vs `negative` (`DO NOT SUBMIT`) immediately obvious; cap at `≤3` experiments / `≤2` hours; output a complete JSON Run Card (`evidence/arena8a_run_card.json`); store prompt in `README.md`; publish clean GitHub Pages UI including `executive-summary.html`; complete 3 verification passes and merge PR onto `main`.
+
+</details>
 
 **Competition:** [DOE GEMS Prize](https://www.drivendata.org/competitions/306/competition-doe-gems/)
 · **Problem description:** [page 967](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/)
 · **Rules (PDF):** [docs.nlr.gov/docs/fy26osti/96647.pdf](https://docs.nlr.gov/docs/fy26osti/96647.pdf)
-· **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/>
+· **Live site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/> · **[Executive Summary](https://buffedlizard55-lab.github.io/GEMSDOE32/docs/executive-summary.html)**
 · **Weekly budget:** 3 scored submissions; **one** file is scored in *both* prize rounds.
 
-## ✅ NEW UNIQUE SUBMISSION — OK TO DOWNLOAD AND SUBMIT (2026-10-25) — ONE-CLICK FILE
-
-**✅ OK TO DOWNLOAD AND SUBMIT:** This file is **UNIQUE** (not byte-identical to any GEMSDOE24-36 submission), passes all 12 portal checks, values in [0,1], CRS/shape/transform match, 0 on-catalogue leakage, no NaN.
-
-**[⬇ Download `gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif` (ONE CLICK, UNIQUE, VALIDATED)](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif)** · [NaN twin](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif) · [validator receipt 12/12 PASS](docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-audit.json) · sha256 `04fd8a73eb584dd1…` · 250,142 B · 46,090 px · **HOLDOUT-DTI 0.14840 [0.115,0.182] vs incumbent 0.14801 — promote** — see [why 0.2778 scored](docs/research/why-02778-analysis-20261025.html) and [5 new hypotheses](docs/research/h35-hypotheses-20261025.html)
-
-**Unique name for portal:** `GEMSDOE32-H32-WIN-46090` · **Note (101/200 chars):** `H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606` — copy-paste into DrivenData “Note (optional)” field. File is portal-legal (EPSG:32611, 3730×3292, float32, [0,1], no NaN, no nodata tag) and will NOT trigger “Predicted values must be in range [0,1]”.
-
-> **Standing prompt (verbatim, read every session):** Review the repo. There should be an easy to download submission tif file as described by the prompt. Read the entire prompt. A lot of sites mention inspection only and a human inspector, but the inspection needs to be done through the project and needs to be validated for submission without human intervention. ... (full prompt in `docs/research/`) — kept here to ensure every session builds what we aim for: a useful, auditable, one-click submission system.
+> **Historical note (`IR-A8A-DUP-PRIMARY-01`):** The earlier `2026-10-25` `H32-WIN-46090` file (`gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif`) has `94.8%` within-3px overlap with `D2.8`, violating the Parallel-Run `≤70%` uniqueness rule; it is retained in `docs/downloads/` strictly for audit history and is **superseded** by the Arena8a gate banner above.
 
 ---
 

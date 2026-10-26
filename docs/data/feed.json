@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-25T20:48:21Z",
+ "generated_utc": "2026-10-26T01:45:53Z",
  "sources": [
   {
    "id": "competition",
@@ -35,7 +35,7 @@
    "title": "Public leaderboard",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
    "role": "live score feed",
-   "status": "verified 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042"
+   "status": "verified snapshots: 2026-10-03 (#1 DARD 0.3195), 2026-10-04 (#1 nchuzhoy 0.3262), 2026-10-25 (#1 xiaofanhu 0.4413, #2 cfld__ 0.3916, #3 Batik Shirt Brothers 0.3904)"
   },
   {
    "id": "rules_pdf",
@@ -169,9 +169,37 @@
    "url": "https://github.com/buffedlizard55-lab",
    "role": "prior experiments, mirrors and evidence; used as priors, never as verification",
    "status": "listed"
+  },
+  {
+   "id": "a8a_usgs_3dep",
+   "title": "USGS 3D Elevation Program (3DEP) 1-Meter DEM Specification",
+   "url": "https://www.usgs.gov/3d-elevation-program",
+   "role": "official source of 1 m LiDAR scarp derivatives (Domain I)",
+   "status": "official public-domain USGS program; hash-pinned derivatives in .cache/gems_data/external"
+  },
+  {
+   "id": "a8a_usgs_sgmc",
+   "title": "USGS State Geologic Map Compilation (SGMC) Geodatabase (Horton et al., 2017)",
+   "url": "https://doi.org/10.3133/ds1052",
+   "role": "off-catalogue pre-Quaternary + bedrock fault holdout benchmark (62,703 off-cat px)",
+   "status": "official USGS Data Series 1052; rasterized in derived_sgmc_faults_100m_u8.tif"
+  },
+  {
+   "id": "a8a_usgs_comcat_api",
+   "title": "USGS ComCat FDSN Event Web Service API",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+   "role": "A8A-H5 external microseismic catalogue source (free, public domain)",
+   "status": "official free API; egress-blocked inside sandbox (deferred)"
+  },
+  {
+   "id": "a8a_sciencebase_mcre",
+   "title": "USGS ScienceBase 2020 M6.5 Monte Cristo Range Surface Rupture Dataset",
+   "url": "https://www.sciencebase.gov/catalog/item/606f657fd34ef99870188ee5",
+   "role": "A8A-H5 external surface-rupture vector dataset (Koehler et al., 2021)",
+   "status": "official free USGS data release; egress-blocked inside sandbox (deferred)"
   }
  ],
- "source_count": 24,
+ "source_count": 28,
  "leaderboard": [
   {
    "rank": 1,
@@ -629,6 +657,97 @@
     ]
    },
    "verdict": "NEGATIVE: SGMC supervision pulled mass north and under-covered held-out south SGMC truth; not submittable"
+  },
+  {
+   "id": "A8A-H1",
+   "rank": 1,
+   "status": "measured (HOLDOUT WIN +0.0076 vs D2.8; Gate G5 SGMC NEGATIVE \u2014 DO NOT SUBMIT)",
+   "title": "Multi-Domain Ridge-Crest Concordance (MDRC): Valid-Tile-Aware 1 m LiDAR Dipole + True RTP/TMI Magnetic Tilt + Gravity/MT Step + Label-Free Hydrothermal Conduits",
+   "layers": [
+    "lidar_scarp_features_u8 (b2 step_max, b3/b4 lapneg*lappos, b7/b8 |downface-upface|, b9 cross, b10 coh100, b11 strike, b12 valid)",
+    "training_features (rtp b2, tmi b1, tmi_hg b3, iso_grav_anom b13, grav_hg b18, depth_to_base_surf b15, cond_surf b17, det_elev b12, geod_shearrate b8)",
+    "geodawn_rad_u8 (K, eU, eTh) + gdr_wellspring_in_footprint.csv (temp_c, na_k_c, chalcedony_c; dist_known_fault_px dropped)"
+   ],
+   "signature": "One-sided 1 m LiDAR crest-toe dipole (missing tiles routed via native NaN) concordant with true Miller-Singh (1994) RTP/TMI tilt-zero lineaments, gravity/MT basement steps, and K/Th + geothermometer halos; sharpened onto 1-px cross-strike crests",
+   "why_off_catalogue": "Catches sub-metre degraded scarps on valid 3DEP tiles and covered sub-alluvial transfer/step-over faults where >=2 subsurface/hydrothermal domains align; dual-head piedmont weighting mitigates range-front domain shift",
+   "differs_from_repo": "Fixes IR-32-BAND6-TC-01 (Band 6 is radiometric TC, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR mis-indexing + 24.6% missing-tile zeros); adds 1-px cross-strike crest sharpening; Mimic: fluvial terrace risers / gullies (suppressed by |downface-upface| & >=2-domain gate)",
+   "expected_dti": "HOLDOUT-DTI 0.10679 [0.08765, 0.12850] (beats CTRL 0.09893 & D2.8 0.09920; SGMC-cal 0.05509 < 0.06412)",
+   "cost": "3/3 session experiments (~14 min CPU)",
+   "data_status": "all inputs hash-pinned in .cache/gems_data",
+   "implementation": "src/gems32/mdrc.py; scripts/arena8a_run_experiments.py; evidence/arena8a_run_card.json",
+   "measured": {
+    "visible_only_holdout_dti_44090": 0.10679,
+    "visible_only_holdout_dti_37654": 0.10552,
+    "ctrl_35ch_visible_only_holdout": 0.09893,
+    "d28_vis_b2_holdout": 0.0992,
+    "unsupervised_4domain_sgmc_cal": 0.07651,
+    "supervised_sgmc_cal": 0.05509
+   },
+   "verdict": "NEGATIVE (DO NOT SPEND SLOT): beats CTRL-35ch and D2.8 on visible-only HOLDOUT-DTI (7/8 cells), but supervised y=0 training on incomplete catalogue suppresses pre-Quaternary SGMC faults (0.05509 < 0.06412)."
+  },
+  {
+   "id": "A8A-H2",
+   "rank": 2,
+   "status": "preregistered (channel tested inside MDRC; standalone PU arm deferred)",
+   "title": "Salem RTP Magnetic Tilt-Depth vs Gravity Basement-Depth Discordance (Intra-Basin Faulted Volcanics)",
+   "layers": [
+    "rtp (2), depth_to_base_surf (15), iso_grav_anom (13), grav_hg (18), mag_up150 (geodawn_extensions_u8)"
+   ],
+   "signature": "Half-width between +/-pi/4 Miller-Singh RTP tilt contours (z_tilt) strictly shallower than gravity depth_to_base_surf (z_tilt << z_base) along a persistence ridge",
+   "why_off_catalogue": "Detects blind intra-basin faulted Neogene basalts/tuffs buried 100-400 m beneath playa/alluvial cover above 1.5-3 km Mesozoic basement, invisible to surface mapping",
+   "differs_from_repo": "First quantitative comparison of Salem et al. (2007) magnetic source depth against gravity basement depth; Mimic: un-faulted buried volcanic flow margins / dikes",
+   "expected_dti": "medium (+0.003 to +0.008 in PU ensemble)",
+   "cost": "low (derived from cached rasters)",
+   "data_status": "in-repo hash-pinned",
+   "verdict": "Channel mag_salem_tilt_depth_discord verified leak-free in EXP1 canary; standalone positive-unlabeled test queued for next session."
+  },
+  {
+   "id": "A8A-H3",
+   "rank": 3,
+   "status": "preregistered (solo Domain IV measured in EXP1: HOLDOUT-DTI 0.04346, SGMC 0.04669)",
+   "title": "Potassic Alteration Edge (K/Th) + Magnetite-Destruction Trough + MT Smectite Clay-Cap Boundary",
+   "layers": [
+    "geodawn_rad_u8 (K, eTh, eU), rtp (2), tmi_hg (3), cond_surf (17), gdr_wellspring_in_footprint.csv, gdr_volcanic_vents_in_footprint.csv"
+   ],
+   "signature": "High K/eTh potassic/adularia alteration gradient co-located with RTP demagnetization trough, MT cond_surf clay-cap edge, and >60 C geothermometer outflow",
+   "why_off_catalogue": "Upwelling geothermal brines sulfidize magnetite and enrich potassium along blind permeable fault intersections even without Quaternary surface rupture",
+   "differs_from_repo": "Pairs K/Th compositional gradients with magnetite-destruction troughs and label-free GDR geothermometers (dropping dist_known_fault_px); Mimic: un-faulted rhyolite tuff contacts & evaporitic playa clays",
+   "expected_dti": "solo HOLDOUT-DTI 0.04346; SGMC-cal 0.04669",
+   "cost": "low",
+   "data_status": "in-repo hash-pinned",
+   "verdict": "Solo unsupervised Domain IV measured in EXP1; strongest as a corroborating hydrothermal gate rather than standalone detector."
+  },
+  {
+   "id": "A8A-H4",
+   "rank": 4,
+   "status": "preregistered (deferred under 3-experiment budget)",
+   "title": "Walker Lane Transtensional Strike-Deflection & Relay-Ramp Curvature",
+   "layers": [
+    "lidar_scarp_features_u8 (b10 coh100, b11 strike, b12 valid), geod_shearrate (8), geod_2ndinv (9), det_elev (12)"
+   ],
+   "signature": "High angular gradient of doubled-angle scarp strike |grad(cos 2theta, sin 2theta)| inside elevated geodetic shear-rate zones (>70th pct) with saddle curvature",
+   "why_off_catalogue": "Regional catalogues map master range-bounding faults as disconnected lines, systematically omitting curved 0.5-3 km accommodation faults across relay ramps where geothermal permeability peaks",
+   "differs_from_repo": "Prior relay bridges (GEMSDOE27 T-v2, H33-5) extrapolate synthetically from mapped fault tips (violating B-gates or blind to unmapped pairs); A8A-H4 measures strike rotation directly from 1 m LiDAR; Mimic: Lake Lahontan pluvial shorelines",
+   "expected_dti": "targeted local gain in Walker Lane transtensional step-overs",
+   "cost": "low",
+   "data_status": "in-repo hash-pinned",
+   "verdict": "Deferred to respect strict 3-experiment parallel-run budget."
+  },
+  {
+   "id": "A8A-H5",
+   "rank": 5,
+   "status": "DATA-BLOCKED in sandbox (official free USGS URLs verified)",
+   "title": "Sub-Kilometre Relocated Microseismic Planes & 2020 M6.5 Monte Cristo Range Distributed Surface Ruptures",
+   "layers": [
+    "USGS ComCat FDSN Event API (earthquake.usgs.gov/fdsnws/event/1/query), USGS ScienceBase 606f657fd34ef99870188ee5, Zenodo 5302368, ieq_n100a15 (16)"
+   ],
+   "signature": "RANSAC-fitted planar epicentre/hypocentre alignments (<500 m localization) + Koehler et al. (2021) field-mapped sinistral/oblique 2020 MCRE rupture traces",
+   "why_off_catalogue": "Directly images active seismogenic faults at 2-12 km depth and the 28 km 2020 Monte Cristo rupture across previously unmapped Candelaria/playa faults where Band 16 (100 km kernel, r_3km=0.9935) is spatially constant",
+   "differs_from_repo": "Replaces 100 km blurred seismic band with sub-km event alignments paired with RTP/LiDAR corroboration; Mimic: mining blasts & un-faulted geothermal swarm clouds",
+   "expected_dti": "high in SE Walker Lane / Monte Cristo domain once prefetched",
+   "cost": "external prefetch step required outside sandbox",
+   "data_status": "official free public-domain USGS/Zenodo URLs verified; blocked by sandbox egress allowlist",
+   "verdict": "Explicitly flagged DATA-BLOCKED in this sandbox; ready for CI/host prefetch."
   }
  ],
  "claims": [
@@ -671,68 +790,65 @@
   }
  ],
  "submission": {
-  "name": "gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros",
-  "note": "H32-WIN 46090dots 0onCat prune400+add B50/C30/A20 HOLDOUT-DTI 0.1484 vs 0.1480 cat 0.0985 SGMC 0.0606",
-  "status_line": "PRIMARY = H32-WIN-46090 (2026-10-25): D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 dots, 0 on catalogue. HOLDOUT-DTI 0.14840 vs incumbent 0.14801, cat_hidden 0.09847 vs 0.09832, SGMC 0.06061 vs 0.06059 \u2014 beats all three holdout instruments. NO ORGANISER SCORE EXISTS for this or any artifact in this repository.",
+  "name": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros",
+  "note": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT",
+  "verdict": "negative",
+  "ok_to_download": true,
+  "ok_to_submit": false,
+  "status_line": "LATEST UNIQUE SESSION DELIVERABLE = GEMSDOE32-A8A-MDRC-CE1ABD39 (2026-10-26): OK TO DOWNLOAD = YES (100% portal-legal [0, 1] float32, 0 NaN, genuinely unique: pre-placement surface |rho|=0.4209<=0.90, within-3px=64.96%<=70%; 52.89% vs 0.2778 champion). OK TO SPEND WEEKLY LEADERBOARD SLOT = NO \u2014 AUTOMATED VERDICT: NEGATIVE (DO NOT SUBMIT). Beats both CTRL-35ch (0.09893) and D2.8 vis-B2 (0.09920) on repaired visible-only HOLDOUT-DTI at 0.10679 [95% CI 0.08765, 0.12850] (7/8 cells won vs D2.8), and beats CTRL-35ch on off-catalogue SGMC (0.05509 vs 0.05019), but fails Gate G5 vs CHAMPION h33-2-b2 on off-catalogue SGMC (0.05509 < 0.06412). Keep reigning 0.2778 champion; do not waste a weekly slot.",
+  "status_line_2026_10_25": "LATEST UNIQUE SESSION DELIVERABLE = GEMSDOE32-A8A-MDRC-CE1ABD39 (2026-10-26): OK TO DOWNLOAD = YES (12/12 + strict [0,1] GeoTIFF checks PASS, unique lane PASS) \u00b7 OK TO SUBMIT TO PORTAL = NO \u2014 AUTOMATED VERDICT: NEGATIVE (DO NOT SPEND WEEKLY SLOT). Repaired visible-only HOLDOUT-DTI = 0.10679 (beats CTRL-35ch 0.09893 & D2.8 vis-B2 0.09920; 7/8 cells won vs D2.8), but off-catalogue SGMC = 0.05509 < 0.2778 champion (0.06412, Gate G5 FAIL). Reigning live-scored portfolio champion remains h33-h33-2-b2 (0.2778 ORGANIZER-CONFIRMED owner receipt; already submitted \u2014 do not resubmit).",
   "file": {
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
-   "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
-   "bytes": 250142,
-   "positive_px": 46090
+   "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+   "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+   "bytes": 230921,
+   "positive_px": 44090
   },
   "file_zeros": {
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
-   "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
-   "bytes": 250142
+   "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+   "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+   "bytes": 230921
   },
   "zip": {
-   "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.zip",
-   "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
-   "bytes": 0
+   "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.zip",
+   "sha256": "c87912bfafe839932b02b75ed2edcef181e3e709067b51177b2ef184038fa351",
+   "bytes": 197576
   },
-  "candidate_id": "H32-WIN-46090",
-  "tier": 1,
-  "hypothesis": "H32-WinningVariant",
-  "selection_rule": {
-   "tier_1": "beats the owner-reported 0.2600 incumbent on ALL THREE holdout instruments (catalogue_hidden_mean, sgmc_prevalence_calibrated_dti, drift_corrected_holdout_mean) AND 0 on_catalogue_pixels ==0",
-   "tier_2": "live-anchored gate (LM-cal +margin in 4/4 quadrants over live-scored base, safety >=2.0)"
-  },
-  "lm": {
-   "mean": 0.2679205315698004,
-   "margin_vs_base": 0.004869544019442784,
-   "folds_beat_base": 4
-  },
-  "live_anchor": {
-   "dn": 2545,
-   "d_credit": 65.09227269807448,
-   "safety_factor": 2.08,
-   "projected_dti_if_live_credit_matches": 0.27467315976932155
-  },
-  "catalogue_hidden_mean": 0.09847015183645208,
-  "drift_corrected_holdout_mean": 0.14840079268764622,
-  "sgmc_prevalence_calibrated_dti": 0.06061200769577,
+  "candidate_id": "A8A-MDRC-CE1ABD39",
+  "tier": 0,
+  "hypothesis": "A8A-H1 (MDRC_Crest_CreditBar)",
+  "visible_only_holdout_dti": 0.10679429218467282,
+  "visible_only_holdout_ci95": [
+   0.08764997455315648,
+   0.12850447881966512
+  ],
+  "catalogue_hidden_mean": null,
+  "drift_corrected_holdout_mean": null,
+  "sgmc_prevalence_calibrated_dti": 0.055092,
   "on_catalogue_pixels": 0,
   "anchor": {
-   "role": "ANCHOR -- the group's best live-scored emission",
-   "path": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
-   "note": "in-footprint bit-identical to the owner-reported 0.2708 / 0.2600 emissions"
+   "role": "PORTFOLIO LIVE CHAMPION (0.2778 ORGANIZER-CONFIRMED \u2014 already submitted; do not resubmit)",
+   "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "zip_path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.zip",
+   "zip_sha256": "5a6f3ee02e6392089d53361976dbc9d5dec43ef4205001097c6806fe487bef11",
+   "zip_bytes": 186378,
+   "note": "37,654 dots; B=2 prune of solo (0.2708); highest-scoring artifact across all GEMSDOE sites"
   },
   "pack": [
    {
-    "role": "SECONDARY (Tier 2 - previous primary)",
+    "role": "SECONDARY \u2014 NaN-outside twin of Arena8a unique deliverable",
+    "path": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+    "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+    "bytes": 366368,
+    "positive_px": 44090,
+    "note": "Identical 44,090 in-footprint binary predictions; NaN outside footprint (DO NOT SUBMIT \u2014 research audit twin)"
+   },
+   {
+    "role": "HISTORICAL PORTFOLIO CHAMPION (0.2778 \u2014 ALREADY SUBMITTED, DO NOT RESUBMIT)",
     "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
     "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
     "bytes": 219065,
     "positive_px": 37654,
-    "note": "Previous primary: 0.2708 base minus 2px flank (B=2), 37654 dots, 0 within 200m of catalogue, live-mirror +0.00487 safety 2.08 projected 0.2747"
-   },
-   {
-    "role": "NaN-outside twin of the primary",
-    "path": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
-    "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",
-    "bytes": 379333,
-    "positive_px": 46090,
-    "note": "the competition's own format (identical values inside footprint)"
+    "note": "ORGANIZER-CONFIRMED 0.2778 (owner receipt 2026-10-25); valid ZIP 186,378 B sha256 5a6f3ee0..."
    },
    {
     "role": "AVAILABLE DOWNLOAD",
@@ -740,11 +856,11 @@
     "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
     "bytes": 1603424,
     "positive_px": 44090,
-    "note": "kept for audit trail"
+    "note": "kept for audit trail (0.2600 owner-reported parent)"
    }
   ],
-  "rule": "H32 winning variant: D2.8 minus 400 weakest speckles plus 2400 priority H32 B/C/A dots at 2.35px Poisson, 46090 total",
-  "provenance": "built 2026-10-25 from GEMSDOE32-HOLDOUT-v2, 22232 withheld positives, all 12 portal checks PASS, leakage AUC 0.55 <0.90"
+  "rule": "Fixes IR-32-BAND6-TC-01 (Band 6 is gamma-ray Total Count, r=0.9971, not magnetic tilt) and IR-32-LIDAR-BANDS-01 (12-band LiDAR missing-tile mask + |downface-upface| one-sided scarp polarity); trains spatially-blocked 4-quadrant OOF dual-head HistGB (general + piedmont concealment propensity) gated by >=2-domain physical corroboration, sharpened onto 1-px cross-strike crests, and emitted via B=2 off-catalogue collar + exact 300 m triangular-kernel lazy-greedy submodular coverage.",
+  "provenance": "built 2026-10-26T01:20:01.096310+00:00 on arena/8a2ac062-gemsdoe32 from GEMSDOE32-HOLDOUT-v3-visible-only, 22,232 withheld positives, 12/12 + strict [0,1] checks PASS, canary max AUC 0.62173 <= 0.90"
  },
  "holdout": {
   "preregistration": "GEMSDOE32-PREREG-1",
@@ -1496,9 +1612,9 @@
   },
   {
    "id": "IR-32-INSTR-03",
-   "severity": "high",
+   "severity": "high (FIXED 2026-10-26 in GEMSDOE32-HOLDOUT-v3-visible-only)",
    "statement": "The catalogue_hidden holdout instrument is PERVERSE for B-gated candidates (emissions that forbid dots within B px of the full catalogue): the hidden segments the instrument asks the candidate to recover are inside the candidate's own exclusion zone, because the gate was derived from the full catalogue including the hidden components. Proof with ORGANIZER-CONFIRMED points: live order champion(B=2) 0.2778 > solo(B=1) 0.2708 > d2.8(B=0) 0.2600 is exactly reversed by catalogue_hidden (0.00460 < 0.03104 < 0.09832). Extends IR-32-INSTR-01/02; the root cause is a protocol violation by the candidate's gate, not by the evaluator, but evaluate_candidate_holdout does not correct for it (its 1-px debias shift does not reach B=2). Measured 2026-10-25 (evidence/hcvf2_run.json).",
-   "mitigation": "for B-gated candidates use only instruments whose truth is off-catalogue by construction (SGMC), or re-derive the candidate's gate from visible-only faults per draw; hypotheses-round5.md \u00a72b documents the mechanism"
+   "mitigation": "FIXED in place in src/gems32/holdout.py (EVALUATOR_VERSION = GEMSDOE32-HOLDOUT-v3-visible-only): PreparedCell now stores visible_sub, d_visible_sub, and visible_full, and evaluate_visible_only_holdout derives B-collars strictly from each draw's visible faults. Verified on D2.8: B=0 (0.09674) < B=1 (0.09898) < B=2 (0.09920, global peak matching live 0.2778!) > B=3 (0.09710)."
   },
   {
    "id": "IR-32-FAM-01",
@@ -1517,6 +1633,36 @@
    "severity": "medium",
    "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
+  },
+  {
+   "id": "IR-A8A-BAND6-TC-01",
+   "severity": "high (FIXED in MDRC)",
+   "statement": "Band 6 ('tc') of training_features.tif was described in prior repo docs and IR-32-REDUND-01 / H62-1 as a 'magnetic tilt-angle derivative for edge detection'. Byte-level correlation against GeoDAWN external rasters proves Band 6 is airborne gamma-ray Radiometric Total Count (TC, Pearson r = +0.997140 with geodawn_rad_u8.tif Band 4 TC) and has near-zero correlation (r = +0.012796) with true Miller-Singh magnetic tilt arctan(V/H). This directly explains why H62-1 (taking zero-crossings of Band 6) failed at 0.5058 AUC.",
+   "mitigation": "src/gems32/mdrc.py computes true Miller-Singh (1994) magnetic tilt zero-crossings and Salem tilt-depth directly from Band 2 (rtp) and Band 1 (tmi) via FFT vertical derivatives, while treating Band 6 and geodawn_rad_u8 K/U/Th as radiometric lithology/alteration channels."
+  },
+  {
+   "id": "IR-A8A-LIDAR-BANDS-01",
+   "severity": "high (FIXED in MDRC)",
+   "statement": "lidar_scarp_features_u8.tif has 12 uint8 bands where Band 12 ('valid') is >0 on only 75.37% of the submission footprint (24.63% missing 3DEP 1 m LiDAR tiles encoded as 0). Prior src/gems32/h35_new.py read bands (1, 2, 5) assuming (ex_max, step_max, coh) without checking Band 12 valid, conflating missing LiDAR tiles with scarp-free terrain and mis-indexing Band 5 (p90_grad) as coherence (Band 10).",
+   "mitigation": "src/gems32/mdrc.py reads exact band descriptions (b2 step_max, b3/b4 lapneg/lappos, b7/b8 downface/upface, b9 cross, b10 coh100, b11 strike, b12 valid) and sets missing tiles (b12 == 0) to native NaN for HistGradientBoostingClassifier missing-value routing."
+  },
+  {
+   "id": "IR-A8A-GDR-LEAK-01",
+   "severity": "high (mitigated & unit-tested)",
+   "statement": "Both gdr_wellspring_in_footprint.csv (27,092 rows) and gdr_volcanic_vents_in_footprint.csv (21 rows) contain a precomputed column named dist_known_fault_px derived from the full fault catalogue. Including that column in any feature or halo leaks withheld test faults.",
+   "mitigation": "src/gems32/mdrc.py explicitly drops dist_known_fault_px, asserts 'dist_known_fault_px' is absent before rasterization, and verifies all 57 channels via EXP1 leakage canary (max AUC = 0.62173 <= 0.90)."
+  },
+  {
+   "id": "IR-A8A-DUP-PRIMARY-01",
+   "severity": "high (FIXED 2026-10-26)",
+   "statement": "Prior registry/submission_build.json headlined H32-WIN-46090 (D2.8 minus 400 speckles + 2400 dots, ~94.8% within-3px overlap with D2.8, violating the Parallel-Run <=70% uniqueness rule), carried a 0-byte all-zeros zip hash (0000...0000), and still claimed 'NO ORGANISER SCORE EXISTS for this or any artifact in this repository' despite h33-h33-2-b2's owner-reported 0.2778 receipt.",
+   "mitigation": "registry/submission_build.json updated to point to the genuinely unique Arena8a deliverable (surface |rho|=0.4209, within-3px=64.96%<=70%, verified 197,576-byte zip sha256 c87912bf...), stamped clearly with automated verdict NEGATIVE / DO-NOT-SUBMIT, while recording h33-h33-2-b2 (0.2778, verified 186,378-byte zip sha256 5a6f3ee0...) accurately as the already-submitted portfolio champion."
+  },
+  {
+   "id": "IR-A8A-PU-BIAS-01",
+   "severity": "high (scientific finding)",
+   "statement": "EXP1 vs EXP2/EXP3 revealed why supervised GBMs trained on labels.tif underperform H19-5/H33 on off-catalogue USGS SGMC faults even when they win visible-only holdout: label-free D1_LiDAR_Dipole (0.10267) and MDRC_Unsup_4Domain (0.07651) beat CHAMPION h33-2-b2 (0.06412) on SGMC, whereas supervised HistGB (treating ~labels as y=0 true negatives) suppresses real pre-Quaternary SGMC faults present inside ~labels (pulling SGMC-cal down to 0.05509).",
+   "mitigation": "Gate G5 faithfully caught this off-catalogue suppression and issued an automated NEGATIVE (DO NOT SUBMIT) verdict; next-session path is positive-unlabeled (Elkan-Noto / anchor-set) learning rather than standard binary cross-entropy on ~labels."
   }
  ]
 }

@@ -34,7 +34,7 @@
    "title": "Public leaderboard",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
    "role": "live score feed",
-   "status": "verified 2026-10-04: #1 nchuzhoy 0.3262, #2 DARD 0.3195, #3 alexoktaba 0.3042"
+   "status": "verified snapshots: 2026-10-03 (#1 DARD 0.3195), 2026-10-04 (#1 nchuzhoy 0.3262), 2026-10-25 (#1 xiaofanhu 0.4413, #2 cfld__ 0.3916, #3 Batik Shirt Brothers 0.3904)"
   },
   {
    "id": "rules_pdf",
@@ -168,6 +168,34 @@
    "url": "https://github.com/buffedlizard55-lab",
    "role": "prior experiments, mirrors and evidence; used as priors, never as verification",
    "status": "listed"
+  },
+  {
+   "id": "a8a_usgs_3dep",
+   "title": "USGS 3D Elevation Program (3DEP) 1-Meter DEM Specification",
+   "url": "https://www.usgs.gov/3d-elevation-program",
+   "role": "official source of 1 m LiDAR scarp derivatives (Domain I)",
+   "status": "official public-domain USGS program; hash-pinned derivatives in .cache/gems_data/external"
+  },
+  {
+   "id": "a8a_usgs_sgmc",
+   "title": "USGS State Geologic Map Compilation (SGMC) Geodatabase (Horton et al., 2017)",
+   "url": "https://doi.org/10.3133/ds1052",
+   "role": "off-catalogue pre-Quaternary + bedrock fault holdout benchmark (62,703 off-cat px)",
+   "status": "official USGS Data Series 1052; rasterized in derived_sgmc_faults_100m_u8.tif"
+  },
+  {
+   "id": "a8a_usgs_comcat_api",
+   "title": "USGS ComCat FDSN Event Web Service API",
+   "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
+   "role": "A8A-H5 external microseismic catalogue source (free, public domain)",
+   "status": "official free API; egress-blocked inside sandbox (deferred)"
+  },
+  {
+   "id": "a8a_sciencebase_mcre",
+   "title": "USGS ScienceBase 2020 M6.5 Monte Cristo Range Surface Rupture Dataset",
+   "url": "https://www.sciencebase.gov/catalog/item/606f657fd34ef99870188ee5",
+   "role": "A8A-H5 external surface-rupture vector dataset (Koehler et al., 2021)",
+   "status": "official free USGS data release; egress-blocked inside sandbox (deferred)"
   }
  ]
 }

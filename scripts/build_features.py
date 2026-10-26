@@ -5,14 +5,16 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "src"))
 from gems32 import features  # noqa: E402
+from gems32.paths import data_dir, work_dir  # noqa: E402
 
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--features", default="/tmp/gems32/data/training_features.tif")
-    ap.add_argument("--out", default="/tmp/gems32/work/feature_stack.npy")
+    ap.add_argument("--features", default=str(data_dir() / "training_features.tif"))
+    ap.add_argument("--out", default=str(work_dir() / "feature_stack.npy"))
     ap.add_argument("--receipt", default="registry/feature_receipt.json")
     a = ap.parse_args()
+    Path(a.out).parent.mkdir(parents=True, exist_ok=True)
     t0 = time.time()
     rec = features.build(a.features, a.out)
     rec["seconds"] = round(time.time() - t0, 1)

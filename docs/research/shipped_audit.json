@@ -403,6 +403,90 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+   "bytes": 366368,
+   "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 44090,
+   "total_mass": 44090.0,
+   "off_h19_5_px": 36711,
+   "off_h19_5_frac": 0.8326377863461102,
+   "catalogue_proxy_T": 299.6698392147017,
+   "catalogue_proxy_F": 43859.622690548225,
+   "credit_per_unit_mass": 0.006796775668285364,
+   "catalogue_proxy_DTI": 0.005200591698149851,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+   "bytes": 230921,
+   "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 44090,
+   "total_mass": 44090.0,
+   "off_h19_5_px": 36711,
+   "off_h19_5_frac": 0.8326377863461102,
+   "catalogue_proxy_T": 299.6698392147017,
+   "catalogue_proxy_F": 43859.622690548225,
+   "credit_per_unit_mass": 0.006796775668285364,
+   "catalogue_proxy_DTI": 0.005200591698149851,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-nan.tif",
    "bytes": 379333,
    "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",

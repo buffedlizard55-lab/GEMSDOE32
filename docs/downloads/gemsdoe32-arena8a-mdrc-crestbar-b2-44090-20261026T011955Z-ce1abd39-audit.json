@@ -1,0 +1,116 @@
+{
+  "candidate_id": "A8A-MDRC_Crest_CreditBar",
+  "slug": "arena8a-mdrc-crestbar-b2-44090",
+  "content_digest8": "ce1abd39",
+  "description": "Session arena/8a2ac062-gemsdoe32 single-lane deliverable (MDRC_Crest_CreditBar): 57-channel Multi-Domain Ridge-Crest Concordance (tile-aware 1m LiDAR one-sided dipole + true RTP/TMI Miller-Singh magnetic tilt + gravity/MT step + K/Th & GDR-1391 conduits), 4-quadrant OOF dual-head HistGB, B=2 off-catalogue collar, exact 300m submodular max-cover.",
+  "submission_note_zeros": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT",
+  "submission_note_nan": "GEMSDOE32 A8A MDRC 44090d B2 | visHoldout 0.1068 SGMC 0.0551 | DO-NOT-SUBMIT (nan)",
+  "zeros_tif": {
+    "filename": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+    "size_bytes": 230921,
+    "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+    "mode": "zeros",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "None",
+    "emitted_positive_pixels": 44090,
+    "footprint_fraction": 0.008532,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 12279160,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "nan_tif": {
+    "filename": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+    "size_bytes": 366368,
+    "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+    "mode": "nan",
+    "crs": "EPSG:32611",
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nodata_repr": "nan",
+    "emitted_positive_pixels": 44090,
+    "footprint_fraction": 0.008532,
+    "on_catalogue_positive_pixels": 0,
+    "in_footprint_finite_pixels": 5167373,
+    "in_footprint_min": 0.0,
+    "in_footprint_max": 1.0,
+    "full_grid_finite_pixels": 5167373,
+    "checks": {
+      "single_band": true,
+      "dtype_float32": true,
+      "dimensions_3730x3292": true,
+      "crs_epsg_32611": true,
+      "in_footprint_all_finite": true,
+      "in_footprint_zero_nan": true,
+      "in_footprint_zero_inf": true,
+      "in_footprint_zero_sentinel": true,
+      "in_footprint_range_0_1": true,
+      "outside_footprint_compliant": true,
+      "zero_on_catalogue_leakage": true,
+      "validator_range_0_1_guaranteed": true
+    },
+    "all_checks_passed": true
+  },
+  "holdout_metrics": {
+    "catalogue_hidden_mean": 0.003147115187555195,
+    "catalogue_hidden_per_quadrant": {
+      "NW": 0.003932124331447249,
+      "NE": 0.0024636691002274573,
+      "SW": 0.002386523579652052,
+      "SE": 0.003806143738894021
+    },
+    "sgmc_prevalence_calibrated_dti": 0.05509236916738947,
+    "drift_corrected_holdout_mean": 0.04209845000875842,
+    "drift_corrected_per_quadrant": {
+      "NW": 0.054831012000756046,
+      "NE": 0.03323076243242874,
+      "SW": 0.03607187806371042,
+      "SE": 0.04426014753813849
+    },
+    "predicted_leaderboard_dti": null,
+    "ei_drift_corrected": 0.0,
+    "slot_decision": "DO-NOT-SUBMIT"
+  }
+}
