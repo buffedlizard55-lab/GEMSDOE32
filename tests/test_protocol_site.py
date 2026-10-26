@@ -46,6 +46,22 @@ def test_literal_calibration_lattice_overlap_is_a_release_blocker():
         assert "calibration lattice" in text
 
 
+def test_group_champion_score_is_not_mislabeled_as_organizer_confirmed():
+    status = json.loads((ROOT / "registry/current_status.json").read_text())
+    champion = status["best_scored"]
+    assert champion["score"] == 0.2778
+    assert champion["evidence_class"].startswith("OWNER-REPORT")
+    assert "no submission-page receipt" in champion["evidence_class"]
+    claims = json.loads((ROOT / "registry/claims.json").read_text())
+    claim = next(row for row in claims["claims"] if row["id"] == "claim-h33-b2-02778")
+    assert claim["kind"] == "owner_report"
+    assert "no submission-page receipt" in claim["reported_by"]
+    for page in ["docs/index.html", "docs/executive-summary.html"]:
+        rendered = (ROOT / page).read_text()
+        assert "0.2778</b> OWNER-REPORT" in rendered
+        assert "ORGANIZER-CONFIRMED (owner-reported receipt)" not in rendered
+
+
 def test_current_review_run_card_has_bounded_note_and_negative_verdict():
     card = json.loads((ROOT / "evidence/review_run_card_20261026.json").read_text())
     assert card["verdict"] == "negative"
