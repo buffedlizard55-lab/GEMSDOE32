@@ -145,3 +145,13 @@ Found a source-of-truth contradiction in `registry/current_status.json`: the 0.2
 ### Pass 3 — verify correction and remaining blockers
 
 Added a regression test that checks the status metadata and owner-claim ledger remain consistent. Ran the site generator and the full suite: **105 passed, 9 skipped, 15 warnings**. Skips depend on absent competition data/cache; they do not represent a fresh end-to-end holdout. The current prompt still supplies no designated single method paragraph, so the lane stop condition remains in force. No candidate TIF was newly generated; existing downloadable rasters are audit/research artifacts and all current release records say **DO NOT SUBMIT**. No weekly submission slot was used.
+
+## Current branch audit addendum — 2026-10-26
+
+This fresh checkout was reviewed after the earlier addenda above. It supersedes their test totals and the prior candidate-currentness statements where they differ. No new geological experiment or submission was performed.
+
+- Current release decision is fail-closed: `registry/current_status.json` identifies ARENA47 as the latest research artifact, but does not authorize it for upload. Keep the GEMSDOE32 H33/B2 `0.2778` value labelled **OWNER-REPORT**; no organizer receipt ties that score to the raster hash.
+- With declared requirements installed in local ignored `.venv`, `.venv/bin/pytest -q` produced **142 passed, 5 failed, 10 skipped, 21 warnings**. Failure details and exact test names are recorded in [`evidence/repo_review_20261026.json`](../../evidence/repo_review_20261026.json).
+- The failures reveal stale projections: Arena9 and H46-specific assertions still treat those candidates as current; `registry/submission_build.json` still points to Arena9 while the release review points to ARENA47; generated HTML displays literal `nan [0.00000, 0.00000]` in places. Treat non-finite results as unavailable and regenerate projections from one canonical current manifest. Do not change the fail-closed decision to accommodate stale tests.
+- The competition source rasters are absent from `data/`, so this checkout cannot independently reproduce a new end-to-end feature/holdout experiment. This review does not claim such reproduction.
+- Recommendation: retain all candidate download links as research-only; fix release projection synchronization and non-finite rendering, update tests to check current-state invariants while preserving archived artifact checks, rebuild every page, then rerun all tests. Until then, do not treat published secondary data as a synchronized release feed.

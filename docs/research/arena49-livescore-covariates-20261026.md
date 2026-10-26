@@ -1,10 +1,10 @@
-# Arena48 — Live-score covariate audit and nine-site executive decision (2026-10-26)
+# Arena49 — Live-score covariate audit and nine-site executive decision (2026-10-26)
 
 **Session:** Arena `arena/b4675e19-gemsdoe32` · **Date:** 2026-10-26 (evening UTC)
 **Kind:** retrospective portfolio audit. **No new experiment lane was assigned in this session's
 prompt, no holdout experiments were run, no candidate GeoTIFF was generated, and no weekly
 submission slot was used.** The deliverables are (i) the repair of two shared-template defects
-that had left `main`'s test suite red (IR-48-SYNC-01/02, fixed and regression-tested), (ii) a new
+that had left `main`'s test suite red (IR-49-SYNC-01/02, fixed and regression-tested; the same script then reconciled the stale ARENA47 latest_candidate left in the release review by the H50 merge), (ii) a new
 auditable instrument that quantifies what co-varies with the owner-reported leaderboard scores
 across the whole locally pinned portfolio, and (iii) this executive decision summary.
 
@@ -32,10 +32,15 @@ extra scored rasters pinned at [`registry/extra_scored_manifest.json`](../../reg
 **Is any file in this repository OK to download and submit to the competition right now? NO.**
 
 1. **Nothing new is authorized.** `registry/current_status.json` keeps
-   `any_file_ok_to_submit = false`; the newest research artifact (ARENA47) is a genuine-unique,
-   format-valid GeoTIFF whose HOLDOUT-DTI does **not** beat the champion proxy and whose literal
-   lattice overlap is 99.68% > 70%. Every prior research TIFF in `docs/downloads/` carries the
-   same DO-NOT-SUBMIT verdict for recorded reasons.
+   `any_file_ok_to_submit = false`; the newest research artifact (H50 TM-SPI, merged to `main` by
+   a parallel session during this one) is a genuine-unique, format-valid GeoTIFF whose SGMC-cal
+   0.0164 loses to the champion's 0.0641 and whose literal lattice gate fail-closes; the parallel
+   H47 session's Live-Ledger Inversion projects its own unique candidate *below* the champion
+   (PROJECTION 0.240–0.248 vs 0.283–0.285). Every research TIFF in `docs/downloads/` — ARENA47,
+   H50, H47, H46, H44, Arena9, Arena8a, H38 … — carries a recorded DO-NOT-SUBMIT verdict.
+   This session's audit is complementary to H47's LLI: LLI models hidden-truth density strata from
+   111 rasters and produces PROJECTIONS; Arena49 fits intrinsic raster covariates and quantifies
+   the family ceiling, the champion's above-trend residual, and the exact lattice bound below.
 2. **The best historical file is already scored.** `h33-h33-2-b2` (0.2778 OWNER-REPORT) was
    already submitted. Resubmitting it spends one of the 3-per-week slots and adds no information.
 3. **All nine focus-site "winners" are one family, byte-verified.** The nine best historical
@@ -53,7 +58,7 @@ extra scored rasters pinned at [`registry/extra_scored_manifest.json`](../../reg
    (37,654–61,328 dots) fails by construction, as does the champion itself (99.92%). Until the
    owner decides between (a) exempting documented calibration probes or (b) keeping the literal
    rule (in which case no dense map can ever pass), **no new dense candidate can be cleared,
-   regardless of its science.** This is IR-48-LATTICE-01; it sharpens IR-42-UNIQ-01/IR-45-LATTICE-02
+   regardless of its science.** This is IR-49-LATTICE-01; it sharpens IR-42-UNIQ-01/IR-45-LATTICE-02
    from an observation to an exact bound.
 
 **Why no new TIFF was generated this session:** the parallel-run protocol requires an assigned
@@ -85,26 +90,31 @@ different GEMSDOE10 submissions) were fixed in the matcher **before** any statis
 and regression tests now cover both. No organizer source was contacted; no external
 (non-owner) data entered the analysis.
 
-**Join outcome:** 140 ledger rows → 22 excluded (18 other-team leaderboard rows, 4
-non-parseable/UNSCORED) → 54 joined → **48 unique scored masks** (0 conflicting scores for one
-mask, 0 read errors). 64 rows had no local raster (mostly scores < 0.10; the fetch threshold was
-0.10, so every owner-reported score ≥ 0.1047 is covered). Fitted set spans 0.0107–0.2778.
+**Join outcome (final run, on the merged `main` state):** 145 ledger rows → 22 excluded (18
+other-team leaderboard rows, 4 non-parseable/UNSCORED) → **59 joined → 53 unique scored masks**
+(0 conflicting scores for one mask, 0 read errors). 59 rows had no local raster (mostly scores
+< 0.10; the fetch threshold was 0.10). Five rows joined mid-session because the owner's
+2026-10-26 ledger additions (GEMSDOE24 0.0859, GEMSDOE25 0.0742, GEMSDOE27 **0.2190**, GEMSDOE28
+0.0217, GEMSDOE30 0.1462 — all OWNER-REPORT) reached already-pinned bytes; each of those five
+joins is an exact same-site normalized match and was audited like the rest. Fitted set spans
+0.0107–0.2778. The first run of this session (before the merge) had 54 joins / 48 masks; every
+statistic below is from the final 53-mask run, and the headline conclusions are unchanged.
 
 ### 2.1 Results
 
-| statistic (OWNER-REPORT-fitted; n = 48 unique masks) | value |
+| statistic (OWNER-REPORT-fitted; n = 53 unique masks) | value |
 |---|---|
-| Spearman ρ, score vs `frac_within3_h195` (family membership) | **+0.832** (p = 2.4e-13) |
-| Spearman ρ, score vs `frac_within3_champion` | **+0.858** (p = 7.1e-15) |
-| Spearman ρ, score vs `log10_dots` (all) | −0.417 (p = 3.2e-03) |
-| Spearman ρ, score vs `frac_on_catalogue` | −0.317 (p = 2.8e-02) |
-| Spearman ρ, score vs `median_dist_catalogue_px` | +0.308 (p = 3.3e-02) |
-| LOO linear regression, 5 covariates, all 48 masks | **R² = 0.756, ρ = 0.863, MAE = 0.0225** |
+| Spearman ρ, score vs `frac_within3_h195` (family membership) | **+0.844** (p = 2.2e-15) |
+| Spearman ρ, score vs `frac_within3_champion` | **+0.865** (p = 6.9e-17) |
+| Spearman ρ, score vs `log10_dots` (all) | −0.278 (p = 4.4e-02) |
+| Spearman ρ, score vs `frac_on_catalogue` | −0.245 (p = 7.7e-02) |
+| Spearman ρ, score vs `median_dist_catalogue_px` | +0.311 (p = 2.3e-02) |
+| LOO linear regression, 5 covariates, all 53 masks | **R² = 0.720, ρ = 0.861, MAE = 0.0256** |
 | LOO linear regression, dot count only, family subset (n = 17) | **R² = 0.881, ρ = 0.765, MAE = 0.0072** |
 | Family (≥80% of dots within 3 px of H19-5) | n = 17, median 0.2560, **max 0.2778** |
-| Non-family detectors | n = 31, median 0.1461, **max 0.2478** (`gems70-p5-dual-submod300-oof38k`) |
+| Non-family detectors | n = 36 (33 site repositories), median 0.1444, **max 0.2478** (`gems70-p5-dual-submod300-oof38k`) |
 | Champion leave-one-out on the family's own dot-count trend | actual 0.2778 vs predicted 0.2677 → **residual +0.0101** |
-| Full-fit standardized β (dominant covariate) | `frac_within3_h195` **+0.89**; `mean_self_kernel` −0.39 |
+| Full-fit standardized β (dominant covariate) | `frac_within3_h195` **+0.94**; `mean_self_kernel` −0.43 |
 
 Reading (with the caveats in §2.2): the portfolio's owner-reported scores are dominated by
 family membership. Within the family, dot count alone reproduces the score ladder to
@@ -122,13 +132,13 @@ public #1 (0.4437).
   calibration's conclusion).
 - Observational, not causal: family membership and champion overlap are lineage variables, so
   their βs are partly mechanical (family members are nested thinnings of one mask).
-- The ≥0.10 fetch threshold under-samples very low scores; the 64 unmatched rows are listed in
+- The ≥0.10 fetch threshold under-samples very low scores; the 59 unmatched rows are listed in
   the receipt.
-- n = 48 with 5 covariates: the LOO diagnostics are honest (held-out only) but wide; the
+- n = 53 with 5 covariates: the LOO diagnostics are honest (held-out only) but wide; the
   standardized βs are collinear (e.g. `frac_on_catalogue` flips sign between marginal and
   conditional views) and are reported for direction, not effect size.
 
-### 2.3 The exact lattice bound (IR-48-LATTICE-01)
+### 2.3 The exact lattice bound (IR-49-LATTICE-01)
 
 Computed from the pinned `r13-lattice-s5_v2` raster on the 5,167,373-pixel footprint:
 the 5-px lattice leaves **6,649 hole pixels** farther than 3 px from every lattice dot, i.e.
@@ -146,21 +156,21 @@ silent exemption by one session.
 ## 3. Nine-site executive table (which file, what estimate, unique or not, submit or not)
 
 Scores are OWNER-REPORT actuals (the only defensible "estimate" for an already-scored file).
-The "Arena48 LOO" column is the instrument's held-out prediction from the *other 47* masks —
+The "Arena49 LOO" column is the instrument's held-out prediction from the *other 47* masks —
 a cross-check of the instrument, **not** a score estimate for a future submission. "Unique?" is
 against the other eight site-best files and the genuine registry per the 70%/3-px rule.
 
-| Site | Best file to download (audit) | Dots | Score (OWNER-REPORT) | Arena48 LOO | Unique? | Submit? |
+| Site | Best file to download (audit) | Dots | Score (OWNER-REPORT) | Arena49 LOO | Unique? | Submit? |
 |---|---|---:|---:|---:|---|---|
-| GEMSDOE32 | [`gemsdoe32-h33-h33-2-b2-…-e5eb6e7e-zeros.tif`](../downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) | 37,654 | **0.2778** | 0.2736 | NO — family (86.7%+ vs all eight) | **NO — already submitted; do not resubmit** |
-| GEMSDOE36 | `anderson-geothermal-pinn-38854` | 38,854 | 0.2750 | 0.2686 | NO — champion + 1,200 dots | NO |
-| GEMSDOE28 | `h36-1-rung30-blind-r1` | 37,660 | 0.2710 | 0.2708 | NO — family | NO |
+| GEMSDOE32 | [`gemsdoe32-h33-h33-2-b2-…-e5eb6e7e-zeros.tif`](../downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) | 37,654 | **0.2778** | 0.2782 | NO — family (86.7%+ vs all eight) | **NO — already submitted; do not resubmit** |
+| GEMSDOE36 | `anderson-geothermal-pinn-38854` | 38,854 | 0.2750 | 0.2730 | NO — champion + 1,200 dots | NO |
+| GEMSDOE28 | `h36-1-rung30-blind-r1` | 37,660 | 0.2710 | 0.2736 | NO — family | NO |
 | GEMSDOE31 | `h27-4-solo-d28` | 40,199 | 0.2708 | 0.2687 | NO — **byte-identical to GEMSDOE28's h27-4-r1-solo** (digest `dbb80910…`) | NO |
-| GEMSDOE33 | `h33d-analog-tip-stepover-r30` | 41,865 | 0.2632 | 0.2664 | NO — champion + 4,211 dots | NO |
-| GEMSDOE25 | `dotted-h19-5-d2-8` | 44,090 | 0.2600 | 0.2624 | NO — **byte-identical to GEMSDOE30 + GEMSDOE29 files** (digest `426073b6…`) | NO |
-| GEMSDOE30 | `d28-poisson300m-offcat-44090` | 44,090 | 0.2600 | 0.2624 | NO — same raster as GEMSDOE25's | NO |
-| GEMSDOE24 | `h25-1-dotted-h19-5-d1-5` | 60,069 | 0.2477 | 0.2401 | NO — family | NO |
-| GEMSDOE27 | `topo-gap-closure-t-v2-on-d1-5` | 61,328 | 0.2449 | 0.2364 | NO — family (98% overlap with H19-5) | NO |
+| GEMSDOE33 | `h33d-analog-tip-stepover-r30` | 41,865 | 0.2632 | 0.2695 | NO — champion + 4,211 dots | NO |
+| GEMSDOE25 | `dotted-h19-5-d2-8` | 44,090 | 0.2600 | 0.2646 | NO — **byte-identical to GEMSDOE30 + GEMSDOE29 files** (digest `426073b6…`) | NO |
+| GEMSDOE30 | `d28-poisson300m-offcat-44090` | 44,090 | 0.2600 | 0.2646 | NO — same raster as GEMSDOE25's | NO |
+| GEMSDOE24 | `h25-1-dotted-h19-5-d1-5` | 60,069 | 0.2477 | 0.2431 | NO — family | NO |
+| GEMSDOE27 | `topo-gap-closure-t-v2-on-d1-5` | 61,328 | 0.2449 | 0.2392 | NO — family (98% overlap with H19-5) | NO |
 
 **Best to submit today: none.** The only file with a claim to "best" is the GEMSDOE32 champion,
 and it is already on the board. The unscored research artifacts in `docs/downloads/` (ARENA47,
@@ -179,11 +189,12 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
    scored — extrapolating the trend further is a projection, and the recorded holdout attempts
    at further pruning (H32-winning-prune400, ARENA47 perturb) were flat-to-negative on
    HIDE-RECOVER-v3.0. The thinning lane is not where the next 0.02–0.17 lives.
-2. **Detector novelty has a measured ceiling of 0.2478 so far.** Thirty-one non-family
-   submissions across 24 repositories — LiDAR scarp topology, radiometric fusion, tilt worms,
+2. **Detector novelty has a measured ceiling of 0.2478 so far.** Thirty-six non-family
+   submissions across 33 site repositories — LiDAR scarp topology, radiometric fusion, tilt worms,
    submodular PU ensembles, geothermal belief covers, Euler deconvolution, SGMC tracing — top
    out at 0.2478 OWNER-REPORT. Every one of them discovered *some* off-catalogue structure and
-   none of it converted into champion-level live score. The gap to the champion (0.030) is the
+   none of it converted into champion-level live score (the newest addition, GEMSDOE27's
+   hydrothermal-piedmont CELF at 0.2190 OWNER-REPORT, is the fifth-best non-family result). The gap to the champion (0.030) is the
    measured price of trading family coverage for novelty under this metric.
 3. **The real target is 0.4437, and it is not a thinning target.** The public #1's margin over
    our best (+0.166) is 16× the champion's own above-trend residual. Whoever leads has found
@@ -208,13 +219,13 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
 
 | ID | Severity | Statement | Mitigation |
 |---|---|---|---|
-| IR-48-SYNC-01 | high (main was red) | The ARENA47 merge advanced the release review/current status but left `registry/submission_build.json` pinned to Arena9; 5 tests failed on `main`. | `scripts/sync_submission_build.py` (fail-closed re-pin) + `tests/test_release_consistency.py` relationship contract; suite green (158 passed). |
-| IR-48-SYNC-02 | medium | `build_site.py` rendered a missing H46 holdout field as `nan [0.00000, 0.00000]` — missing data displayed as a measured zero. | Generic candidate card renders `—` for missing metrics; regression test `test_no_missing_metric_renders_as_zero`. |
-| IR-48-LATTICE-01 | high (decision required) | The literal ≤70%/3-px novelty rule is impassable for any map with >22,163 dots (exact bound, §2.3); every champion-family file and all but two scored masks exceed it. | Requires the owner's prospective protocol decision (exempt documented calibration probes, or keep the literal rule and accept that no dense map can pass). No exemption applied by this session. |
+| IR-49-SYNC-01 | high (main was red) | The ARENA47 merge advanced the release review/current status but left `registry/submission_build.json` pinned to Arena9; 5 tests failed on `main`. | `scripts/sync_submission_build.py` (fail-closed re-pin) + `tests/test_release_consistency.py` relationship contract; suite green (158 passed). |
+| IR-49-SYNC-02 | medium | `build_site.py` rendered a missing H46 holdout field as `nan [0.00000, 0.00000]` — missing data displayed as a measured zero. | Generic candidate card renders `—` for missing metrics; regression test `test_no_missing_metric_renders_as_zero`. |
+| IR-49-LATTICE-01 | high (decision required) | The literal ≤70%/3-px novelty rule is impassable for any map with >22,163 dots (exact bound, §2.3); every champion-family file and all but two scored masks exceed it. | Requires the owner's prospective protocol decision (exempt documented calibration probes, or keep the literal rule and accept that no dense map can pass). No exemption applied by this session. |
 
 ## 6. Remaining work and limitations (for the next session)
 
-1. **Owner decision needed:** IR-48-LATTICE-01 (lattice exemption vs literal rule). Nothing can
+1. **Owner decision needed:** IR-49-LATTICE-01 (lattice exemption vs literal rule). Nothing can
    be promoted until it is made.
 2. **Lane + budget needed:** an explicitly assigned discovery-oriented method paragraph; the
    pre-registered H46-4/H46-5 and the ranked unexecuted slates are the natural candidates.
@@ -226,7 +237,7 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
 4. **No organizer receipts:** every historical score stays OWNER-REPORT. If the owner can
    save submission-page receipts binding hashes to scores, the ledger becomes
    ORGANIZER-CONFIRMED and this instrument's inputs harden.
-5. **Instrument scope:** the covariate audit is observational on n = 48; do not use it to
+5. **Instrument scope:** the covariate audit is observational on n = 53; do not use it to
    project scores for unscored files, and re-run it (one command) after any new live score
    lands so the family/non-family ceilings stay current.
 
@@ -234,7 +245,7 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
 
 ```json
 {
-  "session": "arena/b4675e19-gemsdoe32 (Arena48)",
+  "session": "arena/b4675e19-gemsdoe32 (Arena49)",
   "hypothesis": "H48-A: owner-reported live DTI is explained principally by H19-5 family membership, dot count within the family, and catalogue-proximity covariates; non-family detectors plateau below the family.",
   "mechanism": "DTI = T/(0.2*(T+S-M)+0.8*|G|): uncredited mass is penalized 0.2 per unit, so family thinning removes sub-break-even mass; family membership is therefore the dominant score covariate.",
   "named_non_fault_mimic_or_confound": "OWNER-REPORT transcription error; lineage collinearity (family masks are nested thinnings); >=0.10 fetch selection; n=48 observational fit.",
@@ -242,16 +253,16 @@ their HOLDOUT-DTI values are listed in `registry/current_status.json` and are no
   "holdout_dti": "not applicable - no candidate generated this session; prior repo best unchanged: H38 0.116958 [0.100533, 0.132040] on GEMSDOE32-HIDE-RECOVER-v3.0, 22232 withheld",
   "correlation_and_overlap_vs_registry": "no new raster placed; the 48 fitted masks were deduplicated by dot-mask digest (3 cross-site byte-identical pairs found: 0.2600, 0.2708, 0.1563)",
   "raster_sha256": "none generated this session",
-  "validator_output": "no new raster; suite green after IR-48-SYNC-01/02 repairs (158 passed, 3 skipped)",
+  "validator_output": "no new raster; suite green after IR-49-SYNC-01/02 repairs and the H50-merge reconciliation (189 passed, 3 skipped)",
   "submission_name": "NONE - no file authorized",
   "submission_note": "n/a",
   "key_results": {
-    "n_unique_scored_masks": 48,
-    "spearman_frac_within3_h195": 0.832,
-    "spearman_frac_within3_champion": 0.858,
-    "loo_all_r2": 0.756, "loo_all_rho": 0.863, "loo_all_mae": 0.0225,
+    "n_unique_scored_masks": 53,
+    "spearman_frac_within3_h195": 0.844,
+    "spearman_frac_within3_champion": 0.865,
+    "loo_all_r2": 0.720, "loo_all_rho": 0.861, "loo_all_mae": 0.0256,
     "loo_family_dotcount_r2": 0.881, "loo_family_dotcount_mae": 0.0072,
-    "family_max": 0.2778, "nonfamily_max": 0.2478,
+    "family_max": 0.2778, "nonfamily_max": 0.2478, "nonfamily_n": 36,
     "champion_loo_residual_vs_family_trend": 0.0101,
     "lattice_holes": 6649, "max_dots_passing_literal_rule": 22163
   },

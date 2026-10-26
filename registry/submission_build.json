@@ -1,32 +1,32 @@
 {
-  "name": "gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros",
-  "note": "ARENA47 perturb-H38 unique 37654d B2 | HR=0.0044 SGMC=0.0438 | 9ab73056 | research artifact",
+  "name": "gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros",
+  "note": "H50 TM-SPI dual-concord 37121d B2 | HR=0.0126 vis=0.0126 | research",
   "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
   "file": {
-    "path": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
-    "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
-    "bytes": 192561,
-    "positive_px": 37654
+    "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
+    "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+    "bytes": 146967,
+    "positive_px": 37121
   },
   "file_zeros": {
-    "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-    "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
-    "bytes": 210920
+    "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
+    "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+    "bytes": 146967
   },
   "zip": {
-    "path": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.zip",
-    "sha256": "edd0e51503f91f493fc1c12536a74fd86314d19545c7e8fb3016ec64ed5e4f4a",
-    "bytes": 158644
+    "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.zip",
+    "sha256": "f55f9f0d95a5dc4feadaa64dfa076baf16ec75925118a91004f9646decf67901",
+    "bytes": 108369
   },
-  "candidate_id": "GEMSDOE32-ARENA47-PERTURB-9AB73056",
+  "candidate_id": "GEMSDOE32-H50-TMSPI-F0E385B9",
   "tier": 1,
-  "hypothesis": "ARENA47-H1-SYNTH-PERTURB: relocate 6424 of 29,203 hcvf2-overlapping dots (~22%) via exact residual-coverage to off-catalogue off-TIGER curvature crests >3px from hcvf2, achieving genuine 66.6% overlap <=70% while retaining B=2 support confinement.",
+  "hypothesis": "Unsupervised dual-field Thurston\u2013Smith local-wavenumber (SPI) contact skeleton weighted by the Wijns (2005) theta-map edge strength and geometrically concordant across magnetics (tmi_hg, tmi_vg) and isostatic gravity (iso_grav_anom_slope, iso_grav_anom_vg), morphological-NMS 1-px crests, 37,654-dot 300 m CELF, B=2.",
   "verdict": "negative",
   "ok_to_submit": false,
   "on_catalogue_pixels": 0,
-  "catalogue_hidden_mean": 0.057907939861141074,
-  "drift_corrected_holdout_mean": 0.057907939861141074,
-  "sgmc_prevalence_calibrated_dti": 0.08780043882036752,
+  "catalogue_hidden_mean": 0.012607589883044272,
+  "drift_corrected_holdout_mean": 0.012607589883044272,
+  "sgmc_prevalence_calibrated_dti": 0.016442277890077014,
   "anchor": {
     "role": "ANCHOR -- champion comparison (already submitted; do not resubmit)",
     "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -35,18 +35,24 @@
   "pack": [
     {
       "role": "NaN-outside archival twin; not portal-safe under strict-finite mode",
-      "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif",
-      "sha256": "03eee6fb55ad98040a8887dec10767558b26d6cb10461defc46bc9f3c4bb5c02",
-      "bytes": 345698
+      "path": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-nan.tif",
+      "sha256": "ba2e1723c7ed05763af33dd5e62ea2c7a1f66257553a51c739152be27fd0fa7c",
+      "bytes": 281530
     }
   ],
   "supersedes": "GEMSDOE32-GEO-CONDUIT-2D0D0C5E demoted 2026-10-26: 70.24% within-3px vs h28-dotted-ridge exceeds 70% lane gate; SGMC-cal 0.0462 below champion 0.0641 (IR-R6-02). Preserved as registry/submission_build_geo_conduit_superseded.json",
-  "evidence": "evidence/arena9_run_card.json",
+  "evidence": "evidence/h50_tmspi_run_card.json",
   "historical_run_verdict": "negative",
   "historical_ok_to_submit": false,
   "current_release_review": "evidence/current_release_review.json",
   "schema_note": "Registry primary = the file the site headlines. It is NOT an approval: read 'verdict' / 'ok_to_submit'. Source of truth: registry/current_status.json.",
   "previous_primaries": [
+    {
+      "name": "gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros",
+      "record": "evidence/arena9_run_card.json",
+      "withdrawn": true,
+      "reason": "Superseded as the headline audit artifact by H50 TM-SPI; remains DO NOT SUBMIT."
+    },
     {
       "name": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros",
       "record": "evidence/round6_run_card.json",
@@ -136,12 +142,6 @@
       "provenance": "built 2026-10-25 from GEMSDOE32-HOLDOUT-v2, 22232 withheld positives, all 12 portal checks PASS, leakage AUC 0.55 <0.90",
       "withdrawn": true,
       "status_line_current": "WITHDRAWN 2026-10-26 - DO NOT SUBMIT (IR-42-README-01): champion-family variant (shares 37,298 dots with the 0.2778 champion, Jaccard 0.803); its claimed holdout margin was inside its own CI; on the SGMC off-catalogue instrument it is indistinguishable from the champion. See registry/current_status.json for the current status."
-    },
-    {
-      "path": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
-      "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
-      "candidate_id": "GEMSDOE32-A9-PGRN-PU-4F7ABA9B",
-      "demoted_reason": "superseded by a newer release review; see current_release_review.json"
     }
   ],
   "other_unique_files": [
@@ -181,8 +181,8 @@
   "arena8a_candidate": "registry/arena8a_submission.json",
   "arena9_candidate": "evidence/arena9_run_card.json",
   "sync": {
-    "synced_utc": "2026-10-26T20:22:50.540198Z",
+    "synced_utc": "2026-10-26T21:44:20Z",
     "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
-    "previous_pinned_sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609"
+    "previous_pinned_sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112"
   }
 }

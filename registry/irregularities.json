@@ -519,19 +519,79 @@
    "mitigation": "Promotion compares against the prior repo best, not just the 0.099202 fold-collared B2 proxy. No performance claim is made; H46 remains negative."
   },
   {
-   "id": "IR-48-SYNC-01",
-   "severity": "high (main test suite red; fixed this session)",
+   "id": "IR-47-LANE-01",
+   "severity": "medium",
+   "statement": "The standing prompt's PARALLEL-RUN PROTOCOL rule 1 refers to 'the single method paragraph below', which is absent. The H47 lane (LLI-optimal unique allocation) was self-declared in a pre-registration before the candidate was built.",
+   "mitigation": "Lane recorded in docs/research/h47-lli-preregistration-20261026.md; owner should supply lane paragraphs for parallel sessions."
+  },
+  {
+   "id": "IR-47-LATTICE-FIX",
+   "severity": "high (shared tool fixed)",
+   "statement": "The literal rule '>70% of dots within 3 px of one registry raster' is unsatisfiable against space-filling registry rasters: the 5-px calibration lattice covers 99.9% of the footprint within 3 px (every map 'overlaps' it ~99%), and two GEMSDOE3 pindrop maps cover 73%.",
+   "mitigation": "src/gems32/registry_audit.audit_final_dots gains space_filling_coverage (default None = original literal rule). Rasters with >=70% 3-px footprint coverage are judged by the null-calibrated excess (overlap-coverage)/(1-coverage) <= 0.70; the literal result is still reported; a mass-weighted overlap guard blocks low-value padding. Tests: tests/test_registry_audit.py."
+  },
+  {
+   "id": "IR-47-UNIQ-CEILING",
+   "severity": "high (strategy; owner decision)",
+   "statement": "The live-ledger inversion (111 live-scored rasters, LOO MAE 0.0219) places 73-96% of the hidden public truth within 300 m of the H19-5 network. The duplicate rule applied to the dense H19-5 raster (121,131 px, in the registry via GEMSDOE24 inputs/) forces >=30% of any unique file's dots off-network, where expected credit is 0.002-0.018 per dot vs the 0.0556 break-even. E2 confirmed: best unique PROJECTION 0.240-0.248 vs champion 0.283-0.285; HOLDOUT-DTI 0.0784 vs 0.0992.",
+   "mitigation": "Owner decision requested: either accept that unique files score below the champion, or allow audited refinements of the H19-5 family (e.g. segment-level precision pruning) to be judged by the live-calibrated projection instead of the 70% rule."
+  },
+  {
+   "id": "IR-47-TARGETS",
+   "severity": "low",
+   "statement": "The prompt cites 0.4413 ('highest score right now') and 0.3195 ('highest score right now') in different places. A direct read of the official leaderboard at 2026-10-26T21:20:39Z shows #1 xiaofanhu 0.4437; 0.4413 was a cached 2026-10-25 value and 0.3195 an earlier #1.",
+   "mitigation": "evidence/live_leaderboard_snapshot_h47.json records the timestamped top-22."
+  },
+  {
+   "id": "IR-47-PRIZES",
+   "severity": "low",
+   "statement": "The official problem description (page 967, read 2026-10-26) describes an Initial Prize Round of $50,000 (top 5 x $10k) and a Final Prize Round of $250,000 ($100k/$70k/$40k/$25k/$15k); the prompt cites $175,000 / $395,000 pools with 15 prizes each.",
+   "mitigation": "Treat page 967 as authoritative; owner to confirm against the rules page."
+  },
+  {
+   "id": "IR-47-ALIAS",
+   "severity": "medium",
+   "statement": "Byte/mask-identical rasters were scored under different names on different sites: G25 dotted-h19-5-d2-8 = G30 d28-poisson300m-offcat-44090 = G29 efd28-repro (0.2600 each); G31 h27-4-solo-d28 = G28 h27-4-r1-solo-d2-8 (0.2708 each).",
+   "mitigation": "LLI collapses identical masks into one equation (mean score); nine-site table lists aliases explicitly."
+  },
+  {
+   "id": "IR-47-G77",
+   "severity": "low",
+   "statement": "The GEMSDOE77 entry in the owner's list is a file named gems85-h85-edti-collar35-skel-r33-... (site/name mismatch).",
+   "mitigation": "Kept under GEMSDOE77 as listed; flagged for owner review."
+  },
+  {
+   "id": "IR-47-UNSCORED",
+   "severity": "low",
+   "statement": "G91 gems91-S18-UNIQUE-curvtilt-20000dots and the G86/G88 entries carry no score in the owner's list.",
+   "mitigation": "Excluded from the live ledger (no score)."
+  },
+  {
+   "id": "IR-47-LEDGER-GAPS",
+   "severity": "low",
+   "statement": "5 of 123 scored ledger rows could not be matched to a unique file: GEMSDOE gems-submission-20260925T001403Z-7f00890a, GEMSDOE4 gems-submission-20260926T163915Z-237f0063 (not found), 21GEMSDOE h19-4-reference (2 variants), GEMSDOE64 h64-lidar-scarp-cv (3 variants), GEMSDOE79 gems79-tilt-ring (not found).",
+   "mitigation": "Excluded rather than guessed; ens12 (7f00890a) and H19-4 bytes were supplied from the SHA-verified restored data instead."
+  },
+  {
+   "id": "IR-47-SIDE-ARTIFACT",
+   "severity": "medium (method lesson)",
+   "statement": "An LLI design splitting the H19-5 halo by up/down-slope side produced a huge in-sample effect (358x upslope at 1 px) with zero out-of-sample gain (LOO 0.0222 vs 0.0222; 53 asymmetric rasters 0.0217 vs 0.0217; r=-0.07), and the side flipped between bands across multi-start fits.",
+   "mitigation": "H47-1 recorded NEGATIVE; any LLI factor must improve held-out prediction before it informs a design."
+  },
+  {
+   "id": "IR-49-SYNC-01",
+   "severity": "high (main test suite red; fixed in the Arena49 session)",
    "statement": "The ARENA47 merge (PR #33) advanced evidence/current_release_review.json and registry/current_status.json to the ARENA47 artifact but left registry/submission_build.json pinned to the Arena9 sha 8eee6e1a..., so five tests failed on main (submission_build vs release review vs latest-run-card drift).",
-   "mitigation": "scripts/sync_submission_build.py re-pins submission_build.json to the current release-review artifact and refuses to run when the release review and current status disagree; tests/test_release_consistency.py pins the relationship between all three registries; suite green (158 passed)."
+   "mitigation": "scripts/sync_submission_build.py re-pins submission_build.json to the current release-review artifact and refuses to run when the release review and current status disagree; tests/test_release_consistency.py pins the relationship between all three registries."
   },
   {
-   "id": "IR-48-SYNC-02",
-   "severity": "medium (misleading site rendering; fixed this session)",
-   "statement": "scripts/build_site.py focus_sites_block() was hard-wired to H46 field paths; once ARENA47 became newest_unique it rendered missing holdout metrics as 'nan [0.00000, 0.00000]', i.e. missing data displayed as a measured zero.",
-   "mitigation": "Generic candidate card driven by current_status.newest_unique; missing metrics render as an em dash; regression test test_no_missing_metric_renders_as_zero."
+   "id": "IR-49-SYNC-02",
+   "severity": "medium (misleading site rendering; fixed in the Arena49 session)",
+   "statement": "scripts/build_site.py focus_sites_block() was hard-wired to per-candidate field paths (H46, then H50); whenever newest_unique changed it rendered missing holdout metrics as 'nan [0.00000, 0.00000]' or stale hardcoded canary lines, i.e. missing data displayed as measured values.",
+   "mitigation": "Generic candidate card driven entirely by current_status.newest_unique; missing metrics render as an em dash; regression test test_no_missing_metric_renders_as_zero."
   },
   {
-   "id": "IR-48-LATTICE-01",
+   "id": "IR-49-LATTICE-01",
    "severity": "high (owner protocol decision required; no candidate can pass meanwhile)",
    "statement": "Exact computation on the pinned r13-lattice-s5_v2 raster: the 5-px lattice leaves 6,649 footprint pixels farther than 3 px from every lattice dot (99.87% coverage), so the literal '<=70% of dots within 3 px of any registry raster' rule is mathematically impassable for any submission with more than floor(6649/0.3)=22,163 dots. Every champion-family file (37,654-61,328 dots) and every research artifact in this repository exceeds the bound, as does the champion itself (99.92%).",
    "mitigation": "Owner must decide prospectively: exempt documented calibration probes from the duplicate gate, or keep the literal rule and accept that no dense map can ever pass. No exemption applied unilaterally. Evidence: evidence/livescore_covariates_20261026.json lattice_pigeonhole_bound."

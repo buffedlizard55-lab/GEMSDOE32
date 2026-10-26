@@ -1,4 +1,4 @@
-"""Release-registry consistency contract (IR-48-SYNC-01).
+"""Release-registry consistency contract (IR-49-SYNC-01).
 
 The ARENA47 merge (PR #33) advanced the release review and current status but left
 ``registry/submission_build.json`` pinned to Arena9, turning main's test suite red.  These
@@ -57,7 +57,7 @@ def test_latest_run_card_mirrors_the_newest_candidate_card():
 def test_no_missing_metric_renders_as_zero():
     """A missing holdout metric must render as an em dash, never as a measured 0.00000.
 
-    Regression guard for the ``nan [0.00000, 0.00000]`` rendering defect (IR-48-SYNC-02).
+    Regression guard for the ``nan [0.00000, 0.00000]`` rendering defect (IR-49-SYNC-02).
     """
     for rel in ("index.html", "docs/index.html", "docs/executive-summary.html"):
         text = (ROOT / rel).read_text()

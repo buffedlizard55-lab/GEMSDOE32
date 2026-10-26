@@ -213,6 +213,28 @@ def download_block(sub: dict | None, name: str, prefix: str = "") -> str:
 GH = "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/"
 
 
+
+def previous_artifacts_block(docs_prefix: str = "") -> str:
+    """Earlier research-only artifacts (H46 and history), rendered from registry/current_status.json."""
+    st = read("registry/current_status.json") or {}
+    up = "../" if docs_prefix == "" else ""
+
+    def href(rel: str) -> str:
+        return (docs_prefix + rel[len("docs/"):]) if rel.startswith("docs/") else (up + rel)
+
+    items = []
+    h46 = st.get("h46_candidate")
+    if h46 and h46.get("file"):
+        items.append(f'<li><b>H46</b> <a href="{esc(href(h46["file"]))}"><code>{esc(Path(h46["file"]).name)}</code></a> &mdash; '
+                     f'<b style="color:#b00020">DO NOT SUBMIT</b> (research/audit only; <a href="{esc(href(h46.get("run_card", "")))}">run card</a>)</li>')
+    for hist in st.get("history_newest_unique", []):
+        if hist.get("file") and (not h46 or hist.get("file") != h46.get("file")):
+            items.append(f'<li><a href="{esc(href(hist["file"]))}"><code>{esc(Path(hist["file"]).name)}</code></a> &mdash; '
+                         f'<b style="color:#b00020">DO NOT SUBMIT</b></li>')
+    if not items:
+        return ""
+    return '<div class=card><b>Earlier research-only artifacts (never cleared for upload):</b><ul>' + "".join(items) + "</ul></div>"
+
 def current_status_block(docs_prefix: str = "") -> str:
     """The single status card (source of truth: registry/current_status.json).
 
@@ -717,14 +739,15 @@ def focus_sites_block() -> str:
             f'all nine winner masks exceed the 70% pairwise stop. {esc("Exact mask duplicate" if repo in {"GEMSDOE25", "GEMSDOE30"} else "Same H19-5 thinning/pruning family")}</td></tr>'
         )
 
-    candidate = status.get("newest_unique", {})
+    # H46-specific block: render from H46's own preserved status record, never from whatever file is newest
+    candidate = status.get("h46_candidate") or status.get("newest_unique", {})
     cand_file = Path(candidate.get("file", "")).name
     cand_href = candidate.get("file", "").replace("docs/", "", 1)
 
     def _fmt_arm(v: dict) -> str:
         """Format one holdout arm; missing metrics render as an em dash, never as 0.00000.
 
-        IR-48-SYNC-02: the previous renderer printed ``nan [0.00000, 0.00000]`` whenever the
+        IR-49-SYNC-02: the previous renderer printed ``nan [0.00000, 0.00000]`` whenever the
         newest candidate lacked an H46-specific field, i.e. missing data was displayed as a
         measured zero.  Missing is missing.
         """
@@ -748,7 +771,16 @@ def focus_sites_block() -> str:
     uniq = candidate.get("uniqueness", {}) or {}
     validator = candidate.get("validator", {}) or {}
     reasons = "".join(f"<li>{esc(r)}</li>" for r in candidate.get("reasons", []))
+    # Derive the candidate's own results report from its preregistration path when that file
+    # exists (h50-tmspi-preregistration-*.md -> h50-results-and-nine-site-executive-summary-*.md);
+    # otherwise fall back to the standing H46 nine-site review.
     report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
+    _pr = candidate.get("preregistration", "")
+    if _pr:
+        _guess = _pr.replace("docs/research/", "research/").replace(
+            "-preregistration-", "-results-and-nine-site-executive-summary-")
+        if (DOCS / _guess.replace("research/", "")).is_file():
+            report_link = _guess
     prereg_link = candidate.get("preregistration", "")
     prereg_html = (f' &middot; <a href="{esc(prereg_link.replace("docs/", ""))}">pre-registration</a>'
                    if prereg_link else "")
@@ -757,7 +789,7 @@ def focus_sites_block() -> str:
 <h3>Current generated file — research/audit download only</h3>
 <p><a class=btn href="{esc(cand_href)}">&#11015; Download {esc(cand_file)}</a>
 &middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/arena47_perturb_run_card.json'))}">run card</a>{prereg_html}
-&middot; <a href="{report_link}">prior three-pass review &amp; nine-site audit (H46)</a></p>
+&middot; <a href="{report_link}">results &amp; nine-site audit</a></p>
 <p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes local format validation, but the scientific/protocol gates fail. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
 <table><tr><th>Metric / status</th><th>Measured result</th><th>Interpretation</th></tr>
 <tr><td>HOLDOUT-DTI — {esc(candidate.get('holdout_label','GEMSDOE32-HIDE-RECOVER-v3.0'))}</td><td><b>{_fmt_arm(next(iter(h.values()), {}))}</b> (first arm; all arms below)</td><td>Local evaluator result only. Not a leaderboard score estimate.</td></tr>
@@ -768,7 +800,6 @@ def focus_sites_block() -> str:
 <tr><td>Saved-byte validator</td><td>{'PASS' if fmt_ok else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
 <ul>{reasons}</ul>
 <p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> Verdict <code>{esc(candidate.get('verdict','negative'))}</code>; no release gate has authorized this or any other file for upload. <b>0 weekly slots used.</b></p></div>"""
-
     min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
     return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
 <p>Historical submission scores were supplied in the owner prompt / owner project records; no organizer receipt in this checkout binds each exact file hash to its score. They are therefore <b>OWNER-REPORTED</b>, not ORGANIZER-CONFIRMED. The files below are linked to pinned sibling-repository commits and are for historical review, not new uploads. Their exact positive masks, hashes, dot counts, and pairwise 3-px directed overlap were re-read from the pinned GeoTIFFs in <a href="../evidence/focus_site_winner_overlap_20261026.json">this machine receipt</a>.</p>
@@ -1052,11 +1083,11 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
-    ("arena48-livescore-covariates-20261026.md",
-     "Arena48 (2026-10-26): live-score covariate audit of all 48 unique owner-scored masks — "
-     "family membership dominates (ρ=+0.832), non-family ceiling 0.2478, champion +0.010 above "
-     "its family's dot-count trend, and the exact lattice bound (>22,163 dots can never pass the "
-     "literal rule; IR-48-LATTICE-01) — plus the nine-site executive decision table"),
+    ("arena49-livescore-covariates-20261026.md",
+     "Arena49 (2026-10-26): live-score covariate audit of all 53 unique owner-scored masks — "
+     "family membership dominates (ρ=+0.844), non-family ceiling 0.2478 (n=36), champion +0.010 "
+     "above its family's dot-count trend, and the exact lattice bound (>22,163 dots can never "
+     "pass the literal rule; IR-49-LATTICE-01) — plus the nine-site executive decision table"),
     ("h46-results-and-nine-site-executive-summary-20261026.md",
      "H46 exploratory result and nine-site byte audit: no authorized lane, preregistration deviations, "
      "HOLDOUT-DTI below H38, literal lattice stop, and DO NOT SUBMIT"),
@@ -1340,9 +1371,11 @@ def main() -> int:
                   '<a class="btn alt" href="index.html#status">status &amp; audit downloads</a>')
 
     pages = {
+        # H47 was superseded by later generated candidates. Do not render its archived banner
+        # ahead of the current_status.json decision; stale download links can look actionable.
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
-        "executive-summary.html": page("Make a submission (executive summary)", exec_summary(fl, sub, name),
+                           previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
+        "executive-summary.html": page("Make a submission (executive summary)", previous_artifacts_block("") + exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
                               research(fl, sub, name), "research.html", dl_btn),
@@ -1377,6 +1410,8 @@ def main() -> int:
         (DOCS / "data" / "h44_spcp_run_card.json").write_text(
             (ROOT / "evidence" / "h44_spcp_run_card.json").read_text()
         )
+    if (ROOT / "evidence" / "h47_run_card.json").exists():
+        (DOCS / "data" / "h47_run_card.json").write_text((ROOT / "evidence" / "h47_run_card.json").read_text())
     if (ROOT / "evidence" / "h46_trhv_run_card.json").exists():
         (DOCS / "data" / "h46_trhv_run_card.json").write_text(
             (ROOT / "evidence" / "h46_trhv_run_card.json").read_text()
@@ -1394,6 +1429,7 @@ def main() -> int:
 <meta http-equiv=refresh content="0; url=docs/index.html"></head><body>
 <main class=wrap style="padding-top:26px">
 <h1>{TITLE} — DOE GEMS Prize (DrivenData #306)</h1>
+{previous_artifacts_block("docs/")}
 {current_status_block("docs/")}
 {download_block(sub, name, "docs/")}
 <h2>Historical record</h2>

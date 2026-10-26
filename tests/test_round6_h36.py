@@ -28,7 +28,7 @@ def test_round6_run_card_and_protocol_contract():
     assert latest == json.loads(newest_card.read_text())
     assert latest["verdict"] == "negative"
     assert latest.get("raster_sha256") == newest["sha256"]
-
+    assert status["any_file_ok_to_submit"] is False
     # Required Parallel-Run Protocol Rule 7 fields
     for k in (
         "hypothesis",

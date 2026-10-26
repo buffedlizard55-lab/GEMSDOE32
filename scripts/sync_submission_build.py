@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Reconcile ``registry/submission_build.json`` with the current release decision, fail-closed.
 
-Why this exists (IR-48-SYNC-01): the ARENA47 merge (PR #33) advanced
+Why this exists (IR-49-SYNC-01): the ARENA47 merge (PR #33) advanced
 ``evidence/current_release_review.json`` and ``registry/current_status.json`` to the ARENA47
 artifact but left ``registry/submission_build.json`` pinned to the older Arena9 raster, so
 ``tests/test_site.py::test_submission_metadata_is_not_authorized_and_notes_remain_bounded``
@@ -128,6 +128,28 @@ def main() -> int:
         if not any(p.get("sha256") == prev["sha256"] for p in previous):
             previous.append(prev)
 
+    # The release review's "latest_candidate" block has repeatedly been left pointing at the
+    # previous artifact when a parallel session advanced only the "artifact" block (observed
+    # 2026-10-26: ARENA47 sha left in place after the H50 merge).  Reconcile it to the same
+    # newest artifact so the three registries cannot disagree (IR-49-SYNC-01).
+    lc = release.get("latest_candidate")
+    if isinstance(lc, dict) and lc.get("sha256") != rel_sha:
+        lc.update({
+            "run_card": newest.get("run_card"),
+            "sha256": rel_sha,
+            "verdict": "negative",
+            "format_passed": True,
+            "primary_holdout_passed": False,
+            "literal_registry_passed": bool(
+                (newest.get("uniqueness", {}) or {}).get("literal_all_registry_passed")),
+            "genuine_registry_passed": bool(
+                (newest.get("uniqueness", {}) or {}).get("genuine_final_dots_passed")),
+            "reconciled_by": "scripts/sync_submission_build.py (was stale after a parallel merge)",
+        })
+        RELEASE.write_text(json.dumps(release, indent=2) + "\n")
+        print(f"release review latest_candidate reconciled to {rel_sha[:16]}… "
+              "(was stale; artifact block already pointed at the newest raster)")
+
     patch = {k: v for k, v in planned.items() if build.get(k) != v}
     if not patch:
         print("submission_build.json already in sync with the current release review")
@@ -140,6 +162,7 @@ def main() -> int:
     build.update(planned)
     BUILD.write_text(json.dumps(build, indent=2) + "\n")
     print(f"submission_build.json re-pinned to {planned['name']} (sha256 {rel_sha[:16]}…); ok_to_submit=false")
+
     return 0
 
 
