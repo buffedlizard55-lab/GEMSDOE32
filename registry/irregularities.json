@@ -240,7 +240,7 @@
   {
    "id": "IR-32-SCORE-03",
    "severity": "medium",
-   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts \u2014 cf. IR-32-SCORE-01/02).",
+   "statement": "Until 2026-10-25 the README and site stated 'NO ORGANISER SCORE EXISTS for this or any artifact' and headlined a 0.3195/0.3262 leaderboard top. The owner then reported h33-2-b2 = 0.2778 from the DrivenData submission page, and the public leaderboard read 2026-10-25 has #1 = 0.4413 (xiaofanhu). Both stale claims are corrected this session; 0.2778 is recorded as ORGANIZER-CONFIRMED (owner-reported receipt; this repo cannot independently authenticate account-side receipts — cf. IR-32-SCORE-01/02).",
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
   },
   {
@@ -313,7 +313,7 @@
    "id": "IR-32-BAND-02",
    "severity": "high",
    "status": "fixed-in-h36-tdr-pds",
-   "summary": "Band 6 (`tc`) in `training_features.tif` is Airborne Radiometric Total Count (`rho = +0.99942` with `0.41*K + 0.48*eTh + 0.21*eU`), NOT gravity Terrain Correction \u2014 prior hypotheses dividing `tc/dem` computed radiometric-over-elevation ratios.",
+   "summary": "Band 6 (`tc`) in `training_features.tif` is Airborne Radiometric Total Count (`rho = +0.99942` with `0.41*K + 0.48*eTh + 0.21*eU`), NOT gravity Terrain Correction — prior hypotheses dividing `tc/dem` computed radiometric-over-elevation ratios.",
    "impact": "Invalidated physical mechanism of prior `tc`-as-terrain-correction features; fixed in `src/gems32/h36_tdr_pds.py`."
   },
   {
@@ -487,6 +487,36 @@
    "severity": "medium (labelling; parallel work)",
    "statement": "A parallel session pushed PR #30 to main (commit 6bba7a2, 2026-10-26) titled 'H45-1 kernel-spacing: 3 holdout experiments (falsified) ...', with run card evidence/h45_kernel_spacing_run_card.json (HIDE-RECOVER 0.1009; DO NOT SUBMIT). This session's two-regime work is also labelled 'H45-1'. Both are real and separate; the labels collide.",
    "mitigation": "This session's lane is referred to as H45-TR (two-regime). The kernel-spacing lane keeps H45-1 (KS). Both are negative/DO NOT SUBMIT. Neither file is cleared."
+  },
+  {
+   "id": "IR-32-EMIT-RHO-01",
+   "severity": "high (fixed in shared emitter before H46 completed run)",
+   "statement": "The shared metric-aware emitters documented rho as a two-round option value that should lower the marginal acceptance penalty by alpha/(1+rho), but `emit()` used unadjusted alpha in the acceptance inequality and `exact_greedy()` computed an unused bar. H46 needed an initial_mask mode for staged residual coverage, which was not present in the shared emitter.",
+   "mitigation": "Fixed both acceptance paths to use effective alpha; added shape-checked initial_mask precoverage, excludes initial dots, and tests for rho and exact incremental coverage. Tests: tests/test_emitter.py. This shared fix was in the working tree before the completed H46 execution."
+  },
+  {
+   "id": "IR-32-H46-LANE-01",
+   "severity": "critical (open protocol blocker)",
+   "statement": "The parallel-run protocol requires a single explicit method paragraph assigning the lane. The standing prompt context available in this session contains the protocol but no method paragraph; the README already warned not to infer a lane or start another experiment. H46-1 was selected from a previous recommended next step rather than an explicit lane assignment.",
+   "mitigation": "H46 remains `verdict=negative`, `ok_to_submit=false`; no weekly slot was used. Require an explicit lane paragraph before any future experimental run; disclose H46 as exploratory."
+  },
+  {
+   "id": "IR-32-H46-PREREG-01",
+   "severity": "high (H46 output non-promotable)",
+   "statement": "The H46 preregistration specified a 70/30 Regime-A/Regime-B budget, F2mDAB > 1 C, and a 150 m TIGER road scale. The completed H46 output used 72/28, F2mDAB > 0 C, and a 180 m road scale. This was an implementation deviation, not a preregistered result.",
+   "mitigation": "Record the H46 metrics only as exploratory diagnostics; the current source defaults were corrected to the frozen settings. Do not use the saved H46 TIFF or its DTI as a promotion estimate. No rerun was performed because the explicit lane paragraph was missing and the three-arm budget had been used."
+  },
+  {
+   "id": "IR-32-TRHV-FOOTPRINT-01",
+   "severity": "high (fixed in source; H46 artifact not rebuilt)",
+   "statement": "The first H46 point rasterizer allowed observations up to 24 pixels outside the finite sample-submission footprint, clipped their coordinates onto the edge, and then smoothed them. This can create artificial border plumes in the 2-m thermal and paleo-geothermal channels. The completed H46 TIFF was generated before this defect was found.",
+   "mitigation": "`src/gems32/trhv.py` now filters point observations to the exact finite footprint before rasterization. Because lane authorization was absent and the three-experiment budget was used, the corrected feature stack and model were not rerun; H46 stays negative and audit-only."
+  },
+  {
+   "id": "IR-32-H46-H38-01",
+   "severity": "high (promotion gate failed)",
+   "statement": "H46 EXP3 exploratory HOLDOUT-DTI is 0.109361 [0.094695, 0.122341] on GEMSDOE32-HIDE-RECOVER-v3.0 with 22,232 withheld positives. The prior H38 repository best is 0.116958 [0.100533, 0.132040] on the same evaluator/population. H46 is lower by 0.007597 at the point level; H38 bootstrap vectors are not archived, so no paired CI may be computed.",
+   "mitigation": "Promotion compares against the prior repo best, not just the 0.099202 fold-collared B2 proxy. No performance claim is made; H46 remains negative."
   }
  ]
 }

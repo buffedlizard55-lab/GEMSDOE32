@@ -1,0 +1,534 @@
+{
+  "schema_version": 1,
+  "generated_utc": "2026-10-26T18:24:34Z",
+  "manifest_raster_count": 354,
+  "n_failed_manifest_fetches": 0,
+  "refs": {
+    "GEMSDOE24": "063b04e2ff3154d0ffd017bb5723f4f717d1754d",
+    "GEMSDOE25": "78064a194f97fee45b0d81b1bb3b6385729c5c2b",
+    "GEMSDOE27": "cf8b4c201f2cc2ef649b6ca7cd32f235c2f6743a",
+    "GEMSDOE28": "12ec4fea4c97a7887a7ca8a06f9bd94c7609ea07",
+    "GEMSDOE30": "35ce8911e2c3287eed973eacd12c252e8cb3f34c",
+    "GEMSDOE31": "78f9bf3ae82e5c78ca348aa37c0660c339e72f0e",
+    "GEMSDOE32": "9155d44d9bc3d57f96fbf9f7db2d18e083ab6e2b",
+    "GEMSDOE33": "0384d793b5a23151425f45505ac745b54f84c7c9",
+    "GEMSDOE36": "2c78770e0544259082b0b6b73ce8e4d0749c175d"
+  },
+  "method": "Positive masks read from pinned GitHub TIFF bytes. Directed overlap is the fraction of source positives within Euclidean distance <=3 raster pixels of a reference positive; no resampling.",
+  "historical_winners": [
+    {
+      "repo": "GEMSDOE24",
+      "head": "063b04e2ff3154d0ffd017bb5723f4f717d1754d",
+      "file": "docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif",
+      "sha256": "3e0730e8d4f7db095dd80246a98cba3bc0fc9a28f436b91db27ca34df4d0d1ce",
+      "dots": 60069,
+      "owner_reported_leaderboard_score": 0.2477,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE25",
+      "head": "78064a194f97fee45b0d81b1bb3b6385729c5c2b",
+      "file": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "dots": 44090,
+      "owner_reported_leaderboard_score": 0.26,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE27",
+      "head": "cf8b4c201f2cc2ef649b6ca7cd32f235c2f6743a",
+      "file": "docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif",
+      "sha256": "a9bf76b57453a5b3af74c8eef837df53c29a0931162aa540b8763220b36ba3bb",
+      "dots": 61328,
+      "owner_reported_leaderboard_score": 0.2449,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE28",
+      "head": "12ec4fea4c97a7887a7ca8a06f9bd94c7609ea07",
+      "file": "docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif",
+      "sha256": "7c74270ad48fa0b865163853046a6d3815967c5bf37bbda5b74ca7fa22583a32",
+      "dots": 37660,
+      "owner_reported_leaderboard_score": 0.271,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE30",
+      "head": "35ce8911e2c3287eed973eacd12c252e8cb3f34c",
+      "file": "docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca-nanoutside.tif",
+      "sha256": "5f963b8bca5ec226ddc7caaadec239c6be6d28aa567f890033be04d04bfd5e32",
+      "dots": 44090,
+      "owner_reported_leaderboard_score": 0.26,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE31",
+      "head": "78f9bf3ae82e5c78ca348aa37c0660c339e72f0e",
+      "file": "docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif",
+      "sha256": "acd853936e5a7170b207f23411b1844caa0e7cfdfc303c600e520ccfe75159e6",
+      "dots": 40199,
+      "owner_reported_leaderboard_score": 0.2708,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE32",
+      "head": "9155d44d9bc3d57f96fbf9f7db2d18e083ab6e2b",
+      "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "dots": 37654,
+      "owner_reported_leaderboard_score": 0.2778,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE33",
+      "head": "0384d793b5a23151425f45505ac745b54f84c7c9",
+      "file": "docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e-nanoutside.tif",
+      "sha256": "bc3af2a5fcb4b49bc5845a2d7dc3da23daf41ce75e4c64da3337c0c8c93cc12c",
+      "dots": 41865,
+      "owner_reported_leaderboard_score": 0.2632,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    },
+    {
+      "repo": "GEMSDOE36",
+      "head": "2c78770e0544259082b0b6b73ce8e4d0749c175d",
+      "file": "docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+      "sha256": "e15891020b9c57056ac7fa874a5e506fbd6ed9314a4ea8e73af0753887a3708a",
+      "dots": 38854,
+      "owner_reported_leaderboard_score": 0.275,
+      "score_evidence": "OWNER-REPORTED; no organizer receipt binds score to bytes"
+    }
+  ],
+  "pairwise_directional_3px_overlap": [
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.93479166
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.94078476
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.88476585
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.96239325
+    },
+    {
+      "candidate_repo": "GEMSDOE24",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.88561488
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.93182127
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.93715128
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.88171921
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.96058063
+    },
+    {
+      "candidate_repo": "GEMSDOE25",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.88264913
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 0.98018849
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 0.98015588
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.91615575
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 0.98015588
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.92209105
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.86718954
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.94328855
+    },
+    {
+      "candidate_repo": "GEMSDOE27",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.86803744
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.99755709
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.9547265
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.9984068
+    },
+    {
+      "candidate_repo": "GEMSDOE28",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.95520446
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.93182127
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.93715128
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.88171921
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.96058063
+    },
+    {
+      "candidate_repo": "GEMSDOE30",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.88264913
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.99562178
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.95390433
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.9990547
+    },
+    {
+      "candidate_repo": "GEMSDOE31",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.95440185
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.99875179
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.99984065
+    },
+    {
+      "candidate_repo": "GEMSDOE32",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 1.0
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 0.99706198
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 0.9970381
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 0.99708587
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.97050042
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 0.9970381
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.97479995
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.92643019
+    },
+    {
+      "candidate_repo": "GEMSDOE33",
+      "reference_repo": "GEMSDOE36",
+      "directional_within_3px_fraction": 0.9271229
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE24",
+      "directional_within_3px_fraction": 0.97567818
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE25",
+      "directional_within_3px_fraction": 0.97498327
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE27",
+      "directional_within_3px_fraction": 0.97578113
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE28",
+      "directional_within_3px_fraction": 0.97313018
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE30",
+      "directional_within_3px_fraction": 0.97498327
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE31",
+      "directional_within_3px_fraction": 0.97457147
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE32",
+      "directional_within_3px_fraction": 0.97403099
+    },
+    {
+      "candidate_repo": "GEMSDOE36",
+      "reference_repo": "GEMSDOE33",
+      "directional_within_3px_fraction": 0.97503475
+    }
+  ],
+  "minimum_pairwise_directional_overlap": 0.86718954,
+  "exact_mask_relations": [
+    {
+      "pair": [
+        "GEMSDOE25",
+        "GEMSDOE30"
+      ],
+      "xor_positive_pixels": 0,
+      "interpretation": "dot-identical masks"
+    },
+    {
+      "pair": [
+        "GEMSDOE31",
+        "GEMSDOE32"
+      ],
+      "xor_positive_pixels": 2545,
+      "parent_child": "GEMSDOE32 B2 is a strict subset of GEMSDOE31 B1; 2,545 positives removed"
+    },
+    {
+      "pair": [
+        "GEMSDOE32",
+        "GEMSDOE36"
+      ],
+      "xor_positive_pixels": 1200,
+      "parent_child": "GEMSDOE36 contains the GEMSDOE32 B2 mask plus 1,200 additions"
+    }
+  ],
+  "h46_candidate": {
+    "file": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+    "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+    "dots": 37654,
+    "directional_within_3px_of_each_historical_winner": [
+      {
+        "reference_repo": "GEMSDOE24",
+        "directional_within_3px_fraction": 0.54113773
+      },
+      {
+        "reference_repo": "GEMSDOE25",
+        "directional_within_3px_fraction": 0.52634514
+      },
+      {
+        "reference_repo": "GEMSDOE27",
+        "directional_within_3px_fraction": 0.54575875
+      },
+      {
+        "reference_repo": "GEMSDOE28",
+        "directional_within_3px_fraction": 0.50114198
+      },
+      {
+        "reference_repo": "GEMSDOE30",
+        "directional_within_3px_fraction": 0.52634514
+      },
+      {
+        "reference_repo": "GEMSDOE31",
+        "directional_within_3px_fraction": 0.50578956
+      },
+      {
+        "reference_repo": "GEMSDOE32",
+        "directional_within_3px_fraction": 0.47835555
+      },
+      {
+        "reference_repo": "GEMSDOE33",
+        "directional_within_3px_fraction": 0.51582833
+      },
+      {
+        "reference_repo": "GEMSDOE36",
+        "directional_within_3px_fraction": 0.48589791
+      }
+    ]
+  },
+  "conclusion": "All nine historical best masks exceed the <=70% directed-overlap stop against at least one other winner; minimum directed pairwise overlap is 86.718954%. H46 is below 70% vs those nine historical masks, but it still fails the separate full-registry rule: 99.267% of H46 dots are within 3 px of r13-lattice-s5."
+}

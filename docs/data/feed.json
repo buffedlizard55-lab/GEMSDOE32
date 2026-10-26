@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-26T17:05:53Z",
+ "generated_utc": "2026-10-26T18:25:46Z",
  "sources": [
   {
    "id": "competition",
@@ -246,9 +246,30 @@
    "url": "https://doi.org/10.1007/s10994-020-05877-5",
    "role": "H44-1 SPCP Selected-At-Random Positive-Unlabeled (SAR-PU) observability propensity debiasing curing IR-A8A-PU-BIAS-01",
    "status": "peer-reviewed ML methodology; implemented fold-locally in src/gems32/spcp.py"
+  },
+  {
+   "id": "gdr1391_2m_temperature_probes",
+   "title": "INGENIOUS / DOE GDR #1391 2-meter temperature-probe regional data",
+   "url": "https://gdr.openei.org/submissions/1391",
+   "role": "H46 exploratory label-free shallow thermal observations (F2mDAB, T1m, T15m, T2m); not fault labels",
+   "status": "Official record link listed for manual review; binary ZIP is a SHA-256-pinned owner mirror in registry/data_manifest.json; this session did not fetch from the GDR host."
+  },
+  {
+   "id": "gdr1391_paleo_geothermal_features",
+   "title": "INGENIOUS / DOE GDR #1391 Paleo-Geothermal Features",
+   "url": "https://gdr.openei.org/submissions/1391",
+   "role": "H46 exploratory mapped sinter, travertine, tufa, and silica-cemented point features; geothermal-setting indicators, not fault labels",
+   "status": "Official record link listed for manual review; binary ZIP is a SHA-256-pinned owner mirror in registry/data_manifest.json; this session did not fetch from the GDR host."
+  },
+  {
+   "id": "census_tiger_2024_roads",
+   "title": "US Census Bureau TIGER/Line 2024 County Roads",
+   "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/",
+   "role": "H46 road/rail corridor deconfounding; owner-derived distance raster in EPSG:32611",
+   "status": "Official Census source directory link listed for manual review; the derived raster and receipt came from a pinned owner mirror; this session did not fetch TIGER assets directly from Census."
   }
  ],
- "source_count": 35,
+ "source_count": 38,
  "leaderboard": [
   {
    "rank": 1,
@@ -1229,6 +1250,92 @@
    "cost": "high (requires CUDA GPU + PyTorch; deferred outside 2-vCPU / 3.8 GiB zero-swap CPU sandbox)",
    "data_status": "VERIFIED OFFICIAL SOURCES: drivendataorg/gems-prize-reference-solution + GeoDAWN DOI 10.5066/P93LGLVQ + GDR #1391; GPU compute deferred",
    "status": "registered next-milestone architecture; CPU sandbox boundary documented"
+  },
+  {
+   "id": "H46-1",
+   "rank": 1,
+   "title": "TRHV Two-Regime Hydrothermal-Feature, Potential-Field and TIGER-Deconfounded Allocation",
+   "layers": [
+    "GDR #1391 2-m temperature probes (F2mDAB, T1m, T15m, T2m; owner mirror)",
+    "GDR #1391 paleo-geothermal deposit points (owner mirror)",
+    "US Census TIGER/Line 2024 road distance raster (owner-derived mirror)",
+    "35-channel template + 20-channel SPCP + 1-m 3DEP/LiDAR + GeoDAWN"
+   ],
+   "signature": "Fold-local 70/30 exposed-scape vs vent-feature/SAR-PU residual-coverage CELF; cross-domain gravity/magnetic/MT curvature; 2-m thermal anomalies; 150-m road deconfounding; exact 300-m triangular kernel.",
+   "why_off_catalogue": "Thermal and paleo-geothermal observations are independent geothermal-setting evidence and not the competition fault catalogue; geophysical co-location is intended to reduce spring-outflow and shoreline mimics. This is a hypothesis, not proof that a point marks a fault.",
+   "differs_from_repo": "Planned use of 2-m probes + paleo-geothermal feature points + TIGER roads with a sequential residual-coverage initial_mask allocator; previous H38/H44 used different data blends and did not build this exact combination.",
+   "expected_dti": "Unquantified; no leaderboard projection permitted.",
+   "cost": "Medium CPU; full 63-channel OOF stack and 3 registered arms.",
+   "data_status": "Owner-mirror files are present and SHA-256 pinned in registry/data_manifest.json. Official GDR/Census links are recorded; direct official-host byte retrieval was not done in this sandbox.",
+   "status": "Exploratory negative; lane authorization absent and the executed run deviated from its frozen settings; not eligible for submission. See IR-32-H46-LANE-01, IR-32-H46-PREREG-01, IR-32-TRHV-FOOTPRINT-01 and evidence/h46_trhv_run_card.json."
+  },
+  {
+   "id": "H46-2",
+   "rank": 2,
+   "title": "Multi-Altitude Upward-Continuation Magnetic Contact Persistence",
+   "layers": [
+    "Bands 02/03/09/14 (RTP/TMI horizontal and vertical derivatives)",
+    "GeoDAWN TMI_up150 (geodawn_extensions_u8.tif band 4)",
+    "Band 05 gravity gradient and Band 07 geodetic shear"
+   ],
+   "signature": "Track horizontal-gradient crest persistence after +150 m upward continuation, weighted by true cross-strike curvature and gravity/strain concordance.",
+   "why_off_catalogue": "Deep fault contacts may persist across altitude continuation while shallow volcanic float and surface noise decay; it does not use known fault distance.",
+   "differs_from_repo": "Prior H38/H44 used scalar TMI minus upward-continued TMI or a general persistence channel, not the preregistered multi-altitude gradient-ratio contact measure.",
+   "expected_dti": "Unquantified; no leaderboard projection permitted.",
+   "cost": "Low CPU; cached feature transforms.",
+   "data_status": "Existing GeoDAWN-derived owner mirror present; direct USGS GeoDAWN host was not fetched this session.",
+   "status": "Registered; not run; outside the executed H46-1 lane."
+  },
+  {
+   "id": "H46-3",
+   "rank": 3,
+   "title": "Strain-Gradient Azimuthal Obliquity Coupled to Potential-Field Strikes",
+   "layers": [
+    "Bands 04/07/08/10/16 (geodetic inverse/shear/dilation and seismic rates)",
+    "Band 05 gravity gradient",
+    "Band 02 RTP magnetic field"
+   ],
+   "signature": "Axial obliquity between gravity/magnetic curvature strike and spatial gradient of dilation/shear, weighted by seismic transtension.",
+   "why_off_catalogue": "Short en-echelon transfer/relay faults may be poorly represented in regional Quaternary traces; mechanism needs independent spatial validation.",
+   "differs_from_repo": "Prior feature stacks used isotropic strain products rather than the proposed strike-conditioned gradient-angle interaction.",
+   "expected_dti": "Unquantified; no leaderboard projection permitted.",
+   "cost": "Low-to-medium CPU; existing 100-m channels.",
+   "data_status": "Competition mirror stack restored and hash-checked; not independently organizer-authenticated.",
+   "status": "Registered; not run; outside the executed H46-1 lane."
+  },
+  {
+   "id": "H46-4",
+   "rank": 4,
+   "title": "GeoDAWN Acquisition-Block-Normalized Silicification Core / Potassic Halo Difference-of-Gaussians",
+   "layers": [
+    "Owner-derived GeoDAWN acquisition-block raster",
+    "GeoDAWN K/eTh/eU/Total Count, Th/K ratios",
+    "Band 06 total count"
+   ],
+   "signature": "Within-survey-block normalized radiometric contrast between silica-rich low-count cores and K/Th-rich alteration halos at separate scales.",
+   "why_off_catalogue": "Hydrothermal alteration may outline buried conduits without a surface scarp, while block normalization should reduce acquisition seams.",
+   "differs_from_repo": "Previous SPCP used global K-on-Th residualization, not block-local normalization plus a concentric difference-of-Gaussians operator.",
+   "expected_dti": "Unquantified; no leaderboard projection permitted.",
+   "cost": "Low CPU; data product status requires independent verification.",
+   "data_status": "Owner mirror receipt exists in GEMSDOE24; direct official-host verification not performed here.",
+   "status": "Registered; not run; outside the executed H46-1 lane."
+  },
+  {
+   "id": "H46-5",
+   "rank": 5,
+   "title": "InSAR Phase-Gradient / 3-D MT Conduit Segmentation",
+   "layers": [
+    "NASA ASF Sentinel-1 ascending/descending InSAR",
+    "USGS ScienceBase MT phase tensor",
+    "63-channel feature stack"
+   ],
+   "signature": "Aseismic creep/hydrothermal pressure-gradient lineaments in paired InSAR geometries with multi-scale spatial Tversky segmentation.",
+   "why_off_catalogue": "Potentially sensitive to active blind structures in flat basins, independent of topographic scarps.",
+   "differs_from_repo": "Moves from pixelwise CPU tree models to spatial 2-D segmentation with multi-kilometre receptive fields.",
+   "expected_dti": "Unquantified; no leaderboard projection permitted.",
+   "cost": "High; GPU and external downloads required.",
+   "data_status": "Not checked for obtainability in this sandbox; official ASF/ScienceBase links only. Data-blocked, not currently viable.",
+   "status": "Registered; not run."
   }
  ],
  "claims": [
@@ -2527,11 +2634,11 @@
  },
  "current_status": {
   "schema_version": 1,
-  "updated_utc": "2026-10-26T05:08:02+00:00",
+  "updated_utc": "2026-10-26T18:25:21Z",
   "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
   "any_file_ok_to_submit": false,
-  "headline": "No file in this repository is authorized for upload; Arena9 is a format-valid negative result.",
-  "gate_rule": "OK TO SUBMIT only when every automated gate passes: G1 leakage canary, G2/G3 holdout win with 95% CI lower bound > 0, G4 lane uniqueness (surface + final dots), G5 format (template writer + check_submission --strict-finite). No human inspection.",
+  "headline": "No file in this repository is authorized for upload. H46 is a format-valid preliminary research artifact, not a promotable submission.",
+  "gate_rule": "OK TO SUBMIT requires an explicitly assigned method lane; all feature-only leakage canaries <=0.90; a fold-local HOLDOUT-DTI win with paired 95% CI >0 against the current same-evaluator repo best; no SGMC-cal regression against the Champion; literal surface/final-dot uniqueness against every registry raster (Spearman <=0.90 and <=70% within 3 px); exact saved-byte format/range validation; and separate weekly-slot selector approval. No human inspection.",
   "best_scored": {
    "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
    "score": 0.2778,
@@ -2541,91 +2648,148 @@
    "advice": "already submitted - do not resubmit (a resubmission spends a slot and adds no information)"
   },
   "newest_unique": {
-   "file": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
-   "zip": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip",
-   "receipt": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-audit.json",
-   "sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
-   "bytes": 206761,
+   "file": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+   "zip": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.zip",
+   "receipt": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-audit.json",
+   "run_card": "evidence/h46_trhv_run_card.json",
+   "preregistration": "docs/research/h46-trhv-preregistration-20261026.md",
+   "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+   "bytes": 212436,
    "dots": 37654,
-   "submission_name": "GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2",
-   "note": "H36-1C TDR-PDS+Steger 37654d | HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos | SGMC 0.0838<0.0961 | DO NOT SUBMIT",
-   "verdict": "DO NOT SUBMIT",
+   "submission_name": "GEMSDOE32-H46-TRHV-6437B275",
+   "note": "H46-1 TRHV 2-regime vent+TIGER 37654d B2 | HR=0.1094 SGMC=0.0448 | DO NOT SUBMIT",
+   "verdict": "DO NOT SUBMIT \u2014 exploratory negative; lane/preregistration/holdout/registry gates failed",
+   "ok_to_download": true,
    "ok_to_submit": false,
-   "hypothesis": "H36-1C True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (TDR-PDS + Steger Crest)",
-   "gates": {
-    "G1_canary": true,
-    "G2_visible_v3_holdout_raw": true,
-    "G3_censorship_matched_and_sgmc": false,
-    "G4_genuine_44_rasters_unique": true,
-    "G4_literal_5px_lattice_stop": false,
-    "G5_format": true
+   "hypothesis": "H46-1 (TRHV): Unmapped Great Basin faults span two disjoint observability regimes \u2014 exposed/near-tip scarps vs. blind basin-interior conduits marked by UNR/DOE GDR #1391 2-m temperature probe plumes (2,782 in-footprint stations, F2mDAB & sanitized T2m-T1.5m) and mapped paleo-geothermal sinter/travertine/tufa/silicified deposit points (281 in-footprint features; not fault labels) coupled to subsurface gravity/magnetic/MT curvature \u2014 requiring sequential two-regime residual-coverage CELF allocation (72% Exposed-63 + 28% Vent-SARPU-63 via emitter.emit initial_mask) plus Census TIGER 2024 road-prism vetoing to jointly exceed the 0.2778 Champion on BOTH GEMSDOE32-HIDE-RECOVER-v3.0 and GEMSDOE32-SGMC-CAL-v3.0.",
+   "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HIDE-RECOVER-v3.0, 22,232 withheld positives, 95% spatial-block CI",
+   "holdout": {
+    "H46-1-TRHV-exploratory": {
+     "dti": 0.109361,
+     "ci95": [
+      0.094695,
+      0.122341
+     ]
+    },
+    "fold-collared B2 Champion proxy": {
+     "dti": 0.099202,
+     "ci95": [
+      0.085951,
+      0.112668
+     ]
+    },
+    "prior H38 repo best": {
+     "dti": 0.116958,
+     "ci95": [
+      0.100533,
+      0.13204
+     ]
+    }
+   },
+   "off_catalogue_label": "HOLDOUT-DTI diagnostic, GEMSDOE32-SGMC-CAL-v3.0, 62,703 USGS SGMC off-catalogue positives, prevalence-calibrated 95% CI",
+   "off_catalogue_instrument": {
+    "H46-1-TRHV-exploratory": {
+     "dti": 0.044756,
+     "ci95": [
+      0.039243,
+      0.050114
+     ]
+    },
+    "0.2778 Champion proxy": {
+     "dti": 0.064121,
+     "ci95": [
+      0.05673,
+      0.071649
+     ]
+    }
+   },
+   "uniqueness": {
+    "manifest_rasters": 354,
+    "unique_hash_rasters_checked": 336,
+    "genuine_rasters_checked": 335,
+    "preplacement_surface_passed": true,
+    "max_abs_spearman": 0.166685,
+    "genuine_final_dots_passed": true,
+    "max_genuine_3px_overlap": 0.665587,
+    "literal_lattice_overlap": 0.99267,
+    "literal_all_registry_passed": false,
+    "new_H45_main_candidate_overlap": null,
+    "registry_refreshed_utc": "2026-10-26T18:23:32Z",
+    "new_H45_main_candidate_overlaps": [
+     {
+      "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+      "sha256": "b14bba00d6053e75e5c72d9e68fac52f607fe40de1c356111baea85e1ceee538",
+      "directional_within_3px_fraction": 0.62989324,
+      "dots": 37654
+     },
+     {
+      "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+      "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+      "directional_within_3px_fraction": 0.58171775,
+      "dots": 37654
+     }
+    ]
+   },
+   "validator": {
+    "strict_cli_passed": true,
+    "geotiff_13_checks_passed": true,
+    "crs": "EPSG:32611",
+    "shape": [
+     3730,
+     3292
+    ],
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nan_anywhere": 0,
+    "values_in_0_1": true
    },
    "reasons": [
-    "G3 censorship-matched & off-catalogue blind-fault check FAILED to beat the 0.2778 Champion: H36-1C scores 0.1098 [0.0987, 0.1227] vs raw Champion 0.0992 [0.0820, 0.1222] on GEMSDOE32-HOLDOUT-v3-visible-gated, but under identical d_hidden==0 censorship (IR-32-FIELD-01) scores 0.0764 < 0.0992, and on off-catalogue USGS SGMC blind faults (>300 m) scores 0.0838 [0.0608, 0.1099] < Champion 0.0961 [0.0848, 0.1077].",
-    "G4 genuine uniqueness PASSED across all 44 genuine submission/detector rasters (max |Spearman| = 0.1595 <= 0.90; max 3-px overlap = 60.44% <= 70%; 52.20% vs 0.2778 Champion), while the literal no-exemption 5-px calibration lattice (13gems r13-lattice-s5, covering 99.87% of footprint) registers 99.80% > 70% (IR-32-LATTICE-01)."
+    "HOLDOUT-DTI point estimate 0.109361 is below the recorded same-evaluator H38 repository best 0.116958; no paired bootstrap draws against H38 are archived.",
+    "The literal all-registry 3-px rule fails against the synthetic r13-lattice-s5 reference (99.267% overlap > 70%).",
+    "The off-catalogue SGMC-cal diagnostic is below the Champion and its paired 95% CI is negative.",
+    "The explicit single-method lane paragraph is absent from the prompt context; the lane authorization is unresolved.",
+    "The executed H46 arm deviated from its frozen preregistration (budget split, F2mDAB threshold, TIGER scale, and point-edge handling); its local holdout values are descriptive only."
    ],
-   "holdout": {
-    "H36-1C (hybrid + Steger)": {
-     "dti": 0.1098,
-     "ci95": [
-      0.0987,
-      0.1227
-     ]
-    },
-    "H36-1B (PU HistGB + Steger)": {
-     "dti": 0.1048,
-     "ci95": [
-      0.095,
-      0.1177
-     ]
-    },
-    "H36-1A (unsupervised crest)": {
-     "dti": 0.0638,
-     "ci95": [
-      0.0499,
-      0.0773
-     ]
-    },
-    "CHAMPION_0.2778 (raw)": {
-     "dti": 0.0992,
-     "ci95": [
-      0.082,
-      0.1222
-     ]
-    },
-    "H36-1C (censored d0==0)": {
-     "dti": 0.0764,
-     "ci95": [
-      0.0655,
-      0.0881
-     ]
+   "protocol_audit": {
+    "assigned_single_method_paragraph_present_in_prompt_context": false,
+    "lane_authorization": "NOT ESTABLISHED: standing project README states the session lane paragraph was absent; H46 was selected from a prior next-step suggestion. No promotion is permitted under the literal lane rule.",
+    "preregistration_deviations": [
+     "Frozen pre-registration specified a 70/30 Regime-A/Regime-B budget split (26,358 / 11,296 dots); the executed run used 72/28 (27,111 / 10,543). The executed experiment is therefore not the preregistered split.",
+     "Frozen pre-registration specified F2mDAB > +1 C; the executed plume input used every positive value > 0 C before clipping.",
+     "The frozen plan named T2m-T1m; the executed vertical-gradient channel instead used T2m-T15m, where the source schema labels T15m as 1.5 m.",
+     "Frozen pre-registration specified a 150 m TIGER road veto scale; the executed feature used 180 m.",
+     "The executed point importer retained points within a 24-pixel padding and clipped their coordinates to the footprint edge, rather than filtering to true in-footprint points before plume interpolation. The code was corrected after execution; the corrected feature stack was not rebuilt or validated in this run."
+    ],
+    "impact": "H46 model holdout and SGMC numbers are exploratory diagnostics only, not admissible preregistered promotion evidence. The output remains a valid saved-byte format artifact, but it must not be submitted.",
+    "corrective_shared_code_changes_after_run": [
+     "src/gems32/trhv.py now filters mapped 2-m probe and paleo-geothermal points to the actual finite sample_submission.tif footprint before rasterization, rather than clipping points outside the footprint onto edge cells. The executed candidate used the earlier edge-clipping implementation.",
+     "The runner/module now use the preregistered 70/30 allocation, F2mDAB > 1 C threshold, and 150 m TIGER scale. The executed candidate used 72/28, F2mDAB > 0 C, and 180 m."
+    ],
+    "no_rebuild_after_stop": "No corrected H46 rerun was performed: the prompt does not provide an explicit assigned lane and the preregistered three-arm budget has already been consumed.",
+    "shared_emitter_fix_timing": "The shared emitter initial_mask residual-coverage implementation and rho acceptance-bar correction were committed to the working tree and unit-tested before the completed H46 run; 13 emitter tests passed at that point.",
+    "postrun_reviewed_utc": "2026-10-26T18:12:41Z",
+    "point_boundary_audit": {
+     "source_crs_from_prj": "EPSG:4269 (NAD83)",
+     "gdr_2m_probe_records_parsed": 3800,
+     "gdr_2m_probe_points_within_24px_margin": 3441,
+     "gdr_2m_probe_points_inside_exact_footprint": 2782,
+     "gdr_2m_probe_outside_points_clipped_to_raster_edge_in_executed_build": 659,
+     "paleo_feature_records_parsed": 709,
+     "paleo_points_within_24px_margin": 402,
+     "paleo_points_inside_exact_footprint": 281,
+     "paleo_outside_points_clipped_to_raster_edge_in_executed_build": 121,
+     "corrected_builder_filters_to_exact_finite_template_footprint": true,
+     "corrected_builder_was_not_rerun_for_this_candidate": true
     }
-   },
-   "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HOLDOUT-v3-visible-gated (fixes IR-32-INSTR-03), 22232 withheld positives, 95% CI",
-   "off_catalogue_instrument": {
-    "H36-1C_TDR_PDS": {
-     "dti": 0.0838,
-     "ci95": [
-      0.0608,
-      0.1099
-     ]
-    },
-    "CHAMPION_0.2778": {
-     "dti": 0.0961,
-     "ci95": [
-      0.0848,
-      0.1077
-     ]
-    }
-   },
-   "off_catalogue_label": "HOLDOUT-DTI (off-catalogue USGS SGMC blind faults >300 m, 62703 px), 95% CI",
-   "uniqueness": {
-    "registry_rasters": 44,
-    "max_spearman": 0.1595,
-    "worst_informative_overlap": 0.6044,
-    "worst_informative_raster": "gems16-h16-1-topo-geophys-baseline-ridges-20260930-df20f65e"
-   },
-   "run_card": "evidence/h36_tdr_pds_run_card.json"
+   }
   },
   "withdrawn": [
    {
@@ -2976,6 +3140,163 @@
     "genuine_rasters_checked": 289,
     "vs_arena9_within_3px": 0.4277
    }
+  },
+  "h46_candidate": {
+   "file": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+   "zip": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.zip",
+   "receipt": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-audit.json",
+   "run_card": "evidence/h46_trhv_run_card.json",
+   "preregistration": "docs/research/h46-trhv-preregistration-20261026.md",
+   "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+   "bytes": 212436,
+   "dots": 37654,
+   "submission_name": "GEMSDOE32-H46-TRHV-6437B275",
+   "note": "H46-1 TRHV 2-regime vent+TIGER 37654d B2 | HR=0.1094 SGMC=0.0448 | DO NOT SUBMIT",
+   "verdict": "DO NOT SUBMIT \u2014 exploratory negative; lane/preregistration/holdout/registry gates failed",
+   "ok_to_download": true,
+   "ok_to_submit": false,
+   "hypothesis": "H46-1 (TRHV): Unmapped Great Basin faults span two disjoint observability regimes \u2014 exposed/near-tip scarps vs. blind basin-interior conduits marked by UNR/DOE GDR #1391 2-m temperature probe plumes (2,782 in-footprint stations, F2mDAB & sanitized T2m-T1.5m) and mapped paleo-geothermal sinter/travertine/tufa/silicified deposit points (281 in-footprint features; not fault labels) coupled to subsurface gravity/magnetic/MT curvature \u2014 requiring sequential two-regime residual-coverage CELF allocation (72% Exposed-63 + 28% Vent-SARPU-63 via emitter.emit initial_mask) plus Census TIGER 2024 road-prism vetoing to jointly exceed the 0.2778 Champion on BOTH GEMSDOE32-HIDE-RECOVER-v3.0 and GEMSDOE32-SGMC-CAL-v3.0.",
+   "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HIDE-RECOVER-v3.0, 22,232 withheld positives, 95% spatial-block CI",
+   "holdout": {
+    "H46-1-TRHV-exploratory": {
+     "dti": 0.109361,
+     "ci95": [
+      0.094695,
+      0.122341
+     ]
+    },
+    "fold-collared B2 Champion proxy": {
+     "dti": 0.099202,
+     "ci95": [
+      0.085951,
+      0.112668
+     ]
+    },
+    "prior H38 repo best": {
+     "dti": 0.116958,
+     "ci95": [
+      0.100533,
+      0.13204
+     ]
+    }
+   },
+   "off_catalogue_label": "HOLDOUT-DTI diagnostic, GEMSDOE32-SGMC-CAL-v3.0, 62,703 USGS SGMC off-catalogue positives, prevalence-calibrated 95% CI",
+   "off_catalogue_instrument": {
+    "H46-1-TRHV-exploratory": {
+     "dti": 0.044756,
+     "ci95": [
+      0.039243,
+      0.050114
+     ]
+    },
+    "0.2778 Champion proxy": {
+     "dti": 0.064121,
+     "ci95": [
+      0.05673,
+      0.071649
+     ]
+    }
+   },
+   "uniqueness": {
+    "manifest_rasters": 354,
+    "unique_hash_rasters_checked": 336,
+    "genuine_rasters_checked": 335,
+    "preplacement_surface_passed": true,
+    "max_abs_spearman": 0.166685,
+    "genuine_final_dots_passed": true,
+    "max_genuine_3px_overlap": 0.665587,
+    "literal_lattice_overlap": 0.99267,
+    "literal_all_registry_passed": false,
+    "new_H45_main_candidate_overlap": null,
+    "registry_refreshed_utc": "2026-10-26T18:23:32Z",
+    "new_H45_main_candidate_overlaps": [
+     {
+      "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+      "sha256": "b14bba00d6053e75e5c72d9e68fac52f607fe40de1c356111baea85e1ceee538",
+      "directional_within_3px_fraction": 0.62989324,
+      "dots": 37654
+     },
+     {
+      "file": "GEMSDOE32:docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+      "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+      "directional_within_3px_fraction": 0.58171775,
+      "dots": 37654
+     }
+    ]
+   },
+   "validator": {
+    "strict_cli_passed": true,
+    "geotiff_13_checks_passed": true,
+    "crs": "EPSG:32611",
+    "shape": [
+     3730,
+     3292
+    ],
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nan_anywhere": 0,
+    "values_in_0_1": true
+   },
+   "reasons": [
+    "HOLDOUT-DTI point estimate 0.109361 is below the recorded same-evaluator H38 repository best 0.116958; no paired bootstrap draws against H38 are archived.",
+    "The literal all-registry 3-px rule fails against the synthetic r13-lattice-s5 reference (99.267% overlap > 70%).",
+    "The off-catalogue SGMC-cal diagnostic is below the Champion and its paired 95% CI is negative.",
+    "The explicit single-method lane paragraph is absent from the prompt context; the lane authorization is unresolved.",
+    "The executed H46 arm deviated from its frozen preregistration (budget split, F2mDAB threshold, TIGER scale, and point-edge handling); its local holdout values are descriptive only."
+   ],
+   "protocol_audit": {
+    "assigned_single_method_paragraph_present_in_prompt_context": false,
+    "lane_authorization": "NOT ESTABLISHED: standing project README states the session lane paragraph was absent; H46 was selected from a prior next-step suggestion. No promotion is permitted under the literal lane rule.",
+    "preregistration_deviations": [
+     "Frozen pre-registration specified a 70/30 Regime-A/Regime-B budget split (26,358 / 11,296 dots); the executed run used 72/28 (27,111 / 10,543). The executed experiment is therefore not the preregistered split.",
+     "Frozen pre-registration specified F2mDAB > +1 C; the executed plume input used every positive value > 0 C before clipping.",
+     "The frozen plan named T2m-T1m; the executed vertical-gradient channel instead used T2m-T15m, where the source schema labels T15m as 1.5 m.",
+     "Frozen pre-registration specified a 150 m TIGER road veto scale; the executed feature used 180 m.",
+     "The executed point importer retained points within a 24-pixel padding and clipped their coordinates to the footprint edge, rather than filtering to true in-footprint points before plume interpolation. The code was corrected after execution; the corrected feature stack was not rebuilt or validated in this run."
+    ],
+    "impact": "H46 model holdout and SGMC numbers are exploratory diagnostics only, not admissible preregistered promotion evidence. The output remains a valid saved-byte format artifact, but it must not be submitted.",
+    "corrective_shared_code_changes_after_run": [
+     "src/gems32/trhv.py now filters mapped 2-m probe and paleo-geothermal points to the actual finite sample_submission.tif footprint before rasterization, rather than clipping points outside the footprint onto edge cells. The executed candidate used the earlier edge-clipping implementation.",
+     "The runner/module now use the preregistered 70/30 allocation, F2mDAB > 1 C threshold, and 150 m TIGER scale. The executed candidate used 72/28, F2mDAB > 0 C, and 180 m."
+    ],
+    "no_rebuild_after_stop": "No corrected H46 rerun was performed: the prompt does not provide an explicit assigned lane and the preregistered three-arm budget has already been consumed.",
+    "shared_emitter_fix_timing": "The shared emitter initial_mask residual-coverage implementation and rho acceptance-bar correction were committed to the working tree and unit-tested before the completed H46 run; 13 emitter tests passed at that point.",
+    "postrun_reviewed_utc": "2026-10-26T18:12:41Z",
+    "point_boundary_audit": {
+     "source_crs_from_prj": "EPSG:4269 (NAD83)",
+     "gdr_2m_probe_records_parsed": 3800,
+     "gdr_2m_probe_points_within_24px_margin": 3441,
+     "gdr_2m_probe_points_inside_exact_footprint": 2782,
+     "gdr_2m_probe_outside_points_clipped_to_raster_edge_in_executed_build": 659,
+     "paleo_feature_records_parsed": 709,
+     "paleo_points_within_24px_margin": 402,
+     "paleo_points_inside_exact_footprint": 281,
+     "paleo_outside_points_clipped_to_raster_edge_in_executed_build": 121,
+     "corrected_builder_filters_to_exact_finite_template_footprint": true,
+     "corrected_builder_was_not_rerun_for_this_candidate": true
+    }
+   }
+  },
+  "release_gates_latest": {
+   "lane_explicitly_assigned": false,
+   "canary": true,
+   "beats_repository_best_holdout_point": false,
+   "paired_holdout_ci_vs_repository_best": false,
+   "beats_champion_on_sgmc_calibrated": false,
+   "genuine_surface_uniqueness": true,
+   "genuine_final_dot_uniqueness": true,
+   "literal_all_registry_uniqueness": false,
+   "format_saved_bytes": true,
+   "weekly_slot_selector": false,
+   "verdict": "negative"
   }
  },
  "irregularities": [
@@ -3465,6 +3786,36 @@
    "severity": "medium (labelling; parallel work)",
    "statement": "A parallel session pushed PR #30 to main (commit 6bba7a2, 2026-10-26) titled 'H45-1 kernel-spacing: 3 holdout experiments (falsified) ...', with run card evidence/h45_kernel_spacing_run_card.json (HIDE-RECOVER 0.1009; DO NOT SUBMIT). This session's two-regime work is also labelled 'H45-1'. Both are real and separate; the labels collide.",
    "mitigation": "This session's lane is referred to as H45-TR (two-regime). The kernel-spacing lane keeps H45-1 (KS). Both are negative/DO NOT SUBMIT. Neither file is cleared."
+  },
+  {
+   "id": "IR-32-EMIT-RHO-01",
+   "severity": "high (fixed in shared emitter before H46 completed run)",
+   "statement": "The shared metric-aware emitters documented rho as a two-round option value that should lower the marginal acceptance penalty by alpha/(1+rho), but `emit()` used unadjusted alpha in the acceptance inequality and `exact_greedy()` computed an unused bar. H46 needed an initial_mask mode for staged residual coverage, which was not present in the shared emitter.",
+   "mitigation": "Fixed both acceptance paths to use effective alpha; added shape-checked initial_mask precoverage, excludes initial dots, and tests for rho and exact incremental coverage. Tests: tests/test_emitter.py. This shared fix was in the working tree before the completed H46 execution."
+  },
+  {
+   "id": "IR-32-H46-LANE-01",
+   "severity": "critical (open protocol blocker)",
+   "statement": "The parallel-run protocol requires a single explicit method paragraph assigning the lane. The standing prompt context available in this session contains the protocol but no method paragraph; the README already warned not to infer a lane or start another experiment. H46-1 was selected from a previous recommended next step rather than an explicit lane assignment.",
+   "mitigation": "H46 remains `verdict=negative`, `ok_to_submit=false`; no weekly slot was used. Require an explicit lane paragraph before any future experimental run; disclose H46 as exploratory."
+  },
+  {
+   "id": "IR-32-H46-PREREG-01",
+   "severity": "high (H46 output non-promotable)",
+   "statement": "The H46 preregistration specified a 70/30 Regime-A/Regime-B budget, F2mDAB > 1 C, and a 150 m TIGER road scale. The completed H46 output used 72/28, F2mDAB > 0 C, and a 180 m road scale. This was an implementation deviation, not a preregistered result.",
+   "mitigation": "Record the H46 metrics only as exploratory diagnostics; the current source defaults were corrected to the frozen settings. Do not use the saved H46 TIFF or its DTI as a promotion estimate. No rerun was performed because the explicit lane paragraph was missing and the three-arm budget had been used."
+  },
+  {
+   "id": "IR-32-TRHV-FOOTPRINT-01",
+   "severity": "high (fixed in source; H46 artifact not rebuilt)",
+   "statement": "The first H46 point rasterizer allowed observations up to 24 pixels outside the finite sample-submission footprint, clipped their coordinates onto the edge, and then smoothed them. This can create artificial border plumes in the 2-m thermal and paleo-geothermal channels. The completed H46 TIFF was generated before this defect was found.",
+   "mitigation": "`src/gems32/trhv.py` now filters point observations to the exact finite footprint before rasterization. Because lane authorization was absent and the three-experiment budget was used, the corrected feature stack and model were not rerun; H46 stays negative and audit-only."
+  },
+  {
+   "id": "IR-32-H46-H38-01",
+   "severity": "high (promotion gate failed)",
+   "statement": "H46 EXP3 exploratory HOLDOUT-DTI is 0.109361 [0.094695, 0.122341] on GEMSDOE32-HIDE-RECOVER-v3.0 with 22,232 withheld positives. The prior H38 repository best is 0.116958 [0.100533, 0.132040] on the same evaluator/population. H46 is lower by 0.007597 at the point level; H38 bootstrap vectors are not archived, so no paired CI may be computed.",
+   "mitigation": "Promotion compares against the prior repo best, not just the 0.099202 fold-collared B2 proxy. No performance claim is made; H46 remains negative."
   }
  ]
 }

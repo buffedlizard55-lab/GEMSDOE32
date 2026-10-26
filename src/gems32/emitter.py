@@ -142,7 +142,7 @@ def exact_greedy(field: np.ndarray, budget: int | None = None, prior_dti: float 
     log = EmissionLog(rule="exact_greedy")
     sup = np.argwhere(f > 0)
     log.n_support_px = int(sup.shape[0])
-    bar = alpha * prior_dti / (1.0 + rho)
+    eff_alpha = alpha / (1.0 + rho)
     prox = expected_proximity(f)
     while True:
         if budget is not None and log.n_emitted >= budget:
@@ -160,10 +160,10 @@ def exact_greedy(field: np.ndarray, budget: int | None = None, prior_dti: float 
             break
         y, x = best
         kb = float(prox[y, x])
-        # exact marginal theorem with the field's own proximity estimate
+        # exact marginal theorem with the field's own proximity estimate (and two-round option rho)
         if prior_dti > 0.0:
-            # D/T = 1/s ; accept while dT*(1/s) > alpha*(dT + 1 - kbar)
-            lhs = best_g * (1.0 / max(prior_dti, 1e-12)) - alpha * (best_g + 1.0 - kb)
+            # D/T = 1/s ; accept while dT*(1/s) > (alpha/(1+rho))*(dT + 1 - kbar)
+            lhs = best_g * (1.0 / max(prior_dti, 1e-12)) - eff_alpha * (best_g + 1.0 - kb)
             if lhs <= 0.0:
                 log.stopped_by = "credit_bar"
                 break
@@ -183,6 +183,7 @@ def exact_greedy(field: np.ndarray, budget: int | None = None, prior_dti: float 
 
 def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
          alpha: float = M.ALPHA, rho: float = 0.0, gain_floor: float = 0.0,
+         initial_mask: np.ndarray | None = None,
          ) -> tuple[np.ndarray, EmissionLog]:
     """Near-greedy maximum-expected-coverage emission, confined to the field's support.
 
@@ -200,6 +201,11 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
         label set may verify.
     gain_floor : float
         Absolute floor on the marginal gain, applied in addition to the bar.
+    initial_mask : bool array, optional
+        Already-emitted dots from an earlier stage (e.g., Regime-A exposed scarps in a
+        two-regime allocation).  Pre-populates the 300 m kernel coverage array ``cov`` and
+        excludes ``initial_mask`` pixels so Stage-2 dots maximize exact residual coverage
+        without double-crediting covered traces.
     """
     f = np.asarray(field, dtype=np.float64)
     if f.min() < 0:
@@ -207,10 +213,21 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
     h, w = f.shape
     cov = np.zeros(f.shape, dtype=np.float64)
     mask = np.zeros(f.shape, dtype=bool)
+    init = np.zeros(f.shape, dtype=bool)
+    if initial_mask is not None:
+        init = np.asarray(initial_mask, dtype=bool)
+        if init.shape != f.shape:
+            raise ValueError(f"initial_mask shape {init.shape} != field shape {f.shape}")
+        if init.any():
+            init_f = init.astype(np.float64)
+            dy_o, dx_o, kw_o = M._OFF
+            for d, e, kk in zip(dy_o, dx_o, kw_o):
+                np.maximum(cov, M._shift(init_f, -int(d), -int(e)) * kk, out=cov)
+
     log = EmissionLog(rule="lazy_greedy_maxcov_support_confined")
 
     prox = expected_proximity(f)
-    support = np.argwhere(f > 0)
+    support = np.argwhere((f > 0) & (~init))
     log.n_support_px = int(support.shape[0])
     if log.n_support_px == 0:
         log.stopped_by = "empty_support"
@@ -220,8 +237,14 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
     is_sup = np.zeros(h * w, dtype=bool)
     is_sup[flat] = True
 
-    # with zero coverage the exact marginal gain IS the expected proximity
-    gain = prox.copy()
+    if init.any():
+        gain = np.zeros_like(f)
+        dy_o, dx_o, kw_o = M._OFF
+        for d, e, kk in zip(dy_o, dx_o, kw_o):
+            gain += M._shift(f * np.maximum(0.0, kk - cov), -int(d), -int(e))
+    else:
+        # with zero coverage the exact marginal gain IS the expected proximity
+        gain = prox.copy()
     heap = [(-float(gain[sy, sx]), int(fl)) for (sy, sx), fl in zip(support, flat)]
     heapq.heapify(heap)
 
@@ -230,11 +253,12 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
     upd = [(dy, dx) for dy in range(-two_r, two_r + 1) for dx in range(-two_r, two_r + 1)
            if dy * dy + dx * dx <= two_r * two_r]
 
+    eff_alpha = alpha / (1.0 + rho)
     bar = max(gain_floor, 0.0)
     while heap:
         neg_g, fl = heapq.heappop(heap)
         y, x = divmod(int(fl), w)
-        if mask[y, x]:
+        if mask[y, x] or init[y, x]:
             continue
         cur = float(gain[y, x])
         if -neg_g > cur + 1e-12:                     # stale key: re-insert with the live gain
@@ -245,7 +269,7 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
             break
         kb = float(prox[y, x])
         if prior_dti > 0.0:
-            lhs = cur * (1.0 / max(prior_dti, 1e-12)) - alpha * (cur + 1.0 - kb)
+            lhs = cur * (1.0 / max(prior_dti, 1e-12)) - eff_alpha * (cur + 1.0 - kb)
             if lhs <= 0.0 or cur < bar:
                 log.stopped_by = "credit_bar"
                 break
