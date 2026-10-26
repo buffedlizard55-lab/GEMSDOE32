@@ -5,10 +5,10 @@
 <h1>Candidate hypotheses, ranked</h1><nav><a href="index.html">Home</a> <a href="executive-summary.html">Make a submission</a> <a href="research.html">Research</a> <a href="hypotheses.html" class=active>Hypotheses</a> <a href="leaderboard.html">Leaderboard</a> <a href="sources.html">Sources</a> <a href="irregularities.html">Irregularities</a></nav>
 <section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
-<p style="margin:4px 0"><b>No file in this repository is authorized for upload. H50 TM-SPI is a format-valid, genuine-unique research artifact (max 3px 18.5%, |rho|=0.0095) but HOLDOUT-DTI 0.0126 is not a live-score claim, SGMC-cal 0.0164 &lt; champion 0.0641, and the literal lattice gate fail-closes. ARENA47 retained as prior artifact.</b>
+<p style="margin:4px 0"><b>No file is authorized for upload yet. ARENA49-PCG is the strongest genuine-unique candidate this repo has produced (HOLDOUT-DTI 0.02826 flat-mask vs champion 0.00452 same evaluator, SGMC-cal 0.07033 &gt; champion 0.06412, genuine-unique 43.09% max 3px) and the shared promotion_decision returns promote — but a separate weekly-slot selector decision and IR-42-UNIQ-01 literal-lattice disposition (overlap 1.000, fail-closed) are still required. H50 retained as prior artifact.</b>
 Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
-Updated 2026-10-26T21:44:20Z.</p>
-<p style="margin:7px 0"><a class=btn href="downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif">&#11015; Download latest generated GeoTIFF for research/audit</a> <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>
+Updated 2026-10-26T22:06:00Z.</p>
+<p style="margin:7px 0"><a class=btn href="downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif">&#11015; Download latest generated GeoTIFF for research/audit</a> <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>
 <p style="margin:4px 0"><a href="index.html#status">Full status &amp; evidence</a> &middot;
 <a href="research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="../evidence/current_release_review.json">machine-readable decision</a> &middot;
@@ -243,7 +243,27 @@ the slot gate.</p>
 <td>NASA ASF Sentinel-1 ascending/descending InSAR; USGS ScienceBase MT phase tensor; 63-channel feature stack</td><td>Aseismic creep/hydrothermal pressure-gradient lineaments in paired InSAR geometries with multi-scale spatial Tversky segmentation.</td>
 <td>Potentially sensitive to active blind structures in flat basins, independent of topographic scarps.</td><td>Moves from pixelwise CPU tree models to spatial 2-D segmentation with multi-kilometre receptive fields.</td>
 <td>Unquantified; no leaderboard projection permitted. · cost High; GPU and external downloads required. · data: Not checked for obtainability in this sandbox; official ASF/ScienceBase links only. Data-blocked, not currently viable.</td>
-<td>Registered; not run.</td></tr></table>
+<td>Registered; not run.</td></tr><tr><td>1</td><td><b>ARENA49-H1-PCG</b><br>Kovesi log-Gabor phase-congruency step skeleton on det_elev + iso_grav_anom (THE LANE, executed this session)</td>
+<td>training_features.tif Band 12 det_elev; training_features.tif Band 13 iso_grav_anom</td><td>Phase congruency |sum EO|/sum|EO| over a 4-scale x 6-orientation log-Gabor bank with frequency-spread weighting; amplitude-invariant step detection; floored geometric-mean dual-field concordance; percentile-90 support; 300 m CELF; B=2.</td>
+<td>Catalogue mapping is scarp-amplitude driven; low-throw or sediment-blanketed faults have a real elevation/basement step with too little amplitude to have been mapped, and PC normalises amplitude away.</td><td>No phase-congruency, monogenic, Riesz or log-Gabor code exists anywhere in this repo (grep-verified); all prior detectors (Hessian ridge, curvature, TDR zero-crossing, theta/SPI, GBM) are amplitude-based.</td>
+<td>Measured this session; see evidence/arena49_pcg_run_card.json (HOLDOUT-DTI labelled, no live projection). · cost Low (~90 s CPU for both FFT filter banks; no external data). · data: VERIFIED: bands hash-restored in-repo (training_features sha256 4371c82e...); method Kovesi 1999 https://www.peterkovesi.com/papers/Kovesi_Videre_v1n3001.pdf</td>
+<td>Executed this session (3 experiments); see run card for verdict.</td></tr><tr><td>2</td><td><b>ARENA49-H2-NODE</b><br>Topological lineament-intersection nodes (DEM skeleton x magnetic skeleton crossings)</td>
+<td>training_features.tif Band 12 det_elev skeleton; training_features.tif Bands 3/9 tmi_hg/tmi_vg skeleton</td><td>Crossing points of two independently derived 1-px skeletons, dilated by the 300 m kernel; fault intersections/step-overs as geothermal upflow sites.</td>
+<td>A DEM lineament crossing a buried magnetic lineament is off-catalogue by construction; neither parent need be a catalogued fault.</td><td>Prior concordance is pixel-wise co-location; no code computes skeleton crossings as a topological object.</td>
+<td>Unmeasured; no leaderboard projection permitted. · cost Low (skeletons already produced by prior lanes). · data: No external data needed; bands hash-verified in-repo.</td>
+<td>Registered; not run (outside this session&#x27;s single lane).</td></tr><tr><td>3</td><td><b>ARENA49-H3-UPCONT</b><br>Upward-continuation gradient-persistence (Euler N~0-0.5) contact filter</td>
+<td>training_features.tif Band 14 tmi; external geodawn_extensions_u8.tif Band 4 TMI_up150 (GeoDAWN DOI 10.5066/P93LGLVQ)</td><td>Ratio |grad TMI_150|/|grad TMI_0| on gradient crests; deep-rooted contacts persist at +150 m continuation, surficial sources decay.</td>
+<td>Deep buried contacts under alluvium persist where surficial float does not.</td><td>Registered as H46-2 but never executed; H38/H44 used a scalar tmi-up150 difference, not a gradient-persistence ratio.</td>
+<td>Unmeasured; no leaderboard projection permitted. · cost Low CPU. · data: VERIFIED: external raster hash-restored in-repo this session.</td>
+<td>Registered; not run (outside lane). Supersedes-in-part the unexecuted H46-2 registration.</td></tr><tr><td>4</td><td><b>ARENA49-H4-TERN</b><br>Radiometric ternary / Efimov F-parameter alteration-boundary lineaments</td>
+<td>external geodawn_rad_u8.tif Bands 1-3 K/Th/U (GeoDAWN DOI 10.5066/P93LGLVQ)</td><td>Edges in ternary-centroid distance / F-parameter (K*eU/eTh) marking hydrothermal K-metasomatism fronts.</td>
+<td>K-enrichment along permeable upflow can occur on blind faults with no scarp and no basement offset.</td><td>H35/H38 used a single Th/K edge inside a supervised GBM; no ternary/F-parameter field exists here.</td>
+<td>Unmeasured; no leaderboard projection permitted. · cost Low CPU. · data: VERIFIED: external raster hash-restored in-repo this session.</td>
+<td>Registered; not run (outside lane).</td></tr><tr><td>5</td><td><b>ARENA49-H5-OBLIQ</b><br>Strain-gradient azimuthal obliquity coupled to potential-field strike</td>
+<td>training_features.tif Bands 4/7/8 geodetic strain; Bands 10/16 seismic; Band 2 rtp</td><td>sin^2 2(theta_PF - theta_grad-eps) slip/dilatation tendency on buried strikes.</td>
+<td>Actively dilating transfer segments can be permeable before accumulating mappable Quaternary offset.</td><td>Registered as H46-3, never executed; prior strain use was isotropic products. Deprioritised: ieq autocorrelation measured 0.9986 at 1 km in this repo.</td>
+<td>Unmeasured; no leaderboard projection permitted. · cost Low CPU. · data: No external data needed; bands hash-verified in-repo.</td>
+<td>Registered; not run (outside lane).</td></tr></table>
 <h2>Promotion rules (preregistered)</h2>
 <ol>
 <li>every hypothesis is registered with its layers, signature, novelty and data status before it is
@@ -269,7 +289,7 @@ enrichment over background — so the discovery lane is genuinely unexploited, n
 with displacements mostly below 5&nbsp;cm — a real fault the catalogue lacks, which is why H60-1 is
 first on the list.</li></ul></main>
 <footer><div class=wrap>
-Site generated 2026-10-26 21:51 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
+Site generated 2026-10-26 22:15 UTC from <code>registry/*.json</code> and <code>evidence/*.json</code> by
 <code>scripts/build_site.py</code>. Owner-reported scores are labelled <em>claim</em>; the only
 scores this repository reads itself are the other teams' public-leaderboard rows.
 <a href="https://github.com/buffedlizard55-lab/GEMSDOE32">Repository</a> ·

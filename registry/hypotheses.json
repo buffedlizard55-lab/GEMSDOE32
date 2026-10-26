@@ -1039,6 +1039,86 @@
       "cost": "High; GPU and external downloads required.",
       "data_status": "Not checked for obtainability in this sandbox; official ASF/ScienceBase links only. Data-blocked, not currently viable.",
       "status": "Registered; not run."
+    },
+    {
+      "id": "ARENA49-H1-PCG",
+      "rank": 1,
+      "title": "Kovesi log-Gabor phase-congruency step skeleton on det_elev + iso_grav_anom (THE LANE, executed this session)",
+      "layers": [
+        "training_features.tif Band 12 det_elev",
+        "training_features.tif Band 13 iso_grav_anom"
+      ],
+      "signature": "Phase congruency |sum EO|/sum|EO| over a 4-scale x 6-orientation log-Gabor bank with frequency-spread weighting; amplitude-invariant step detection; floored geometric-mean dual-field concordance; percentile-90 support; 300 m CELF; B=2.",
+      "why_off_catalogue": "Catalogue mapping is scarp-amplitude driven; low-throw or sediment-blanketed faults have a real elevation/basement step with too little amplitude to have been mapped, and PC normalises amplitude away.",
+      "differs_from_repo": "No phase-congruency, monogenic, Riesz or log-Gabor code exists anywhere in this repo (grep-verified); all prior detectors (Hessian ridge, curvature, TDR zero-crossing, theta/SPI, GBM) are amplitude-based.",
+      "expected_dti": "Measured this session; see evidence/arena49_pcg_run_card.json (HOLDOUT-DTI labelled, no live projection).",
+      "cost": "Low (~90 s CPU for both FFT filter banks; no external data).",
+      "data_status": "VERIFIED: bands hash-restored in-repo (training_features sha256 4371c82e...); method Kovesi 1999 https://www.peterkovesi.com/papers/Kovesi_Videre_v1n3001.pdf",
+      "status": "Executed this session (3 experiments); see run card for verdict."
+    },
+    {
+      "id": "ARENA49-H2-NODE",
+      "rank": 2,
+      "title": "Topological lineament-intersection nodes (DEM skeleton x magnetic skeleton crossings)",
+      "layers": [
+        "training_features.tif Band 12 det_elev skeleton",
+        "training_features.tif Bands 3/9 tmi_hg/tmi_vg skeleton"
+      ],
+      "signature": "Crossing points of two independently derived 1-px skeletons, dilated by the 300 m kernel; fault intersections/step-overs as geothermal upflow sites.",
+      "why_off_catalogue": "A DEM lineament crossing a buried magnetic lineament is off-catalogue by construction; neither parent need be a catalogued fault.",
+      "differs_from_repo": "Prior concordance is pixel-wise co-location; no code computes skeleton crossings as a topological object.",
+      "expected_dti": "Unmeasured; no leaderboard projection permitted.",
+      "cost": "Low (skeletons already produced by prior lanes).",
+      "data_status": "No external data needed; bands hash-verified in-repo.",
+      "status": "Registered; not run (outside this session's single lane)."
+    },
+    {
+      "id": "ARENA49-H3-UPCONT",
+      "rank": 3,
+      "title": "Upward-continuation gradient-persistence (Euler N~0-0.5) contact filter",
+      "layers": [
+        "training_features.tif Band 14 tmi",
+        "external geodawn_extensions_u8.tif Band 4 TMI_up150 (GeoDAWN DOI 10.5066/P93LGLVQ)"
+      ],
+      "signature": "Ratio |grad TMI_150|/|grad TMI_0| on gradient crests; deep-rooted contacts persist at +150 m continuation, surficial sources decay.",
+      "why_off_catalogue": "Deep buried contacts under alluvium persist where surficial float does not.",
+      "differs_from_repo": "Registered as H46-2 but never executed; H38/H44 used a scalar tmi-up150 difference, not a gradient-persistence ratio.",
+      "expected_dti": "Unmeasured; no leaderboard projection permitted.",
+      "cost": "Low CPU.",
+      "data_status": "VERIFIED: external raster hash-restored in-repo this session.",
+      "status": "Registered; not run (outside lane). Supersedes-in-part the unexecuted H46-2 registration."
+    },
+    {
+      "id": "ARENA49-H4-TERN",
+      "rank": 4,
+      "title": "Radiometric ternary / Efimov F-parameter alteration-boundary lineaments",
+      "layers": [
+        "external geodawn_rad_u8.tif Bands 1-3 K/Th/U (GeoDAWN DOI 10.5066/P93LGLVQ)"
+      ],
+      "signature": "Edges in ternary-centroid distance / F-parameter (K*eU/eTh) marking hydrothermal K-metasomatism fronts.",
+      "why_off_catalogue": "K-enrichment along permeable upflow can occur on blind faults with no scarp and no basement offset.",
+      "differs_from_repo": "H35/H38 used a single Th/K edge inside a supervised GBM; no ternary/F-parameter field exists here.",
+      "expected_dti": "Unmeasured; no leaderboard projection permitted.",
+      "cost": "Low CPU.",
+      "data_status": "VERIFIED: external raster hash-restored in-repo this session.",
+      "status": "Registered; not run (outside lane)."
+    },
+    {
+      "id": "ARENA49-H5-OBLIQ",
+      "rank": 5,
+      "title": "Strain-gradient azimuthal obliquity coupled to potential-field strike",
+      "layers": [
+        "training_features.tif Bands 4/7/8 geodetic strain",
+        "Bands 10/16 seismic",
+        "Band 2 rtp"
+      ],
+      "signature": "sin^2 2(theta_PF - theta_grad-eps) slip/dilatation tendency on buried strikes.",
+      "why_off_catalogue": "Actively dilating transfer segments can be permeable before accumulating mappable Quaternary offset.",
+      "differs_from_repo": "Registered as H46-3, never executed; prior strain use was isotropic products. Deprioritised: ieq autocorrelation measured 0.9986 at 1 km in this repo.",
+      "expected_dti": "Unmeasured; no leaderboard projection permitted.",
+      "cost": "Low CPU.",
+      "data_status": "No external data needed; bands hash-verified in-repo.",
+      "status": "Registered; not run (outside lane)."
     }
   ],
   "updated_utc": "2026-10-26T18:03:49Z"
