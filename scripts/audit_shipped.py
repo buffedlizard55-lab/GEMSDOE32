@@ -38,12 +38,9 @@ LAB = _DDIR / "labels.tif"
 DOWN = ROOT / "docs" / "downloads"
 
 # belief fields an artifact can be packed from, for the off-support measure
-_H19_CANDIDATES = [
-    ROOT / "data" / "raw" / "h19_5.tif",
-    _DDIR / "scored" / "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
-]
+_H195_ALT = _DDIR / "scored" / "gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif"
 FIELDS = {
-    "h19_5": next((p for p in _H19_CANDIDATES if p.exists()), _H19_CANDIDATES[0]),
+    "h19_5": (_DDIR / "h19_5.tif") if (_DDIR / "h19_5.tif").exists() else _H195_ALT,
 }
 
 
@@ -141,8 +138,21 @@ def main() -> int:
         role = "PRIMARY" if fn == Path(primary).name else "AVAILABLE"
         if fn == Path((sub.get("anchor") or {}).get("path", "")).name:
             role = "ANCHOR (already-scored base)"
+        # "PRIMARY" only means "the file the site headlines"; the submission verdict travels with it
+        # (registry/current_status.json is the source of truth).  Withdrawn primaries are marked too.
+        verdict = None
+        if role == "PRIMARY" and sub.get("verdict"):
+            verdict = sub["verdict"]
+        for o in sub.get("other_unique_files", []):
+            if fn == Path((o.get("file") or {}).get("path", "")).name:
+                role, verdict = "OTHER UNIQUE FILE", o.get("verdict")
+        _wd = {Path((w.get("file") or {}).get("path", "")).name for w in sub.get("previous_primaries", [])}
+        _wd |= {f"{w['name']}.tif" for w in sub.get("previous_primaries", []) if w.get("name")}
+        if fn in _wd:
+            role, verdict = "WITHDRAWN PRIMARY", "DO NOT SUBMIT"
         bundles.append({
             "role": role,
+            "verdict": verdict,
             "file": fn,
             "sha256": r["sha256"],
             "bytes": r["bytes"],
@@ -165,6 +175,8 @@ def main() -> int:
            "validator_range_fix_verified": all(r["range_violations"] == 0 for r in rows),
            "portal_illegal": [r["file"] for r in rows if not r["portal_legal"]],
            "primary": sub.get("name"),
+           "primary_verdict": sub.get("verdict"),
+           "status_source_of_truth": "registry/current_status.json",
            "note": sub.get("note"),
            "submissions": bundles}
     (ROOT / "docs" / "downloads" / "submissions_manifest.json").write_text(

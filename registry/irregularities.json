@@ -128,12 +128,6 @@
    "mitigation": "loop variable renamed to 'arm'; comment records the defect in place; scripts/run_holdout.py compiles and the recorded evidence/holdout_run2.json is unaffected."
   },
   {
-   "id": "IR-32-FIELD-01",
-   "severity": "high (measured)",
-   "statement": "The group's emission field is barely better than chance. Measured against the only truth in the checkout (labels.tif): a uniform-random 44,090-px emission scores DTI 0.078315 (5 seeds, range 0.077684-0.078960) while the group's dotted-d2.8 artifact at the same mass scores 0.161772 - a factor of 2.07. At 121,131 px the margin collapses: random 0.151988 vs the group's h19_5 field 0.166351, i.e. +9.4%. The field's support is 8.0% within 1 px of a mapped fault and 20.0% within 3 px, versus 3.55% and 8.56% for random support of the same size. The field is informative, but most of the emitted mass is spent where the kernel cannot reach it.",
-   "mitigation": "A 35-channel gradient-boosted field, cross-validated on four spatially blocked quadrants with a 30 px buffer, beats every shipped artifact at matched mass under two independent protocols (docs/research/hypotheses-round3.md, knowledge/02 section 13)."
-  },
-  {
    "id": "IR-32-EMIT-01",
    "severity": "high (measured)",
    "statement": "Emitted-mass optimum. Every informed field measured here peaks between 44,000 and 88,000 px and then loses score, because its ranking runs out of signal; a uniform-random emission has no ranking and keeps improving to 176,000 px, where it overtakes three of the five shipped artifacts. The previously shipped budget of 44,090 px sits just below the measured peak (88,000 px) under the whole-raster protocol.",
@@ -227,8 +221,9 @@
   {
    "id": "IR-32-INSTR-03",
    "severity": "high",
-   "statement": "The catalogue_hidden holdout instrument is PERVERSE for B-gated candidates (emissions that forbid dots within B px of the full catalogue): the hidden segments the instrument asks the candidate to recover are inside the candidate's own exclusion zone, because the gate was derived from the full catalogue including the hidden components. Proof with ORGANIZER-CONFIRMED points: live order champion(B=2) 0.2778 > solo(B=1) 0.2708 > d2.8(B=0) 0.2600 is exactly reversed by catalogue_hidden (0.00460 < 0.03104 < 0.09832). Extends IR-32-INSTR-01/02; the root cause is a protocol violation by the candidate's gate, not by the evaluator, but evaluate_candidate_holdout does not correct for it (its 1-px debias shift does not reach B=2). Measured 2026-10-25 (evidence/hcvf2_run.json).",
-   "mitigation": "for B-gated candidates use only instruments whose truth is off-catalogue by construction (SGMC), or re-derive the candidate's gate from visible-only faults per draw; hypotheses-round5.md \u00a72b documents the mechanism"
+   "statement": "The catalogue-hidden holdout is invalid for B-gated candidates if the B exclusion is computed from the full catalogue before folds are evaluated: hidden segments can influence placement. Round-6 R6-1 did exactly this; its fixed mask is passed to evaluate_candidate_holdout, which does not rebuild the gate from visible faults. Previously reported score ordering comparisons are owner-reported, not ORGANIZER-CONFIRMED.",
+   "mitigation": "Rebuild every catalogue-dependent operation, including distance buffers, from visible faults within each fold; then exact-mask visible pixels and compute pooled DTI. Do not substitute an off-catalogue proxy for the required hide-and-recover gate.",
+   "status": "fixed-in-v3-evaluator (src/gems32/holdout.py::evaluate_visible_gated_holdout)"
   },
   {
    "id": "IR-32-FAM-01",
@@ -249,6 +244,93 @@
    "mitigation": "observations.jsonl + leaderboard_history.jsonl + score-ledger.csv updated 2026-10-25; site status line regenerated"
   },
   {
+   "id": "IR-R6-01",
+   "severity": "high",
+   "statement": "Group scores including 0.2778 were labelled ORGANIZER-CONFIRMED in places, but the repo holds no submission-page receipt linking bytes to score (see IR-32-SCORE-01). Round 6 downgrades all group scores to OWNER-REPORT.",
+   "mitigation": "labels corrected in docs/research/focus-sites-executive-summary.md and Round-6 banner; run card carries explicit OWNER-REPORT label"
+  },
+  {
+   "id": "IR-R6-02",
+   "severity": "high",
+   "statement": "Former primary geo-conduit (fc4e0e58...) was bannered OK TO SUBMIT while 70.24% of its dots lie within 3px of gems10-h28-dotted-ridge (exceeds 70% lane gate; verified 2026-10-26 from bytes) and its SGMC-cal 0.0462 trails the champion 0.0641. Site simultaneously showed red DO NOT SUBMIT and green OK TO SUBMIT banners.",
+   "mitigation": "GEO-CONDUIT remains demoted and audit-only; R6-1 was later also demoted by IR-R6-05. Current release status is fail-closed DO NOT SUBMIT."
+  },
+  {
+   "id": "IR-R6-03",
+   "severity": "medium",
+   "statement": "The prior R6 report exempted the dense calibration lattice from the literal <=70% gate, although the user protocol said any registry raster and gave no density exemption. R6-1 has 97.82% of final dots within 3 px of this registered raster and therefore fails the literal rule.",
+   "mitigation": "Do not exclude the lattice or any other registry raster unless the protocol is explicitly revised. Keep all artifacts audit-only when this literal gate fails."
+  },
+  {
+   "id": "IR-R6-04",
+   "severity": "low",
+   "statement": "R6-1 along-strike (N-S) shifted null retains SGMC signal (0.121 vs 0.141 unshifted) while across-strike shift collapses (0.089). Consistent with N-S structural grain but weakens positional specificity along strike.",
+   "mitigation": "documented in evidence/round6_pass2_controls.json; random controls (0.074-0.077) bound the spread artifact; not gated, flagged for selector"
+  },
+  {
+   "id": "IR-R6-05",
+   "severity": "critical",
+   "statement": "Round-6 R6-1 was labeled PROMOTE/OK TO SUBMIT despite full-catalogue B=2 placement leakage in the hide-and-recover test and 97.82% final-dot overlap with a registered calibration raster (>70% limit). Its descriptive pooled holdout DTI is 0.003376 vs 0.004515 incumbent on 22,232 withheld positives, but cannot be used for promotion because the candidate mask was not rebuilt from visible faults.",
+   "mitigation": "Verdict changed to negative, upload authorization false, and all site/README notices are fail-closed. Existing TIFF retained for audit only; no new raster or slot used. Rebuild fold-local candidate masks before any future valid experiment."
+  },
+  {
+   "id": "IR-42-README-01",
+   "severity": "high",
+   "statement": "README showed an approval ('OK-to-download-and-submit') banner for gemsdoe32-h32-winning-46090-prune400 directly beneath a note saying no TIF was certified. The file shares 37,298 dots with the 0.2778 champion (Jaccard 0.803; 84.0% within 3 px), its claimed holdout margin (0.14840 vs 0.14801) lay inside its own CI [0.115, 0.182], and on the SGMC off-catalogue instrument it is indistinguishable from the champion (delta +0.0001 [-0.0010, +0.0013]).",
+   "mitigation": "Banner withdrawn; status centralised in registry/current_status.json and rendered as the single top block of README and site; previous primary kept under previous_primaries with withdrawn=true."
+  },
+  {
+   "id": "IR-42-UNIQ-01",
+   "severity": "medium",
+   "statement": "Shared template lane gate (vendor/gems57/uniqueness.py): the calibration lattice 13gems_20261001_r13-lattice-s5 (206,895 px, 4.0% support, 3-px footprint coverage 0.9987) makes the literal '>70% of my dots within 3 px' rule fire for every possible raster (random dots 0.9988, champion 0.9992); representation_class classifies by support (>20%), not by coverage.",
+   "mitigation": "Reported, not patched privately (template is pinned from 57GEMSDOE). Proposed rule: treat registry rasters whose 3-px footprint coverage exceeds 0.70 as uninformative for the overlap test; keep them in the rank test."
+  },
+  {
+   "id": "IR-42-INSTR-01",
+   "severity": "high",
+   "statement": "Catalogue-hidden hide-and-recover (gems57 buffered_component_draw) rewards gap-filling between fragments of the catalogue's own traces: H42-1 gained +0.0473 [+0.0338, +0.0610] HOLDOUT-DTI over the champion recipe yet scored 0.0545 vs champion 0.0954 vs random 0.0709 on SGMC faults >3 px off-catalogue.",
+   "mitigation": "Any lane with catalogue-relational features must also pass an off-catalogue instrument and/or use detached-only hiding (gems57 holdout.build_holdout mode=\"detached\")."
+  },
+  {
+   "id": "IR-42-RUN-01",
+   "severity": "low",
+   "statement": "scripts/run_h42.py applied the dot-overlap statistic to the continuous surface (every footprint pixel counted as a dot), which is guaranteed to fire against any <=4-px lattice raster.",
+   "mitigation": "Declared deviation in evidence/h42_run.json; corrected statistic reported as D3; verdict decided on the final dots and unaffected."
+  },
+  {
+   "id": "IR-42-WRITER-01",
+   "severity": "medium",
+   "statement": "src/gems32/submission.py::audit_geotiff read the GeoTransform but never compared it (or the CRS) with the template, so a shifted grid could pass its 12-point audit.",
+   "mitigation": "Fixed in parallel on main (stricter: audit_geotiff raises on any CRS/shape/transform mismatch, against the template when given, else the documented grid; write_submission_pair passes the template). This branch adopted main's version at merge."
+  },
+  {
+   "id": "IR-42-INSTR-02",
+   "severity": "high",
+   "statement": "The SGMC off-catalogue instrument does not predict live scores outside the champion family: the SGMC-tracing files gemsdoe72-h72-1-sgmc-offcatalogue (0.6483 on the instrument) and gemsdoe29-sgmc-off-catalogue-44k (0.5607) scored 0.0492 and 0.0512 live, while the champion scores 0.0954 there and 0.2778 live. Round-6 promoted R6-1 on this instrument (0.1419 vs 0.0954, independently reproduced).",
+   "mitigation": "R6-1 is DO NOT SUBMIT (audit artifact only) in registry/current_status.json, consistent with the fail-closed release review (evidence/current_release_review.json); files and run cards untouched. Promotion needs agreement of two instruments with opposite biases (catalogue-hidden with detached-only hiding AND off-catalogue) or a live score."
+  },
+  {
+   "id": "IR-32-BAND-02",
+   "severity": "high",
+   "status": "fixed-in-h36-tdr-pds",
+   "summary": "Band 6 (`tc`) in `training_features.tif` is Airborne Radiometric Total Count (`rho = +0.99942` with `0.41*K + 0.48*eTh + 0.21*eU`), NOT gravity Terrain Correction \u2014 prior hypotheses dividing `tc/dem` computed radiometric-over-elevation ratios.",
+   "impact": "Invalidated physical mechanism of prior `tc`-as-terrain-correction features; fixed in `src/gems32/h36_tdr_pds.py`."
+  },
+  {
+   "id": "IR-32-BAND-03",
+   "severity": "medium",
+   "status": "fixed-in-h36-tdr-pds",
+   "summary": "Band 17 (`iso_grav_anom_slope`) is total horizontal gravity gradient `sqrt((dg/dx)^2+(dg/dy)^2)` (`>=0`, `rho=+0.9557`), while Band 18 (`iso_grav_anom_hg`) is the signed E-W derivative `dg/dx` (`min=-2.21, max=+1.93`, `rho=+0.9438`).",
+   "impact": "Using `|iso_grav_anom_hg|` for gravity tilt missed E-W-striking transfer faults and threw away half-graben polarity sign; fixed in `src/gems32/h36_tdr_pds.py`."
+  },
+  {
+   "id": "IR-32-LATTICE-01",
+   "severity": "medium",
+   "status": "documented-fail-closed",
+   "summary": "Scored calibration probe `13gems_20261001_r13-lattice-s5_v2_nan-outside.tif` (`206,895` dots on `(5Z)^2`) has Euclidean covering radius `sqrt(8) = 2.8284 < 3.0 px`, covering `99.8713%` of the footprint within 3 px (leaving `6,178` off-flank pixels).",
+   "impact": "Under a literal no-exemption 70% 3-px overlap rule across all registry files, every `>20,593`-dot raster exceeds 70% against this synthetic ruler (`99.80%` for `H36-1C`, `99.92%` for the `0.2778` Champion). Reported transparently alongside the 44-detector genuine uniqueness check (`max ov3 = 60.44% <= 70%`)."
+  },
+  {
    "id": "IR-32-INSTR-04",
    "severity": "high (FIXED 2026-10-26)",
    "status": "fixed 2026-10-26",
@@ -266,7 +348,7 @@
    "id": "IR-32-CONDUIT-02",
    "severity": "medium (FIXED 2026-10-26)",
    "status": "fixed 2026-10-26",
-   "statement": "H-GEO-4 in registry/hypotheses.json misidentified official Band 6 ('tc') as 'radiometric potassium', whereas training_features.tif GDAL band metadata specifies band_name='tc', data_category='magnetic_data', description='Tilt angle or total curvature - magnetic field derivative for edge detection' (true radiometric K, Th, U, TC reside in external/geodawn_rad_u8.tif). In addition, H-GEO-1..4 stored 'layers' as a string rather than list[str], causing build_site.py to render character-by-character 'B; a; n; d; ...' cells on docs/hypotheses.html.",
+   "statement": "H-GEO-4 in registry/hypotheses.json misidentified Band 6 ('tc') as 'radiometric potassium', while training_features.tif's own GDAL band description tag mislabelled it as magnetic tilt angle; direct pixel correlation proves Band 6 (range [2.95, 88.57]) has r = +0.99714 with external/geodawn_rad_u8.tif Band 4 (GeoDAWN Radiometric Total Count, cf. IR-32-BAND-02), whereas individual K/Th/U channels reside in geodawn_rad_u8.tif Bands 1-3. In addition, H-GEO-1..4 stored 'layers' as str rather than list[str].",
    "mitigation": "Corrected Band 6 attribution and converted all 'layers' fields to list[str] in registry/hypotheses.json; added schema assertion in tests/."
   },
   {

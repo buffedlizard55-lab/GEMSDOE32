@@ -1411,6 +1411,90 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif",
+   "bytes": 340598,
+   "sha256": "fae334455ae2eabe8d26f80168420105cb2f8f253c2c2c755f2ac47cf167123d",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31570,
+   "off_h19_5_frac": 0.8384235406596908,
+   "catalogue_proxy_T": 294.691680072385,
+   "catalogue_proxy_F": 37434.39631317385,
+   "credit_per_unit_mass": 0.007826304776979471,
+   "catalogue_proxy_DTI": 0.0052309454314421475,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
+   "bytes": 206761,
+   "sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31570,
+   "off_h19_5_frac": 0.8384235406596908,
+   "catalogue_proxy_T": 294.691680072385,
+   "catalogue_proxy_F": 37434.39631317385,
+   "credit_per_unit_mass": 0.007826304776979471,
+   "catalogue_proxy_DTI": 0.0052309454314421475,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
    "bytes": 345412,
    "sha256": "6dd6e37b617181c14948297c58f80b29a91de846c04441add0614d4e51b9b836",
@@ -1492,6 +1576,48 @@
    "catalogue_proxy_F": 37290.33212195223,
    "credit_per_unit_mass": 0.01236578533435554,
    "catalogue_proxy_DTI": 0.008264255150685022,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
+   "bytes": 121893,
+   "sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 34267,
+   "off_h19_5_frac": 0.9100493971424019,
+   "catalogue_proxy_T": 27.502486599136873,
+   "catalogue_proxy_F": 37627.12661394346,
+   "credit_per_unit_mass": 0.0007304001327650946,
+   "catalogue_proxy_DTI": 0.0004883139059435565,
    "dots_on_catalogue": 0
   },
   {
@@ -1660,6 +1786,90 @@
    "catalogue_proxy_F": 37604.594649206774,
    "credit_per_unit_mass": 0.0015045157964637063,
    "catalogue_proxy_DTI": 0.0010058304903564092,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif",
+   "bytes": 335167,
+   "sha256": "20318b52084a60be13040bcce5b8099208fc75b8e85640bf61e7d0c3309693e4",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 37059,
+   "off_h19_5_frac": 0.9841982259520901,
+   "catalogue_proxy_T": 311.79856361350454,
+   "catalogue_proxy_F": 37428.93338982697,
+   "credit_per_unit_mass": 0.008280622606190698,
+   "catalogue_proxy_DTI": 0.005534373596565496,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+   "bytes": 201127,
+   "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 37059,
+   "off_h19_5_frac": 0.9841982259520901,
+   "catalogue_proxy_T": 311.79856361350454,
+   "catalogue_proxy_F": 37428.93338982697,
+   "credit_per_unit_mass": 0.008280622606190698,
+   "catalogue_proxy_DTI": 0.005534373596565496,
    "dots_on_catalogue": 0
   }
  ]

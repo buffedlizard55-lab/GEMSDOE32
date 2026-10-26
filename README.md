@@ -1,194 +1,165 @@
-# GEMSDOE32 — Auditable Geothermal Blind-Fault Discovery System for the DOE GEMS Prize (DrivenData #306)
+# GEMSDOE32 — DOE GEMS Prize Research, Validation & Submission System
 
-## 🔴 CURRENT AUTOMATED PROJECT GATE VERDICT: **DO NOT SUBMIT TO PORTAL — RETAIN `0.2778` LIVE SLOT** (`2026-10-26`)
+<!-- SINGLE DECISION: rendered from registry/current_status.json and evidence/current_release_review.json (both must authorize; fail closed). Update those files, never add a second banner. -->
+## 🚦 Current Decision — 2026-10-26 01:45 UTC
 
-> **IS IT OK TO DOWNLOAD AND SUBMIT THE NEWLY GENERATED `.TIF`?**
-> **⛔ NO — DO NOT SUBMIT TO DRIVENDATA (`ok_to_download_and_submit = false`, `verdict = "negative"`).**
-> Retain `GEMSDOE32`'s existing all-9-site champion (`gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`, owner-reported `ORGANIZER-CONFIRMED` live score **`0.2778`**) and preserve your weekly submission slots.
-> The newly generated Round-6 multi-physics raster below is **100% unique vs all 26 live-scored cross-site detectors**, **passes 20/20 automated portal format & `[0, 1]` range checks without human intervention**, and **beats the `0.2778` Champion by `+17.9%` (`+0.01776`) on leak-free Hide-and-Recover v3.0**, so it is provided below as a **one-click validated artifact for audit, archival, and further research**. Our automated fail-closed gate (`src/gems32/release_gate.py`) withholds portal promotion because:
-> 1. On the secondary off-catalogue `SGMC_cal` diagnostic (`GEMSDOE32-SGMC-CAL-v3.0`, Spearman `+0.6755` across `27` live-scored files), `EXP3_H38_G1_CORROB` (`0.05037`) still trails the `0.2778` Champion (`0.06412`).
-> 2. Under the unexempted all-registry `<= 3 px` check, it overlaps unsubmitted local GBDT sibling `hcvf2` at `77.56% > 70%` and the synthetic `206,895`-dot 5-px grid `r13-lattice-s5` at `99.71% > 70%` (`IR-32-PIGEONHOLE-01`).
+# 🔴 DO NOT SUBMIT — no upload is authorized (`DOWNLOAD FOR RESEARCH / AUDIT: YES · SUBMIT TO LIVE PORTAL: NO`)
 
-### ⬇ ONE-CLICK Validated Round-6 GeoTIFF & Audit Bundle (`EXP3_H38_G1_CORROB`)
-* **[⬇ Download Validated `.TIF` (All-Finite `[0, 1]`, Audit Only — Do Not Submit): `gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif)** (`209,987` B · `sha256: 6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff`)
-* **[⬇ Download `.ZIP` Bundle: `gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.zip`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.zip)** (`176,161` B · `sha256: be822595c38e06cc30c384d3ba7bfac055515272d45cf0331d6e6f64161ed512`)
-* **[⬇ Download Spec `NaN`-Outside Twin: `gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif)** (`345,412` B · `sha256: 6dd6e37b617181c14948297c58f80b29a91de846c04441add0614d4e51b9b836`)
-* **[Automated 13/13 + 7/7 Format Validator Receipt (`20/20 PASS`)](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-audit.json)** · **[Round-6 JSON Run Card](evidence/h38_run_card.json)** · **[Full Experiment Log](evidence/h38_geothermal_experiments.json)** · **[Strict Protocol Audit](docs/data/protocol-audit.json)**
-* **Recorded Unique Submission Name:** `GEMSDOE32-EXP3_H38_G1_CORROB-35859E28`
-* **Recorded Portal Note (`102 / 140` chars):** `GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT`
-* **Live GitHub Pages Site:** <https://buffedlizard55-lab.github.io/GEMSDOE32/> · **[Executive Summary & Step-by-Step Submission Subpage](docs/executive-summary.html)**
+| Artifact | Status | Evidence & Automated Validation Summary |
+|---|---|---|
+| **Round-6 Multi-Physics file (`EXP3_H38_G1_CORROB` — `H38-G1..G4`, 53ch LiDAR + GeoDAWN + GDR + CELF)**<br>[`gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif) (`209,987 B`) · [`.zip`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.zip) (`176,161 B`) · [`-nan.tif`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif) · [`audit.json`](docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-audit.json) · [`H38 Run Card`](evidence/h38_run_card.json) | 🔴 **DO NOT SUBMIT — audit artifact (`verdict = negative`)** | SHA-256 `6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff`. Validated automatically (`20/20 PASS`: `EPSG:32611`, `3730×3292` `float32`, `nodata=None`, all `12,279,160` cells finite in `[0.0, 1.0]`, `37,654` dots, `0` on catalogue, `81.2%` off-`H19-5`). 53-channel Leakage Canary PASS (`worst AUC = 0.6235 <= 0.90`). Achieves **repo-best `HOLDOUT-DTI = 0.11696` `[0.10053, 0.13204]`** on `GEMSDOE32-HIDE-RECOVER-v3.0` (`+17.9%` over `0.2778` Champion `0.09920`, paired Δ `+0.01776 [+0.00832, +0.02743]`) via `IR-32-LIDAR-01` quantile routing + 1m 3DEP LiDAR + GeoDAWN K/Th/U/TMI_up150 + GDR `#1391`, and passes `<= 70%` overlap vs all 26 live-scored cross-site detectors (`max 69.49%`; `58.78%` vs Champion), **but fails closed** because `SGMC_cal` (`0.05037`) trails Champion (`0.06412`) and unexempted `<= 3 px` check hits local `hcvf2` (`77.56%`) + `r13-lattice-s5` (`99.71%`). Archive name: `GEMSDOE32-EXP3_H38_G1_CORROB-35859E28` · Note (`102/140` chars): `GEMS32 EXP3_H38_G1_CORROB 53ch LiDAR+GeoDAWN+GDR CELF 37654px HR=0.1170 SGMC=0.0504 HOLD-DO-NOT-SUBMIT`. |
+| **Newest unique file (`H36-1C` TDR-PDS + Steger Crest)**<br>[`gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif`](docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif) (`206,761 B`) · [`.zip`](docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.zip) (`171,140 B`) · [`-nan.tif`](docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif) · [`audit.json`](docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-audit.json) · [`Run Card`](evidence/h36_tdr_pds_run_card.json) | 🔴 **DO NOT SUBMIT — audit/research artifact (`verdict = negative`)** | SHA-256 `f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c`. Validated 100% without human intervention: `EPSG:32611`, `3730×3292` `float32`, `nodata=None`, all `12,279,160` cells finite in `[0.0, 1.0]`, `0` NaNs (prevents `"Predicted values must be in range [0, 1]"`), `37,654` dots (`0` on catalogue; `83.84%` off-`H19-5`). Leakage canary PASS (`46/46` channels, `max AUC = 0.58412 <= 0.90`). Genuine uniqueness PASS across all 44 genuine detector rasters (`max |Spearman| = 0.1595 <= 0.90`; `max 3-px overlap = 60.44% <= 70%`; `52.20%` vs `0.2778` Champion). Achieves **`HOLDOUT-DTI = 0.10982` `[0.09866, 0.12275]`** on repaired `GEMSDOE32-HOLDOUT-v3-visible-gated` (`22,232` withheld positives; vs raw Champion `0.09920`), **but fails closed** because censorship-matched `d0==0` control is `0.07639 < 0.09920`, off-catalogue USGS SGMC blind-fault DTI is `0.08380` `[0.06079, 0.10993] < 0.09606`, and literal 5-px calibration-lattice overlap is `99.80% > 70%` (`IR-32-LATTICE-01`). Archive name: `GEMSDOE32-H36-1C-TDR-PDS-9FF9D6E2` · Note (`118/140` chars): `H36-1C TDR-PDS+Steger 37654d \| HOLDOUT-DTI 0.1098 [0.0987,0.1227] v3-vis 22232pos \| SGMC 0.0838<0.0961 \| DO NOT SUBMIT`. |
+| **Archived Round-6 candidate (`R6-1`)**<br>[`gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`](docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif) · SHA-256 `c7f094c1…eae56547` | 🔴 **DO NOT SUBMIT — audit artifact only** | Real, uniquely named, format-valid GeoTIFF (`docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif`). **Format validity is not enough to authorize a competition upload.** Fail-closed release review ([protocol audit](docs/research/protocol-review-20261026.md), [decision](evidence/current_release_review.json)) found non-fold-local B=2 masking and noted that SGMC-tracing files score `0.65 / 0.56` locally yet `0.0492 / 0.0512` live (`IR-42-INSTR-02`, [counter-examples](evidence/sgmc_instrument_live_counterexamples.json)). |
+| **Best scored file (`GEMSDOE32` Champion)**<br>[`gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif`](docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif) | **Already submitted — do NOT resubmit** | **`0.2778`** (`OWNER-REPORT` / organizer-scored submission receipt; `37,654` dots; SHA-256 `c55bafc4…7ab6fa9`). Highest verified score across all 9 focus sites; resubmitting wastes a weekly slot. |
+| **Withdrawn / superseded (`H42-1`, `h32-winning-46090`, `h-geo-conduit`)** | 🔴 **DO NOT SUBMIT** | `H42-1` (`b91008fa`): `81.9%` within 3 px of `GEMSDOE25` `h38-greedy-credit` (`> 70%`) and `0.0545 < random 0.0709` on off-catalogue SGMC (`IR-42-INSTR-01`). `h32-winning-46090` (`c3459dcd`): `84.0%` champion-family variant (`IR-42-README-01`). `h-geo-conduit` (`2d0d0c5e`): `70.24%` overlap vs `GEMSDOE28` (`IR-R6-02` / `IR-32-CONDUIT-01`). |
+
+- **GitHub Pages Landing & Executive Summary:** [`docs/index.html`](docs/index.html) · [`docs/executive-summary.html`](docs/executive-summary.html) (exact portal upload procedure for when a future candidate clears every gate; use `-zeros.tif` so `"Predicted values must be in range [0, 1]"` can never occur).
+- **Official Public Leaderboard:** `#1 = 0.4413` (`xiaofanhu`), verified on the [DrivenData Leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/). Weekly cap: governed by the authenticated submission screen ([staff clarification #11553](https://community.drivendata.org/raw/11553)).
 
 ---
 
-> ### Core Values — Central to Every Decision in `GEMSDOE32`
-> * **Maximize P(Win).** *"Maximize the Probability of Winning"* is our decision-making framework. Every weekly submission slot (`3 / week`, with **one** final submission scored in *both* prize rounds) is a scarce experimental resource, never a lottery ticket. When local calibrated evidence says a new candidate does not yet beat our `0.2778` live anchor on off-catalogue faults, we protect the slot and publish the exact diagnostic gap.
-> * **Own the Outcome.** We own results end to end — data restoration, feature sanitization, evaluator repair, leakage checks, format validation, irregularity audits, and clear public documentation — without human-inspector bottlenecks or silent assumptions.
+## Arena Core Values
+
+- **Maximize P(Win):** Weigh tradeoffs and risk and choose the path that maximizes the probability of winning. Always put the outcome first! Every weekly DrivenData submission slot is scarce information-bearing capital — never spend a live slot on a duplicate, unvalidated, or holdout-inferior raster.
+- **Own the Outcome:** Own results end to end, from initial action to final result. Step up and take action when problems arise. Treat both failure and success as signals to learn and adapt. Stay accountable until the final outcome is achieved — including repairing shared broken evaluation instruments (`IR-32-INSTR-03` fixed in `src/gems32/holdout.py`), auditing band misidentifications (`IR-32-BAND-02`, `IR-32-BAND-03`), and reporting negative results honestly.
 
 ---
 
-## 🌎 1. Nine-Site Executive Summary (`GEMSDOE24..GEMSDOE36`) — Byte-Verified Audit
+## 1. Executive Summary Across the 9 Focus Sites (`GEMSDOE24` .. `GEMSDOE36`)
 
-All nine focus sites (`GEMSDOE24`, `GEMSDOE25`, `GEMSDOE27`, `GEMSDOE28`, `GEMSDOE30`, `GEMSDOE31`, `GEMSDOE32`, `GEMSDOE33`, `GEMSDOE36`) plus lineage root `19GEMSDOE`, independent OOF benchmark `GEMSDOE70`, and the official [`drivendataorg/gems-prize-reference-solution`](https://github.com/drivendataorg/gems-prize-reference-solution) were audited directly from SHA-256-pinned GeoTIFF bytes and GitHub commits (full machine-readable table in [`evidence/nine_site_executive_audit_20261026.json`](evidence/nine_site_executive_audit_20261026.json)).
+Every historical live score below is labelled **`OWNER-REPORT`** (recorded from owner submission logs; no cryptographic organizer receipt links raw `.tif` bytes to a live score — `IR-32-SCORE-01`). Notice also **`IR-32-SCORE-03`**: `0.3195` is the portfolio's internal aspirational target (`0.2778` is the highest verified score across all 9 focus sites; public leaderboard `#1` is `0.4413` by `xiaofanhu`).
 
-> **Score Provenance Note (`Rule 3`):** Every live score below is labelled `ORGANIZER-CONFIRMED (owner-reported)` because it comes from owner-committed submission logs across the sibling repos without a cryptographic DrivenData receipt screenshot (`IR-32-SCORE-01`). Every local proxy number is explicitly labelled `HOLDOUT-DTI`.
+| Site & GitHub Repo | Verified `2026-10-26` `HEAD` | Best Historical Scored Submission (`OWNER-REPORT`) | Unique vs. Duplicate / Lineage Forensics | Latest `2026-10-26` Unique TIF & Gate Verdict | Submit Today? |
+|---|---|---|---|---|---|
+| **[GEMSDOE24](https://github.com/buffedlizard55-lab/GEMSDOE24)** | `2a2b9829` | `0.2477` (`h25-1-dotted-h19-5-d1-5`, `60,069`d) / `0.2194` (`h24-1-tip-relay`) | `d1-5` is superseded denser `H19-5` parent; `h24-1` is unique tip/relay below `0.2778` | `gemsdoe24-crp1-dipfan-stepover-37654-…-7764b339-zeros.tif` (`verdict = negative`) | **NO** |
+| **[GEMSDOE25](https://github.com/buffedlizard55-lab/GEMSDOE25)** | `de77cb6c` | `0.2600` (`dotted-h19-5-d2-8-…-e56ea318af89`, `44,090`d) | **Dot-identical (`44,090 / 44,090`) to `GEMSDOE30`**; unpruned parent of `0.2778` | `h44` multi-physics lane (`verdict = negative`, `DO NOT SUBMIT`) | **NO** |
+| **[GEMSDOE27](https://github.com/buffedlizard55-lab/GEMSDOE27)** | `398cda94` | `0.2449` (`topo-gap-closure-on-d1-5`) / `0.2190` (`H29-S`) | Gap-closure on `d1.5` hurt (`-0.0028`); `H29-S` unique below `0.2778` | `gems27-h31-range-front-step-50k-…-zeros.tif` (`verdict = negative`) | **NO** |
+| **[GEMSDOE28](https://github.com/buffedlizard55-lab/GEMSDOE28)** | `94152be6` | `0.2710` (`h36-1-rung30`) / `0.2708` (`solo-8acb75e1`, `40,199`d) | **`0.2708` is dot-identical (`40,199 / 40,199`) to `GEMSDOE31`**; `B=1` parent of `0.2778` | `gems28-s20-asymmetric-hanging-wall-37654-…-8635a2a3-zeros.tif` (`verdict = negative`) | **NO** |
+| **[GEMSDOE30](https://github.com/buffedlizard55-lab/GEMSDOE30)** | `ac54b7f3` | `0.2600` (`d28-poisson300m-offcat-44090`) | **100% pixel-identical duplicate of `GEMSDOE25`** (`0.2600 == 0.2600`) | `gemsdoe30-PTA1-piedmont-thermal-37654-…-669abcb3-zeros.tif` (`verdict = negative`) | **NO** |
+| **[GEMSDOE31](https://github.com/buffedlizard55-lab/GEMSDOE31)** | `6ca63b0c` | `0.2708` (`h27-4-solo-d28-8acb75e1`, `40,199`d) | **100% pixel-identical duplicate of `GEMSDOE28`** (`40,199` dots) | `gemsdoe31-xfcoh31-37654-…-c00c6405-zeros.tif` (`verdict = negative`) | **NO** |
+| **[GEMSDOE32](https://github.com/buffedlizard55-lab/GEMSDOE32)** | *(current)* | **`0.2778` (`h33-h33-2-b2-…-e5eb6e7e`, `37,654`d) — PORTFOLIO CHAMPION** | **Unique optimal `B=2` endpoint** (`solo` minus `2,545` `1 < d_cat <= 2 px` flank dots); **already scored — do not resubmit** | `gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif` (`verdict = negative`, audit/research only) | **NO (`0.2778` already live)** |
+| **[GEMSDOE33](https://github.com/buffedlizard55-lab/GEMSDOE33)** | `7deca206` | `0.2632` (`h33d-analog-tip-stepover-r30`, `50,023`d) | Unique analog tip/step-over geometry, `0.0146` below `0.2778` | Latest `2026-10-26` lane (`verdict = negative`, `DO NOT SUBMIT`) | **NO** |
+| **[GEMSDOE36](https://github.com/buffedlizard55-lab/GEMSDOE36)** | `a4c660a8` | `0.2750` (`anderson-geothermal-pinn-38854`, `38,854`d) | **96.9% superset duplicate of `GEMSDOE32` Champion** (`37,654` Champion dots + `1,200` extra dots costing `-0.0028`) | `gemsdoe36-gps-graben-step-37654-…-b29b41fc-zeros.tif` (`verdict = negative`) | **NO** |
 
-| Site & Verified Repo | Best Submission on Site | Dots | Live Score (`owner-reported`) | Local `HOLDOUT-DTI` (`SGMC-cal v3.0`) | Exact Relationship to Family & Current Gate Status |
-| :--- | :--- | ---: | ---: | ---: | :--- |
-| **[GEMSDOE32](https://github.com/buffedlizard55-lab/GEMSDOE32)** 🏆 **(#1 of 9)** | `gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif` (`c55bafc47005…`) | `37,654` | **`0.2778`** | `0.06412` | **ALL-9 CHAMPION.** Exact `B=2` rung: `SOLO-D2.8 \ {d(labels) <= 200 m}` (`-2,545` dead-annulus dots, `+0.0070` over `B=1`, `+0.0178` over `B=0`). Round-6 `H38-G1`: **DO NOT SUBMIT** (retain `0.2778`). |
-| **[GEMSDOE36](https://github.com/buffedlizard55-lab/GEMSDOE36)** (#2 of 9) | `gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif` (`34500f8892c5…`) | `38,854` | **`0.2750`** | `0.06378` | Pixel-exact superset of `GEMSDOE32` Champion (`37,654` Champion dots `+ 1,200` Anderson-mechanics dots; Jaccard `0.969`; marginal `~0.018` credit/dot `< 0.0556` bar -> `-0.0028` DTI). Current gate: **NO-GO**. |
-| **[GEMSDOE28](https://github.com/buffedlizard55-lab/GEMSDOE28)** (#3 of 9) | `gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif` (`f86eb44f0dd1…`) | `37,660` | **`0.2710`** | `0.06233` | Tested 4 blind/buffer variants on `D2.8`: `RUNG30` (`0.2710`) > `SOLO-D2.8` (`0.2708`) > `HF-Euler` (`0.2707`) > `Prethin-Tip-Euler` (`0.2649`). Oct-25 `s18-mxtp` (`11,082` px) scored `0.0217` live; gate: **DO NOT SUBMIT**. |
-| **[GEMSDOE31](https://github.com/buffedlizard55-lab/GEMSDOE31)** (#4 of 9) | `gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-allfinite.tif` (`24f500e42b9c…`) | `40,199` | **`0.2708`** | `0.06224` | Exact `B=1` rung: `D2.8` (`44,090` px, `0.2600`) minus `3,891` dots within `100 m` of `labels.tif` (`+0.0108` DTI). Oct-25 `H31-M` stopped by `r13-lattice-s5` (`99.69%`); gate: **DO NOT SUBMIT**. |
-| **[GEMSDOE33](https://github.com/buffedlizard55-lab/GEMSDOE33)** (#5 of 9) | `GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif` (`0fb30c849f8a…`) | `41,865` | **`0.2632`** | `0.06163` | Analog fault-tip & step-over additions onto `B=1` base (`+0.0032` vs `D2.8`, `-0.0076` dilution vs un-extended `B=1`). Oct-25 `A33-L1`: **DO NOT SUBMIT**. |
-| **[GEMSDOE25](https://github.com/buffedlizard55-lab/GEMSDOE25)** (tie #6) | `dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif` (`91eae1ca51e8…`) | `44,090` | **`0.2600`** | `0.06059` | Kernel-matched `d = 2.8 px` Poisson-disk thinning of `H19-5` (`B=0`; `+0.0678` over `0.1922`). Parent dot set of `GEMSDOE30`, `31`, and `32`. Oct-25 `h66-mgd-flank` scored `0.0742` live; gate: **DO NOT SUBMIT**. |
-| **[GEMSDOE30](https://github.com/buffedlizard55-lab/GEMSDOE30)** (tie #6) | `gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif` (`67c65649fd85…`) | `44,090` | **`0.2600`** | `0.06059` | Dot-identical to `GEMSDOE25 D2.8` (`0` symmetric-diff pixels -> deterministic `0.2600` score). Proved `(Band 18, Band 11) = (+dg/dx, +dg/dy)`. Oct-25 `MSDB1` (`B=0`) scored `0.1462` live; gate: **DO NOT SUBMIT**. |
-| **[GEMSDOE24](https://github.com/buffedlizard55-lab/GEMSDOE24)** (#8 of 9) | `gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif` (`24f500e42b9c…`) | `60,069` | **`0.2477`** | `0.06423` | First sparse thinning (`d = 1.5 px`) of `H19-5` (`0.1922 -> 0.2477`, `+0.0555`). Hosts canonical SHA-256-pinned external mirrors. Oct-25 `gvc1` scored `0.0859` live; `RSHG1` **DO NOT SUBMIT** (`72.69%` overlap). |
-| **[GEMSDOE27](https://github.com/buffedlizard55-lab/GEMSDOE27)** (#9 of 9) | `gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif` (`33003374335d…`) | `61,328` | **`0.2449`** | `0.06378` | Added `+1,259` topo-gap bridge pixels to `D1.5` (`-0.0028`). Notably, Oct-25 independent OOF `H29` (`37,654` px, hydrothermal + Frangi + `CELF300m` + `B=2`) scored **`0.2190`** live! Current `H30`: **DO NOT SUBMIT**. |
-
-### Lineage Root & Wider Benchmarks
-* **[19GEMSDOE](https://github.com/buffedlizard55-lab/19GEMSDOE)** (`gems19-h19-5-...-e27054cf-nan.tif`, `121,131` px): **`0.1922`** live (`SGMC_cal = 0.05079`) — the undotted 4-pillar corroborated geological surface (`1 m` USGS 3DEP LiDAR scarps + DOE GDR `#1391` wells/vents + geopotential worms + power-law tip/stepover projections) from which every `0.2449–0.2778` Focus-9 champion was thinned and buffered.
-* **[GEMSDOE70](https://github.com/buffedlizard55-lab/GEMSDOE70)** (`gems70-p5-dual-submod300-oof38k-20261020.tif`, `37,654` px): **`0.2478`** live (**highest `SGMC_cal = 0.08570`** across all `27` audited files) — proves an independent OOF model fusing `1 m` 3DEP LiDAR + GDR `#1391` + Quaternary + `SGMC d>=3` + `300 m` submodular cover reaches `0.2478` without `H19-5` dots.
-* **[Official Reference Solution](https://github.com/drivendataorg/gems-prize-reference-solution)** (`unet-mc-cv-reference-solution.ipynb @ aebe92f7c8`): ResNet34 U-Net (`128x128` patches, `TverskyLoss(alpha=0.2, beta=0.8)`). Reveals two critical facts (`IR-32-REFNB-01`): Cell 12 filters `pos_idx` to tiles with `labels > 0` and Cell 17 leaves every unmapped tile identically `0.0`; Cell 19 writes `0.0` outside footprint (`nodata=None`), matching our `-zeros.tif` convention.
+**Portfolio Recommendation:** **`GEMSDOE32`'s `h33-h33-2-b2` (`0.2778`)** already holds the portfolio's highest live score. Spend **`0` DrivenData submission slots today** across all 9 sites.
 
 ---
 
-## 🔬 2. PhD-Level Forensic Analysis: Why `0.2778` Won & How to Reach `0.3195–0.4413`
+## 2. PhD-Level Forensic Proof: Why `h33-h33-2-b2` Scored `0.2778` — and What `0.3195` & `0.4413` Require
 
-### 2.1 Exact Set-Algebraic Genealogy & Tversky Knapsack Proof
-Under the official Distance-Weighted Tversky Index ($k(d) = \max(1 - d / 300\text{ m}, 0)$, $\alpha = 0.2$, $\beta = 0.8$), $\text{FN}_w = |G| - \text{TP}_w$ holds identically, giving:
-$$\text{DTI} = \frac{T}{0.2(T + S - M) + 0.8|G|}, \qquad \text{emit pixel } x \iff \mathbb{E}[k(x)] > 0.2 \cdot \text{DTI}$$
-where $T = \text{TP}_w$, $S = \sum_x p(x)$ is total emitted mass, and $M = \sum_x p(x)\max_{g \in G} k(d(x,g))$. Because $\text{TP}_w$ saturates via $\max_x$ within $300\text{ m}$ (`R = 3 px`) while every emitted dot pays $\alpha = 0.2$ in the denominator, dense ribbons pay huge false-positive mass for zero marginal $\text{TP}_w$. Furthermore, the DrivenData scorer **masks known `labels.tif` pixels**, creating a `0–200 m` dead annulus around mapped traces where hidden ground-truth faults almost never sit ($k \approx 0.006–0.016 < 0.0556 = 0.2 \times 0.2778$).
-* **Thinning (`121,131 -> 44,090` px, `d = 2.8 px`):** Shed `77,041` redundant pixels -> **`0.1922 -> 0.2600` (`+0.0678` DTI)**.
-* **Dead-Annulus Pruning (`44,090 -> 40,199 -> 37,654` px, `B = 0 -> 1 -> 2`):** Removed `3,891` (`B=1`) + `2,545` (`B=2`) near-catalogue pixels -> **`0.2600 -> 0.2708 -> 0.2778` (`+0.0178` DTI)**, peaking at `B=2` before `B=3` begins deleting genuine step-over tips.
+### 2.1 Exact Distance-Weighted Tversky (`DTI`) Algebra
+With $\alpha = 0.2$, $\beta = 0.8$, 300 m (`R = 3 px`) triangular kernel $K(u) = \max(0, 1 - u/3)$, known-catalogue pixels masked before scoring ([staff post #11516](https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516)), and binary dots $P \in \{0, 1\}$ ($|P| = N$):
 
-### 2.2 Repair of the Local Holdout Instrument (`IR-32-INSTR-04`)
-Evaluating static `B=2`-masked files against full `labels.tif` previously inverted the live `B`-ladder (`Spearman = -0.1747` across `n = 27` live-scored submissions). Implementing true Rule-2 visible-only `B`-gating per fold in `src/gems32/holdout.py::evaluate_hide_and_recover` (`GEMSDOE32-HIDE-RECOVER-v3.0`, `n_withheld = 22,232`, `256`-block cluster bootstrap) restores **Spearman `+1.000`** on the `D2.8` `B`-ladder:
-* `B = 0` (`D2.8`, live `0.2600`): `HOLDOUT-DTI = 0.096743`
-* `B = 1` (`SOLO`, live `0.2708`): `HOLDOUT-DTI = 0.098977`
-* **`B = 2` (`CHAMPION`, live `0.2778`): `HOLDOUT-DTI = 0.099202` `[0.085947, 0.112674]` (exact peak)**
-* `B = 3` (over-pruned): `HOLDOUT-DTI = 0.097102`
-Meanwhile, across all **`27` cross-site live-scored submissions** (`[0.0107, 0.2778]`), `GEMSDOE32-SGMC-CAL-v3.0` (`n_withheld = 62,703` eval / `169,243` total off-catalogue SGMC pixels) achieves **Spearman `+0.6755` (`p = 1.10e-4`)** — explaining why we require **both** instruments before spending a live slot.
+$$\text{DTI}(P, G) = \frac{T}{0.8\,T + 0.2\,N + 0.8\,|G|}, \qquad T = \sum_{g \in G} \max_{p \in P} K(\|g - p\|_2) \le |G|.$$
 
-### 2.3 Can We Score Higher Than `0.2778` (Toward `0.3195` and `0.4413`)?
-**Yes — but never by further post-processing `H19-5`.** Live inversion of the `B=0 / B=1` pair implies $|G| \approx 12,226$ hidden truth pixels and $\text{TP}_w \approx 5,073$ (`41.5%` weighted recall) at `0.2778`. At matched `S = 37,654` dots:
-* Crossing **`0.3195`** requires **`+15.0%`** more weighted recall ($\text{TP}_w \approx 6,070$, `~49.6%` recall).
-* Crossing **`0.4413`** (`xiaofanhu`, Oct-25 `#1`) requires **`+58.9%`** more weighted recall ($\text{TP}_w \approx 9,150$, `~74.8%` recall).
-The cross-site live record (`0.0217–0.1462` for 19-band potential-field-only emitters vs `0.2190` on `GEMSDOE27 H29` and `0.2478` on `GEMSDOE70 p5`) proves three ingredients are mandatory: **(1) full multi-physics inputs (`1 m` 3DEP LiDAR + GeoDAWN K/Th/U/upward-continued TMI + DOE GDR `#1391` thermal features), (2) 2D spatial-context Tversky learning (`H38-G4`) across 100% of footprint tiles (removing reference notebook Cell 12's positive-tile filter), and (3) `B=2` + `300 m` lazy-greedy submodular packing.**
+From the 5-px blind calibration lattice (`13gems r13-lattice-s5`, `206,895` dots, live `0.0904`) and the 4-point `H19-5` nested ladder, hidden off-catalogue ground truth in NW Nevada has **`|G| ≈ 12,265` pixels** (~`0.24%` of the `5,167,373`-pixel footprint). Differentiating $\text{DTI}(T, N)$ gives the exact marginal break-even credit per added dot:
 
----
+$$\frac{\partial\,\text{DTI}}{\partial N} > 0 \iff \Delta T > \frac{0.2\,\text{DTI}}{1 - 0.8\,\text{DTI}}.$$
 
-## 🌋 3. Ranked Candidate Geological Hypotheses (`H38-G1..H38-G4`) & Round-6 Experiments
+At $\text{DTI} = 0.2778$, each extra dot must add **$\Delta T > 0.0714$** weighted truth pixels just to break even!
 
-Before writing model code, four geological hypotheses were preregistered in [`docs/research/hypotheses-round6-20261026.md`](docs/research/hypotheses-round6-20261026.md) and [`registry/hypotheses.json`](registry/hypotheses.json), with all external datasets verified free, official, and SHA-256-pinned on disk:
+### 2.2 The 4-Step `B`-Pruning Ladder (`0.1922 -> 0.2600 -> 0.2708 -> 0.2778`)
+1. **Solid `H19-5` (`121,131` px -> `0.1922`):** $T_{\text{solid}} \approx 5,021$ (`40.9%` of $|G|$), crushed by $0.2 \times 121,131 = 24,226$ denominator mass.
+2. **`d2.8` Poisson Disk (`44,090` dots -> `0.2600`):** 2.8-px spacing preserves `~90.6%` of 300 m kernel coverage ($T \approx 4,552$) while slashing $0.2 N$ by `63.6%`.
+3. **`Solo` (`40,199` dots -> `0.2708`):** Drops `3,891` `d_cat == 1 px` immediate catalogue neighbors ($T \approx 4,522$).
+4. **Champion `h33-h33-2-b2` (`37,654` dots -> `0.2778`):** Removes the **`2,545` flank dots at $1 < d_{\text{cat}} \le 2\text{ px}$ (`100–200 m`)**, losing only $\Delta T \approx 19$ (`0.0075/dot`, `10×` below the `0.0714` break-even bar!) because `existing_faults.tif` already occupies the fault core. At $B=3$, repaired `v3` holdout rolls over (`0.09644 < 0.09920`) because genuine branch splays and relay ramps begin at `200–300 m`.
 
-| Rank | ID | Hypothesis & Layers | Physical Signature & Transform | Why Off-Catalogue & How It Differs | Expected Gain & Cost | Measured Status (`2026-10-26`) |
-| :---: | :---: | :--- | :--- | :--- | :--- | :--- |
-| **1** | **`H38-G1`** | **Multi-Physics Blind Hydrothermal-Structural Fault-Zone Classifier + CELF 300 m Cover** (`19` official bands + `16` multi-scale ridges + `18` derived `3DEP` LiDAR / `GeoDAWN` / `GDR #1391` channels = **`53` channels**) | Leak-free spatial-OOF `HistGradientBoostingClassifier` fusing LiDAR facing-asymmetry scarplets, `K-Th` metasomatism, `TMI - TMI_up150` magnetite oxidation troughs, `GDR` thermal halos, and vector gravity-magnetic-strain tensors + `B=2` + `300 m` CELF submodular cover | First `GEMSDOE32` model uniting `3DEP` LiDAR + `GeoDAWN` radiometrics/upward-continued magnetics + `GDR #1391` thermal wells/vents + nearest-filled boundary features + quantile-calibrated LiDAR/non-LiDAR routing (`IR-32-LIDAR-01`) | `+0.010` to `+0.028` `HOLDOUT-DTI` · Medium (`~94s` CPU) | **EXECUTED (`EXP-2` & `EXP-3`):** Beat Champion `+17.9%` on `Hide&Recover v3.0` (`0.11696` vs `0.09920`, paired CI `[+0.00832, +0.02743]`); `SGMC_cal = 0.05037` -> **`DO NOT SUBMIT`** |
-| **2** | **`H38-G2`** | **Lithology-Deconfounded K-Metasomatism & Magnetite-Destruction Trough Detector** (`geodawn_rad_u8.tif`, `geodawn_extensions_u8.tif`, Bands `6, 9, 14, 15, 17`) | Standardized `z(K) - z(Th)` adularia/illite excess paired with shallow magnetic oxidation troughs `z(tmi) - z(TMI_up150)`, magnetic tilt zero-crossing witness $\exp(-\|\text{tc}\|/\sigma)\|\text{tmi\_vg}\|$, and MT clay-cap lateral edges | Corrects `H-GEO-4`'s misattribution of Band 6 `tc` (`IR-32-CONDUIT-02`) and introduces true `GeoDAWN` radiometric & `150 m` upward-continuation channels to catch sealed blind hydrothermal upflow zones | `+0.004` to `+0.012` `HOLDOUT-DTI` · Low (on disk) | **MEASURED inside `EXP-2/3`** (all channels Canary `AUC <= 0.6235 <= 0.90`) |
-| **3** | **`H38-G3`** | **Contour-Orthogonal Asymmetric `1 m` LiDAR Piedmont Scarplet Filter** (`lidar_scarp_features_u8.tif` + Bands `12, 15, 19`) | $\text{step\_max} \cdot \text{coh100} \cdot \frac{\|\text{down}-\text{up}\|}{\text{down}+\text{up}+\varepsilon} \cdot \|\sin(\theta_{\text{lidar}}-\theta_{\text{contour}})\|$ over basin fill | Rejects contour-parallel Lake Lahontan shorelines and symmetric two-bank washes that confounded `H33-C`, isolating `<1 m` synthetic/antithetic piedmont fault splays | `+0.005` to `+0.015` `HOLDOUT-DTI` · Low (on disk) | **MEASURED inside `EXP-2/3`** (`+0.00719` jump `EXP-1 -> EXP-2`, `+0.01728` to `EXP-3`) |
-| **4** | **`H38-G4`** | **Spatial-Block Tversky-Loss 2D U-Net / SegFormer on `53`-Channel Stack + Submodular `300 m` Packing** (`53`-ch stack) | `128x128` (`12.8 km`) multi-scale encoder-decoder trained directly on smooth Distance-Weighted Tversky loss (`alpha=0.2, beta=0.8`) across **all** footprint tiles (removing reference Cell 12 filter) + `B=2` + `300 m` CELF | Replaces pixel-wise GBDT with 2D curvilinear fault-zone & relay-ramp context needed to close the `+0.04` to `+0.16` live DTI gap toward `0.3195–0.4413` | `+0.03` to `+0.12` live DTI potential · High (requires GPU) | **REGISTERED ROADMAP** (deferred on `2`-vCPU / `3.8 GiB` CPU-only sandbox) |
-
-### Summary of the `3 / 3` Executed Round-6 Experiments (`scripts/run_h38_geothermal_experiments.py`)
-* **53-Channel Single-Feature Leakage Canary (`Rule 4`):** **PASSED** — all `53` channels tested individually on `GEMSDOE32-HIDE-RECOVER-v3.0`; worst single-feature `AUC = 0.62350` (`coherence_s2` `<= 0.90`).
-* **LiDAR Survey-Selection Bias Discovery (`IR-32-LIDAR-01`):** `1 m` 3DEP LiDAR covers `75.37%` of the Nevada footprint (`labels.tif` `1.26x` denser inside; off-catalogue `SGMC` `1.61x` denser outside).
-
-| Experiment | Stack & Mechanism | Emitted Dots | `HOLDOUT-DTI` (`GEMSDOE32-HIDE-RECOVER-v3.0`, `n=22,232`) | `HOLDOUT-DTI` (`GEMSDOE32-SGMC-CAL-v3.0`, `n=62,703`) | Max Surface `\|Spearman\|` |
-| :--- | :--- | ---: | :--- | :--- | ---: |
-| `CHAMPION 0.2778` *(ref)* | Nested `H19-5 -> D2.8 -> B=2` | `37,654` | `0.099202` `[0.085947, 0.112674]` | **`0.064121`** `[0.056734, 0.071654]` | — |
-| `EXP1_H38_BASE35` | Repaired nearest-filled `35`-ch OOF HistGB + `B=2` + `300 m` CELF | `37,654` | `0.099680` `[0.082534, 0.116266]` (`+0.00048`) | `0.053714` `[0.048049, 0.059369]` | `0.4227` |
-| `EXP2_H38_G1_MULTIPHYS` | Full `53`-ch (`35` base + `18` `3DEP` LiDAR + `GeoDAWN` + `GDR`) + `B=2` + `300 m` CELF | `37,654` | `0.106871` `[0.089496, 0.122802]` (`+0.00767`) | `0.049909` `[0.043967, 0.055407]` | `0.4158` |
-| **`EXP3_H38_G1_CORROB`** *(selected)* | `53`-ch + `IR-32-LIDAR-01` quantile-calibrated routing + multi-physics structural corroboration + `B=2` + `300 m` CELF | `37,654` | **`0.116958`** `[0.100533, 0.132040]` (**`+0.01776`, `+17.9%`**) | `0.050374` `[0.044672, 0.055480]` | `0.4374` |
+### 2.3 Algebraic Impossibility of Reaching `0.3195` or `0.4413` from `H19-5` Subsets
+Because $T(P) \le T_{\text{solid}} \approx 5,021$ for EVERY subset $P \subseteq \text{H19-5}$:
+- Even an oracle keeping `28,000` dots with zero recall loss caps around `~0.305–0.312`.
+- Reaching **`0.3195`** at `37,654` dots requires **$T \approx 5,430 > 5,021$** (`+20.6%` more recall than the Champion).
+- Reaching **`0.4413`** (`#1 xiaofanhu`) at `37,654` dots requires **$T \approx 8,408$ (`68.6%` of $|G|$)** — `~3,905` additional hidden-fault pixels beneath blind Quaternary basins where `H19-5` placed zero predictions.
 
 ---
 
-## 🛠️ 4. Permanent Fix for `"Predicted values must be in range [0, 1]"` & Step-by-Step Submission Guide
+## 3. Pre-Registered Round-6 Geological Hypotheses (`H36-1` .. `H36-5`) & 3-Experiment Results
 
-### Why DrivenData Rejects Valid-Looking GeoTIFFs with `"Predicted values must be in range [0, 1]"`
-1. **`NaN` Outside Footprint (`Mechanism 1`):** Whole-array NumPy range validators (`((arr >= 0) & (arr <= 1)).all()`) evaluate to `False` if **any** cell is `NaN`. Inspection of [`drivendataorg/gems-prize-reference-solution`](https://github.com/drivendataorg/gems-prize-reference-solution) Cell 19 confirms the organizer's own reference notebook initializes `pred_full = np.zeros(...)` and writes `nodata=None`.
-2. **Raw `-3.4028235e+38` Float32 Sentinels (`Mechanism 2`):** `training_features.tif` contains `3,061` `-3.4e38` sentinel pixels *inside* the active footprint (`3,073` across all band-cells) plus `7.11M` outside; spatial filters (`Sobel`/`Gaussian`) previously smeared these sentinels into border cliffs until fixed via `_fill_nearest` in `src/gems32/features.py`.
+Full pre-registration: [`docs/research/hypotheses-round6-20261026.md`](docs/research/hypotheses-round6-20261026.md). During pre-implementation band forensics we uncovered and fixed:
+- **`IR-32-BAND-02`:** Band 6 (`tc`) is **Airborne Radiometric Total Count** ($\rho = +0.99942$ with $0.41\,\text{K} + 0.48\,\text{eTh} + 0.21\,\text{eU}$), NOT gravity Terrain Correction!
+- **`IR-32-BAND-03`:** Band 17 (`iso_grav_anom_slope`) is $|\nabla_h g_{\text{iso}}| \ge 0$, whereas Band 18 (`iso_grav_anom_hg`) is signed $\partial g_{\text{iso}}/\partial x$ (`[-2.21, +1.93]`).
+- **`IR-32-INSTR-03` (FIXED in `src/gems32/holdout.py`):** Upgraded shared evaluator to `GEMSDOE32-HOLDOUT-v3-visible-gated` (`22,232` withheld positives), deriving `B`-gates solely from visible faults per fold and restoring exact monotonic concordance with the live B-ladder (`0.06879 < 0.09674 < 0.09898 < 0.09920`).
 
-Every `-zeros.tif` written by `scripts/submission_writer.py` (`src/gems32/submission.py`) guarantees **all `12,279,160 / 12,279,160` cells are finite `float32` in `[0.0, 1.0]`**, `nodata=None`, `EPSG:32611`, `3730x3292`, verified automatically by `20/20` checks (`audit_geotiff` + `scripts/check_submission.py --strict-finite`).
+| Rank | ID | Hypothesis & Layers | Status |
+|---|---|---|---|
+| **#1** | **`H36-1`** | **True Potential-Field Tilt-Angle Zero-Contour + Piedmont Drainage-Scarp Co-Alignment (`TDR-PDS`)** (`tmi_vg`, `tmi_hg`, `tmi`, `iso_grav_anom_vg`, `iso_grav_anom_slope`, `iso_grav_anom_hg`, `dem`, `lidar_3dep_1m_scarps`) | **Executed (`H36-1A/B/C`) — Negative (`DO NOT SUBMIT`)** |
+| **#2** | **`H36-2`** | **Anisotropic Potential-Field Horizontal-Gradient Curvature Tensor** (`iso_grav_anom_slope`, `tmi_hg`, `dem`, `2m_temp`) | Registered (untried; next priority) |
+| **#3** | **`H36-3`** | **Hydrothermal Demagnetization Trough + K/eTh Alteration Halo** (`tmi`, `tmi_rtp`, `k`, `eth`, `eu`, `tc`, `tgt_geotherm`) | Registered (untried) |
+| **#4** | **`H36-4`** | **Half-Graben Accommodation-Zone Polarity-Reversal Saddle Detector** (`iso_grav_anom_hg`, `iso_grav_anom_slope`, `dem`) | Registered (untried) |
+| **#5** | **`H36-5`** | **Sentinel-1 InSAR Phase-Gradient & UNR Magnetotelluric Boundaries** (ASF ARIA/OPERA + ScienceBase MT) | Data-blocked in sandbox (`sciencebase.gov` / `asf.alaska.edu` unreachable) |
 
-### Step-by-Step Contest Upload Procedure *(Use ONLY When Top Banner Turns Green `OK TO SUBMIT`)*
-1. Check the top-of-page banner on [`docs/executive-summary.html`](docs/executive-summary.html) (currently **🔴 DO NOT SUBMIT — retain `0.2778` live slot**).
-2. When a future candidate clears both `Hide&Recover v3.0` and `SGMC-cal v3.0` + uniqueness gates, click **One-Click Download `.TIF`** (`*-zeros.tif`).
-3. Open <https://www.drivendata.org/competitions/306/competition-doe-gems/submissions/>, choose the `*-zeros.tif` file, paste the unique submission ID and `<= 140`-character note from the Run Card, and record the returned portal receipt in `data/observations.jsonl`.
+### 3-Experiment Execution Summary (`GEMSDOE32-HOLDOUT-v3-visible-gated`, `22,232` withheld positives, `B=2`, `37,654` dots)
+
+| Arm | `HOLDOUT-DTI` (`v3-vis`, 95% CI) | Censored `d0==0` Control | Off-Catalogue USGS SGMC (`62,703` pos, 95% CI) | SGMC Calibrated |
+|---|---|---|---|---|
+| **Baseline: `0.2778` Champion (`h33-h33-2-b2`)** | `0.09920` `[0.08202, 0.12219]` | `0.09920` | `0.09606` `[0.08482, 0.10773]` | `0.06412` |
+| **Exp 1 — `H36-1A` (Unsupervised Multi-Physics Crest)** | `0.06380` `[0.04994, 0.07726]` | `0.04336` | `0.16421` | `0.11054` |
+| **Exp 2 — `H36-1B` (500 m Halo-Excluded PU HistGB + Steger)** | `0.10482` `[0.09502, 0.11770]` | `0.07410` | `0.06832` | `0.04542` |
+| **Exp 3 — `H36-1C` (Geometric-Mean Hybrid + Steger Crest)** | **`0.10982`** `[0.09866, 0.12275]` | `0.07639` | `0.08380` `[0.06079, 0.10993]` | `0.05585` |
+
+
+### 3B. Parallel Multi-Physics Suite (`H38-G1..H38-G4`, 53 Channels: Nearest-Filled Base35 + 1m 3DEP LiDAR + GeoDAWN K/Th/U/TMI_up150 + GDR `#1391`)
+
+Shared template repairs in `src/gems32/features.py` (`_fill_nearest` eliminating footprint-border `-3.4e38` sentinel cliffs; `scripts/build_features.py` aligned to exact `5,167,373`-px `sample_submission.tif` footprint), `scripts/evaluate_holdout.py`, and `scripts/submission_writer.py`, plus `scripts/run_h38_geothermal_experiments.py` (`evidence/h38_geothermal_experiments.json`, `evidence/h38_run_card.json`, `evidence/nine_site_executive_audit_20261026.json`):
+- **53-Channel Single-Feature Leakage Canary:** PASS (`worst AUC = 0.62350` on `coherence_s2 <= 0.90`).
+- **LiDAR Survey-Selection Bias (`IR-32-LIDAR-01`):** 1 m 3DEP LiDAR covers `75.37%` of the Nevada footprint (`labels.tif` `1.26×` denser inside; off-catalogue `SGMC` `1.61×` denser outside).
+- **Official Reference U-Net Inspection (`IR-32-REFNB-01`):** `drivendataorg/gems-prize-reference-solution` (`aebe92f7c8`) Cell 12 skips every `128×128` tile with `labels == 0` (leaving blind basins `0.0` at inference) while Cell 19 writes `0.0` outside footprint (`nodata=None`), motivating Rank-4 GPU roadmap **`H38-G4`** (full-footprint 53-channel 2D Tversky U-Net/SegFormer + `B=2` + 300 m CELF).
+- **3-Experiment Progression (`GEMSDOE32-HIDE-RECOVER-v3.0`, `22,232` withheld positives, `37,654` dots):**
+  1. `EXP1_H38_BASE35` (repaired 35ch OOF HistGB + `B=2` + 300 m CELF): `HOLDOUT-DTI = 0.09968 [0.08253, 0.11627]`, `SGMC_cal = 0.05371`
+  2. `EXP2_H38_G1_MULTIPHYS` (53ch LiDAR + GeoDAWN + GDR): `HOLDOUT-DTI = 0.10687 [0.08950, 0.12280]`, `SGMC_cal = 0.04991`
+  3. **`EXP3_H38_G1_CORROB`** (53ch + `IR-32-LIDAR-01` quantile routing + structural corroboration): **`HOLDOUT-DTI = 0.11696 [0.10053, 0.13204]`** (`+17.9%` over Champion `0.09920`), `SGMC_cal = 0.05037` -> **`DO NOT SUBMIT`** (`verdict = negative`).
 
 ---
 
-## ⚙️ 5. Autonomous Data Placement & End-to-End Reproducibility
+## 4. Portal Error `"Predicted values must be in range [0, 1]"` — Root Cause & Verified Fix
 
-Data placement and feature construction run end-to-end without manual intervention using SHA-256-pinned mirrors (`registry/data_manifest.json`):
+1. **`float32` Sentinel Leakage:** `training_features.tif` encodes nodata as `-3.4028235e+38`, including **`3,061` pixels inside the active submission footprint**. Propagating un-sanitized bands leaks `-3.4e38` into `[0, 1]`.
+2. **Whole-Raster Strict Validation:** `src/gems32/submission.py` + `src/gemsdoe32/submission.py` write primary `-zeros.tif` files with `nodata=None`, `float32`, `EPSG:32611`, `3730×3292`, clamping and verifying **all `12,279,160` cells finite in `[0.0, 1.0]` with `0` NaNs anywhere on disk**.
+
+---
+
+## 5. Autonomous Local Validation & Reproduction
+
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
-.venv/bin/python scripts/restore_data.py                   # SHA-256-verified competition + external rasters -> .cache/gems_data/
-.venv/bin/python scripts/prepare_data.py                   # Sanitized 19 bands + footprint/catalogue masks
-.venv/bin/python scripts/build_features.py                 # Nearest-filled 35-channel structural stack -> .cache/gems_work/
-.venv/bin/python scripts/run_h38_geothermal_experiments.py # 53-ch Canary + EXP-1..3 + GeoTIFF + Run Card
-.venv/bin/python scripts/check_submission.py docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif --strict-finite
-.venv/bin/python scripts/audit_release_protocol.py         # Refreshes docs/data/protocol-audit.json
-.venv/bin/python scripts/audit_shipped.py                  # Audits all 39 GeoTIFFs in docs/downloads/
-.venv/bin/python scripts/build_site.py                     # Rebuilds docs/*.html and root pages
-.venv/bin/pytest tests -q                                  # Runs full automated test suite
+python -m venv .venv
+. .venv/bin/activate
+pip install -r requirements.txt
+
+# Unit, format, hygiene, repaired v3 holdout, and site-integrity suite
+python -m pytest tests -q
+
+# Optional full data restore + H36-1C rebuild + site regeneration
+python scripts/restore_data.py
+python scripts/prepare_data.py
+python scripts/run_h36_tdr_pds_pipeline.py
+python scripts/audit_shipped.py
+python scripts/audit_release_protocol.py
+python scripts/build_site.py
 ```
 
 ---
 
-## 🚩 6. Flagged Irregularities & Official Verified Sources
+## 6. Official Trusted Sources & References
 
-* **Full Irregularities Register (`21` items):** [`registry/irregularities.json`](registry/irregularities.json) · rendered at [`docs/irregularities.html`](docs/irregularities.html) — including newly audited & resolved `IR-32-INSTR-04` (visible-only `B`-gating repair), `IR-32-CONDUIT-01` (hardcoded `±0.032` CI & banner contradiction in PR `#17`), `IR-32-CONDUIT-02` (Band 6 `tc` magnetic tilt misattribution), `IR-32-PIGEONHOLE-01` (`r13-lattice-s5` `99.87%` footprint coverage), `IR-32-LIDAR-01` (`1 m` 3DEP coverage bias), and `IR-32-REFNB-01` (reference U-Net Cell 12 negative-tile skip).
-* **Official Verified Sources (`25` entries):** [`registry/sources.json`](registry/sources.json) · rendered at [`docs/sources.html`](docs/sources.html)
-  * DrivenData Competition Overview: <https://www.drivendata.org/competitions/306/competition-doe-gems/>
-  * Problem Description, Metric & Submission Spec: <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/>
-  * Public Leaderboard: <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/>
-  * Official Rules PDF (NLR / DOE OSTI `96647`): <https://docs.nlr.gov/docs/fy26osti/96647.pdf>
-  * Official Reference Solution (`aebe92f7c8`): <https://github.com/drivendataorg/gems-prize-reference-solution>
-  * Known-Fault Masking Clarification (Forum `#11516`): <https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516>
-  * USGS GeoDAWN Airborne Geophysics (`DOI: 10.5066/P93LGLVQ`): <https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and>
-  * DOE GDR Submission `#1391` (Great Basin / INGENIOUS): <https://gdr.openei.org/submissions/1391>
-  * USGS 3DEP Elevation (`1 m` DEM): <https://apps.nationalmap.gov/downloader/>
-  * USGS SGMC State Geologic Map Compilation: <https://mrdata.usgs.gov/sgmc/>
+- **DOE GEMS Prize Overview:** <https://www.drivendata.org/competitions/306/competition-doe-gems/>
+- **Problem Description & Metric (`α=0.2, β=0.8`, 300 m kernel, `[0, 1]` range):** <https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/>
+- **Official Public Leaderboard:** <https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/>
+- **Official DOE/NLR Rules PDF:** <https://docs.nlr.gov/docs/fy26osti/96647.pdf>
+- **Organizer Reference Solution:** <https://github.com/drivendataorg/gems-prize-reference-solution>
+- **USGS GeoDAWN Airborne Survey:** <https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and>
+- **INGENIOUS Great Basin Data Record (#1391):** <https://gdr.openei.org/submissions/1391>
+- **DrivenData Staff Clarifications:** [Known faults masked (#11516)](https://community.drivendata.org/t/scoring-clarification-are-known-usgs-ingenious-faults-masked-when-scoring-and-are-they-in-the-final-round-label-set/11516) · [New fault definition (#11536)](https://community.drivendata.org/raw/11536) · [Pooled public score (#11550)](https://community.drivendata.org/raw/11550) · [Weekly cap (#11553)](https://community.drivendata.org/raw/11553) · [Test sources withheld (#11527)](https://community.drivendata.org/raw/11527) · [Same metric in all rounds (#11556)](https://community.drivendata.org/raw/11556)
+- **Coordinate System (`EPSG:32611`):** <https://epsg.io/32611> · **Tversky Index:** <https://en.wikipedia.org/wiki/Tversky_index>
 
 ---
 
 <details>
-<summary><b>📋 Stored Project Prompt (Verbatim Reference — Read Every Session)</b></summary>
+<summary><b>Standing Competition Brief & Parallel-Run Protocol (preserved for auditability)</b></summary>
 
-> Review the repo.
+> Review this project and other GEMSDOE projects focusing on 24, 25, 27, 28, 30, 31, 32, 33, 36. Provide a clear executive summary of the highest submissions and make it very clear and obvious which submission is best to submit for a high score on the leaderboard and whether it is unique or a duplicate of another submission.
 >
-> I want to focus on the highest scoring submissions from the following sites, GEMSDOE24, GEMSDOE25, GEMSDOE27, GEMSDOE28, GEMSDOE30, GEMSDOE31, GEMSDOE32, GEMSDOE33, GEMSDOE36.
+> Maximize P(Win): Weigh tradeoffs and risk and choose the path that maximizes the probability of winning. Always put the outcome first!
+> Own the Outcome: Own results end to end, from initial action to final result. Step up and take action when problems arise. Treat both failure and success as signals to learn and adapt. Stay accountable until the final outcome is achieved.
 >
-> THE FOLLOWING IS THE HIGHEST URGENCY AND MUST BE FOLLOWED!
->
-> MUST GENERATE A UNIQUE TIF SUBMISSION FOR THE COMPETITION. DO NOT COPY A PREVIOUS SUBMISSION UNLESS IT'S FOR LEARNING AND EDUCATION. BUT WE MUST GENERATE A UNIQUE TIF SUBMISSION. IT MUST BE OBVIOUS WHETHER IT IS OK TO DOWNLOAD AND SUBMIT THE GENERATED TIF SUBMISSION.
->
-> There should be an easy to download submission tif file as described by the prompt. Read the entire prompt. A lot of sites mention inspection only and a human inspector, but the inspection needs to be done through the project and needs to be validated for submission without human intervention.
->
-> PARALLEL-RUN PROTOCOL — read first. This session is one of several running from this same prompt.
-> 1. LANE. Your lane is the single method paragraph below. Stay inside it. If your raster's rank-correlation with any registry raster exceeds [0.90], or more than [70%] of your dots fall within 3 px of one registry raster's dots, you have drifted into another lane: log it as a duplicate and stop. Check this on the surface before placement AND on the final dots.
-> 2. REUSE, DON'T REBUILD. Use the template's cached feature stack, evaluate_holdout.py and submission_writer.py. Holdout = hide-and-recover: withhold whole fault segments with a buffer, derive every catalogue-based feature only from the visible faults, mask visible faults pixel-exactly, score pooled DTI (alpha 0.2, beta 0.8, 300 m triangular kernel). If a shared tool is wrong, fix it once in the template and report it; never keep a private fork.
-> 3. LABEL EVERY NUMBER as HOLDOUT-DTI (evaluator version, number of withheld positives, 95% CI) or ORGANIZER-CONFIRMED (copied from a submission-page receipt). A projection is never written as a score.
-> 4. LEAKAGE CANARY. Test each feature alone on the holdout before trusting any result. AUC above [0.90] means leakage until proven otherwise.
-> 5. RUN CARD. End with one JSON card: hypothesis; mechanism; the named non-fault process that could mimic it; holdout DTI + CI; correlation/overlap vs registry; raster sha256; validator output (no NaN inside the footprint, values in [0,1], CRS/shape/transform match); submission name + note of at most 140 characters; verdict promote / negative. Negative results are deliverables.
-> 6. BUDGET. Stop after [3] experiments or [2] hours. Do not pick submissions: promotion to a real slot is a separate selector step, within the weekly cap shown on the submission page.
->
-> WE NEED TO STUDY, ANALYZE, AND UNDERSTAND THE HIGHEST SCORE FROM THE GEMDOE SITE WHERE THE SUBMISSION TIF IS DOWNLOADED FROM WHICH IS THE FOLLOWING:
-> https://buffedlizard55-lab.github.io/GEMSDOE32/docs/index.html
-> h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros: 0.2778
->
-> Why and how did this get the highest score and are we able to generate a submission that scores higher than 0.2778? Answer the question using Phd level experience, knowledge, and judgement. Then use the answer to generate a unique TIF submission into the competition. Must be unique submission unlike any within the GEMSDOE sites above. Verify working line by line no hallucinations.
->
-> Current competition leaderboard GEMSDOE high score: 0.4413
->
-> Before implementing, generate 3–5 candidate geological hypotheses we haven't tried yet, each naming: the specific layer(s) involved, the physical signature being targeted, why it should catch a fault missing from the USGS/INGENIOUS catalogue rather than one already in it, and how it differs from anything already implemented in this repo. Rank them by expected DTI improvement and implementation cost. Validate the top candidate on our spatially-blocked holdout set before touching a weekly submission slot — do not spend a submission slot on an idea that hasn't beaten the current holdout best. If a candidate can't be validated without new external data, name the specific free, official source needed and check it's obtainable before proposing the idea as viable.
->
-> Work line by line verifying from official verified trusted sources, provide links for manual review. There should be no manual input, work on your own to complete tasks. Flag any irregularities for review. No hallucinations.
->
-> I tried to submit the document that i downloaded from the site but it returned this error on the submission form: "Predicted values must be in range [0, 1]". Also we need to give it a unique name and a short comment to help you or your team tell submissions apart later e.g. clustering with k=25. Create a executive summary subpage that explains exactly how to make a submission into the contest. Create a github page for this repo that has clean ui, user friendly, simple and easy to use. Store this prompt in README.md for reference. Always maintain the core values: Maximize P(Win) and Own the Outcome!
->
-> Perform three passes before finishing:
-> Pass 1 — Implement the solution and verify it works.
-> Pass 2 — Review every file you touched. Look for bugs, missing requirements, unstated assumptions, and edge cases. Fix anything you find.
-> Pass 3 — Re-read the original request and check your final result against every detail. Polish anything rough.
-> Create a PR and merge it onto main!
+> Fix submission error: "Predicted values must be in range [0, 1]". Validate without human intervention, enforce Parallel-Run Protocol uniqueness (`Spearman <= 0.90` on surface and `<= 70%` within 3 px on final dots), single-feature leakage canary (`AUC <= 0.90`), `HOLDOUT-DTI` vs `ORGANIZER-CONFIRMED` provenance labels, budget cap (`<= 3` experiments or 2 hours), JSON Run Card, 3 review passes, and PR merge onto `main`. See [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md) and [`docs/research/standing-brief-20261025.md`](docs/research/standing-brief-20261025.md).
 
 </details>

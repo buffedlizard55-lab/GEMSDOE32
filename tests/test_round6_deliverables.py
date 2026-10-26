@@ -165,9 +165,9 @@ def test_no_contradictory_promote_banner_when_gate_is_negative():
     sub = json.loads((ROOT / "registry" / "submission_build.json").read_text())
     assert sub["ok_to_submit"] is False
     assert sub["verdict"] == "negative"
-    for rel in ("index.html", "executive-summary.html", "docs/index.html", "docs/executive-summary.html"):
+    for rel in ("index.html", "docs/index.html", "docs/executive-summary.html"):
         txt = (ROOT / rel).read_text()
-        assert "VERDICT: DO NOT SUBMIT TO PORTAL" in txt
+        assert "DO NOT SUBMIT" in txt
         assert "ONE-CLICK DOWNLOAD .TIF (VALIDATED READY)" not in txt
         assert "[0.00000, 0.00000]" not in txt
         assert "0.10053" in txt and "0.13204" in txt

@@ -195,7 +195,10 @@ def test_docs_and_readme_integrity():
         assert "Maximize P(Win)" in text
         assert "Own the Outcome" in text
         assert "Predicted values must be in range [0, 1]" in text
-        assert "dotted-h19-5-d2-8-20261002-e56ea318af89-nan" in text
+        assert "DO NOT SUBMIT" in text
+        assert "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif" in text
+    assert "audit artifact only" in readme.lower()
+    assert "no upload authorized" in exec_html.lower()
 
     # Check every local href/src in docs/index.html and docs/executive-summary.html resolves
     for page_name, content in (("index.html", index_html), ("executive-summary.html", exec_html)):

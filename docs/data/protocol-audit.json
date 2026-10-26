@@ -8,11 +8,11 @@
   "rule": "literal directional >70% within 3px: log duplicate and STOP; no density exemption",
   "results": [
     {
-      "file": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
+      "file": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
       "validator": {
-        "filename": "gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
-        "size_bytes": 209987,
-        "sha256": "6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff",
+        "filename": "gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+        "size_bytes": 201127,
+        "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
         "mode": "zeros",
         "geometry_reference": "/home/user/GEMSDOE32/.cache/gems_data/sample_submission.tif",
         "crs": "EPSG:32611",
@@ -56,7 +56,7 @@
         "all_checks_passed": true
       },
       "registry_reference": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
-      "within_3px_fraction": 0.9971317788282785,
+      "within_3px_fraction": 0.9781696499707866,
       "literal_duplicate": true,
       "surface_rank_correlation": null,
       "surface_status": "not available; not inferred from dots",
