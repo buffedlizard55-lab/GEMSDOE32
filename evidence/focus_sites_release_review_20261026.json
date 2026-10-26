@@ -1,0 +1,117 @@
+{
+  "schema_version": "focus-site-release-review-v1",
+  "reviewed_at_utc": "2026-10-26T05:43:00Z",
+  "score_provenance": "OWNER-REPORTED unless explicitly labelled HOLDOUT-DTI; no organizer receipt found",
+  "protocol_conclusion": "No reviewed new artifact is authorized for live submission under the refreshed literal all-registry rule.",
+  "sites": [
+    {
+      "repo": "GEMSDOE24",
+      "reviewed_ref": "17496743a9695974370512db64d8140ea1ccfd2f",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE24/blob/17496743a9695974370512db64d8140ea1ccfd2f/README.md",
+      "readme_sha256": "a6854899a1650fa3181ceb25c0ce6849d2d7c4773a995db63b7c2e681aadab1e",
+      "historical_best": "h25-1-dotted-h19-5-d1-5",
+      "historical_score": 0.2477,
+      "current": "H24-DPRF1",
+      "verdict": "do_not_submit",
+      "reason": "Site selector DO_NOT_SUBMIT; independent literal lattice overlap 0.995645.",
+      "arena9_registry_ref": "17496743a9695974370512db64d8140ea1ccfd2f"
+    },
+    {
+      "repo": "GEMSDOE25",
+      "reviewed_ref": "66b97bc9a986aaf8175d283536775c9015a3d364",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE25/blob/66b97bc9a986aaf8175d283536775c9015a3d364/README.md",
+      "readme_sha256": "b14292d89d5b6548c35255a7836ef64983729a6e4ae22b7760c73dad5fac4c1c",
+      "historical_best": "gems25-h19-5-d2p8",
+      "historical_score": 0.26,
+      "current": "H71-HGPC",
+      "verdict": "do_not_submit",
+      "reason": "Current README reports holdout fail versus H35; literal lattice overlap 1.0.",
+      "arena9_registry_ref": "88a29e094989b0e23916136e593474875d067656"
+    },
+    {
+      "repo": "GEMSDOE27",
+      "reviewed_ref": "426426b402f90f4e0786990b4edd261d9dd48085",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE27/blob/426426b402f90f4e0786990b4edd261d9dd48085/README.md",
+      "readme_sha256": "87a933fadc524d47ce00147ad4965e56ec43621bb33db43450f72f6106f76352",
+      "historical_best": "gems27-topo-gap",
+      "historical_score": 0.2449,
+      "current": "H31-DRCG-WL",
+      "verdict": "do_not_submit_under_refreshed_protocol",
+      "reason": "Site promotes after narrower 27-raster gate; independent all-focus literal lattice overlap 0.996149.",
+      "arena9_registry_ref": "426426b402f90f4e0786990b4edd261d9dd48085"
+    },
+    {
+      "repo": "GEMSDOE28",
+      "reviewed_ref": "348ff086e29b9c48bb7104daacb647af31a184bf",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE28/blob/348ff086e29b9c48bb7104daacb647af31a184bf/README.md",
+      "readme_sha256": "eea06b47fc45d23431e7f0239affb45b2e80d32cc0f43320b0def80d87edb33d",
+      "historical_best": "h36-1-r1-band-prune",
+      "historical_score": 0.271,
+      "current": "S20-NCHC",
+      "verdict": "do_not_submit",
+      "reason": "Current holdout negative versus same-run baseline.",
+      "arena9_registry_ref": "348ff086e29b9c48bb7104daacb647af31a184bf"
+    },
+    {
+      "repo": "GEMSDOE30",
+      "reviewed_ref": "73db382d3c990d0aa0b5126997a67213cc56dee4",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/73db382d3c990d0aa0b5126997a67213cc56dee4/README.md",
+      "readme_sha256": "2c66bc496c9c24d7e82b9ce219ad867ba13cf6376358954a6dd368c23ab068c2",
+      "historical_best": "d28-poisson300m-offcat-44090",
+      "historical_score": 0.26,
+      "current": "FFL-1",
+      "verdict": "do_not_submit",
+      "reason": "Duplicate-stopped by repository promotion gate.",
+      "arena9_registry_ref": "73db382d3c990d0aa0b5126997a67213cc56dee4"
+    },
+    {
+      "repo": "GEMSDOE31",
+      "reviewed_ref": "e6e85b357914068b3ba57ace0f899dde13f110a6",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE31/blob/e6e85b357914068b3ba57ace0f899dde13f110a6/README.md",
+      "readme_sha256": "ce3ce26e7a95e965b71713834357aba4cfd11260e8ea232862b981ba3ef94742",
+      "historical_best": "h27-4-solo-d28",
+      "historical_score": 0.2708,
+      "current": "H31-S-UDAP-SSLIC",
+      "verdict": "do_not_submit",
+      "reason": "Current repository says research-only; lattice duplicate.",
+      "arena9_registry_ref": "e6e85b357914068b3ba57ace0f899dde13f110a6"
+    },
+    {
+      "repo": "GEMSDOE32",
+      "reviewed_ref": "174c1c3f3db3f23136d70b16781cab2097cb1643",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE32/blob/174c1c3f3db3f23136d70b16781cab2097cb1643/README.md",
+      "readme_sha256": "1d53751d12a819a6517b4cb6cb99281c21ada76ab1d1bed3bd81acfc0412211e",
+      "historical_best": "h33-h33-2-b2",
+      "historical_score": 0.2778,
+      "current": "Arena9-PGRN-PU",
+      "verdict": "do_not_submit",
+      "reason": "Primary holdout loss and 0.994317 literal lattice overlap.",
+      "arena9_registry_ref": "87e472bfd6b506100e3ed4c64ef82681a3e6f72b"
+    },
+    {
+      "repo": "GEMSDOE33",
+      "reviewed_ref": "565d663a9c6b5a68f405277d684a12be8dd8ae26",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE33/blob/565d663a9c6b5a68f405277d684a12be8dd8ae26/README.md",
+      "readme_sha256": "dbf94cb076fd3822208276c8af4161c560dac77de2afe1cd6130ee4cab0961db",
+      "historical_best": "h33d-analog-tip-stepover-r30",
+      "historical_score": 0.2632,
+      "current": "A33-R3-LLC",
+      "verdict": "do_not_submit",
+      "reason": "Current selector found 0 eligible; confirmation tied/trailed CSHT and paired CI crossed zero.",
+      "arena9_registry_ref": "0f2a7e67394c82169e8690088eecb796714ce2c0"
+    },
+    {
+      "repo": "GEMSDOE36",
+      "reviewed_ref": "4aa901be69307ea69c2a6fa0872135d6697e1d7a",
+      "readme_url": "https://github.com/buffedlizard55-lab/GEMSDOE36/blob/4aa901be69307ea69c2a6fa0872135d6697e1d7a/README.md",
+      "readme_sha256": "3ddc79eb967e27f8c04806397b5f3e392b8190fa205f767cc71b7593704e1465",
+      "historical_best": "anderson-geothermal-pinn-38854",
+      "historical_score": 0.275,
+      "current": "MTO-36",
+      "verdict": "do_not_submit",
+      "reason": "Paired CI versus matched control crosses zero; final overlap reaches 100% against the spacing-5 lattice.",
+      "arena9_registry_ref": "4938a123133b4747079cc1c1c93a11e50c1376a7"
+    }
+  ],
+  "review_scope": "Current main README heads reviewed after Arena9; Arena9 registry comparisons remain pinned to the earlier manifest refs."
+}

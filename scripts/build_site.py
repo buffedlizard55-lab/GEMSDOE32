@@ -59,11 +59,20 @@ def protocol_notice(prefix: str = "") -> str:
                   and bool(st.get("any_file_ok_to_submit")))
     up = "../" if prefix == "" else ""
     if not authorized:
+        a9 = st.get("arena9_candidate") or {}
+        a9_name = Path(a9.get("file", "")).name
+        a9_download = (
+            f'<p style="margin:7px 0"><a class=btn href="downloads/{esc(a9_name)}">'
+            f'&#11015; Download latest generated GeoTIFF for research/audit</a> '
+            f'<b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>'
+            if a9_name else ""
+        )
         return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
 <p style="margin:4px 0"><b>{esc(st.get('headline', 'No file in this repository is authorized for upload.'))}</b>
-The Round-6 GeoTIFF and the H42 GeoTIFF are retained as an audit artifact only (format-valid, unique by content, not authorized).
+Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
 Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
+{a9_download}
 <p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
 <a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
@@ -234,6 +243,35 @@ def current_status_block(docs_prefix: str = "") -> str:
     nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
                 '<b style="color:#b00020">&#9940; DO NOT SUBMIT</b>')
     lb = st.get("leaderboard_top", {})
+    a9 = st.get("arena9_candidate") or {}
+    a9_row = ""
+    if a9:
+        a9_reasons = "".join(f"<li>{esc(r)}</li>" for r in a9.get("reasons", []))
+        a9_hrows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (a9.get("holdout") or {}).items()
+        )
+        a9_orows = "".join(
+            f"<tr><td>{esc(k)}</td><td>{v['dti']:.5f}</td><td>[{v['ci95'][0]:.5f}, {v['ci95'][1]:.5f}]</td></tr>"
+            for k, v in (a9.get("off_catalogue_instrument") or {}).items()
+        )
+        a9_row = f"""<tr><th>Latest generated GeoTIFF (<code>A9-H1 PGRN-PU</code>)</th><td>
+<a class=btn href="{esc(href(a9.get('file', '')))}">&#11015; Download GeoTIFF (research/audit only)</a>
+<a class="btn alt" href="{esc(href(a9.get('zip', '')))}">single-TIFF .zip</a>
+<a href="{esc(href(a9.get('receipt', '')))}">format receipt</a> &middot;
+<a href="{esc(href(a9.get('run_card', '')))}">JSON run card</a> &middot;
+<a href="{esc(href(a9.get('preregistration', '')))}">pre-registration + 5 ranked hypotheses</a> &middot;
+<a href="{docs_prefix}research/arena9-results-and-nine-site-executive-summary.md">scientific + nine-site review</a><br>
+<b style="color:#b00020;font-size:1.15em">&#9940; DOWNLOAD FOR RESEARCH: YES &middot; SUBMIT TO DRIVENDATA: NO</b><br>
+{esc(a9.get('hypothesis', ''))}; {int(a9.get('dots', 0)):,} dots; sha256 <code>{esc(a9.get('sha256', '')[:16])}&hellip;</code><br>
+<span class=mut>Unique name: <code>{esc(a9.get('submission_name', ''))}</code> &middot; note ({len(a9.get('note', ''))}/140): <code>{esc(a9.get('note', ''))}</code></span>
+<ul>{a9_reasons}</ul>
+<table><tr><th colspan=3>{esc(a9.get('holdout_label', ''))}</th></tr><tr><th>arm/control</th><th>DTI</th><th>95% CI</th></tr>{a9_hrows}</table>
+<table><tr><th colspan=3>{esc(a9.get('off_catalogue_label', ''))}</th></tr><tr><th>arm/control</th><th>DTI</th><th>95% CI</th></tr>{a9_orows}</table>
+<p class=warn><b>Uniqueness wording:</b> SHA/content and final dot mask are new (0 exact registry-mask matches), and the pre-placement surface passes
+(<code>max |rho|={a9.get('surface_worst_abs_spearman', 0):.5f}</code>), but this is <b>not protocol-unique</b> because
+<code>{a9.get('final_worst_within_3px', 0):.2%}</code> of final dots fall within 3 px of the registered spacing-5 lattice (&gt;70%).</p>
+</td></tr>"""
     a8a = st.get("arena8a_candidate") or {}
     a8a_row = ""
     if a8a:
@@ -298,6 +336,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <tr><th>Best scored file</th><td><a href="{esc(href(b.get('file', '')))}">{esc(Path(b.get('file', '')).name)}</a> &mdash;
 <b>{b.get('score')}</b> {esc(b.get('evidence_class', ''))} &middot; {int(b.get('dots', 0)):,} dots &middot; sha256
 <code>{esc(b.get('sha256', '')[:16])}&hellip;</code><br><b>{esc(b.get('advice', ''))}</b></td></tr>
+{a9_row}
 {a8a_row}
 <tr><th>Newest unique file</th><td>ONE-CLICK (audit/research only): <a class=btn href="{esc(href(n.get('file', '')))}">&#11015; {esc(Path(n.get('file', '')).name)}</a>
 <a class="btn alt" href="{esc(href(n.get('zip', '')))}">.zip</a> <a href="{esc(href(n.get('receipt', '')))}">receipt</a>
@@ -711,7 +750,7 @@ claim.</p>""")
 def exec_summary(fl: dict, sub: dict | None, name: str) -> str:
     """How to submit, exactly — driven by registry/current_status.json (no hand-typed status)."""
     st = read("registry/current_status.json") or {}
-    n = st.get("newest_unique", {})
+    n = st.get("arena9_candidate") or st.get("newest_unique", {})
     ok_any = bool(st.get("any_file_ok_to_submit"))
     fname = Path(n.get("file", f"{name}.tif")).name
     note = n.get("note", (sub or {}).get("note", ""))
@@ -747,7 +786,7 @@ python3 -m venv .venv &amp;&amp; .venv/bin/pip install -r requirements.txt
 .venv/bin/python scripts/restore_data.py --group core --target-dir .cache/gems_data
 PYTHONPATH=src .venv/bin/python scripts/check_submission.py docs/downloads/{esc(fname)} \\
     --template .cache/gems_data/sample_submission.tif --strict-finite</pre>
-<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} is fully valid and ready for submission!</code>
+<p class=mut>Expected last line: <code>[PASSED] {esc(fname)} passes automated format/range validation. This is not scientific or weekly-slot authorization.</code>
 (format only &mdash; it is not a clearance).</p></div>
 <div class=card><h3>3 &middot; Upload on DrivenData</h3>
 <ol>
@@ -773,21 +812,16 @@ cheap. Consequences:</p>
 that is strong on the public/initial labels but contains nothing new gives up the second round;</li>
 <li>a candidate that is a real fault absent from both catalogues can score <em>more</em> in round 2
 than in round 1.</li></ul></div>
-<div class=card><h3>4 · If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
-<p>The form requires a single-band raster whose values are between 0 and 1. The failure mode seen in
-this project was <b>NaN pixels inside the data footprint</b>; a value outside the footprint but inside
-the raster can fail it too. Both files offered here are built so that <em>every pixel inside the
-footprint is finite and inside [0,&nbsp;1]</em>, and the difference between them is only what they
-write outside the footprint (NaN vs 0.0). If the NaN variant is refused, upload the zeros variant —
-identical predictions, no NaNs anywhere. The exact validator is not public, so this explanation is
-inferred from the files and the observed error, not quoted from the platform
-(<a href="irregularities.html">IR-32-VERIFY-01</a>).</p></div>
 <div class=card><h3>5 &middot; If the portal answers &ldquo;Predicted values must be in range [0, 1]&rdquo;</h3>
-<p>Root cause measured in <a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">range-error-root-cause</a>:
-NaN or float32-sentinel pixels inside the scored footprint (3,061 footprint pixels are sentinel-valued in the feature
-raster). Every file published here is written by a fail-closed writer that refuses NaN, &plusmn;inf and out-of-range values,
-and the <code>-zeros</code> variant has no NaN anywhere. If you ever see the error, you uploaded a NaN-outside or a
-foreign file.</p></div>
+<p>The measured root cause was NaN or float32-sentinel pixels inside the scored footprint; a value outside
+the footprint but inside the raster may fail too. For any future authorized candidate, select its
+<code>-zeros.tif</code> variant: it has identical predictions to the archival NaN twin but writes finite 0.0
+outside the footprint and therefore contains no NaNs anywhere. The fail-closed writer rejects non-finite,
+sentinel, and out-of-range footprint values, and <code>check_submission.py --strict-finite</code> verifies the
+whole saved array. Do not use format guidance to upload a negative research artifact. The exact portal
+validator is not public, so this explanation is inferred from measured files and the observed error, not
+quoted from the platform (<a href="irregularities.html">IR-32-VERIFY-01</a> ·
+<a href="https://github.com/buffedlizard55-lab/GEMSDOE32/blob/main/docs/research/range-error-root-cause-2026-10-03.md">root-cause record</a>).</p></div>
 <div class=card><h3>6 &middot; Keep the names unique</h3>
 <p>The filename already carries a unique content id and the note repeats it, so two submissions can
 never be confused. If a file is ever rebuilt, the build script writes a new name
@@ -798,6 +832,11 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("arena9-results-and-nine-site-executive-summary.md",
+     "Arena9 result and refreshed nine-site executive review: PGRN-PU negative, 304-raster literal "
+     "uniqueness stop, strict saved-byte validation, lineage audit, and no-slot decision"),
+    ("arena9-preregistration-and-hypotheses.md",
+     "Arena9 frozen A9-H1..H5 ranking, physical mechanisms, named mimics, costs, lane, and gates"),
     ("arena8a-preregistration-and-hypotheses.md",
      "Arena8a (2026-10-26): A8A-H1..H5 pre-registration, 22-channel MDRC multi-domain ridge-crest "
      "concordance, visible-only holdout v3 (+0.0076 vs D2.8), and positive-unlabeled suppression "
@@ -1138,8 +1177,12 @@ def main() -> int:
     DOCS.mkdir(exist_ok=True)
     for fname, html_text in pages.items():
         (DOCS / fname).write_text(html_text)
+    (DOCS / "data").mkdir(parents=True, exist_ok=True)
+    if (ROOT / "evidence" / "arena9_run_card.json").exists():
+        arena9_text = (ROOT / "evidence" / "arena9_run_card.json").read_text()
+        (DOCS / "data" / "arena9_run_card.json").write_text(arena9_text)
+        (DOCS / "data" / "latest-run-card.json").write_text(arena9_text)
     if (ROOT / "evidence" / "arena8a_run_card.json").exists():
-        (DOCS / "data").mkdir(parents=True, exist_ok=True)
         (DOCS / "data" / "arena8a_run_card.json").write_text(
             (ROOT / "evidence" / "arena8a_run_card.json").read_text()
         )
