@@ -20,10 +20,15 @@ def test_round6_run_card_and_protocol_contract():
     rc = json.loads(rc_path.read_text())
     latest = json.loads(latest_path.read_text())
     status = json.loads((ROOT / "registry" / "current_status.json").read_text())
-    assert status["any_file_ok_to_submit"] is False
+    # The latest-run-card mirrors whichever candidate is newest today (self-consistency,
+    # IR-48-SYNC-01); pinning it to H46 is what let main drift red after the ARENA47 merge.
+    newest = status["newest_unique"]
+    newest_card = ROOT / newest["run_card"]
+    assert newest_card.is_file()
+    assert latest == json.loads(newest_card.read_text())
     assert latest["verdict"] == "negative"
-    assert "hypothesis" in latest and "raster_sha256" in latest
-
+    assert latest.get("raster_sha256") == newest["sha256"]
+    assert status["any_file_ok_to_submit"] is False
     # Required Parallel-Run Protocol Rule 7 fields
     for k in (
         "hypothesis",

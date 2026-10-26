@@ -78,9 +78,16 @@ def test_required_documents_exist_and_are_non_trivial(rel):
 
 def test_readme_leads_with_the_current_fail_closed_decision():
     """A format-valid artifact must not be presented as submit-ready without all gates."""
+    import json
+
     text = (ROOT / "README.md").read_text()
     head = text[:6000]
     assert "DO NOT SUBMIT" in head
     assert "audit artifact" in head.lower()
-    assert "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif" in head
+    # Self-consistency (IR-48-SYNC-01 class): the README head must name the CURRENT newest
+    # research artifact, whatever it is — not a pin to whichever candidate was newest when
+    # this test was written.
+    newest = json.loads((ROOT / "registry" / "current_status.json").read_text())["newest_unique"]
+    assert newest["file"] in head
+    assert newest["ok_to_submit"] is False
     assert "not enough to authorize a competition upload" in head.lower()

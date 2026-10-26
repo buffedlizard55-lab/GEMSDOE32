@@ -774,42 +774,75 @@ def focus_sites_block() -> str:
     candidate = status.get("newest_unique", {})
     cand_file = Path(candidate.get("file", "")).name
     cand_href = candidate.get("file", "").replace("docs/", "", 1)
-    h = candidate.get("holdout", {})
-    primary = next((v for v in h.values() if isinstance(v, dict) and "dti" in v and "ci95" in v), {})
-    champ_flat = h.get("champion_flat_same_evaluator") or h.get("prior H38 repo best") or {}
-    off_inst = candidate.get("off_catalogue_instrument", {})
-    sg = next((v for k, v in off_inst.items() if isinstance(v, dict) and "dti" in v and "Champion" not in k), {})
-    sg_champ = off_inst.get("0.2778 Champion proxy", {})
+
+    def _fmt_arm(v: dict) -> str:
+        """Format one holdout arm; missing metrics render as an em dash, never as 0.00000.
+
+        IR-51-SYNC-02: the previous renderer printed ``nan [0.00000, 0.00000]`` whenever the
+        newest candidate lacked an H46-specific field, i.e. missing data was displayed as a
+        measured zero.  Missing is missing.
+        """
+        try:
+            d = float(v.get("dti"))
+            lo, hi = v.get("ci95", [None, None])
+            if lo is None or hi is None or not all(np.isfinite([d, float(lo), float(hi)])):
+                return "&mdash;"
+            extra = ""
+            if v.get("p_pos") is not None and np.isfinite(float(v.get("p_pos"))):
+                extra = f" (p_pos {float(v['p_pos']):.3f})"
+            return f"{d:.5f} [{float(lo):.5f}, {float(hi):.5f}]{extra}"
+        except (TypeError, ValueError):
+            return "&mdash;"
+
+    def _arm_rows(d: dict) -> str:
+        return "".join(f"<tr><td>{esc(k)}</td><td>{_fmt_arm(v)}</td></tr>" for k, v in (d or {}).items())
+
+    h = candidate.get("holdout", {}) or {}
+    off = candidate.get("off_catalogue_instrument", {}) or {}
+    uniq = candidate.get("uniqueness", {}) or {}
+    validator = candidate.get("validator", {}) or {}
+    reasons = "".join(f"<li>{esc(r)}</li>" for r in candidate.get("reasons", []))
+    # Prefer an explicit results_doc key on the candidate; otherwise derive the results report
+    # from its preregistration path when that file exists; else fall back to the standing H46 review.
+    _rd = candidate.get("results_doc")
+    if _rd and (DOCS / _rd.replace("docs/research/", "research/").replace("research/", "")).is_file():
+        report_link = _rd.replace("docs/research/", "research/")
+    else:
+        report_link = "research/h46-results-and-nine-site-executive-summary-20261026.md"
+        _pr = candidate.get("preregistration", "")
+        if _pr:
+            _guess = _pr.replace("docs/research/", "research/").replace(
+                "-preregistration-", "-results-and-nine-site-executive-summary-")
+            if (DOCS / _guess.replace("research/", "")).is_file():
+                report_link = _guess
+    prereg_link = candidate.get("preregistration", "")
+    prereg_html = (f' &middot; <a href="{esc(prereg_link.replace("docs/", ""))}">pre-registration</a>'
+                   if prereg_link else "")
+    cand_label = candidate.get("submission_name", cand_file)
+    _primary_arm = next((v for v in (h or {}).values()
+                         if isinstance(v, dict) and isinstance(v.get("dti"), (int, float))), {})
+    dti = float(_primary_arm.get("dti", 0.0))
     canary = candidate.get("canary", {})
-    canary_txt = (f"{canary.get('n_channels', '?')}/{canary.get('n_channels', '?')} PASS; max AUC "
-                  f"{float(canary.get('max_auc', float('nan'))):.4f} &le; 0.90" if canary else "see run card")
-    uniq = candidate.get("uniqueness", {})
-    validator = candidate.get("validator", {})
-    _rd = candidate.get("results_doc", "research/h50-results-and-nine-site-executive-summary-20261026.md")
-    report_link = _rd[len("docs/"):] if _rd.startswith("docs/") else _rd
-    cand_label = candidate.get("submission_name", "current candidate")
-    sg_word = "beats" if float(sg.get("dti", 0)) > float(sg_champ.get("dti", 0)) else "trails"
-    n_pos = int(primary.get("n_withheld_positives", 22232))
-    ev = primary.get("evaluator_version", "GEMSDOE32-HOLDOUT-v3-visible-gated")
-    ci = primary.get("ci95") or [0.0, 0.0]
-    dti = float(primary.get("dti", 0.0))
-    lattice_pct = 100.0 * float(uniq.get("lattice_overlap") or uniq.get("literal_lattice_overlap") or 0.0)
-    genuine_ov = 100.0 * float(uniq.get("max_genuine_3px_dot_overlap") or 0.0)
-    genuine_rho = float(uniq.get("max_genuine_abs_spearman_continuous_surface") or uniq.get("max_genuine_abs_spearman") or 0.0)
+    canary_txt = (f"{canary.get('n_pass', canary.get('n_channels', '?'))}/{canary.get('n_channels', '?')} PASS; "
+                  f"max AUC {float(canary.get('max_auc', float('nan'))):.4f} &le; 0.90"
+                  if canary else "see run card")
+    fmt_ok = bool(validator.get("strict_cli_passed")) and bool(validator.get("geotiff_13_checks_passed"))
     candidate_block = f"""<div class=card style="border:2px solid #b91c1c">
 <h3>Current generated file — research/audit download only</h3>
 <p><a class=btn href="{esc(cand_href)}">&#11015; Download {esc(cand_file)}</a>
-&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/h50_tmspi_run_card.json'))}">run card</a>
+&middot; <a href="{esc('../' + candidate.get('run_card', 'evidence/arena47_perturb_run_card.json'))}">run card</a>{prereg_html}
 &middot; <a href="{report_link}">results &amp; nine-site audit</a></p>
-<p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — {esc(candidate.get('verdict','not cleared for upload'))} Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
+<p><b style="color:#b00020;font-size:1.1em">DO NOT SUBMIT</b> — the TIFF passes local format validation, but the scientific/protocol gates fail. Name: <code>{esc(candidate.get('submission_name',''))}</code>; note ({len(str(candidate.get('note','')))}/140): <code>{esc(candidate.get('note',''))}</code>; SHA-256 <code>{esc(candidate.get('sha256',''))}</code>.</p>
 <table><tr><th>Metric / status</th><th>Measured result</th><th>Interpretation</th></tr>
-<tr><td>HOLDOUT-DTI — {esc(ev)}, {n_pos:,} withheld positives, 95% spatial-block CI</td><td><b>{dti:.5f} [{ci[0]:.5f}, {ci[1]:.5f}]</b></td><td>Flat-mask instrument. Same-evaluator champion flat mask {float(champ_flat.get('dti', float('nan'))):.5f}. Not a leaderboard score estimate. Not the 0.09920 callable champion number.</td></tr>
-<tr><td>HOLDOUT-DTI diagnostic — SGMC-cal v3.0, 62,703 off-catalogue positives</td><td>{float(sg.get('dti', float('nan'))):.5f} [{(sg.get('ci95') or [0,0])[0]:.5f}, {(sg.get('ci95') or [0,0])[1]:.5f}] vs Champion {float(sg_champ.get('dti', float('nan'))):.5f}</td><td>Off-catalogue diagnostic {sg_word} the champion; not a leaderboard score.</td></tr>
+<tr><td>HOLDOUT-DTI — {esc(candidate.get('holdout_label','GEMSDOE32-HIDE-RECOVER-v3.0'))}</td><td><b>{_fmt_arm(next(iter(h.values()), {}))}</b> (first arm; all arms below)</td><td>Local evaluator result only. Not a leaderboard score estimate.</td></tr>
+{_arm_rows(h)}
+<tr><td>Off-catalogue diagnostic — {esc(candidate.get('off_catalogue_label',''))}</td><td>{_arm_rows(off) or '&mdash;'}</td><td>Auxiliary diagnostic; not a leaderboard score.</td></tr>
 <tr><td>Leakage canary</td><td>{canary_txt}</td><td>Canary pass does not establish scientific improvement.</td></tr>
-<tr><td>Unique vs genuine local rasters</td><td>max 3-px {genuine_ov:.2f}%; surface |&rho;| {genuine_rho:.4f}</td><td>PASS versus genuine detectors (&le;70% / &le;0.90).</td></tr>
-<tr><td>Literal full registry</td><td>{lattice_pct:.3f}% lattice overlap ({esc(str(uniq.get('lattice_name') or 'lattice raster absent locally'))})</td><td><b>FAIL-CLOSED</b> (&gt;70% stop); no calibration-lattice exemption (IR-42-UNIQ-01).</td></tr>
-<tr><td>Saved-byte validator</td><td>{'PASS' if validator.get('strict_cli_passed') and validator.get('geotiff_13_checks_passed') else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
-<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT YET.</b> {esc(cand_label)}: {esc(candidate.get('verdict','not cleared'))} The flat-mask HOLDOUT-DTI is not a live-score claim. <b>0 weekly slots used.</b></p></div>"""
+<tr><td>Unique vs genuine registry rasters</td><td>max within-3-px {100*float(uniq.get('max_genuine_3px_overlap', 0) or 0):.2f}%; surface max |&rho;| {float(uniq.get('max_abs_spearman', 0) or 0):.3f}</td><td>{'PASS' if uniq.get('genuine_final_dots_passed') and uniq.get('preplacement_surface_passed') else 'FAIL'} versus genuine submission rasters only.</td></tr>
+<tr><td>Literal full registry (incl. 5-px calibration lattice)</td><td>{100*float(uniq.get('literal_lattice_overlap', 0) or 0):.3f}% within 3 px of r13-lattice-s5</td><td><b>{'PASS' if uniq.get('literal_all_registry_passed') else 'FAIL'}</b> (&gt;70% stop); no calibration-lattice exemption (IR-42-UNIQ-01).</td></tr>
+<tr><td>Saved-byte validator</td><td>{'PASS' if fmt_ok else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
+<ul>{reasons}</ul>
+<p><b>Final decision:</b> <b style="color:#b00020">NO — DO NOT SUBMIT.</b> Verdict <code>{esc(candidate.get('verdict','negative'))}</code>; no release gate has authorized this or any other file for upload. <b>0 weekly slots used.</b></p></div>"""
 
     min_pair = 100.0 * float(audit.get("minimum_pairwise_directional_overlap", 0.0))
     return f"""<div class=dl><h2>&#128202; Executive summary — nine focus sites and the H33-2-B2 owner-reported high</h2>
@@ -1094,6 +1127,11 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("arena51-livescore-covariates-20261026.md",
+     "Arena51 (2026-10-26): live-score covariate audit of all 53 unique owner-scored masks — "
+     "family membership dominates (ρ=+0.844), non-family ceiling 0.2478 (n=36), champion +0.010 "
+     "above its family's dot-count trend, and the exact lattice bound (>22,163 dots can never "
+     "pass the literal rule; IR-51-LATTICE-01) — plus the nine-site executive decision table"),
     ("h46-results-and-nine-site-executive-summary-20261026.md",
      "H46 exploratory result and nine-site byte audit: no authorized lane, preregistration deviations, "
      "HOLDOUT-DTI below H38, literal lattice stop, and DO NOT SUBMIT"),

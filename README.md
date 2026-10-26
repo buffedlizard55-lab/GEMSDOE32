@@ -311,6 +311,10 @@ Parallel-run protocol — follow strictly:
 
 ---
 
+## Arena51 live-score covariate audit (2026-10-26, `arena/b4675e19-gemsdoe32`)
+
+**Audit only — no candidate generated (no lane assigned), 0 weekly slots.** The [live-score covariate audit](docs/research/arena51-livescore-covariates-20261026.md) ([machine receipt](evidence/livescore_covariates_20261026.json), [instrument](src/gems32/livescore.py)) joined every owner-scored ledger row to pinned raster bytes (strict auditable matching; 38 extra rasters SHA-pinned at [`registry/extra_scored_manifest.json`](registry/extra_scored_manifest.json)) and measured, on **53 unique scored masks**: family membership dominates the reported scores (Spearman `+0.844`), the family tops out at `0.2778` while **no non-family detector has exceeded `0.2478`** (n=36, incl. the newest 0.2190 CELF addition), the champion sits `+0.0101` above its family's own dot-count trend, and the literal lattice novelty rule is **mathematically impassable above `22,163` dots** (`6,649` holes; IR-51-LATTICE-01 — an owner protocol decision is required before any dense candidate can pass that gate literally; any `final=true` recorded for a 37,654-dot candidate necessarily excluded the lattice). Three cross-site "different" submissions were proven byte-identical by mask digest (0.2600: GEMSDOE25≡30≡29; 0.2708: GEMSDOE28≡31; 0.1563: GEMSDOE≡5≡8). The same session repaired the release-registry drift twice (IR-51-SYNC-01/02: `scripts/sync_submission_build.py` + relationship tests; suite green) and reconciled the stale ARENA47 `latest_candidate` left by the H50 merge.
+
 ## H46-1 TRHV three-pass review (2026-10-26)
 
 **Download for audit: YES · Submit to DrivenData: NO.** The unique H46 GeoTIFF passes the local format checker, but its run is exploratory only: the explicit lane paragraph was absent, its settings diverged from the frozen plan, the primary `HOLDOUT-DTI` point `0.109361` is below the prior H38 result `0.116958` on the same evaluator, SGMC-cal is below the Champion, and literal full-registry novelty is stopped by `99.267%` overlap with `r13-lattice-s5`. **No weekly slot was used.**
