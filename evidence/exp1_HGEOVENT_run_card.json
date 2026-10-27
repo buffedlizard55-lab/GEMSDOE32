@@ -1,0 +1,76 @@
+{
+  "experiment": "exp1-H-GEO-VENT",
+  "hypothesis": "geothermal-conduit proximity (vents + hot springs + K + scarp)",
+  "mechanism": "Direct geothermal surface expressions (Quaternary volcanic vents, hot springs >=60 C) mark active fault conduits, many of which lie on faults missing from the USGS/INGENIOUS catalogue; combined with potassic radiometric alteration (GeoDAWN K) and young LiDAR scarps. Contrarian: predicts conduits/geothermal surface expressions rather than fault lineaments (the dominant repo approach H19-5/H33/H44/H47/H48/H49).",
+  "named_non_fault_process_mimic": "Shallow groundwater circulation / non-geothermal springs and volcanic rock outcrops can produce warm springs and radiometric/K anomalies unrelated to a conductive fault; mitigated by requiring temp_c >= 60 C + thermalclass Hot + proximity weighting.",
+  "layers": {
+    "vent_n": 21,
+    "vent_source": "GDR #1391 gdr_volcanic_vents_in_footprint.csv (row/col grid coords)",
+    "vent_sigma_px": 3.0,
+    "spring_n": 1133,
+    "spring_source": "GDR #1391 gdr_wellspring_in_footprint.csv filtered temp_c >= 60 C and thermalclass == Hot",
+    "spring_sigma_px": 6.0,
+    "K_source": "GeoDAWN radiometrics geodawn_rad_u8.tif band 1 (potassic alteration proxy), min-max normalised",
+    "scarp_source": "LiDAR lidar_scarp_features_u8.tif band 12, min-max normalised",
+    "weights": [0.35, 0.30, 0.20, 0.15],
+    "formula": "field = 0.35*exp(-d_vent/3px) + 0.30*exp(-d_spring/6px) + 0.20*K + 0.15*scarp"
+  },
+  "leakage_canary_auc_vs_catalogue": {
+    "vent": 0.5276,
+    "spring": 0.4946,
+    "K": 0.5157,
+    "scarp": 0.5324,
+    "verdict": "PASS (all AUC <= 0.90; no feature echoes the catalogue)"
+  },
+  "holdout_evaluator": "GEMSDOE32-HIDE-RECOVER-v3.0 (spatially blocked hide-and-recover, pooled DTI alpha=0.2 beta=0.8 300 m triangular kernel, 16x16 spatial cluster-bootstrap CI, 22,232 withheld positives)",
+  "emitted_pixels": 28000,
+  "target_mass": 28000,
+  "on_catalogue_pixels": 0,
+  "holdout_hide_recover": {
+    "pooled_dti": 0.03991710289174111,
+    "ci95": [0.030641494710203387, 0.04968862233603032],
+    "n_withheld_positives": 22232,
+    "n_spatial_clusters": 140,
+    "fold_mean_dti": 0.00451537871535044,
+    "per_quadrant_dti": {
+      "NW": 0.00512840329036098,
+      "NE": 0.005504306306184852,
+      "SW": 0.0036920786311337214,
+      "SE": 0.004075628109916233
+    }
+  },
+  "sgmc_off_catalogue": {
+    "raw_pooled_dti": 0.04990608525788575,
+    "prevalence_calibrated_dti": 0.03596538296017224,
+    "calibrated_ci95": [0.02642603974450758, 0.04546838425210444],
+    "n_withheld_positives": 62703
+  },
+  "lane_check_protocol_rule_1": {
+    "max_abs_spearman_vs_registry_rasters": 0.0297,
+    "max_abs_spearman_raster": "docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+    "max_fraction_dots_within_3px_vs_sparse_submissions": 0.2331,
+    "max_overlap_vs_sparse_raster": "docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+    "lane_drift_vs_submissions": false,
+    "note": "99.89% overlap is only with the dense 5-px calibration lattice r13-lattice-s5 (geometrically unavoidable for any footprint-spanning map; documented IR-32-LATTICE-01 / IR-45-LATTICE-02 calibration-probe exemption; the champion itself overlaps at ~99.7%). Against genuine sparse submission rasters, max overlap is 23.31% <= 70%."
+  },
+  "format_validation": {
+    "file": "docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif",
+    "sha256": "51ba3b7cecef0b3713cbd6a5dbca94bd1db4b58156825b9ac098a2d299cc4ed5",
+    "zip_sha256": "0c892aa589b7745a531fc604ac1a2da51d571bfc6710a7bc8b5225bea9941773",
+    "audit_sha256": "100b472f416dbe68c041883be1839ab18ff123d12378da74b9787a83f0ac3423",
+    "all_13_checks_passed": true,
+    "crs": "EPSG:32611",
+    "shape": [3730, 3292],
+    "dtype": "float32",
+    "in_footprint_range": "[0.0000, 1.0000] all finite",
+    "whole_array_range": "[0.0000, 1.0000] finite (portal-safe; prevents 'Predicted values must be in range [0, 1]')",
+    "on_catalogue_leakage": 0,
+    "emitted_positive_pixels": 28000,
+    "nodata": null
+  },
+  "submission_note": "GEMSDOE32 H-GEO-VENT 28000d | HOLD-DTI 0.0399[0.031,0.050] vs champ 0.0045 | unique geothermal-conduit | NEGATIVE vs incumbent 0.1220 (133 chars)",
+  "score_estimate_evidence_class": "HOLDAUT-DTI (evaluator GEMSDOE32-HIDE-RECOVER-v3.0, n=22232 withheld positives, 95% CI) — NOT an organizer-confirmed leaderboard score; holdout and live leaderboard disagree (IR-45-EVAL-02)",
+  "gate_verdict": "negative",
+  "verdict_reason": "Does not clear the promotion gate: HOLDAUT-DTI 0.0399 [0.0306, 0.0497] is below the current same-evaluator repo holdout incumbent H47-1 LDGI-WCR 0.121959 [0.1077, 0.1349]. It DOES beat the historical owner-reported champion's holdout (0.00452 [0.0038, 0.0053]) and is format-valid, unique, leakage-clean, but the gate requires beating the holdout incumbent. OK to download for research/audit: YES. OK to submit to DrivenData live portal: NO (negative verdict, 0 weekly slots spent).",
+  "recommendation": "Research/audit artifact only. Do not spend a weekly DrivenData submission slot; it has not beaten the current holdout incumbent under one canonical evaluator."
+}

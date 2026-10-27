@@ -36,7 +36,24 @@
 
 ---
 
-## 0. Standing starting point (2026-10-26)
+## Standing Mission (read at the start of every session)
+
+**Objective:** win the DOE GEMS Prize (place top of the DrivenData leaderboard; current public #1 = 0.4437, historical benchmark to beat > 0.3195) by generating a *unique*, portal-valid single-band GeoTIFF submission (EPSG:32611, 3292×3730, 100 m, float32, all cells finite in [0,1], `nodata=None`) whose dots target faults missing from the USGS/INGENIOUS catalogue — with an emphasis on scientific discovery of *geothermal vents/conduits*.
+
+**Standing directives (from the session prompt):**
+- Produce an executive summary on each focus site (GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36): which file to download, its estimate, and whether it is unique vs the other GEMSDOE sites. Table columns: file to download | estimated score | unique? | submit?.
+- Generate a UNIQUE TIF submission. Never copy a previous submission (learning/education only). It must be obvious whether the generated TIF is OK to download and submit.
+- Values must be in [0,1] everywhere (use `-zeros.tif` so "Predicted values must be in range [0, 1]" can never occur). Unique submission name + note ≤ 140 characters.
+- Score every submission with a spatially blocked holdout: HOLDAUT-DTI (evaluator version, # withheld positives, 95% CI). A projection is never written as a score; only ORGANIZER-CONFIRMED (submission-page receipt) counts as a live score.
+- Lane rule: rank correlation > 0.90 vs any registry raster, or > 70% of dots within 3 px of one registry raster's dots → duplicate, stop.
+- Leakage canary: any single feature with AUC > 0.90 is leakage until proven otherwise.
+- Run card (JSON) at the end of every experiment: hypothesis, mechanism, named non-fault mimic process, holdout DTI + CI, correlation/overlap vs registry, raster sha256, validator output, submission name + ≤140-char note, verdict promote/negative.
+- Budget: max 3 experiments or 2 hours per session; never spend a weekly slot on a holdout-inferior or duplicate file. Negative results are deliverables.
+- Work line by line from official/verified sources; no hallucinations; flag irregularities.
+
+**2026-10-27 outcomes:**
+- **`H48-1-FBGR` (`GEMSDOE32-H48-FBGR-4D38A240`, `37,654`d, latest session):** format-valid (`7/7` strict + `13/13` GeoTIFF checks PASS), leakage-clean (`83/83` channels `<= 0.90`, `max = 0.5869`), genuine-unique across `439` discrete `<=100k` rasters (`max |Spearman| = 0.6315`, `max focus-site 3-px = 65.94%`, `12.00%` vs `H-GEO-VENT-28000`). Holdout: **`HOLDOUT-DTI = 0.115341 [0.100168, 0.130524]`** on `HIDE-RECOVER-v3.0` (`+0.016217` vs `0.2778` Champion, `p=1.000`), **`0.101168 [0.085002, 0.117569]`** on detached `>=600 m` segments (**stationary repo high**, `> 0.094324` Champion and `> 0.091842` `H47-1`), `SGMC-cal = 0.056798` (`+39.4%` vs `d=0` greedy `EXP2`, `p=1.000`). Verdict: **negative / DO NOT SUBMIT to live portal** (`0` weekly slots spent; `SGMC-cal < 0.064121` Champion & `99.78%` literal `r13-lattice-s5` union overlap). Full run card: [`evidence/h48_fbgr_run_card.json`](evidence/h48_fbgr_run_card.json). Download: [`docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.tif`](docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.tif).
+- **`H-GEO-VENT` (`GEMSDOE32-H-GEO-VENT-3C5837E9`, `28,000`d, PR #47):** format-valid (`13/13` PASS), leakage-clean, unique vs genuine registry rasters (`max |Spearman| 0.0297`, `max 3-px overlap 23.31%`), `HOLDOUT-DTI = 0.0399 [0.0306, 0.0497]` (`n=22,232`). Verdict: **negative / DO NOT SUBMIT** (`[`evidence/exp1_HGEOVENT_run_card.json`](evidence/exp1_HGEOVENT_run_card.json)`, [`docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif`](docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif)).
 
 **The standing prompt** is recorded verbatim (as supplied) at [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). It is the starting point for every session. Note: the protocol's lane paragraph is absent from that prompt, so the lane is provisional ([`IR-45-LANE-01`](registry/irregularities.json)).
 
