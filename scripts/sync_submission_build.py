@@ -30,6 +30,8 @@ ROOT = Path(__file__).resolve().parents[1]
 BUILD = ROOT / "registry" / "submission_build.json"
 RELEASE = ROOT / "evidence" / "current_release_review.json"
 STATUS = ROOT / "registry" / "current_status.json"
+sys.path.insert(0, str(ROOT / "src"))
+from gems32.byte_audit import inspect_saved_raster
 
 
 def _sha256(p: Path) -> str:
@@ -72,29 +74,19 @@ def main() -> int:
             except Exception:
                 card_verdict = None
         bytes_ok = tif_new.is_file() and _sha256(tif_new) == new_sha
-        if bytes_ok and card_verdict in ("negative", "hold", None) and card_verdict != "promote":
+        if bytes_ok and card_verdict in ("negative", "hold"):
             old_path = art.get("path", "")
+            measured = inspect_saved_raster(tif_new)
+            if not measured["strict_primary_passed"]:
+                print("FAIL: saved raster fails strict primary byte audit", file=sys.stderr)
+                return 1
             release["artifact"] = {
                 "path": newest.get("file"),
                 "sha256": new_sha,
-                "format_byte_audit": {
-                    "verified_this_review": True,
-                    "single_band_float32": True,
-                    "crs": (newest.get("validator", {}) or {}).get("crs"),
-                    "shape": (newest.get("validator", {}) or {}).get("shape"),
-                    "transform": (newest.get("validator", {}) or {}).get("transform"),
-                    "nodata": (newest.get("validator", {}) or {}).get("nodata"),
-                    "finite_cells": 12279160,
-                    "total_cells": 12279160,
-                    "min": 0.0,
-                    "max": 1.0,
-                    "positive_pixels": newest.get("dots"),
-                },
+                "format_byte_audit": measured,
                 "reference_grid_reaudit": {
-                    "status": "PASS",
-                    "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
-                    "validator": "scripts/check_submission.py --strict-finite (per registry current_status validator block)",
-                    "limitation": "Format/grid pass only; not organizer receipt.",
+                    "status": "NOT_REVERIFIED",
+                    "limitation": measured["limitation"],
                 },
             }
             release["reviewed_utc"] = status.get("updated_utc")
@@ -104,10 +96,9 @@ def main() -> int:
             )
             auth = release.setdefault("submission_authorization", {})
             auth["ok_to_download_and_submit"] = False
-            auth.setdefault("verdict", "negative")
+            auth["verdict"] = "negative"
             auth["slot_used"] = False
             auth["reasons"] = list(newest.get("reasons", [])) or auth.get("reasons", [])
-            RELEASE.write_text(json.dumps(release, indent=2) + "\n")
             print(f"release review reconciled to the verified newest artifact {new_sha[:16]}… "
                   f"(was stale at {rel_sha[:16]}…); authorization stays fail-closed")
             art = release["artifact"]
@@ -130,6 +121,14 @@ def main() -> int:
         print(f"FAIL: release artifact bytes do not match pinned sha256: {tif}", file=sys.stderr)
         return 1
 
+    if art.get("path") != newest.get("file"):
+        print("FAIL: matching hash but conflicting artifact paths", file=sys.stderr)
+        return 1
+    measured = inspect_saved_raster(tif)
+    if not measured["strict_primary_passed"]:
+        print("FAIL: saved raster fails strict primary byte audit", file=sys.stderr)
+        return 1
+
     zip_path = newest.get("zip")
     zip_sha = None
     if zip_path and (ROOT / zip_path).is_file():
@@ -139,8 +138,8 @@ def main() -> int:
         "note",
         "research artifact; DO NOT SUBMIT",
     )
-    if len(note) > 200:
-        note = note[:200]
+    if len(note) > 140:
+        note = note[:140]
 
     planned = {
         "name": Path(newest.get("file", tif.name)).stem,
@@ -152,12 +151,12 @@ def main() -> int:
             "path": art.get("path", newest.get("file")),
             "sha256": rel_sha,
             "bytes": tif.stat().st_size,
-            "positive_px": int(art.get("format_byte_audit", {}).get("positive_pixels", newest.get("dots", 0))),
+            "positive_px": measured["positive_pixels"],
         },
         "zip": (
             {"path": zip_path, "sha256": zip_sha, "bytes": (ROOT / zip_path).stat().st_size}
             if zip_path and zip_sha
-            else build.get("zip")
+            else None
         ),
         "candidate_id": newest.get("submission_name", build.get("candidate_id")),
         "hypothesis": newest.get("hypothesis", build.get("hypothesis")),
@@ -210,7 +209,7 @@ def main() -> int:
             "run_card": newest.get("run_card"),
             "sha256": rel_sha,
             "verdict": "negative",
-            "format_passed": True,
+            "format_passed": measured["strict_primary_passed"],
             "primary_holdout_passed": hr_passed,
             "literal_registry_passed": bool(
                 (newest.get("uniqueness", {}) or {}).get("literal_all_registry_passed")),
@@ -225,9 +224,10 @@ def main() -> int:
             "Owner protocol decision on synthetic calibration lattice exemption (IR-51-LATTICE-01) "
             "plus separate weekly-slot selector review."
         )
-        RELEASE.write_text(json.dumps(release, indent=2) + "\n")
         print(f"release review latest_candidate reconciled to {cand_id} ({rel_sha[:16]}…)")
 
+    if not args.dry_run:
+        RELEASE.write_text(json.dumps(release, indent=2) + "\n")
     patch = {k: v for k, v in planned.items() if build.get(k) != v}
     if not patch:
         print("submission_build.json already in sync with the current release review")
