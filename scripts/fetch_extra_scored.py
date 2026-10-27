@@ -118,6 +118,26 @@ def fetch_one(repo: str, ref: str, path: str) -> dict:
             tmp.replace(dest)
             break
         except subprocess.CalledProcessError:
+            tmp.unlink(missing_ok=True)
+            try:
+                import shutil
+                import tarfile
+                import urllib.request
+
+                url = f"https://codeload.github.com/{OWNER}/{repo}/tar.gz/{ref}"
+                with urllib.request.urlopen(url, timeout=90) as resp, tarfile.open(fileobj=resp, mode="r|gz") as tf:
+                    for member in tf:
+                        if member.isfile() and "/" in member.name and member.name.split("/", 1)[1] == path:
+                            src = tf.extractfile(member)
+                            if src is not None:
+                                with tmp.open("wb") as out:
+                                    shutil.copyfileobj(src, out, 1 << 20)
+                                tmp.replace(dest)
+                            break
+                if dest.exists():
+                    break
+            except Exception:
+                tmp.unlink(missing_ok=True)
             time.sleep(2 * (attempt + 1))
     else:
         tmp.unlink(missing_ok=True)
@@ -134,20 +154,30 @@ def main() -> int:
 
     rows = ledger_rows(args.min_score)
     jobs, unmatched = [], []
+    repo_tree_cache: dict[str, tuple[str, list[dict]] | None] = {}
+    api_failures = 0
     for r in rows:
         want, tokens = candidate_stems(r["submission"])
         if not want and not tokens:
             unmatched.append({"site": r["site"], "submission": r["submission"],
                               "reason": "no normalizable name or strong token"})
             continue
-        try:
-            ref = gh_json(f"repos/{OWNER}/{r['site']}/commits/main")["sha"]
-            tree = gh_json(f"repos/{OWNER}/{r['site']}/git/trees/{ref}?recursive=1")
-        except (subprocess.CalledProcessError, KeyError):
-            unmatched.append({"site": r["site"], "submission": r["submission"],
+        site = r["site"]
+        if site not in repo_tree_cache:
+            try:
+                ref = gh_json(f"repos/{OWNER}/{site}/commits/main")["sha"]
+                tree = gh_json(f"repos/{OWNER}/{site}/git/trees/{ref}?recursive=1").get("tree", [])
+                repo_tree_cache[site] = (ref, tree)
+            except (subprocess.CalledProcessError, KeyError):
+                repo_tree_cache[site] = None
+                api_failures += 1
+        cached = repo_tree_cache[site]
+        if cached is None:
+            unmatched.append({"site": site, "submission": r["submission"],
                               "reason": "repo or main ref not reachable"})
             continue
-        tifs = [t["path"] for t in tree.get("tree", [])
+        ref, tree_list = cached
+        tifs = [t["path"] for t in tree_list
                 if t.get("type") == "blob" and t["path"].lower().endswith((".tif", ".tiff"))
                 and int(t.get("size", 0)) <= 8_000_000]
         hits = [p for p in tifs if stems_match(Path(p).stem, want, tokens)]
@@ -172,6 +202,14 @@ def main() -> int:
             print(f"  {res['status']:>7} {res.get('bytes', 0):>9,} B  {res['path'].split('/')[-1][:70]}")
 
     failed = [r for r in results if r["status"] != "ok"]
+    n_ok = len(results) - len(failed)
+    if rows and n_ok == 0:
+        print(
+            f"ERROR: 0/{len(rows)} extra scored rasters resolved (api_failures={api_failures}); "
+            f"refusing to overwrite {OUT} (IR-48-EXTRA-FETCH-01).",
+            file=sys.stderr,
+        )
+        return 2
     manifest = {
         "schema_version": 1,
         "generated_utc": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime()),
@@ -182,7 +220,7 @@ def main() -> int:
             "and are OWNER-REPORT, never organizer-authenticated. Bytes are verified by sha256."
         ),
         "min_score": args.min_score,
-        "n_fetched": len(results) - len(failed),
+        "n_fetched": n_ok,
         "n_failed": len(failed),
         "n_unmatched_ledger_rows": len(unmatched),
         "rasters": sorted(results, key=lambda r: -r.get("score", 0)),

@@ -183,7 +183,7 @@ def exact_greedy(field: np.ndarray, budget: int | None = None, prior_dti: float 
 
 def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
          alpha: float = M.ALPHA, rho: float = 0.0, gain_floor: float = 0.0,
-         initial_mask: np.ndarray | None = None,
+         initial_mask: np.ndarray | None = None, min_sep_px: float = 0.0,
          ) -> tuple[np.ndarray, EmissionLog]:
     """Near-greedy maximum-expected-coverage emission, confined to the field's support.
 
@@ -206,6 +206,10 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
         two-regime allocation).  Pre-populates the 300 m kernel coverage array ``cov`` and
         excludes ``initial_mask`` pixels so Stage-2 dots maximize exact residual coverage
         without double-crediting covered traces.
+    min_sep_px : float, optional
+        Minimum Euclidean inter-dot spacing in pixels (default ``0.0`` preserves exact legacy
+        behavior).  Setting ``min_sep_px = 2.8`` prevents 2D blob clumping on wide probability
+        ribbons while optimizing exact residual 300 m kernel gain via Minoux lazy greedy.
     """
     f = np.asarray(field, dtype=np.float64)
     if f.min() < 0:
@@ -214,6 +218,18 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
     cov = np.zeros(f.shape, dtype=np.float64)
     mask = np.zeros(f.shape, dtype=bool)
     init = np.zeros(f.shape, dtype=bool)
+    use_sep = float(min_sep_px) > 0.0
+    sep_off: list[tuple[int, int]] = []
+    blocked = np.zeros(f.shape, dtype=bool) if use_sep else None
+    if use_sep:
+        r_sep = int(np.ceil(float(min_sep_px)))
+        d2_sep = float(min_sep_px) * float(min_sep_px)
+        sep_off = [
+            (dy_s, dx_s)
+            for dy_s in range(-r_sep, r_sep + 1)
+            for dx_s in range(-r_sep, r_sep + 1)
+            if dy_s * dy_s + dx_s * dx_s <= d2_sep
+        ]
     if initial_mask is not None:
         init = np.asarray(initial_mask, dtype=bool)
         if init.shape != f.shape:
@@ -223,6 +239,13 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
             dy_o, dx_o, kw_o = M._OFF
             for d, e, kk in zip(dy_o, dx_o, kw_o):
                 np.maximum(cov, M._shift(init_f, -int(d), -int(e)) * kk, out=cov)
+            if use_sep and blocked is not None:
+                for iy, ix in np.argwhere(init):
+                    iy_i, ix_i = int(iy), int(ix)
+                    for oy, ox in sep_off:
+                        gy, gx = iy_i + oy, ix_i + ox
+                        if 0 <= gy < h and 0 <= gx < w:
+                            blocked[gy, gx] = True
 
     log = EmissionLog(rule="lazy_greedy_maxcov_support_confined")
 
@@ -258,7 +281,7 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
     while heap:
         neg_g, fl = heapq.heappop(heap)
         y, x = divmod(int(fl), w)
-        if mask[y, x] or init[y, x]:
+        if mask[y, x] or init[y, x] or (use_sep and blocked is not None and blocked[y, x]):
             continue
         cur = float(gain[y, x])
         if -neg_g > cur + 1e-12:                     # stale key: re-insert with the live gain
@@ -278,6 +301,11 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
             break
 
         mask[y, x] = True
+        if use_sep and blocked is not None:
+            for oy, ox in sep_off:
+                gy, gx = y + oy, x + ox
+                if 0 <= gy < h and 0 <= gx < w:
+                    blocked[gy, gx] = True
         _deliver(cov, y, x)
         if log.n_emitted == 0:
             log.first_marginal_gain = cur
@@ -289,7 +317,7 @@ def emit(field: np.ndarray, budget: int | None = None, prior_dti: float = 0.26,
             yy, xx = y + dy, x + dx
             if 0 <= yy < h and 0 <= xx < w:
                 fl2 = yy * w + xx
-                if is_sup[fl2] and not mask[yy, xx]:
+                if is_sup[fl2] and not mask[yy, xx] and not (use_sep and blocked is not None and blocked[yy, xx]):
                     ng = marginal_gain(f, cov, yy, xx)
                     gain[yy, xx] = ng
                     heapq.heappush(heap, (-ng, int(fl2)))

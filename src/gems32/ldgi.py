@@ -204,12 +204,23 @@ def build_ldgi_extra_stack(
         plane[~valid] = med
         return plane
 
-    tmi_rtp = _clean_base_plane(1)        # Band 02: tmi_rtp
+    tmi_rtp = _clean_base_plane(1)        # Band 02: rtp (reduced-to-pole TMI)
     tmi_hg = _clean_base_plane(2)         # Band 03: tmi_hg
     grav_slope = _clean_base_plane(4)     # Band 05: iso_grav_anom_slope
     det_elev = _clean_base_plane(11)      # Band 12: det_elev
     iso_grav = _clean_base_plane(12)      # Band 13: iso_grav_anom
-    mag_uc4k = _clean_base_plane(13)      # Band 14: mag_uc_4km
+    # IR-48-BAND14-01 FIX: Band 14 (idx 13) is raw `tmi`, NOT 4 km upward-continued magnetics.
+    # Compute true 2-D Fourier harmonic upward continuation (Blakely 1995 Eq. 12.8) of Band 02 `rtp`.
+    from scipy.fft import irfft2, rfft2, rfftfreq, fftfreq
+    pad_y, pad_x = 64, 64
+    rtp_pad = np.pad(tmi_rtp - np.float32(np.median(tmi_rtp[foot])), ((pad_y, pad_y), (pad_x, pad_x)), mode="reflect")
+    ky = fftfreq(rtp_pad.shape[0], d=100.0).astype(np.float32)[:, None]
+    kx = rfftfreq(rtp_pad.shape[1], d=100.0).astype(np.float32)[None, :]
+    filt_uc = np.exp(-np.float32(2.0 * np.pi * 2000.0) * np.hypot(ky, kx)).astype(np.float32)
+    mag_uc4k = irfft2(rfft2(rtp_pad, workers=2) * filt_uc, s=rtp_pad.shape, workers=2)[
+        pad_y : pad_y + h, pad_x : pad_x + w
+    ].astype(np.float32)
+    del rtp_pad, ky, kx, filt_uc
     elev_slope = _clean_base_plane(18)    # Band 19: det_elev_slope
 
     grav_s12 = np.asarray(spcp_mm[:, :, 0], dtype=np.float32)
@@ -693,14 +704,15 @@ def compute_lineament_completeness_eta(
     foot: np.ndarray,
     rho_lin: np.ndarray | None = None,
     rho_lin_sum: float | None = None,
+    visibility_fraction: float = 1.0,
 ) -> float:
-    """Empirical Catalogue-to-Lineament Completeness Ratio `eta(V) = |V cap foot| / sum_{foot} rho_lin`.
+    """Empirical Catalogue-to-Lineament Completeness Ratio `eta(V) = (|V cap foot| / visibility_fraction) / sum_{foot} rho_lin`.
 
-    Uses ONLY `visible_mask` (`V`) and the label-free lineament-density channel `rho_lin` (`ldgi_stack[:, :, 0]`).
-    When `V` is censored (`cell.visible_full`), `eta(V) ~ 0.0583 - 0.0675` (`~0.80 * eta_0`);
-    when `V` is the uncensored active compilation (`labels.tif`), `eta(V) = 0.078381`.
+    IR-48-CCAA-01 note: passing `visibility_fraction = 1.0 - hide_frac` removes the artificial 20%
+    holdout-censorship shift (`0.80 * eta_full`) between OOF cells and full-map emission; default
+    `visibility_fraction=1.0` preserves legacy unit-test compatibility.
     """
-    vis_cnt = float((np.asarray(visible_mask, bool) & foot).sum())
+    vis_cnt = float((np.asarray(visible_mask, bool) & foot).sum()) / max(float(visibility_fraction), 1e-6)
     if rho_lin_sum is None:
         assert rho_lin is not None, "Either rho_lin or rho_lin_sum must be provided"
         rho_lin_sum = float(np.asarray(rho_lin, dtype=np.float32)[foot].sum())

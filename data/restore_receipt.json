@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "verified_files_count": 28,
+  "verified_files_count": 30,
   "storage_root": ".cache/gems_data",
   "files": [
     {
@@ -226,6 +226,22 @@
       "status": "present",
       "bytes": 830036,
       "sha256": "2fc94a38d77f74d4f4ed1a97a83e7bb71a1ceea090515ec641e6681cc47c44c8"
+    },
+    {
+      "id": "ext_geodawn_acquisition_blocks",
+      "dest": "external/acquisition_block_id_100m.tif",
+      "group": "external",
+      "status": "present",
+      "bytes": 85031,
+      "sha256": "2c0785c4b3ec46c734d1be7a7aedbb3e816201100ab358033a3af074418c894a"
+    },
+    {
+      "id": "ext_blm_closed_claim_distance_m",
+      "dest": "external/blm_closed_claim_distance_m.tif",
+      "group": "external",
+      "status": "present",
+      "bytes": 5752587,
+      "sha256": "a88356423c03fc8b6510a84f77cee2b1d38c4ccbd7761bc95c1ca8332a2e166a"
     }
   ]
 }

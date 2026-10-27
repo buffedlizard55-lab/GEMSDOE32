@@ -315,6 +315,28 @@
       "sha256": "2fc94a38d77f74d4f4ed1a97a83e7bb71a1ceea090515ec641e6681cc47c44c8",
       "bytes": 830036,
       "provenance": "owner-mirrored GEMSDOE28 H27-4 r1 solo d2.8 allfinite sibling raster required by tests/test_h33.py::test_gems28_solo_differs_from_d28_only_by_741_infill"
+    },
+    {
+      "id": "ext_geodawn_acquisition_blocks",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "2521cb676e172c141a4417e4925b73b6a896c1eb",
+      "path": "data/external/audit_sources/acquisition_block_id_100m.tif",
+      "dest": "external/acquisition_block_id_100m.tif",
+      "group": "external",
+      "sha256": "2c0785c4b3ec46c734d1be7a7aedbb3e816201100ab358033a3af074418c894a",
+      "bytes": 85031,
+      "provenance": "Owner-audited label-free 4-block GeoDAWN survey polygon ID raster (1=Winnemucca, 2=Fallon, 3=Hawthorne, 4=Tonopah; 5,167,373 footprint cells) projected to EPSG:32611 3730x3292 100 m competition grid from Figure 3 of the official USGS GeoDAWN Open-File Report (ScienceBase 657e1d85d34e23d3533209f7, DOI 10.5066/P93LGLVQ; receipt data/external/audit_sources/acquisition_blocks_receipt.json). SHA-256 pins verify the owner mirror."
+    },
+    {
+      "id": "ext_blm_closed_claim_distance_m",
+      "repo": "buffedlizard55-lab/GEMSDOE24",
+      "ref": "2521cb676e172c141a4417e4925b73b6a896c1eb",
+      "path": "data/external/audit_sources/blm_closed_claim_distance_m.tif",
+      "dest": "external/blm_closed_claim_distance_m.tif",
+      "group": "external",
+      "sha256": "a88356423c03fc8b6510a84f77cee2b1d38c4ccbd7761bc95c1ca8332a2e166a",
+      "bytes": 5752587,
+      "provenance": "Owner-audited label-free Euclidean distance in meters to US Bureau of Land Management (BLM MLRS/LR2000 public-domain mineral and geothermal claim records) historic closed lode/hydrothermal claim locations on EPSG:32611 3730x3292 100 m competition grid. SHA-256 pins verify the owner mirror."
     }
   ]
 }

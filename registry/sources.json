@@ -266,6 +266,34 @@
    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/",
    "role": "H46 road/rail corridor deconfounding; owner-derived distance raster in EPSG:32611",
    "status": "Official Census source directory link listed for manual review; the derived raster and receipt came from a pinned owner mirror; this session did not fetch TIGER assets directly from Census."
+  },
+  {
+   "id": "geodawn_contractor_blocks",
+   "title": "USGS GeoDAWN Contractor Flight-Block Boundaries (DOI 10.5066/P93LGLVQ, mirrored in GEMSDOE24@2521cb67)",
+   "url": "https://doi.org/10.5066/P93LGLVQ",
+   "role": "H48-1-FBGR per-block median/MAD standardization of radiometric eU, eTh, K, TC to eliminate inter-survey seasonal radon seams (IR-A48-JX-01)",
+   "status": "SHA-256-pinned in registry/data_manifest.json (2c0785c4...); verified locally across all 5,167,373 footprint cells"
+  },
+  {
+   "id": "blm_epithermal_claims",
+   "title": "US Bureau of Land Management (BLM) Historical Mining & Geothermal Claims (MLRS, mirrored as blm_closed_claim_distance_m.tif)",
+   "url": "https://mlrs.blm.gov/",
+   "role": "H48-1-FBGR label-free epithermal/hot-spring Hg-Au-Ag-S structurally hosted conduit corroboration",
+   "status": "Official BLM portal listed; derived EPSG:32611 distance raster SHA-256-pinned in registry/data_manifest.json (a8835642...)"
+  },
+  {
+   "id": "blakely_1995_potential_theory",
+   "title": "Blakely, R.J. (1995), Potential Theory in Gravity and Magnetic Applications, Cambridge University Press",
+   "url": "https://doi.org/10.1017/CBO9780511549816",
+   "role": "Exact 2-D Fourier wavenumber upward-continuation operator exp(-2*pi*|k|*z) fixing IR-48-BAND14-01 in src/gems32/{ldgi,fbgr}.py",
+   "status": "peer-reviewed geophysical textbook; implemented via numpy.fft.rfft2 / irfft2"
+  },
+  {
+   "id": "morris_ferrill_henderson_1996_slip_tendency",
+   "title": "Morris, A., Ferrill, D.A., & Henderson, D.B. (1996), Slip-tendency analysis and fault reactivation, Geology 24(3), 275-278",
+   "url": "https://doi.org/10.1130/0091-7613(1996)024<0275:STAAFR>2.3.CO;2",
+   "role": "H48-1-FBGR structural stress-obliquity permeability multiplier sin(2*Delta_theta) for NNE-striking Great Basin normal/transtensional faults",
+   "status": "peer-reviewed structural geology equation; implemented in src/gems32/fbgr.py"
   }
  ]
 }

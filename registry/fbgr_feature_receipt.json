@@ -1,0 +1,29 @@
+{
+  "channels": [
+    "grav_uc500_2k_persist",
+    "rtp_uc500_2k_persist",
+    "basement_dip_shift_asymm",
+    "geodawn_blk_radon_crest",
+    "geodawn_blk_silica_potassic_dog",
+    "blm_epithermal_conduit_corrob",
+    "morris_slip_dilation_obliq",
+    "ctx_subsurf_aniso_500_1500m",
+    "ctx_subsurf_prominence_3km",
+    "ctx_multimodal_corrob_2km",
+    "ctx_lidar_aniso_chain_1km",
+    "fbgr_unsup_conduit_crest"
+  ],
+  "shape": [
+    3730,
+    3292,
+    12
+  ],
+  "dtype": "float32",
+  "label_free": true,
+  "fourier_upward_continuation_heights_m": [
+    500.0,
+    2000.0
+  ],
+  "geodawn_block_normalization": "4 contractor blocks (Winnemucca, Fallon, Hawthorne, Tonopah)",
+  "msub_pure_non_lidar_col_count": 71
+}

@@ -1,0 +1,1110 @@
+{
+  "session_branch": "arena/1b3cd3f5-gemsdoe32",
+  "generated_utc": "2026-10-27T19:11:58Z",
+  "runtime_seconds": 796.32,
+  "peak_rss_mb": 3355.9,
+  "experiments_used": 3,
+  "experiments_budget_cap": 3,
+  "weekly_slots_used": 0,
+  "fbgr_feature_receipt": {
+    "channels": [
+      "grav_uc500_2k_persist",
+      "rtp_uc500_2k_persist",
+      "basement_dip_shift_asymm",
+      "geodawn_blk_radon_crest",
+      "geodawn_blk_silica_potassic_dog",
+      "blm_epithermal_conduit_corrob",
+      "morris_slip_dilation_obliq",
+      "ctx_subsurf_aniso_500_1500m",
+      "ctx_subsurf_prominence_3km",
+      "ctx_multimodal_corrob_2km",
+      "ctx_lidar_aniso_chain_1km",
+      "fbgr_unsup_conduit_crest"
+    ],
+    "shape": [
+      3730,
+      3292,
+      12
+    ],
+    "dtype": "float32",
+    "label_free": true,
+    "fourier_upward_continuation_heights_m": [
+      500.0,
+      2000.0
+    ],
+    "geodawn_block_normalization": "4 contractor blocks (Winnemucca, Fallon, Hawthorne, Tonopah)",
+    "msub_pure_non_lidar_col_count": 71
+  },
+  "ldgi_feature_receipt": {
+    "channels": [
+      "lineament_density_multi_km_km2",
+      "lineament_intersection_relay",
+      "getis_ord_gi_star_r500_r1200",
+      "bivariate_moran_grav_topo",
+      "wavelet_ricker_multiscale_1_4km",
+      "bouguer_svd_inflection_wall",
+      "upward_crest_dip_vent_asymmetry",
+      "ldgi_corridor_unsup_composite"
+    ],
+    "shape": [
+      3730,
+      3292,
+      8
+    ],
+    "dtype": "float32",
+    "label_free": true,
+    "in_footprint_2m_probes": 2782,
+    "valid_t2m_t15m_gradient_probes": 1541,
+    "in_footprint_paleo_vents": 281,
+    "ricker_wavelet_scales_px": [
+      10.0,
+      20.0,
+      35.0
+    ],
+    "getis_ord_radii_px": [
+      5,
+      12
+    ],
+    "lineament_density_bandwidths_px": [
+      8.0,
+      18.0
+    ]
+  },
+  "leakage_canary": {
+    "passed": true,
+    "threshold_auc": 0.9,
+    "n_features_tested": 83,
+    "max_oriented_auc": 0.586868,
+    "worst_channel": "curv_s2",
+    "n_withheld_pos_tested": 11172,
+    "n_active_neg_sampled": 1207370,
+    "per_channel": [
+      {
+        "index": 0,
+        "channel": "band01",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.474234,
+        "oriented_auc": 0.525766,
+        "passed": true
+      },
+      {
+        "index": 1,
+        "channel": "band02",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.510115,
+        "oriented_auc": 0.510115,
+        "passed": true
+      },
+      {
+        "index": 2,
+        "channel": "band03",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.521508,
+        "oriented_auc": 0.521508,
+        "passed": true
+      },
+      {
+        "index": 3,
+        "channel": "band04",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.564476,
+        "oriented_auc": 0.564476,
+        "passed": true
+      },
+      {
+        "index": 4,
+        "channel": "band05",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.531937,
+        "oriented_auc": 0.531937,
+        "passed": true
+      },
+      {
+        "index": 5,
+        "channel": "band06",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.455312,
+        "oriented_auc": 0.544688,
+        "passed": true
+      },
+      {
+        "index": 6,
+        "channel": "band07",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.569707,
+        "oriented_auc": 0.569707,
+        "passed": true
+      },
+      {
+        "index": 7,
+        "channel": "band08",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.520376,
+        "oriented_auc": 0.520376,
+        "passed": true
+      },
+      {
+        "index": 8,
+        "channel": "band09",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.498734,
+        "oriented_auc": 0.501266,
+        "passed": true
+      },
+      {
+        "index": 9,
+        "channel": "band10",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.549414,
+        "oriented_auc": 0.549414,
+        "passed": true
+      },
+      {
+        "index": 10,
+        "channel": "band11",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.511737,
+        "oriented_auc": 0.511737,
+        "passed": true
+      },
+      {
+        "index": 11,
+        "channel": "band12",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.475446,
+        "oriented_auc": 0.524554,
+        "passed": true
+      },
+      {
+        "index": 12,
+        "channel": "band13",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.471733,
+        "oriented_auc": 0.528267,
+        "passed": true
+      },
+      {
+        "index": 13,
+        "channel": "band14",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.48382,
+        "oriented_auc": 0.51618,
+        "passed": true
+      },
+      {
+        "index": 14,
+        "channel": "band15",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.496295,
+        "oriented_auc": 0.503705,
+        "passed": true
+      },
+      {
+        "index": 15,
+        "channel": "band16",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.563879,
+        "oriented_auc": 0.563879,
+        "passed": true
+      },
+      {
+        "index": 16,
+        "channel": "band17",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.483353,
+        "oriented_auc": 0.516647,
+        "passed": true
+      },
+      {
+        "index": 17,
+        "channel": "band18",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.462594,
+        "oriented_auc": 0.537406,
+        "passed": true
+      },
+      {
+        "index": 18,
+        "channel": "band19",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.552415,
+        "oriented_auc": 0.552415,
+        "passed": true
+      },
+      {
+        "index": 19,
+        "channel": "curv_s1",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.568555,
+        "oriented_auc": 0.568555,
+        "passed": true
+      },
+      {
+        "index": 20,
+        "channel": "curv_s2",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.586868,
+        "oriented_auc": 0.586868,
+        "passed": true
+      },
+      {
+        "index": 21,
+        "channel": "ridge_s1",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.48698,
+        "oriented_auc": 0.51302,
+        "passed": true
+      },
+      {
+        "index": 22,
+        "channel": "ridge_s2",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.489357,
+        "oriented_auc": 0.510643,
+        "passed": true
+      },
+      {
+        "index": 23,
+        "channel": "ridge_s3",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.488031,
+        "oriented_auc": 0.511969,
+        "passed": true
+      },
+      {
+        "index": 24,
+        "channel": "relief5",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.56143,
+        "oriented_auc": 0.56143,
+        "passed": true
+      },
+      {
+        "index": 25,
+        "channel": "tophat2",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.473895,
+        "oriented_auc": 0.526105,
+        "passed": true
+      },
+      {
+        "index": 26,
+        "channel": "tmi_edge",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.521606,
+        "oriented_auc": 0.521606,
+        "passed": true
+      },
+      {
+        "index": 27,
+        "channel": "rtp_edge",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.526527,
+        "oriented_auc": 0.526527,
+        "passed": true
+      },
+      {
+        "index": 28,
+        "channel": "grav_edge",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.536531,
+        "oriented_auc": 0.536531,
+        "passed": true
+      },
+      {
+        "index": 29,
+        "channel": "cond_edge",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.497788,
+        "oriented_auc": 0.502212,
+        "passed": true
+      },
+      {
+        "index": 30,
+        "channel": "depth_grad",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.526309,
+        "oriented_auc": 0.526309,
+        "passed": true
+      },
+      {
+        "index": 31,
+        "channel": "coherence_s2",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.562821,
+        "oriented_auc": 0.562821,
+        "passed": true
+      },
+      {
+        "index": 32,
+        "channel": "strike_cos",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.570776,
+        "oriented_auc": 0.570776,
+        "passed": true
+      },
+      {
+        "index": 33,
+        "channel": "strike_sin",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.536999,
+        "oriented_auc": 0.536999,
+        "passed": true
+      },
+      {
+        "index": 34,
+        "channel": "footprint",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.5,
+        "oriented_auc": 0.5,
+        "passed": true
+      },
+      {
+        "index": 35,
+        "channel": "grav_hgrad_kneg_s12",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.530884,
+        "oriented_auc": 0.530884,
+        "passed": true
+      },
+      {
+        "index": 36,
+        "channel": "grav_hgrad_kneg_s25",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.538,
+        "oriented_auc": 0.538,
+        "passed": true
+      },
+      {
+        "index": 37,
+        "channel": "rtp_hgrad_kneg_s12",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.51675,
+        "oriented_auc": 0.51675,
+        "passed": true
+      },
+      {
+        "index": 38,
+        "channel": "rtp_hgrad_kneg_s25",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.521966,
+        "oriented_auc": 0.521966,
+        "passed": true
+      },
+      {
+        "index": 39,
+        "channel": "pf_curv_strike_concord",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.525406,
+        "oriented_auc": 0.525406,
+        "passed": true
+      },
+      {
+        "index": 40,
+        "channel": "grav_saddle_polarity",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.550982,
+        "oriented_auc": 0.550982,
+        "passed": true
+      },
+      {
+        "index": 41,
+        "channel": "roest_as_shallow_basin",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.512261,
+        "oriented_auc": 0.512261,
+        "passed": true
+      },
+      {
+        "index": 42,
+        "channel": "mag_demag_trough",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.508691,
+        "oriented_auc": 0.508691,
+        "passed": true
+      },
+      {
+        "index": 43,
+        "channel": "k_th_potassic_excess",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.459329,
+        "oriented_auc": 0.540671,
+        "passed": true
+      },
+      {
+        "index": 44,
+        "channel": "cond_nuisance_resid_edge",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.566122,
+        "oriented_auc": 0.566122,
+        "passed": true
+      },
+      {
+        "index": 45,
+        "channel": "gdr_geotherm_upflow",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.501292,
+        "oriented_auc": 0.501292,
+        "passed": true
+      },
+      {
+        "index": 46,
+        "channel": "hydrothermal_breach_index",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.544183,
+        "oriented_auc": 0.544183,
+        "passed": true
+      },
+      {
+        "index": 47,
+        "channel": "lidar_valid_flag",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.507621,
+        "oriented_auc": 0.507621,
+        "passed": true
+      },
+      {
+        "index": 48,
+        "channel": "lidar_tectonic_dipole",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.530906,
+        "oriented_auc": 0.530906,
+        "passed": true
+      },
+      {
+        "index": 49,
+        "channel": "lahontan_contour_orthog",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.543102,
+        "oriented_auc": 0.543102,
+        "passed": true
+      },
+      {
+        "index": 50,
+        "channel": "lidar_lahontan_debiased",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.536129,
+        "oriented_auc": 0.536129,
+        "passed": true
+      },
+      {
+        "index": 51,
+        "channel": "piedmont_burial_index",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.459884,
+        "oriented_auc": 0.540116,
+        "passed": true
+      },
+      {
+        "index": 52,
+        "channel": "transtensional_obliquity",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.551195,
+        "oriented_auc": 0.551195,
+        "passed": true
+      },
+      {
+        "index": 53,
+        "channel": "up150_basement_persistence",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.519281,
+        "oriented_auc": 0.519281,
+        "passed": true
+      },
+      {
+        "index": 54,
+        "channel": "spcp_unsup_composite",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.535612,
+        "oriented_auc": 0.535612,
+        "passed": true
+      },
+      {
+        "index": 55,
+        "channel": "gdr_2m_dab_plume",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.526869,
+        "oriented_auc": 0.526869,
+        "passed": true
+      },
+      {
+        "index": 56,
+        "channel": "gdr_2m_vert_grad",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.522653,
+        "oriented_auc": 0.522653,
+        "passed": true
+      },
+      {
+        "index": 57,
+        "channel": "gdr_paleo_sinter_vent",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.489891,
+        "oriented_auc": 0.510109,
+        "passed": true
+      },
+      {
+        "index": 58,
+        "channel": "vent_conduit_coupling",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.564349,
+        "oriented_auc": 0.564349,
+        "passed": true
+      },
+      {
+        "index": 59,
+        "channel": "tiger_road_clean_gate",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.483431,
+        "oriented_auc": 0.516569,
+        "passed": true
+      },
+      {
+        "index": 60,
+        "channel": "lidar_tiger_lahontan_clean",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.526507,
+        "oriented_auc": 0.526507,
+        "passed": true
+      },
+      {
+        "index": 61,
+        "channel": "mag_up150_contact_persist",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.520682,
+        "oriented_auc": 0.520682,
+        "passed": true
+      },
+      {
+        "index": 62,
+        "channel": "geod_strain_pf_obliquity",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.535366,
+        "oriented_auc": 0.535366,
+        "passed": true
+      },
+      {
+        "index": 63,
+        "channel": "lineament_density_multi_km_km2",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.521601,
+        "oriented_auc": 0.521601,
+        "passed": true
+      },
+      {
+        "index": 64,
+        "channel": "lineament_intersection_relay",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.560984,
+        "oriented_auc": 0.560984,
+        "passed": true
+      },
+      {
+        "index": 65,
+        "channel": "getis_ord_gi_star_r500_r1200",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.523285,
+        "oriented_auc": 0.523285,
+        "passed": true
+      },
+      {
+        "index": 66,
+        "channel": "bivariate_moran_grav_topo",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.546911,
+        "oriented_auc": 0.546911,
+        "passed": true
+      },
+      {
+        "index": 67,
+        "channel": "wavelet_ricker_multiscale_1_4km",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.506801,
+        "oriented_auc": 0.506801,
+        "passed": true
+      },
+      {
+        "index": 68,
+        "channel": "bouguer_svd_inflection_wall",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.522906,
+        "oriented_auc": 0.522906,
+        "passed": true
+      },
+      {
+        "index": 69,
+        "channel": "upward_crest_dip_vent_asymmetry",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.525846,
+        "oriented_auc": 0.525846,
+        "passed": true
+      },
+      {
+        "index": 70,
+        "channel": "ldgi_corridor_unsup_composite",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.526924,
+        "oriented_auc": 0.526924,
+        "passed": true
+      },
+      {
+        "index": 71,
+        "channel": "grav_uc500_2k_persist",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.521143,
+        "oriented_auc": 0.521143,
+        "passed": true
+      },
+      {
+        "index": 72,
+        "channel": "rtp_uc500_2k_persist",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.516132,
+        "oriented_auc": 0.516132,
+        "passed": true
+      },
+      {
+        "index": 73,
+        "channel": "basement_dip_shift_asymm",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.526059,
+        "oriented_auc": 0.526059,
+        "passed": true
+      },
+      {
+        "index": 74,
+        "channel": "geodawn_blk_radon_crest",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.530412,
+        "oriented_auc": 0.530412,
+        "passed": true
+      },
+      {
+        "index": 75,
+        "channel": "geodawn_blk_silica_potassic_dog",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.524904,
+        "oriented_auc": 0.524904,
+        "passed": true
+      },
+      {
+        "index": 76,
+        "channel": "blm_epithermal_conduit_corrob",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.528595,
+        "oriented_auc": 0.528595,
+        "passed": true
+      },
+      {
+        "index": 77,
+        "channel": "morris_slip_dilation_obliq",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.55675,
+        "oriented_auc": 0.55675,
+        "passed": true
+      },
+      {
+        "index": 78,
+        "channel": "ctx_subsurf_aniso_500_1500m",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.536142,
+        "oriented_auc": 0.536142,
+        "passed": true
+      },
+      {
+        "index": 79,
+        "channel": "ctx_subsurf_prominence_3km",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.539454,
+        "oriented_auc": 0.539454,
+        "passed": true
+      },
+      {
+        "index": 80,
+        "channel": "ctx_multimodal_corrob_2km",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.535268,
+        "oriented_auc": 0.535268,
+        "passed": true
+      },
+      {
+        "index": 81,
+        "channel": "ctx_lidar_aniso_chain_1km",
+        "in_msub_pure_non_lidar": false,
+        "raw_auc": 0.537673,
+        "oriented_auc": 0.537673,
+        "passed": true
+      },
+      {
+        "index": 82,
+        "channel": "fbgr_unsup_conduit_crest",
+        "in_msub_pure_non_lidar": true,
+        "raw_auc": 0.537005,
+        "oriented_auc": 0.537005,
+        "passed": true
+      }
+    ]
+  },
+  "baselines": {
+    "CHAMPION_02778": {
+      "name": "CHAMPION_02778",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.099202,
+        "ci95": [
+          0.085951,
+          0.112668
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.101257,
+          "NE": 0.112793,
+          "SW": 0.066499,
+          "SE": 0.12423
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.004515,
+        "ci95": [
+          0.003816,
+          0.005262
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.094324,
+        "ci95": [
+          0.079248,
+          0.109825
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.09606,
+        "raw_ci95": [
+          0.08566,
+          0.107072
+        ],
+        "prevalence_calibrated_dti": 0.064121,
+        "calibrated_ci95": [
+          0.05673,
+          0.071649
+        ]
+      }
+    },
+    "H38_HISTORICAL_HOLDOUT": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "pooled_dti": 0.116958,
+      "ci95_cluster_bootstrap": [
+        0.100533,
+        0.13204
+      ],
+      "champion_02778_same_evaluator": 0.099202,
+      "champion_02778_ci95": [
+        0.085951,
+        0.112668
+      ],
+      "paired_delta_vs_champion": 0.017756,
+      "paired_delta_ci95": [
+        0.008324,
+        0.027425
+      ]
+    },
+    "H47_1_NONSTATIONARY_ETA_HOLDOUT": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "pooled_dti": 0.119765,
+      "ci95": [
+        0.105732,
+        0.132895
+      ],
+      "per_quadrant_dti": {
+        "NW": 0.139316,
+        "NE": 0.125191,
+        "SW": 0.083649,
+        "SE": 0.14163
+      }
+    },
+    "H47_1_SGMC_OFF_CATALOGUE": {
+      "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "n_withheld_positives": 62703,
+      "raw_pooled_dti": 0.098751,
+      "raw_ci95": [
+        0.086258,
+        0.109732
+      ],
+      "prevalence_calibrated_dti": 0.065888,
+      "calibrated_ci95": [
+        0.057664,
+        0.072551
+      ]
+    }
+  },
+  "experiments": {
+    "EXP1_H48_SINGLE_83CH_AXIAL28": {
+      "name": "EXP1_H48_SINGLE_83CH_AXIAL28",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.115254,
+        "ci95": [
+          0.100591,
+          0.129625
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.122965,
+          "NE": 0.123071,
+          "SW": 0.076169,
+          "SE": 0.147552
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.005001,
+        "ci95": [
+          0.004216,
+          0.005781
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.100333,
+        "ci95": [
+          0.085341,
+          0.115992
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.083731,
+        "raw_ci95": [
+          0.073873,
+          0.094501
+        ],
+        "prevalence_calibrated_dti": 0.055811,
+        "calibrated_ci95": [
+          0.049361,
+          0.062168
+        ]
+      }
+    },
+    "EXP2_H48_DUAL_COVER_RAW_CELF": {
+      "name": "EXP2_H48_DUAL_COVER_RAW_CELF",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.103264,
+        "ci95": [
+          0.088533,
+          0.117621
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.117048,
+          "NE": 0.108593,
+          "SW": 0.059146,
+          "SE": 0.139081
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.00623,
+        "ci95": [
+          0.005254,
+          0.007225
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.091411,
+        "ci95": [
+          0.075877,
+          0.107421
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.061455,
+        "raw_ci95": [
+          0.051322,
+          0.071575
+        ],
+        "prevalence_calibrated_dti": 0.040717,
+        "calibrated_ci95": [
+          0.034727,
+          0.046504
+        ]
+      }
+    },
+    "EXP3_H48_FBGR_DUAL_COVER_AXIAL28": {
+      "name": "EXP3_H48_FBGR_DUAL_COVER_AXIAL28",
+      "full_map_dots": 37654,
+      "hide_and_recover_v3": {
+        "label": "HOLDOUT-DTI",
+        "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.115341,
+        "ci95": [
+          0.100168,
+          0.130524
+        ],
+        "per_quadrant_dti": {
+          "NW": 0.12147,
+          "NE": 0.124531,
+          "SW": 0.072596,
+          "SE": 0.151845
+        }
+      },
+      "censorship_matched_d2": {
+        "label": "HOLDOUT-DTI (d_hidden > 2 px censorship-matched)",
+        "n_withheld_positives": 22232,
+        "pooled_dti": 0.005176,
+        "ci95": [
+          0.004385,
+          0.005902
+        ]
+      },
+      "detached_600m_segments": {
+        "label": "HOLDOUT-DTI (detached >= 600 m withheld segments)",
+        "n_withheld_positives": 15504,
+        "pooled_dti": 0.101168,
+        "ci95": [
+          0.085002,
+          0.117569
+        ]
+      },
+      "sgmc_off_catalogue_v3": {
+        "label": "HOLDOUT-DTI (off-catalogue USGS SGMC > 300 m, zero SGMC supervision)",
+        "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+        "n_withheld_positives": 62703,
+        "raw_pooled_dti": 0.085206,
+        "raw_ci95": [
+          0.07524,
+          0.095476
+        ],
+        "prevalence_calibrated_dti": 0.056798,
+        "calibrated_ci95": [
+          0.050345,
+          0.063015
+        ]
+      }
+    }
+  },
+  "paired_spatial_bootstrap_comparisons": {
+    "EXP3_vs_CHAMPION_hide_and_recover": {
+      "mean_boot_delta": 0.016216857679651548,
+      "ci95": [
+        0.00859879937264434,
+        0.024287097485784708
+      ],
+      "prob_positive": 1.0
+    },
+    "EXP3_vs_EXP1_dual_cover_lift": {
+      "mean_boot_delta": 3.0384321609303197e-05,
+      "ci95": [
+        -0.002639877687596933,
+        0.002722113239915168
+      ],
+      "prob_positive": 0.497
+    },
+    "EXP3_vs_EXP2_axial_d28_lift": {
+      "mean_boot_delta": 0.012019710850121414,
+      "ci95": [
+        0.0073823994219592145,
+        0.01718586248312084
+      ],
+      "prob_positive": 1.0
+    },
+    "EXP3_vs_CHAMPION_censored_d2": {
+      "mean_boot_delta": 0.0006621144964554155,
+      "ci95": [
+        -0.0001201374535119108,
+        0.0014552102722994494
+      ],
+      "prob_positive": 0.949
+    },
+    "EXP3_vs_CHAMPION_detached_600m": {
+      "mean_boot_delta": 0.007040506170325334,
+      "ci95": [
+        -0.0010911084131397907,
+        0.015100296431663107
+      ],
+      "prob_positive": 0.957
+    },
+    "EXP3_vs_CHAMPION_sgmc_calibrated": {
+      "mean_boot_delta": -0.007243342103637612,
+      "ci95": [
+        -0.013455657539995499,
+        -0.0004206814836415012
+      ],
+      "prob_positive": 0.016
+    },
+    "EXP3_vs_EXP2_sgmc_axial_d28_lift": {
+      "mean_boot_delta": 0.01603782214235731,
+      "ci95": [
+        0.013533102080131677,
+        0.018472133310297824
+      ],
+      "prob_positive": 1.0
+    }
+  },
+  "spatial_allocation_exp3": {
+    "stationary_formula_no_eta_switch": true,
+    "min_sep_px": 2.8,
+    "mfull_in_lidar_dots": 26202,
+    "msub_in_lidar_gap_dots": 11452,
+    "lidar_gap_dot_frac": 0.304138,
+    "clump_ge3_nbr3_frac": 0.009826,
+    "mean_nbr_within_3px": 0.571732,
+    "footprint_300m_kernel_coverage": 0.05888,
+    "flat_basin_dot_frac": 0.036437,
+    "le_2px_on_or_flank_frac": 0.0,
+    "collar_3_to_15px_frac": 0.572077,
+    "apron_2_to_9px_frac": 0.422319,
+    "mid_9_to_20px_frac": 0.228316,
+    "far_gt_20px_blind_frac": 0.349365,
+    "median_dist_to_catalogue_px": 11.705,
+    "emit_log": {
+      "rule": "lazy_greedy_maxcov_support_confined",
+      "n_support_px": 338886,
+      "n_emitted": 37654,
+      "total_mass": 37654.0,
+      "off_support_px": 0,
+      "credit_delivered": 31456.127722858302,
+      "last_marginal_gain": 0.2603657372713364,
+      "first_marginal_gain": 6.364600167599202,
+      "stopped_by": "budget",
+      "candidates_considered": 338886,
+      "candidates_accepted": 37654,
+      "prior_dti": 0.0,
+      "rho": 0.0,
+      "alpha": 0.2,
+      "budget": 37654,
+      "gain_floor": 0.0,
+      "implied_bar_alpha_s": 0.0,
+      "implied_bar_two_round": 0.0
+    }
+  }
+}
