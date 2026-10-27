@@ -1442,6 +1442,7 @@ def main() -> int:
     # A persistent download button in the header of *every* page: the brief asks for an obvious
     # one-click download at the very top of the site, and the safest way to guarantee that is to put
     # it in the page chrome rather than in one page's body.
+    review_link = '<p><a href="nine-site-review.html">2026-10-27 nine-site executive audit: downloads, uniqueness and score limitations</a></p>'
     dl_btn = ""
     release = read("evidence/current_release_review.json", {}) or {}
     if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:
@@ -1466,8 +1467,8 @@ def main() -> int:
         # H47 was superseded by later generated candidates. Do not render its archived banner
         # ahead of the current_status.json decision; stale download links can look actionable.
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
-        "executive-summary.html": page("Make a submission (executive summary)", previous_artifacts_block("") + exec_summary(fl, sub, name),
+                           review_link + previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
+        "executive-summary.html": page("Make a submission (executive summary)", review_link + previous_artifacts_block("") + exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
                               research(fl, sub, name), "research.html", dl_btn),
