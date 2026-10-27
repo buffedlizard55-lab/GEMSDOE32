@@ -35,7 +35,22 @@
 
 ---
 
-## 0. Standing starting point (2026-10-26)
+## Standing Mission (read at the start of every session)
+
+**Objective:** win the DOE GEMS Prize (place top of the DrivenData leaderboard; current public #1 = 0.4437, historical benchmark to beat > 0.3195) by generating a *unique*, portal-valid single-band GeoTIFF submission (EPSG:32611, 3292×3730, 100 m, float32, all cells finite in [0,1], `nodata=None`) whose dots target faults missing from the USGS/INGENIOUS catalogue — with an emphasis on scientific discovery of *geothermal vents/conduits*.
+
+**Standing directives (from the session prompt):**
+- Produce an executive summary on each focus site (GEMSDOE24, 25, 27, 28, 30, 31, 32, 33, 36): which file to download, its estimate, and whether it is unique vs the other GEMSDOE sites. Table columns: file to download | estimated score | unique? | submit?.
+- Generate a UNIQUE TIF submission. Never copy a previous submission (learning/education only). It must be obvious whether the generated TIF is OK to download and submit.
+- Values must be in [0,1] everywhere (use `-zeros.tif` so "Predicted values must be in range [0, 1]" can never occur). Unique submission name + note ≤ 140 characters.
+- Score every submission with a spatially blocked holdout: HOLDAUT-DTI (evaluator version, # withheld positives, 95% CI). A projection is never written as a score; only ORGANIZER-CONFIRMED (submission-page receipt) counts as a live score.
+- Lane rule: rank correlation > 0.90 vs any registry raster, or > 70% of dots within 3 px of one registry raster's dots → duplicate, stop.
+- Leakage canary: any single feature with AUC > 0.90 is leakage until proven otherwise.
+- Run card (JSON) at the end of every experiment: hypothesis, mechanism, named non-fault mimic process, holdout DTI + CI, correlation/overlap vs registry, raster sha256, validator output, submission name + ≤140-char note, verdict promote/negative.
+- Budget: max 3 experiments or 2 hours per session; never spend a weekly slot on a holdout-inferior or duplicate file. Negative results are deliverables.
+- Work line by line from official/verified sources; no hallucinations; flag irregularities.
+
+**This session's outcome:** one new unique candidate was built and validated — `GEMSDOE32-H-GEO-VENT-3C5837E9` (geothermal-vent/hot-spring/K/scarp conduit proximity, 28,000 dots). It is format-valid (13/13 PASS), leakage-clean, and unique vs genuine registry rasters (max |Spearman| 0.0297, max 3-px overlap 23.31%). Holdout: HOLDAUT-DTI 0.0399 [0.0306, 0.0497] (n=22,232). Verdict: **negative / DO NOT SUBMIT to live portal** — it beats the historical owner-reported champion's holdout (0.00452) but does not beat the current same-evaluator holdout incumbent H47-1 LDGI-WCR 0.121959 [0.1077, 0.1349], so it fails the promotion gate. OK to download for research/audit: YES. OK to submit to DrivenData: NO. Full run card: [`evidence/exp1_HGEOVENT_run_card.json`](evidence/exp1_HGEOVENT_run_card.json). Download: [`docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif`](docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif).
 
 **The standing prompt** is recorded verbatim (as supplied) at [`docs/research/standing-prompt-as-recorded-20261026.md`](docs/research/standing-prompt-as-recorded-20261026.md). It is the starting point for every session. Note: the protocol's lane paragraph is absent from that prompt, so the lane is provisional ([`IR-45-LANE-01`](registry/irregularities.json)).
 
