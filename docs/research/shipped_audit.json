@@ -403,6 +403,258 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-nan.tif",
+   "bytes": 328367,
+   "sha256": "53bb039334fb6f2eed11cf66436ada834ce05214c6c1d23ff31d1480397e0291",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31870,
+   "off_h19_5_frac": 0.8463908216922504,
+   "catalogue_proxy_T": 400.1742915032198,
+   "catalogue_proxy_F": 37344.412790565126,
+   "credit_per_unit_mass": 0.010627670141371962,
+   "catalogue_proxy_DTI": 0.007102931129702232,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+   "bytes": 192561,
+   "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 31870,
+   "off_h19_5_frac": 0.8463908216922504,
+   "catalogue_proxy_T": 400.1742915032198,
+   "catalogue_proxy_F": 37344.412790565126,
+   "credit_per_unit_mass": 0.010627670141371962,
+   "catalogue_proxy_DTI": 0.007102931129702232,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-nan.tif",
+   "bytes": 351636,
+   "sha256": "c23fb32e7cae5d18fc4e7516dbb45a1bae431ecda6b8836dacb373bd6ef18996",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 32045,
+   "off_h19_5_frac": 0.851038402294577,
+   "catalogue_proxy_T": 192.16823513440875,
+   "catalogue_proxy_F": 37500.33986186567,
+   "credit_per_unit_mass": 0.0051035277828227745,
+   "catalogue_proxy_DTI": 0.0034115388301522434,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+   "bytes": 215180,
+   "sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 32045,
+   "off_h19_5_frac": 0.851038402294577,
+   "catalogue_proxy_T": 192.16823513440875,
+   "catalogue_proxy_F": 37500.33986186567,
+   "credit_per_unit_mass": 0.0051035277828227745,
+   "catalogue_proxy_DTI": 0.0034115388301522434,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-nan.tif",
+   "bytes": 345294,
+   "sha256": "faf39fdec0bc115b3fb4b9a94512d4ea6d28433dc078a2340244071cdd5effa4",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 35487,
+   "total_mass": 35487.0,
+   "off_h19_5_px": 34965,
+   "off_h19_5_frac": 0.9852903880294193,
+   "catalogue_proxy_T": 158.71856704150412,
+   "catalogue_proxy_F": 35371.21784105061,
+   "credit_per_unit_mass": 0.0044725833979063915,
+   "catalogue_proxy_DTI": 0.0028395138712962735,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif",
+   "bytes": 209001,
+   "sha256": "93c21c4cc18735aaeea44626b0697d72b96f9048ab817d9f0c5fb27381ef5f0f",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 35487,
+   "total_mass": 35487.0,
+   "off_h19_5_px": 34965,
+   "off_h19_5_frac": 0.9852903880294193,
+   "catalogue_proxy_T": 158.71856704150412,
+   "catalogue_proxy_F": 35371.21784105061,
+   "credit_per_unit_mass": 0.0044725833979063915,
+   "catalogue_proxy_DTI": 0.0028395138712962735,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
    "bytes": 366368,
    "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
@@ -2164,6 +2416,216 @@
    "catalogue_proxy_F": 37217.98963380091,
    "credit_per_unit_mass": 0.014946119018841186,
    "catalogue_proxy_DTI": 0.009987854162984216,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif",
+   "bytes": 270332,
+   "sha256": "d8da7e947db3ed03a3d7064c02b523c254bcb3ae1c5115b7e59b4b436f80fea1",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 49231,
+   "total_mass": 49231.0,
+   "off_h19_5_px": 17231,
+   "off_h19_5_frac": 0.3500030468607178,
+   "catalogue_proxy_T": 0.0,
+   "catalogue_proxy_F": 49231.0,
+   "credit_per_unit_mass": 0.0,
+   "catalogue_proxy_DTI": 0.0,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-nan.tif",
+   "bytes": 347712,
+   "sha256": "8dba8c350e2f2dde0f9ebe8b0402566282ac275967f332a6f0849a3be11c8407",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 32141,
+   "off_h19_5_frac": 0.8535879322249961,
+   "catalogue_proxy_T": 503.29230225754986,
+   "catalogue_proxy_F": 37271.70348315857,
+   "credit_per_unit_mass": 0.01336623737869947,
+   "catalogue_proxy_DTI": 0.008932269711222386,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.tif",
+   "bytes": 211799,
+   "sha256": "4177f236b7c6a26fdf39d85f0896d1a83da745c9a36b04be7fe201a0076bf29f",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 32141,
+   "off_h19_5_frac": 0.8535879322249961,
+   "catalogue_proxy_T": 503.29230225754986,
+   "catalogue_proxy_F": 37271.70348315857,
+   "credit_per_unit_mass": 0.01336623737869947,
+   "catalogue_proxy_DTI": 0.008932269711222386,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-nan.tif",
+   "bytes": 281530,
+   "sha256": "ba2e1723c7ed05763af33dd5e62ea2c7a1f66257553a51c739152be27fd0fa7c",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37121,
+   "total_mass": 37121.0,
+   "off_h19_5_px": 36276,
+   "off_h19_5_frac": 0.9772366046173325,
+   "catalogue_proxy_T": 1241.8714842829238,
+   "catalogue_proxy_F": 35881.70814700157,
+   "credit_per_unit_mass": 0.03345468829726903,
+   "catalogue_proxy_DTI": 0.022091415517349694,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
+   "bytes": 146967,
+   "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37121,
+   "total_mass": 37121.0,
+   "off_h19_5_px": 36276,
+   "off_h19_5_frac": 0.9772366046173325,
+   "catalogue_proxy_T": 1241.8714842829238,
+   "catalogue_proxy_F": 35881.70814700157,
+   "credit_per_unit_mass": 0.03345468829726903,
+   "catalogue_proxy_DTI": 0.022091415517349694,
    "dots_on_catalogue": 0
   },
   {

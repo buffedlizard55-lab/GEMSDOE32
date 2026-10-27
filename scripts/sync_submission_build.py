@@ -190,22 +190,43 @@ def main() -> int:
     # 2026-10-26: ARENA47 sha left in place after the H50 merge).  Reconcile it to the same
     # newest artifact so the three registries cannot disagree (IR-51-SYNC-01).
     lc = release.get("latest_candidate")
-    if isinstance(lc, dict) and lc.get("sha256") != rel_sha:
+    cand_id = newest.get("id") or newest.get("submission_name")
+    cand_file = art.get("path", newest.get("file"))
+    primary_hr = (newest.get("holdout_dti", {}) or {}).get("primary_hide_and_recover", {})
+    inc_hr = (newest.get("holdout_dti", {}) or {}).get("incumbent_02778_same_evaluator", {})
+    hr_passed = bool(
+        isinstance(primary_hr, dict)
+        and isinstance(inc_hr, dict)
+        and primary_hr.get("pooled_dti", 0.0) > inc_hr.get("pooled_dti", 1.0)
+    )
+    if isinstance(lc, dict) and (
+        lc.get("sha256") != rel_sha
+        or lc.get("raster") != cand_file
+        or lc.get("id") != cand_id
+    ):
         lc.update({
+            "id": cand_id,
+            "raster": cand_file,
             "run_card": newest.get("run_card"),
             "sha256": rel_sha,
             "verdict": "negative",
             "format_passed": True,
-            "primary_holdout_passed": False,
+            "primary_holdout_passed": hr_passed,
             "literal_registry_passed": bool(
                 (newest.get("uniqueness", {}) or {}).get("literal_all_registry_passed")),
             "genuine_registry_passed": bool(
                 (newest.get("uniqueness", {}) or {}).get("genuine_final_dots_passed")),
-            "reconciled_by": "scripts/sync_submission_build.py (was stale after a parallel merge)",
+            "reconciled_by": "scripts/sync_submission_build.py (IR-48-RELEASE-01 full field sync)",
         })
+        auth = release.setdefault("submission_authorization", {})
+        if newest.get("why_not_submit"):
+            auth["reason"] = newest["why_not_submit"]
+        auth["next_required"] = (
+            "Owner protocol decision on synthetic calibration lattice exemption (IR-51-LATTICE-01) "
+            "plus separate weekly-slot selector review."
+        )
         RELEASE.write_text(json.dumps(release, indent=2) + "\n")
-        print(f"release review latest_candidate reconciled to {rel_sha[:16]}… "
-              "(was stale; artifact block already pointed at the newest raster)")
+        print(f"release review latest_candidate reconciled to {cand_id} ({rel_sha[:16]}…)")
 
     patch = {k: v for k, v in planned.items() if build.get(k) != v}
     if not patch:

@@ -1,6 +1,88 @@
 {
  "hypotheses": [
   {
+   "id": "H48-1",
+   "rank": 1,
+   "title": "Fourier-Continued Basement-Graben Relay, Flight-Block-Debiased 214Bi Radon / Silica-Potassic Zonation & Stationary Dual-Cover Axial CELF (FBGR)",
+   "layers": [
+    "Band 13 iso_grav_anom & Band 02 rtp (exact 2-D Fourier upward continuation z=500m, 2km)",
+    "Bands 06-09 (K, eTh, eU, TC) + external acquisition_block_id_100m.tif (USGS DOI 10.5066/P93LGLVQ)",
+    "external blm_closed_claim_distance_m.tif + GDR #1391 2m thermal probes & paleo-sinter vents",
+    "83-ch M_Full (inside 75.37% 1m LiDAR) + 71-ch strictly LiDAR-free M_Sub (inside 24.63% LiDAR gap)"
+   ],
+   "signature": "Multi-altitude harmonic upward-continued basement graben gradients & dip-migration asymmetry + per-block median/MAD-standardized 214Bi radon excess (eU - 0.72*eTh) + concentric DoG silica-leached low-TC core / high-K/Th adularia-illite halo + 4-azimuth NMS + min_sep_px=2.8 CELF",
+   "why_off_catalogue": "Catches blind Holocene fan-buried graben faults (via z=2km basement potential fields), zero-scarp hydrothermal conduits (via block-debiased 214Bi radon + silica/potassic zonation + BLM epithermal claims), and unmapped faults inside the 24.63% 1m LiDAR gap (via pure non-LiDAR M_Sub)",
+   "differs_from_repo": "Fixes IR-48-BAND14-01 (replaces misattributed Band 14 TMI with exact rfft2 upward continuation), fixes IR-A48-JX-01 (4-block GeoDAWN normalization), eliminates IR-48-CCAA-01 non-stationary eta switch, and enforces min_sep_px=2.8 inside shared emitter.emit",
+   "expected_dti": "MEASURED: Hide&Recover v3.0 = 0.115341 [0.100168, 0.130524] (+0.016217 vs Champion, p=1.000); Detached >=600m = 0.101168 (stationary repo high); SGMC-cal = 0.056798 (+39.4% over d=0.0 EXP2, below 0.064121 Champion)",
+   "cost": "medium (12 float32 memmap channels + 16 OOF HGBT fits, ~13 min CPU)",
+   "data_status": "VERIFIED OBTAINABLE & PINNED: all 30 core/external/scored files SHA-256-verified in registry/data_manifest.json",
+   "status": "TESTED THIS SESSION (EXP1..EXP3). Unique across all 439 discrete <=100k-dot rasters (max 68.82% <= 70%, focus max 65.94% <= 70%); held DO NOT SUBMIT (SGMC-cal < 0.064121 & literal r13-lattice-s5 rule)."
+  },
+  {
+   "id": "H48-2",
+   "rank": 2,
+   "title": "3-D Euler Deconvolution Depth-Lineament Clustering (Structural Index SI = 0.25 Fault-Contact Solutions)",
+   "layers": [
+    "Band 02 rtp + exact Fourier vertical derivative dz & horizontal gradients dx, dy",
+    "Band 13 iso_grav_anom + Band 15 sed_thick"
+   ],
+   "signature": "Sliding 11x11 least-squares 3-D Euler deconvolution solving (x - x0)dT/dx + (y - y0)dT/dy + (z - z0)dT/dz = -N*(T - B) at N=0.25, retaining tight horizontal solution clusters at z0 in [300 m, 3,500 m] exceeding basin depth",
+   "why_off_catalogue": "Directly inverts 3-D sub-alluvial bedrock fault-contact position and depth beneath featureless Quaternary basin fill without needing a surface scarp",
+   "differs_from_repo": "Prior lanes used scalar tilt angle or Phillips curvature; none solved the 3-D Euler inverse problem for basement contact depth clustering",
+   "expected_dti": "unmeasured (ranked #2 backlog candidate)",
+   "cost": "low-medium (in-band FFT derivatives + vectorized 11x11 linear solver)",
+   "data_status": "VERIFIED IN-BAND: uses official Bands 02, 13, 15 in training_features.tif",
+   "status": "preregistered backlog (#2 in docs/research/h48-fbgr-preregistration-20261027.md); not run (1-lane protocol)"
+  },
+  {
+   "id": "H48-3",
+   "rank": 3,
+   "title": "Anisotropic Geodesic Eikonal Fault-Relay & Accommodation-Zone Minimum-Action Bridge",
+   "layers": [
+    "Band 10 max_shear_strain + Band 11 dilation_rate",
+    "Band 13 iso_grav_anom horizontal gradient + GDR #1391 thermal/vent anchors"
+   ],
+   "signature": "Riemannian metric tensor G(x)^(-1) aligned with gravity/magnetic gradient strike; fast-marching Eikonal geodesics connecting en-echelon fault tips and thermal anomalies across 1-6 km relay ramps",
+   "why_off_catalogue": "Geothermal upwelling concentrates in unmapped breaching relay ramps and step-over accommodation zones (Faulds & Hinz 2015) where single-scarp throw drops below mapping thresholds",
+   "differs_from_repo": "Prior tip cones used local Euclidean Gaussian decay rather than minimum-action PDE geodesics curved by potential-field strike",
+   "expected_dti": "unmeasured (ranked #3 backlog candidate)",
+   "cost": "medium (fast-marching Eikonal solver on 3730x3292 grid)",
+   "data_status": "VERIFIED IN-BAND + PINNED GDR #1391",
+   "status": "preregistered backlog (#3 in docs/research/h48-fbgr-preregistration-20261027.md); not run (1-lane protocol)"
+  },
+  {
+   "id": "H48-4",
+   "rank": 4,
+   "title": "3-D Magnetotelluric Sub-Playa Vertical Phase-Tensor Steep-Gradient & Upflow Plume Inversion",
+   "layers": [
+    "Band 12 mt_res_2km + USArray/GBCGE 3-D MT multi-depth resistivity slices (500 m, 2 km, 5 km, 10 km)",
+    "Band 15 sed_thick"
+   ],
+   "signature": "Sub-vertical low-resistivity (<15 ohm-m) hydrothermal smectite/chlorite alteration roots extending from 5-10 km depth into 2 km crust, distinguishing deep fault conduits from horizontal shallow playa brines",
+   "why_off_catalogue": "3-D MT images fluid-filled crustal fault zones directly beneath 1-3 km of conductive playa clay where LiDAR and radiometrics are completely blind",
+   "differs_from_repo": "training_features.tif provides only a single 2 km MT slice (Band 12); multi-depth vertical persistence has never been ingested",
+   "expected_dti": "high theoretical lift if multi-depth MT cubes are mirrored",
+   "cost": "medium (requires external 3-D MT mirror)",
+   "data_status": "DATA-BLOCKED in current sandbox (egress whitelist blocks direct gdr.openei.org / iris.edu HTTP; free CC-BY-4.0 public data)",
+   "status": "preregistered backlog (#4, DATA-BLOCKED pending GitHub mirror)"
+  },
+  {
+   "id": "H48-5",
+   "rank": 5,
+   "title": "Double-Difference Relocated Microseismic Planar Alignment & Sentinel-1 InSAR Phase-Gradient Discontinuity",
+   "layers": [
+    "USGS/NSL GrowClust relocated Great Basin hypocenter catalog (1980-2025)",
+    "ASF Vertex Copernicus Sentinel-1 ascending/descending coherence & LOS velocity gradients"
+   ],
+   "signature": "3-D RANSAC planar hypocenter alignments at 2-12 km depth projected updip + sub-cm/yr InSAR phase-gradient breaks across blind Quaternary faults (e.g. 2020 Mw 6.5 Monte Cristo Range)",
+   "why_off_catalogue": "Active microseismicity and aseismic/coseismic InSAR phase discontinuities directly illuminate unmapped blind faults lacking pre-existing scarps",
+   "differs_from_repo": "No full-footprint relocated earthquake catalog or InSAR interferometric phase-gradient grid is in the 19-band cube",
+   "expected_dti": "high theoretical lift on active blind structures",
+   "cost": "high (external catalog + SAR processing)",
+   "data_status": "DATA-BLOCKED in current sandbox (egress whitelist blocks earthquake.usgs.gov & asf.alaska.edu; free public US Gov data)",
+   "status": "preregistered backlog (#5, DATA-BLOCKED pending GitHub mirror)"
+  },
+  {
    "id": "H33-1",
    "rank": 1,
    "title": "GDR measured geothermometry (wellspring chemistry, T >= 150/180/200 C) as a *removal prior* on the 0.2708 base emission",

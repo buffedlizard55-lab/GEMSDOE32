@@ -266,6 +266,14 @@ def current_status_block(docs_prefix: str = "") -> str:
     orows = "".join(f"<tr><td>{esc(k)}</td><td>{v['dti']:.4f}</td><td>{_ci(v)}</td></tr>"
                     for k, v in off.items() if isinstance(v, dict) and "dti" in v)
     reasons = "".join(f"<li>{esc(r)}</li>" for r in n.get("reasons", []))
+    fig_h48_rel = "docs/assets/fig_h48_fbgr.png"
+    fig_h48_html = (
+        f'<p style="margin:8px 0"><a href="{esc(href(fig_h48_rel))}">'
+        f'<img src="{esc(href(fig_h48_rel))}" alt="H48-1-FBGR 4-panel diagnostic" '
+        f'style="max-width:100%;border:1px solid #cbd5e1;border-radius:4px"></a></p>'
+        if "h48-fbgr" in str(n.get("file", "")) and (ROOT / fig_h48_rel).is_file()
+        else ""
+    )
     wd = "".join(f"<li><code>{esc(Path(w['file']).name)}</code> &mdash; <b style=\"color:#b00020\">{esc(w['status'])}</b>. "
                  f"{esc(w['reason'])}</li>" for w in st.get("withdrawn", []))
     nverdict = ('<b style="color:#0a7d2c">&#9989; OK TO SUBMIT</b>' if n.get("ok_to_submit") else
@@ -401,6 +409,7 @@ def current_status_block(docs_prefix: str = "") -> str:
 <ul>{reasons}</ul>
 <table><tr><th colspan=3>{esc(n.get('holdout_label', ''))}</th></tr><tr><th>arm</th><th>DTI</th><th>95 % CI</th></tr>{hrows}</table>
 <table><tr><th colspan=3>{esc(n.get('off_catalogue_label', ''))}</th></tr><tr><th>raster</th><th>DTI</th><th>95 % CI</th></tr>{orows}</table>
+{fig_h48_html}
 </td></tr>
 {h38_row}
 {expl_row}
@@ -719,6 +728,31 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             f'<code>{esc(str(rc49.get("promotion_decision_verdict", rc49.get("verdict", ""))))}</code>, release verdict '
             f'<code>{esc(str(rc49.get("verdict", "")))}</code>; separate selector + lattice disposition required. Research download only.</td></tr>'
         )
+    h48 = ""
+    rc48 = read("evidence/h48_fbgr_run_card.json") or {}
+    if rc48 and nu49.get("run_card") == "evidence/h48_fbgr_run_card.json":
+        _hr48 = rc48.get("holdout_dti", {}).get("primary_hide_and_recover", {})
+        _dt48 = rc48.get("holdout_dti", {}).get("detached_600m_segments", {})
+        _sg48 = rc48.get("holdout_dti", {}).get("off_catalogue_sgmc", {})
+        _uq48 = rc48.get("correlation_and_overlap_vs_registry", {})
+        _zf48 = Path(rc48.get("artifacts", {}).get("primary_zeros_tif", "")).name
+        _ci48 = _hr48.get("ci95") or [0, 0]
+        h48 = (
+            f'<tr style="background:#eef7ee"><td><b>NEW: H48-1-FBGR</b><br><span class=mut>GEMSDOE32, 2026-10-27</span></td>'
+            f'<td><a href="downloads/{esc(_zf48)}"><code>{esc(_zf48)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
+            f'<td>{int(rc48.get("artifacts", {}).get("emitted_dots", 37654)):,}</td>'
+            f'<td><i>none</i> &mdash; not a score</td>'
+            f'<td>HOLDOUT-DTI {_hr48.get("pooled_dti", 0):.4f} [{_ci48[0]:.4f}, {_ci48[1]:.4f}] '
+            f'(n={int(_hr48.get("n_withheld_positives", 0)):,}, {_hr48.get("evaluator_version", "")}); '
+            f'Detached &ge;600m {_dt48.get("pooled_dti", 0):.4f}; SGMC-cal '
+            f'{_sg48.get("prevalence_calibrated_dti", 0):.4f} vs champion 0.0641 (diagnostic, not a score)</td>'
+            f'<td><b>YES</b> vs {int(_uq48.get("n_genuine_rasters_checked", 0))} discrete &le;100k-dot rasters '
+            f'(surface |&rho;| {float(_uq48.get("max_abs_surface_spearman") or 0):.4f} &le;0.90; focus-site max 3-px '
+            f'{100*float(_uq48.get("max_focus_site_3px_dot_overlap") or 0):.2f}% &le;70%; all-org max 3-px '
+            f'{100*float(_uq48.get("max_genuine_3px_dot_overlap") or 0):.2f}% &le;70%). Literal lattice: <b>FAIL</b> (IR-51-LATTICE-01)</td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; release verdict '
+            f'<code>{esc(str(rc48.get("verdict", "")))}</code>; SGMC-cal below 0.0641 &amp; literal lattice stop. Research download only.</td></tr>'
+        )
     return (
         '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
         '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
@@ -727,7 +761,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
         'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
         '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
-        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + '</table>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + h48 + '</table>'
         '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
         '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
         '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
@@ -1128,6 +1162,13 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("h48-fbgr-results-and-nine-site-executive-summary-20261027.md",
+     "H48-1-FBGR stationary Dual-Cover Axial d=2.8 result, 13-raster live-score spatial/clumping forensics, "
+     "and refreshed 9-site + extra + sibling-org (519-raster) audit: HR=0.115341 (+0.0162 vs Champ, p=1.000), "
+     "stationary repo-high Detached >=600m=0.101168, Clump>=3=0.98%, held DO NOT SUBMIT"),
+    ("h48-fbgr-preregistration-20261027.md",
+     "H48-1..H48-5 preregistration (2026-10-27): Fourier upward continuation (fixing IR-48-BAND14-01), "
+     "GeoDAWN 4-block 214Bi radon & silica/potassic DoG (fixing IR-A48-JX-01), BLM claims, and Dual-Cover Axial CELF"),
     ("h47-ldgi-results-and-nine-site-executive-summary-20261026.md",
      "H47-1 LDGI dual-horizon result and nine-site byte audit: EXP2 HR=0.121959 (all-time repo high), "
      "EXP3 HR=0.119765 & SGMC-cal=0.065888 (>0.2778 Champion), 58.67% <= 70% genuine uniqueness, held DO NOT SUBMIT"),
@@ -1472,6 +1513,10 @@ def main() -> int:
     if (ROOT / "evidence" / "h47_ldgi_run_card.json").exists():
         (DOCS / "data" / "h47_ldgi_run_card.json").write_text(
             (ROOT / "evidence" / "h47_ldgi_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h48_fbgr_run_card.json").exists():
+        (DOCS / "data" / "h48_fbgr_run_card.json").write_text(
+            (ROOT / "evidence" / "h48_fbgr_run_card.json").read_text()
         )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy

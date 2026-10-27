@@ -646,7 +646,43 @@
    "severity": "high (resolved via Catalogue-Completeness Adaptive Allocation 2026-10-26)",
    "statement": "Distance-to-visible-catalogue decomposition proves why `GEMSDOE32-HIDE-RECOVER-v3.0` (`n=22,232`) and `GEMSDOE32-SGMC-CAL-v3.0` (`n=62,703`) pull fixed-split detectors in opposite directions: in `HIDE-RECOVER-v3.0` (20% of active compilation censored), `80.0%` of withheld positives lie at `d_vis <= 20 px` (`Horizon A`) and `95.4%` (`0.094687 / 0.099202`) of `d28`'s score comes from its `6,436` dots at `1-2 px` of full `labels.tif` (which static `b2` pruned, scoring `0.004515`); in `SGMC-CAL-v3.0` (0% of active compilation censored), `55.0%` of off-catalogue positives lie at `d_lab > 20 px` (`Horizon B`). Furthermore, any candidate that emits >=85% of full-map dots from `s63` exceeds the 70% 3-px overlap limit against `H46-1` (`78.45%-82.40%`).",
    "mitigation": "Implemented the leak-free Catalogue-to-Lineament Completeness Ratio `eta(V) = |V cap foot| / sum_{foot} rho_lin` (`src/gems32/ldgi.py::compute_lineament_completeness_eta`), which uses ONLY `visible_mask` (`V`) and `ldgi_stack[:, :, 0]` (`rho_lin`). On the 8 censored OOF cells (`eta in [0.062656, 0.063054]`), `f_A(eta) in [0.9105, 0.9200]` achieves `HR = 0.119765 [0.105732, 0.132895]` (> H38 `0.116958`); on the uncensored full map (`eta = 0.078381`), `f_A(eta) = 0.5005` achieves `SGMC-cal = 0.065888` (> Champion `0.064121`) and worst genuine 3-px dot overlap `58.67% <= 70.0%`."
+  },
+  {
+   "id": "IR-48-BAND14-01",
+   "severity": "high (FIXED in shared src/gems32/ldgi.py 2026-10-27)",
+   "statement": "src/gems32/ldgi.py (lines 169-174 in H47-1) read Band 14 of training_features.tif (index 13, raw surface total magnetic intensity tmi) and labeled it 'Aeromagnetics 4 km upward continuation', computing B14 minus B02 (surface rtp) instead of true multi-altitude upward continuation.",
+   "mitigation": "Fixed in shared src/gems32/ldgi.py and src/gems32/fbgr.py: replaced raw Band 14 subtraction with exact 2-D Fourier harmonic upward continuation F^{-1}[exp(-2*pi*|k|*z)*F[u]] (Blakely 1995) of Band 02 (rtp) and Band 13 (iso_grav_anom) at z = 500 m and z = 2,000 m, verified by unit tests."
+  },
+  {
+   "id": "IR-48-CCAA-01",
+   "severity": "high (non-stationarity identified and avoided in H48-1 2026-10-27)",
+   "statement": "H47-1's Catalogue-Completeness Adaptive Allocation eta(V) = |V cap foot| / sum_{foot} rho_lin shifts Stage-1 exposed weight from f_A = 92% on 20%-censored holdout folds (eta ~ 0.0628) to f_A = 50% on the uncensored full map (eta = 0.0784), evaluating one operating mixture on holdout and emitting a 50/50 mixture on the live map, while raw greedy Stage-2 CELF without min_sep_px produced 7.70% >=3-neighbor clumping within 3 px.",
+   "mitigation": "Added optional visibility_fraction normalization to ldgi.compute_lineament_completeness_eta for backwards-compatible correction, and designed H48-1-FBGR with a 100% stationary formula (zero eta switch) plus min_sep_px = 2.8 in shared gems32.emitter.emit (cutting clumping from 7.70% to 0.98%)."
+  },
+  {
+   "id": "IR-48-RELEASE-01",
+   "severity": "medium (FIXED in shared scripts/sync_submission_build.py 2026-10-27)",
+   "statement": "scripts/sync_submission_build.py reconciled evidence/current_release_review.json artifact.sha256 when newest_unique advanced, but left latest_candidate.{id,raster} and submission_authorization.verdict stale, breaking tests/test_release_consistency.py.",
+   "mitigation": "Updated scripts/sync_submission_build.py to atomically reconcile latest_candidate.{id,raster,sha256,primary_holdout_passed} and fail-closed submission_authorization fields whenever artifact is reconciled."
+  },
+  {
+   "id": "IR-48-EXTRA-FETCH-01",
+   "severity": "medium (FIXED in shared scripts/fetch_extra_scored.py 2026-10-27)",
+   "statement": "When GitHub's REST core rate limit reaches 0/5200, scripts/fetch_extra_scored.py previously wrote status=missing into registry/extra_scored_manifest.json and exited 0, silently clobbering tracked manifest state.",
+   "mitigation": "Added zero-REST-quota codeload.github.com tarball streaming fallback and fail-closed non-zero exit (return 2 without overwriting manifest) if any raster remains missing."
+  },
+  {
+   "id": "IR-48-TESTPIN-01",
+   "severity": "low (FIXED in tests/test_h47_ldgi.py 2026-10-27)",
+   "statement": "tests/test_h47_ldgi.py hardcoded assert status['newest_unique']['file'] == H47_CARD_FILE, repeating the stale-pin failure mode of IR-51-SYNC-01 whenever a subsequent session advances newest_unique.",
+   "mitigation": "Updated tests/test_h47_ldgi.py to follow tests/test_h46_trhv.py's durable self-consistency contract: newest_unique stays fail-closed research-only and H47-1 remains archived on disk and documented."
+  },
+  {
+   "id": "IR-48-WBG-SURFACE-01",
+   "severity": "medium (documented in cross-org uniqueness scan 2026-10-27)",
+   "statement": "Expanding uniqueness verification to sibling orgs (WBGGEMSDOE1..3, KANLERGEMSDOE1..3) uncovered two continuous non-zero probability surfaces in WBGGEMSDOE1 (wbg-c1-commutator-research-surface, 5,106,385 positive px = 98.82% of footprint) and WBGGEMSDOE2 (wbg-h1-blind-conduit-breach, 5,167,373 positive px = 100.00% of footprint). Treating arr > 0 on continuous surfaces as discrete dot masks yields trivial 100% 3-px overlap for any candidate.",
+   "mitigation": "scripts/run_h48_fbgr.py evaluates continuous surfaces (>500k positive px) via Spearman rank correlation (max |rho| = 0.6315 <= 0.90), verifies discrete submissions <=100k dots across all orgs via <=3-px dot overlap (max 68.82% <= 70.0%; focus sites max 65.94% <= 70.0%), and keeps literal unexempted release_gate.compare_registry fail-closed (verdict='negative')."
   }
  ],
- "updated_utc": "2026-10-26T23:35:00Z"
+ "updated_utc": "2026-10-27T19:20:00Z"
 }

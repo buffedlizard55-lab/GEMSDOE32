@@ -154,15 +154,19 @@ def test_h47_runner_fails_closed_without_an_explicit_lane_assignment():
     assert "no explicit H47-1-LDGI method paragraph" in result.stderr
 
 
-def test_current_status_and_rendered_site_identify_h47_as_newest_research_artifact():
+def test_current_status_and_rendered_site_identify_h47_as_research_artifact():
+    """The current newest candidate must remain fail-closed research-only, and H47-1 stays archived."""
     status = json.loads((ROOT / "registry" / "current_status.json").read_text())
     assert status["any_file_ok_to_submit"] is False
+    newest = status["newest_unique"]
+    assert newest["ok_to_download"] is True
+    assert newest["ok_to_submit"] is False
+    assert (ROOT / newest["file"]).is_file()
     card_file = json.loads(H47_CARD.read_text())["artifacts"]["primary_zeros_tif"]
-    assert status["newest_unique"]["file"] == card_file
-    assert status["newest_unique"]["ok_to_download"] is True
-    assert status["newest_unique"]["ok_to_submit"] is False
+    assert (ROOT / card_file).is_file()
     for rel in ("README.md", "docs/index.html", "docs/executive-summary.html", "index.html"):
         text = (ROOT / rel).read_text()
         assert "DO NOT SUBMIT" in text
-        assert "H47-1" in text
-        assert Path(card_file).name in text
+        assert Path(newest["file"]).name in text
+    for rel in ("README.md", "docs/index.html"):
+        assert "H47-1" in (ROOT / rel).read_text()

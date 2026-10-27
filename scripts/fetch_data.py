@@ -15,14 +15,29 @@ def gh_raw(repo, ref, path, dest, want_sha=None):
     **without verification**.  It now compares against the manifest's pinned ``want_sha``
     and re-fetches on mismatch.  See registry/irregularities.json IR-32-FETCH-01.
     """
+    import shutil, tarfile, urllib.request
     dest = Path(dest)
     if want_sha and dest.exists() and hashlib.sha256(dest.read_bytes()).hexdigest() == want_sha:
         return dest
     dest.parent.mkdir(parents=True, exist_ok=True)
-    with dest.open("wb") as fh:
-        subprocess.run(["gh", "api", f"repos/{repo}/contents/{path}?ref={ref}",
-                        "-H", "Accept: application/vnd.github.raw"], stdout=fh, check=True)
-    return dest
+    try:
+        with dest.open("wb") as fh:
+            subprocess.run(["gh", "api", f"repos/{repo}/contents/{path}?ref={ref}",
+                            "-H", "Accept: application/vnd.github.raw"],
+                           stdout=fh, stderr=subprocess.PIPE, check=True)
+        return dest
+    except subprocess.CalledProcessError:
+        dest.unlink(missing_ok=True)
+    url = f"https://codeload.github.com/{repo}/tar.gz/{ref}"
+    with urllib.request.urlopen(url, timeout=120) as resp, tarfile.open(fileobj=resp, mode="r|gz") as tf:
+        for member in tf:
+            if member.isfile() and "/" in member.name and member.name.split("/", 1)[1] == path:
+                src = tf.extractfile(member)
+                if src is not None:
+                    with dest.open("wb") as out:
+                        shutil.copyfileobj(src, out, 1 << 20)
+                    return dest
+    raise FileNotFoundError(f"{path} not found in {repo}@{ref}")
 
 
 def _sha(p):

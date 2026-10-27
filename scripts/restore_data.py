@@ -24,32 +24,50 @@ def sha256_file(p: Path) -> str:
     return h.hexdigest()
 
 
+def _fetch_from_codeload(repo: str, ref: str, path: str, dest: Path) -> None:
+    import tarfile
+    import urllib.request
+
+    url = f"https://codeload.github.com/{repo}/tar.gz/{ref}"
+    with urllib.request.urlopen(url, timeout=120) as resp, tarfile.open(fileobj=resp, mode="r|gz") as tf:
+        for member in tf:
+            if not member.isfile() or "/" not in member.name:
+                continue
+            rel = member.name.split("/", 1)[1]
+            if rel == path:
+                src = tf.extractfile(member)
+                if src is None:
+                    break
+                with dest.open("wb") as out:
+                    shutil.copyfileobj(src, out, 1 << 20)
+                return
+    raise FileNotFoundError(f"{path} not found in codeload tarball {repo}@{ref}")
+
+
 def fetch(repo: str, ref: str, path: str, dest: Path) -> None:
     dest.parent.mkdir(parents=True, exist_ok=True)
     tmp = dest.with_suffix(dest.suffix + ".partial")
     try:
         if shutil.which("gh"):
-            with tmp.open("wb") as out:
-                subprocess.run(
-                    [
-                        "gh",
-                        "api",
-                        f"repos/{repo}/contents/{path}?ref={ref}",
-                        "-H",
-                        "Accept: application/vnd.github.raw",
-                    ],
-                    stdout=out,
-                    check=True,
-                )
-        else:
-            import requests
-
-            url = f"https://raw.githubusercontent.com/{repo}/{ref}/{path}"
-            with requests.get(url, stream=True, timeout=120) as r:
-                r.raise_for_status()
+            try:
                 with tmp.open("wb") as out:
-                    for chunk in r.iter_content(1 << 20):
-                        out.write(chunk)
+                    subprocess.run(
+                        [
+                            "gh",
+                            "api",
+                            f"repos/{repo}/contents/{path}?ref={ref}",
+                            "-H",
+                            "Accept: application/vnd.github.raw",
+                        ],
+                        stdout=out,
+                        stderr=subprocess.PIPE,
+                        check=True,
+                    )
+                tmp.replace(dest)
+                return
+            except subprocess.CalledProcessError:
+                tmp.unlink(missing_ok=True)
+        _fetch_from_codeload(repo, ref, path, tmp)
         tmp.replace(dest)
     finally:
         tmp.unlink(missing_ok=True)
