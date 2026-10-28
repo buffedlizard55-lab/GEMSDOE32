@@ -168,10 +168,14 @@ def test_h44_run_card_and_experiments_match_fail_closed_protocol() -> None:
     assert {row["repo"] for row in audit9["sites"]} == expected_sites
 
 
-def test_site_and_readme_prominently_surface_h44_without_promoting_upload() -> None:
-    readme_head = (ROOT / "README.md").read_text()[:6000]
-    assert H44_STEM in readme_head
-    assert "DO NOT SUBMIT" in readme_head
+def test_site_and_readme_preserve_h44_history_without_promoting_upload() -> None:
+    # H44 is historical. Requiring every old candidate in the first 6000 chars
+    # prevents an accurate current decision from replacing a stale release banner.
+    readme = (ROOT / "README.md").read_text()
+    assert H44_STEM in readme
+    current = json.loads((ROOT / "registry/current_status.json").read_text())
+    assert current["newest_unique"]["file"] in readme[:6000]
+    assert "DO NOT SUBMIT" in readme[:6000]
 
     for rel in ("docs/index.html", "docs/executive-summary.html"):
         html = (ROOT / rel).read_text()

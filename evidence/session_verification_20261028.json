@@ -1,0 +1,71 @@
+{
+  "passes": {
+    "pass1": "Fresh pinned audit of nine named historical files, shared-tool fixes and feasibility bound implemented. Baseline: 218 passed, 10 skipped.",
+    "pass2": "Regression tests added; partial-cache integration failure fixed by restoring SGMC; README/site consistency failures corrected.",
+    "pass3": "Full suite passed; exact Euclidean-disk dilation independently confirmed the EDT-based count; local HTML links and deterministic executive rendering tested."
+  },
+  "test_command": ".venv/bin/python -m pytest -q",
+  "result": {
+    "passed": 253,
+    "skipped_data_dependent": 8,
+    "subtests_passed": 3,
+    "warnings": 135
+  },
+  "test_log_sha256": "7d1ae39dbd0ad8f371e3c8e4843748e6722f41a3947b1272ed3127c6517f181e",
+  "environment_packages": [
+    "affine==3.0.1",
+    "attrs==26.1.0",
+    "certifi==2026.10.23",
+    "charset-normalizer==3.5.2",
+    "click==8.5.0",
+    "click-plugins==1.1.1.2",
+    "cligj==0.7.2",
+    "cloudpickle==3.1.2",
+    "contourpy==1.3.3",
+    "cycler==0.12.1",
+    "fonttools==4.68.0",
+    "idna==3.20",
+    "iniconfig==2.3.1",
+    "joblib==1.6.0",
+    "kiwisolver==1.5.1",
+    "matplotlib==3.11.2",
+    "narwhals==2.28.0",
+    "numpy==2.4.6",
+    "packaging==26.3",
+    "pandas==3.1.0",
+    "pillow==13.0.0",
+    "pluggy==1.7.0",
+    "Pygments==2.21.0",
+    "pyparsing==3.3.3",
+    "pyproj==3.7.2",
+    "pytest==9.2.0",
+    "python-dateutil==3.0.0",
+    "rasterio==1.4.4",
+    "requests==2.34.2",
+    "scikit-learn==1.9.1",
+    "scipy==1.17.1",
+    "shapely==2.2.0",
+    "six==1.17.0",
+    "threadpoolctl==3.7.0",
+    "tzdata==2026.6",
+    "urllib3==2.8.0"
+  ],
+  "independent_disk_dilation_outside_3px_allowed_pixels": 6514,
+  "experiments_used": 0,
+  "weekly_slots_used": 0,
+  "new_competition_tif_generated": false,
+  "outstanding": [
+    "Explicit lane missing",
+    "Current dot budget impossible under literal lattice rule",
+    "Shared feature-stack caches absent",
+    "No organizer score receipts or authenticated weekly-cap evidence",
+    "Eight other websites not modified",
+    "No new valid high-scoring submission delivered"
+  ],
+  "publication": "PR #57 created; main reconciliation tested; GitHub checks/merge pending at this receipt.",
+  "parallel_merge": {
+    "pr": 56,
+    "upstream_commit": "47c946d",
+    "resolution": "Preserved parallel evidence/documents and candidate-aware label; fresh nine-winner audit supersedes earlier unavailable-template snapshot; all combined tests pass."
+  }
+}

@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-27T23:55:00Z",
-  "decision_scope": "Reconciled by scripts/sync_submission_build.py: the release review still pointed at gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.tif after a parallel merge advanced the newest candidate; decision remains fail-closed.",
+  "reviewed_utc": "2026-10-28T11:34:59.310076+00:00",
+  "decision_scope": "2026-10-28 fresh nine-winner byte audit and existing H49 lattice preflight; no new model, no new TIF, no full-registry surface pass.",
   "review_run_card": "evidence/review_run_card_20261026.json",
   "artifact": {
     "path": "docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif",
@@ -27,13 +27,60 @@
       "total_cells": 12279160,
       "min": 0.0,
       "max": 1.0,
-      "positive_pixels": 37654
+      "positive_pixels": 37654,
+      "historical_grid_match": true,
+      "strict_primary_passed": true,
+      "reference_template_verified_this_review": false,
+      "limitation": "Historical grid only; no footprint/catalogue or authenticated template check."
     },
     "reference_grid_reaudit": {
       "status": "PASS",
-      "reference_template_provenance": "hash-pinned owner mirror; not organizer-authenticated",
-      "validator": "scripts/check_submission.py --strict-finite (per registry current_status validator block)",
-      "limitation": "Format/grid pass only; not organizer receipt."
+      "reference_template_provenance": "SHA-pinned owner mirror; not organizer-authenticated",
+      "reference_template_sha256": "2176d08e485aa2cd2860ce8df539db4faf4d76163b38a4dd8c30a40454d35cbc",
+      "validator": "gemsdoe32.submission.validate_submission_geotiff(strict_whole_array_finite=True)",
+      "report": {
+        "file_path": "/home/user/GEMSDOE32/docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif",
+        "sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+        "passed": true,
+        "checks": [
+          {
+            "name": "dimensions",
+            "passed": true,
+            "detail": "shape (3730, 3292) (expected (3730, 3292))"
+          },
+          {
+            "name": "band_count",
+            "passed": true,
+            "detail": "bands: 1 (expected 1)"
+          },
+          {
+            "name": "crs",
+            "passed": true,
+            "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+          },
+          {
+            "name": "transform",
+            "passed": true,
+            "detail": "transform matched template"
+          },
+          {
+            "name": "dtype",
+            "passed": true,
+            "detail": "dtype: float32 (expected float32)"
+          },
+          {
+            "name": "in_footprint_range",
+            "passed": true,
+            "detail": "in-footprint range [0.0000, 1.0000], all finite"
+          },
+          {
+            "name": "portal_safe_whole_array",
+            "passed": true,
+            "detail": "whole-array range [0.0000, 1.0000], finite=True"
+          }
+        ]
+      },
+      "limitation": "Actual saved bytes checked against restored mirror template; not performance or upload authorization."
     }
   },
   "submission_authorization": {
@@ -41,13 +88,13 @@
     "verdict": "negative",
     "slot_used": false,
     "reasons": [
-      "EXP3 simultaneously beats the 0.2778 Champion on BOTH GEMSDOE32-HIDE-RECOVER-v3.0 (0.105043 [0.090781, 0.119402] vs 0.099202, paired delta +0.005916, P=0.941) AND blind off-catalogue GEMSDOE32-SGMC-CAL-v3.0 (0.066434 [0.059875, 0.072082] vs Champion 0.064121 and H48-1 0.056798, setting a new stationary full-budget repo high and beating EXP1 by +0.007425, p=1.000, and d=0.0 EXP2 by +0.025417 / +62.4%, p=1.000).",
-      "Passes all 93 feature leakage canaries (max AUC = 0.586868 <= 0.90), 13/13 automated GeoTIFF byte/range checks (0 NaNs anywhere in 12,279,160 cells, float32 in [0,1]), pre-placement surface Spearman across 609 unique rasters (max |rho| = 0.23766 <= 0.90), and cross-site/cross-org 3-px dot uniqueness across all 570 external discrete <=100k-dot rasters from 8 other focus sites + extra scored + 21 sibling-org repos (max external 3-px overlap = 67.85% <= 70.0%; external focus sites <= 58.71%).",
-      "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) Protocol Rule 1 intra-repo overlap reaches 73.33% (>70.0% limit) against GEMSDOE32's own unsubmitted H48-1-FBGR ancestor (logged as intra-repo duplicate & stopped after 3/3 experiments); (2) paired HIDE-RECOVER 95% CI [-0.001315, +0.013578] narrowly straddles zero at lambda_vent=0.90 (vs EXP1 0.113990); (3) literal unexempted release_gate.compare_registry hits the 206,895-dot r13-lattice-s5 calibration grid (99.45%, IR-51-LATTICE-01); and (4) weekly slot promotion requires separate human selector approval."
+      "Fresh shared literal-registry check fails against the calibration lattice; do not replace it with a favorable subset.",
+      "Necessary budget bound is 21,713 distinct off-catalogue dots for this reference; current H49 has 37,654. Full evidence: evidence/focus_review_20261028.json.",
+      "No assigned method paragraph, no new fold-local best-holdout comparison, no complete new surface registry audit, and no separate weekly-slot approval. Historical performance claims have not been rerun."
     ],
-    "next_required": "Owner protocol decision on synthetic calibration lattice exemption (IR-51-LATTICE-01) plus separate weekly-slot selector review.",
+    "next_required": "Establish an explicit lane and feasible budget/registry contract; restore shared caches; run fold-local experiments only if preflight passes; use separate selector after all gates.",
     "ok_to_download_for_research": true,
-    "reason": "DO NOT SUBMIT \u2014 audit/research artifact (verdict=negative): unique vs genuine local rasters (max 3px 18.5% vs h45-kernelspacing, |rho|=0.0095) and format-valid, but SGMC-cal 0.0164 < champion 0.0641, absolute HOLDOUT-DTI 0.0126 is a flat-mask instrument (same 0.0045 as champion on this evaluator, not the 0.0992 callable), and the literal lattice raster is absent so that gate fail-closes (IR-42-UNIQ-01). 0 weekly slots used."
+    "reason": "Existing H49 audit artifact; format passes, literal uniqueness fails. No new TIF generated."
   },
   "holdout_evidence_from_historical_round6_card": {
     "evidence_class": "HOLDOUT-DTI (historical local hide-and-recover result; NOT an organizer score)",
@@ -131,5 +178,16 @@
       ],
       "limitation": "Format/grid pass only; not an organizer receipt, scientific validation, or release authorization."
     }
+  },
+  "current_audit": "evidence/focus_review_20261028.json",
+  "budget_feasibility": {
+    "status": "necessary_bound_only",
+    "budget": 37654,
+    "allowed_pixels": 5106385,
+    "outside_3px_pixels": 6514,
+    "max_feasible_distinct_dots": 21713,
+    "feasible": false,
+    "minimum_possible_overlap": 0.8270037711796887,
+    "rule": "N <= floor(10*U/3); necessary not sufficient; no registry exemption"
   }
 }

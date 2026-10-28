@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """Canonical Protocol Rule 2 holdout evaluator CLI & helper (`evaluate_holdout.py`).
 
-Delegates strictly to `gems32.holdout` (no private fork) to evaluate a GeoTIFF or `.npy` mask/field
+Delegates strictly to `gems32.holdout` (no private fork) to evaluate explicit binary emissions in a GeoTIFF or `.npy` mask
 using BOTH:
   1. `HOLDOUT-DTI` (`GEMSDOE32-HIDE-RECOVER-v3.0`): whole-segment withheld faults with 1.5 km collar,
      visible-only masking + visible-only `B` gate, exact pooled DTI (alpha=0.2, beta=0.8, 300 m
      triangular kernel) and 256-block spatial cluster-bootstrap 95% CI.
+     Input validation cannot establish leakage-free provenance; CLI outputs never authorize promotion.
   2. `HOLDOUT-DTI` (`GEMSDOE32-SGMC-CAL-v3.0`): off-catalogue USGS SGMC faults (>300 m from `labels.tif`)
      with 256-block spatial cluster-bootstrap 95% CI.
 """
@@ -23,6 +24,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
 from gems32 import holdout  # noqa: E402
+from gems32.submission import require_binary_mask
 from gems32.paths import data_dir  # noqa: E402
 
 
@@ -37,22 +39,34 @@ def evaluate_path(path: Path, b_visible_px: float = 0.0, ddir: Path | None = Non
     suf = path.suffix.lower()
     if suf == ".npz":
         with np.load(path) as zf:
-            cells = {k: np.asarray(zf[k], dtype=bool) for k in zf.files}
+            expected = {cell.key: cell for cell in ctx.cells}
+            if set(zf.files) != set(expected):
+                raise ValueError("OOF keys must exactly match the holdout cells")
+            cells = {}
+            for key, cell in expected.items():
+                a = zf[key]
+                domain = ctx.foot if a.shape == ctx.foot.shape else ctx.foot[cell.bbox]
+                cells[key] = require_binary_mask(a, domain)
         hr = _strip_internal(holdout.evaluate_hide_and_recover(cells, ctx, b_visible_px=b_visible_px, name=cand_name))
         return {
             "candidate_id": cand_name,
             "path": str(path),
             "mode": "per_cell_oof_npz",
+            "promotion_eligible": False,
+            "provenance_warning": "Fold-local feature derivation is not established by an NPZ container; audit the generator.",
             "hide_and_recover": hr,
         }
     if suf == ".npy":
         arr = np.load(path)
     else:
         with rasterio.open(path) as ds:
+            with rasterio.open(ddir / "sample_submission.tif") as tpl:
+                if ds.count != 1 or (ds.crs, ds.shape, ds.transform) != (tpl.crs, tpl.shape, tpl.transform):
+                    raise ValueError("Prediction GeoTIFF grid does not match the template")
             arr = ds.read(1)
     if arr.shape != ctx.foot.shape:
         raise ValueError(f"Expected grid shape {ctx.foot.shape}, got {arr.shape}")
-    mask = np.isfinite(arr) & (arr > 0) & ctx.foot
+    mask = require_binary_mask(arr, ctx.foot)
     hr = _strip_internal(holdout.evaluate_hide_and_recover(mask, ctx, b_visible_px=b_visible_px, name=cand_name))
     sg = _strip_internal(holdout.evaluate_sgmc_with_ci(mask, ctx, name=cand_name))
     legacy = holdout.evaluate_candidate_holdout(mask, ctx, name=cand_name)
@@ -60,6 +74,9 @@ def evaluate_path(path: Path, b_visible_px: float = 0.0, ddir: Path | None = Non
         "candidate_id": cand_name,
         "path": str(path),
         "emitted_pixels": int(mask.sum()),
+        "mode": "static_binary_diagnostic",
+        "promotion_eligible": False,
+        "provenance_warning": "Static predictions cannot establish fold-local catalogue features or leakage-free training.",
         "hide_and_recover": hr,
         "sgmc_off_catalogue": sg,
         "legacy_summary": {

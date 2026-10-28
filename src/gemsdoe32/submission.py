@@ -71,7 +71,7 @@ def validate_submission_geotiff(
         checks.append(CheckResult("band_count", band_ok, f"bands: {sub.count} (expected 1)"))
 
         # Check 3: CRS
-        crs_ok = sub.crs == tpl.crs
+        crs_ok = tpl.crs is not None and sub.crs == tpl.crs
         checks.append(CheckResult("crs", crs_ok, f"CRS: {sub.crs} (expected {tpl.crs})"))
 
         # Check 4: Geotransform
@@ -84,10 +84,10 @@ def validate_submission_geotiff(
 
         # Check 6: In-footprint values in [0, 1]
         tpl_data = tpl.read(1)
-        valid_footprint = np.isfinite(tpl_data)
+        valid_footprint = np.isfinite(tpl_data) & (tpl.read_masks(1) > 0)
         sub_data = sub.read(1)
 
-        inside_vals = sub_data[valid_footprint]
+        inside_vals = sub_data[valid_footprint] if dim_ok else np.array([])
         finite_inside = np.all(np.isfinite(inside_vals))
         range_inside = False
         if finite_inside and len(inside_vals) > 0:
@@ -130,14 +130,19 @@ def write_submission_geotiff(
         template_path: Path to sample_submission.tif.
         output_path: Output GeoTIFF path.
         outside_mode: 'zeros' (recommended for portal upload form) or 'nan' (spec).
-        note: Short comment for DrivenData submission form (max 200 chars).
+        note: Short comment for DrivenData submission form (max 140 chars).
         compress: GeoTIFF compression method (e.g. 'deflate').
 
     Returns:
         Manifest dictionary with file metadata, sha256, and validation receipt.
     """
-    preds = np.asarray(predictions_2d, dtype=np.float32)
-    output_path.parent.mkdir(parents=True, exist_ok=True)
+    if outside_mode not in {"zeros", "nan"}:
+        raise ValueError("outside_mode must be zeros or nan")
+    if note is not None and (not isinstance(note, str) or len(note) > 140):
+        raise ValueError("note must be a string of at most 140 characters")
+    preds = np.asarray(predictions_2d)
+    if preds.dtype.kind not in "buif":
+        raise ValueError("Predictions must be real numeric values")
 
     with rasterio.open(template_path) as tpl:
         profile = tpl.profile.copy()
@@ -148,13 +153,19 @@ def write_submission_geotiff(
             nodata=None if outside_mode == "zeros" else float("nan"),
         )
         tpl_data = tpl.read(1)
-        valid_footprint = np.isfinite(tpl_data)
+        valid_footprint = np.isfinite(tpl_data) & (tpl.read_masks(1) > 0)
+        if preds.ndim != 2 or preds.shape != tpl.shape:
+            raise ValueError("Predictions must match the template shape exactly")
+        if tpl.crs is None or tpl.count != 1 or not valid_footprint.any():
+            raise ValueError("Invalid reference template")
+        inside = preds[valid_footprint]
+        if not np.isfinite(inside).all() or ((inside < 0) | (inside > 1)).any():
+            raise ValueError("Predicted values must be finite and in range [0, 1]; no silent clipping")
+        output_path.parent.mkdir(parents=True, exist_ok=True)
 
-        # Build output raster
+        # Preserve probability values; only outside-footprint convention changes.
         if outside_mode == "zeros":
             out_array = np.where(valid_footprint, preds, 0.0).astype(np.float32)
-            # Ensure strictly in [0.0, 1.0]
-            out_array = np.clip(out_array, 0.0, 1.0)
         else:
             out_array = np.where(valid_footprint, preds, np.nan).astype(np.float32)
 
@@ -177,8 +188,6 @@ def write_submission_geotiff(
 
     if note is None:
         note = f"GEMSDOE32 | id:{unique_id} | dots:{emitted_count} | mode:{outside_mode}"
-    if len(note) > 200:
-        note = note[:197] + "..."
 
     manifest = {
         "file_path": str(output_path),
