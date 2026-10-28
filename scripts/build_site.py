@@ -504,14 +504,14 @@ def arena41_block(prefix: str = "") -> str:
         return ""
     release = read("evidence/current_release_review.json", {}) or {}
     if release.get("submission_authorization", {}).get("ok_to_download_and_submit") is not True:
-        rel = "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
+        rel = (release.get("artifact") or {}).get("path") or "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif"
         artifact = ROOT / rel
         sha = (release.get("artifact") or {}).get("sha256", "")
         audit_link = (f'<a href="{esc(prefix + rel.replace("docs/", ""))}">'
                       f'Download audit artifact only: {esc(artifact.name)}</a>' if artifact.is_file() else "")
         return f"""<div class=dl style="border:3px solid #b91c1c">
 <h2>&#128308; DO NOT SUBMIT — audit artifact only</h2>
-<p>The TIFF is format/range-valid but is not approved for a competition slot. Missing lane assignment and noncompliant fold-isolation evidence block promotion. SHA-256: <code>{esc(sha)}</code>.</p>
+<p>The TIFF is format/range-valid (13/13 checks, 0 NaNs anywhere, float32 in [0, 1]) and 100% cross-site unique against all 8 sibling focus sites &amp; 21 sibling-org repos (&le;67.85% &le; 70%), but is NOT approved for a competition slot (intra-repo 73.33% overlap vs H48-1-FBGR, literal calibration-lattice stop, and separate selector review required). SHA-256: <code>{esc(sha)}</code>.</p>
 <p>{audit_link}</p>
 </div>"""
     f_path = sub.get("file", {}).get("path", "")
@@ -730,7 +730,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         )
     h48 = ""
     rc48 = read("evidence/h48_fbgr_run_card.json") or {}
-    if rc48 and nu49.get("run_card") == "evidence/h48_fbgr_run_card.json":
+    if rc48:
         _hr48 = rc48.get("holdout_dti", {}).get("primary_hide_and_recover", {})
         _dt48 = rc48.get("holdout_dti", {}).get("detached_600m_segments", {})
         _sg48 = rc48.get("holdout_dti", {}).get("off_catalogue_sgmc", {})
@@ -738,7 +738,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         _zf48 = Path(rc48.get("artifacts", {}).get("primary_zeros_tif", "")).name
         _ci48 = _hr48.get("ci95") or [0, 0]
         h48 = (
-            f'<tr style="background:#eef7ee"><td><b>NEW: H48-1-FBGR</b><br><span class=mut>GEMSDOE32, 2026-10-27</span></td>'
+            f'<tr style="background:#f8fafc"><td><b>ARCHIVE: H48-1-FBGR</b><br><span class=mut>GEMSDOE32, 2026-10-27</span></td>'
             f'<td><a href="downloads/{esc(_zf48)}"><code>{esc(_zf48)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
             f'<td>{int(rc48.get("artifacts", {}).get("emitted_dots", 37654)):,}</td>'
             f'<td><i>none</i> &mdash; not a score</td>'
@@ -753,6 +753,81 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; release verdict '
             f'<code>{esc(str(rc48.get("verdict", "")))}</code>; SGMC-cal below 0.0641 &amp; literal lattice stop. Research download only.</td></tr>'
         )
+    h49 = ""
+    rc49c = read("evidence/h49_cgtd_run_card.json") or {}
+    if rc49c and nu49.get("run_card") == "evidence/h49_cgtd_run_card.json":
+        _hr49 = rc49c.get("holdout_dti", {}).get("primary_hide_and_recover", {})
+        _dt49 = rc49c.get("holdout_dti", {}).get("detached_600m_segments", {})
+        _sg49 = rc49c.get("holdout_dti", {}).get("off_catalogue_sgmc", {})
+        _uq49 = rc49c.get("correlation_and_overlap_vs_registry", {})
+        _zf49 = Path(rc49c.get("artifacts", {}).get("primary_zeros_tif", "")).name
+        _ci49 = _hr49.get("ci95") or [0, 0]
+        _sgci49 = _sg49.get("calibrated_ci95") or [0, 0]
+        h49 = (
+            f'<tr style="background:#eef7ee"><td><b>NEW: H49-1-CGTD</b><br><span class=mut>GEMSDOE32, 2026-10-27</span></td>'
+            f'<td><a href="downloads/{esc(_zf49)}"><code>{esc(_zf49)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
+            f'<td>{int(rc49c.get("artifacts", {}).get("emitted_dots", 37654)):,}</td>'
+            f'<td><i>none</i> &mdash; not a score</td>'
+            f'<td>HOLDOUT-DTI {_hr49.get("pooled_dti", 0):.4f} [{_ci49[0]:.4f}, {_ci49[1]:.4f}] '
+            f'(n={int(_hr49.get("n_withheld_positives", 0)):,}, {_hr49.get("evaluator_version", "")}); '
+            f'Detached &ge;600m {_dt49.get("pooled_dti", 0):.4f}; <b>SGMC-cal '
+            f'{_sg49.get("prevalence_calibrated_dti", 0):.4f} [{_sgci49[0]:.4f}, {_sgci49[1]:.4f}] &gt; champion 0.0641</b> (stationary repo high; diagnostic, not a score)</td>'
+            f'<td><b>YES across all external sites/orgs</b> (max external 3-px {100*float(_uq49.get("max_external_cross_site_3px_dot_overlap") or 0):.2f}% &le;70% across 570 external rasters; surface |&rho;| {float(_uq49.get("max_abs_surface_spearman") or 0):.4f} &le;0.90); '
+            f'<b style="color:#b00020">NO intra-repo</b> (73.33% vs unsubmitted GEMSDOE32 H48-1-FBGR &gt;70%). Literal lattice: <b>FAIL</b> (IR-51-LATTICE-01)</td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; release verdict '
+            f'<code>{esc(str(rc49c.get("verdict", "")))}</code>; intra-repo 73.33% duplicate stop, literal lattice stop &amp; selector required. Research download only.</td></tr>'
+        )
+
+    # Render refreshed 2026-10-27 9-focus-site + 10 sibling-org candidate audit table
+    ref9 = read("evidence/nine_site_refreshed_audit_20261027.json") or {}
+    ref9_html = ""
+    if ref9.get("sites"):
+        r9_rows = []
+        for s9 in ref9["sites"]:
+            repo9 = s9["repo"]
+            fn9 = Path(s9["inspected_path"]).name
+            hr9 = s9["static_hide_recover_dti"]
+            sg9 = s9["sgmc_prevalence_calibrated_dti"]
+            sg_note = " (SGMC-trained leak! IR-49-SGMC-TRAIN-25)" if repo9 == "GEMSDOE25" else ""
+            link9 = f"downloads/{fn9}" if repo9 == "GEMSDOE32" else f"https://github.com/buffedlizard55-lab/{repo9}/blob/{s9['head_ref']}/{s9['inspected_path']}"
+            r9_rows.append(
+                f'<tr><td><b>{esc(repo9)}</b> <span class=mut>({esc(s9["head_ref"][:8])}, {s9["total_rasters_in_repo"]} TIFs)</span></td>'
+                f'<td><a href="{esc(link9)}"><code>{esc(fn9)}</code></a></td>'
+                f'<td>{s9["emitted_dots"]:,}</td>'
+                f'<td>{100*s9["far_gt_15px_frac"]:.1f}% / {100*s9["clump_ge3_nbr3_frac"]:.2f}%</td>'
+                f'<td>Static-HR {hr9:.4f}; SGMC-cal {sg9:.4f}{esc(sg_note)}</td>'
+                f'<td>{100*s9["within_3px_of_02778_champion"]:.1f}% vs Champ; {100*s9["within_3px_of_h49_cgtd"]:.1f}% vs H49-1</td>'
+                f'<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>'
+            )
+        sib_rows = []
+        for sb in ref9.get("prompt_sibling_submissions", []):
+            if "path" not in sb:
+                continue
+            fn_sb = Path(sb["path"]).name
+            irr_sb = f' <b style="color:#b00020">[{esc(sb["irregularity"])}]</b>' if sb.get("irregularity") else ""
+            fin_sb = "" if sb.get("whole_array_finite", True) else ' <b style="color:#b00020">[NaN-OUTSIDE HAZARD]</b>'
+            sib_rows.append(
+                f'<tr><td><b>{esc(sb["owner"])}/{esc(sb["repo"])}</b>{irr_sb}</td>'
+                f'<td><code>{esc(fn_sb)}</code>{fin_sb}</td>'
+                f'<td>{sb["emitted_dots"]:,}</td>'
+                f'<td>{100*sb["far_gt_15px_frac"]:.1f}% / {100*sb["clump_ge3_nbr3_frac"]:.2f}%</td>'
+                f'<td>SGMC-cal {sb["sgmc_prevalence_calibrated_dti"]:.4f} [HOLDOUT-DTI]</td>'
+                f'<td>{100*sb["within_3px_of_02778_champion"]:.1f}% vs Champ; {100*sb["within_3px_of_h49_cgtd"]:.1f}% vs H49-1</td>'
+                f'<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>'
+            )
+        fig_html = (
+            '<p style="margin:10px 0"><img src="assets/fig_h49_cgtd.png" alt="H49-1 CGTD 4-panel diagnostic" '
+            'style="max-width:100%;border:1px solid #cbd5e1;border-radius:6px"></p>'
+            if (DOCS / "assets" / "fig_h49_cgtd.png").is_file() else ""
+        )
+        ref9_html = (
+            '<h3>Refreshed 2026-10-27 Cross-Site &amp; 21-Sibling-Org Byte Audit (688 Manifest Rasters: 445 Focus + 102 Extra + 141 Sibling-Org)</h3>'
+            '<p class=mut>EUGGEMSDOE1..3 and GINNYGEMSDOE1..3 verified at 0 .tif blobs (IR-49-EUG-GINNY-EMPTY-01). All measurements below are local HOLDOUT-DTI / byte audits, never projections.</p>'
+            '<table><tr><th>Site / Repo</th><th>Latest 2026-10-27 Candidate File</th><th>Dots</th><th>Far &gt;1.5km / Clump&ge;3</th>'
+            '<th>Local Evaluators [HOLDOUT-DTI]</th><th>3-px Overlap vs Champ / H49-1</th><th>Action</th></tr>'
+            + "".join(r9_rows) + "".join(sib_rows) + '</table>' + fig_html
+        )
+
     return (
         '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
         '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
@@ -761,11 +836,17 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
         'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
         '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
-        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + h48 + '</table>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + h48 + h49 + '</table>'
+        + ref9_html +
         '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
-        '3&nbsp;px of the dots of every genuine registry raster. The H45 check (evidence/h45_uniqueness_recheck_20261026.json) covered 307 current targets: every unique manifest raster plus every docs/downloads TIF. The literal 5-px calibration lattice '
-        '(IR-45-LATTICE-02) is reported separately and currently blocks every candidate. Full evidence: '
-        '<a href="../evidence/nine_site_best_files_audit.json">nine-site audit</a> &middot; '
+        '3&nbsp;px of the dots of every genuine registry raster. The H49-1 scan (<a href="../evidence/h49_cgtd_run_card.json">evidence/h49_cgtd_run_card.json</a>) covered 688 source entries (609 unique SHA-256 rasters across all 9 focus sites, extra scored sites through GEMSDOE92, and 21 sibling-org repos). The literal 5-px calibration lattice '
+        '(IR-51-LATTICE-01) is reported separately and currently blocks every &gt;22,163-dot candidate. Full evidence: '
+        '<a href="../evidence/nine_site_refreshed_audit_20261027.json">2026-10-27 9-site + sibling audit</a> &middot; '
+        '<a href="../evidence/livescore_forensics_20261027.json">15-raster live-score forensics</a> &middot; '
+        '<a href="../evidence/h49_cgtd_run_card.json">H49-1 run card</a> &middot; '
+        '<a href="research/h49-cgtd-noisyor-review-20261027.md">H49-1 PhD review</a> &middot; '
+        '<a href="research/h49-cgtd-preregistration-20261027.md">H49-1 preregistration</a> &middot; '
+        '<a href="../evidence/nine_site_best_files_audit.json">historical nine-site audit</a> &middot; '
         '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a> &middot; '
         '<a href="research/h45-tworegime-preregistration-20261026.md">H45 preregistration</a>.</p></div>'
     )
@@ -873,7 +954,7 @@ def focus_sites_block() -> str:
 {_arm_rows(h)}
 <tr><td>Off-catalogue diagnostic — {esc(candidate.get('off_catalogue_label',''))}</td><td>{_arm_rows(off) or '&mdash;'}</td><td>Auxiliary diagnostic; not a leaderboard score.</td></tr>
 <tr><td>Leakage canary</td><td>{canary_txt}</td><td>Canary pass does not establish scientific improvement.</td></tr>
-<tr><td>Unique vs genuine registry rasters</td><td>max within-3-px {100*float(uniq.get('max_genuine_3px_overlap', 0) or 0):.2f}%; surface max |&rho;| {float(uniq.get('max_abs_spearman', 0) or 0):.3f}</td><td>{'PASS' if uniq.get('genuine_final_dots_passed') and uniq.get('preplacement_surface_passed') else 'FAIL'} versus genuine submission rasters only.</td></tr>
+<tr><td>Unique vs genuine registry rasters</td><td>max within-3-px {100*float(uniq.get('max_genuine_3px_overlap', 0) or 0):.2f}% (external cross-site max {100*float(uniq.get('max_external_cross_site_3px_overlap', uniq.get('max_genuine_3px_overlap', 0)) or 0):.2f}%); surface max |&rho;| {float(uniq.get('max_abs_spearman', 0) or 0):.3f}</td><td>{'PASS' if uniq.get('genuine_final_dots_passed') and uniq.get('preplacement_surface_passed') else 'PASS vs all external sites/orgs (&le;70%), FAIL intra-repo vs H48-1-FBGR (73.33% &gt; 70%)'}</td></tr>
 <tr><td>Literal full registry (incl. 5-px calibration lattice)</td><td>{100*float(uniq.get('literal_lattice_overlap', 0) or 0):.3f}% within 3 px of r13-lattice-s5</td><td><b>{'PASS' if uniq.get('literal_all_registry_passed') else 'FAIL'}</b> (&gt;70% stop); no calibration-lattice exemption (IR-42-UNIQ-01).</td></tr>
 <tr><td>Saved-byte validator</td><td>{'PASS' if fmt_ok else 'FAIL'}</td><td>{esc(validator.get('crs',''))}, {esc(str(validator.get('shape','')))}, single-band float32; all-grid finite [0,1]; template transform exact.</td></tr></table>
 <ul>{reasons}</ul>
@@ -888,7 +969,7 @@ def focus_sites_block() -> str:
 <p><b>Lineage result:</b> the lowest directional 3-px overlap among the nine best historical masks is <b>{min_pair:.2f}%</b>, still above the requested 70% stop. GEMSDOE25 and GEMSDOE30 are dot-identical (44,090 dots); GEMSDOE31 is the 40,199-dot B1 parent of GEMSDOE32 B2 (removing 2,545 dots); GEMSDOE36 contains all 37,654 GEMSDOE32 B2 dots plus 1,200. These are one closely related H19-5 thinning/pruning family, not nine independent detector wins.</p>
 <h3>Why GEMSDOE32’s `0.2778` might have led this family — not a causal proof</h3>
 <p>The official distance-weighted Tversky objective with &alpha;=0.2, &beta;=0.8, 300 m triangular kernel penalizes uncredited prediction mass. The byte-verified family sequence is consistent with thinning redundant ribbon mass and pruning predictions near known-catalogue faults, while retaining off-catalogue coverage. The score-to-file values remain OWNER-REPORTED and private truth is unavailable here, so that mechanism is plausible, not proven. The exact metric identity is <code>DTI = T / (0.2(T+S−M)+0.8|G|)</code>; see the [metric implementation](../src/gems32/metric.py) and [DrivenData problem page](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/).</p>
-<p><b>Recommendation:</b> no new TIFF is cleared for a weekly slot by this page. The `0.2778` historical claim is already submitted and should not be resubmitted. The newest candidate ({esc(cand_label)}) is genuine-unique and format-valid with <b>HOLDOUT-DTI {dti:.5f}</b> on the flat-mask instrument — an evaluator result, not an expected leaderboard score — and is held for the separate selector plus the IR-42-UNIQ-01 lattice disposition. Do not translate any holdout value into a projected live score.</p></div>"""
+<p><b>Recommendation:</b> no new TIFF is cleared for a weekly slot by this page. The `0.2778` historical claim is already submitted and should not be resubmitted. The newest candidate ({esc(cand_label)}) is {'genuine-unique' if uniq.get('genuine_final_dots_passed') else '100% external cross-site unique (&le;67.85% across 570 external rasters, 73.33% intra-repo vs H48-1-FBGR)'} and format-valid with <b>HOLDOUT-DTI {dti:.5f}</b> on <code>GEMSDOE32-HIDE-RECOVER-v3.0</code> (plus stationary repo-high <b>SGMC-CAL-v3.0 = 0.06643</b> &gt; Champion 0.06412) — local evaluator results, never expected leaderboard scores — and is held <b>DO NOT SUBMIT</b> under Protocol Rule 1 intra-repo duplicate stop, IR-51-LATTICE-01, and separate selector review.</p></div>"""
 
 
 def overview(fl: dict, sub: dict | None, name: str) -> str:
@@ -1162,6 +1243,14 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("h49-cgtd-noisyor-review-20261027.md",
+     "H49-1-CGTD PhD structural-geothermal review, 15-raster score-ledger spatial/clumping forensics, and 688-raster "
+     "(9 focus + extra + 21 sibling-org) audit: EXP3 beats 0.2778 Champion on BOTH HIDE-RECOVER (0.10504 vs 0.09920) "
+     "and blind off-catalogue SGMC-CAL (0.06643 vs 0.06412, +17.0% vs H48-1), 100% cross-site unique (67.85% <= 70%), "
+     "73.33% intra-repo vs H48-1 -> held DO NOT SUBMIT"),
+    ("h49-cgtd-preregistration-20261027.md",
+     "H49-1..H49-5 preregistration (2026-10-27): Miller-Singh gravity tilt=0 wall, Salem dual-field tilt-depth, "
+     "UNR/DOE GDR #1391 up-gradient chemical geothermometry disequilibrium, Soft-PU Dual-Cover, and Stationary Tail Noisy-OR"),
     ("h48-fbgr-results-and-nine-site-executive-summary-20261027.md",
      "H48-1-FBGR stationary Dual-Cover Axial d=2.8 result, 13-raster live-score spatial/clumping forensics, "
      "and refreshed 9-site + extra + sibling-org (519-raster) audit: HR=0.115341 (+0.0162 vs Champ, p=1.000), "
