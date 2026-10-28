@@ -1,0 +1,89 @@
+{
+ "schema": "run-card-v1",
+ "run_id": "nine-site-executive-summary-20261028",
+ "branch": "arena/b8e39e36-gemsdoe32",
+ "generated_utc": "2026-10-28T17:25:00Z",
+ "scope": "Verification and instrument selection. No new candidate raster was generated. Experiment budget 3 of 3 (E1 comparator reproduction, E2 instrument-vs-live, E3 shipped-file ranking).",
+ "hypothesis": "Candidate under review: H51-1-EWSP (EXP1). This cycle tests no new geological hypothesis; the hypothesis is carried over from the H51 run card.",
+ "mechanism": "43 label-free core + EWSP hydrothermal/subsurface PDE/FFT channels (anisotropic Screened-Poisson upflow, Baranov vertical-integral pseudo-gravity demagnetization, Gallardo-Meju gravity-MT cross-gradient, Darcy-Boussinesq aquifer pinch-out, Gabriel-graph upflow corridors, seam-eroded 214Bi radon) -> 4-quadrant 1.5 km-collared orthogonal 3-family Dual-Cover OOF classifiers (ExtraTrees + Spline-Logistic + Compact-GBDT, M_Full 43-ch + M_Sub 35-ch non-LiDAR) -> min_sep_px=2.8 lazy-greedy 300 m Tversky submodular emission (37,654 binary {0,1} dots strictly >200 m from mapped catalogue; EXP2/EXP3 fold-local Williams-Pollard arms reached 0.164348 / 0.163037 HIDE-RECOVER-v3.0 & 0.065036 / 0.065103 SGMC-CAL-v3.0 but stopped under Protocol Rule 1 due to 76.31% / 75.98% 3-px collar overlap against GEMSDOE37 80k).",
+ "named_non_fault_mimic": "(1) Pleistocene Lake Lahontan (~1,180-1,360 m) wave-cut shoreline benches and US Census TIGER 2024 cut-and-fill highway/railroad embankments (de-confounded via contour-orthogonality + 180 m road gate + potential-field step requirement); (2) flat closed-playa evaporite conductance & uraniferous alkali ponds (de-confounded via depth/elevation-residualized MT cross-gradients and slope/dilation gating); (3) uncorroborated geometric crack-tip extrapolation into unfaulted playa centers (de-confounded via multiplicative physical subsurface/scarp corroboration and flat-playa attenuation).",
+ "holdout": {
+  "label": "HOLDOUT-DTI",
+  "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+  "withheld_positives": 22232,
+  "fold_local_pooled_dti": 0.115134,
+  "ci95": [
+   0.101496,
+   0.128693
+  ],
+  "source": "evidence/h51_ewsp_run_card.json (fold-local)",
+  "static_path_recomputed_here": {
+   "dti": 0.002289,
+   "ci95": [
+    0.001875,
+    0.002697
+   ],
+   "evidence": "evidence/comparator_reproduction_20261028.json"
+  }
+ },
+ "sgmc_cal": {
+  "label": "HOLDOUT-DTI",
+  "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+  "withheld_positives": 62703,
+  "dti": 0.06303234624331554,
+  "ci95": [
+   0.055350756509468454,
+   0.0700204963152565
+  ],
+  "evidence_class": "MEASURED-HERE"
+ },
+ "registry_correlation_overlap": {
+  "max_abs_spearman_registry": 0.2492,
+  "max_within3px_vs_other_on_disk_non_lattice": 0.6641,
+  "within3px_vs_13gems_lattice": 0.9962,
+  "literal_70pct_gate": "FAIL (lattice)",
+  "evidence": "evidence/shipped_ranked_validated_20261028.json"
+ },
+ "leakage_canary": {
+  "rule": "Protocol Rule 4: single-feature max(AUC, 1-AUC) <= 0.90 across all 45 channels",
+  "passed": true,
+  "threshold_auc": 0.9,
+  "n_features_tested": 45,
+  "max_oriented_auc": 0.80524,
+  "worst_channel": "ewsp_williams_tip_coplanar",
+  "worst_channel_detail": {
+   "index": 43,
+   "name": "ewsp_williams_tip_coplanar",
+   "source": "ewsp_foldlocal_wp_2 (held-out active_sub)",
+   "raw_auc": 0.80524,
+   "symmetric_auc": 0.80524,
+   "passed": true
+  }
+ },
+ "raster": {
+  "path": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",
+  "sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740",
+  "dots": 37654,
+  "matches_h51_run_card": true
+ },
+ "validator_output": "scripts/check_submission.py --strict-finite: PASSED (2026-10-28, this session)",
+ "submission_name": "GEMSDOE32-H51-EWSP-BDF25D8C",
+ "submission_note": "AUDIT ONLY, NOT AUTHORIZED. Fails lattice 70% rule (99.6%). Fold-local HR 0.115; SGMC-cal 0.063 < champion. Do not submit.",
+ "submission_note_length": 122,
+ "budget": {
+  "experiments_used": 3,
+  "experiments_cap": 3,
+  "weekly_slots_used": 0
+ },
+ "verdict": "negative",
+ "verdict_reason": "Fails the literal lattice rule; SGMC-cal below champion. Projection is PROJECTION only, not a score. No file is authorized.",
+ "limitations": [
+  "No new candidate generated; no new holdout runs this cycle.",
+  "Owner-reported live scores (n=11) only; no organizer receipts in repo.",
+  "Literal 70% lattice rule unsatisfiable by competitive-size files; owner decision required (IR-51-LATTICE-01).",
+  "Per-candidate fold-local receipts needed before any HR claim is promoted.",
+  "3-5 untried geological hypothesis ranking (layers, signature, catalogue-miss reason, novelty, DTI gain/cost) was NOT produced this cycle; it remains open work.",
+  "SGMC-cal bayesopt anomaly (0.2567) unresolved; excluded from candidate ranking.",
+  "Live projection extrapolates beyond the SGMC range of its fit for candidates above 0.0641."
+ ]
+}

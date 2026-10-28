@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-28T14:22:17Z",
+ "generated_utc": "2026-10-28T16:50:24Z",
  "sources": [
   {
    "id": "competition",
@@ -6866,6 +6866,22 @@
     "Passes all 93 feature leakage canaries (max AUC = 0.586868 <= 0.90), 13/13 automated GeoTIFF byte/range checks (0 NaNs anywhere in 12,279,160 cells, float32 in [0,1]), pre-placement surface Spearman across 609 unique rasters (max |rho| = 0.23766 <= 0.90), and cross-site/cross-org 3-px dot uniqueness across all 570 external discrete <=100k-dot rasters from 8 other focus sites + extra scored + 21 sibling-org repos (max external 3-px overlap = 67.85% <= 70.0%; external focus sites <= 58.71%).",
     "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) Protocol Rule 1 intra-repo overlap reaches 73.33% (>70.0% limit) against GEMSDOE32's own unsubmitted H48-1-FBGR ancestor (logged as intra-repo duplicate & stopped after 3/3 experiments); (2) paired HIDE-RECOVER 95% CI [-0.001315, +0.013578] narrowly straddles zero at lambda_vent=0.90 (vs EXP1 0.113990); (3) literal unexempted release_gate.compare_registry hits the 206,895-dot r13-lattice-s5 calibration grid (99.45%, IR-51-LATTICE-01); and (4) weekly slot promotion requires separate human selector approval."
    ]
+  },
+  "nine_site_executive_summary_20261028": {
+   "page": "docs/nine-site-executive-summary.html",
+   "builder": "scripts/build_nine_site_executive_summary.py",
+   "decision": "DOWNLOAD FOR AUDIT: YES; SUBMIT: NO. any_file_ok_to_submit remains false.",
+   "submission_now": "none",
+   "comparator_relabel_20261028": {
+    "label_in_registry_history": "0.2778 Champion proxy",
+    "value": 0.099202,
+    "correct_identity": "GEMSDOE25 d2.8 parent (44,090 dots) scored with 2-px visible collar; reproduced by scripts/reproduce_comparators_20261028.py",
+    "not": "the 0.2778 file's own holdout (static HR 0.004515, Euler run card receipt)",
+    "historical_labels_left_unchanged": "true; owner decision whether to rewrite historical cards",
+    "irregularity": "IR-20261028-02"
+   },
+   "lattice_rule_decision_pending": "Owner must decide in writing whether the dense 13gems calibration lattice counts as a registry raster for the 70% rule (IR-51-LATTICE-01). Measured: 0 of 51 competitive on-disk rasters (lattice raster excluded) pass the literal rule against the lattice; the 0.2778 champion is 99.91% within 3 px per the E3 receipt.",
+   "added_utc": "2026-10-28T17:15:00Z"
   }
  },
  "irregularities": [
@@ -7646,6 +7662,60 @@
    "severity": "low",
    "statement": "Live HTTP check of https://epsg.io/32611 returned HTTP 500 upstream error on 2026-10-28; karage2-tphg-exp1 is also absent from karagemop466-tech/GEMSDOEkarage2 default main branch.",
    "mitigation": "Verified EPSG:32611 (WGS 84 / UTM zone 11N) directly from official DrivenData page/967/, pyproj.CRS.from_epsg(32611), and sample_submission.tif."
+  },
+  {
+   "id": "IR-20261028-01",
+   "severity": "high",
+   "statement": "Owner brief describes 0.3195 as the highest score. The official DrivenData leaderboard, read 2026-10-28 with the fetch tool, shows #1 xiaofanhu 0.4544 and kpomazi at #26 with 0.3195.",
+   "mitigation": "Recorded in evidence/leaderboard_read_20261028.json. The public page does not show our team's score; it is unverified."
+  },
+  {
+   "id": "IR-20261028-02",
+   "severity": "high",
+   "statement": "The registry's '0.2778 champion proxy' HOLDOUT-DTI 0.099202 is the GEMSDOE25 d2.8 parent under a 2-px visible collar, not the 0.2778 file. Scored on the static path, the 0.2778 file gives 0.004515 (Euler run card receipt).",
+   "mitigation": "Reproduced in evidence/comparator_reproduction_20261028.json (matches registry). Relabel the comparator as 'd2.8 parent comparator' in the registry. Do not present 0.099202 as the champion's holdout."
+  },
+  {
+   "id": "IR-20261028-03",
+   "severity": "medium",
+   "statement": "Registry lattice-overlap counts do not reproduce under any tested distance convention. Registry: 6,514 allowed px, 99.45% H51 overlap. Measured: 6,649 px and 99.70% on grid EDT <=3 px; 7,992 px on grid EDT <3 px or KD-tree <=3 px. None reproduces 6,514. The pass/fail conclusion is unchanged.",
+   "mitigation": "Do not cite 6,514 or 99.45% as reproduced. Report measured values with the convention named (scripts/rank_shipped_by_validated_instrument.py and the lattice-convention test)."
+  },
+  {
+   "id": "IR-20261028-04",
+   "severity": "high",
+   "statement": "SGMC-cal selection bias and contamination. The bayesopt file's SGMC-cal 0.2567 (about four times any other on-disk file) sits beside a sidecar holdout note of 0.1383; its objective (src/gems32/bo_surrogate.py) includes SGMC-cal. hsupsgmc used SGMC north off-catalogue pixels as training positives (scripts/run_hsupsgmc.py).",
+   "mitigation": "Flagged SELECTION-BIASED and CONTAMINATED in evidence/shipped_ranked_validated_20261028.json and excluded from any selection. The 0.2567 anomaly is unresolved and must be investigated before it is ranked or reported."
+  },
+  {
+   "id": "IR-20261028-05",
+   "severity": "high",
+   "statement": "Static hide-and-recover does not track live rank: Spearman 0.046 vs owner-reported live scores (n=11). SGMC-cal Spearman 0.900 (n=11).",
+   "mitigation": "Use SGMC-cal only as an instrument with stated caveats; static HR must not select submissions (evidence/instrument_vs_live_20261028.json)."
+  },
+  {
+   "id": "IR-20261028-06",
+   "severity": "high",
+   "statement": "ARENA49-PCG run card contradicts itself. Top-level verdict is negative and ok_to_submit is false, but promotion_decision.verdict is 'promote' because its final gate excludes the lattice rule. Its holdout is a flat-mask instrument (HR 0.028259), not fold-local.",
+   "mitigation": "Literal rule governs: not promoted. The card must be corrected, and its promotion gate needs a fold-local number."
+  },
+  {
+   "id": "IR-20261028-07",
+   "severity": "medium",
+   "statement": "Identical dot masks under three labels: GEMSDOE25 zeros (sha 3e78737f), a restored file labelled gems24-h25-1-dotted-h19-5-d2-8 (sha prefix 91eae1ca, which equals the GEMSDOE30 name suffix), and the d2-8 repro file (sha prefix e4985b78). All have 44,090 dots and zero pixel difference (MEASURED-HERE).",
+   "mitigation": "Treat the GEMSDOE24/25/30 d2.8 claims as one artifact for uniqueness. Confirm the bytes GEMSDOE24 and GEMSDOE30 actually submitted with their owners."
+  },
+  {
+   "id": "IR-20261028-08",
+   "severity": "low",
+   "statement": "gemsdoe9-PLACEHOLDER-2314b599.tif is on disk and scores SGMC-cal 0.0137, with owner-reported live 0.0107. Its name indicates a placeholder.",
+   "mitigation": "Excluded from candidates. Keep labelled as a placeholder in any table."
+  },
+  {
+   "id": "IR-20261028-09",
+   "severity": "low",
+   "statement": "Ledger H49 intra-repo overlap is 73.33% (run card, vs H48-1-FBGR), while the E3 measured non-lattice 3-px overlap vs H48 is 0.724. The two methods differ and the difference is not explained.",
+   "mitigation": "Report both with method names. Either value is above the 70% limit, so H49 is not promoted."
   }
  ]
 }

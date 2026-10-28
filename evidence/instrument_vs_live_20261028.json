@@ -1,0 +1,244 @@
+{
+  "schema_version": 1,
+  "generated_by": "scripts/validate_instrument_vs_live.py",
+  "evaluator_versions": [
+    "GEMSDOE32-SGMC-CAL-v3.0",
+    "GEMSDOE32-HIDE-RECOVER-v3.0 (static, b_visible_px=0)"
+  ],
+  "rows": [
+    {
+      "label": "GEMSDOE24 h25-1 d1.5",
+      "file": "scored/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 60069,
+      "live_score_owner_report": 0.2477,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.057932246070648355,
+      "sgmc_cal_ci95": [
+        0.05112656686015078,
+        0.0652165822506664
+      ],
+      "static_hide_recover_dti": 0.09315052698145053,
+      "static_hide_recover_ci95": [
+        0.08127878015699064,
+        0.105968402764059
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE25 d2.8",
+      "file": "scored/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 44090,
+      "live_score_owner_report": 0.26,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.060592489973569044,
+      "sgmc_cal_ci95": [
+        0.05358257868838623,
+        0.06785452888019962
+      ],
+      "static_hide_recover_dti": 0.09674330401596999,
+      "static_hide_recover_ci95": [
+        0.08416165969221351,
+        0.10952536708166187
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE27 topo-gap-closure",
+      "file": "scored/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 61328,
+      "live_score_owner_report": 0.2449,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.05826237030075181,
+      "sgmc_cal_ci95": [
+        0.051476178073377704,
+        0.06553368995679887
+      ],
+      "static_hide_recover_dti": 0.0927484913819319,
+      "static_hide_recover_ci95": [
+        0.08085564044154277,
+        0.10539661683022032
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE19 h19-5 powerlaw",
+      "file": "scored/gems19-h19-5-powerlaw-budget-multiline-corroborated-20260930-e27054cf-nan.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 121131,
+      "live_score_owner_report": 0.1922,
+      "live_source": "owner brief (ledger row present)",
+      "sgmc_cal_dti": 0.044072527055937755,
+      "sgmc_cal_ci95": [
+        0.03839311646537306,
+        0.05018992183224019
+      ],
+      "static_hide_recover_dti": 0.06879199690327992,
+      "static_hide_recover_ci95": [
+        0.058821803669694084,
+        0.08005692480008342
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE19 h19-4 multiline",
+      "file": "scored/gems19-h19-4-multiline-corroborated-openness-thermal-pop-20260930-691e4dfa-nan.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 123779,
+      "live_score_owner_report": 0.1894,
+      "live_source": "owner brief (ledger row present)",
+      "sgmc_cal_dti": 0.04632622687647366,
+      "sgmc_cal_ci95": [
+        0.040333392551856855,
+        0.052417897477916905
+      ],
+      "static_hide_recover_dti": 0.06920605698696591,
+      "static_hide_recover_ci95": [
+        0.059306267819551985,
+        0.08063427130824635
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE16 h16-1 baseline ridges",
+      "file": "scored/gems16-h16-1-topo-geophys-baseline-ridges-20260930-df20f65e-nan.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 123939,
+      "live_score_owner_report": 0.1855,
+      "live_source": "owner brief (ledger row present)",
+      "sgmc_cal_dti": 0.04900300619748864,
+      "sgmc_cal_ci95": [
+        0.04281313981184233,
+        0.05536965892873635
+      ],
+      "static_hide_recover_dti": 0.06807433693226782,
+      "static_hide_recover_ci95": [
+        0.05822502628819744,
+        0.07972415500757017
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE10 h28 dotted ridge",
+      "file": "scored/gems10-h28-dotted-ridge-20260928T020256236880Z-6452ae1d00.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 69281,
+      "live_score_owner_report": 0.1839,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.05160598209389838,
+      "sgmc_cal_ci95": [
+        0.04537308441307553,
+        0.058120440425120434
+      ],
+      "static_hide_recover_dti": 0.20219689416240075,
+      "static_hide_recover_ci95": [
+        0.1869065447524894,
+        0.2166672203932162
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE-ens12 7f00890a",
+      "file": "scored/gemsdoe-ens12-adopted-7f00890a.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 172974,
+      "live_score_owner_report": 0.1563,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.040421474657155385,
+      "sgmc_cal_ci95": [
+        0.03544304932334273,
+        0.0454959816286172
+      ],
+      "static_hide_recover_dti": 0.08384341875589338,
+      "static_hide_recover_ci95": [
+        0.0724770576086766,
+        0.09535596182014291
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE8 Hedge-v2",
+      "file": "scored/8GEMSDOE_Hedge-v2_submission.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 227507,
+      "live_score_owner_report": 0.1563,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.040421474657155385,
+      "sgmc_cal_ci95": [
+        0.03544304932334273,
+        0.0454959816286172
+      ],
+      "static_hide_recover_dti": 0.2665775129591306,
+      "static_hide_recover_ci95": [
+        0.23708379552395797,
+        0.29669818843003687
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE10 H25 ctx ridge",
+      "file": "scored/gems10-h25-ctx-ridge-20260927T232947704150Z-6452ae1d00.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 174232,
+      "live_score_owner_report": 0.128,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.03426000912820391,
+      "sgmc_cal_ci95": [
+        0.029887028695025835,
+        0.03914295568651854
+      ],
+      "static_hide_recover_dti": 0.15338355660249836,
+      "static_hide_recover_ci95": [
+        0.1392662616317737,
+        0.16687264711143016
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "GEMSDOE9 2314b599 (name says PLACEHOLDER)",
+      "file": "scored/gemsdoe9-PLACEHOLDER-2314b599.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 147684,
+      "live_score_owner_report": 0.0107,
+      "live_source": "docs/score-ledger.csv (owner brief)",
+      "sgmc_cal_dti": 0.013741311094760528,
+      "sgmc_cal_ci95": [
+        0.009195483075662833,
+        0.01890446336035823
+      ],
+      "static_hide_recover_dti": 0.017321650852694905,
+      "static_hide_recover_ci95": [
+        0.012466565405925324,
+        0.022271354521797036
+      ],
+      "n_withheld_positives": 22232
+    },
+    {
+      "label": "13GEMSDOE r13-lattice-s5 (dense reference)",
+      "file": "scored/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif",
+      "sha256_prefix": null,
+      "dots_in_footprint": 206895,
+      "live_score_owner_report": 0.0904,
+      "live_source": "owner brief text",
+      "sgmc_cal_dti": 0.0936138128653588,
+      "sgmc_cal_ci95": [
+        0.08233542080413134,
+        0.10480482229205879
+      ],
+      "static_hide_recover_dti": 0.08601698873001104,
+      "static_hide_recover_ci95": [
+        0.07631334205623568,
+        0.09537855107936316
+      ],
+      "n_withheld_positives": 22232
+    }
+  ],
+  "summary": {
+    "n_files_correlated": 11,
+    "spearman_live_vs_sgmc_cal": 0.8995433789954339,
+    "spearman_live_vs_static_hide_recover": 0.04555820475782052,
+    "note": "Live scores are OWNER-REPORT (no organizer receipt in repo). With n<=10 the Spearman has wide uncertainty; a rank-correlation near 0 means the instrument does not predict live rank."
+  }
+}

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_utc": "2026-10-28T17:30:00Z",
+  "updated_utc": "2026-10-28T17:35:00Z",
   "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
   "any_file_ok_to_submit": false,
   "headline": "CORRECTION 2026-10-28 (static re-check, evidence/holdout_static_recheck_20261028.json): the H51-1-EWSP 0.115134 HIDE-RECOVER figure is a fold-local re-emission arm, NOT the downloadable bytes. The emitted H51 .tif scores 0.002289 [0.001847, 0.002676] on the static HIDE-RECOVER-v3.0 evaluator vs the 0.2778 champion's 0.004515 [0.003837, 0.005278] (H51 is LOWER); on the static SGMC-CAL-v3.0 evaluator H51 = 0.063032 vs champion 0.064121 (CIs overlap). Uniqueness re-verified: H51 is the only file that passes 70% and rho<=0.90 vs the nine focus sites (max 54.2%) and vs every <=100k-dot registry raster (max 68.5%); it fails vs the dense r13-lattice-s5 raster (99.7%). NO FILE IS CLEARED FOR SUBMISSION. DOWNLOAD FOR REVIEW ONLY. No file is authorized for upload. H51-1-EWSP (EXP1_EWSP_SUBSURFACE_POISSON) is the newest genuinely unique research/audit artifact (37,654 dots, B=2, min_sep_px=2.8): it passes 100% of all 610 discrete <=100k-dot detector rasters across all 30 repositories (max 3-px dot overlap = 68.90% <= 70.0%, focus-site max = 68.50% <= 70.0%, max |Spearman| = 0.2492 <= 0.90 \u2014 resolving H49-1's 73.33% intra-repo duplicate stop), passes all 45 feature leakage canaries (max AUC = 0.80524 <= 0.90) and 13/13 strict GeoTIFF [0, 1] finite checks, and beats the 0.2778 Champion on GEMSDOE32-HIDE-RECOVER-v3.0 (HOLDOUT-DTI = 0.115134 [0.101496, 0.128693] vs 0.099202, paired 95% CI [+0.008764, +0.023615] > 0, P=1.000) and Detached >=600m (0.100838 vs 0.094324), while H51-1 EXP2 (fold-local Williams-Pollard + Screened-Poisson) set all-time repo records on BOTH HIDE-RECOVER-v3.0 (0.164348 [0.150473, 0.177721], +65.7% over Champion) AND SGMC-CAL-v3.0 (0.065036 > 0.064121) before stopping under Protocol Rule 1 collar overlap (76.31% vs GEMSDOE37 80k). Emitted EXP1 remains held fail-closed (DO NOT SUBMIT) due to slight SGMC-cal gap (0.063032 vs 0.064121), literal r13-lattice-s5 overlap (99.45%, IR-51-LATTICE-01), and separate weekly-slot selector review.",
@@ -27,7 +27,7 @@
     "dots": 37654,
     "submission_name": "GEMSDOE32-H51-EWSP-BDF25D8C",
     "note": "H51-1 EWSP crack+Poisson 3fam d2.8 37654d | HR=0.1151 SGMC=0.0630 | DO NOT SUBMIT",
-    "verdict": "DO NOT SUBMIT - download for review only. Unique vs nine focus sites and all <=100k registry rasters; fails vs dense r13 (99.7%); static HIDE-RECOVER 0.002289 < champion 0.004515; static SGMC-CAL 0.063032 < champion 0.064121 (CIs overlap).",
+    "verdict": "DO NOT SUBMIT - download for review only. Unique vs nine focus sites and all <=100k registry rasters; fails vs dense r13 (99.70%); static HIDE-RECOVER 0.002289 < champion 0.004515; static SGMC-CAL 0.063032 < champion 0.064121 (CIs overlap).",
     "ok_to_download": true,
     "ok_to_submit": false,
     "why_not_submit": "Held fail-closed (DO NOT SUBMIT): EXP1 passes 100% of discrete detector rasters <=100k (max 3px overlap 68.90% <= 70%, |Spearman|=0.2492 <= 0.90) and beats the 0.2778 Champion on HIDE-RECOVER-v3.0 (0.115134 vs 0.099202, paired 95% CI > 0) and Detached >=600m (0.100838 vs 0.094324), but trails the 0.2778 Champion slightly on secondary SGMC-CAL-v3.0 (0.063032 vs 0.064121), trails prior repo H47 EXP2 raw holdout (0.121959), and triggers the unexempted synthetic 206,895-dot r13-lattice-s5 (IR-51-LATTICE-01) & WBGGEMSDOE1/2 continuous surfaces (IR-48-WBG-SURFACE-01); meanwhile EXP2/EXP3 hit all-time repo records on both HIDE-RECOVER-v3.0 (0.164348 / 0.163037) and SGMC-CAL-v3.0 (0.065036 / 0.065103) but concentrated 76.2% of dots inside 1.5 km collars, exceeding 70% overlap against GEMSDOE37 80k (76.31% / 75.98%).",
@@ -1828,10 +1828,27 @@
       "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) Protocol Rule 1 intra-repo overlap reaches 73.33% (>70.0% limit) against GEMSDOE32's own unsubmitted H48-1-FBGR ancestor (logged as intra-repo duplicate & stopped after 3/3 experiments); (2) paired HIDE-RECOVER 95% CI [-0.001315, +0.013578] narrowly straddles zero at lambda_vent=0.90 (vs EXP1 0.113990); (3) literal unexempted release_gate.compare_registry hits the 206,895-dot r13-lattice-s5 calibration grid (99.45%, IR-51-LATTICE-01); and (4) weekly slot promotion requires separate human selector approval."
     ]
   },
+  "nine_site_executive_summary_20261028": {
+    "page": "docs/nine-site-executive-summary.html",
+    "builder": "scripts/build_nine_site_executive_summary.py",
+    "decision": "DOWNLOAD FOR AUDIT: YES; SUBMIT: NO. any_file_ok_to_submit remains false.",
+    "submission_now": "none",
+    "comparator_relabel_20261028": {
+      "label_in_registry_history": "0.2778 Champion proxy",
+      "value": 0.099202,
+      "correct_identity": "GEMSDOE25 d2.8 parent (44,090 dots) scored with 2-px visible collar; reproduced by scripts/reproduce_comparators_20261028.py",
+      "not": "the 0.2778 file's own holdout (static HR 0.004515, Euler run card receipt)",
+      "historical_labels_left_unchanged": "true; owner decision whether to rewrite historical cards",
+      "irregularity": "IR-20261028-02"
+    },
+    "lattice_rule_decision_pending": "Owner must decide in writing whether the dense 13gems calibration lattice counts as a registry raster for the 70% rule (IR-51-LATTICE-01). Measured: 0 of 51 competitive on-disk rasters (lattice raster excluded) pass the literal rule against the lattice; the 0.2778 champion is 99.91% within 3 px per the E3 receipt.",
+    "added_utc": "2026-10-28T17:15:00Z"
+  },
   "static_recheck_20261028": {
     "evidence": "evidence/holdout_static_recheck_20261028.json",
     "rank_check": "evidence/evaluator_rank_check_20261028.json",
     "uniqueness_evidence": "evidence/focus9_independent_verification_20261028.json",
+    "page": "docs/nine-site-static-recheck-20261028.html",
     "h51_static": {
       "hide_recover_b2": 0.002289,
       "ci95": [

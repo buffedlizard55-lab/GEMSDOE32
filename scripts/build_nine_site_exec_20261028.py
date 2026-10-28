@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""Build the nine-site executive summary (docs/nine-site-executive-summary.html) from evidence.
+"""Build the nine-site executive summary (docs/nine-site-static-recheck-20261028.html) from evidence.
 
 Inputs (all produced by this session's scripts; nothing typed by hand except PUBLISHED):
   evidence/focus9_independent_verification_20261028.json   format, sha256, pairwise + registry uniqueness
   evidence/holdout_static_recheck_20261028.json           static HIDE-RECOVER and SGMC-cal per file
 PUBLISHED = owner-reported leaderboard names/scores copied from the session prompt (OWNER-REPORT).
-Writes evidence/evaluator_rank_check_20261028.json and docs/nine-site-executive-summary.html.
+Writes evidence/evaluator_rank_check_20261028.json and docs/nine-site-static-recheck-20261028.html.
 
 Labels used on the page:
   OWNER-REPORT    score claimed in the owner's submission log (no DrivenData receipt in this repo)
@@ -25,7 +25,7 @@ ROOT = Path(__file__).resolve().parents[1]
 VER = json.loads((ROOT / "evidence" / "focus9_independent_verification_20261028.json").read_text())
 HOLD = json.loads((ROOT / "evidence" / "holdout_static_recheck_20261028.json").read_text())["results"]
 RANK_OUT = ROOT / "evidence" / "evaluator_rank_check_20261028.json"
-PAGE = ROOT / "docs" / "nine-site-executive-summary.html"
+PAGE = ROOT / "docs" / "nine-site-static-recheck-20261028.html"
 
 PUBLISHED = {  # OWNER-REPORT, from the session prompt's leaderboard-name list (best file per site)
     "GEMSDOE24": 0.2477, "GEMSDOE25": 0.2600, "GEMSDOE27": 0.2449, "GEMSDOE28": 0.2710,

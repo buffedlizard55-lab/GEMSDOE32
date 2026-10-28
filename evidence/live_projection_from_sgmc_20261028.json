@@ -1,0 +1,73 @@
+{
+  "n_training_points": 12,
+  "intercept": -0.053814879351712246,
+  "slope": 5.133172740498301,
+  "residual_sd": 0.011941068913638435,
+  "r_squared": 0.9750247750207811,
+  "label": "PROJECTION - NOT A SCORE",
+  "candidates": {
+    "H47-1 LDGI (0eb8a25c)": {
+      "sgmc_cal": 0.0659,
+      "projected_live_mean": 0.2845,
+      "projected_95pi": [
+        0.2546,
+        0.3143
+      ],
+      "beats_0p2778_projection": true
+    },
+    "H51-1 EXP1 (bdf25d8c)": {
+      "sgmc_cal": 0.063032,
+      "projected_live_mean": 0.2697,
+      "projected_95pi": [
+        0.2405,
+        0.299
+      ],
+      "beats_0p2778_projection": false
+    },
+    "H49-1 CGTD (f3e24fb5)": {
+      "sgmc_cal": 0.0664,
+      "projected_live_mean": 0.287,
+      "projected_95pi": [
+        0.2571,
+        0.317
+      ],
+      "beats_0p2778_projection": true
+    },
+    "ARENA49-PCG (54e97629)": {
+      "sgmc_cal": 0.0715,
+      "projected_live_mean": 0.3132,
+      "projected_95pi": [
+        0.282,
+        0.3444
+      ],
+      "beats_0p2778_projection": true
+    },
+    "ARENA9 PGRN-PU (4f7aba9b)": {
+      "sgmc_cal": 0.0878,
+      "projected_live_mean": 0.3969,
+      "projected_95pi": [
+        0.3604,
+        0.4334
+      ],
+      "beats_0p2778_projection": true
+    },
+    "ARENA-EULER-E1 (71f0a187)": {
+      "sgmc_cal": 0.0663,
+      "projected_live_mean": 0.2865,
+      "projected_95pi": [
+        0.2566,
+        0.3164
+      ],
+      "beats_0p2778_projection": true
+    },
+    "H33-B2 champion (e5eb6e7e)": {
+      "sgmc_cal": 0.064121,
+      "projected_live_mean": 0.2753,
+      "projected_95pi": [
+        0.2459,
+        0.3048
+      ],
+      "beats_0p2778_projection": false
+    }
+  }
+}
