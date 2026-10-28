@@ -18,22 +18,40 @@ def main():
     artifact = ROOT / newest['file']
     sha = hashlib.sha256(artifact.read_bytes()).hexdigest()
     measured = inspect_saved_raster(artifact)
+    artifact_label = newest.get('submission_name') or Path(newest['file']).stem
+    prior_run = json.loads((ROOT / newest['run_card']).read_text())
+    prior_holdout = prior_run.get('holdout_dti', {}).get('primary_hide_and_recover', {})
+    prior_uniqueness = prior_run.get('correlation_and_overlap_vs_registry', {})
+    lattice = prior_uniqueness.get('literal_5px_calibration_lattice_probe', {})
     card = {
-        'hypothesis': 'Audit existing H48-FBGR artifact; no newly assigned method lane in this request.',
+        'hypothesis': f'Audit the latest registered artifact ({artifact_label}); no newly assigned method lane in this request.',
         'mechanism': 'Saved-byte verification and nine-site evidence review; no model experiment.',
-        'non_fault_mimic': 'Lithologic contacts and radiometric acquisition seams can mimic FBGR targets.',
-        'holdout': {'status': 'NOT_RERUN', 'reason': 'No new lane assigned; feature caches absent in checkout.',
-                    'historical_evidence': newest['run_card'],
-                    'leaderboard_estimate': None},
+        'non_fault_mimic': 'Lithologic contacts and acquisition seams can mimic geophysical fault targets.',
+        'artifact_label': artifact_label,
+        'holdout': {
+            'status': 'HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW',
+            'reason': 'No new lane assigned; feature caches absent in checkout.',
+            'historical_evidence': newest['run_card'],
+            'label': prior_holdout.get('label'),
+            'evaluator_version': prior_holdout.get('evaluator_version'),
+            'n_withheld_positives': prior_holdout.get('n_withheld_positives'),
+            'dti': prior_holdout.get('pooled_dti'),
+            'ci95': prior_holdout.get('ci95'),
+            'leaderboard_estimate': None},
         'correlation_overlap_vs_registry': {
-            'status': 'NOT_RERUN', 'historical_evidence': newest['run_card'],
-            'literal_registry_passed': False,
-            'warning': 'Do not substitute discrete-only uniqueness for the all-registry rule.'},
+            'status': 'HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW',
+            'historical_evidence': newest['run_card'],
+            'max_abs_surface_spearman': prior_uniqueness.get('max_abs_surface_spearman'),
+            'max_external_cross_site_3px_overlap': prior_uniqueness.get('max_external_cross_site_3px_dot_overlap'),
+            'max_all_genuine_3px_overlap': prior_uniqueness.get('max_genuine_3px_dot_overlap'),
+            'literal_calibration_lattice_3px_overlap': lattice.get('within_3px_fraction'),
+            'literal_registry_passed': prior_uniqueness.get('literal_all_rasters_final_passed', False),
+            'warning': 'Historical evidence only; do not substitute discrete-only uniqueness for the all-registry rule.'},
         'raster_sha256': sha,
         'hash_matches_registry': sha == newest['sha256'],
         'validator_output': measured,
         'submission_name': newest['submission_name'],
-        'note': 'Existing H48 artifact re-audited; no new lane, no new score estimate, no upload authorization.',
+        'note': f'Latest artifact {artifact_label} re-audited; no new lane, no new score estimate, no upload authorization.',
         'verdict': 'negative', 'ok_to_submit': False,
         'experiments_used': 0, 'weekly_slots_used': 0,
     }
@@ -47,14 +65,15 @@ def main():
     text = '''<!doctype html><html lang="en"><meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Nine-site executive review · GEMSDOE32</title><link rel="stylesheet" href="assets/site.css">
-<body><main class="wrap"><h1>Nine-site executive review — 2026-10-27</h1>
+<body><main class="wrap"><h1>Nine-site executive review — 2026-10-28</h1>
 <p><a href="index.html">Home</a> · <a href="executive-summary.html">Submission instructions</a> ·
 <a href="research/review-and-next-hypotheses-20261027.md">Review, hypotheses and limitations</a></p>
 <section class="card" style="border:3px solid #b91c1c"><h2>DO NOT SUBMIT</h2>
-<p>No new submission has passed all requested gates. No weekly slots were used. The existing H48 file is
-available for research only; format validity does not establish scientific superiority or uniqueness.</p>
+<p>No new submission has passed all requested gates. No weekly slots were used. Format validity does not
+establish scientific superiority or uniqueness.</p>
 '''
-    text += f'<p><a class="btn" href="{html.escape(newest["file"].removeprefix("docs/"))}">Download existing H48 TIF — AUDIT ONLY</a></p></section>'
+    text += f'<p>The latest registered candidate is <b>{html.escape(artifact_label)}</b>; it is available for research only.</p>'
+    text += f'<p><a class="btn" href="{html.escape(newest["file"].removeprefix("docs/"))}">Download {html.escape(artifact_label)} GeoTIFF — RESEARCH / AUDIT ONLY</a></p></section>'
     text += '''<h2>Best historical file at each requested site</h2><p>These are historical winners from pinned repository evidence, not newly validated recommendations.
 No submission-page receipt establishes ORGANIZER-CONFIRMED scores. Consequently none of the owner-reported
 numbers is treated as an estimated score or a confirmed score. Download links identify pinned bytes, not live repository heads.</p>
@@ -75,7 +94,7 @@ organizer template. Catalogue exclusion and registry overlap were NOT rerun.</p>
     text += '<p>SHA-256: <code>' + sha + '</code></p>'
     text += '''<h2>Evidence and official review links</h2><ul>
 <li><a href="../evidence/focus_site_winner_overlap_20261026.json">Historical nine-site overlap evidence (not rerun)</a></li>
-<li><a href="../evidence/review_audit_20261027.json">This review run card</a></li>
+<li><a href="../evidence/review_audit_20261028.json">This review run card</a></li>
 <li><a href="https://github.com/drivendataorg/gems-prize-reference-solution/tree/aebe92f7c8a990f0e3443451b7a825d9afd6336b">Official reference repository (commit fetched this session)</a></li>
 <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/data/">Official competition data (not fetched this session)</a></li>
 <li><a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">Official leaderboard (not fetched this session)</a></li>
@@ -84,7 +103,7 @@ registry-lattice stop without silently exempting a raster. Test each feature alo
 against the best candidate on the same evaluator with paired spatial confidence intervals. Stop on duplication.
 Only a fully passing candidate may enter the separate weekly-slot selector.</p></main></body></html>'''
     (ROOT / 'docs/nine-site-review.html').write_text(text)
-    (ROOT / 'evidence/review_audit_20261027.json').write_text(json.dumps(card, indent=2) + '\n')
+    (ROOT / 'evidence/review_audit_20261028.json').write_text(json.dumps(card, indent=2) + '\n')
     print(json.dumps({'byte_check_passed': measured['strict_primary_passed'], 'sha256': sha, 'ok_to_submit': False}))
 
 
