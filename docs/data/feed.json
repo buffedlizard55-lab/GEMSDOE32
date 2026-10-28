@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-28T02:21:30Z",
+ "generated_utc": "2026-10-28T02:31:16Z",
  "sources": [
   {
    "id": "competition",
@@ -361,82 +361,21 @@
  "leaderboard_snapshots": 4,
  "hypotheses": [
   {
-   "id": "H49-1",
+   "id": "ARENA-EULER-E1",
    "rank": 1,
-   "title": "CG-TILT-NOISYOR: Miller-Singh Gravity Tilt=0 Wall, Up-Gradient Geothermometry Disequilibrium, Soft-PU Dual-Cover & Stationary Tail Noisy-OR",
+   "title": "Windowed 3-D Euler deconvolution (N=0.25) depth-concordant contacts as GBM channels",
    "layers": [
-    "Bands 12, 13, 15, 18, 19 (iso_grav_anom + Fourier UC z=500m + depth_to_base_surf)",
-    "Bands 02, 06, 09, 14 (rtp + tc magnetic tilt + Fourier UC)",
-    "gdr_wellspring_in_footprint.csv (quartz/chalcedony/Na-K-Ca geothermometry - temp_c, dist_known_fault_px dropped)",
-    "Band 17 (mt2023) + GeoDAWN 4-block eU/eTh/K + Bands 04,07,08,10,16 + 1 m LiDAR / Copernicus 30 m"
+    "Band 2 rtp",
+    "Band 13 iso_grav_anom",
+    "Band 15 depth_to_base_surf"
    ],
-   "signature": "Gravity tilt-angle zero-contour wall cos^2(theta_g)*THDR_tilt phase-locked with magnetic tilt + Salem tilt-depth cover match + 0-900 m up-gradient chemical geothermometry disequilibrium + MT clay-cap lateral flank + Soft-PU Dual-Cover (93-ch/80-ch) + stationary tail Noisy-OR (r_vent > q98.0) + d_min = 2.8 CELF.",
-   "why_off_catalogue": "Tilt-angle zero contours locate buried vertical basement fault contacts independent of alluvial cover depth, while chemical geothermometry disequilibrium (Delta T > 50 C at 1,077 stations) advected up-gradient pinpoints blind feeding conduits rather than valley-floor outflow plumes.",
-   "differs_from_repo": "First gravity tilt-angle zero-contour + Salem tilt-depth + chemical geothermometry disequilibrium advection + Soft-PU + stationary scale-anchored tail Noisy-OR conduit model in repo.",
-   "expected_dti": "HOLDOUT-DTI = 0.105043 (+0.00592 vs 0.2778 Champ) & SGMC-CAL-v3.0 = 0.066434 (+0.00231 vs Champ, +17.0% vs H48-1 \u2014 stationary repo record)",
-   "cost": "880s CPU (<2.75 GiB RSS)",
-   "data_status": "all 30 inputs restored & SHA-256 verified on disk",
-   "status": "MEASURED 2026-10-27: beats 0.2778 Champ on BOTH HIDE-RECOVER & SGMC-CAL; 100% cross-site unique (67.85% <= 70%), 73.33% intra-repo vs H48-1 -> held DO NOT SUBMIT"
-  },
-  {
-   "id": "H49-2",
-   "rank": 2,
-   "title": "KOSTROV-BYERLEE-MT: 3-D Transtensional Slip/Dilation Tendency Resolved on Potential-Field Fault Strikes + MT Clay-Cap Lateral Flank",
-   "layers": [
-    "Bands 04, 07, 08, 10, 16, 17 + gravity/magnetic tilt strike"
-   ],
-   "signature": "Kostrov tensor projection of GPS shear/dilatation onto local potential-field strike sin(2*beta) + normal dilation cos^2(beta) coupled with MT lateral clay-cap edge.",
-   "why_off_catalogue": "Critically stressed N015E-N035E faults slip aseismically or in micro-swarms under alluvial fans without preserving Quaternary scarps.",
-   "differs_from_repo": "Prior channels multiplied scalar Band 08 by isotropic sin(2*Delta_theta) without full shear+dilatation tensor projection or MT clay-cap lateral flank gating.",
-   "expected_dti": "integrated into H49-1 channels [88, 89] (standalone AUCs 0.5348, 0.5306)",
-   "cost": "included in 56.7s CGTD stack build",
-   "data_status": "on disk",
-   "status": "sub-channels verified in H49-1; standalone lane queued for H50"
-  },
-  {
-   "id": "H49-3",
-   "rank": 3,
-   "title": "STEP-BRIDGE-DIRICHLET: Harmonic Potential-Field & Geothermometry Geodesic Bridge Across Unmapped Accommodation Step-Overs",
-   "layers": [
-    "Bands 02, 13, 15, 17 + fold-local visible fault tips"
-   ],
-   "signature": "Anisotropic screened-Poisson harmonic bridge across 1-6 km en-echelon fault gaps weighted by basement tilt-zero walls and geothermometry disequilibrium.",
-   "why_off_catalogue": "Accommodation-zone step-overs break into distributed sub-meter fractures missed by aerial scarp mapping (~45% of Great Basin geothermal systems).",
-   "differs_from_repo": "Prior tip-bridge channels used Euclidean tip-pair Gaussians rather than potential-field-steered PDE geodesics.",
-   "expected_dti": "moderate-high in relay ramps",
-   "cost": "low-medium (multigrid solver)",
-   "data_status": "on disk",
-   "status": "registered for H50; 0 experiments used"
-  },
-  {
-   "id": "H49-4",
-   "rank": 4,
-   "title": "SEAMFREE-RADON-ALTERATION: Contractor-Block Interior Cross-Strike 214Bi Radon & K/eTh Potassic Halo Co-Registration",
-   "layers": [
-    "GeoDAWN potassium/thorium/uranium/total_count + acquisition_block_id_100m.tif + tiger_road_distance_m.tif"
-   ],
-   "signature": "300 m block-seam-eroded cross-strike gradient of block-standardized eU/eTh and K/eTh.",
-   "why_off_catalogue": "Active fault gas migration (222Rn -> 214Bi) and adularia-sericite alteration expose permeable bedrock faults lacking scarps.",
-   "differs_from_repo": "Explicitly erodes 300 m around all 4 GeoDAWN contractor flight-block boundaries and takes cross-strike gradients.",
-   "expected_dti": "integrated into H49-1 channel [90] (standalone AUC = 0.5472)",
-   "cost": "included in CGTD stack",
-   "data_status": "on disk",
-   "status": "sub-channel verified in H49-1"
-  },
-  {
-   "id": "H49-5",
-   "rank": 5,
-   "title": "INSAR-SENTINEL-COHERENCE: External Copernicus Sentinel-1 InSAR Phase-Gradient & ASTER TIR Silica Index",
-   "layers": [
-    "External Alaska Satellite Facility (ASF) ARIA/OPERA Sentinel-1 unwrapped interferograms + NASA LP DAAC ASTER L1T TIR"
-   ],
-   "signature": "Interseismic creep / coseismic phase discontinuities (e.g., 2020 M6.5 Monte Cristo Range) + ASTER 8-12 um quartz/opal-A emissivity index.",
-   "why_off_catalogue": "Directly images sub-centimeter surface deformation and siliceous sinter aprons invisible in static DEMs.",
-   "differs_from_repo": "External satellite physics absent from the 19-band competition cube.",
-   "expected_dti": "high ceiling when external egress is enabled",
-   "cost": "blocked in current sandbox",
-   "data_status": "free public NASA Earthdata / ASF / USGS APIs; blocked by sandbox egress allowlist",
-   "status": "documented external-data roadmap"
+   "signature": "9x9 least-squares Euler (x0,y0,z0,B) with spectral Tz; low-residual/in-depth/mag-grav-concordant solution density (7 channels)",
+   "why_off_catalogue": "Buried basement-alluvium contacts under Quaternary fill lack scarps for catalogue mappers but offset density/magnetisation at depth",
+   "differs_from_repo": "tmspi.py uses SPI proxy z~1/k; no prior code solved the 4-unknown Euler normal equations (GEMSDOE40 live Euler was unfiltered, owner-reported 0.0397)",
+   "expected_dti": "MEASURED NULL: EXP3 0.098705 vs EXP2 control 0.098657 (paired +0.000048 [-0.003698,+0.003732]) HOLDOUT-DTI HIDE-RECOVER-v3.0 n=22,232",
+   "cost": "low (~45 s Euler build + 23 min OOF/emission on 2 vCPU)",
+   "data_status": "VERIFIED IN-BAND (SHA-pinned training_features.tif)",
+   "status": "MEASURED NEGATIVE \u2014 verdict negative, DO NOT SUBMIT (evidence/euler_lane_run_card.json). Do not rerun as GBM feature without a new physical filter."
   },
   {
    "id": "H48-1",
@@ -1720,6 +1659,84 @@
    "cost": "High (requires external GPU compute).",
    "data_status": "All 71 channels ready on disk; GPU compute deferred.",
    "status": "Registered next-milestone GPU architecture."
+  },
+  {
+   "id": "H49-1",
+   "rank": 1,
+   "title": "CG-TILT-NOISYOR: Miller-Singh Gravity Tilt=0 Wall, Up-Gradient Geothermometry Disequilibrium, Soft-PU Dual-Cover & Stationary Tail Noisy-OR",
+   "layers": [
+    "Bands 12, 13, 15, 18, 19 (iso_grav_anom + Fourier UC z=500m + depth_to_base_surf)",
+    "Bands 02, 06, 09, 14 (rtp + tc magnetic tilt + Fourier UC)",
+    "gdr_wellspring_in_footprint.csv (quartz/chalcedony/Na-K-Ca geothermometry - temp_c, dist_known_fault_px dropped)",
+    "Band 17 (mt2023) + GeoDAWN 4-block eU/eTh/K + Bands 04,07,08,10,16 + 1 m LiDAR / Copernicus 30 m"
+   ],
+   "signature": "Gravity tilt-angle zero-contour wall cos^2(theta_g)*THDR_tilt phase-locked with magnetic tilt + Salem tilt-depth cover match + 0-900 m up-gradient chemical geothermometry disequilibrium + MT clay-cap lateral flank + Soft-PU Dual-Cover (93-ch/80-ch) + stationary tail Noisy-OR (r_vent > q98.0) + d_min = 2.8 CELF.",
+   "why_off_catalogue": "Tilt-angle zero contours locate buried vertical basement fault contacts independent of alluvial cover depth, while chemical geothermometry disequilibrium (Delta T > 50 C at 1,077 stations) advected up-gradient pinpoints blind feeding conduits rather than valley-floor outflow plumes.",
+   "differs_from_repo": "First gravity tilt-angle zero-contour + Salem tilt-depth + chemical geothermometry disequilibrium advection + Soft-PU + stationary scale-anchored tail Noisy-OR conduit model in repo.",
+   "expected_dti": "HOLDOUT-DTI = 0.105043 (+0.00592 vs 0.2778 Champ) & SGMC-CAL-v3.0 = 0.066434 (+0.00231 vs Champ, +17.0% vs H48-1 \u2014 stationary repo record)",
+   "cost": "880s CPU (<2.75 GiB RSS)",
+   "data_status": "all 30 inputs restored & SHA-256 verified on disk",
+   "status": "MEASURED 2026-10-27: beats 0.2778 Champ on BOTH HIDE-RECOVER & SGMC-CAL; 100% cross-site unique (67.85% <= 70%), 73.33% intra-repo vs H48-1 -> held DO NOT SUBMIT"
+  },
+  {
+   "id": "H49-2",
+   "rank": 2,
+   "title": "KOSTROV-BYERLEE-MT: 3-D Transtensional Slip/Dilation Tendency Resolved on Potential-Field Fault Strikes + MT Clay-Cap Lateral Flank",
+   "layers": [
+    "Bands 04, 07, 08, 10, 16, 17 + gravity/magnetic tilt strike"
+   ],
+   "signature": "Kostrov tensor projection of GPS shear/dilatation onto local potential-field strike sin(2*beta) + normal dilation cos^2(beta) coupled with MT lateral clay-cap edge.",
+   "why_off_catalogue": "Critically stressed N015E-N035E faults slip aseismically or in micro-swarms under alluvial fans without preserving Quaternary scarps.",
+   "differs_from_repo": "Prior channels multiplied scalar Band 08 by isotropic sin(2*Delta_theta) without full shear+dilatation tensor projection or MT clay-cap lateral flank gating.",
+   "expected_dti": "integrated into H49-1 channels [88, 89] (standalone AUCs 0.5348, 0.5306)",
+   "cost": "included in 56.7s CGTD stack build",
+   "data_status": "on disk",
+   "status": "sub-channels verified in H49-1; standalone lane queued for H50"
+  },
+  {
+   "id": "H49-3",
+   "rank": 3,
+   "title": "STEP-BRIDGE-DIRICHLET: Harmonic Potential-Field & Geothermometry Geodesic Bridge Across Unmapped Accommodation Step-Overs",
+   "layers": [
+    "Bands 02, 13, 15, 17 + fold-local visible fault tips"
+   ],
+   "signature": "Anisotropic screened-Poisson harmonic bridge across 1-6 km en-echelon fault gaps weighted by basement tilt-zero walls and geothermometry disequilibrium.",
+   "why_off_catalogue": "Accommodation-zone step-overs break into distributed sub-meter fractures missed by aerial scarp mapping (~45% of Great Basin geothermal systems).",
+   "differs_from_repo": "Prior tip-bridge channels used Euclidean tip-pair Gaussians rather than potential-field-steered PDE geodesics.",
+   "expected_dti": "moderate-high in relay ramps",
+   "cost": "low-medium (multigrid solver)",
+   "data_status": "on disk",
+   "status": "registered for H50; 0 experiments used"
+  },
+  {
+   "id": "H49-4",
+   "rank": 4,
+   "title": "SEAMFREE-RADON-ALTERATION: Contractor-Block Interior Cross-Strike 214Bi Radon & K/eTh Potassic Halo Co-Registration",
+   "layers": [
+    "GeoDAWN potassium/thorium/uranium/total_count + acquisition_block_id_100m.tif + tiger_road_distance_m.tif"
+   ],
+   "signature": "300 m block-seam-eroded cross-strike gradient of block-standardized eU/eTh and K/eTh.",
+   "why_off_catalogue": "Active fault gas migration (222Rn -> 214Bi) and adularia-sericite alteration expose permeable bedrock faults lacking scarps.",
+   "differs_from_repo": "Explicitly erodes 300 m around all 4 GeoDAWN contractor flight-block boundaries and takes cross-strike gradients.",
+   "expected_dti": "integrated into H49-1 channel [90] (standalone AUC = 0.5472)",
+   "cost": "included in CGTD stack",
+   "data_status": "on disk",
+   "status": "sub-channel verified in H49-1"
+  },
+  {
+   "id": "H49-5",
+   "rank": 5,
+   "title": "INSAR-SENTINEL-COHERENCE: External Copernicus Sentinel-1 InSAR Phase-Gradient & ASTER TIR Silica Index",
+   "layers": [
+    "External Alaska Satellite Facility (ASF) ARIA/OPERA Sentinel-1 unwrapped interferograms + NASA LP DAAC ASTER L1T TIR"
+   ],
+   "signature": "Interseismic creep / coseismic phase discontinuities (e.g., 2020 M6.5 Monte Cristo Range) + ASTER 8-12 um quartz/opal-A emissivity index.",
+   "why_off_catalogue": "Directly images sub-centimeter surface deformation and siliceous sinter aprons invisible in static DEMs.",
+   "differs_from_repo": "External satellite physics absent from the 19-band competition cube.",
+   "expected_dti": "high ceiling when external egress is enabled",
+   "cost": "blocked in current sandbox",
+   "data_status": "free public NASA Earthdata / ASF / USGS APIs; blocked by sandbox egress allowlist",
+   "status": "documented external-data roadmap"
   }
  ],
  "claims": [
@@ -1980,7 +1997,7 @@
   "sync": {
    "synced_utc": "2026-10-27T23:55:00Z",
    "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
-   "previous_pinned_sha256": "4177f236b7c6a26fdf39d85f0896d1a83da745c9a36b04be7fe201a0076bf29f"
+   "previous_pinned_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd"
   }
  },
  "holdout": {
@@ -6102,6 +6119,141 @@
    {
     "file": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
     "label": "H46-TRHV"
+   },
+   {
+    "file": "docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.tif",
+    "zip": "docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.zip",
+    "receipt": "docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-audit.json",
+    "run_card": "evidence/h48_fbgr_run_card.json",
+    "preregistration": "docs/research/h48-fbgr-preregistration-20261027.md",
+    "results_doc": "docs/research/h48-fbgr-results-and-nine-site-executive-summary-20261027.md",
+    "sha256": "4177f236b7c6a26fdf39d85f0896d1a83da745c9a36b04be7fe201a0076bf29f",
+    "bytes": 211799,
+    "dots": 37654,
+    "submission_name": "GEMSDOE32-H48-FBGR-4D38A240",
+    "note": "H48-1 FBGR dualcover d2.8 37654d B2 | HR=0.1153 SGMC=0.0568 | DO NOT SUBMIT",
+    "verdict": "DO NOT SUBMIT \u2014 research/audit artifact; SGMC-cal below 0.2778 Champion & literal calibration-lattice stop",
+    "ok_to_download": true,
+    "ok_to_submit": false,
+    "hypothesis": "H48-1-FBGR: Fourier-Continued Basement-Graben Relay (z=500m, 2km), GeoDAWN 4-Block Standardized 214Bi Radon & Silica/Potassic DoG Zonation + BLM Epithermal Claims, and Stationary Dual-Cover (83-ch M_Full + 71-ch LiDAR-free M_Sub) Axial d=2.8 CELF (37,654 dots, B=2, zero eta switch).",
+    "canary": {
+     "n_pass": 83,
+     "n_channels": 83,
+     "max_auc": 0.586868,
+     "worst_channel": "curv_s2"
+    },
+    "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HIDE-RECOVER-v3.0, 22,232 withheld positives, 95% spatial-block CI",
+    "holdout": {
+     "H48-1-FBGR Dual-Cover Axial d=2.8 (EXP3)": {
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "dti": 0.115341,
+      "ci95": [
+       0.100168,
+       0.130524
+      ]
+     },
+     "H48-1 Single-83ch Axial d=2.8 (EXP1)": {
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "dti": 0.115254,
+      "ci95": [
+       0.100591,
+       0.129625
+      ]
+     },
+     "H48-1 Dual-Cover Raw CELF d=0.0 (EXP2)": {
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "dti": 0.103264,
+      "ci95": [
+       0.088533,
+       0.117621
+      ]
+     },
+     "fold-collared B2 Champion proxy": {
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "n_withheld_positives": 22232,
+      "dti": 0.099202,
+      "ci95": [
+       0.085951,
+       0.112668
+      ]
+     },
+     "H48-1 Detached >=600m segments (n=15,504)": {
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0-detached600m",
+      "n_withheld_positives": 15504,
+      "dti": 0.101168,
+      "ci95": [
+       0.085002,
+       0.117569
+      ]
+     }
+    },
+    "off_catalogue_label": "HOLDOUT-DTI diagnostic, GEMSDOE32-SGMC-CAL-v3.0, 62,703 USGS SGMC off-catalogue positives, prevalence-calibrated 95% CI",
+    "off_catalogue_instrument": {
+     "H48-1-FBGR Dual-Cover Axial d=2.8 (EXP3)": {
+      "dti": 0.056798,
+      "ci95": [
+       0.050345,
+       0.063015
+      ]
+     },
+     "0.2778 Champion proxy": {
+      "dti": 0.064121,
+      "ci95": [
+       0.05673,
+       0.071649
+      ]
+     }
+    },
+    "uniqueness": {
+     "manifest_rasters": 519,
+     "unique_hash_rasters_checked": 463,
+     "genuine_rasters_checked": 439,
+     "focus_site_genuine_checked": 397,
+     "preplacement_surface_passed": true,
+     "max_abs_spearman": 0.63146,
+     "genuine_final_dots_passed": true,
+     "max_genuine_3px_overlap": 0.688187,
+     "max_focus_site_3px_overlap": 0.659425,
+     "literal_lattice_overlap": 0.997769,
+     "literal_all_registry_passed": false,
+     "registry_refreshed_utc": "2026-10-27T19:11:58Z"
+    },
+    "validator": {
+     "strict_cli_passed": true,
+     "geotiff_13_checks_passed": true,
+     "crs": "EPSG:32611",
+     "shape": [
+      3730,
+      3292
+     ],
+     "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+     ],
+     "dtype": "float32",
+     "nodata": null,
+     "nan_anywhere": 0,
+     "values_in_0_1": true
+    },
+    "reasons": [
+     "EXP3 beats the 0.2778 Champion on GEMSDOE32-HIDE-RECOVER-v3.0 (0.115341 [0.100168, 0.130524] vs 0.099202, paired delta +0.016217 [+0.008599, +0.024287], p=1.000) and achieves the repository's highest stationary Detached >=600 m withheld-segment DTI (0.101168 [0.085002, 0.117569] vs Champion 0.094324 and H47-1 0.091842), while min_sep_px=2.8 beats d=0.0 EXP2 by +0.012020 on HIDE-RECOVER (p=1.000) and +0.016038 (+39.4%) on SGMC-cal (p=1.000).",
+     "Passes all 83 feature leakage canaries (max AUC = 0.586868 <= 0.90), 13/13 automated GeoTIFF byte/range checks (0 NaNs anywhere in 12,279,160 cells, float32 in [0,1]), and genuine uniqueness across 439 discrete <=100k-dot rasters from 9 focus sites + extra scored + KANLERGEMSDOE1..3 + WBGGEMSDOE1..3 (max focus-site 3-px overlap 65.94% <= 70.0%; max all-org <=100k overlap 68.82% <= 70.0%; max |Spearman| 0.63146 <= 0.90).",
+     "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) off-catalogue SGMC-cal v3.0 (0.056798) trails the 0.2778 Champion (0.064121) due to multiplicative OOF decay beyond 1.5 km; (2) literal unexempted release_gate.compare_registry hits the 206,895-dot r13-lattice-s5 calibration grid (99.78%, IR-51-LATTICE-01) and WBGGEMSDOE1/2 continuous 5.1M-pixel surfaces (IR-48-WBG-SURFACE-01); and (3) weekly slot promotion requires separate human selector approval."
+    ]
+   },
+   {
+    "id": "ARENA-EULER-E1",
+    "file": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
+    "sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
+    "verdict": "negative",
+    "ok_to_submit": false
    }
   ],
   "h47_ldgi_candidate": {
@@ -6348,6 +6500,125 @@
     "EXP3 beats the 0.2778 Champion on GEMSDOE32-HIDE-RECOVER-v3.0 (0.115341 [0.100168, 0.130524] vs 0.099202, paired delta +0.016217 [+0.008599, +0.024287], p=1.000) and achieves the repository's highest stationary Detached >=600 m withheld-segment DTI (0.101168 [0.085002, 0.117569] vs Champion 0.094324 and H47-1 0.091842), while min_sep_px=2.8 beats d=0.0 EXP2 by +0.012020 on HIDE-RECOVER (p=1.000) and +0.016038 (+39.4%) on SGMC-cal (p=1.000).",
     "Passes all 83 feature leakage canaries (max AUC = 0.586868 <= 0.90), 13/13 automated GeoTIFF byte/range checks (0 NaNs anywhere in 12,279,160 cells, float32 in [0,1]), and genuine uniqueness across 439 discrete <=100k-dot rasters from 9 focus sites + extra scored + KANLERGEMSDOE1..3 + WBGGEMSDOE1..3 (max focus-site 3-px overlap 65.94% <= 70.0%; max all-org <=100k overlap 68.82% <= 70.0%; max |Spearman| 0.63146 <= 0.90).",
     "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) off-catalogue SGMC-cal v3.0 (0.056798) trails the 0.2778 Champion (0.064121) due to multiplicative OOF decay beyond 1.5 km; (2) literal unexempted release_gate.compare_registry hits the 206,895-dot r13-lattice-s5 calibration grid (99.78%, IR-51-LATTICE-01) and WBGGEMSDOE1/2 continuous 5.1M-pixel surfaces (IR-48-WBG-SURFACE-01); and (3) weekly slot promotion requires separate human selector approval."
+   ]
+  },
+  "euler_e1_candidate": {
+   "file": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
+   "zip": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.zip",
+   "receipt": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-audit.json",
+   "run_card": "evidence/euler_lane_run_card.json",
+   "preregistration": "docs/research/euler-lane-preregistration-20261027.md",
+   "results_doc": "docs/research/euler-lane-results-and-nine-site-executive-summary-20261027.md",
+   "sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
+   "bytes": 208815,
+   "dots": 37654,
+   "submission_name": "GEMSDOE32-EULER-E1-71F0A187",
+   "note": "Euler E1 37654d B2 HR0.0987 SGMC0.0663 DO NOT SUBMIT",
+   "verdict": "DO NOT SUBMIT \u2014 research/audit artifact; Euler increment null & below repo holdout best",
+   "ok_to_download": true,
+   "ok_to_submit": false,
+   "hypothesis": "ARENA-EULER-E1: windowed 3-D Euler deconvolution (N=0.25) depth-concordant contacts (7 channels) added to 35-ch template stack, fold-local HGBT OOF, CELF min_sep 2.8, B=2, 37,654 dots.",
+   "canary": {
+    "n_pass": 42,
+    "n_channels": 42,
+    "max_auc": 0.624612,
+    "worst_channel": "coherence_s2"
+   },
+   "holdout_label": "HOLDOUT-DTI, GEMSDOE32-HIDE-RECOVER-v3.0, 22,232 withheld positives, 95% spatial-block CI",
+   "holdout": {
+    "EXP3 Base+Euler OOF (E1)": {
+     "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+     "n_withheld_positives": 22232,
+     "dti": 0.098705,
+     "ci95": [
+      0.084538,
+      0.113874
+     ]
+    },
+    "EXP2 Base-35 control": {
+     "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+     "n_withheld_positives": 22232,
+     "dti": 0.098657,
+     "ci95": [
+      0.084694,
+      0.113447
+     ]
+    },
+    "EXP1 Euler-only": {
+     "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+     "n_withheld_positives": 22232,
+     "dti": 0.04357,
+     "ci95": [
+      0.037967,
+      0.049253
+     ]
+    },
+    "Champion actual raster": {
+     "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+     "n_withheld_positives": 22232,
+     "dti": 0.004515,
+     "ci95": [
+      0.003816,
+      0.005262
+     ]
+    }
+   },
+   "off_catalogue_label": "HOLDOUT-DTI diagnostic, GEMSDOE32-SGMC-CAL-v3.0, 62,703 USGS SGMC off-catalogue positives",
+   "off_catalogue_instrument": {
+    "EXP3 live retrain": {
+     "dti": 0.066255,
+     "ci95": [
+      0.055751,
+      0.075125
+     ]
+    },
+    "0.2778 Champion": {
+     "dti": 0.064121,
+     "ci95": [
+      0.05673,
+      0.071649
+     ]
+    }
+   },
+   "uniqueness": {
+    "manifest_rasters": 443,
+    "unique_hash_rasters_checked": 238,
+    "genuine_rasters_checked": 441,
+    "focus_site_genuine_checked": 441,
+    "preplacement_surface_passed": true,
+    "max_abs_spearman": 0.153198,
+    "genuine_final_dots_passed": true,
+    "max_genuine_3px_overlap": 0.611967,
+    "max_focus_site_3px_overlap": 0.611967,
+    "literal_lattice_overlap": 0.999655,
+    "literal_all_registry_passed": false,
+    "registry_refreshed_utc": "2026-10-27T23:40:00Z"
+   },
+   "validator": {
+    "strict_cli_passed": true,
+    "geotiff_13_checks_passed": true,
+    "crs": "EPSG:32611",
+    "shape": [
+     3730,
+     3292
+    ],
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nan_anywhere": 0,
+    "values_in_0_1": true
+   },
+   "reasons": [
+    "Euler increment is null: EXP3-EXP2 paired +0.000048 [-0.003698,+0.003732] (HOLDOUT-DTI, HIDE-RECOVER-v3.0, n=22,232); EXP3 0.098705 does not beat repo holdout best H47-1 0.121959. Do not spend a weekly slot.",
+    "Passes 42/42 leakage canaries (max AUC 0.624612 <=0.90), 13/13 GeoTIFF checks (0 NaN in 12,279,160 cells, [0,1]), genuine uniqueness vs 443 registry rasters (surface |rho| 0.153, genuine 3px 61.20%).",
+    "Held fail-closed: literal lattice overlap 99.97% (IR-51-LATTICE-01, impassable for any dense raster) + 2/443 registry entries malformed (audit incomplete) + selector approval not sought. 0 slots used."
    ]
   }
  },

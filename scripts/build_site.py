@@ -1251,6 +1251,13 @@ RESEARCH_NOTES = [
     ("h49-cgtd-preregistration-20261027.md",
      "H49-1..H49-5 preregistration (2026-10-27): Miller-Singh gravity tilt=0 wall, Salem dual-field tilt-depth, "
      "UNR/DOE GDR #1391 up-gradient chemical geothermometry disequilibrium, Soft-PU Dual-Cover, and Stationary Tail Noisy-OR"),
+    ("euler-lane-results-and-nine-site-executive-summary-20261027.md",
+     "ARENA-EULER-E1 result (2026-10-27): windowed 3-D Euler (N=0.25) increment null "
+     "(+0.000048, CI includes 0) vs base-35 control, below H47-1 holdout best; genuine-unique "
+     "(61.20%) but literal lattice stop; refreshed 443-raster nine-site audit; DO NOT SUBMIT"),
+    ("euler-lane-preregistration-20261027.md",
+     "ARENA-EULER pre-registration: 5 ranked hypotheses (Euler lane; Eikonal/Phillips backlog; "
+     "MT & seismicity/InSAR data-blocked with named free USGS/GDR sources), frozen gates"),
     ("h48-fbgr-results-and-nine-site-executive-summary-20261027.md",
      "H48-1-FBGR stationary Dual-Cover Axial d=2.8 result, 13-raster live-score spatial/clumping forensics, "
      "and refreshed 9-site + extra + sibling-org (519-raster) audit: HR=0.115341 (+0.0162 vs Champ, p=1.000), "
@@ -1531,6 +1538,7 @@ def main() -> int:
     # A persistent download button in the header of *every* page: the brief asks for an obvious
     # one-click download at the very top of the site, and the safest way to guarantee that is to put
     # it in the page chrome rather than in one page's body.
+    review_link = '<p><a href="nine-site-review.html">2026-10-27 nine-site executive audit: downloads, uniqueness and score limitations</a></p>'
     dl_btn = ""
     release = read("evidence/current_release_review.json", {}) or {}
     if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:
@@ -1555,8 +1563,8 @@ def main() -> int:
         # H47 was superseded by later generated candidates. Do not render its archived banner
         # ahead of the current_status.json decision; stale download links can look actionable.
         "index.html": page(f"{TITLE} - a fault-discovery system for the DOE GEMS Prize",
-                           previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
-        "executive-summary.html": page("Make a submission (executive summary)", previous_artifacts_block("") + exec_summary(fl, sub, name),
+                           review_link + previous_artifacts_block("") + current_status_block("") + overview(fl, sub, name), "index.html", dl_btn),
+        "executive-summary.html": page("Make a submission (executive summary)", review_link + previous_artifacts_block("") + exec_summary(fl, sub, name),
                                        "executive-summary.html", dl_btn),
         "research.html": page("Research: the metric, the decision rule, and the evidence",
                               research(fl, sub, name), "research.html", dl_btn),

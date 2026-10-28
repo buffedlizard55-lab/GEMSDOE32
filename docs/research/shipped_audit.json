@@ -361,6 +361,90 @@
    "dots_on_catalogue": 0
   },
   {
+   "file": "gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-nan.tif",
+   "bytes": 297046,
+   "sha256": "8d5681377dcbfbb38174a0df0a7fbc14adaa6e836091248a52ce15276a505209",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 28000,
+   "total_mass": 28000.0,
+   "off_h19_5_px": 27255,
+   "off_h19_5_frac": 0.9733928571428572,
+   "catalogue_proxy_T": 2905.476683358552,
+   "catalogue_proxy_F": 26793.02920742225,
+   "credit_per_unit_mass": 0.10376702440566256,
+   "catalogue_proxy_DTI": 0.05308736181394423,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif",
+   "bytes": 164541,
+   "sha256": "51ba3b7cecef0b3713cbd6a5dbca94bd1db4b58156825b9ac098a2d299cc4ed5",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 28000,
+   "total_mass": 28000.0,
+   "off_h19_5_px": 27255,
+   "off_h19_5_frac": 0.9733928571428572,
+   "catalogue_proxy_T": 2905.476683358552,
+   "catalogue_proxy_F": 26793.02920742225,
+   "credit_per_unit_mass": 0.10376702440566256,
+   "catalogue_proxy_DTI": 0.05308736181394423,
+   "dots_on_catalogue": 0
+  },
+  {
    "file": "gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
    "bytes": 277724,
    "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
@@ -904,6 +988,90 @@
    "catalogue_proxy_F": 40135.21887627244,
    "credit_per_unit_mass": 0.21544110086870605,
    "catalogue_proxy_DTI": 0.1617719780036745,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-nan.tif",
+   "bytes": 344765,
+   "sha256": "1a888e2385b57e969f7e6a9bf054dcfbf52dd11491dd81c8f3b8b2d02fe368b3",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": NaN
+   },
+   "portal_legal": true,
+   "finite_cells": 5167373,
+   "nan_cells": 7111787,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 34081,
+   "off_h19_5_frac": 0.9051096829022149,
+   "catalogue_proxy_T": 1.4297739604484132,
+   "catalogue_proxy_F": 37652.62741699797,
+   "credit_per_unit_mass": 3.797136985309431e-05,
+   "catalogue_proxy_DTI": 2.5386065461633104e-05,
+   "dots_on_catalogue": 0
+  },
+  {
+   "file": "gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
+   "bytes": 208815,
+   "sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
+   "profile": {
+    "crs": "EPSG:32611",
+    "transform": [
+     100.0,
+     0.0,
+     243350.0,
+     0.0,
+     -100.0,
+     4508550.0
+    ],
+    "shape": [
+     3730,
+     3292
+    ],
+    "res": [
+     100.0,
+     100.0
+    ],
+    "dtype": "float32",
+    "count": 1,
+    "nodata": null
+   },
+   "portal_legal": true,
+   "finite_cells": 12279160,
+   "nan_cells": 0,
+   "min": 0.0,
+   "max": 1.0,
+   "range_violations": 0,
+   "positive_px": 37654,
+   "total_mass": 37654.0,
+   "off_h19_5_px": 34081,
+   "off_h19_5_frac": 0.9051096829022149,
+   "catalogue_proxy_T": 1.4297739604484132,
+   "catalogue_proxy_F": 37652.62741699797,
+   "credit_per_unit_mass": 3.797136985309431e-05,
+   "catalogue_proxy_DTI": 2.5386065461633104e-05,
    "dots_on_catalogue": 0
   },
   {
