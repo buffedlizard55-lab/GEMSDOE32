@@ -1162,6 +1162,13 @@ never be confused. If a file is ever rebuilt, the build script writes a new name
 
 
 RESEARCH_NOTES = [
+    ("euler-lane-results-and-nine-site-executive-summary-20261027.md",
+     "ARENA-EULER-E1 result (2026-10-27): windowed 3-D Euler (N=0.25) increment null "
+     "(+0.000048, CI includes 0) vs base-35 control, below H47-1 holdout best; genuine-unique "
+     "(61.20%) but literal lattice stop; refreshed 443-raster nine-site audit; DO NOT SUBMIT"),
+    ("euler-lane-preregistration-20261027.md",
+     "ARENA-EULER pre-registration: 5 ranked hypotheses (Euler lane; Eikonal/Phillips backlog; "
+     "MT & seismicity/InSAR data-blocked with named free USGS/GDR sources), frozen gates"),
     ("h48-fbgr-results-and-nine-site-executive-summary-20261027.md",
      "H48-1-FBGR stationary Dual-Cover Axial d=2.8 result, 13-raster live-score spatial/clumping forensics, "
      "and refreshed 9-site + extra + sibling-org (519-raster) audit: HR=0.115341 (+0.0162 vs Champ, p=1.000), "

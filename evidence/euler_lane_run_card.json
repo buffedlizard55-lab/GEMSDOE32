@@ -1,0 +1,157 @@
+{
+  "schema": "gems-parallel-runcard-v3 (Euler lane)",
+  "candidate_id": "ARENA-EULER-E1",
+  "hypothesis": "Windowed 3-D Euler deconvolution (N=0.25) fault-contact solutions, depth-concordant between RTP magnetics and isostatic gravity and with band-15 basement depth, add buried-contact information that the 35-channel template stack lacks, lifting fold-local hide-and-recover DTI for faults missing from the USGS/INGENIOUS catalogue.",
+  "mechanism": "Exact spectral Tz + 9x9 least-squares Euler (x0,y0,z0,B) per field (src/gems32/euler.py, 7 label-free channels) -> fold-local HistGradientBoosting OOF on 35+7 channels (visible faults only per cell) -> shared gems32.emitter.emit(min_sep_px=2.8), 37,654 dots, B=2 (200 m) from catalogue. EXP1 Euler-only unsupervised; EXP2 base-35 control; EXP3 base+Euler treatment/live retrain.",
+  "named_non_fault_mimic": "Unfaulted pluton margins and dike edges (also Euler contacts) and tabular basalt flow margins; de-confounded by magnetic-gravity depth concordance plus GBM context, tested by EXP1-vs-EXP3 contrast.",
+  "experiments_used": 3,
+  "weekly_slots_used": 0,
+  "holdout": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "n_withheld_positives": 22232,
+    "EXP3_BASE35_EULER_OOF": {
+      "dti": 0.098705,
+      "ci95": [
+        0.084538,
+        0.113874
+      ]
+    },
+    "EXP2_BASE35_OOF_control": {
+      "dti": 0.098657,
+      "ci95": [
+        0.084694,
+        0.113447
+      ]
+    },
+    "EXP1_EULER_ONLY": {
+      "dti": 0.04357,
+      "ci95": [
+        0.037967,
+        0.049253
+      ]
+    },
+    "champion_actual_raster_h33_2_b2": {
+      "dti": 0.004515,
+      "ci95": [
+        0.003816,
+        0.005262
+      ],
+      "note": "Actual 0.2778 raster scored flat on this evaluator; the 0.099202 figure in older cards is a fold-collared re-emission proxy, not this raster (IR-EULER-02)."
+    },
+    "paired_EXP3_minus_EXP2": {
+      "point_delta": 4.8e-05,
+      "ci95": [
+        -0.003698,
+        0.003732
+      ],
+      "prob_positive": 0.522
+    },
+    "paired_EXP3_minus_champion_actual": {
+      "point_delta": 0.094189,
+      "ci95": [
+        0.080454,
+        0.108849
+      ],
+      "prob_positive": 1.0,
+      "note": "Not a live-score claim: hide-and-recover rewards catalogue-like placement; the champion targets off-catalogue truth by design."
+    },
+    "repo_holdout_best_for_context": "H47-1 EXP2 HOLDOUT-DTI 0.121959 (same evaluator family, prior session) \u2014 EXP3 does not beat the current holdout best."
+  },
+  "off_catalogue": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "n_positives": 62703,
+    "EXP3_live": {
+      "dti_calibrated": 0.066255,
+      "ci95": [
+        0.055751,
+        0.075125
+      ]
+    },
+    "EXP3_oof_union": {
+      "dti_calibrated": 0.070936,
+      "ci95": [
+        0.059763,
+        0.082025
+      ]
+    },
+    "EXP2_oof_union": {
+      "dti_calibrated": 0.07015,
+      "ci95": [
+        0.059197,
+        0.081233
+      ]
+    },
+    "champion": {
+      "dti_calibrated": 0.064121,
+      "ci95": [
+        0.05673,
+        0.071649
+      ]
+    }
+  },
+  "leakage_canary": {
+    "passed": true,
+    "n_channels": 42,
+    "max_auc": 0.624612,
+    "worst_channel": "coherence_s2",
+    "euler_worst": "euler_joint 0.550086 (per-quadrant max)",
+    "threshold": 0.9
+  },
+  "correlation_overlap_vs_registry": {
+    "registry_rasters": 443,
+    "registry_source": "registry/focus_registry_manifest.json refreshed 2026-10-27 (443 rasters, 0 fetch failures; 2 malformed/grid-mismatch entries make the audit incomplete, fail-closed)",
+    "surface_max_abs_spearman": 0.153198,
+    "surface_worst": "GEMSDOE24 inputs/gems19-h19-4...-allfinite.tif",
+    "surface_passed_genuine": true,
+    "final_max_genuine_3px_overlap": 0.611967,
+    "final_genuine_worst": "GEMSDOE32 hcvf2-cvgbm35-b2-greedy37654 (nan/zeros twins)",
+    "final_max_abs_spearman": 0.087417,
+    "literal_lattice_overlap": 0.999655,
+    "literal_all_registry_passed": false,
+    "note": "Only literal failure is the 206,895-dot r13-lattice-s5 calibration grid (99.87% footprint coverage, IR-51-LATTICE-01): no 37,654-dot raster can pass it. Genuine (discrete submission) uniqueness passes both gates."
+  },
+  "raster": {
+    "file": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
+    "sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
+    "dots": 37654,
+    "zip_sha256": "89a9564157df239d7c8639e98e450ccc8ee9ae9486976ff413f0a09c0ad276e1"
+  },
+  "validator": {
+    "strict_cli_passed": true,
+    "geotiff_13_checks_passed": true,
+    "checks": "submission.audit_geotiff zeros+nan both all_checks_passed (see docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-audit.json)",
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "dtype": "float32",
+    "nodata": null,
+    "nan_anywhere": 0,
+    "values_in_0_1": true,
+    "finite_cells": 12279160,
+    "on_catalogue_dots": 0
+  },
+  "submission_name": "GEMSDOE32-EULER-E1-71F0A187",
+  "submission_note": "Euler E1 37654d B2 HR0.0987 SGMC0.0663 DO NOT SUBMIT",
+  "verdict": "negative",
+  "verdict_reason": "Euler increment over the base-35 control is null (paired +0.00005, 95% CI [-0.00370,+0.00373], p=0.522) and EXP3 (0.0987) does not beat the repository holdout best (H47-1 0.121959). EXP1 Euler-only SGMC-cal (0.0408) confirms unfiltered Euler alone repeats the GEMSDOE40 failure. Literal lattice gate also fails (known impassable). 0 weekly slots spent; separate selector approval not sought.",
+  "limitations": [
+    "All competition rasters are SHA-pinned owner mirrors, not organizer-authenticated (IR-32-DATA-01).",
+    "HOLDOUT-DTI is a proxy: hidden live truth is off-catalogue by design, so no HOLDOUT number here is a leaderboard estimate (see results doc).",
+    "Public leaderboard top in this brief (0.4413/0.4437) is a timestamped observation of other teams, not this team's score."
+  ],
+  "raster_sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
+  "raster_path": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
+  "submission_note_text": "Euler E1 37654d B2 HR0.0987 SGMC0.0663 DO NOT SUBMIT"
+}
