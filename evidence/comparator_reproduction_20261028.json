@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "generated_by": "scripts/reproduce_comparators_20261028.py",
+  "checks": {
+    "registry_0p2778_proxy_is_d28_parent_collared": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+      "source_file": "scored/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "b_visible_px": 2.0,
+      "n_withheld_positives": 22232,
+      "pooled_dti": 0.09920232315251679,
+      "ci95": [
+        0.08595140754809347,
+        0.11266835751415871
+      ],
+      "registry_value": 0.099202,
+      "matches_registry": true
+    },
+    "h33_b2_file_sgmc_cal": {
+      "label": "HOLDOUT-DTI",
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "n_withheld_positives": 62703,
+      "prevalence_calibrated_dti": 0.0641209376417646,
+      "ci95": [
+        0.056730181217206584,
+        0.0716486609703412
+      ],
+      "registry_value": 0.064121,
+      "matches_registry": true
+    },
+    "h51_exp1_file_static": {
+      "file": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",
+      "sgmc_cal_dti": 0.06303234624331554,
+      "sgmc_cal_ci95": [
+        0.055350756509468454,
+        0.0700204963152565
+      ],
+      "registry_sgmc_value": 0.063032,
+      "static_hide_recover_dti": 0.0022888406067597617,
+      "static_hide_recover_ci95": [
+        0.0018746322113521714,
+        0.0026969408949369666
+      ],
+      "note": "Registry HR 0.115134 for this experiment comes from the per-fold re-emission in scripts/run_h51_ewsp.py; the shipped file alone does not reproduce it under the static path."
+    }
+  }
+}

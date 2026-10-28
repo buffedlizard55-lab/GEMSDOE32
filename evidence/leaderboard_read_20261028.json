@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "read_method": "fetch_page tool, chunks 0 and 1 of 3, read 2026-10-28 (UTC, ~16:40)",
+  "metric_column": "Best public DW-Tversky (in descending order)",
+  "rows_verified": [
+    {"rank": 1, "participant": "xiaofanhu", "score": 0.4544, "submissions": 33},
+    {"rank": 2, "participant": "cfld__", "score": 0.3916, "submissions": 20},
+    {"rank": 3, "participant": "Batik Shirt Brothers", "score": 0.3911, "submissions": 57},
+    {"rank": 4, "participant": "BrandenKMurray", "score": 0.3724, "submissions": 34},
+    {"rank": 5, "participant": "No Fault of Our Own", "score": 0.3570, "submissions": 47},
+    {"rank": 26, "participant": "kpomazi", "score": 0.3195, "submissions": 34}
+  ],
+  "not_seen_on_read": "No row labelled GEMSDOE or any GEMSDOE site appeared in the chunks read (chunk 2 not read). Our team's own public score is therefore NOT verified by this read.",
+  "irregularity": "The owner brief describes 0.3195 as the highest score; the official page shows it is rank #26. Top public score is 0.4544 (rank #1)."
+}
