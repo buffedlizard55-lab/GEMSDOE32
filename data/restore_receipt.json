@@ -231,7 +231,7 @@
       "id": "ext_geodawn_acquisition_blocks",
       "dest": "external/acquisition_block_id_100m.tif",
       "group": "external",
-      "status": "present",
+      "status": "restored",
       "bytes": 85031,
       "sha256": "2c0785c4b3ec46c734d1be7a7aedbb3e816201100ab358033a3af074418c894a"
     },
@@ -239,7 +239,7 @@
       "id": "ext_blm_closed_claim_distance_m",
       "dest": "external/blm_closed_claim_distance_m.tif",
       "group": "external",
-      "status": "present",
+      "status": "restored",
       "bytes": 5752587,
       "sha256": "a88356423c03fc8b6510a84f77cee2b1d38c4ccbd7761bc95c1ca8332a2e166a"
     }

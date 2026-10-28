@@ -1299,6 +1299,84 @@
    "cost": "High (requires external GPU compute).",
    "data_status": "All 71 channels ready on disk; GPU compute deferred.",
    "status": "Registered next-milestone GPU architecture."
+  },
+  {
+   "id": "H49-1",
+   "rank": 1,
+   "title": "CG-TILT-NOISYOR: Miller-Singh Gravity Tilt=0 Wall, Up-Gradient Geothermometry Disequilibrium, Soft-PU Dual-Cover & Stationary Tail Noisy-OR",
+   "layers": [
+    "Bands 12, 13, 15, 18, 19 (iso_grav_anom + Fourier UC z=500m + depth_to_base_surf)",
+    "Bands 02, 06, 09, 14 (rtp + tc magnetic tilt + Fourier UC)",
+    "gdr_wellspring_in_footprint.csv (quartz/chalcedony/Na-K-Ca geothermometry - temp_c, dist_known_fault_px dropped)",
+    "Band 17 (mt2023) + GeoDAWN 4-block eU/eTh/K + Bands 04,07,08,10,16 + 1 m LiDAR / Copernicus 30 m"
+   ],
+   "signature": "Gravity tilt-angle zero-contour wall cos^2(theta_g)*THDR_tilt phase-locked with magnetic tilt + Salem tilt-depth cover match + 0-900 m up-gradient chemical geothermometry disequilibrium + MT clay-cap lateral flank + Soft-PU Dual-Cover (93-ch/80-ch) + stationary tail Noisy-OR (r_vent > q98.0) + d_min = 2.8 CELF.",
+   "why_off_catalogue": "Tilt-angle zero contours locate buried vertical basement fault contacts independent of alluvial cover depth, while chemical geothermometry disequilibrium (Delta T > 50 C at 1,077 stations) advected up-gradient pinpoints blind feeding conduits rather than valley-floor outflow plumes.",
+   "differs_from_repo": "First gravity tilt-angle zero-contour + Salem tilt-depth + chemical geothermometry disequilibrium advection + Soft-PU + stationary scale-anchored tail Noisy-OR conduit model in repo.",
+   "expected_dti": "HOLDOUT-DTI = 0.105043 (+0.00592 vs 0.2778 Champ) & SGMC-CAL-v3.0 = 0.066434 (+0.00231 vs Champ, +17.0% vs H48-1 \u2014 stationary repo record)",
+   "cost": "880s CPU (<2.75 GiB RSS)",
+   "data_status": "all 30 inputs restored & SHA-256 verified on disk",
+   "status": "MEASURED 2026-10-27: beats 0.2778 Champ on BOTH HIDE-RECOVER & SGMC-CAL; 100% cross-site unique (67.85% <= 70%), 73.33% intra-repo vs H48-1 -> held DO NOT SUBMIT"
+  },
+  {
+   "id": "H49-2",
+   "rank": 2,
+   "title": "KOSTROV-BYERLEE-MT: 3-D Transtensional Slip/Dilation Tendency Resolved on Potential-Field Fault Strikes + MT Clay-Cap Lateral Flank",
+   "layers": [
+    "Bands 04, 07, 08, 10, 16, 17 + gravity/magnetic tilt strike"
+   ],
+   "signature": "Kostrov tensor projection of GPS shear/dilatation onto local potential-field strike sin(2*beta) + normal dilation cos^2(beta) coupled with MT lateral clay-cap edge.",
+   "why_off_catalogue": "Critically stressed N015E-N035E faults slip aseismically or in micro-swarms under alluvial fans without preserving Quaternary scarps.",
+   "differs_from_repo": "Prior channels multiplied scalar Band 08 by isotropic sin(2*Delta_theta) without full shear+dilatation tensor projection or MT clay-cap lateral flank gating.",
+   "expected_dti": "integrated into H49-1 channels [88, 89] (standalone AUCs 0.5348, 0.5306)",
+   "cost": "included in 56.7s CGTD stack build",
+   "data_status": "on disk",
+   "status": "sub-channels verified in H49-1; standalone lane queued for H50"
+  },
+  {
+   "id": "H49-3",
+   "rank": 3,
+   "title": "STEP-BRIDGE-DIRICHLET: Harmonic Potential-Field & Geothermometry Geodesic Bridge Across Unmapped Accommodation Step-Overs",
+   "layers": [
+    "Bands 02, 13, 15, 17 + fold-local visible fault tips"
+   ],
+   "signature": "Anisotropic screened-Poisson harmonic bridge across 1-6 km en-echelon fault gaps weighted by basement tilt-zero walls and geothermometry disequilibrium.",
+   "why_off_catalogue": "Accommodation-zone step-overs break into distributed sub-meter fractures missed by aerial scarp mapping (~45% of Great Basin geothermal systems).",
+   "differs_from_repo": "Prior tip-bridge channels used Euclidean tip-pair Gaussians rather than potential-field-steered PDE geodesics.",
+   "expected_dti": "moderate-high in relay ramps",
+   "cost": "low-medium (multigrid solver)",
+   "data_status": "on disk",
+   "status": "registered for H50; 0 experiments used"
+  },
+  {
+   "id": "H49-4",
+   "rank": 4,
+   "title": "SEAMFREE-RADON-ALTERATION: Contractor-Block Interior Cross-Strike 214Bi Radon & K/eTh Potassic Halo Co-Registration",
+   "layers": [
+    "GeoDAWN potassium/thorium/uranium/total_count + acquisition_block_id_100m.tif + tiger_road_distance_m.tif"
+   ],
+   "signature": "300 m block-seam-eroded cross-strike gradient of block-standardized eU/eTh and K/eTh.",
+   "why_off_catalogue": "Active fault gas migration (222Rn -> 214Bi) and adularia-sericite alteration expose permeable bedrock faults lacking scarps.",
+   "differs_from_repo": "Explicitly erodes 300 m around all 4 GeoDAWN contractor flight-block boundaries and takes cross-strike gradients.",
+   "expected_dti": "integrated into H49-1 channel [90] (standalone AUC = 0.5472)",
+   "cost": "included in CGTD stack",
+   "data_status": "on disk",
+   "status": "sub-channel verified in H49-1"
+  },
+  {
+   "id": "H49-5",
+   "rank": 5,
+   "title": "INSAR-SENTINEL-COHERENCE: External Copernicus Sentinel-1 InSAR Phase-Gradient & ASTER TIR Silica Index",
+   "layers": [
+    "External Alaska Satellite Facility (ASF) ARIA/OPERA Sentinel-1 unwrapped interferograms + NASA LP DAAC ASTER L1T TIR"
+   ],
+   "signature": "Interseismic creep / coseismic phase discontinuities (e.g., 2020 M6.5 Monte Cristo Range) + ASTER 8-12 um quartz/opal-A emissivity index.",
+   "why_off_catalogue": "Directly images sub-centimeter surface deformation and siliceous sinter aprons invisible in static DEMs.",
+   "differs_from_repo": "External satellite physics absent from the 19-band competition cube.",
+   "expected_dti": "high ceiling when external egress is enabled",
+   "cost": "blocked in current sandbox",
+   "data_status": "free public NASA Earthdata / ASF / USGS APIs; blocked by sandbox egress allowlist",
+   "status": "documented external-data roadmap"
   }
  ],
  "updated_utc": "2026-10-26T18:03:49Z"

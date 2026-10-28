@@ -1,11 +1,11 @@
 {
-  "name": "gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros",
-  "note": "Euler E1 37654d B2 HR0.0987 SGMC0.0663 DO NOT SUBMIT",
+  "name": "gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros",
+  "note": "H49-1 CGTD tilt0+geotherm NoisyOR d2.8 37654d | HR=0.1050 SGMC=0.0664 | DO NOT SUBMIT",
   "status_line": "DOWNLOAD FOR RESEARCH / AUDIT: YES; SUBMIT TO LIVE PORTAL: NO \u2014 negative gate result",
   "file": {
-    "path": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
-    "sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
-    "bytes": 208815,
+    "path": "docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif",
+    "sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+    "bytes": 216801,
     "positive_px": 37654
   },
   "file_zeros": {
@@ -14,13 +14,13 @@
     "bytes": 146967
   },
   "zip": {
-    "path": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.zip",
-    "sha256": "89a9564157df239d7c8639e98e450ccc8ee9ae9486976ff413f0a09c0ad276e1",
-    "bytes": 174983
+    "path": "docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.zip",
+    "sha256": "b170979f84fcd274b8833be162a97aea160cbead4036dae9ad4fa941c30be8d3",
+    "bytes": 184241
   },
-  "candidate_id": "GEMSDOE32-EULER-E1-71F0A187",
+  "candidate_id": "GEMSDOE32-H49-CGTD-F3E24FB5",
   "tier": 1,
-  "hypothesis": "ARENA-EULER-E1: windowed 3-D Euler deconvolution (N=0.25) depth-concordant contacts (7 channels) added to 35-ch template stack, fold-local HGBT OOF, CELF min_sep 2.8, B=2, 37,654 dots.",
+  "hypothesis": "H49-1-CGTD: Miller-Singh Gravity Tilt=0 Wall, Salem Dual-Field Tilt Phase-Locking, Up-Gradient UNR/DOE GDR Geothermometry Disequilibrium (1,247 stations), Soft-PU Dual-Cover (93-ch M_Full + 80-ch LiDAR-free M_Sub), and Stationary Scale-Anchored Tail Noisy-OR Axial d=2.8 CELF (37,654 dots, B=2, zero eta switch).",
   "verdict": "negative",
   "ok_to_submit": false,
   "on_catalogue_pixels": 0,
@@ -205,8 +205,8 @@
   "arena8a_candidate": "registry/arena8a_submission.json",
   "arena9_candidate": "evidence/arena9_run_card.json",
   "sync": {
-    "synced_utc": "2026-10-28T00:10:00Z",
+    "synced_utc": "2026-10-27T23:55:00Z",
     "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
-    "previous_pinned_sha256": "4177f236b7c6a26fdf39d85f0896d1a83da745c9a36b04be7fe201a0076bf29f"
+    "previous_pinned_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd"
   }
 }

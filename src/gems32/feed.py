@@ -85,7 +85,9 @@ def build(root: Path = ROOT) -> dict:
                                      for f in hold["folds"]]}
     for name in ("h60_2_catalogue_difference.json", "truth_model_mc.json",
                  "emission_models_mc.json", "shipped_vs_incumbent_mc.json",
-                 "h44_spcp_run_card.json", "nine_site_live_audit_20261026.json"):
+                 "h44_spcp_run_card.json", "nine_site_live_audit_20261026.json",
+                 "h48_fbgr_run_card.json", "h49_cgtd_run_card.json",
+                 "nine_site_refreshed_audit_20261027.json", "livescore_forensics_20261027.json"):
         ev = _read_json(root / "evidence" / name)
         if ev:
             feed.setdefault("evidence", {})[name] = ev

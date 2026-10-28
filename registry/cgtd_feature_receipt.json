@@ -1,0 +1,29 @@
+{
+  "channels": [
+    "grav_tilt_zero_wall",
+    "verduzco_thdr_grav_tilt",
+    "pf_grav_mag_tilt_phaselock",
+    "salem_tilt_cover_match",
+    "geotherm_diseq_upgrad_conduit",
+    "mt_claycap_flank_conduit",
+    "kostrov_byerlee_dilatant_crest",
+    "geodawn_seamfree_redox_potassic",
+    "multiphysics_k_of_5_concord",
+    "cgtd_conduit_ridge_1px"
+  ],
+  "shape": [
+    3730,
+    3292,
+    10
+  ],
+  "dtype": "float32",
+  "label_free": true,
+  "sgmc_used_in_features_or_training": false,
+  "dist_known_fault_px_dropped": true,
+  "msub_93_pure_non_lidar_col_count": 80,
+  "geotherm_disequilibrium_stats": {
+    "in_footprint_wellspring_rows": 27092,
+    "active_thermal_or_diseq_stations": 3840,
+    "disequilibrium_gt_50c_stations": 1077
+  }
+}

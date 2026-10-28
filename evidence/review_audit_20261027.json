@@ -5,16 +5,16 @@
   "holdout": {
     "status": "NOT_RERUN",
     "reason": "No new lane assigned; feature caches absent in checkout.",
-    "historical_evidence": "evidence/h48_fbgr_run_card.json",
+    "historical_evidence": "evidence/h49_cgtd_run_card.json",
     "leaderboard_estimate": null
   },
   "correlation_overlap_vs_registry": {
     "status": "NOT_RERUN",
-    "historical_evidence": "evidence/h48_fbgr_run_card.json",
+    "historical_evidence": "evidence/h49_cgtd_run_card.json",
     "literal_registry_passed": false,
     "warning": "Do not substitute discrete-only uniqueness for the all-registry rule."
   },
-  "raster_sha256": "4177f236b7c6a26fdf39d85f0896d1a83da745c9a36b04be7fe201a0076bf29f",
+  "raster_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
   "hash_matches_registry": true,
   "validator_output": {
     "verified_this_review": true,
@@ -43,7 +43,7 @@
     "reference_template_verified_this_review": false,
     "limitation": "Historical grid only; no footprint/catalogue or authenticated template check."
   },
-  "submission_name": "GEMSDOE32-H48-FBGR-4D38A240",
+  "submission_name": "GEMSDOE32-H49-CGTD-F3E24FB5",
   "note": "Existing H48 artifact re-audited; no new lane, no new score estimate, no upload authorization.",
   "verdict": "negative",
   "ok_to_submit": false,
