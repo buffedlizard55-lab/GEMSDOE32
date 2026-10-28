@@ -1607,6 +1607,7 @@ def main() -> int:
     from build_review_audit import build as build_focus_review
     build_focus_review()
     review_link = '<p><a href="nine-site-review.html">2026-10-28 nine-site executive audit: measured uniqueness, budget feasibility and downloads</a></p>'
+    review_link += '<p><a href="nine-site-executive-summary.html">2026-10-28 nine-site executive summary: which file, estimated score by evidence class, uniqueness</a></p>'
     dl_btn = ""
     release = read("evidence/current_release_review.json", {}) or {}
     if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:

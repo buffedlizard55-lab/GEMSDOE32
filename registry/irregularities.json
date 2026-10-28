@@ -778,7 +778,61 @@
    "severity": "low",
    "statement": "Live HTTP check of https://epsg.io/32611 returned HTTP 500 upstream error on 2026-10-28; karage2-tphg-exp1 is also absent from karagemop466-tech/GEMSDOEkarage2 default main branch.",
    "mitigation": "Verified EPSG:32611 (WGS 84 / UTM zone 11N) directly from official DrivenData page/967/, pyproj.CRS.from_epsg(32611), and sample_submission.tif."
+  },
+  {
+   "id": "IR-20261028-01",
+   "severity": "high",
+   "statement": "Owner brief describes 0.3195 as the highest score. The official DrivenData leaderboard, read 2026-10-28 with the fetch tool, shows #1 xiaofanhu 0.4544 and kpomazi at #26 with 0.3195.",
+   "mitigation": "Recorded in evidence/leaderboard_read_20261028.json. The public page does not show our team's score; it is unverified."
+  },
+  {
+   "id": "IR-20261028-02",
+   "severity": "high",
+   "statement": "The registry's '0.2778 champion proxy' HOLDOUT-DTI 0.099202 is the GEMSDOE25 d2.8 parent under a 2-px visible collar, not the 0.2778 file. Scored on the static path, the 0.2778 file gives 0.004515 (Euler run card receipt).",
+   "mitigation": "Reproduced in evidence/comparator_reproduction_20261028.json (matches registry). Relabel the comparator as 'd2.8 parent comparator' in the registry. Do not present 0.099202 as the champion's holdout."
+  },
+  {
+   "id": "IR-20261028-03",
+   "severity": "medium",
+   "statement": "Registry lattice-overlap counts do not reproduce under any tested distance convention. Registry: 6,514 allowed px, 99.45% H51 overlap. Measured: 6,649 px and 99.70% on grid EDT <=3 px; 7,992 px on grid EDT <3 px or KD-tree <=3 px. None reproduces 6,514. The pass/fail conclusion is unchanged.",
+   "mitigation": "Do not cite 6,514 or 99.45% as reproduced. Report measured values with the convention named (scripts/rank_shipped_by_validated_instrument.py and the lattice-convention test)."
+  },
+  {
+   "id": "IR-20261028-04",
+   "severity": "high",
+   "statement": "SGMC-cal selection bias and contamination. The bayesopt file's SGMC-cal 0.2567 (about four times any other on-disk file) sits beside a sidecar holdout note of 0.1383; its objective (src/gems32/bo_surrogate.py) includes SGMC-cal. hsupsgmc used SGMC north off-catalogue pixels as training positives (scripts/run_hsupsgmc.py).",
+   "mitigation": "Flagged SELECTION-BIASED and CONTAMINATED in evidence/shipped_ranked_validated_20261028.json and excluded from any selection. The 0.2567 anomaly is unresolved and must be investigated before it is ranked or reported."
+  },
+  {
+   "id": "IR-20261028-05",
+   "severity": "high",
+   "statement": "Static hide-and-recover does not track live rank: Spearman 0.046 vs owner-reported live scores (n=11). SGMC-cal Spearman 0.900 (n=11).",
+   "mitigation": "Use SGMC-cal only as an instrument with stated caveats; static HR must not select submissions (evidence/instrument_vs_live_20261028.json)."
+  },
+  {
+   "id": "IR-20261028-06",
+   "severity": "high",
+   "statement": "ARENA49-PCG run card contradicts itself. Top-level verdict is negative and ok_to_submit is false, but promotion_decision.verdict is 'promote' because its final gate excludes the lattice rule. Its holdout is a flat-mask instrument (HR 0.028259), not fold-local.",
+   "mitigation": "Literal rule governs: not promoted. The card must be corrected, and its promotion gate needs a fold-local number."
+  },
+  {
+   "id": "IR-20261028-07",
+   "severity": "medium",
+   "statement": "Identical dot masks under three labels: GEMSDOE25 zeros (sha 3e78737f), a restored file labelled gems24-h25-1-dotted-h19-5-d2-8 (sha prefix 91eae1ca, which equals the GEMSDOE30 name suffix), and the d2-8 repro file (sha prefix e4985b78). All have 44,090 dots and zero pixel difference (MEASURED-HERE).",
+   "mitigation": "Treat the GEMSDOE24/25/30 d2.8 claims as one artifact for uniqueness. Confirm the bytes GEMSDOE24 and GEMSDOE30 actually submitted with their owners."
+  },
+  {
+   "id": "IR-20261028-08",
+   "severity": "low",
+   "statement": "gemsdoe9-PLACEHOLDER-2314b599.tif is on disk and scores SGMC-cal 0.0137, with owner-reported live 0.0107. Its name indicates a placeholder.",
+   "mitigation": "Excluded from candidates. Keep labelled as a placeholder in any table."
+  },
+  {
+   "id": "IR-20261028-09",
+   "severity": "low",
+   "statement": "Ledger H49 intra-repo overlap is 73.33% (run card, vs H48-1-FBGR), while the E3 measured non-lattice 3-px overlap vs H48 is 0.724. The two methods differ and the difference is not explained.",
+   "mitigation": "Report both with method names. Either value is above the 70% limit, so H49 is not promoted."
   }
  ],
- "updated_utc": "2026-10-27T23:55:00Z"
+ "updated_utc": "2026-10-28T17:10:00Z"
 }

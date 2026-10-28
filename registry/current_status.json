@@ -1827,5 +1827,21 @@
    "Passes all 93 feature leakage canaries (max AUC = 0.586868 <= 0.90), 13/13 automated GeoTIFF byte/range checks (0 NaNs anywhere in 12,279,160 cells, float32 in [0,1]), pre-placement surface Spearman across 609 unique rasters (max |rho| = 0.23766 <= 0.90), and cross-site/cross-org 3-px dot uniqueness across all 570 external discrete <=100k-dot rasters from 8 other focus sites + extra scored + 21 sibling-org repos (max external 3-px overlap = 67.85% <= 70.0%; external focus sites <= 58.71%).",
    "Held fail-closed as DO NOT SUBMIT (verdict=negative, 0 weekly slots spent) because: (1) Protocol Rule 1 intra-repo overlap reaches 73.33% (>70.0% limit) against GEMSDOE32's own unsubmitted H48-1-FBGR ancestor (logged as intra-repo duplicate & stopped after 3/3 experiments); (2) paired HIDE-RECOVER 95% CI [-0.001315, +0.013578] narrowly straddles zero at lambda_vent=0.90 (vs EXP1 0.113990); (3) literal unexempted release_gate.compare_registry hits the 206,895-dot r13-lattice-s5 calibration grid (99.45%, IR-51-LATTICE-01); and (4) weekly slot promotion requires separate human selector approval."
   ]
+ },
+ "nine_site_executive_summary_20261028": {
+  "page": "docs/nine-site-executive-summary.html",
+  "builder": "scripts/build_nine_site_executive_summary.py",
+  "decision": "DOWNLOAD FOR AUDIT: YES; SUBMIT: NO. any_file_ok_to_submit remains false.",
+  "submission_now": "none",
+  "comparator_relabel_20261028": {
+   "label_in_registry_history": "0.2778 Champion proxy",
+   "value": 0.099202,
+   "correct_identity": "GEMSDOE25 d2.8 parent (44,090 dots) scored with 2-px visible collar; reproduced by scripts/reproduce_comparators_20261028.py",
+   "not": "the 0.2778 file's own holdout (static HR 0.004515, Euler run card receipt)",
+   "historical_labels_left_unchanged": "true; owner decision whether to rewrite historical cards",
+   "irregularity": "IR-20261028-02"
+  },
+  "lattice_rule_decision_pending": "Owner must decide in writing whether the dense 13gems calibration lattice counts as a registry raster for the 70% rule (IR-51-LATTICE-01). Measured: 0 of 51 competitive on-disk rasters (lattice raster excluded) pass the literal rule against the lattice; the 0.2778 champion is 99.91% within 3 px per the E3 receipt.",
+  "added_utc": "2026-10-28T17:15:00Z"
  }
 }
