@@ -1,6 +1,23 @@
 {
  "hypotheses": [
   {
+   "id": "ARENA-EULER-E1",
+   "rank": 1,
+   "title": "Windowed 3-D Euler deconvolution (N=0.25) depth-concordant contacts as GBM channels",
+   "layers": [
+    "Band 2 rtp",
+    "Band 13 iso_grav_anom",
+    "Band 15 depth_to_base_surf"
+   ],
+   "signature": "9x9 least-squares Euler (x0,y0,z0,B) with spectral Tz; low-residual/in-depth/mag-grav-concordant solution density (7 channels)",
+   "why_off_catalogue": "Buried basement-alluvium contacts under Quaternary fill lack scarps for catalogue mappers but offset density/magnetisation at depth",
+   "differs_from_repo": "tmspi.py uses SPI proxy z~1/k; no prior code solved the 4-unknown Euler normal equations (GEMSDOE40 live Euler was unfiltered, owner-reported 0.0397)",
+   "expected_dti": "MEASURED NULL: EXP3 0.098705 vs EXP2 control 0.098657 (paired +0.000048 [-0.003698,+0.003732]) HOLDOUT-DTI HIDE-RECOVER-v3.0 n=22,232",
+   "cost": "low (~45 s Euler build + 23 min OOF/emission on 2 vCPU)",
+   "data_status": "VERIFIED IN-BAND (SHA-pinned training_features.tif)",
+   "status": "MEASURED NEGATIVE \u2014 verdict negative, DO NOT SUBMIT (evidence/euler_lane_run_card.json). Do not rerun as GBM feature without a new physical filter."
+  },
+  {
    "id": "H48-1",
    "rank": 1,
    "title": "Fourier-Continued Basement-Graben Relay, Flight-Block-Debiased 214Bi Radon / Silica-Potassic Zonation & Stationary Dual-Cover Axial CELF (FBGR)",
