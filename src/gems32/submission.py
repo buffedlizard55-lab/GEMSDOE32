@@ -14,6 +14,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import re
 from pathlib import Path
 
 import numpy as np
@@ -31,6 +32,25 @@ def sha256_file(path: Path) -> str:
         for chunk in iter(lambda: f.read(1 << 20), b""):
             h.update(chunk)
     return h.hexdigest()
+
+
+def require_binary_mask(values: np.ndarray, footprint: np.ndarray) -> np.ndarray:
+    """Validate the binary emission contract; never silently threshold probabilities.
+
+    Nonfinite values outside the footprint are ignored, but every inside value
+    must already be exactly zero or one. Probability models need an explicit,
+    evaluated emission step before using this binary writer/evaluator.
+    """
+    a = np.asarray(values)
+    foot = np.asarray(footprint, dtype=bool)
+    if a.ndim != 2 or a.shape != foot.shape or not foot.any():
+        raise ValueError("Expected a 2-D prediction on a nonempty matching footprint")
+    if a.dtype.kind not in "buif":
+        raise ValueError("Binary predictions must be real numeric or boolean")
+    inside = a[foot]
+    if not np.isfinite(inside).all() or not np.isin(inside, [0, 1]).all():
+        raise ValueError("Binary predictions must be finite and exactly 0 or 1 inside the footprint; no implicit thresholding")
+    return (a == 1) & foot
 
 
 def audit_geotiff(
@@ -146,8 +166,14 @@ def write_submission_pair(
     candidate_meta: dict,
 ) -> dict:
     """Write and audit both `-zeros.tif` and `-nan.tif` variants for a candidate mask."""
-    out_dir.mkdir(parents=True, exist_ok=True)
-    clean_mask = (mask & foot & ~labels).astype(np.float32)
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", slug):
+        raise ValueError("slug must be a safe filename component")
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_.-]*", timestamp_tag):
+        raise ValueError("timestamp_tag must be a safe filename component")
+    mask = require_binary_mask(mask, foot)
+    if np.asarray(labels).shape != mask.shape or np.asarray(labels).dtype != bool:
+        raise ValueError("labels must be a matching boolean mask")
+    clean_mask = (mask & ~labels).astype(np.float32)
     # Digest of pixel coordinates for deterministic content hash tag
     digest8 = hashlib.sha256(np.packbits(clean_mask > 0.5)).hexdigest()[:8]
 
@@ -156,8 +182,22 @@ def write_submission_pair(
     zeros_path = out_dir / zeros_name
     nan_path = out_dir / nan_name
 
+    fmt_kwargs = dict(
+        dots=int(clean_mask.sum()),
+        cat_hid=candidate_meta["catalogue_hidden_mean"],
+        sgmc_cal=candidate_meta["sgmc_prevalence_calibrated_dti"],
+        drift_cal=candidate_meta["drift_corrected_holdout_mean"],
+        slot=candidate_meta["slot_decision"],
+    )
+    for key, filename in (("submission_note_zeros", zeros_name), ("submission_note_nan", nan_name)):
+        rendered = candidate_meta[key].format(filename=filename, sha8="0" * 8, **fmt_kwargs)
+        if len(rendered) > 140:
+            raise ValueError(f"{key} exceeds 140 characters after expansion")
     with rasterio.open(template_tif) as tpl:
+        if tpl.shape != mask.shape or tpl.count != 1 or tpl.crs is None:
+            raise ValueError("Invalid or mismatched template grid")
         profile_base = tpl.profile.copy()
+    out_dir.mkdir(parents=True, exist_ok=True)
 
     profile_zeros = profile_base.copy()
     profile_zeros.update(
