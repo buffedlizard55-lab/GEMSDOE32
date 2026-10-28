@@ -18,6 +18,8 @@ def build():
     r = json.loads((ROOT / EVIDENCE).read_text())
     current = r['current_artifact']
     status = json.loads((ROOT / 'registry/current_status.json').read_text())
+    newest = status['newest_unique']
+    artifact_label = newest.get('submission_name') or Path(newest['file']).stem
     # A stale review must never display one candidate's validation on another download.
     fresh = (current['sha256'] == status['newest_unique']['sha256']
              and current['file'] == status['newest_unique']['file']
@@ -49,7 +51,7 @@ This is a comparison of named historical files, not a claim that every later art
 <a href="https://github.com/buffedlizard55-lab/{esc(w['repo'])}/tree/{esc(w['ref'])}">Pinned repository source</a></p>
 <details><summary>File identity</summary><p>SHA-256: <code>{esc(w['sha256'])}</code><br>
 Git blob verified: <code>{esc(w['git_blob_sha'])}</code></p></details></section>''')
-    latest_link = (f'<a class="btn alt" href="{esc(current["file"].removeprefix("docs/"))}" download>Download existing audited TIF — AUDIT ONLY</a>'
+    latest_link = (f'<a class="btn alt" href="{esc(current["file"].removeprefix("docs/"))}" download>Download {html.escape(artifact_label)} GeoTIFF — RESEARCH / AUDIT ONLY</a>'
                    if fresh else '<p class="bad">This audit is stale; rerun refresh_focus_review.py before using its artifact link.</p>')
     doc = f'''<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
@@ -65,6 +67,7 @@ The best historical result in the supplied nine-site shortlist is GEMSDOE32 H33-
 there is no organizer receipt authenticating that claim. It is already submitted and fails your spatial-uniqueness rule.</p>
 <p>The existing audited artifact passes automated format/range checks against the restored mirror template,
 but fails literal uniqueness. It is not a newly generated candidate. No human inspection is needed for this negative decision.</p>
+<p>The latest registered candidate is <b>{html.escape(artifact_label)}</b>; it remains a research artifact.</p>
 {latest_link}<p>Research download: yes. Competition upload: <strong>no</strong>. Estimated leaderboard score: <strong>unavailable</strong>.</p></section>
 <section class="card"><h2>A mathematically impossible dot budget</h2>
 <p>The calibration lattice is within 3 pixels of {100*r['lattice_footprint_coverage_within_3px']:.4f}% of the footprint.

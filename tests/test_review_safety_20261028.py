@@ -247,4 +247,4 @@ def test_review_renderer_is_offline_deterministic_and_hides_stale_download(tmp_p
     monkeypatch.setattr(render, 'ROOT', tmp_path)
     text = render.build()
     assert 'This audit is stale' in text
-    assert 'download>Download existing audited TIF' not in text
+    assert '<a class="btn alt"' not in text

@@ -6,12 +6,12 @@
   },
   "test_command": ".venv/bin/python -m pytest -q",
   "result": {
-    "passed": 250,
+    "passed": 253,
     "skipped_data_dependent": 8,
     "subtests_passed": 3,
     "warnings": 135
   },
-  "test_log_sha256": "a052d9283431478dbc6a95d41488e0e86ab6962e6c6f73a1f6ef4415c6ead309",
+  "test_log_sha256": "7d1ae39dbd0ad8f371e3c8e4843748e6722f41a3947b1272ed3127c6517f181e",
   "environment_packages": [
     "affine==3.0.1",
     "attrs==26.1.0",
@@ -62,5 +62,10 @@
     "Eight other websites not modified",
     "No new valid high-scoring submission delivered"
   ],
-  "publication": "PR and merge requested; see GitHub PR/check receipts for eventual status"
+  "publication": "PR #57 created; main reconciliation tested; GitHub checks/merge pending at this receipt.",
+  "parallel_merge": {
+    "pr": 56,
+    "upstream_commit": "47c946d",
+    "resolution": "Preserved parallel evidence/documents and candidate-aware label; fresh nine-winner audit supersedes earlier unavailable-template snapshot; all combined tests pass."
+  }
 }

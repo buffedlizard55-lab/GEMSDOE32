@@ -1,0 +1,65 @@
+{
+  "hypothesis": "Audit the latest registered artifact (GEMSDOE32-H49-CGTD-F3E24FB5); no newly assigned method lane in this request.",
+  "mechanism": "Saved-byte verification and nine-site evidence review; no model experiment.",
+  "non_fault_mimic": "Lithologic contacts and acquisition seams can mimic geophysical fault targets.",
+  "artifact_label": "GEMSDOE32-H49-CGTD-F3E24FB5",
+  "holdout": {
+    "status": "HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW",
+    "reason": "No new lane assigned; feature caches absent in checkout.",
+    "historical_evidence": "evidence/h49_cgtd_run_card.json",
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "n_withheld_positives": 22232,
+    "dti": 0.105043,
+    "ci95": [
+      0.090781,
+      0.119402
+    ],
+    "leaderboard_estimate": null
+  },
+  "correlation_overlap_vs_registry": {
+    "status": "HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW",
+    "historical_evidence": "evidence/h49_cgtd_run_card.json",
+    "max_abs_surface_spearman": 0.23766,
+    "max_external_cross_site_3px_overlap": 0.678494,
+    "max_all_genuine_3px_overlap": 0.733255,
+    "literal_calibration_lattice_3px_overlap": 0.994476,
+    "literal_registry_passed": false,
+    "warning": "Historical evidence only; do not substitute discrete-only uniqueness for the all-registry rule."
+  },
+  "raster_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+  "hash_matches_registry": true,
+  "validator_output": {
+    "verified_this_review": true,
+    "single_band_float32": true,
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "transform": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "nodata": null,
+    "finite_cells": 12279160,
+    "total_cells": 12279160,
+    "min": 0.0,
+    "max": 1.0,
+    "positive_pixels": 37654,
+    "historical_grid_match": true,
+    "strict_primary_passed": true,
+    "reference_template_verified_this_review": false,
+    "limitation": "Historical grid only; no footprint/catalogue or authenticated template check."
+  },
+  "submission_name": "GEMSDOE32-H49-CGTD-F3E24FB5",
+  "note": "Latest artifact GEMSDOE32-H49-CGTD-F3E24FB5 re-audited; no new lane, no new score estimate, no upload authorization.",
+  "verdict": "negative",
+  "ok_to_submit": false,
+  "experiments_used": 0,
+  "weekly_slots_used": 0
+}
