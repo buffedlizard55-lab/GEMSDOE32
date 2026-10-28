@@ -1,0 +1,24 @@
+{
+ "schema_version": 1,
+ "n_sites": 9,
+ "spearman_published_vs_sgmc_cal": 0.9496,
+ "p_sgmc": 9.019211282824305e-05,
+ "spearman_published_vs_hide_recover": -0.8487,
+ "p_hide_recover": 0.003809953599434409,
+ "h51_projection": {
+  "label": "PROJECTION (not a score)",
+  "n_sites_fit": 9,
+  "point": 0.2701,
+  "pi95": [
+   0.2635,
+   0.2767
+  ],
+  "fit": {
+   "slope": 4.7154,
+   "intercept": -0.0271,
+   "r2": 0.9557
+  }
+ },
+ "h51_sgmc_cal_static": 0.063032,
+ "caveat": "n=9 site files; OWNER-REPORT scores; correlation is not causation; PROJECTION is not a leaderboard estimate."
+}

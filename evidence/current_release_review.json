@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
-  "reviewed_utc": "2026-10-28T14:05:00Z",
-  "decision_scope": "Reconciled by scripts/sync_submission_build.py: the release review still pointed at gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif after a parallel merge advanced the newest candidate; decision remains fail-closed.",
+  "reviewed_utc": "2026-10-28T17:35:00Z",
+  "decision_scope": "Reconciled by scripts/sync_submission_build.py: the release review still pointed at gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif after a parallel merge advanced the newest candidate; decision remains fail-closed. | 2026-10-28 static re-check (evidence/holdout_static_recheck_20261028.json, evidence/focus9_independent_verification_20261028.json): the emitted H51 bytes score HIDE-RECOVER 0.002289 and SGMC-CAL 0.063032 vs champion 0.004515 / 0.064121; the 0.115134 figure is fold-local. Unique vs nine focus sites and all <=100k registry rasters; fails literal 70% vs dense r13 (99.70%). Decision unchanged: DOWNLOAD FOR REVIEW ONLY, DO NOT SUBMIT.",
   "review_run_card": "evidence/review_run_card_20261026.json",
   "artifact": {
     "path": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",

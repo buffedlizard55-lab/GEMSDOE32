@@ -1,0 +1,367 @@
+{
+ "schema_version": 1,
+ "purpose": "Static byte-level holdout re-check; not a leaderboard score.",
+ "results": {
+  "GEMSDOE24": {
+   "path": ".cache/registry/GEMSDOE24/docs/downloads/gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-nan.tif",
+   "dots": 60069,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.093151,
+    "ci95": [
+     0.08159,
+     0.106273
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.097204,
+    "ci95": [
+     0.084714,
+     0.111365
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.101118,
+    "prevalence_calibrated_dti": 0.057932,
+    "calibrated_ci95": [
+     0.051231,
+     0.065211
+    ]
+   }
+  },
+  "GEMSDOE25": {
+   "path": ".cache/registry/GEMSDOE32/docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+   "dots": 44090,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.096743,
+    "ci95": [
+     0.084971,
+     0.109652
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.099202,
+    "ci95": [
+     0.086497,
+     0.112819
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.095282,
+    "prevalence_calibrated_dti": 0.060592,
+    "calibrated_ci95": [
+     0.053482,
+     0.067569
+    ]
+   }
+  },
+  "GEMSDOE27": {
+   "path": ".cache/registry/GEMSDOE28/docs/downloads/gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-nan.tif",
+   "dots": 61328,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.092748,
+    "ci95": [
+     0.081322,
+     0.10576
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.096778,
+    "ci95": [
+     0.084384,
+     0.110724
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.102422,
+    "prevalence_calibrated_dti": 0.058262,
+    "calibrated_ci95": [
+     0.051514,
+     0.065905
+    ]
+   }
+  },
+  "GEMSDOE28": {
+   "path": ".cache/registry/GEMSDOE28/docs/downloads/gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-nan.tif",
+   "dots": 37660,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.02936,
+    "ci95": [
+     0.025109,
+     0.034554
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.028932,
+    "ci95": [
+     0.024619,
+     0.034013
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.094341,
+    "prevalence_calibrated_dti": 0.062967,
+    "calibrated_ci95": [
+     0.055807,
+     0.070209
+    ]
+   }
+  },
+  "GEMSDOE30": {
+   "path": ".cache/registry/GEMSDOE30/docs/downloads/gemsdoe30-d28-poisson300m-offcat-44090-20261003T233156Z-91eae1ca.tif",
+   "dots": 44090,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.096743,
+    "ci95": [
+     0.084971,
+     0.109652
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.099202,
+    "ci95": [
+     0.086497,
+     0.112819
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.095282,
+    "prevalence_calibrated_dti": 0.060592,
+    "calibrated_ci95": [
+     0.053482,
+     0.067569
+    ]
+   }
+  },
+  "GEMSDOE31": {
+   "path": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h27-4-solo-d28-20261004-8acb75e1-nan.tif",
+   "dots": 40199,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.030516,
+    "ci95": [
+     0.025937,
+     0.036216
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.030057,
+    "ci95": [
+     0.025361,
+     0.035709
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.096273,
+    "prevalence_calibrated_dti": 0.06301,
+    "calibrated_ci95": [
+     0.05579,
+     0.069924
+    ]
+   }
+  },
+  "GEMSDOE32": {
+   "path": ".cache/registry/GEMSDOE32/docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+   "dots": 37654,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.004515,
+    "ci95": [
+     0.003837,
+     0.005278
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.004515,
+    "ci95": [
+     0.003837,
+     0.005278
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.09606,
+    "prevalence_calibrated_dti": 0.064121,
+    "calibrated_ci95": [
+     0.056648,
+     0.070969
+    ]
+   }
+  },
+  "GEMSDOE33": {
+   "path": ".cache/registry/GEMSDOE33/docs/downloads/GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e.tif",
+   "dots": 41865,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.051969,
+    "ci95": [
+     0.046107,
+     0.058078
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.05069,
+    "ci95": [
+     0.044705,
+     0.057015
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.096764,
+    "prevalence_calibrated_dti": 0.062551,
+    "calibrated_ci95": [
+     0.05531,
+     0.069621
+    ]
+   }
+  },
+  "GEMSDOE36": {
+   "path": ".cache/registry/GEMSDOE36/docs/downloads/gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-zeros.tif",
+   "dots": 38854,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.004577,
+    "ci95": [
+     0.00391,
+     0.005295
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.004577,
+    "ci95": [
+     0.00391,
+     0.005295
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.097434,
+    "prevalence_calibrated_dti": 0.064444,
+    "calibrated_ci95": [
+     0.056923,
+     0.071606
+    ]
+   }
+  },
+  "H51-1-EWSP (candidate)": {
+   "path": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",
+   "dots": 37654,
+   "hide_recover_b0": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 0.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.002289,
+    "ci95": [
+     0.001847,
+     0.002676
+    ]
+   },
+   "hide_recover_b2": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "pooled_dti": 0.002289,
+    "ci95": [
+     0.001847,
+     0.002676
+    ]
+   },
+   "sgmc_cal": {
+    "label": "HOLDOUT-DTI",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "raw_pooled_dti": 0.094395,
+    "prevalence_calibrated_dti": 0.063032,
+    "calibrated_ci95": [
+     0.055343,
+     0.070398
+    ]
+   }
+  }
+ },
+ "runtime_s": 44.8
+}
