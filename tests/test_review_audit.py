@@ -23,13 +23,16 @@ def test_nine_site_audit_download_label_matches_current_registered_artifact():
 
 
 def test_review_audit_card_labels_historical_evidence_and_preserves_protocol_numbers():
+    status = json.loads((ROOT / "registry/current_status.json").read_text())
+    expected_rc = json.loads((ROOT / status["newest_unique"]["run_card"]).read_text())
+    expected_ci = expected_rc["holdout_dti"]["primary_hide_and_recover"]["ci95"]
     card = json.loads((ROOT / "evidence/review_audit_20261028.json").read_text())
     assert card["verdict"] == "negative"
     assert card["holdout"]["status"] == "HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW"
     assert card["holdout"]["label"] == "HOLDOUT-DTI"
     assert card["holdout"]["evaluator_version"] == "GEMSDOE32-HIDE-RECOVER-v3.0"
     assert card["holdout"]["n_withheld_positives"] == 22232
-    assert card["holdout"]["ci95"] == [0.090781, 0.119402]
+    assert card["holdout"]["ci95"] == expected_ci
     assert card["correlation_overlap_vs_registry"]["literal_registry_passed"] is False
     assert card["correlation_overlap_vs_registry"]["literal_calibration_lattice_3px_overlap"] > 0.70
 

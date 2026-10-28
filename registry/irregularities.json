@@ -16,7 +16,7 @@
   {
    "id": "IR-32-SCORE-01",
    "severity": "high",
-   "statement": "All group/site submission scores, including GEMSDOE32 H33-B2 0.2778, are OWNER-REPORT unless an organizer submission receipt links the exact file/hash to the score. No such receipt is stored here. The public leaderboard is independently page-verified, not a score for our files: 2026-10-26 live observation is xiaofanhu #1 at 0.4437 (evidence/live_leaderboard_snapshot_20261026.json); 0.4413 is the 2026-10-25 observation and 0.3195 is historical early-October.",
+   "statement": "All group/site submission scores, including GEMSDOE32 H33-B2 0.2778, are OWNER-REPORT unless an organizer submission receipt links the exact file/hash to the score. No such receipt is stored here. The public leaderboard is independently page-verified, not a score for our files: 2026-10-28 live observation is xiaofanhu #1 at 0.4544 (evidence/live_leaderboard_snapshot_20261028.json), superseding 2026-10-26 (0.4437), 2026-10-25 (0.4413), and early-October 0.3195 (currently #26 kpomazi).",
    "mitigation": "Keep owner-file claims as OWNER-REPORT; label local experiments HOLDOUT-DTI with evaluator/version, withheld positives, and CI; use ORGANIZER-CONFIRMED only when a submission-page receipt is copied and linked. Keep public leaderboard observations timestamped in registry/leaderboard_history.jsonl and never infer private/final scores."
   },
   {
@@ -742,6 +742,42 @@
    "severity": "high",
    "statement": "Current prompt contains no explicit single assigned method paragraph. No cached feature stack is present and no new performance evidence was produced.",
    "mitigation": "Record four planning hypotheses; do not silently reuse previous lane or claim an authorized new submission. See docs/research/review-20261028.md."
+  },
+  {
+   "id": "IR-51-SMAN-PATH-01",
+   "severity": "medium",
+   "statement": "scripts/run_h48_fbgr.py::collect_all_registry_entries checked .cache/sibling_orgs/manifest.json instead of registry/sibling_orgs_manifest.json, causing standalone uniqueness scans to silently omit the 179 sibling-org GeoTIFFs fetched by scripts/fetch_sibling_orgs.py unless a manual symlink existed.",
+   "mitigation": "Fixed in place in scripts/run_h48_fbgr.py to load registry/sibling_orgs_manifest.json (falling back to .cache/sibling_orgs/manifest.json). Verified on H51-1-EWSP across all 733 manifest entries (647 unique SHA-256 rasters)."
+  },
+  {
+   "id": "IR-WBG3-MISPLACED-AND-NAN",
+   "severity": "high",
+   "statement": "2026-10-28 newly scored wbg3-h3pack-34k-20261027T174337Z-zeros.tif (0.0443 OWNER-REPORT) is listed under WBGGEMSDOE3 in the prompt, actually committed in wingbangboozle1-lang/WBGGEMSDOE2 (docs/downloads/h3-pack/), AND despite the -zeros.tif filename suffix contains NaN pixels outside the footprint (whole_array_finite = False) alongside 14.12% flat-playa allocation.",
+   "mitigation": "Flagged automatically in evidence/nine_site_refreshed_audit_20261028.json; GEMSDOE32 enforces check_submission.py --strict-finite (0 NaNs across all 12,279,160 cells) on every emitted -zeros.tif."
+  },
+  {
+   "id": "IR-WBG2-MISPLACED",
+   "severity": "low",
+   "statement": "2026-10-28 newly scored wbg2-offcatalogue-density-36k-20261027.tif (0.0262 OWNER-REPORT) is listed under WBGGEMSDOE2 in the prompt, actually committed in wingbangboozle1-lang/WBGGEMSDOE1, and places 75.7% of its 36,000 dots inside 1.5 km collars plus 10.63% in flat playas.",
+   "mitigation": "Cross-repo SHA-256 lookup added to scripts/fetch_extra_scored.py and scripts/run_h51_ewsp.py; irregularity logged in docs/score-ledger.csv and evidence/nine_site_refreshed_audit_20261028.json."
+  },
+  {
+   "id": "IR-APART1-CLUMP",
+   "severity": "medium",
+   "statement": "2026-10-28 newly scored apartgems1-udth-submod-e3-20261027-50e7b334-zeros.tif (0.0525 OWNER-REPORT, 38,500 dots) has 97.30% of its emitted dots with >=3 neighbors within 3 px (300 m), cannibalizing its 300 m Tversky kernel coverage.",
+   "mitigation": "GEMSDOE32 H51-1-EWSP enforces min_sep_px=2.8 inside gems32.emitter.emit (clump>=3 = 0.55%, verified by tests/test_ewsp.py)."
+  },
+  {
+   "id": "IR-51-G37-COLLAR-STOP",
+   "severity": "high",
+   "statement": "In H51-1-EWSP, unconstrained inclusion of fold-local Williams-Pollard / Crider-Pollard fracture stress (EXP2 & EXP3) achieved all-time repo records on BOTH GEMSDOE32-HIDE-RECOVER-v3.0 (0.164348 & 0.163037) AND SGMC-CAL-v3.0 (0.065036 & 0.065103 > 0.064121 Champion), but concentrated 76.2% / 75.7% of emitted dots within 1.5 km of visible faults, triggering 76.31% / 75.98% (>70%) 3-px overlap against GEMSDOE37's 80,000-dot collar-blanket raster (gemsdoe37-h6-physics-dotted-80k).",
+   "mitigation": "Stopped fail-closed under Protocol Rule 1 and selected 100% discrete-unique EXP1 (68.90% <= 70%) as the research artifact; queued H52-1 two-stage distance-stratified collar quota (<=16,200 near-collar Williams-Pollard dots + >=21,454 far-basin >1.5 km Screened-Poisson/Baranov dots) for the next session."
+  },
+  {
+   "id": "IR-EPSG-IO-500",
+   "severity": "low",
+   "statement": "Live HTTP check of https://epsg.io/32611 returned HTTP 500 upstream error on 2026-10-28; karage2-tphg-exp1 is also absent from karagemop466-tech/GEMSDOEkarage2 default main branch.",
+   "mitigation": "Verified EPSG:32611 (WGS 84 / UTM zone 11N) directly from official DrivenData page/967/, pyproj.CRS.from_epsg(32611), and sample_submission.tif."
   }
  ],
  "updated_utc": "2026-10-27T23:55:00Z"

@@ -36,6 +36,10 @@ from gems32.livescore import normalize_name, strong_tokens  # noqa: E402
 OWNER = "buffedlizard55-lab"
 FOCUS = {"GEMSDOE24", "GEMSDOE25", "GEMSDOE27", "GEMSDOE28", "GEMSDOE30",
          "GEMSDOE31", "GEMSDOE32", "GEMSDOE33", "GEMSDOE36"}
+SIBLING_ORG_PREFIXES = (
+    "KANLERGEMSDOE", "WBGGEMSDOE", "ApartGEMSDOE",
+    "GEMSDOEkarage", "GEMSDOESASS", "EUGGEMSDOE", "GINNYGEMSDOE",
+)
 LEDGER = ROOT / "docs" / "score-ledger.csv"
 OUT = ROOT / "registry" / "extra_scored_manifest.json"
 CACHE = ROOT / ".cache" / "extra"
@@ -57,7 +61,13 @@ def sha256(p: Path) -> str:
 def ledger_rows(min_score: float) -> list[dict]:
     rows = []
     for r in csv.DictReader(LEDGER.open()):
-        if r["site"] in FOCUS or r["site"].startswith("DrivenData"):
+        site = r["site"]
+        if (
+            site in FOCUS
+            or site.startswith("DrivenData")
+            or site.startswith("GEMSDOE32-")
+            or site.startswith(SIBLING_ORG_PREFIXES)
+        ):
             continue
         try:
             score = float(r["score"])
@@ -148,7 +158,7 @@ def fetch_one(repo: str, ref: str, path: str) -> dict:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--min-score", type=float, default=0.10)
+    ap.add_argument("--min-score", type=float, default=0.0)
     ap.add_argument("--jobs", type=int, default=6)
     args = ap.parse_args()
 

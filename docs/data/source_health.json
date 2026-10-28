@@ -1,334 +1,334 @@
 {
- "checked_utc": "2026-10-28T11:27:07Z",
+ "checked_utc": "2026-10-28T14:22:12Z",
  "results": [
   {
    "id": "competition",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "problem",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "about",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/page/968/",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "data",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/data/",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "leaderboard",
    "url": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "status": "not_probed",
    "note": "competition host: never probed automatically"
   },
   {
    "id": "rules_pdf",
    "url": "https://docs.nlr.gov/docs/fy26osti/96647.pdf",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "application/pdf"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "reference_solution",
    "url": "https://github.com/drivendataorg/gems-prize-reference-solution",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "geodawn",
    "url": "https://www.usgs.gov/data/geodawn-airborne-magnetic-and-radiometric-surveys-northwestern-great-basin-nevada-and",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "sciencebase_area",
    "url": "https://www.sciencebase.gov/catalog/item/657e1d85d34e23d3533209f7",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gbcge",
    "url": "https://gbcge.org/current-projects/ingenious/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "mcre_srl",
    "url": "https://doi.org/10.1785/0220200371",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": null,
-   "error": "HTTPError: HTTP Error 403: Forbidden"
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "mcre_bssa",
    "url": "https://doi.org/10.1785/0120200327",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": null,
-   "error": "HTTPError: HTTP Error 403: Forbidden"
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "mcre_nbmg",
    "url": "http://www.nbmg.unr.edu/Geohazards/Earthquakes/MonteCristoRangeEQData.html",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "RemoteDisconnected: Remote end closed connection without response"
   },
   {
    "id": "mcre_reloc",
    "url": "https://zenodo.org/records/5302368",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "usgs_qfaults",
    "url": "https://www.usgs.gov/natural-hazards/earthquake-hazards/faults",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "nbmg_ingenious_rest",
    "url": "https://web2.nbmg.unr.edu/arcgis/rest/services/Qfaults/Qfaults_INGENIOUS/MapServer/0",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gdr1391",
    "url": "https://gdr.openei.org/submissions/1391",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "3dep",
    "url": "https://apps.nationalmap.gov/downloader/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "comcat",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "nbmg_ingenious_service",
    "url": "https://web2.nbmg.unr.edu/arcgis/rest/services/Qfaults/QFaults_INGENIOUS/MapServer/0",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gdr_qfaults_v2_raster",
    "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/main/data/external/derived_gdr_qfaults_v2_100m_u8.tif",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "usgs_sgmc_raster",
    "url": "https://github.com/buffedlizard55-lab/GEMSDOE30/blob/main/data/external/derived_sgmc_faults_100m_u8.tif",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "gemsdoe25_site",
    "url": "https://buffedlizard55-lab.github.io/GEMSDOE25/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "sibling_repos",
    "url": "https://github.com/buffedlizard55-lab",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "a8a_usgs_3dep",
    "url": "https://www.usgs.gov/3d-elevation-program",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "a8a_usgs_sgmc",
    "url": "https://doi.org/10.3133/ds1052",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "a8a_usgs_comcat_api",
    "url": "https://earthquake.usgs.gov/fdsnws/event/1/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "a8a_sciencebase_mcre",
    "url": "https://www.sciencebase.gov/catalog/item/606f657fd34ef99870188ee5",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": null,
-   "error": "HTTPError: HTTP Error 404: Not Found"
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gemsdoe24_external_mirrors",
    "url": "https://github.com/buffedlizard55-lab/GEMSDOE24/tree/main/data/external",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": 200,
    "content_type": "text/html; charset=utf-8"
   },
   {
    "id": "phillips_2007_usgs_of07_1355",
    "url": "https://pubs.usgs.gov/publication/70030656",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "roest_1992_analytic_signal",
    "url": "https://doi.org/10.1190/1.1443174",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "faulds_hinz_2015_gbas_play_fairway",
    "url": "https://gbcge.org/current-projects/ingenious/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gdr1391_doi",
    "url": "https://doi.org/10.15121/1881483",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "geodawn_doi",
    "url": "https://doi.org/10.5066/P93LGLVQ",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "bekker_davis_2020_sarpu",
    "url": "https://doi.org/10.1007/s10994-020-05877-5",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gdr1391_2m_temperature_probes",
    "url": "https://gdr.openei.org/submissions/1391",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "gdr1391_paleo_geothermal_features",
    "url": "https://gdr.openei.org/submissions/1391",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "census_tiger_2024_roads",
    "url": "https://www2.census.gov/geo/tiger/TIGER2024/ROADS/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=ISO-8859-1"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "geodawn_contractor_blocks",
    "url": "https://doi.org/10.5066/P93LGLVQ",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "blm_epithermal_claims",
    "url": "https://mlrs.blm.gov/",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "blakely_1995_potential_theory",
    "url": "https://doi.org/10.1017/CBO9780511549816",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "morris_ferrill_henderson_1996_slip_tendency",
    "url": "https://doi.org/10.1130/0091-7613(1996)024<0275:STAAFR>2.3.CO;2",
-   "checked_utc": "2026-10-28T11:27:07Z",
+   "checked_utc": "2026-10-28T14:22:12Z",
    "http_status": null,
-   "error": "HTTPError: HTTP Error 403: Forbidden"
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "miller_singh_1994_tilt",
    "url": "https://doi.org/10.1016/0926-9851(94)90022-1",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html;charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "verduzco_2004_thdr_tilt",
    "url": "https://doi.org/10.1190/1.1651454",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "salem_2007_tilt_depth",
    "url": "https://doi.org/10.1190/1.2821934",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=utf-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "faulds_hinz_2015_great_basin",
    "url": "https://pangea.stanford.edu/ERE/db/WGC/papers/WGC/2015/11074.pdf",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "application/pdf"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   },
   {
    "id": "wannamaker_2014_mt_great_basin",
    "url": "https://gdr.openei.org/submissions/1391",
-   "checked_utc": "2026-10-28T11:27:07Z",
-   "http_status": 200,
-   "content_type": "text/html; charset=UTF-8"
+   "checked_utc": "2026-10-28T14:22:12Z",
+   "http_status": null,
+   "error": "URLError: <urlopen error TLS/SSL connection has been closed (EOF) (_ssl.c:992)>"
   }
  ],
  "policy": "drivendata.org is never requested by this repository"

@@ -175,8 +175,15 @@ def collect_all_registry_entries(ddir: Path, exclude_shas: set[str] | None = Non
     fman = json.loads((ROOT / "registry" / "focus_registry_manifest.json").read_text())
     eman_path = ROOT / "registry" / "extra_scored_manifest.json"
     eman = json.loads(eman_path.read_text()) if eman_path.exists() else {"rasters": []}
-    sman_path = ROOT / ".cache" / "sibling_orgs" / "manifest.json"
-    sman = json.loads(sman_path.read_text()) if sman_path.exists() else []
+    sman_reg_path = ROOT / "registry" / "sibling_orgs_manifest.json"
+    sman_cache_path = ROOT / ".cache" / "sibling_orgs" / "manifest.json"
+    if sman_reg_path.exists():
+        sman_doc = json.loads(sman_reg_path.read_text())
+        sman = sman_doc.get("rasters", []) if isinstance(sman_doc, dict) else sman_doc
+    elif sman_cache_path.exists():
+        sman = json.loads(sman_cache_path.read_text())
+    else:
+        sman = []
     dman = json.loads((ROOT / "registry" / "data_manifest.json").read_text())
 
     entries: dict[str, tuple[str, Path]] = {}

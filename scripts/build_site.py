@@ -61,19 +61,41 @@ def protocol_notice(prefix: str = "") -> str:
     if not authorized:
         latest = st.get("newest_unique") or st.get("arena9_candidate") or {}
         latest_name = Path(latest.get("file", "")).name
+        latest_zip = Path(latest.get("zip", "")).name if latest.get("zip") else ""
+        latest_rec = Path(latest.get("receipt", "")).name if latest.get("receipt") else ""
+        latest_sub = latest.get("submission_name", "")
+        latest_sha = (latest.get("sha256") or "")[:16]
+        extra_links = []
+        if latest_zip and (DOCS / "downloads" / latest_zip).is_file():
+            extra_links.append(f'<a class="btn alt" href="{prefix}downloads/{esc(latest_zip)}">.zip</a>')
+        if latest_rec and (DOCS / "downloads" / latest_rec).is_file():
+            extra_links.append(f'<a class="btn alt" href="{prefix}downloads/{esc(latest_rec)}">audit.json</a>')
+        if (DOCS / "data" / "latest-run-card.json").is_file():
+            extra_links.append(f'<a class="btn alt" href="{prefix}data/latest-run-card.json">Run Card JSON</a>')
+        extra_str = (" " + " ".join(extra_links)) if extra_links else ""
+        meta_str = (
+            f' <span class=mut>(<code>{esc(latest_sub)}</code> &middot; sha256 <code>{esc(latest_sha)}&hellip;</code>)</span>'
+            if latest_sub else ""
+        )
         latest_download = (
-            f'<p style="margin:7px 0"><a class=btn href="downloads/{esc(latest_name)}">'
-            f'&#11015; Download latest generated GeoTIFF for research/audit</a> '
-            f'<b style="color:#b00020">NOT FOR LIVE SUBMISSION</b></p>'
+            f'<p style="margin:7px 0"><a class=btn href="{prefix}downloads/{esc(latest_name)}">'
+            f'&#11015; Download latest generated GeoTIFF for research/audit ({esc(latest_name)})</a>'
+            f'{extra_str} <b style="color:#b00020">NOT FOR LIVE SUBMISSION</b>{meta_str}</p>'
             if latest_name else ""
         )
+        res_doc = latest.get("results_doc", "")
+        res_link = ""
+        if res_doc and (ROOT / res_doc).is_file():
+            res_rel = res_doc.replace("docs/", "", 1)
+            res_link = f'<a href="{prefix}{esc(res_rel)}">Latest Run Report (2026-10-28)</a> &middot; '
         return f"""<section class=dl style="border:3px solid #b91c1c" aria-label="Current submission decision">
 <h2 style="margin:4px 0">&#128308; DO NOT SUBMIT &mdash; no upload authorized</h2>
 <p style="margin:4px 0"><b>{esc(st.get('headline', 'No file in this repository is authorized for upload.'))}</b>
 Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
 Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
 {latest_download}
-<p style="margin:4px 0"><a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
+<p style="margin:4px 0">{res_link}<a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
+<a href="{prefix}nine-site-review.html">Nine-site review</a> &middot;
 <a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
 <a href="{prefix}executive-summary.html">How a cleared file would be submitted</a></p></section>
@@ -755,7 +777,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         )
     h49 = ""
     rc49c = read("evidence/h49_cgtd_run_card.json") or {}
-    if rc49c and nu49.get("run_card") == "evidence/h49_cgtd_run_card.json":
+    if rc49c:
         _hr49 = rc49c.get("holdout_dti", {}).get("primary_hide_and_recover", {})
         _dt49 = rc49c.get("holdout_dti", {}).get("detached_600m_segments", {})
         _sg49 = rc49c.get("holdout_dti", {}).get("off_catalogue_sgmc", {})
@@ -764,7 +786,7 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
         _ci49 = _hr49.get("ci95") or [0, 0]
         _sgci49 = _sg49.get("calibrated_ci95") or [0, 0]
         h49 = (
-            f'<tr style="background:#eef7ee"><td><b>NEW: H49-1-CGTD</b><br><span class=mut>GEMSDOE32, 2026-10-27</span></td>'
+            f'<tr style="background:#f8fafc"><td><b>ARCHIVE: H49-1-CGTD</b><br><span class=mut>GEMSDOE32, 2026-10-27</span></td>'
             f'<td><a href="downloads/{esc(_zf49)}"><code>{esc(_zf49)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
             f'<td>{int(rc49c.get("artifacts", {}).get("emitted_dots", 37654)):,}</td>'
             f'<td><i>none</i> &mdash; not a score</td>'
@@ -777,9 +799,36 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; release verdict '
             f'<code>{esc(str(rc49c.get("verdict", "")))}</code>; intra-repo 73.33% duplicate stop, literal lattice stop &amp; selector required. Research download only.</td></tr>'
         )
+    h51 = ""
+    rc51 = read("evidence/h51_ewsp_run_card.json") or {}
+    if rc51 and nu49.get("run_card") == "evidence/h51_ewsp_run_card.json":
+        _hr51 = rc51.get("holdout_dti", {}).get("primary_hide_and_recover", {})
+        _dt51 = rc51.get("holdout_dti", {}).get("detached_600m_segments", {})
+        _sg51 = rc51.get("holdout_dti", {}).get("off_catalogue_sgmc", {})
+        _uq51 = rc51.get("correlation_and_overlap_vs_registry", {})
+        _zf51 = Path(rc51.get("artifacts", {}).get("primary_zeros_tif", "")).name
+        _ci51 = _hr51.get("ci95") or [0, 0]
+        _sgci51 = _sg51.get("calibrated_ci95") or [0, 0]
+        h51 = (
+            f'<tr style="background:#eef7ee"><td><b>NEW: H51-1-EWSP (EXP1)</b><br><span class=mut>GEMSDOE32, 2026-10-28</span></td>'
+            f'<td><a href="downloads/{esc(_zf51)}"><code>{esc(_zf51)}</code></a> <span class=mut>(also .zip and -nan.tif)</span></td>'
+            f'<td>{int(rc51.get("artifacts", {}).get("emitted_dots", 37654)):,}</td>'
+            f'<td><i>none</i> &mdash; not a score</td>'
+            f'<td><b>HOLDOUT-DTI {_hr51.get("pooled_dti", 0):.4f} [{_ci51[0]:.4f}, {_ci51[1]:.4f}]</b> '
+            f'(n={int(_hr51.get("n_withheld_positives", 0)):,}, {_hr51.get("evaluator_version", "")}, paired P=1.000 &gt; Champ 0.0992); '
+            f'Detached &ge;600m {_dt51.get("pooled_dti", 0):.4f} &gt; Champ 0.0943; SGMC-cal '
+            f'{_sg51.get("prevalence_calibrated_dti", 0):.4f} [{_sgci51[0]:.4f}, {_sgci51[1]:.4f}] '
+            f'(EXP2 hit repo-record <b>0.1643</b> HR &amp; <b>0.0650</b> SGMC-cal, stopped on 76.3% collar overlap vs G37 80k)</td>'
+            f'<td><b>YES across 100% of all {int(_uq51.get("n_genuine_rasters_checked", 610))} discrete &le;100k-dot rasters in 30 repos</b> '
+            f'(max discrete 3-px {100*float(_uq51.get("max_genuine_3px_dot_overlap") or 0):.2f}% &le;70%; focus-site max '
+            f'{100*float(_uq51.get("max_focus_site_3px_dot_overlap") or 0):.2f}% &le;70%; surface |&rho;| '
+            f'{float(_uq51.get("max_abs_surface_spearman") or 0):.4f} &le;0.90). Literal lattice: <b>FAIL</b> (IR-51-LATTICE-01)</td>'
+            f'<td><b style="color:#b00020">DO NOT SUBMIT</b> &mdash; release verdict '
+            f'<code>{esc(str(rc51.get("verdict", "")))}</code>; awaits H52 collar-quota EXP2, literal lattice disposition &amp; selector. Research download only.</td></tr>'
+        )
 
-    # Render refreshed 2026-10-27 9-focus-site + 10 sibling-org candidate audit table
-    ref9 = read("evidence/nine_site_refreshed_audit_20261027.json") or {}
+    # Render refreshed 2026-10-28 9-focus-site + sibling-org candidate audit table
+    ref9 = read("evidence/nine_site_refreshed_audit_20261028.json") or read("evidence/nine_site_refreshed_audit_20261027.json") or {}
     ref9_html = ""
     if ref9.get("sites"):
         r9_rows = []
@@ -790,13 +839,14 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             sg9 = s9["sgmc_prevalence_calibrated_dti"]
             sg_note = " (SGMC-trained leak! IR-49-SGMC-TRAIN-25)" if repo9 == "GEMSDOE25" else ""
             link9 = f"downloads/{fn9}" if repo9 == "GEMSDOE32" else f"https://github.com/buffedlizard55-lab/{repo9}/blob/{s9['head_ref']}/{s9['inspected_path']}"
+            ov_new = s9.get("within_3px_of_h51_ewsp", s9.get("within_3px_of_h49_cgtd", 0.0))
             r9_rows.append(
                 f'<tr><td><b>{esc(repo9)}</b> <span class=mut>({esc(s9["head_ref"][:8])}, {s9["total_rasters_in_repo"]} TIFs)</span></td>'
                 f'<td><a href="{esc(link9)}"><code>{esc(fn9)}</code></a></td>'
                 f'<td>{s9["emitted_dots"]:,}</td>'
                 f'<td>{100*s9["far_gt_15px_frac"]:.1f}% / {100*s9["clump_ge3_nbr3_frac"]:.2f}%</td>'
                 f'<td>Static-HR {hr9:.4f}; SGMC-cal {sg9:.4f}{esc(sg_note)}</td>'
-                f'<td>{100*s9["within_3px_of_02778_champion"]:.1f}% vs Champ; {100*s9["within_3px_of_h49_cgtd"]:.1f}% vs H49-1</td>'
+                f'<td>{100*s9["within_3px_of_02778_champion"]:.1f}% vs Champ; {100*ov_new:.1f}% vs H51-1</td>'
                 f'<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>'
             )
         sib_rows = []
@@ -806,49 +856,65 @@ def nine_site_table_block(docs_prefix: str = "") -> str:
             fn_sb = Path(sb["path"]).name
             irr_sb = f' <b style="color:#b00020">[{esc(sb["irregularity"])}]</b>' if sb.get("irregularity") else ""
             fin_sb = "" if sb.get("whole_array_finite", True) else ' <b style="color:#b00020">[NaN-OUTSIDE HAZARD]</b>'
+            sc_sb = (
+                f'<b>{sb["owner_report_score"]:.4f} OWNER-REPORT</b>; '
+                if sb.get("owner_report_score") is not None else ""
+            )
+            ov_sb = sb.get("within_3px_of_h51_ewsp", sb.get("within_3px_of_h49_cgtd", 0.0))
+            act_sb = (
+                '<b style="color:#b00020">ALREADY SCORED &mdash; DO NOT RESUBMIT</b>'
+                if sb.get("owner_report_score") is not None
+                else '<b style="color:#b00020">DO NOT SUBMIT</b>'
+            )
             sib_rows.append(
                 f'<tr><td><b>{esc(sb["owner"])}/{esc(sb["repo"])}</b>{irr_sb}</td>'
                 f'<td><code>{esc(fn_sb)}</code>{fin_sb}</td>'
                 f'<td>{sb["emitted_dots"]:,}</td>'
                 f'<td>{100*sb["far_gt_15px_frac"]:.1f}% / {100*sb["clump_ge3_nbr3_frac"]:.2f}%</td>'
-                f'<td>SGMC-cal {sb["sgmc_prevalence_calibrated_dti"]:.4f} [HOLDOUT-DTI]</td>'
-                f'<td>{100*sb["within_3px_of_02778_champion"]:.1f}% vs Champ; {100*sb["within_3px_of_h49_cgtd"]:.1f}% vs H49-1</td>'
-                f'<td><b style="color:#b00020">DO NOT SUBMIT</b></td></tr>'
+                f'<td>{sc_sb}SGMC-cal {sb["sgmc_prevalence_calibrated_dti"]:.4f} [HOLDOUT-DTI]</td>'
+                f'<td>{100*sb["within_3px_of_02778_champion"]:.1f}% vs Champ; {100*ov_sb:.1f}% vs H51-1</td>'
+                f'<td>{act_sb}</td></tr>'
             )
+        fig_asset = "assets/fig_h51_ewsp.png" if (DOCS / "assets" / "fig_h51_ewsp.png").is_file() else "assets/fig_h49_cgtd.png"
         fig_html = (
-            '<p style="margin:10px 0"><img src="assets/fig_h49_cgtd.png" alt="H49-1 CGTD 4-panel diagnostic" '
+            f'<p style="margin:10px 0"><img src="{fig_asset}" alt="H51-1 EWSP 4-panel diagnostic" '
             'style="max-width:100%;border:1px solid #cbd5e1;border-radius:6px"></p>'
-            if (DOCS / "assets" / "fig_h49_cgtd.png").is_file() else ""
+            if (DOCS / fig_asset).is_file() else ""
         )
+        n_tot_man = ref9.get("total_manifest_entries", 733)
+        n_foc_man = ref9.get("focus_manifest_rasters", 451)
+        n_ext_man = ref9.get("extra_scored_rasters", 103)
+        n_sib_man = ref9.get("sibling_org_rasters", 179)
         ref9_html = (
-            '<h3>Refreshed 2026-10-27 Cross-Site &amp; 21-Sibling-Org Byte Audit (688 Manifest Rasters: 445 Focus + 102 Extra + 141 Sibling-Org)</h3>'
-            '<p class=mut>EUGGEMSDOE1..3 and GINNYGEMSDOE1..3 verified at 0 .tif blobs (IR-49-EUG-GINNY-EMPTY-01). All measurements below are local HOLDOUT-DTI / byte audits, never projections.</p>'
-            '<table><tr><th>Site / Repo</th><th>Latest 2026-10-27 Candidate File</th><th>Dots</th><th>Far &gt;1.5km / Clump&ge;3</th>'
-            '<th>Local Evaluators [HOLDOUT-DTI]</th><th>3-px Overlap vs Champ / H49-1</th><th>Action</th></tr>'
+            f'<h3>Refreshed 2026-10-28 Cross-Site &amp; 21-Sibling-Org Byte Audit ({n_tot_man} Manifest Rasters: {n_foc_man} Focus + {n_ext_man} Extra + {n_sib_man} Sibling-Org)</h3>'
+            '<p class=mut>EUGGEMSDOE1..3 and GINNYGEMSDOE1..3 verified at 0 .tif blobs (IR-49-EUG-GINNY-EMPTY-01). Owner-reported scores carry [OWNER-REPORT]; local measurements carry [HOLDOUT-DTI] and are never projections.</p>'
+            '<table><tr><th>Site / Repo</th><th>Audited Candidate File</th><th>Dots</th><th>Far &gt;1.5km / Clump&ge;3</th>'
+            '<th>Reported Score / Local Evaluators</th><th>3-px Overlap vs Champ / H51-1</th><th>Action</th></tr>'
             + "".join(r9_rows) + "".join(sib_rows) + '</table>' + fig_html
         )
 
+    lb_top_score = float((st49.get("leaderboard_top") or {}).get("score", 0.4544))
     return (
         '<div class=dl><h2>&#128205; The 9 focus sites &mdash; which file to download, its estimate, and whether it is unique</h2>'
         '<p><b>Best to submit today: none.</b> The highest historical file is GEMSDOE32 <code>0.2778</code> (already submitted; '
         'resubmitting adds no information). The live #1 on the public DrivenData leaderboard read at build time is '
-        '<b>0.4437</b> (see <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a>). '
+        f'<b>{lb_top_score:.4f}</b> (see <a href="https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/">leaderboard</a>). '
         'Every historical score is <b>[OWNER-REPORT]</b>. Holdout values are <b>[HOLDOUT-DTI]</b> from the local evaluator, '
         'stated with the withheld-positive count and 95% CI. A projection is never written as a score.</p>'
         '<table><tr><th>site</th><th>file to download</th><th>dots</th><th>score</th><th>estimate</th>'
-        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + h48 + h49 + '</table>'
+        '<th>unique?</th><th>submit?</th></tr>' + "".join(rows) + h45 + a49 + h48 + h49 + h51 + '</table>'
         + ref9_html +
         '<p class=mut>Uniqueness rule: a file is unique only if its surface Spearman is &le; 0.90 and &le; 70% of its dots fall within '
-        '3&nbsp;px of the dots of every genuine registry raster. The H49-1 scan (<a href="../evidence/h49_cgtd_run_card.json">evidence/h49_cgtd_run_card.json</a>) covered 688 source entries (609 unique SHA-256 rasters across all 9 focus sites, extra scored sites through GEMSDOE92, and 21 sibling-org repos). The literal 5-px calibration lattice '
+        '3&nbsp;px of the dots of every genuine registry raster. The H51-1 scan (<a href="../evidence/h51_ewsp_run_card.json">evidence/h51_ewsp_run_card.json</a>) covered 733 manifest entries + local downloads (647 unique SHA-256 rasters, 610 discrete &le;100k-dot detectors across all 9 focus sites, extra scored sites through GEMSDOE92, and 21 sibling-org repos). The literal 5-px calibration lattice '
         '(IR-51-LATTICE-01) is reported separately and currently blocks every &gt;22,163-dot candidate. Full evidence: '
-        '<a href="../evidence/nine_site_refreshed_audit_20261027.json">2026-10-27 9-site + sibling audit</a> &middot; '
-        '<a href="../evidence/livescore_forensics_20261027.json">15-raster live-score forensics</a> &middot; '
+        '<a href="../evidence/nine_site_refreshed_audit_20261028.json">2026-10-28 9-site + sibling audit</a> &middot; '
+        '<a href="../evidence/h51_ewsp_run_card.json">H51-1 run card</a> &middot; '
+        '<a href="research/h51-ewsp-results-20261028.md">H51-1 PhD synthesis &amp; results</a> &middot; '
+        '<a href="research/h51-ewsp-preregistration-20261028.md">H51-1 preregistration</a> &middot; '
         '<a href="../evidence/h49_cgtd_run_card.json">H49-1 run card</a> &middot; '
         '<a href="research/h49-cgtd-noisyor-review-20261027.md">H49-1 PhD review</a> &middot; '
-        '<a href="research/h49-cgtd-preregistration-20261027.md">H49-1 preregistration</a> &middot; '
         '<a href="../evidence/nine_site_best_files_audit.json">historical nine-site audit</a> &middot; '
-        '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a> &middot; '
-        '<a href="research/h45-tworegime-preregistration-20261026.md">H45 preregistration</a>.</p></div>'
+        '<a href="../evidence/h45_tworegime_run_card.json">H45 run card</a>.</p></div>'
     )
 
 
@@ -1616,6 +1682,14 @@ def main() -> int:
     if (ROOT / "evidence" / "h48_fbgr_run_card.json").exists():
         (DOCS / "data" / "h48_fbgr_run_card.json").write_text(
             (ROOT / "evidence" / "h48_fbgr_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h49_cgtd_run_card.json").exists():
+        (DOCS / "data" / "h49_cgtd_run_card.json").write_text(
+            (ROOT / "evidence" / "h49_cgtd_run_card.json").read_text()
+        )
+    if (ROOT / "evidence" / "h51_ewsp_run_card.json").exists():
+        (DOCS / "data" / "h51_ewsp_run_card.json").write_text(
+            (ROOT / "evidence" / "h51_ewsp_run_card.json").read_text()
         )
 
     # ---- root landing page: GitHub Pages for this repository is configured (server-side, legacy

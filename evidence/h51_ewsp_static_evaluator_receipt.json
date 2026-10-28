@@ -1,0 +1,123 @@
+{
+  "candidate_id": "H51-1-EWSP-static",
+  "path": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",
+  "emitted_pixels": 37654,
+  "hide_and_recover": {
+    "candidate_id": "H51-1-EWSP-static",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "b_visible_px": 2.0,
+    "n_withheld_positives": 22232,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "pooled_dti": 0.0022888406067597617,
+    "ci95_cluster_bootstrap": [
+      0.0018746322113521714,
+      0.0026969408949369666
+    ],
+    "fold_mean_dti": 0.002283053897450604,
+    "per_quadrant_dti": {
+      "NW": 0.002198240554127935,
+      "NE": 0.0021940892352785325,
+      "SW": 0.0019912452120915496,
+      "SE": 0.0027486405883043984
+    },
+    "folds": {
+      "draw20_fold0": {
+        "dti": 0.0025424759313033432,
+        "coverage": 0.004028144460176954,
+        "tp": 7.697784063398159,
+        "fp": 7486.66393771711,
+        "fn": 1903.302215936602,
+        "n_truth": 1911,
+        "emitted": 7493
+      },
+      "draw20_fold1": {
+        "dti": 0.0025436641323332,
+        "coverage": 0.0026904300558773637,
+        "tp": 6.325201061367682,
+        "fp": 3022.9221388023043,
+        "fn": 2344.674798938632,
+        "n_truth": 2351,
+        "emitted": 3028
+      },
+      "draw20_fold2": {
+        "dti": 0.0018009532920488522,
+        "coverage": 0.0027094028548541385,
+        "tp": 9.9841495201375,
+        "fp": 12969.084313324453,
+        "fn": 3675.0158504798624,
+        "n_truth": 3685,
+        "emitted": 12977
+      },
+      "draw20_fold3": {
+        "dti": 0.0031529396663286615,
+        "coverage": 0.004630266619749313,
+        "tp": 14.932609848691534,
+        "fp": 10765.523454950235,
+        "fn": 3210.0673901513082,
+        "n_truth": 3225,
+        "emitted": 10777
+      },
+      "draw21_fold0": {
+        "dti": 0.0018540051769525272,
+        "coverage": 0.002799547797317091,
+        "tp": 5.90984540013638,
+        "fp": 7488.140041414454,
+        "fn": 2105.0901545998636,
+        "n_truth": 2111,
+        "emitted": 7493
+      },
+      "draw21_fold1": {
+        "dti": 0.0018445143382238645,
+        "coverage": 0.001968927980848093,
+        "tp": 4.459621876620931,
+        "fp": 3024.4186920627153,
+        "fn": 2260.540378123379,
+        "n_truth": 2265,
+        "emitted": 3028
+      },
+      "draw21_fold2": {
+        "dti": 0.002181537132134247,
+        "coverage": 0.00332527368438191,
+        "tp": 11.917780884824767,
+        "fp": 12967.181992744354,
+        "fn": 3572.082219115175,
+        "n_truth": 3584,
+        "emitted": 12977
+      },
+      "draw21_fold3": {
+        "dti": 0.0023443415102801356,
+        "coverage": 0.0035057722807209264,
+        "tp": 10.867894070234872,
+        "fp": 10768.12292825287,
+        "fn": 3089.132105929765,
+        "n_truth": 3100,
+        "emitted": 10777
+      }
+    }
+  },
+  "sgmc_off_catalogue": {
+    "candidate_id": "H51-1-EWSP-static",
+    "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+    "score_label": "HOLDOUT-DTI",
+    "n_withheld_positives": 62703,
+    "n_spatial_clusters": 140,
+    "n_bootstrap_reps": 1000,
+    "sgmc_raw_pooled_dti": 0.09439539032937512,
+    "sgmc_raw_ci95": [
+      0.08220445179958907,
+      0.10702029221398705
+    ],
+    "sgmc_prevalence_calibrated_dti": 0.06303234624331554,
+    "sgmc_calibrated_ci95": [
+      0.055350756509468454,
+      0.0700204963152565
+    ]
+  },
+  "legacy_summary": {
+    "catalogue_hidden_mean": 0.002283053897450604,
+    "sgmc_prevalence_calibrated_dti": 0.06303234624331548,
+    "drift_corrected_holdout_mean": 0.04122453488848418
+  }
+}
