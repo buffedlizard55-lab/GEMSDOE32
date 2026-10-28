@@ -1,6 +1,85 @@
 {
  "hypotheses": [
   {
+   "id": "H51-1",
+   "rank": 1,
+   "title": "Elastostatic Williams-Pollard Crack-Tip/Relay Stress, Anisotropic Screened-Poisson Hydrothermal Plume PDE, Baranov Pseudo-Gravity Demagnetization & 3-Family Dual-Cover (EWSP)",
+   "layers": [
+    "Bands 01-19 + lidar_scarp_features_u8.tif + acquisition_block_id_100m.tif + tiger_roads_distance_m.tif",
+    "GDR #1391 2m thermal probes, paleo-sinter/tufa vents & wellspringdata.gdb geothermometry",
+    "Fold-local visible_full fault skeleton (Williams 1957 Mode-I crack-tip & Crider-Pollard 1998 mutual relay sqrt(M1*M2))"
+   ],
+   "signature": "Anisotropic Screened-Poisson (I - l^2 div(D grad))u = S aligned with potential-field basement strike + Baranov (1957) Fourier pseudo-gravity magnetite-destruction residual + Gallardo-Meju (2003) gravity x residualized-MT cross-gradient + Darcy-Boussinesq aquifer pinch-out + Gabriel-graph corridors + orthogonal 3-family Dual-Cover (ExtraTrees + Spline-Logistic + Compact-GBDT) + min_sep_px=2.8 CELF",
+   "why_off_catalogue": "Recovers both blind sub-alluvial hydrothermal conduits/graben boundaries (via potential-field/MT PDE residuals and Darcy pinch-outs) and unmapped fault-tip propagation lobes & en-echelon relay bridges (via segment-jackknifed LEFM stress)",
+   "differs_from_repo": "First Screened-Poisson PDE, Baranov Fourier pseudo-gravity, Darcy-Boussinesq pinch-out, Gabriel-graph corridor, segment-jackknifed Williams-Pollard stress, and orthogonal 3-family (ExtraTrees + Spline-Logistic + GBDT) Dual-Cover in repo (replaces 83-93 ch ancestor stacking)",
+   "expected_dti": "MEASURED: EXP1 (emitted, 43-ch) HR=0.115134 [0.101496,0.128693] (+0.0159 vs Champion, P=1.000), Det>=600m=0.100838, SGMC-cal=0.063032, 100% unique across all 610 discrete <=100k rasters (max 68.90% <= 70%); EXP2 (45-ch) HR=0.164348 [0.150473,0.177721] (all-time repo record, +65.7% vs Champion) & SGMC-cal=0.065036 > 0.064121 (stopped on 76.31% collar overlap vs GEMSDOE37 80k)",
+   "cost": "medium (~18 min CPU across 8 draw-quadrant cells on 2 vCPU, <3.75 GB RSS)",
+   "data_status": "VERIFIED OBTAINABLE & SHA-256 PINNED in registry/data_manifest.json",
+   "status": "TESTED THIS SESSION (EXP1..EXP3). Emitted EXP1 passes 100% of discrete registry rasters (max 68.90% <= 70%); held DO NOT SUBMIT pending H52 collar-quota EXP2 + literal r13-lattice-s5 rule."
+  },
+  {
+   "id": "H51-2",
+   "rank": 2,
+   "title": "Biot-Terzaghi Poroelastic Effective-Stress Mohr-Coulomb Failure Margin & Crustal Strain-Incompatibility Curl (BSIM)",
+   "layers": [
+    "Band 10 max_shear_strain + Band 11 dilation_rate",
+    "Band 13 iso_grav_anom + Band 15 depth_to_base_surf + Band 16 heatflow + GDR #1391 thermal wells"
+   ],
+   "signature": "Biot pore-pressure overpressure lowering normal clamping stress CFF_Biot = tau - mu*(sigma_n - alpha_B*Pf) + Saint-Venant strain-rate incompatibility |curl curl eps_dot| where aseismic geodetic strain localizes onto discrete unmapped fault planes",
+   "why_off_catalogue": "Hydrothermal fluid overpressure reactivates blind faults unfavorably oriented under dry Andersonian stress and lacking surface scarps (Sibson 1996)",
+   "differs_from_repo": "Prior lanes used raw Bands 10-11 or dry slip-tendency rasters; none computed Biot effective-stress failure margins or Saint-Venant strain incompatibility",
+   "expected_dti": "unmeasured (preregistered #2 backlog candidate in docs/research/h51-ewsp-preregistration-20261028.md)",
+   "cost": "low (~6 min CPU)",
+   "data_status": "VERIFIED IN-BAND + SHA-PINNED GDR #1391",
+   "status": "preregistered backlog (#2 in H51 portfolio); not run (1-lane protocol)"
+  },
+  {
+   "id": "H51-3",
+   "rank": 3,
+   "title": "2-D Wavenumber Directional-Knife Basement Edge Continuation & Spectral Coherency Phase-Jump (FKNIFE)",
+   "layers": [
+    "Band 02 rtp + Band 13 iso_grav_anom + Band 15 depth_to_base_surf"
+   ],
+   "signature": "8-sector cos^4(phi - phi_m) directional 2-D FFT fan-filters across upward-continued z=300m, 1.2km, 3.0km shells isolating NNE/NW Basin-and-Range strike steps while rejecting E-W GeoDAWN flight-line corrugation + gravity-magnetic cross-spectral phase jump",
+   "why_off_catalogue": "Traces continuous buried range-front and intra-basin horst/graben boundaries across deep alluvial valleys while rejecting contractor flight-line noise",
+   "differs_from_repo": "fbgr.py used isotropic upward continuation exp(-k*z); azimuthal wavenumber fan-filtering and cross-spectral phase jump are untried",
+   "expected_dti": "unmeasured (preregistered #3 backlog candidate)",
+   "cost": "low (~4 min CPU)",
+   "data_status": "VERIFIED IN-BAND (Bands 02, 13, 15)",
+   "status": "preregistered backlog (#3 in H51 portfolio); not run (1-lane protocol)"
+  },
+  {
+   "id": "H51-4",
+   "rank": 4,
+   "title": "Hydrological Stream-Profile Knickpoint & Drainage-Divide Asymmetry Scarp Extraction (HSHARP)",
+   "layers": [
+    "Band 18 dem + Band 19 slope + external tiger_roads_distance_m.tif"
+   ],
+   "signature": "Pit-filled D8 upslope drainage area A and normalized channel steepness k_sn = |grad z| * A^0.45 + cross-divide Gilbert relief asymmetry, gated >180m from TIGER 2024 road/rail culverts",
+   "why_off_catalogue": "Active blind-fault uplift creates aligned stream-channel knickpoint belts across alluvial fans even where diffusive creep has erased sharp 1m scarps \u2014 and works across 100% of the 24.63% 1m LiDAR gap",
+   "differs_from_repo": "Zero prior lanes solved D8 hydrological routing or Hack stream-power knickpoint steepness",
+   "expected_dti": "unmeasured (preregistered #4 backlog candidate)",
+   "cost": "low-medium (~8 min CPU)",
+   "data_status": "VERIFIED IN-BAND + SHA-PINNED TIGER ROADS",
+   "status": "preregistered backlog (#4 in H51 portfolio); not run (1-lane protocol)"
+  },
+  {
+   "id": "H51-5",
+   "rank": 5,
+   "title": "Multi-Depth 3-D MT Resistivity Roots + Relocated GrowClust Microseismic Planes + Sentinel-1 InSAR LOS Phase Breaks (MT3D-INSAR)",
+   "layers": [
+    "USArray/GBCGE 3-D MT multi-depth slices (DOI 10.5066/P9TWT2LU)",
+    "USGS/NSL GrowClust relocated Great Basin hypocenter catalog + ASF Copernicus Sentinel-1 ARIA/OPERA LOS velocity gradients"
+   ],
+   "signature": "Sub-vertical <15 ohm-m hydrothermal roots extending 5-10 km to 2 km beneath conductive playas + 3-D RANSAC microseismic fault planes + sub-cm/yr InSAR phase-gradient breaks",
+   "why_off_catalogue": "Directly images active aseismic/seismic blind faults and deep sub-playa hydrothermal conduits invisible to surface topography and single-slice 2 km MT",
+   "differs_from_repo": "External multi-depth 3-D MT, relocated hypocenters, and InSAR phase-gradient cubes are absent from the 19-band training stack",
+   "expected_dti": "high theoretical ceiling on active blind faults",
+   "cost": "high (requires external GitHub mirror)",
+   "data_status": "DATA-BLOCKED in sandbox (outbound allowlist permits github.com/pypi.org/npmjs.org only; free CC0/CC-BY-4.0 US Gov data)",
+   "status": "preregistered backlog (#5 in H51 portfolio, DATA-BLOCKED pending GitHub mirror)"
+  },
+  {
    "id": "ARENA-EULER-E1",
    "rank": 1,
    "title": "Windowed 3-D Euler deconvolution (N=0.25) depth-concordant contacts as GBM channels",

@@ -1,0 +1,16 @@
+{
+  "observed_utc": "2026-10-28T12:15:00Z",
+  "source": "https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/",
+  "verified_via": "Arena fetch_page live read on 2026-10-28",
+  "evidence_class": "PUBLIC-LEADERBOARD-SNAPSHOT (other participants' public Phase-1 scores; not a receipt for this repository's files)",
+  "note": "Supersedes 2026-10-26 snapshot (#1 xiaofanhu 0.4437) and prompt figures (0.4413 from 2026-10-25; 0.3195 historical early-October #2/#3, currently #26 kpomazi 0.3195).",
+  "rows": [
+    {"rank": 1, "participant": "xiaofanhu", "score": 0.4544, "submissions": 33, "last_activity": "1d 10h ago"},
+    {"rank": 2, "participant": "cfld__", "score": 0.3916, "submissions": 20, "last_activity": "1d 6h ago"},
+    {"rank": 3, "participant": "Batik Shirt Brothers", "score": 0.3911, "submissions": 57, "last_activity": "19h ago"},
+    {"rank": 4, "participant": "BrandenKMurray", "score": 0.3724, "submissions": 34, "last_activity": "3d ago"},
+    {"rank": 5, "participant": "No Fault of Our Own", "score": 0.3570, "submissions": 47, "last_activity": "1d ago"},
+    {"rank": 26, "participant": "kpomazi", "score": 0.3195, "submissions": 21, "last_activity": "snapshot anchor"},
+    {"rank": 50, "participant": "strikeslipfault", "score": 0.2874, "submissions": 15, "last_activity": "snapshot anchor"}
+  ]
+}

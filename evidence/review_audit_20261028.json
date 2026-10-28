@@ -1,33 +1,33 @@
 {
-  "hypothesis": "Audit the latest registered artifact (GEMSDOE32-H49-CGTD-F3E24FB5); no newly assigned method lane in this request.",
+  "hypothesis": "Audit the latest registered artifact (GEMSDOE32-H51-EWSP-BDF25D8C); no newly assigned method lane in this request.",
   "mechanism": "Saved-byte verification and nine-site evidence review; no model experiment.",
   "non_fault_mimic": "Lithologic contacts and acquisition seams can mimic geophysical fault targets.",
-  "artifact_label": "GEMSDOE32-H49-CGTD-F3E24FB5",
+  "artifact_label": "GEMSDOE32-H51-EWSP-BDF25D8C",
   "holdout": {
     "status": "HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW",
     "reason": "No new lane assigned; feature caches absent in checkout.",
-    "historical_evidence": "evidence/h49_cgtd_run_card.json",
+    "historical_evidence": "evidence/h51_ewsp_run_card.json",
     "label": "HOLDOUT-DTI",
     "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
     "n_withheld_positives": 22232,
-    "dti": 0.105043,
+    "dti": 0.115134,
     "ci95": [
-      0.090781,
-      0.119402
+      0.101496,
+      0.128693
     ],
     "leaderboard_estimate": null
   },
   "correlation_overlap_vs_registry": {
     "status": "HISTORICAL_RESULT_NOT_RERUN_THIS_REVIEW",
-    "historical_evidence": "evidence/h49_cgtd_run_card.json",
-    "max_abs_surface_spearman": 0.23766,
-    "max_external_cross_site_3px_overlap": 0.678494,
-    "max_all_genuine_3px_overlap": 0.733255,
-    "literal_calibration_lattice_3px_overlap": 0.994476,
+    "historical_evidence": "evidence/h51_ewsp_run_card.json",
+    "max_abs_surface_spearman": 0.249233,
+    "max_external_cross_site_3px_overlap": 0.688984,
+    "max_all_genuine_3px_overlap": 0.688984,
+    "literal_calibration_lattice_3px_overlap": 0.996999,
     "literal_registry_passed": false,
     "warning": "Historical evidence only; do not substitute discrete-only uniqueness for the all-registry rule."
   },
-  "raster_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+  "raster_sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740",
   "hash_matches_registry": true,
   "validator_output": {
     "verified_this_review": true,
@@ -56,8 +56,8 @@
     "reference_template_verified_this_review": false,
     "limitation": "Historical grid only; no footprint/catalogue or authenticated template check."
   },
-  "submission_name": "GEMSDOE32-H49-CGTD-F3E24FB5",
-  "note": "Latest artifact GEMSDOE32-H49-CGTD-F3E24FB5 re-audited; no new lane, no new score estimate, no upload authorization.",
+  "submission_name": "GEMSDOE32-H51-EWSP-BDF25D8C",
+  "note": "Latest artifact GEMSDOE32-H51-EWSP-BDF25D8C re-audited; no new lane, no new score estimate, no upload authorization.",
   "verdict": "negative",
   "ok_to_submit": false,
   "experiments_used": 0,

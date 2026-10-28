@@ -89,7 +89,11 @@ def main() -> int:
                     "limitation": measured["limitation"],
                 },
             }
-            release["reviewed_utc"] = status.get("updated_utc")
+            ts_candidates = [
+                ts for ts in (status.get("updated_utc"), newest.get("built_utc"), release.get("reviewed_utc"))
+                if isinstance(ts, str) and ts.strip()
+            ]
+            release["reviewed_utc"] = max(ts_candidates) if ts_candidates else status.get("updated_utc")
             release["decision_scope"] = (
                 f"Reconciled by scripts/sync_submission_build.py: the release review still pointed at "
                 f"{Path(old_path).name} after a parallel merge advanced the newest candidate; decision remains fail-closed."
@@ -191,8 +195,15 @@ def main() -> int:
     lc = release.get("latest_candidate")
     cand_id = newest.get("id") or newest.get("submission_name")
     cand_file = art.get("path", newest.get("file"))
-    primary_hr = (newest.get("holdout_dti", {}) or {}).get("primary_hide_and_recover", {})
-    inc_hr = (newest.get("holdout_dti", {}) or {}).get("incumbent_02778_same_evaluator", {})
+    card_doc = {}
+    if newest.get("run_card") and (ROOT / newest["run_card"]).is_file():
+        try:
+            card_doc = _load(ROOT / newest["run_card"])
+        except Exception:
+            card_doc = {}
+    hd_block = (card_doc.get("holdout_dti") or newest.get("holdout_dti") or {})
+    primary_hr = hd_block.get("primary_hide_and_recover", {})
+    inc_hr = hd_block.get("incumbent_02778_same_evaluator", {})
     hr_passed = bool(
         isinstance(primary_hr, dict)
         and isinstance(inc_hr, dict)
