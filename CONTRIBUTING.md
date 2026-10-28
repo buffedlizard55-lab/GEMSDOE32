@@ -2,6 +2,8 @@
 
 ## The one rule that matters
 
+**Read [the current standing request](docs/research/standing-request-20261028.md) and [current review](docs/research/review-20261028.md) at session start.**
+
 **No number appears on the site or in the README unless it traces to a file in `registry/` or
 `evidence/`, and no score is described as verified unless it was read from the public leaderboard
 page in this repository.** Owner-reported scores are labelled *claim*. This is the "no
@@ -25,8 +27,7 @@ an irregularity entry instead. Large rasters are never committed (`.gitignore`).
    dict in the run's evidence JSON.
 4. Score it on the blocked holdout at matched mass; append the evaluation to
    `registry/observations.jsonl` whether or not it wins.
-5. Only `bo.slot_gate` can approve spending one of the three weekly slots, and it must be told the
-   slot cost and the two-round objective.
+5. Use the separate selector for actual slot approval. The current weekly cap must be verified on the authenticated submission page; do not hard-code three slots. A research promotion is not an upload authorization.
 
 ## Review passes
 

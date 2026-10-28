@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-28T14:10:13Z",
+ "generated_utc": "2026-10-28T14:22:17Z",
  "sources": [
   {
    "id": "competition",
@@ -2110,7 +2110,7 @@
   "sync": {
    "synced_utc": "2026-10-28T14:05:00Z",
    "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
-   "previous_pinned_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd"
+   "previous_pinned_sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740"
   }
  },
  "holdout": {
@@ -7586,6 +7586,30 @@
    "severity": "high (cross-site evaluation leakage warning 2026-10-27)",
    "statement": "GEMSDOE25's 2026-10-27 candidate gems25-h79-cthm-crustal-sgmc-b2-37654-20261027-e7ad8a4bf3ed-zeros.tif directly incorporates USGS SGMC faults in model construction, inflating its local SGMC-raw DTI to 0.4224 while invalidating SGMC as an independent off-catalogue holdout (replicating GEMSDOE29's 0.0512/0.1592 SGMC-overfitting trap).",
    "mitigation": "GEMSDOE32 maintains strict zero-supervision, zero-feature isolation of USGS SGMC (evaluation-only diagnostic) and flags GEMSDOE25 H79-CTHM+SGMC as DO NOT SUBMIT."
+  },
+  {
+   "id": "IR-20261028-BUDGET",
+   "severity": "critical",
+   "statement": "Literal lattice uniqueness makes the current 37,654-dot budget impossible: only 6,514 allowed cells outside the 3px collar; necessary N<=21,713.",
+   "mitigation": "Shared dot_budget_feasibility preflight; no exemption, no new TIF or model experiment. Evidence: evidence/focus_review_20261028.json."
+  },
+  {
+   "id": "IR-20261028-BINARY",
+   "severity": "high",
+   "statement": "Canonical writer/evaluator silently thresholded any positive float, changing prediction values and masking invalid input. Missing holdout metrics defaulted to zero.",
+   "mitigation": "Strict binary input guards shared across writer/core evaluator; null missing metrics; probability writer preserves valid probabilities and rejects invalid inputs without clipping; regression tests."
+  },
+  {
+   "id": "IR-20261028-BLOB",
+   "severity": "high",
+   "statement": "Registry fetcher reused caches solely by size and accepted truncated Git trees.",
+   "mitigation": "Require pinned Git blob verification on caches/downloads, reject truncated listings; bounded listing scope is explicit."
+  },
+  {
+   "id": "IR-20261028-LANE",
+   "severity": "high",
+   "statement": "Current prompt contains no explicit single assigned method paragraph. No cached feature stack is present and no new performance evidence was produced.",
+   "mitigation": "Record four planning hypotheses; do not silently reuse previous lane or claim an authorized new submission. See docs/research/review-20261028.md."
   },
   {
    "id": "IR-51-SMAN-PATH-01",

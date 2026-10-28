@@ -1,5 +1,7 @@
 # Repository review — 2026-10-28
 
+> Historical earlier same-day snapshot (parallel PR #56). The later [fresh-byte review](review-20261028.md) restores the template and references, verifies the nine winners, and derives a necessary dot-budget bound. The earlier missing-data statements below describe that earlier checkout, not the later audit.
+
 ## Executive decision
 
 **No submission is cleared. Do not upload any raster from this checkout.** The latest registered candidate is H49-1-CGTD, but it is a research/audit artifact: the saved run card records a negative verdict, a same-evaluator result below the repository's best holdout result, and registry-uniqueness stops. The 0.2778 H33-B2 result is an owner-reported score, not an organizer-confirmed receipt tied to the raster hash. The nine-site report appropriately labels historical scores as owner-reported and leaves a new leaderboard-score estimate unavailable.

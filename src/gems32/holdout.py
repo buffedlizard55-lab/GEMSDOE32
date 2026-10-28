@@ -15,6 +15,7 @@ import rasterio
 from scipy.ndimage import binary_dilation, binary_erosion, distance_transform_edt, label
 
 from .metric import ALPHA, BETA, EPS, kernel
+from .submission import require_binary_mask
 
 FOLD_NAMES = ("NW", "NE", "SW", "SE")
 FOLDS = (0, 1, 2, 3)
@@ -648,6 +649,8 @@ def evaluate_hide_and_recover(
     and computes exact pooled DTI (alpha=0.2, beta=0.8, 300 m triangular kernel) with a spatial
     ``grid_n x grid_n`` block cluster-bootstrap 95% CI.
     """
+    if not np.isfinite(b_visible_px) or b_visible_px < 0:
+        raise ValueError("b_visible_px must be finite and nonnegative")
     h, w = ctx.foot.shape
     n_blocks = grid_n * grid_n
     tp_blk = np.zeros(n_blocks, dtype=np.float64)
@@ -658,14 +661,18 @@ def evaluate_hide_and_recover(
     active_blocks = np.unique(_spatial_block_index(fy, fx, (h, w), grid_n))
 
     is_cell_dict = isinstance(pred_or_cells, dict)
-    base_mask = None if is_cell_dict else (np.asarray(pred_or_cells, bool) & ctx.foot)
+    base_mask = None if is_cell_dict else require_binary_mask(pred_or_cells, ctx.foot)
+    if is_cell_dict and set(pred_or_cells) != {cell.key for cell in ctx.cells}:
+        raise ValueError("OOF keys must exactly match the holdout cells")
 
     folds: dict[str, dict] = {}
     for cell in ctx.cells:
         sl = cell.bbox
         r0, c0 = int(sl[0].start), int(sl[1].start)
         if is_cell_dict:
-            raw_cell = np.asarray(pred_or_cells[cell.key], bool)
+            raw_cell = np.asarray(pred_or_cells[cell.key])
+            domain = ctx.foot if raw_cell.shape == (h, w) else ctx.foot[sl]
+            raw_cell = require_binary_mask(raw_cell, domain)
             sub_in = raw_cell[sl] if raw_cell.shape == (h, w) else raw_cell
         else:
             sub_in = base_mask[sl]

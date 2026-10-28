@@ -46,6 +46,35 @@ def compare_registry(surface, dots, footprint, registry, *, stage="final"):
                 comparisons=rows, passed=passed, stop=not passed)
 
 
+def dot_budget_feasibility(allowed: np.ndarray, reference_dots: np.ndarray,
+                           proposed_budget: int) -> dict:
+    """Necessary (not sufficient) feasibility bound for the literal 70% rule.
+
+    With U allowed pixels farther than 3px from a reference, a set of N distinct
+    dots has at most U outside the collar. Passing overlap <= 7/10 requires
+    3*N <= 10*U, hence N <= floor(10*U/3). No density exemption is applied.
+    A feasible bound does not establish geology, spacing or joint-registry novelty.
+    """
+    allowed = np.asarray(allowed, bool)
+    reference = np.asarray(reference_dots, bool)
+    if allowed.ndim != 2 or allowed.shape != reference.shape or not allowed.any():
+        raise ValueError("Expected matching 2-D grids and nonempty allowed domain")
+    if not isinstance(proposed_budget, (int, np.integer)) or isinstance(proposed_budget, bool) or proposed_budget <= 0:
+        raise ValueError("proposed_budget must be a positive integer")
+    if not reference.any():
+        return dict(status="unmeasurable", budget=int(proposed_budget), feasible=False,
+                    reason="Empty registry reference; literal uniqueness fails closed")
+    near = distance_transform_edt(~reference) <= 3
+    allowed_count = int(allowed.sum())
+    outside_count = int((allowed & ~near).sum())
+    upper = min(allowed_count, 10 * outside_count // 3)
+    return dict(status="necessary_bound_only", budget=int(proposed_budget),
+                allowed_pixels=allowed_count, outside_3px_pixels=outside_count,
+                max_feasible_distinct_dots=upper, feasible=bool(proposed_budget <= upper),
+                minimum_possible_overlap=max(0.0, 1 - outside_count / proposed_budget),
+                rule="N <= floor(10*U/3); necessary not sufficient; no registry exemption")
+
+
 REQUIRED_VALIDATOR_CHECKS = frozenset({
     "single_band", "finite", "range_0_1", "crs_match", "shape_match", "transform_match",
 })

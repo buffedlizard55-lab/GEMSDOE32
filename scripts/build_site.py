@@ -1604,7 +1604,9 @@ def main() -> int:
     # A persistent download button in the header of *every* page: the brief asks for an obvious
     # one-click download at the very top of the site, and the safest way to guarantee that is to put
     # it in the page chrome rather than in one page's body.
-    review_link = '<p><a href="nine-site-review.html">2026-10-27 nine-site executive audit: downloads, uniqueness and score limitations</a></p>'
+    from build_review_audit import build as build_focus_review
+    build_focus_review()
+    review_link = '<p><a href="nine-site-review.html">2026-10-28 nine-site executive audit: measured uniqueness, budget feasibility and downloads</a></p>'
     dl_btn = ""
     release = read("evidence/current_release_review.json", {}) or {}
     if sub and release.get("submission_authorization", {}).get("ok_to_download_and_submit") is True:

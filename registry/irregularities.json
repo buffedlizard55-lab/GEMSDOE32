@@ -720,6 +720,30 @@
    "mitigation": "GEMSDOE32 maintains strict zero-supervision, zero-feature isolation of USGS SGMC (evaluation-only diagnostic) and flags GEMSDOE25 H79-CTHM+SGMC as DO NOT SUBMIT."
   },
   {
+   "id": "IR-20261028-BUDGET",
+   "severity": "critical",
+   "statement": "Literal lattice uniqueness makes the current 37,654-dot budget impossible: only 6,514 allowed cells outside the 3px collar; necessary N<=21,713.",
+   "mitigation": "Shared dot_budget_feasibility preflight; no exemption, no new TIF or model experiment. Evidence: evidence/focus_review_20261028.json."
+  },
+  {
+   "id": "IR-20261028-BINARY",
+   "severity": "high",
+   "statement": "Canonical writer/evaluator silently thresholded any positive float, changing prediction values and masking invalid input. Missing holdout metrics defaulted to zero.",
+   "mitigation": "Strict binary input guards shared across writer/core evaluator; null missing metrics; probability writer preserves valid probabilities and rejects invalid inputs without clipping; regression tests."
+  },
+  {
+   "id": "IR-20261028-BLOB",
+   "severity": "high",
+   "statement": "Registry fetcher reused caches solely by size and accepted truncated Git trees.",
+   "mitigation": "Require pinned Git blob verification on caches/downloads, reject truncated listings; bounded listing scope is explicit."
+  },
+  {
+   "id": "IR-20261028-LANE",
+   "severity": "high",
+   "statement": "Current prompt contains no explicit single assigned method paragraph. No cached feature stack is present and no new performance evidence was produced.",
+   "mitigation": "Record four planning hypotheses; do not silently reuse previous lane or claim an authorized new submission. See docs/research/review-20261028.md."
+  },
+  {
    "id": "IR-51-SMAN-PATH-01",
    "severity": "medium",
    "statement": "scripts/run_h48_fbgr.py::collect_all_registry_entries checked .cache/sibling_orgs/manifest.json instead of registry/sibling_orgs_manifest.json, causing standalone uniqueness scans to silently omit the 179 sibling-org GeoTIFFs fetched by scripts/fetch_sibling_orgs.py unless a manual symlink existed.",

@@ -213,6 +213,6 @@
   "sync": {
     "synced_utc": "2026-10-28T14:05:00Z",
     "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
-    "previous_pinned_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd"
+    "previous_pinned_sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740"
   }
 }

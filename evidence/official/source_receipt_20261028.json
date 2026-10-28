@@ -1,0 +1,21 @@
+{
+  "retrieved_date": "2026-10-28",
+  "ref": "aebe92f7c8a990f0e3443451b7a825d9afd6336b",
+  "readme_sha256": "cfa4d55559c9128313beb9417eae7e0a94c31677132afb1120f9e86222804239",
+  "readme_matches_saved_copy": true,
+  "saved_copy": "evidence/official/reference-solution-readme-20261027.md",
+  "notebook_excerpt": "evidence/official/reference-excerpts-20261028.json",
+  "external_hosts_not_fetched": [
+    "drivendata.org",
+    "usgs.gov",
+    "gdr.openei.org",
+    "docs.nlr.gov",
+    "dropbox.com"
+  ],
+  "pages_configuration": {
+    "source_branch": "main",
+    "source_path": "/",
+    "build_type": "legacy",
+    "url": "https://buffedlizard55-lab.github.io/GEMSDOE32/"
+  }
+}

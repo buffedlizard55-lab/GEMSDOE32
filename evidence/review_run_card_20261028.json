@@ -1,0 +1,102 @@
+{
+  "hypothesis": "Preflight the existing H49 artifact and nine historical winners before testing the planned two-plane geomorphic hypothesis.",
+  "mechanism": "Pinned GitHub byte audit, strict template validation, literal lattice comparison and exact necessary dot-budget bound; no geological model experiment.",
+  "non_fault_mimic": "Erosional terrace risers and lithologic contacts can mimic the planned two-plane terrain discontinuity.",
+  "holdout": {
+    "status": "NOT_RUN",
+    "dti": null,
+    "ci95": null,
+    "evaluator_version": null,
+    "n_withheld_positives": null,
+    "leaderboard_estimate": null,
+    "reason": "No explicit method lane; current budget fails necessary feasibility; shared feature caches absent."
+  },
+  "correlation_overlap_vs_registry": {
+    "scope": "Existing H49 against literal lattice only; nine historical winner pairs separately measured; NOT a new full-registry surface/final audit.",
+    "preplacement_surface_status": "NOT_RUN",
+    "final_lattice": {
+      "stage": "final",
+      "rule": "literal rho>0.90 OR directional overlap>0.70; no density exemptions",
+      "comparisons": [
+        {
+          "registry": "literal-calibration-lattice",
+          "spearman": 0.00017852321469101687,
+          "within_3px_fraction": 0.994476018484092,
+          "duplicate": true,
+          "measurable": true
+        }
+      ],
+      "passed": false,
+      "stop": true
+    },
+    "budget_feasibility": {
+      "status": "necessary_bound_only",
+      "budget": 37654,
+      "allowed_pixels": 5106385,
+      "outside_3px_pixels": 6514,
+      "max_feasible_distinct_dots": 21713,
+      "feasible": false,
+      "minimum_possible_overlap": 0.8270037711796887,
+      "rule": "N <= floor(10*U/3); necessary not sufficient; no registry exemption"
+    }
+  },
+  "raster_sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+  "artifact_path": "docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif",
+  "artifact_role": "existing H49 research artifact, not generated this session",
+  "validator_output": {
+    "reference": "restored hash-pinned owner mirror, not organizer-authenticated",
+    "no_nan_inside_footprint": true,
+    "all_cells_finite": true,
+    "range_0_1": true,
+    "crs_shape_transform_match": true,
+    "report": {
+      "file_path": "/home/user/GEMSDOE32/docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif",
+      "sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+      "passed": true,
+      "checks": [
+        {
+          "name": "dimensions",
+          "passed": true,
+          "detail": "shape (3730, 3292) (expected (3730, 3292))"
+        },
+        {
+          "name": "band_count",
+          "passed": true,
+          "detail": "bands: 1 (expected 1)"
+        },
+        {
+          "name": "crs",
+          "passed": true,
+          "detail": "CRS: EPSG:32611 (expected EPSG:32611)"
+        },
+        {
+          "name": "transform",
+          "passed": true,
+          "detail": "transform matched template"
+        },
+        {
+          "name": "dtype",
+          "passed": true,
+          "detail": "dtype: float32 (expected float32)"
+        },
+        {
+          "name": "in_footprint_range",
+          "passed": true,
+          "detail": "in-footprint range [0.0000, 1.0000], all finite"
+        },
+        {
+          "name": "portal_safe_whole_array",
+          "passed": true,
+          "detail": "whole-array range [0.0000, 1.0000], finite=True"
+        }
+      ]
+    }
+  },
+  "submission_name": "GEMSDOE32-H49-CGTD-F3E24FB5",
+  "note": "Existing H49 re-audit: format passes; literal uniqueness and dot-budget feasibility fail. No new TIF; do not submit.",
+  "new_tif_generated": false,
+  "experiments_used": 0,
+  "weekly_slots_used": 0,
+  "verdict": "negative",
+  "ok_to_submit": false
+}
