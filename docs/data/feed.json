@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-28T16:50:24Z",
+ "generated_utc": "2026-10-29T11:38:06Z",
  "sources": [
   {
    "id": "competition",
@@ -2108,7 +2108,7 @@
   "arena8a_candidate": "registry/arena8a_submission.json",
   "arena9_candidate": "evidence/arena9_run_card.json",
   "sync": {
-   "synced_utc": "2026-10-28T14:05:00Z",
+   "synced_utc": "2026-10-28T17:35:00Z",
    "rule": "primary always mirrors evidence/current_release_review.json artifact (== registry/current_status.json newest_unique); never upload-authorized",
    "previous_pinned_sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740"
   }
@@ -5039,10 +5039,10 @@
  },
  "current_status": {
   "schema_version": 1,
-  "updated_utc": "2026-10-28T14:05:00Z",
+  "updated_utc": "2026-10-28T17:35:00Z",
   "single_source_of_truth": "README top block and every site page render from this file; update it, never add a second banner",
   "any_file_ok_to_submit": false,
-  "headline": "No file is authorized for upload. H51-1-EWSP (EXP1_EWSP_SUBSURFACE_POISSON) is the newest genuinely unique research/audit artifact (37,654 dots, B=2, min_sep_px=2.8): it passes 100% of all 610 discrete <=100k-dot detector rasters across all 30 repositories (max 3-px dot overlap = 68.90% <= 70.0%, focus-site max = 68.50% <= 70.0%, max |Spearman| = 0.2492 <= 0.90 \u2014 resolving H49-1's 73.33% intra-repo duplicate stop), passes all 45 feature leakage canaries (max AUC = 0.80524 <= 0.90) and 13/13 strict GeoTIFF [0, 1] finite checks, and beats the 0.2778 Champion on GEMSDOE32-HIDE-RECOVER-v3.0 (HOLDOUT-DTI = 0.115134 [0.101496, 0.128693] vs 0.099202, paired 95% CI [+0.008764, +0.023615] > 0, P=1.000) and Detached >=600m (0.100838 vs 0.094324), while H51-1 EXP2 (fold-local Williams-Pollard + Screened-Poisson) set all-time repo records on BOTH HIDE-RECOVER-v3.0 (0.164348 [0.150473, 0.177721], +65.7% over Champion) AND SGMC-CAL-v3.0 (0.065036 > 0.064121) before stopping under Protocol Rule 1 collar overlap (76.31% vs GEMSDOE37 80k). Emitted EXP1 remains held fail-closed (DO NOT SUBMIT) due to slight SGMC-cal gap (0.063032 vs 0.064121), literal r13-lattice-s5 overlap (99.45%, IR-51-LATTICE-01), and separate weekly-slot selector review.",
+  "headline": "CORRECTION 2026-10-28 (static re-check, evidence/holdout_static_recheck_20261028.json): the H51-1-EWSP 0.115134 HIDE-RECOVER figure is a fold-local re-emission arm, NOT the downloadable bytes. The emitted H51 .tif scores 0.002289 [0.001847, 0.002676] on the static HIDE-RECOVER-v3.0 evaluator vs the 0.2778 champion's 0.004515 [0.003837, 0.005278] (H51 is LOWER); on the static SGMC-CAL-v3.0 evaluator H51 = 0.063032 vs champion 0.064121 (CIs overlap). Uniqueness re-verified: H51 is the only file that passes 70% and rho<=0.90 vs the nine focus sites (max 54.2%) and vs every <=100k-dot registry raster (max 68.5%); it fails vs the dense r13-lattice-s5 raster (99.7%). NO FILE IS CLEARED FOR SUBMISSION. DOWNLOAD FOR REVIEW ONLY. No file is authorized for upload. H51-1-EWSP (EXP1_EWSP_SUBSURFACE_POISSON) is the newest genuinely unique research/audit artifact (37,654 dots, B=2, min_sep_px=2.8): it passes 100% of all 610 discrete <=100k-dot detector rasters across all 30 repositories (max 3-px dot overlap = 68.90% <= 70.0%, focus-site max = 68.50% <= 70.0%, max |Spearman| = 0.2492 <= 0.90 \u2014 resolving H49-1's 73.33% intra-repo duplicate stop), passes all 45 feature leakage canaries (max AUC = 0.80524 <= 0.90) and 13/13 strict GeoTIFF [0, 1] finite checks, and beats the 0.2778 Champion on GEMSDOE32-HIDE-RECOVER-v3.0 (HOLDOUT-DTI = 0.115134 [0.101496, 0.128693] vs 0.099202, paired 95% CI [+0.008764, +0.023615] > 0, P=1.000) and Detached >=600m (0.100838 vs 0.094324), while H51-1 EXP2 (fold-local Williams-Pollard + Screened-Poisson) set all-time repo records on BOTH HIDE-RECOVER-v3.0 (0.164348 [0.150473, 0.177721], +65.7% over Champion) AND SGMC-CAL-v3.0 (0.065036 > 0.064121) before stopping under Protocol Rule 1 collar overlap (76.31% vs GEMSDOE37 80k). Emitted EXP1 remains held fail-closed (DO NOT SUBMIT) due to slight SGMC-cal gap (0.063032 vs 0.064121), literal r13-lattice-s5 overlap (99.45%, IR-51-LATTICE-01), and separate weekly-slot selector review.",
   "gate_rule": "OK TO SUBMIT requires an explicitly assigned method lane; all feature-only leakage canaries <=0.90; a fold-local HOLDOUT-DTI win with paired 95% CI >0 against the current same-evaluator repo best; no SGMC-cal regression against the Champion; literal surface/final-dot uniqueness against every registry raster (Spearman <=0.90 and <=70% within 3 px); exact saved-byte format/range validation; and separate weekly-slot selector approval. No human inspection.",
   "best_scored": {
    "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
@@ -5066,7 +5066,7 @@
    "dots": 37654,
    "submission_name": "GEMSDOE32-H51-EWSP-BDF25D8C",
    "note": "H51-1 EWSP crack+Poisson 3fam d2.8 37654d | HR=0.1151 SGMC=0.0630 | DO NOT SUBMIT",
-   "verdict": "DO NOT SUBMIT \u2014 research/audit artifact; 100% discrete-unique (68.90% <= 70%), awaits H52 collar-quota EXP2 + literal lattice disposition & selector",
+   "verdict": "DO NOT SUBMIT - download for review only. Unique vs nine focus sites and all <=100k registry rasters; fails vs dense r13 (99.70%); static HIDE-RECOVER 0.002289 < champion 0.004515; static SGMC-CAL 0.063032 < champion 0.064121 (CIs overlap).",
    "ok_to_download": true,
    "ok_to_submit": false,
    "why_not_submit": "Held fail-closed (DO NOT SUBMIT): EXP1 passes 100% of discrete detector rasters <=100k (max 3px overlap 68.90% <= 70%, |Spearman|=0.2492 <= 0.90) and beats the 0.2778 Champion on HIDE-RECOVER-v3.0 (0.115134 vs 0.099202, paired 95% CI > 0) and Detached >=600m (0.100838 vs 0.094324), but trails the 0.2778 Champion slightly on secondary SGMC-CAL-v3.0 (0.063032 vs 0.064121), trails prior repo H47 EXP2 raw holdout (0.121959), and triggers the unexempted synthetic 206,895-dot r13-lattice-s5 (IR-51-LATTICE-01) & WBGGEMSDOE1/2 continuous surfaces (IR-48-WBG-SURFACE-01); meanwhile EXP2/EXP3 hit all-time repo records on both HIDE-RECOVER-v3.0 (0.164348 / 0.163037) and SGMC-CAL-v3.0 (0.065036 / 0.065103) but concentrated 76.2% of dots inside 1.5 km collars, exceeding 70% overlap against GEMSDOE37 80k (76.31% / 75.98%).",
@@ -6882,6 +6882,41 @@
    },
    "lattice_rule_decision_pending": "Owner must decide in writing whether the dense 13gems calibration lattice counts as a registry raster for the 70% rule (IR-51-LATTICE-01). Measured: 0 of 51 competitive on-disk rasters (lattice raster excluded) pass the literal rule against the lattice; the 0.2778 champion is 99.91% within 3 px per the E3 receipt.",
    "added_utc": "2026-10-28T17:15:00Z"
+  },
+  "static_recheck_20261028": {
+   "evidence": "evidence/holdout_static_recheck_20261028.json",
+   "rank_check": "evidence/evaluator_rank_check_20261028.json",
+   "uniqueness_evidence": "evidence/focus9_independent_verification_20261028.json",
+   "page": "docs/nine-site-static-recheck-20261028.html",
+   "h51_static": {
+    "hide_recover_b2": 0.002289,
+    "ci95": [
+     0.001847,
+     0.002676
+    ],
+    "sgmc_cal": 0.063032,
+    "sgmc_cal_ci95": [
+     0.055343,
+     0.070398
+    ],
+    "n_withheld_hide_recover": 22232,
+    "n_withheld_sgmc": 62703
+   },
+   "champion_static": {
+    "hide_recover_b2": 0.004515,
+    "ci95": [
+     0.003837,
+     0.005278
+    ],
+    "sgmc_cal": 0.064121,
+    "sgmc_cal_ci95": [
+     0.056648,
+     0.070969
+    ]
+   },
+   "spearman_published_vs_sgmc_cal_n9": 0.9496,
+   "spearman_published_vs_hide_recover_n9": -0.8487,
+   "verdict": "H51 not verified better than champion on static evaluators; download for review only; do not submit"
   }
  },
  "irregularities": [
@@ -7716,6 +7751,60 @@
    "severity": "low",
    "statement": "Ledger H49 intra-repo overlap is 73.33% (run card, vs H48-1-FBGR), while the E3 measured non-lattice 3-px overlap vs H48 is 0.724. The two methods differ and the difference is not explained.",
    "mitigation": "Report both with method names. Either value is above the 70% limit, so H49 is not promoted."
+  },
+  {
+   "id": "IR-20261028-STATIC-01",
+   "severity": "high",
+   "statement": "H51-1-EWSP headline HIDE-RECOVER 0.115134 is a fold-local re-emission arm, not the emitted .tif. Static receipt of the emitted bytes = 0.002289 (below champion 0.004515).",
+   "mitigation": "Corrected in registry/current_status.json; evidence/holdout_static_recheck_20261028.json; verdict DO NOT SUBMIT. Owner: confirm which number the run card should headline."
+  },
+  {
+   "id": "IR-20261028-EVAL-03",
+   "severity": "high",
+   "statement": "Evaluators disagree on ranking: published OWNER-REPORT scores (n=9) correlate +0.950 with SGMC-CAL and -0.849 with HIDE-RECOVER (Spearman).",
+   "mitigation": "Use SGMC-CAL (off-catalogue) as the working proxy; treat HIDE-RECOVER as diagnostic only. Owner decision on canonical instrument. evidence/evaluator_rank_check_20261028.json."
+  },
+  {
+   "id": "IR-20261028-LATTICE-03",
+   "severity": "high",
+   "statement": "Literal 70% uniqueness rule vs dense registry raster inputs/calibration/13gems_20261001_r13-lattice-s5_v2_nan-outside.tif (206,895 dots): every nine-site file and H51 exceed it (H51 99.7%). Measured: 6,649 footprint cells lie beyond 3 px of r13; greedy 2.8 px packing gives 1,969 outside dots.",
+   "mitigation": "Owner decision needed: exemption for dense registry rasters, or a sparse-file rule. evidence/focus9_independent_verification_20261028.json (r13_lattice_capacity)."
+  },
+  {
+   "id": "IR-20261028-LEADERBOARD-01",
+   "severity": "medium",
+   "statement": "Prompt quotes 0.4413 as the current top and 0.3195 as the highest score. Live DrivenData leaderboard (fetch time not shown on page; fetched this session): #1 = 0.4544; 0.3195 = rank #26 (kpomazi). Registry snapshots: 0.4413 was #1 on 2026-10-25; 0.3195 was #1 on 2026-10-03.",
+   "mitigation": "Use live numbers; the page shows the fetch time. https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+  },
+  {
+   "id": "IR-20261028-SAMPLE-01",
+   "severity": "medium",
+   "statement": "sample_submission.tif has 60,988 cells equal to 1 (5,167,373 finite cells), but the official page says the sample predicts total fault absence.",
+   "mitigation": "Flag for owner; the template footprint (finite cells) is still used. https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/"
+  },
+  {
+   "id": "IR-20261028-NODATA-01",
+   "severity": "medium",
+   "statement": "Official page: data outside the bounds is null or NaN. The -zeros.tif files use 0 outside the footprint. No organizer submission receipt for a -zeros file is recorded in the repo.",
+   "mitigation": "Ask the organizer / check a submission receipt before relying on -zeros files for new uploads."
+  },
+  {
+   "id": "IR-20261028-AUDIT-PTR-01",
+   "severity": "medium",
+   "statement": "evidence/nine_site_best_files_audit.json lists paths for 9 files; 7 are not present at those paths in docs/downloads. Files resolved by SHA-256 from the fetched focus manifest.",
+   "mitigation": "Re-verified in evidence/focus9_independent_verification_20261028.json; the old audit is kept for traceability."
+  },
+  {
+   "id": "IR-20261028-PROVENANCE-01",
+   "severity": "low",
+   "statement": "Competition rasters come from owner-supplied GitHub mirrors (not organizer-authenticated). SHA-256 values match the pinned manifest.",
+   "mitigation": "Accepted for experiments only. Confirm against the DrivenData download after login."
+  },
+  {
+   "id": "IR-20261028-SGMC-SRC-01",
+   "severity": "low",
+   "statement": "USGS Data Series 1052 directory https://pubs.usgs.gov/ds/1052/ verified (ds1052.pdf present). Title/author on the PDF was not extracted this session.",
+   "mitigation": "Manual check of ds1052.pdf title page."
   }
  ]
 }
