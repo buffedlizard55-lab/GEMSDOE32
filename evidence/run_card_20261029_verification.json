@@ -1,0 +1,74 @@
+{
+  "card_version": 1,
+  "date_utc": "2026-10-29",
+  "branch": "arena/4b00da0d-gemsdoe32",
+  "experiments_used": 3,
+  "experiments": [
+    "E1 byte-level verification of 9 focus files + H51-1 + r13; holdout instrument reproduced (champion, H51-1)",
+    "E2 association analysis: live vs dots, live vs catalogue share, static holdout vs live (n=9)",
+    "E3 r13 coverage bound for the literal 70% lattice rule"
+  ],
+  "slots_used": 0,
+  "hypothesis": "H51-1 (existing file): a mass-matched, catalogue-avoiding, spatially independent file should score at least as well as the 0.2778 champion if catalogue avoidance (not mass) drives live score.",
+  "mechanism": "DTI = TP/(alpha(TP+FP)+beta|G|); a dot helps only if its kernel credit exceeds alpha*DTI (~0.056 at DTI 0.28). Dots near catalogued faults carry low credit against the scored truth.",
+  "named_non_fault_mimic": "Basin-fill sparsity: dots placed where mapped faults are absent (alluvium over smooth gravity/magnetic fields) mimic deliberate catalogue pruning.",
+  "holdout": {
+    "label": "HOLDOUT-DTI (static diagnostic, promotion_eligible=false)",
+    "evaluator_version": "GEMSDOE32-HIDE-RECOVER-v3.0",
+    "n_withheld_positives": 22232,
+    "dti": 0.002289,
+    "ci95": [
+      0.001875,
+      0.002697
+    ],
+    "sgmc_cal_dti": 0.063032,
+    "sgmc_cal_ci95": [
+      0.055351,
+      0.07002
+    ]
+  },
+  "projection_not_a_score": {
+    "label": "PROJECTION (mass-only regression, n=9, owner-reported)",
+    "dots": 37654,
+    "point": 0.2722,
+    "pi95_new_file": [
+      0.2617,
+      0.2827
+    ]
+  },
+  "correlation_overlap_vs_registry": {
+    "max_3px_overlap_vs_focus_nine": 0.546662,
+    "max_3px_overlap_vs_r13": 0.996999,
+    "surface_rho_vs_focus_nine_max": 0.047916,
+    "literal_70pct_rule_vs_r13": "FAIL"
+  },
+  "raster_sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740",
+  "raster_path": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",
+  "validator_output": {
+    "crs": "EPSG:32611",
+    "shape": [
+      3730,
+      3292
+    ],
+    "dtype": "float32",
+    "nan_in_footprint": 0,
+    "unique_values_in_footprint": [
+      0.0,
+      1.0
+    ],
+    "footprint_pixels": 5167373,
+    "transform_first6": [
+      100.0,
+      0.0,
+      243350.0,
+      0.0,
+      -100.0,
+      4508550.0
+    ],
+    "strict_check": "PASS"
+  },
+  "leakage_canary": "not re-run this session (no new features); repo H51 canary max AUC 0.80524 <= 0.90 (2026-10-28, quoted)",
+  "submission_name": "GEMSDOE32-H51-EWSP-BDF25D8C",
+  "submission_note": "GEMSDOE32-H51 EWSP emitted 37654d | static HR 0.0023 SGMC 0.0630 | review only, do not submit",
+  "verdict": "negative for submission (download for review only); r13 literal gate fails; static holdout below champion"
+}

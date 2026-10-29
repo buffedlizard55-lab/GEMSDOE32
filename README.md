@@ -1,5 +1,22 @@
 # GEMSDOE32 — DOE GEMS Prize Research, Validation & Submission System
 
+## ⭐ Start here — 2026-10-29 (read at the start of every session)
+
+**Decision: DO NOT SUBMIT any file.** Nothing here is cleared for the live portal. Read the full verified summary first: **[`docs/nine-site-verified-summary.html`](docs/nine-site-verified-summary.html)** (per-site table: file to download · estimated score · unique? · submit?).
+
+- **Best file already submitted:** `GEMSDOE32` `h33-h33-2-b2` (0.2778, OWNER-REPORT). Resubmitting it adds nothing.
+- **Unique TIF (download for review only):** [`H51-1 EWSP, -zeros.tif`](docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif). It is unique vs all nine focus files (max 3 px overlap 0.547) but fails the literal r13 lattice rule (0.997). Its static holdout (0.0023) is below the champion (0.0045). Not cleared.
+- **Estimate for a new file:** mass-only projection 0.272 (95% PI 0.262–0.283) at 37,654 dots. It is a PROJECTION from 9 owner-reported points, never a score.
+- **Why 0.2778 scored highest (inference, not proof):** it has the fewest dots of the nine files and 0% of them lie within 200 m of a catalogued fault. Live score tracks dot count (ρ = −0.98) and catalogue share (ρ = −0.89) across the nine files, but mass and catalogue share are confounded in this family.
+- **The static holdout is unreliable:** HIDE-RECOVER DTI vs owner live score has ρ = −0.85 across the nine files. Do not select files with it.
+- **Not yet done (honest status):** H51 EXP1 sha256 reproduction and the leakage canary on the H51 file were NOT run. Both need the rebuilt 35-channel feature stack, which is absent here. The 3-experiment / 2-hour budget is spent for this session (verifier, H51 holdout, projection/association). Full list: [`docs/research/standing-brief-20261029.md`](docs/research/standing-brief-20261029.md) → *Open items*.
+- **Owner decisions needed:** (1) the literal r13 70% rule (degenerate for any dense file, IR-20261029-04/-V04), (2) data-use terms for the public GitHub mirrors of the competition data (IR-20261029-V06), (3) confirm the leaderboard reading (#1 = 0.4544 on 2026-10-29, IR-20261029-V05).
+- **Standing prompt (condensed, operative):** [`docs/research/standing-brief-20261029.md`](docs/research/standing-brief-20261029.md). Verbatim earlier records: [`docs/research/standing-prompt-as-recorded-20261027.md`](docs/research/standing-prompt-as-recorded-20261027.md).
+- **Official sources:** [competition page](https://www.drivendata.org/competitions/306/competition-doe-gems/) · [problem and metric](https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/) · [leaderboard](https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/) · [reference solution](https://github.com/drivendataorg/gems-prize-reference-solution) · [submission format PDF](https://docs.nlr.gov/docs/fy26osti/96647.pdf).
+- **Reproduce:** `pip install -r requirements.txt` · `python scripts/restore_data.py --group all` · `python scripts/verify_nine_site_20261029.py` · `python scripts/build_verified_summary_20261029.py` · `python scripts/build_site.py` · `pytest tests -q`.
+
+---
+
 **2026-10-29 review (read first):** [Executive summary, nine-site table and irregularities](docs/review-20261029.html). **Verdict: no file is cleared for upload** (download for review: `H51-1-EWSP` only; submit: none). Every score there is labelled OWNER-REPORT, HOLDOUT-DTI or LIVE-PAGE; no projection is a score. Generated from `evidence/focus_rescore_20261029.json` by `scripts/build_review_20261029.py`.
 
 **Latest repository review (2026-10-29):** [`docs/research/repo-review-20261029.md`](docs/research/repo-review-20261029.md) — verified test run (259 passed), byte-level hash and format checks, the nine-site best-file table (7 of 9 files not in this checkout), live leaderboard fact check (#1 = 0.4544 on 2026-10-29), and flagged irregularities. **No file is cleared for upload.**
