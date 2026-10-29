@@ -886,7 +886,43 @@
       "severity": "low",
       "statement": "USGS Data Series 1052 directory https://pubs.usgs.gov/ds/1052/ verified (ds1052.pdf present). Title/author on the PDF was not extracted this session.",
       "mitigation": "Manual check of ds1052.pdf title page."
+    },
+    {
+      "id": "IR-20261029-LB-01",
+      "severity": "medium",
+      "statement": "Live public leaderboard (fetched 2026-10-29) shows #1 xiaofanhu 0.4544 and #2 cfld__ 0.3916. Session prompt cites 0.4413, 0.4437 (README) and 0.3195 as the top score; these are stale.",
+      "mitigation": "Use the live page; re-fetch before any decision. Source: https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/"
+    },
+    {
+      "id": "IR-20261029-NAN-01",
+      "severity": "high",
+      "statement": "Official problem page allows data outside the footprint to be 'null or nan', while the portal rejected an upload with 'Predicted values must be in range [0, 1]'. Either the portal treats NaN as out-of-range, or the rejected file had values outside [0,1]; the cause is not determined from the repo.",
+      "mitigation": "Upload only the -zeros.tif variants (no NaN, values exactly 0 or 1). Owner to confirm the exact file that failed. Source: https://www.drivendata.org/competitions/306/competition-doe-gems/page/967/"
+    },
+    {
+      "id": "IR-20261029-EVAL-01",
+      "severity": "high",
+      "statement": "Canonical HIDE-RECOVER holdout ranks the 0.2778 file 36th of 53 and has Spearman -0.60 with the public leaderboard on the five focus files with local bytes; SGMC-CAL ranks it 13th with Spearman +0.90 (n=5). Neither proxy is validated.",
+      "mitigation": "Do not present either as a leaderboard estimate. Re-validate proxies against more receipts before using them for selection. Evidence: evidence/focus_rescore_20261029.json"
+    },
+    {
+      "id": "IR-20261029-DUP-01",
+      "severity": "medium",
+      "statement": "GEMSDOE30 label suffix 91eae1ca equals the SHA-256 prefix of the local GEMSDOE24/25 d2-8 -nan raster (sha256 91eae1ca42ec...). GEMSDOE30 and GEMSDOE25 both report 0.2600. Byte identity is inferred from the prefix, not verified.",
+      "mitigation": "Treat GEMSDOE30 as a duplicate of GEMSDOE25 until its bytes are fetched and hashed."
+    },
+    {
+      "id": "IR-20261029-BYTES-01",
+      "severity": "low",
+      "statement": "Bytes for GEMSDOE31 (8acb75e1), GEMSDOE33 (cb490425926e) and GEMSDOE36 (9b9ea4e6) are not in the repo; their rows in the review cannot be re-scored. GEMSDOE31 shares the 8acb75e1 run id with GEMSDOE28 (duplicate likely, unverified).",
+      "mitigation": "Owner to supply the submitted files or their SHA-256 values."
+    },
+    {
+      "id": "IR-20261029-PROB-01",
+      "severity": "medium",
+      "statement": "scripts/evaluate_holdout.py refuses non-binary (probability) rasters by design (require_binary_mask). A true probability submission cannot be scored by the canonical evaluator; the focus NaN-bearing files are binary inside the footprint and do score.",
+      "mitigation": "Keep submissions binary unless a separately pre-registered probability evaluator is added."
     }
   ],
-  "updated_utc": "2026-10-28T17:35:00Z"
+  "updated_utc": "2026-10-29T00:00:00Z"
 }
