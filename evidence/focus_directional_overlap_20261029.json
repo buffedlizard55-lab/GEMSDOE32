@@ -1,0 +1,680 @@
+{
+  "schema": "gemsdoe32.focus_directional_overlap.v1",
+  "generated_by": "scripts/focus_directional_overlap.py",
+  "rule": "your dots within 3 px of peer dots; > 0.70 = duplicate (protocol lane rule)",
+  "dots": {
+    "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)": 37654,
+    "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)": 44090,
+    "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)": 44090,
+    "GEMSDOE24 d1-5 (0.2477 owner-reported)": 60069,
+    "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)": 61328,
+    "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)": 40199,
+    "GEMSDOE32 H51-1-EWSP (this review's unique candidate)": 37654,
+    "GEMSDOE32 H49-1-CGTD": 37654,
+    "GEMSDOE32 H-GEO-VENT 28000": 28000,
+    "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)": 121131,
+    "GEMSDOE37-class 80k registry raster (13gems r13-lattice)": 206895
+  },
+  "pairs": [
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.546662,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.494582,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.112392,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.99915,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.881719,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.937151,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.505874,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.474076,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.11819,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.999161,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.881719,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.937151,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.505874,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.474076,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.11819,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.999161,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.884766,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.940785,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.519103,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.489104,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.11913,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.999218,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.86719,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 0.980156,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 0.980156,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 0.980188,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.922091,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.511479,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.483189,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.119505,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 0.980645,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.999234,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.953904,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.536879,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.493868,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.114655,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.999179,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.500611,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 0.522468,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 0.522468,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 0.538933,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 0.542333,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.51389,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.604424,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.125883,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 0.561268,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.996999,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.463058,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 0.49506,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 0.49506,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 0.510411,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 0.515271,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.48133,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.608116,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.116136,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 0.533888,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H49-1-CGTD",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.994476,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.152107,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 0.180357,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 0.180357,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 0.189857,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 0.195179,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.164393,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.180607,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.16625,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 0.206071,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H-GEO-VENT 28000",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.998857,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.892464,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 1.0,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.949757,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.550165,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.520437,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.12044,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "registry_or_peer": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "your_dots_within_3px": 0.999348,
+      "lane_rule_70pct_violated": true
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE32 h33-2-b2 (0.2778 owner-reported)",
+      "your_dots_within_3px": 0.150598,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE25 d2-8 (0.2600 owner-reported; zeros variant)",
+      "your_dots_within_3px": 0.171788,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE24/25 d2-8 -nan bytes (sha 91eae1ca)",
+      "your_dots_within_3px": 0.171788,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE24 d1-5 (0.2477 owner-reported)",
+      "your_dots_within_3px": 0.180667,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE27 topo-gap-closure (0.2449 owner-reported)",
+      "your_dots_within_3px": 0.185108,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE28 h27-4-r1 solo (0.2708 owner-reported)",
+      "your_dots_within_3px": 0.159873,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE32 H51-1-EWSP (this review's unique candidate)",
+      "your_dots_within_3px": 0.158578,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE32 H49-1-CGTD",
+      "your_dots_within_3px": 0.158767,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE32 H-GEO-VENT 28000",
+      "your_dots_within_3px": 0.111037,
+      "lane_rule_70pct_violated": false
+    },
+    {
+      "your_dots": "GEMSDOE37-class 80k registry raster (13gems r13-lattice)",
+      "registry_or_peer": "GEMSDOE32 H19-5 powerlaw (registry, 121131 dots, nan)",
+      "your_dots_within_3px": 0.195921,
+      "lane_rule_70pct_violated": false
+    }
+  ]
+}
