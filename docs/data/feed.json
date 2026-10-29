@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-29T18:18:35Z",
+ "generated_utc": "2026-10-29T18:21:12Z",
  "sources": [
   {
    "id": "competition",
@@ -7915,6 +7915,60 @@
    "mitigation": "Run the canary before any slot consideration."
   },
   {
+   "id": "IR-20261029-S01",
+   "severity": "high",
+   "statement": "SGMC-CAL is circular for the BayesOpt file docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif (sha256 2c1861f1...1047d, 45,000 dots). Its generator scripts/validate_hypotheses.py adds the off-catalogue SGMC raster as an emission input (lines 200 and 275: '+ 0.20 * sgmc_feature' / '+ 0.25 * sgmc_feature') and selects its Top-1 on mean_holdout_dti. The file puts 62.1% of SGMC truth pixels within 3 px (champion 0.2190; H49 0.2302) and scores SGMC-CAL 0.256657 [0.224510, 0.287004] and HIDE-RECOVER 0.067046 [0.056007, 0.078523] (matches evidence/focus_rescore_20261029.json). Both numbers are in-sample and must NOT be read as skill.",
+   "mitigation": "Do not download, submit, or cite this file as evidence. Run a leakage audit on every candidate generator before any SGMC-based ranking. Evidence: evidence/downloads_sgmc_screen_20261029.json, scripts/screen_downloads_sgmc_20261029.py."
+  },
+  {
+   "id": "IR-20261029-S02",
+   "severity": "high",
+   "statement": "Evaluator validity (n=9 owner-reported scores, dot-level HOLDOUT-DTI): HIDE-RECOVER-v3.0 ranks the nine published files in the OPPOSITE order to their leaderboard scores (Spearman -0.849, p=0.0038). SGMC-CAL-v3.0 ranks them in the same order (Spearman +0.950, p=0.00009), but this agreement is not trustworthy until S01 is resolved for every file. The repo has been choosing candidates on HIDE-RECOVER, which is the evaluator that points the wrong way.",
+   "mitigation": "No evaluator is cleared as the canonical proxy. Re-derive the rank check after a per-file SGMC-input audit and after organizer receipts exist for more files. Evidence: evidence/evaluator_rank_validity_20261029.json."
+  },
+  {
+   "id": "IR-20261029-S03",
+   "severity": "high",
+   "statement": "The owner-reported champion GEMSDOE32 0.2778 file has HIDE-RECOVER 0.004515 [0.003816, 0.005262] and SGMC-CAL 0.064121 [0.056730, 0.071649] on this checkout, the lowest HIDE-RECOVER of the top five published files (GEMSDOE25/30 0.096743, GEMSDOE24 0.093151). The holdout does not explain why the champion leads.",
+   "mitigation": "Keep 0.2778 as OWNER-REPORT. Do not write any holdout value as the champion's leaderboard score. Evidence: evidence/focus9_exec_table_20261029.json."
+  },
+  {
+   "id": "IR-20261029-S04",
+   "severity": "high",
+   "statement": "Format: the official template data/sample_submission.tif (restored, sha256 2176d08e...) is NaN outside the 5,167,373-pixel footprint (7,111,787 NaN cells) with 0/1 inside. The official problem page allows 'null or nan' outside the bounds. The repo's recommended -zeros.tif files use 0 outside, which differs from the template. The owner reports the 0.2778 zeros file was accepted by the portal. Both forms pass the repo's local validator (gemsdoe32.submission.validate_submission_geotiff) and both are binary inside the footprint.",
+   "mitigation": "Owner to confirm which file produced the 'Predicted values must be in range [0, 1]' error and whether the portal accepts NaN outside. Until then, upload only a file whose outside-footprint encoding matches the portal result already recorded. Evidence: evidence/focus9_exec_table_20261029.json (format block for every row)."
+  },
+  {
+   "id": "IR-20261029-S05",
+   "severity": "medium",
+   "statement": "Audit paths for GEMSDOE24, 27, 28, 30, 31, 33 and 36 do not exist in docs/downloads. Their bytes were restored at the pinned refs with SHA-256 verified (scripts/restore_nine_site_best_20261029.py; GEMSDOE24/27 from the verified .cache/gems_data/scored copies). The restored set now matches the audit's hashes for all nine rows (verified this session).",
+   "mitigation": "Keep the audit file list updated to the on-disk paths, or keep the restore step in the README. Resolves the missing-file part of IR-R1 in repo-review-20261029.md."
+  },
+  {
+   "id": "IR-20261029-S06",
+   "severity": "medium",
+   "statement": "Duplicate bytes: docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif and .cache/gems_data/scored/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif share SHA-256 91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8. GEMSDOE25 and GEMSDOE30 are also dot-identical (44,090 dots, 100% directional overlap both ways, identical HIDE-RECOVER and SGMC-CAL values).",
+   "mitigation": "Count GEMSDOE30 as a repeat of GEMSDOE25 (not a second entry). Owner to confirm the GEMSDOE24 label for the d2-8 raster. Evidence: evidence/focus9_exec_table_20261029.json pairwise block."
+  },
+  {
+   "id": "IR-20261029-S07",
+   "severity": "medium",
+   "statement": "Leaderboard figures from the prompt (0.4413, 0.3195) do not match the live page read this session: #1 xiaofanhu 0.4544, #2 cfld__ 0.3916, #3 Batik Shirt Brothers 0.3911, #4 BrandenKMurray 0.3841, #5 op01 0.3642, #6 No Fault of Our Own 0.3570 (https://www.drivendata.org/competitions/306/competition-doe-gems/leaderboard/). The page was read only as far as chunk 0; the 0.2778 row was NOT located on the pages read.",
+   "mitigation": "Owner to supply the organizer receipt for the 0.2778 submission; that is the only way to make it ORGANIZER-CONFIRMED."
+  },
+  {
+   "id": "IR-20261029-S08",
+   "severity": "medium",
+   "statement": "Newest unique file H51-1-EWSP (docs/downloads/gemsdoe32-h51-ewsp-...-bdf25d8c-zeros.tif, sha256 f66f65e4...651740): unique vs the nine focus files (max directional 3-px overlap 54.67%, |phi| 0.044) but LOWER than the champion on both static evaluators (HIDE-RECOVER 0.002289 vs 0.004515; SGMC-CAL 0.063032 vs 0.064121). Its fold-local figures (0.115 vs 0.0992 proxy) are not the emitted bytes. Remains DOWNLOAD FOR REVIEW ONLY.",
+   "mitigation": "Do not submit H51 on the basis of its fold-local figures. Its reproduction from source (scripts/run_h51_ewsp.py) was NOT run this session (multi-hour, ~2.2 GB feature stack, 3 GB RAM sandbox)."
+  },
+  {
+   "id": "IR-20261029-S09",
+   "severity": "high",
+   "statement": "GEMSDOE24 scored file gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif is byte-identical (cmp IDENTICAL, sha256 91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8) to GEMSDOE25 docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif. Any uniqueness claim for either site must treat them as one file.",
+   "mitigation": "Verified by cmp and sha256 on 2026-10-29. Start-here table lists the GEMSDOE24 d1-5 file, not d2-8, so no duplicate is offered for download as a 24 submission. Count as one file in any uniqueness tally."
+  },
+  {
    "id": "IR-20261029-A",
    "severity": "high",
    "statement": "The repo's promotion gate (HIDE-RECOVER fold-local win) is anti-aligned with the public ranking on the nine owner-reported scores: Spearman -0.849 (HIDE-RECOVER) vs +0.950 (SGMC-CAL, off-catalogue), n=9, p=9e-5. The gate therefore rejects the files the off-catalogue evidence ranks highest.",
@@ -8039,6 +8093,12 @@
    "severity": "medium",
    "statement": "UNIQUE-H49-1-CGTD (docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif) is a unique file vs the nine focus files (max overlap 60.8%). Its projection, 0.2861 (PI 0.278-0.294), is the highest in the set, and it is not in this branch's nine-site summary or run card. Main's focus9 summary says it fails the HIDE-RECOVER gate (0.0037). This branch chose H51-1 without comparing it to H49-1.",
    "mitigation": "Both H51-1 and H49-1 are DO NOT SUBMIT. Owner or a later session must compare them on the same holdout and r13 rule before any slot decision. This branch ran no new experiment to do it, because the budget is spent."
+  },
+  {
+   "id": "IR-20261029-V11",
+   "severity": "medium",
+   "statement": "Cache name collision. .cache/gems_data/scored/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif is byte-identical to GEMSDOE25 (sha256 91eae1ca42ec845e...). The owner-listed GEMSDOE24 file (d1-5, 989f59505db1) is NOT byte-identical to GEMSDOE25 (sha256 68d0e2e4fcc594f9...). IR-20261029-S09 on main treats the d2-8 cache file as the GEMSDOE24 file. This branch uses the listed d1-5 file: the two are near-duplicates (100% of dots within 3 px), not byte copies.",
+   "mitigation": "Owner to confirm which GEMSDOE24 bytes were submitted. Rename or remove the misnamed cache copy. Do not describe GEMSDOE24 as byte-identical to GEMSDOE25 until the owner confirms."
   }
  ]
 }

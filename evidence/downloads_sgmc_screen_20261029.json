@@ -1,0 +1,1290 @@
+{
+  "schema": "gemsdoe32-downloads-sgmc-screen-v1",
+  "generated_utc": "2026-10-29T18:07:21Z",
+  "label": "HOLDOUT-DTI (SGMC-CAL-v3.0, static screen, unpaired CI); NOT a leaderboard score",
+  "champion_sgmc_calibrated_dti_reference": 0.064121,
+  "rules": {
+    "overlap_limit_both_directions": 0.7,
+    "phi_limit": 0.9,
+    "near_px": 3.0,
+    "compared_against": "nine focus-site files in focus9_exec_table_20261029.json"
+  },
+  "n_candidates": 75,
+  "rows": [
+    {
+      "file": "docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-nan.tif",
+      "sha256": "1e404763feb330b9f9735767bd8bfd96ee50d5c0185ace5c40fef34a5c70306a",
+      "is_champion_bytes": false,
+      "positive_dots": 45000,
+      "sgmc_calibrated_dti": 0.256657,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.22451,
+        0.287004
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.280428,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.006455,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gems32-bayesopt-dilation-scarp-d28-20261004-zeros.tif",
+      "sha256": "2c1861f1dbf5bfe7e594db93cf2fedb5708e345b150c4ab58538a1fd1391047d",
+      "is_champion_bytes": false,
+      "positive_dots": 45000,
+      "sgmc_calibrated_dti": 0.256657,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.22451,
+        0.287004
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.280428,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.006455,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif",
+      "sha256": "20318b52084a60be13040bcce5b8099208fc75b8e85640bf61e7d0c3309693e4",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.094868,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.084294,
+        0.104596
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.21116,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.002897,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+      "sha256": "c7f094c1f4d00f2dd9a056dc80fecc94bf1d636363acd020c9da3659eae56547",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.094868,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.084294,
+        0.104596
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.21116,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.002897,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif",
+      "sha256": "03eee6fb55ad98040a8887dec10767558b26d6cb10461defc46bc9f3c4bb5c02",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.0878,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.074823,
+        0.09999
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.291682,
+      "closest_focus_site": "GEMSDOE36",
+      "max_abs_phi_vs_focus9": 0.007372,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-zeros.tif",
+      "sha256": "8eee6e1a85708c9188c7b9d7f436deab621657aab22c3d9d48da9dd64c84e609",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.0878,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.074823,
+        0.09999
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.291682,
+      "closest_focus_site": "GEMSDOE36",
+      "max_abs_phi_vs_focus9": 0.007372,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-nan.tif",
+      "sha256": "55beb48c40c76cecd72211739573d79983994da7d9b929721a34cf4277b6e6bb",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.08027,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.062014,
+        0.098786
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.469831,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.030892,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-hsupsgmc-cvgbm35-b2-greedy37654-20261025T203327Z-6abcd2b5-zeros.tif",
+      "sha256": "e20d00b8d600db7c5a16cabf1ec8df07e4b473abcec0462dc624a2787a554aee",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.08027,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.062014,
+        0.098786
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.469831,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.030892,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-nan.tif",
+      "sha256": "7402a847f37e6687acc2a7dd9b5c6f6ece6344fe133854bf844daba1427171eb",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.077736,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.069192,
+        0.085644
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.337521,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.01235,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h44-spcp-sarpu-curvconduit-37654-20261026T053000Z-38f7995a-zeros.tif",
+      "sha256": "386a4aad59a5c742b28541835892f9f6e0cb306cbbe4e296741bbad8e4bff235",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.077736,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.069192,
+        0.085644
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.337521,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.01235,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-nan.tif",
+      "sha256": "faf39fdec0bc115b3fb4b9a94512d4ea6d28433dc078a2340244071cdd5effa4",
+      "is_champion_bytes": false,
+      "positive_dots": 35487,
+      "sgmc_calibrated_dti": 0.071519,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.064841,
+        0.07738
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.18001,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.002853,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-zeros.tif",
+      "sha256": "93c21c4cc18735aaeea44626b0697d72b96f9048ab817d9f0c5fb27381ef5f0f",
+      "is_champion_bytes": false,
+      "positive_dots": 35487,
+      "sgmc_calibrated_dti": 0.071519,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.064841,
+        0.07738
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.18001,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.002853,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-nan.tif",
+      "sha256": "c370bf4fcca3d7846db600b4dbcca71c71374196e1f3a778faebf50acc846c0e",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.0715,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.063233,
+        0.079582
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.365725,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.027453,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h45-tworegime-split-37654-20261026T161610Z-35245379-zeros.tif",
+      "sha256": "968949a92aeb6f46f880a07d8eee03c674bb85d03672f45b3b4c8a95df21feee",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.0715,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.063233,
+        0.079582
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.365725,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.027453,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-nan.tif",
+      "sha256": "69f1018aed518fc29f7f9cba0994b3bd7db9f33de839ccbe3af6d896fae495c2",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.066434,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.059875,
+        0.072082
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.515271,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.037069,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif",
+      "sha256": "4d8d7c051caf60fbd6cf24a4eceb8c921209a25225634fc54df143e5d8e511fd",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.066434,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.059875,
+        0.072082
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.515271,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.037069,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-nan.tif",
+      "sha256": "1a888e2385b57e969f7e6a9bf054dcfbf52dd11491dd81c8f3b8b2d02fe368b3",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.066255,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.055751,
+        0.075125
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.514925,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.025309,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-euler-e1-37654-20261028T000236Z-71f0a187-zeros.tif",
+      "sha256": "9a9d00d027006e2a9ca4de0e52d5ad95bbcd26d26bddb8087b91c764d6fbed17",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.066255,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.055751,
+        0.075125
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.514925,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.025309,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-nan.tif",
+      "sha256": "95106d7c280ddd898dbb76ff637d8bc077fae70296e500b396cfcbbde2b14888",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.065888,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.057664,
+        0.072551
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.436713,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.02879,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h47-ldgi-dualhorizon-corridor-37654-20261026T230609Z-0eb8a25c-zeros.tif",
+      "sha256": "d82d63ab9c935b4eb6d8886129a7820da4642d20c3304c57364c55380438f27a",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.065888,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.057664,
+        0.072551
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.436713,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.02879,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h33-h33-2b2-plus-h33-1-20261004T220000Z-31588dc7-nan.tif",
+      "sha256": "a99f68ea3de6a8e464a73a819429486ac619d9b94d725a393d2e0e5d911ab60d",
+      "is_champion_bytes": false,
+      "positive_dots": 38554,
+      "sgmc_calibrated_dti": 0.064161,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.056755,
+        0.071755
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.988172,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h33-h33-2b2-plus-h33-1-20261004T220000Z-31588dc7-zeros.tif",
+      "sha256": "91c2e7764beada782e1f2d8f0d5c940f078d0e328de6f5868e6d552dbc50832e",
+      "is_champion_bytes": false,
+      "positive_dots": 38554,
+      "sgmc_calibrated_dti": 0.064161,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.056755,
+        0.071755
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.988172,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif",
+      "sha256": "baeae3219bba6a19bc8cfe79224e28555c50184b7c1ca65c2a822f54807c77dd",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.064121,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.05673,
+        0.071649
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+      "sha256": "c55bafc470054e8271dcb89347a17e07fefe50de6af6e6ba6c4b169ef7ab6fa9",
+      "is_champion_bytes": true,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.064121,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.05673,
+        0.071649
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h47-lli-unique-coupling-49231-20261026T230000Z-33464ce2-zeros.tif",
+      "sha256": "d8da7e947db3ed03a3d7064c02b523c254bcb3ae1c5115b7e59b4b436f80fea1",
+      "is_champion_bytes": false,
+      "positive_dots": 49231,
+      "sgmc_calibrated_dti": 0.063486,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.055099,
+        0.071498
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.954135,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.338421,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-nan.tif",
+      "sha256": "c09ebb73c49ef8553bf4834ef93856c870cdea72551e4268769299c2a4d31d4d",
+      "is_champion_bytes": false,
+      "positive_dots": 45890,
+      "sgmc_calibrated_dti": 0.063314,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.056226,
+        0.070365
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.996121,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.971049,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32c-mt-claycap-breach-45890-20261004T183200Z-a5963d0a-zeros.tif",
+      "sha256": "fe96521c3ef3b9cb728792ebe943717976680d9511239aac601f632946bdce9a",
+      "is_champion_bytes": false,
+      "positive_dots": 45890,
+      "sgmc_calibrated_dti": 0.063314,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.056226,
+        0.070365
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.996121,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.971049,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-nan.tif",
+      "sha256": "328c95a81b80b8287c8cc01dd3a60298b361d4bc767458082357e2d3e12c4e66",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.063032,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.055351,
+        0.07002
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.546662,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.047916,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif",
+      "sha256": "f66f65e469deda8ab34c380f46ffd2af23feb95a0ac45230f9829d2950651740",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.063032,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.055351,
+        0.07002
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.546662,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.047916,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-nan.tif",
+      "sha256": "1a3b1d63e1759ac71b7a187b893bad93abe09273178c8e64dcbb327c37f2a035",
+      "is_champion_bytes": false,
+      "positive_dots": 45890,
+      "sgmc_calibrated_dti": 0.061739,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.05505,
+        0.068642
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.996271,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.971049,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32b-transtensional-swarm-45890-20261004T183200Z-27b7c9e6-zeros.tif",
+      "sha256": "fe0b511435cf80eb55a78b36555a0650fa9d626822f08a3d3221615a9bf12a68",
+      "is_champion_bytes": false,
+      "positive_dots": 45890,
+      "sgmc_calibrated_dti": 0.061739,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.05505,
+        0.068642
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.996271,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.971049,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-nan.tif",
+      "sha256": "564d569b8500e3c615457d0325f063c25f827ebb0703f249d7a043b2b25cdba9",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.061579,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.054683,
+        0.068445
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.995106,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.966682,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32a-dip-projected-step-46090-20261004T183200Z-838fcd84-zeros.tif",
+      "sha256": "dee5c5c6bc390ed39638f1638819c10d4e1ae52537c4a900930651dfd19754b7",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.061579,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.054683,
+        0.068445
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.995106,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.966682,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-nan.tif",
+      "sha256": "c23fb32e7cae5d18fc4e7516dbb45a1bae431ecda6b8836dacb373bd6ef18996",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.061415,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053273,
+        0.068348
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.549928,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.043501,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena48-jxstep-37654-20261026T215839Z-6a28221e-zeros.tif",
+      "sha256": "4aa4d8f2f5fb39af64af69d575a13c14f146204e5147e9ee10cbb267895c43a6",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.061415,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053273,
+        0.068348
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.549928,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.043501,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-nan.tif",
+      "sha256": "c3a0cbb14ca60f66934223e4455b970481d0229d2b8095afb3f023233e607621",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.061295,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.054362,
+        0.068055
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.995156,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.966682,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32d-submodular-multipysics-46090-20261004T183200Z-4de30601-zeros.tif",
+      "sha256": "f81e26d7712d1a4a9d3d5393037b09849400c3976d1ebd40e2760a586f2adc2f",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.061295,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.054362,
+        0.068055
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.995156,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.966682,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-nan.tif",
+      "sha256": "cc03eb8472e3c08dc7eea3e67a1d943191be78561fa850e7a0fd4225843f77be",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060657,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053739,
+        0.067507
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.987997,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.972549,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32d-equalbudget-44090-20261004T183200Z-350cdc3f-zeros.tif",
+      "sha256": "133bacd0031f865a9df2888de71abeba863118458d37d61ab08c388f415b3b96",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060657,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053739,
+        0.067507
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.987997,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.972549,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-nan.tif",
+      "sha256": "c3339375ccb4075f63fec017ceaec89426ac5a9bb316f8626e88f3a6de10c600",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.060612,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053775,
+        0.067542
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.993458,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.96892,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32-winning-46090-prune400-20261025T203017Z-c3459dcd-zeros.tif",
+      "sha256": "04fd8a73eb584dd1f64ffcbb608acec30eff21b695f27f6b684cd1698c90d525",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.060612,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053775,
+        0.067542
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.993458,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.96892,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif",
+      "sha256": "91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060592,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053583,
+        0.067855
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-zeros.tif",
+      "sha256": "3e78737f0da8dd2ca66cc6caac0ce8eeefcd6715707f8d1bd3091845cd9bcc30",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060592,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053583,
+        0.067855
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gems32-probe-S1-ANCHOR-identical-to-live-02600.tif",
+      "sha256": "4dc4cc54b061cb4567a5500c8fa2bfe750a39340b02c8cdbb4308916f36cbcc3",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060592,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053583,
+        0.067855
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-nan.tif",
+      "sha256": "fe01ebd3961d6911bfa731111d4d3de75923e642c2276e1d7f6109de9236fd85",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060592,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053583,
+        0.067855
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-d28-ref02600-repro-44090-20261004T183200Z-426073b6-zeros.tif",
+      "sha256": "e4985b78c4d99e185686de639dffb16084a71cf5b673b1e7474f7c898493c2c3",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.060592,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053583,
+        0.067855
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 1.0,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-nan.tif",
+      "sha256": "d4a4496f12b0f29f3d9f43c700cbd5a30a229b75a6ecc005be59fed0e7a3797c",
+      "is_champion_bytes": false,
+      "positive_dots": 43590,
+      "sgmc_calibrated_dti": 0.060311,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053406,
+        0.067411
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.994265,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h32-newvariant-43200-20261025T202557Z-2cf1447f-zeros.tif",
+      "sha256": "e077da38c88075e4c2d3dcd15e734fd37ebdf14911fff5057d4a735c4e594a3c",
+      "is_champion_bytes": false,
+      "positive_dots": 43590,
+      "sgmc_calibrated_dti": 0.060311,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.053406,
+        0.067411
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.994265,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gems32-probe-S3-NULLADD-2000px.tif",
+      "sha256": "da4193e3a2e0470908b5bd1e28de97f25ee1ce15c57c959d0b623414d200692a",
+      "is_champion_bytes": false,
+      "positive_dots": 46090,
+      "sgmc_calibrated_dti": 0.059397,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.052511,
+        0.066538
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.977872,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-nan.tif",
+      "sha256": "7a588bbe44c51c865790f010f0c2883d05aa2373d5983093850020d6c0ec5946",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.058763,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.05024,
+        0.06681
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.540872,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.039892,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-hcvf2-cvgbm35-b2-greedy37654-20261025T202730Z-f9b36c7e-zeros.tif",
+      "sha256": "5d65591a23df0f46e61a5cf429d85811891a602ad5f5abb4a66059a93205d5f3",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.058763,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.05024,
+        0.06681
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.540872,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.039892,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h45-kernelspacing-37654dots-20261026T163401Z-2fe5944c-zeros.tif",
+      "sha256": "b14bba00d6053e75e5c72d9e68fac52f607fe40de1c356111baea85e1ceee538",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.058504,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.051927,
+        0.066313
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.50417,
+      "closest_focus_site": "GEMSDOE32",
+      "max_abs_phi_vs_focus9": 0.027947,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-nan.tif",
+      "sha256": "8fa6b4cd1622359e18fb3cce1555fd2e722faa5a68ce2a3bfd386a5755c8f1cf",
+      "is_champion_bytes": false,
+      "positive_dots": 42600,
+      "sgmc_calibrated_dti": 0.057667,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.04894,
+        0.066686
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.561315,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.035916,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h35-cv-altfusion-b2-42600-20261025T202439Z-35887fc3-zeros.tif",
+      "sha256": "6e048db2dc1b39995c8024cd7492f2f4e5acaa83acece4717cbc525765394c68",
+      "is_champion_bytes": false,
+      "positive_dots": 42600,
+      "sgmc_calibrated_dti": 0.057667,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.04894,
+        0.066686
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.561315,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.035916,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gems32-lazygreedy-maxcov-44090-supconfined-zeros.tif",
+      "sha256": "f43ea85e2b7f20101d719277ccfe24c22a01b65effb9ea4ad39ea193fb843fe5",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.057309,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.050703,
+        0.064028
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 1.0,
+      "closest_focus_site": "GEMSDOE24",
+      "max_abs_phi_vs_focus9": 0.481319,
+      "unique_vs_focus9_literal_70pct": false
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-nan.tif",
+      "sha256": "8dba8c350e2f2dde0f9ebe8b0402566282ac275967f332a6f0849a3be11c8407",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.056798,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.050345,
+        0.063015
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.591518,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.044477,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h48-fbgr-dualcover-axial28-37654-20261027T180500Z-4d38a240-zeros.tif",
+      "sha256": "4177f236b7c6a26fdf39d85f0896d1a83da745c9a36b04be7fe201a0076bf29f",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.056798,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.050345,
+        0.063015
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.591518,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.044477,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-nan.tif",
+      "sha256": "fae334455ae2eabe8d26f80168420105cb2f8f253c2c2c755f2ac47cf167123d",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.055848,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.046381,
+        0.064304
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.560923,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.049636,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h36-1c-tdr-pds-steger-37654-20261026T012000Z-9ff9d6e2-zeros.tif",
+      "sha256": "f75ac7ae172eed0840b948beaa6587a532c0a44453c3ad90874f02967e0a887c",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.055848,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.046381,
+        0.064304
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.560923,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.049636,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-nan.tif",
+      "sha256": "c0bb0fe390fb58bdd6ceee93664350d5714841c8cc0e49c1752283d16e8c0ac2",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.055092,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.0475,
+        0.061542
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.566931,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.055894,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena8a-mdrc-crestbar-b2-44090-20261026T011955Z-ce1abd39-zeros.tif",
+      "sha256": "0bbb3128c0e91a5f10003b1f92f2ef6030822a27b231299f7ce3c22d2d4d13e5",
+      "is_champion_bytes": false,
+      "positive_dots": 44090,
+      "sgmc_calibrated_dti": 0.055092,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.0475,
+        0.061542
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.566931,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.055894,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-nan.tif",
+      "sha256": "2ba153e5d86e32745aa0014757d44cc829def41ce8b4a3b3be86b953cc23fee4",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.051145,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.042215,
+        0.062261
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.458703,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.027758,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h-geo-conduit-37654-20261025T235617Z-2d0d0c5e-zeros.tif",
+      "sha256": "fc4e0e58fbc6e89b671d3a7e30d2e5d4379792de892d8ed53a936dc7576d3669",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.051145,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.042215,
+        0.062261
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.458703,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.027758,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-nan.tif",
+      "sha256": "6dd6e37b617181c14948297c58f80b29a91de846c04441add0614d4e51b9b836",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.050374,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.044672,
+        0.05548
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.650555,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.059337,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h38g1-lidar-geodawn-gdr-celf37654-20261026T013500Z-35859e28-zeros.tif",
+      "sha256": "6efe140229c46b274ab7431bab0b9c1318ade642096ca8a1ff8c36317d2d68ff",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.050374,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.044672,
+        0.05548
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.650555,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.059337,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-nan.tif",
+      "sha256": "44db5c6a7bff333fa8b5c9c3e0186f7bc6992c72f8994d4bb41540b20e686b97",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.044756,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.039243,
+        0.050114
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.545759,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.046685,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h46-trhv-tworegime-ventconduit-37654-20261026T173000Z-6437b275-zeros.tif",
+      "sha256": "9f42346d3acecb8d873fb35c70d988ae0afeb99781c6104c644d8cf9f85e0dc3",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.044756,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.039243,
+        0.050114
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.545759,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.046685,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena41-pfonly-blindbasin-37654-20261025T202725Z-530d08d1-zeros.tif",
+      "sha256": "f042f48e76d8ee2552838456a2e53f1a642e2fad2c2eee8123f0ff6d48f1a3b9",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.044518,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.036987,
+        0.053041
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.32966,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.00868,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-nan.tif",
+      "sha256": "53bb039334fb6f2eed11cf66436ada834ce05214c6c1d23ff31d1480397e0291",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.043839,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.038385,
+        0.048728
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.536968,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.04677,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-arena47-perturb-h38-unique-20261026T202108Z-9ab73056-zeros.tif",
+      "sha256": "f2c238b48468e3626f00ddf2378d863285850d11507c470c962676bf7715992a",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.043839,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.038385,
+        0.048728
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.536968,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.04677,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h42-hwci-37654-20261026T001226Z-b91008fa-zeros.tif",
+      "sha256": "c8e8d10dc55c3164c3f777a0f74764f408bb132e8b0a3e4ac5b5fa8fe914e515",
+      "is_champion_bytes": false,
+      "positive_dots": 37654,
+      "sgmc_calibrated_dti": 0.03669,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.031753,
+        0.041621
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.473761,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.024501,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-nan.tif",
+      "sha256": "8d5681377dcbfbb38174a0df0a7fbc14adaa6e836091248a52ce15276a505209",
+      "is_champion_bytes": false,
+      "positive_dots": 28000,
+      "sgmc_calibrated_dti": 0.035965,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.026426,
+        0.045468
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.195179,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.001665,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-H-GEO-VENT-28000-20261027T174146Z-3c5837e9-zeros.tif",
+      "sha256": "51ba3b7cecef0b3713cbd6a5dbca94bd1db4b58156825b9ac098a2d299cc4ed5",
+      "is_champion_bytes": false,
+      "positive_dots": 28000,
+      "sgmc_calibrated_dti": 0.035965,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.026426,
+        0.045468
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.195179,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.001665,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-nan.tif",
+      "sha256": "ba2e1723c7ed05763af33dd5e62ea2c7a1f66257553a51c739152be27fd0fa7c",
+      "is_champion_bytes": false,
+      "positive_dots": 37121,
+      "sgmc_calibrated_dti": 0.016442,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.014343,
+        0.018411
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.172786,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.000317,
+      "unique_vs_focus9_literal_70pct": true
+    },
+    {
+      "file": "docs/downloads/gemsdoe32-h50-tmspi-dualconcord-37654-20261026T214025Z-f0e385b9-zeros.tif",
+      "sha256": "c534effe023f2876b08239384d075be313d489a8dc3bf8dbf22f7d6509872112",
+      "is_champion_bytes": false,
+      "positive_dots": 37121,
+      "sgmc_calibrated_dti": 0.016442,
+      "sgmc_calibrated_ci95_unpaired": [
+        0.014343,
+        0.018411
+      ],
+      "n_withheld_positives": 62703,
+      "evaluator_version": "GEMSDOE32-SGMC-CAL-v3.0",
+      "max_directional_overlap_vs_focus9": 0.172786,
+      "closest_focus_site": "GEMSDOE27",
+      "max_abs_phi_vs_focus9": 0.000317,
+      "unique_vs_focus9_literal_70pct": true
+    }
+  ]
+}
