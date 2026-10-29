@@ -18,6 +18,7 @@ PROJECTION (regression, never a score), VERIFIED-LOCAL / VERIFIED-WEB (checked t
 """
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import sys
@@ -149,7 +150,7 @@ def main() -> int:
         row = {
             "site": name,
             "file": file_of[name],
-            "sha256": audit_by[name]["sha256"] if name in audit_by else None,
+            "sha256": hashlib.sha256((ROOT / file_of[name]).read_bytes()).hexdigest(),
             "dots": r["dots"],
             "leaderboard_name": r["leaderboard_name"],
             "published_score_OWNER_REPORT": r["published_score_OWNER_REPORT"],
