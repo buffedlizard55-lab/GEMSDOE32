@@ -4,6 +4,7 @@
 
 **Decision: DO NOT SUBMIT any file.** Nothing here is cleared for the live portal. Read the full verified summary first: **[`docs/nine-site-verified-summary.html`](docs/nine-site-verified-summary.html)** (per-site table: file to download · estimated score · unique? · submit?).
 
+- **Parallel summaries on `main`:** [focus9 executive summary](docs/focus9-executive-summary.html), [review-20261029](docs/review-20261029.html) and [nine-site executive summary](docs/research/nine-site-executive-summary-20261029.md). They agree that no file is cleared. Their projections for H51-1 (0.2701) and GEMSDOE32 (0.2752) differ from this branch's (0.2722); see IR-20261029-V09. They also name **UNIQUE-H49-1-CGTD** (projection 0.2861), which this branch did not evaluate (IR-20261029-V10).
 - **Best file already submitted:** `GEMSDOE32` `h33-h33-2-b2` (0.2778, OWNER-REPORT). Resubmitting it adds nothing.
 - **Unique TIF (download for review only):** [`H51-1 EWSP, -zeros.tif`](docs/downloads/gemsdoe32-h51-ewsp-crack-poisson-axial28-37654-20261028T123000Z-bdf25d8c-zeros.tif). It is unique vs all nine focus files (max 3 px overlap 0.547) but fails the literal r13 lattice rule (0.997). Its static holdout (0.0023) is below the champion (0.0045). Not cleared.
 - **Estimate for a new file:** mass-only projection 0.272 (95% PI 0.262–0.283) at 37,654 dots. It is a PROJECTION from 9 owner-reported points, never a score.
@@ -16,6 +17,8 @@
 - **Reproduce:** `pip install -r requirements.txt` · `python scripts/restore_data.py --group all` · `python scripts/verify_nine_site_20261029.py` · `python scripts/build_verified_summary_20261029.py` · `python scripts/build_site.py` · `pytest tests -q`.
 
 ---
+
+**2026-10-29 nine-site executive summary (read first):** [docs/focus9-executive-summary.html](docs/focus9-executive-summary.html) — which file to download, estimate (PROJECTION, not a score), uniqueness, measured validator and instrument findings. **No file is cleared for submission.** Evidence: `evidence/focus9_summary_20261029.json`, `evidence/focus9_holdout_20261029.json`, `evidence/focus9_uniqueness_20261029.json`, `evidence/focus9_validator_20261029.json`. Irregularities: `IR-20261029-A` to `-K` in `registry/irregularities.json`.
 
 **2026-10-29 review (read first):** [Executive summary, nine-site table and irregularities](docs/review-20261029.html). **Verdict: no file is cleared for upload** (download for review: `H51-1-EWSP` only; submit: none). Every score there is labelled OWNER-REPORT, HOLDOUT-DTI or LIVE-PAGE; no projection is a score. Generated from `evidence/focus_rescore_20261029.json` by `scripts/build_review_20261029.py`.
 

@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-29T18:13:06Z",
+ "generated_utc": "2026-10-29T18:18:35Z",
  "sources": [
   {
    "id": "competition",
@@ -7915,6 +7915,72 @@
    "mitigation": "Run the canary before any slot consideration."
   },
   {
+   "id": "IR-20261029-A",
+   "severity": "high",
+   "statement": "The repo's promotion gate (HIDE-RECOVER fold-local win) is anti-aligned with the public ranking on the nine owner-reported scores: Spearman -0.849 (HIDE-RECOVER) vs +0.950 (SGMC-CAL, off-catalogue), n=9, p=9e-5. The gate therefore rejects the files the off-catalogue evidence ranks highest.",
+   "mitigation": "Owner decision: pick the canonical promotion instrument (IR-R7 / IR-45-EVAL-02). Do not change the gate silently. Evidence: evidence/focus9_summary_20261029.json (instrument_alignment_n9)."
+  },
+  {
+   "id": "IR-20261029-B",
+   "severity": "medium",
+   "statement": "No official dot-count cap was found. The problem page (both chunks) and rules PDF sections 1-3.7 (PDF chunks 0-3 of 7, read 2026-10-29) specify format and metric only; the appendices (chunks 4-6) were not read. The '37,654-dot budget' used throughout this repo is an internal convention, not an organizer rule.",
+   "mitigation": "Owner to confirm with the organizer forum (community.drivendata.org) before any dot-count argument is used as a rule."
+  },
+  {
+   "id": "IR-20261029-C",
+   "severity": "high",
+   "statement": "Fold-local HIDE-RECOVER numbers in the README (e.g. H49-1-CGTD 0.105043, H51-1-EWSP 0.115134) describe re-emitted fold arms, not the downloadable bytes. On the emitted bytes the same evaluator gives H49 0.003696 and H51 0.002289 (champion 0.004515).",
+   "mitigation": "Label every headline with its evidence class (emitted bytes vs fold-local arm). Use the static byte score for any file-level claim."
+  },
+  {
+   "id": "IR-20261029-D",
+   "severity": "high",
+   "statement": "No focus-site file is unique against the other eight focus files. The champion (GEMSDOE32 0.2778) has 100% of its dots within 3 px of dots in GEMSDOE24/25/27/30/31 (directional). GEMSDOE25 and GEMSDOE30 have identical dot sets (44,090 dots each, different bytes).",
+   "mitigation": "Do not present any focus file as unique. Use only UNIQUE-H49-1-CGTD or UNIQUE-H51-1-EWSP as unique candidates. Evidence: evidence/focus9_uniqueness_20261029.json."
+  },
+  {
+   "id": "IR-20261029-E",
+   "severity": "high",
+   "statement": "7 of 9 focus-site best files were missing from docs/downloads (previously IR-R1). Restored this session from the sibling repos at the audited github_ref; every SHA-256 matches evidence/nine_site_best_files_audit.json.",
+   "mitigation": "RESOLVED 2026-10-29: all nine focus files are now in docs/downloads/ and pass the shared validator (evidence/focus9_validator_20261029.json)."
+  },
+  {
+   "id": "IR-20261029-F",
+   "severity": "medium",
+   "statement": "Leaderboard claims disagree with the live page (fetched 2026-10-29): the prompt's #1 of 0.4413 and 'highest 0.3195' do not match #1 = 0.4544; 0.3195 is at rank #47 (the README said #26, which is newway 0.3328); the 0.2778 score is not in the top 50 (rank 50 = 0.3167).",
+   "mitigation": "Replace leaderboard claims with the live-page values and their evidence class. Owner to supply an organizer receipt for 0.2778 (IR-R3)."
+  },
+  {
+   "id": "IR-20261029-G",
+   "severity": "medium",
+   "statement": "The format error reported by the owner ('Predicted values must be in range [0, 1]') is not reproduced by any file in this repo. All 11 candidates pass the strict validator in their stored mode (zeros or NaN outside the footprint). The cause is not identified. Owner-reported scores exist for NaN-outside files (e.g. GEMSDOE24 -nan 0.2477), so NaN outside is not the sole cause. The rules PDF says outside the bounds 'null or nan'.",
+   "mitigation": "Prefer the -zeros variants for any future upload, and ask the owner for the exact portal message and file name that failed. Evidence: evidence/focus9_validator_20261029.json."
+  },
+  {
+   "id": "IR-20261029-H",
+   "severity": "high",
+   "statement": "The holdout inputs were restored from GitHub mirrors (data/restore_receipt.json, 30 files). Every SHA-256 matches the pin, which proves mirror consistency only. data_manifest.json's own provenance note says these are owner-supplied mirrors, NOT organizer-authenticated.",
+   "mitigation": "Treat all HOLDOUT-DTI numbers as local, unauthenticated evaluator output. The labels in this session say so."
+  },
+  {
+   "id": "IR-20261029-I",
+   "severity": "medium",
+   "statement": "The leakage canary was not re-run this session. The H49 canary (93/93 channels AUC <= 0.90) is cited from its run card only. No new feature was built.",
+   "mitigation": "Re-run the canary before any slot decision for H49."
+  },
+  {
+   "id": "IR-20261029-J",
+   "severity": "medium",
+   "statement": "UNIQUE-H49-1-CGTD overlaps the unsubmitted repo file H48-1-FBGR at 73.33%. Under the repo's lane rule (any registry raster) that is a duplicate stop. Under the user's rule (unique against the listed sites) it passes.",
+   "mitigation": "Owner to confirm which rule governs (the repo lane rule or the listed-site rule). The overlap is recorded, not hidden."
+  },
+  {
+   "id": "IR-20261029-K",
+   "severity": "medium",
+   "statement": "The literal lattice rule is degenerate. Every candidate and every focus file overlaps the dense r13-lattice-s5 raster by at least 97.8% (candidates 99.4-99.9%), so no 37k-dot file can pass it.",
+   "mitigation": "Owner decision on the lattice rule (IR-45-LATTICE-02). Evidence: lattice column in evidence/focus9_summary_20261029.json."
+  },
+  {
    "id": "IR-20261029-V01",
    "severity": "high",
    "statement": "The static HIDE-RECOVER-v3.0 holdout is anti-correlated with the owner-reported live scores across the nine focus files (Spearman rho = -0.849, n=9) and correlates +0.945 with each file's share of dots within 200 m of a catalogued fault. The holdout therefore rewards the opposite of the live ranking on this family.",
@@ -7961,6 +8027,18 @@
    "severity": "low",
    "statement": "The strict whole-array check (scripts/check_submission.py --strict-finite) fails for every '-nan' file (GEMSDOE24, 25, 27, 28, 31) because NaN lies outside the footprint, and passes for every '-zeros' file. Those '-nan' files were accepted by the portal (owner-reported scores exist), so the strict check is stricter than the portal.",
    "mitigation": "Keep the strict check for new submissions (prefer -zeros). Record that the -nan files are portal-accepted per owner report, not per organizer receipt."
+  },
+  {
+   "id": "IR-20261029-V09",
+   "severity": "medium",
+   "statement": "Two PROJECTION models for the same nine owner-reported files disagree. This branch's mass-only regression gives H51-1 0.2722 (PI 0.2617-0.2827). The focus9 summary on main (docs/focus9-executive-summary.html, evidence/focus9_summary_20261029.json) gives H51-1 0.2701 (PI 0.264-0.277) and GEMSDOE32 0.2752. Both are PROJECTION only; neither is a score.",
+   "mitigation": "Keep one projection model in the repo. Until then quote the range (0.26-0.28) and label it PROJECTION. Do not rank files by projection."
+  },
+  {
+   "id": "IR-20261029-V10",
+   "severity": "medium",
+   "statement": "UNIQUE-H49-1-CGTD (docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif) is a unique file vs the nine focus files (max overlap 60.8%). Its projection, 0.2861 (PI 0.278-0.294), is the highest in the set, and it is not in this branch's nine-site summary or run card. Main's focus9 summary says it fails the HIDE-RECOVER gate (0.0037). This branch chose H51-1 without comparing it to H49-1.",
+   "mitigation": "Both H51-1 and H49-1 are DO NOT SUBMIT. Owner or a later session must compare them on the same holdout and r13 rule before any slot decision. This branch ran no new experiment to do it, because the budget is spent."
   }
  ]
 }
