@@ -27,7 +27,7 @@ ROOT_REDIRECTS = {
     "geothermal-knowledge.html": ("research.html", "Geothermal science background"),
     "leaderboard-analysis.html": ("leaderboard.html", "Leaderboard and the size of the gap"),
 }
-NAV = [("index.html", "Home"), ("executive-summary.html", "Make a submission"),
+NAV = [("index.html", "Home"), ("start-here.html", "START HERE"), ("executive-summary.html", "Make a submission"),
        ("research.html", "Research"), ("hypotheses.html", "Hypotheses"),
        ("leaderboard.html", "Leaderboard"), ("sources.html", "Sources"),
        ("irregularities.html", "Irregularities")]

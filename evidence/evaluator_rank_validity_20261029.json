@@ -1,0 +1,85 @@
+{
+  "schema": "gemsdoe32-evaluator-rank-validity-v1",
+  "generated_utc": "2026-10-29T18:08:39Z",
+  "question": "Does each static evaluator order the nine published files like the owner-reported scores?",
+  "result": {
+    "HIDE-RECOVER-v3.0": {
+      "n": 9,
+      "spearman_rho": -0.8487,
+      "spearman_p": 0.003809953599434409,
+      "kendall_tau": -0.7143,
+      "kendall_p": 0.00841807198908902,
+      "label": "HOLDOUT-DTI (static diagnostic) vs OWNER-REPORT leaderboard scores"
+    },
+    "SGMC-CAL-v3.0": {
+      "n": 9,
+      "spearman_rho": 0.9496,
+      "spearman_p": 9.019211282824305e-05,
+      "kendall_tau": 0.8286,
+      "kendall_p": 0.0022401459966566607,
+      "label": "HOLDOUT-DTI (static diagnostic) vs OWNER-REPORT leaderboard scores"
+    }
+  },
+  "verdict": "HIDE-RECOVER ranks them in the OPPOSITE order (rho < 0). SGMC-CAL ranks them in the same order, but that agreement is not yet trustworthy: it is circular for files that use the SGMC raster as an input, and n = 9 with two dot-identical sites. Neither evaluator is cleared as the canonical proxy (IR-45-EVAL-02).",
+  "caveats": [
+    "n = 9 published scores, OWNER-REPORT only",
+    "GEMSDOE25 and GEMSDOE30 are dot-identical, so they contribute tied values",
+    "SGMC-CAL truth = off-catalogue SGMC traces; any generator that reads that raster as a feature is in-sample (IR-20261029-03)"
+  ],
+  "rows": [
+    {
+      "site": "GEMSDOE24",
+      "published_OWNER_REPORT": 0.2477,
+      "HIDE_RECOVER": 0.093151,
+      "SGMC_CAL": 0.057932
+    },
+    {
+      "site": "GEMSDOE25",
+      "published_OWNER_REPORT": 0.26,
+      "HIDE_RECOVER": 0.096743,
+      "SGMC_CAL": 0.060592
+    },
+    {
+      "site": "GEMSDOE27",
+      "published_OWNER_REPORT": 0.2449,
+      "HIDE_RECOVER": 0.092748,
+      "SGMC_CAL": 0.058262
+    },
+    {
+      "site": "GEMSDOE28",
+      "published_OWNER_REPORT": 0.271,
+      "HIDE_RECOVER": 0.02936,
+      "SGMC_CAL": 0.062967
+    },
+    {
+      "site": "GEMSDOE30",
+      "published_OWNER_REPORT": 0.26,
+      "HIDE_RECOVER": 0.096743,
+      "SGMC_CAL": 0.060592
+    },
+    {
+      "site": "GEMSDOE31",
+      "published_OWNER_REPORT": 0.2708,
+      "HIDE_RECOVER": 0.030516,
+      "SGMC_CAL": 0.06301
+    },
+    {
+      "site": "GEMSDOE32",
+      "published_OWNER_REPORT": 0.2778,
+      "HIDE_RECOVER": 0.004515,
+      "SGMC_CAL": 0.064121
+    },
+    {
+      "site": "GEMSDOE33",
+      "published_OWNER_REPORT": 0.2632,
+      "HIDE_RECOVER": 0.051969,
+      "SGMC_CAL": 0.062551
+    },
+    {
+      "site": "GEMSDOE36",
+      "published_OWNER_REPORT": 0.275,
+      "HIDE_RECOVER": 0.004577,
+      "SGMC_CAL": 0.064444
+    }
+  ]
+}
