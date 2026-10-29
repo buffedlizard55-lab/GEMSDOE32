@@ -1,0 +1,306 @@
+{
+ "schema_version": 1,
+ "session": "2026-10-29",
+ "eligibility_rule": "passes non-degenerate gate (maxOV<=0.70 & phi<=0.9 vs deduped pool of 231 discrete files); SGMC enrichment<=2.5x; no sgmc/offcat/RESEARCH name flag; top-25 SGMC probed",
+ "any_file_slot_eligible": false,
+ "any_file_submit_authorized": false,
+ "reason": "no file passes the literal lattice gate (min 0.978) and no file has a fold-local holdout receipt; static HR is promotion-ineligible",
+ "rows": [
+  {
+   "path": ".cache/registry/GEMSDOE32/docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-nan.tif",
+   "sgmc_cal": 0.094868,
+   "sgmc_cal_ci95": [
+    0.084977,
+    0.105539
+   ],
+   "maxOV_vs_pool": 0.441387,
+   "literal_lattice_overlap": 0.97817,
+   "HOLDOUT_DTI_pooled": 0.0033763239250124543,
+   "HOLDOUT_DTI_ci95": [
+    0.002608574207045733,
+    0.00424366631868315
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE33/docs/downloads/gemsdoe33-dpps-dipproj-persistence-37654-20261026-111ae96bb235-nan.tif",
+   "sgmc_cal": 0.094176,
+   "sgmc_cal_ci95": [
+    0.079106,
+    0.110401
+   ],
+   "maxOV_vs_pool": 0.579301,
+   "literal_lattice_overlap": 0.999442,
+   "HOLDOUT_DTI_pooled": 0.004994885124036361,
+   "HOLDOUT_DTI_ci95": [
+    0.0038853638737435608,
+    0.00626891007639391
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h31b-scarp-hessian-20261025-37654-allfinite.tif",
+   "sgmc_cal": 0.093385,
+   "sgmc_cal_ci95": [
+    0.083816,
+    0.104485
+   ],
+   "maxOV_vs_pool": 0.65005,
+   "literal_lattice_overlap": 0.995034,
+   "HOLDOUT_DTI_pooled": 0.007086257469673921,
+   "HOLDOUT_DTI_ci95": [
+    0.005701531601758346,
+    0.008465571750286434
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE32/docs/downloads/gemsdoe32-arena9-pgrn-pu37654-20261026T053246Z-4f7aba9b-nan.tif",
+   "sgmc_cal": 0.0878,
+   "sgmc_cal_ci95": [
+    0.076111,
+    0.099897
+   ],
+   "maxOV_vs_pool": 0.657752,
+   "literal_lattice_overlap": 0.994317,
+   "HOLDOUT_DTI_pooled": 0.0012946748029445132,
+   "HOLDOUT_DTI_ci95": [
+    0.0009426403433653626,
+    0.001705899308189883
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE28/docs/downloads/gems28-s22-signed-piedmont-20261026-08703322d2af-allfinite.tif",
+   "sgmc_cal": 0.087701,
+   "sgmc_cal_ci95": [
+    0.072041,
+    0.099788
+   ],
+   "maxOV_vs_pool": 0.550568,
+   "literal_lattice_overlap": 0.998939,
+   "HOLDOUT_DTI_pooled": 0.004111601488582422,
+   "HOLDOUT_DTI_ci95": [
+    0.003258785837668172,
+    0.004986949987262295
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE25/docs/downloads/gems25-apfl-piedmont-flexure-s3p0-k3p5-20261026-8aebdab87158-nan.tif",
+   "sgmc_cal": 0.084317,
+   "sgmc_cal_ci95": [
+    0.06879,
+    0.098169
+   ],
+   "maxOV_vs_pool": 0.548473,
+   "literal_lattice_overlap": 1.0,
+   "HOLDOUT_DTI_pooled": 0.0027578195602735427,
+   "HOLDOUT_DTI_ci95": [
+    0.0017659987881963896,
+    0.0038120247085459556
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE25/docs/downloads/gems25-h78-mhscf-conduit-b2-sapd2-85-20261027-b2488f5d216c-nan.tif",
+   "sgmc_cal": 0.079831,
+   "sgmc_cal_ci95": [
+    0.071051,
+    0.087621
+   ],
+   "maxOV_vs_pool": 0.443904,
+   "literal_lattice_overlap": 1.0,
+   "HOLDOUT_DTI_pooled": 0.004417812869706952,
+   "HOLDOUT_DTI_ci95": [
+    0.0038399161020366357,
+    0.005002344615171962
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE33/docs/downloads/round3/gemsdoe33-r3-da-hgcm-submod-37654-20261025-a6a8552e-zeros.tif",
+   "sgmc_cal": 0.079533,
+   "sgmc_cal_ci95": [
+    0.07312,
+    0.086259
+   ],
+   "maxOV_vs_pool": 0.507463,
+   "literal_lattice_overlap": 0.999708,
+   "HOLDOUT_DTI_pooled": 0.012023228812050164,
+   "HOLDOUT_DTI_ci95": [
+    0.010151614127280422,
+    0.013998943694341398
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h31y-kinpied-37654-20261026-46a5b6c3-nan.tif",
+   "sgmc_cal": 0.079271,
+   "sgmc_cal_ci95": [
+    0.065208,
+    0.092604
+   ],
+   "maxOV_vs_pool": 0.630371,
+   "literal_lattice_overlap": 0.99745,
+   "HOLDOUT_DTI_pooled": 0.004213395855027988,
+   "HOLDOUT_DTI_ci95": [
+    0.003407258010787745,
+    0.005084053783345117
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE25/docs/downloads/gems25-kdc-b2-plus-hgb-complement-55374-20261025T211001Z-f74e9238cc1c-nan.tif",
+   "sgmc_cal": 0.073661,
+   "sgmc_cal_ci95": [
+    0.06781,
+    0.080135
+   ],
+   "maxOV_vs_pool": 0.680644,
+   "literal_lattice_overlap": 0.999422,
+   "HOLDOUT_DTI_pooled": 0.0037201374557269467,
+   "HOLDOUT_DTI_ci95": [
+    0.0031433267541261106,
+    0.004327635302335796
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE24/docs/downloads/gems24-tmcg-b-decoupled-basin-20261027T113937Z-6f8d042d5ee4-zeros.tif",
+   "sgmc_cal": 0.073249,
+   "sgmc_cal_ci95": [
+    0.060562,
+    0.086827
+   ],
+   "maxOV_vs_pool": 0.540533,
+   "literal_lattice_overlap": 1.0,
+   "HOLDOUT_DTI_pooled": 0.04118792917244441,
+   "HOLDOUT_DTI_ci95": [
+    0.03256367952195988,
+    0.050786955797905556
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h31t-transtension-dinkelbach-20261025-b37654-nan.tif",
+   "sgmc_cal": 0.073153,
+   "sgmc_cal_ci95": [
+    0.063837,
+    0.081433
+   ],
+   "maxOV_vs_pool": 0.545812,
+   "literal_lattice_overlap": 0.996415,
+   "HOLDOUT_DTI_pooled": 2.4971404715109897e-05,
+   "HOLDOUT_DTI_ci95": [
+    1.2092883175378882e-05,
+    4.047450348792954e-05
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-tgtd-submod-37654-20261025-ab35d4e8-nan.tif",
+   "sgmc_cal": 0.07185,
+   "sgmc_cal_ci95": [
+    0.060581,
+    0.082376
+   ],
+   "maxOV_vs_pool": 0.651405,
+   "literal_lattice_overlap": 0.99992,
+   "HOLDOUT_DTI_pooled": 1.7898126789449866e-06,
+   "HOLDOUT_DTI_ci95": [
+    0.0,
+    6.013552078092617e-06
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE32/docs/downloads/gemsdoe32-arena49-pcg-dualconcord-37654-20261026T220056Z-54e97629-nan.tif",
+   "sgmc_cal": 0.071519,
+   "sgmc_cal_ci95": [
+    0.065046,
+    0.077296
+   ],
+   "maxOV_vs_pool": 0.45597,
+   "literal_lattice_overlap": 1.0,
+   "HOLDOUT_DTI_pooled": 0.0020633146981513585,
+   "HOLDOUT_DTI_ci95": [
+    0.0016181216985857387,
+    0.0025045841447983654
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE30/docs/downloads/gemsdoe30-h3a-residual-ridge-gate-p400-7a88865b-nan.tif",
+   "sgmc_cal": 0.069141,
+   "sgmc_cal_ci95": [
+    0.059063,
+    0.077125
+   ],
+   "maxOV_vs_pool": 0.450215,
+   "literal_lattice_overlap": 0.998339,
+   "HOLDOUT_DTI_pooled": 0.07926692818734134,
+   "HOLDOUT_DTI_ci95": [
+    0.07133449183286797,
+    0.08648715737125039
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE31/docs/downloads/gemsdoe31-h31m-bstep-xmod-submod-20261025-37654-allfinite.tif",
+   "sgmc_cal": 0.068696,
+   "sgmc_cal_ci95": [
+    0.056958,
+    0.079168
+   ],
+   "maxOV_vs_pool": 0.674271,
+   "literal_lattice_overlap": 0.996255,
+   "HOLDOUT_DTI_pooled": 0.001860180150814137,
+   "HOLDOUT_DTI_ci95": [
+    0.0013619599706294115,
+    0.002410361160876669
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE28/docs/downloads/gems28-s20-vesselness-lidarstep-20261026-7a7c5e449fe0-allfinite.tif",
+   "sgmc_cal": 0.06816,
+   "sgmc_cal_ci95": [
+    0.057195,
+    0.07938
+   ],
+   "maxOV_vs_pool": 0.542213,
+   "literal_lattice_overlap": 0.99824,
+   "HOLDOUT_DTI_pooled": 0.004508342021851335,
+   "HOLDOUT_DTI_ci95": [
+    0.003787669789869996,
+    0.005224457148838895
+   ],
+   "label": "HOLDOUT-DTI"
+  },
+  {
+   "path": ".cache/registry/GEMSDOE25/docs/downloads/gems25-h73-pm-deapron-sapd2-8-k3p0-20261026-1b7533ebb62b-nan.tif",
+   "sgmc_cal": 0.067871,
+   "sgmc_cal_ci95": [
+    0.060976,
+    0.074686
+   ],
+   "maxOV_vs_pool": 0.613857,
+   "literal_lattice_overlap": 1.0,
+   "HOLDOUT_DTI_pooled": 0.00463202015400094,
+   "HOLDOUT_DTI_ci95": [
+    0.0038477473261741917,
+    0.005418271579928506
+   ],
+   "label": "HOLDOUT-DTI"
+  }
+ ],
+ "champion_reference": {
+  "path": "docs/downloads/gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-zeros.tif",
+  "HOLDOUT_DTI_pooled": 0.004515,
+  "ci95": [
+   0.003816,
+   0.005262
+  ]
+ }
+}

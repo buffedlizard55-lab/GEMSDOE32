@@ -1,0 +1,122 @@
+{
+ "rule": "directional 3 px overlap > 0.70 = duplicate",
+ "candidates": {
+  "r3-da-hgcm (GEMSDOE33 sibling, unscored)": {
+   "path": ".cache/registry/GEMSDOE33/docs/downloads/round3/gemsdoe33-r3-da-hgcm-submod-37654-20261025-a6a8552e-zeros.tif",
+   "dots": 37654,
+   "vs_listed": {
+    "GEMSDOE24 (0.2477)": {
+     "overlap_3px": 0.50489,
+     "file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif"
+    },
+    "GEMSDOE25 (0.2600)": {
+     "overlap_3px": 0.48983,
+     "file": "gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-allfinite.tif"
+    },
+    "GEMSDOE27 (0.2449)": {
+     "overlap_3px": 0.50746,
+     "file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif"
+    },
+    "GEMSDOE28 (0.2710)": {
+     "overlap_3px": 0.46245,
+     "file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif"
+    },
+    "GEMSDOE31 (0.2708)": {
+     "overlap_3px": 0.4668,
+     "file": "gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif"
+    },
+    "GEMSDOE32 (0.2778)": {
+     "overlap_3px": 0.44301,
+     "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif"
+    },
+    "GEMSDOE33 (0.2632)": {
+     "overlap_3px": 0.47828,
+     "file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e-nanoutside.tif"
+    },
+    "GEMSDOE36 (0.2750)": {
+     "overlap_3px": 0.4489,
+     "file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-nan.tif"
+    }
+   },
+   "max_vs_listed": 0.50746
+  },
+  "R6-1 stepprofile (repo, DO NOT SUBMIT)": {
+   "path": "docs/downloads/gemsdoe32-r6-stepprofile-b2-37654-20261026T002502Z-23fbbb51-zeros.tif",
+   "dots": 37654,
+   "vs_listed": {
+    "GEMSDOE24 (0.2477)": {
+     "overlap_3px": 0.21034,
+     "file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif"
+    },
+    "GEMSDOE25 (0.2600)": {
+     "overlap_3px": 0.19937,
+     "file": "gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-allfinite.tif"
+    },
+    "GEMSDOE27 (0.2449)": {
+     "overlap_3px": 0.21116,
+     "file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif"
+    },
+    "GEMSDOE28 (0.2710)": {
+     "overlap_3px": 0.19273,
+     "file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif"
+    },
+    "GEMSDOE31 (0.2708)": {
+     "overlap_3px": 0.19512,
+     "file": "gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif"
+    },
+    "GEMSDOE32 (0.2778)": {
+     "overlap_3px": 0.19084,
+     "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif"
+    },
+    "GEMSDOE33 (0.2632)": {
+     "overlap_3px": 0.19769,
+     "file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e-nanoutside.tif"
+    },
+    "GEMSDOE36 (0.2750)": {
+     "overlap_3px": 0.19613,
+     "file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-nan.tif"
+    }
+   },
+   "max_vs_listed": 0.21116
+  },
+  "tmcg-b (repo, DO NOT SUBMIT)": {
+   "path": ".cache/registry/GEMSDOE24/docs/downloads/gems24-tmcg-b-decoupled-basin-20261027T113937Z-6f8d042d5ee4-zeros.tif",
+   "dots": 37722,
+   "vs_listed": {
+    "GEMSDOE24 (0.2477)": {
+     "overlap_3px": 0.34852,
+     "file": "gems24-h25-1-dotted-h19-5-d1-5-20261002-989f59505db1-allfinite.tif"
+    },
+    "GEMSDOE25 (0.2600)": {
+     "overlap_3px": 0.33259,
+     "file": "gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-allfinite.tif"
+    },
+    "GEMSDOE27 (0.2449)": {
+     "overlap_3px": 0.3508,
+     "file": "gems27-topo-gap-closure-t-v2-on-d1-5-20261002-5512495c6bd1-allfinite.tif"
+    },
+    "GEMSDOE28 (0.2710)": {
+     "overlap_3px": 0.31128,
+     "file": "gems28-h36-1-rung30-blind-r1-20261003-b531dae0a36f-allfinite.tif"
+    },
+    "GEMSDOE31 (0.2708)": {
+     "overlap_3px": 0.31496,
+     "file": "gems28-h27-4-r1-solo-d2-8-20261003-8acb75e1f2cc-allfinite.tif"
+    },
+    "GEMSDOE32 (0.2778)": {
+     "overlap_3px": 0.30139,
+     "file": "gemsdoe32-h33-h33-2-b2-20261004T220000Z-e5eb6e7e-nan.tif"
+    },
+    "GEMSDOE33 (0.2632)": {
+     "overlap_3px": 0.32257,
+     "file": "GEMSDOE33-h33d-analog-tip-stepover-r30-20261004-cb490425926e-nanoutside.tif"
+    },
+    "GEMSDOE36 (0.2750)": {
+     "overlap_3px": 0.31464,
+     "file": "gemsdoe36-anderson-geothermal-pinn-38854-20261004T230000Z-9b9ea4e6-nan.tif"
+    }
+   },
+   "max_vs_listed": 0.3508
+  }
+ }
+}
