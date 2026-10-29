@@ -21,6 +21,7 @@
 7. Core Values are the focal point: **Maximize P(Win); Own the Outcome.**
 
 **Open after 2026-10-29 (not done):** leakage audit of the H-lane generators that read the SGMC raster (`scripts/validate_hypotheses.py` lines 200/275 and the `derived_sgmc` consumers), so SGMC-CAL rank is not yet valid as skill evidence; the 3–5 hypothesis set; the H51 reproduction from source; and a per-file paired comparison against the champion on SGMC-CAL.
+**2026-10-29 nine-site executive summary (read first):** [docs/focus9-executive-summary.html](docs/focus9-executive-summary.html) — which file to download, estimate (PROJECTION, not a score), uniqueness, measured validator and instrument findings. **No file is cleared for submission.** Evidence: `evidence/focus9_summary_20261029.json`, `evidence/focus9_holdout_20261029.json`, `evidence/focus9_uniqueness_20261029.json`, `evidence/focus9_validator_20261029.json`. Irregularities: `IR-20261029-A` to `-K` in `registry/irregularities.json`.
 
 **2026-10-29 review (read first):** [Executive summary, nine-site table and irregularities](docs/review-20261029.html). **Verdict: no file is cleared for upload** (download for review: `H51-1-EWSP` only; submit: none). Every score there is labelled OWNER-REPORT, HOLDOUT-DTI or LIVE-PAGE; no projection is a score. Generated from `evidence/focus_rescore_20261029.json` by `scripts/build_review_20261029.py`.
 

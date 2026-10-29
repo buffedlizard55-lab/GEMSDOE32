@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-29T18:11:08Z",
+ "generated_utc": "2026-10-29T18:17:11Z",
  "sources": [
   {
    "id": "competition",
@@ -7967,6 +7967,72 @@
    "severity": "high",
    "statement": "GEMSDOE24 scored file gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif is byte-identical (cmp IDENTICAL, sha256 91eae1ca42ec845eaa8c2ba32da49806e24751743459b8a10017c479bbe639b8) to GEMSDOE25 docs/downloads/gems25-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif. Any uniqueness claim for either site must treat them as one file.",
    "mitigation": "Verified by cmp and sha256 on 2026-10-29. Start-here table lists the GEMSDOE24 d1-5 file, not d2-8, so no duplicate is offered for download as a 24 submission. Count as one file in any uniqueness tally."
+  },
+  {
+   "id": "IR-20261029-A",
+   "severity": "high",
+   "statement": "The repo's promotion gate (HIDE-RECOVER fold-local win) is anti-aligned with the public ranking on the nine owner-reported scores: Spearman -0.849 (HIDE-RECOVER) vs +0.950 (SGMC-CAL, off-catalogue), n=9, p=9e-5. The gate therefore rejects the files the off-catalogue evidence ranks highest.",
+   "mitigation": "Owner decision: pick the canonical promotion instrument (IR-R7 / IR-45-EVAL-02). Do not change the gate silently. Evidence: evidence/focus9_summary_20261029.json (instrument_alignment_n9)."
+  },
+  {
+   "id": "IR-20261029-B",
+   "severity": "medium",
+   "statement": "No official dot-count cap was found. The problem page (both chunks) and rules PDF sections 1-3.7 (PDF chunks 0-3 of 7, read 2026-10-29) specify format and metric only; the appendices (chunks 4-6) were not read. The '37,654-dot budget' used throughout this repo is an internal convention, not an organizer rule.",
+   "mitigation": "Owner to confirm with the organizer forum (community.drivendata.org) before any dot-count argument is used as a rule."
+  },
+  {
+   "id": "IR-20261029-C",
+   "severity": "high",
+   "statement": "Fold-local HIDE-RECOVER numbers in the README (e.g. H49-1-CGTD 0.105043, H51-1-EWSP 0.115134) describe re-emitted fold arms, not the downloadable bytes. On the emitted bytes the same evaluator gives H49 0.003696 and H51 0.002289 (champion 0.004515).",
+   "mitigation": "Label every headline with its evidence class (emitted bytes vs fold-local arm). Use the static byte score for any file-level claim."
+  },
+  {
+   "id": "IR-20261029-D",
+   "severity": "high",
+   "statement": "No focus-site file is unique against the other eight focus files. The champion (GEMSDOE32 0.2778) has 100% of its dots within 3 px of dots in GEMSDOE24/25/27/30/31 (directional). GEMSDOE25 and GEMSDOE30 have identical dot sets (44,090 dots each, different bytes).",
+   "mitigation": "Do not present any focus file as unique. Use only UNIQUE-H49-1-CGTD or UNIQUE-H51-1-EWSP as unique candidates. Evidence: evidence/focus9_uniqueness_20261029.json."
+  },
+  {
+   "id": "IR-20261029-E",
+   "severity": "high",
+   "statement": "7 of 9 focus-site best files were missing from docs/downloads (previously IR-R1). Restored this session from the sibling repos at the audited github_ref; every SHA-256 matches evidence/nine_site_best_files_audit.json.",
+   "mitigation": "RESOLVED 2026-10-29: all nine focus files are now in docs/downloads/ and pass the shared validator (evidence/focus9_validator_20261029.json)."
+  },
+  {
+   "id": "IR-20261029-F",
+   "severity": "medium",
+   "statement": "Leaderboard claims disagree with the live page (fetched 2026-10-29): the prompt's #1 of 0.4413 and 'highest 0.3195' do not match #1 = 0.4544; 0.3195 is at rank #47 (the README said #26, which is newway 0.3328); the 0.2778 score is not in the top 50 (rank 50 = 0.3167).",
+   "mitigation": "Replace leaderboard claims with the live-page values and their evidence class. Owner to supply an organizer receipt for 0.2778 (IR-R3)."
+  },
+  {
+   "id": "IR-20261029-G",
+   "severity": "medium",
+   "statement": "The format error reported by the owner ('Predicted values must be in range [0, 1]') is not reproduced by any file in this repo. All 11 candidates pass the strict validator in their stored mode (zeros or NaN outside the footprint). The cause is not identified. Owner-reported scores exist for NaN-outside files (e.g. GEMSDOE24 -nan 0.2477), so NaN outside is not the sole cause. The rules PDF says outside the bounds 'null or nan'.",
+   "mitigation": "Prefer the -zeros variants for any future upload, and ask the owner for the exact portal message and file name that failed. Evidence: evidence/focus9_validator_20261029.json."
+  },
+  {
+   "id": "IR-20261029-H",
+   "severity": "high",
+   "statement": "The holdout inputs were restored from GitHub mirrors (data/restore_receipt.json, 30 files). Every SHA-256 matches the pin, which proves mirror consistency only. data_manifest.json's own provenance note says these are owner-supplied mirrors, NOT organizer-authenticated.",
+   "mitigation": "Treat all HOLDOUT-DTI numbers as local, unauthenticated evaluator output. The labels in this session say so."
+  },
+  {
+   "id": "IR-20261029-I",
+   "severity": "medium",
+   "statement": "The leakage canary was not re-run this session. The H49 canary (93/93 channels AUC <= 0.90) is cited from its run card only. No new feature was built.",
+   "mitigation": "Re-run the canary before any slot decision for H49."
+  },
+  {
+   "id": "IR-20261029-J",
+   "severity": "medium",
+   "statement": "UNIQUE-H49-1-CGTD overlaps the unsubmitted repo file H48-1-FBGR at 73.33%. Under the repo's lane rule (any registry raster) that is a duplicate stop. Under the user's rule (unique against the listed sites) it passes.",
+   "mitigation": "Owner to confirm which rule governs (the repo lane rule or the listed-site rule). The overlap is recorded, not hidden."
+  },
+  {
+   "id": "IR-20261029-K",
+   "severity": "medium",
+   "statement": "The literal lattice rule is degenerate. Every candidate and every focus file overlaps the dense r13-lattice-s5 raster by at least 97.8% (candidates 99.4-99.9%), so no 37k-dot file can pass it.",
+   "mitigation": "Owner decision on the lattice rule (IR-45-LATTICE-02). Evidence: lattice column in evidence/focus9_summary_20261029.json."
   }
  ]
 }
