@@ -1,0 +1,87 @@
+{
+ "schema_version": 1,
+ "session": "2026-10-29",
+ "branch": "arena/5f3e9cfe-gemsdoe32",
+ "budget": {
+  "experiments_used": 0,
+  "slots_used": 0,
+  "limit": "3 experiments or 2 hours",
+  "started_utc": "2026-10-29T14:22:00Z"
+ },
+ "candidate": {
+  "name": "gemsdoe33-r3-da-hgcm-submod-37654-20261025-a6a8552e-zeros",
+  "sha256": "2c1b648364d976bb29a52ab9045f5e2233920870f7a9670533283f00a0b1e2a8",
+  "location": "GEMSDOE33 sibling repo, ref 7b422fa37a516543aa27012e82bb4ded3f00a770, docs/downloads/round3/ (pinned in registry/focus_registry_manifest.json; not copied into this repo)",
+  "dots": 37654,
+  "matched_mass_to_champion": true,
+  "status_in_ledger": "not present in docs/score-ledger.csv (unscored)"
+ },
+ "hypothesis": "NOT LOCATED in this repo. Artifact name 'da-hgcm submod' only. Mechanism not verified this session.",
+ "named_mimic": "NOT TESTED this session",
+ "holdout": {
+  "evaluator": "GEMSDOE32-HIDE-RECOVER-v3.0",
+  "label": "HOLDOUT-DTI",
+  "mode": "static_binary_diagnostic",
+  "promotion_eligible": false,
+  "pooled_dti": 0.012023,
+  "ci95": [
+   0.010152,
+   0.013999
+  ],
+  "champion_pooled_dti": 0.004515,
+  "champion_ci95": [
+   0.003816,
+   0.005262
+  ],
+  "note": "Static raster; evaluator states static predictions cannot establish fold-local catalogue features or leakage-free training. Fold-local rerun NOT done."
+ },
+ "proxy": {
+  "label": "SGMC-CAL-v3.0 proxy (not organizer; not holdout score)",
+  "value": 0.079533,
+  "ci95": [
+   0.07312,
+   0.086259
+  ],
+  "champion_value": 0.064121,
+  "champion_ci95": [
+   0.056648,
+   0.070969
+  ]
+ },
+ "leakage_probe": {
+  "sgmc_truth_share_within_1px": 0.0652,
+  "base_rate": 0.03573,
+  "enrichment": 1.83,
+  "threshold_used": ">2.5x flagged; 1.83x passes"
+ },
+ "uniqueness": {
+  "nondegenerate_max_overlap_vs_pool": 0.507463,
+  "partner": "GEMSDOE27 topo-gap-closure (listed site)",
+  "vs_listed_sites_max": 0.50746,
+  "literal_lattice_overlap": 0.999708,
+  "literal_rule_result": "FAIL (lattice 0.70 stop)"
+ },
+ "canary_auc": {
+  "value": null,
+  "result": "NOT RUN this session; required <= 0.90 before any slot"
+ },
+ "format_validation": {
+  "tool": "scripts/check_submission.py --strict-finite (sibling file)",
+  "exit_code": 0,
+  "result": "PASS"
+ },
+ "decision": {
+  "slot": "NONE",
+  "submit_authorized": false,
+  "download_for_review": true,
+  "text": "DOWNLOAD FOR REVIEW ONLY. NOT SUBMIT-AUTHORIZED."
+ },
+ "blockers": [
+  "literal lattice gate fails (0.9997); owner direction required on the degenerate rule",
+  "static holdout only; fold-local HIDE-RECOVER not run",
+  "canary AUC not run",
+  "no beaten incumbent on a non-diagnostic holdout",
+  "hypothesis/mechanism not located in this repo"
+ ],
+ "generated_utc": "2026-10-29T15:09:41Z"
+}
