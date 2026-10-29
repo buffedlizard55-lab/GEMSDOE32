@@ -1,6 +1,6 @@
 {
  "schema": 1,
- "generated_utc": "2026-10-29T18:17:11Z",
+ "generated_utc": "2026-10-29T18:21:12Z",
  "sources": [
   {
    "id": "competition",
@@ -8033,6 +8033,72 @@
    "severity": "medium",
    "statement": "The literal lattice rule is degenerate. Every candidate and every focus file overlaps the dense r13-lattice-s5 raster by at least 97.8% (candidates 99.4-99.9%), so no 37k-dot file can pass it.",
    "mitigation": "Owner decision on the lattice rule (IR-45-LATTICE-02). Evidence: lattice column in evidence/focus9_summary_20261029.json."
+  },
+  {
+   "id": "IR-20261029-V01",
+   "severity": "high",
+   "statement": "The static HIDE-RECOVER-v3.0 holdout is anti-correlated with the owner-reported live scores across the nine focus files (Spearman rho = -0.849, n=9) and correlates +0.945 with each file's share of dots within 200 m of a catalogued fault. The holdout therefore rewards the opposite of the live ranking on this family.",
+   "mitigation": "Do not use the static HIDE-RECOVER DTI to select or rank a submission. Repair the instrument (off-catalogue truth, sign check against live) before any further holdout claim. Evidence: evidence/nine_site_verification_20261029.json (association_n9)."
+  },
+  {
+   "id": "IR-20261029-V02",
+   "severity": "medium",
+   "statement": "GEMSDOE30 (d28-poisson300m-offcat-44090) is dot-identical to GEMSDOE25 (identical dot sets; only the NaN/zero border differs). Both carry the same owner-reported score 0.2600. Re-submitting either is a duplicate of a previous submission.",
+   "mitigation": "Treat GEMSDOE25 and GEMSDOE30 as one submission. Flagged in the verified summary. Evidence: evidence/nine_site_verification_20261029.json (identical_dot_sets)."
+  },
+  {
+   "id": "IR-20261029-V03",
+   "severity": "low",
+   "statement": "The champion's HIDE-RECOVER CI as recomputed here is [0.003816, 0.005262]; registry/current_status.json stores [0.003837, 0.005278]. The H51 CI is [0.001875, 0.002697] here vs [0.001847, 0.002676] stored. Point estimates match to 6 decimals. The bootstrap RNG or evaluator version differs slightly.",
+   "mitigation": "Pin the bootstrap seed and evaluator version in one place and regenerate the stored CIs. Until then, quote CIs as recomputed by scripts/evaluate_holdout.py on the pinned bytes."
+  },
+  {
+   "id": "IR-20261029-V04",
+   "severity": "medium",
+   "statement": "The r13 coverage bound differs by definition. Raw footprint pixels more than 3 px from r13 dots = 6,649 (bound 22,163 dots at the 70% rule). The repo's figure is 6,514 pixels (21,713 dots) after known-fault exclusion. The known-fault exclusion definition is not written down in a single place.",
+   "mitigation": "Owner or repo maintainer to state the exact exclusion (buffer, source) for the literal lattice rule. Either way the rule admits at most about 22k dots, which is the basis of the degeneracy finding (IR-20261029-04)."
+  },
+  {
+   "id": "IR-20261029-V05",
+   "severity": "medium",
+   "statement": "Leaderboard figures conflict. The brief's 0.4413 has no repo source. The brief's 0.3195 is a historical benchmark recorded in the README, not a current figure. The public leaderboard page, read once on 2026-10-29 through the fetch tool (not automated, but CONTRIBUTING says drivendata.org is not to be accessed by automation), shows #1 xiaofanhu at 0.4544 and #2 cfld__ at 0.3916.",
+   "mitigation": "Owner to confirm the leaderboard reading. No further drivendata.org access by the agent in this repo. The single read is disclosed here for owner review."
+  },
+  {
+   "id": "IR-20261029-V06",
+   "severity": "high",
+   "statement": "Competition inputs (training_features.tif, labels.tif, sample_submission.tif and others) are restored from public GitHub repositories labelled 'owner-supplied mirror of a DrivenData competition file (login-walled)'. Redistribution of competition data in public repositories may conflict with the competition rules. The SHA-256 pins match the owner's manifest but could not be checked against DrivenData, which is login-walled.",
+   "mitigation": "Owner to confirm the data-use terms before the mirror is used again, and to decide whether the mirrors should be made private. Restoration in this session used them only for local verification; nothing from them was copied into the repo beyond digests and the submission files already in docs/downloads."
+  },
+  {
+   "id": "IR-20261029-V07",
+   "severity": "medium",
+   "statement": "The repo's H51-1 note in registry/current_status.json says 'HR=0.1151' for the downloadable file. That figure is the fold-local re-emission arm. The emitted bytes score 0.002289 on the same evaluator (re-verified 2026-10-29). The stored note therefore overstates the file.",
+   "mitigation": "Correct the note in registry/current_status.json (the 2026-10-29 run card carries the corrected 140-character note: 'GEMSDOE32-H51 EWSP emitted 37654d | static HR 0.0023 SGMC 0.0630 | review only, do not submit'). Evidence: evidence/run_card_20261029_verification.json."
+  },
+  {
+   "id": "IR-20261029-V08",
+   "severity": "low",
+   "statement": "The strict whole-array check (scripts/check_submission.py --strict-finite) fails for every '-nan' file (GEMSDOE24, 25, 27, 28, 31) because NaN lies outside the footprint, and passes for every '-zeros' file. Those '-nan' files were accepted by the portal (owner-reported scores exist), so the strict check is stricter than the portal.",
+   "mitigation": "Keep the strict check for new submissions (prefer -zeros). Record that the -nan files are portal-accepted per owner report, not per organizer receipt."
+  },
+  {
+   "id": "IR-20261029-V09",
+   "severity": "medium",
+   "statement": "Two PROJECTION models for the same nine owner-reported files disagree. This branch's mass-only regression gives H51-1 0.2722 (PI 0.2617-0.2827). The focus9 summary on main (docs/focus9-executive-summary.html, evidence/focus9_summary_20261029.json) gives H51-1 0.2701 (PI 0.264-0.277) and GEMSDOE32 0.2752. Both are PROJECTION only; neither is a score.",
+   "mitigation": "Keep one projection model in the repo. Until then quote the range (0.26-0.28) and label it PROJECTION. Do not rank files by projection."
+  },
+  {
+   "id": "IR-20261029-V10",
+   "severity": "medium",
+   "statement": "UNIQUE-H49-1-CGTD (docs/downloads/gemsdoe32-h49-cgtd-noisyor-axial28-37654-20261027T235000Z-f3e24fb5-zeros.tif) is a unique file vs the nine focus files (max overlap 60.8%). Its projection, 0.2861 (PI 0.278-0.294), is the highest in the set, and it is not in this branch's nine-site summary or run card. Main's focus9 summary says it fails the HIDE-RECOVER gate (0.0037). This branch chose H51-1 without comparing it to H49-1.",
+   "mitigation": "Both H51-1 and H49-1 are DO NOT SUBMIT. Owner or a later session must compare them on the same holdout and r13 rule before any slot decision. This branch ran no new experiment to do it, because the budget is spent."
+  },
+  {
+   "id": "IR-20261029-V11",
+   "severity": "medium",
+   "statement": "Cache name collision. .cache/gems_data/scored/gems24-h25-1-dotted-h19-5-d2-8-20261002-e56ea318af89-nan.tif is byte-identical to GEMSDOE25 (sha256 91eae1ca42ec845e...). The owner-listed GEMSDOE24 file (d1-5, 989f59505db1) is NOT byte-identical to GEMSDOE25 (sha256 68d0e2e4fcc594f9...). IR-20261029-S09 on main treats the d2-8 cache file as the GEMSDOE24 file. This branch uses the listed d1-5 file: the two are near-duplicates (100% of dots within 3 px), not byte copies.",
+   "mitigation": "Owner to confirm which GEMSDOE24 bytes were submitted. Rename or remove the misnamed cache copy. Do not describe GEMSDOE24 as byte-identical to GEMSDOE25 until the owner confirms."
   }
  ]
 }

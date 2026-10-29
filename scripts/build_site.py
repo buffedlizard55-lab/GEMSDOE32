@@ -28,6 +28,7 @@ ROOT_REDIRECTS = {
     "leaderboard-analysis.html": ("leaderboard.html", "Leaderboard and the size of the gap"),
 }
 NAV = [("index.html", "Home"), ("start-here.html", "START HERE"), ("executive-summary.html", "Make a submission"),
+    ("nine-site-verified-summary.html", "Verified summary"),
        ("research.html", "Research"), ("hypotheses.html", "Hypotheses"),
        ("leaderboard.html", "Leaderboard"), ("sources.html", "Sources"),
        ("irregularities.html", "Irregularities")]
@@ -94,7 +95,7 @@ def protocol_notice(prefix: str = "") -> str:
 Generated GeoTIFFs are retained as research/audit artifacts only; a passing format receipt is not upload authorization.
 Updated {esc(st.get('updated_utc', release.get('reviewed_utc', '')))}.</p>
 {latest_download}
-<p style="margin:4px 0">{res_link}<a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
+<p style="margin:4px 0"><a href="{prefix}nine-site-verified-summary.html"><b>Verified nine-site executive summary (2026-10-29): which file, estimated score, unique?</b></a> &middot; {res_link}<a href="{prefix}index.html#status">Full status &amp; evidence</a> &middot;
 <a href="{prefix}nine-site-review.html">Nine-site review</a> &middot;
 <a href="{prefix}research/protocol-review-20261026.md">Release review (protocol audit)</a> &middot;
 <a href="{up}evidence/current_release_review.json">machine-readable decision</a> &middot;
